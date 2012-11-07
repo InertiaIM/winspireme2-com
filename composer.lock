@@ -1,6 +1,106 @@
 {
-    "hash": "0c6ce899319a896677b57f221d8bde66",
+    "hash": "900f8218ab02217508de10300e8c73e8",
     "packages": [
+        {
+            "name": "besimple/soap-bundle",
+            "version": "dev-master",
+            "target-dir": "BeSimple/SoapBundle",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/ddeboer/BeSimpleSoapBundle.git",
+                "reference": "master"
+            },
+            "type": "library",
+            "installation-source": "source",
+            "autoload": {
+                "psr-0": {
+                    "BeSimple\\SoapBundle": ""
+                }
+            },
+            "time": "1333020164"
+        },
+        {
+            "name": "besimple/soap-client",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/ddeboer/BeSimpleSoapClient.git",
+                "reference": "master"
+            },
+            "type": "library",
+            "installation-source": "source",
+            "autoload": {
+                "psr-0": {
+                    "BeSimple\\SoapClient": "src"
+                }
+            },
+            "time": "1328624277"
+        },
+        {
+            "name": "besimple/soap-common",
+            "version": "master-dev",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/BeSimple/BeSimpleSoapCommon.git",
+                "reference": "master"
+            },
+            "type": "library",
+            "installation-source": "source",
+            "autoload": {
+                "psr-0": {
+                    "BeSimple\\SoapCommon": "src"
+                }
+            },
+            "time": "1337713217"
+        },
+        {
+            "name": "ddeboer/salesforce-client-bundle",
+            "version": "dev-master",
+            "target-dir": "Ddeboer/Salesforce/ClientBundle",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/ddeboer/DdeboerSalesforceClientBundle",
+                "reference": "134d59dc9638072f0ad40a8b955f8e7acc037a01"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://github.com/ddeboer/DdeboerSalesforceClientBundle/zipball/134d59dc9638072f0ad40a8b955f8e7acc037a01",
+                "reference": "134d59dc9638072f0ad40a8b955f8e7acc037a01",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.0",
+                "besimple/soap-bundle": "*",
+                "besimple/soap-client": "*",
+                "besimple/soap-common": "*",
+                "symfony/event-dispatcher": "2.1.*"
+            },
+            "time": "1350553850",
+            "type": "symfony-bundle",
+            "installation-source": "source",
+            "autoload": {
+                "psr-0": {
+                    "Ddeboer\\Salesforce\\ClientBundle": ""
+                }
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "David de Boer",
+                    "email": "david@ddeboer.nl",
+                    "homepage": "http://ddeboer.nl"
+                }
+            ],
+            "description": "A Salesforce API Client",
+            "homepage": "https://github.com/ddeboer/DdeboerSalesforceClientBundle",
+            "keywords": [
+                "salesforce",
+                "soap",
+                "web service"
+            ]
+        },
         {
             "name": "doctrine/common",
             "version": "2.3.x-dev",
@@ -268,6 +368,114 @@
             "keywords": [
                 "database",
                 "orm"
+            ]
+        },
+        {
+            "name": "elao/web-profiler-extra-bundle",
+            "version": "dev-master",
+            "target-dir": "Elao/WebProfilerExtraBundle",
+            "source": {
+                "type": "git",
+                "url": "git://github.com/Elao/WebProfilerExtraBundle.git",
+                "reference": "1df6b4d0e1ee97c36e1dad9d8f0f0044ee76f02f"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://github.com/Elao/WebProfilerExtraBundle/zipball/1df6b4d0e1ee97c36e1dad9d8f0f0044ee76f02f",
+                "reference": "1df6b4d0e1ee97c36e1dad9d8f0f0044ee76f02f",
+                "shasum": ""
+            },
+            "require": {
+                "symfony/framework-bundle": ">=2.0,<2.3-dev"
+            },
+            "time": "1351365847",
+            "type": "symfony-bundle",
+            "installation-source": "source",
+            "autoload": {
+                "psr-0": {
+                    "Elao\\WebProfilerExtraBundle": "."
+                }
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Elao Team",
+                    "homepage": "http://www.elao.com"
+                },
+                {
+                    "name": "Contributors",
+                    "homepage": "http://github.com/Elao/WebProfilerExtraBundle/contributors"
+                }
+            ],
+            "description": "Add routing, container, assetic & twig information inside the profiler",
+            "homepage": "http://github.com/Elao/WebProfilerExtraBundle",
+            "keywords": [
+                "bundle",
+                "profiler",
+                "elao",
+                "extra"
+            ]
+        },
+        {
+            "name": "gedmo/doctrine-extensions",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "git://github.com/l3pp4rd/DoctrineExtensions.git",
+                "reference": "4ce347dd326b214c0bdb3fcdf59d6b5c28d857fb"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://github.com/l3pp4rd/DoctrineExtensions/zipball/4ce347dd326b214c0bdb3fcdf59d6b5c28d857fb",
+                "reference": "4ce347dd326b214c0bdb3fcdf59d6b5c28d857fb",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.2",
+                "doctrine/common": ">=2.2,<2.5-dev"
+            },
+            "suggest": {
+                "doctrine/orm": ">=2.1",
+                "doctrine/mongodb-odm": "*"
+            },
+            "time": "1351532375",
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.3.x-dev"
+                }
+            },
+            "installation-source": "source",
+            "autoload": {
+                "psr-0": {
+                    "Gedmo": "lib/"
+                }
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Gediminas Morkevicius",
+                    "email": "gediminas.morkevicius@gmail"
+                }
+            ],
+            "description": "Doctrine2 behavioral extensions",
+            "homepage": "http://gediminasm.org/",
+            "keywords": [
+                "tree",
+                "behaviors",
+                "doctrine2",
+                "extensions",
+                "gedmo",
+                "sluggable",
+                "loggable",
+                "translatable",
+                "nestedset",
+                "sortable",
+                "timestampable"
             ]
         },
         {
@@ -825,6 +1033,68 @@
             "time": "1348030981"
         },
         {
+            "name": "stof/doctrine-extensions-bundle",
+            "version": "dev-master",
+            "target-dir": "Stof/DoctrineExtensionsBundle",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/stof/StofDoctrineExtensionsBundle",
+                "reference": "1e392617881dcf59d9e424ecb952176ed3a414d7"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://github.com/stof/StofDoctrineExtensionsBundle/zipball/1e392617881dcf59d9e424ecb952176ed3a414d7",
+                "reference": "1e392617881dcf59d9e424ecb952176ed3a414d7",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.2",
+                "symfony/framework-bundle": ">=2.1,<2.3-dev",
+                "gedmo/doctrine-extensions": "2.3.*"
+            },
+            "suggest": {
+                "doctrine/doctrine-bundle": "*",
+                "doctrine/mongodb-odm-bundle": "2.1.*"
+            },
+            "time": "1351532393",
+            "type": "symfony-bundle",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.1.x-dev"
+                }
+            },
+            "installation-source": "source",
+            "autoload": {
+                "psr-0": {
+                    "Stof\\DoctrineExtensionsBundle": ""
+                }
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Christophe Coevoet",
+                    "email": "stof@notk.org"
+                }
+            ],
+            "description": "Integration of the gedmo/doctrine-extensions with Symfony2",
+            "homepage": "https://github.com/stof/StofDoctrineExtensionsBundle",
+            "keywords": [
+                "tree",
+                "behaviors",
+                "doctrine2",
+                "extensions",
+                "gedmo",
+                "sluggable",
+                "loggable",
+                "translatable",
+                "nestedset",
+                "sortable",
+                "timestampable"
+            ]
+        },
+        {
             "name": "swiftmailer/swiftmailer",
             "version": "v4.2.2",
             "source": {
@@ -1192,18 +1462,18 @@
             "source": {
                 "type": "git",
                 "url": "git://github.com/fabpot/Twig.git",
-                "reference": "61393dc9fb8982110048624aa573aec4aee0b465"
+                "reference": "0505c2fefd5eaa81c628b0cf8a9b8a2bc612321c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://github.com/fabpot/Twig/zipball/61393dc9fb8982110048624aa573aec4aee0b465",
-                "reference": "61393dc9fb8982110048624aa573aec4aee0b465",
+                "url": "https://github.com/fabpot/Twig/zipball/0505c2fefd5eaa81c628b0cf8a9b8a2bc612321c",
+                "reference": "0505c2fefd5eaa81c628b0cf8a9b8a2bc612321c",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.2.4"
             },
-            "time": "1350737598",
+            "time": "1351434618",
             "type": "library",
             "extra": {
                 "branch-alias": {
@@ -1241,7 +1511,8 @@
 
     ],
     "minimum-stability": "dev",
-    "stability-flags": [
-
-    ]
+    "stability-flags": {
+        "stof/doctrine-extensions-bundle": 20,
+        "elao/web-profiler-extra-bundle": 20
+    }
 }
