@@ -75,9 +75,9 @@ stof_doctrine_extensions:
         default:
             tree: true
             
-
-ddeboer_salesforce_client:
-    username: confirmation@winspireme.com
-    password: bx1DN
-    token: JiUNxFoGa9kTQCuinAwd3OM6a
-    wsdl: "%kernel.root_dir%/config/enterprise.wsdl.xml"
+#
+# ddeboer_salesforce_client:
+#    username: confirmation@winspireme.com
+#    password: bx1DN
+#    token: JiUNxFoGa9kTQCuinAwd3OM6a
+#    wsdl: "%kernel.root_dir%/config/enterprise.wsdl.xml"
