@@ -21,6 +21,7 @@
         %}
         <link rel="stylesheet" href="{{ asset_url }}" media="screen">
         {% endstylesheets %}
+        <!--[if gte IE 9]><style type="text/css"> .gradient { filter: none; } </style><![endif]-->
         
         <!-- Scripts -->
         <script src="/js/vendor/jquery-1.8.2.min.js"></script>
@@ -36,17 +37,60 @@
         <div class="container">
         	<header>
         		
-        		Header
+        		<div id="nav-core">
+        			
+        			<div class="c-wrap">
+	        			[logo]
+	        			
+	        			[core nav]
+	        			
+	        			[mySuitcase]
+        			</div>
+        			
+        		</div>
+        		
+        		<div id="nav-site">
+        			
+        			<div class="c-wrap">
+	        			[site nav]
+	        			
+	        			[site search]
+        			</div>
+        		
+        		</div>
+
         	
         	</header>
-        
-        
-            {% block content %}
-            {% endblock %}
+        	
+        	
+        	<div class="content">
+        		
+        		<div class="c-wrap">
+
+	            {% block content %}
+	            {% endblock %}
+	            
+            	
+            	</div>
+            	
+            </div>
             
             
             <footer>
-            	&copy; Winspire {{ 'now' | date('Y') }}
+            	
+            	<div class="c-wrap">
+	            	
+	            	[social]
+	            	
+	            	[nav]
+	            	
+	            	[tos/pp/cst]
+	            	
+	               
+	            	&copy; {{ 'now' | date('Y') }} Winspire All Rights Reserved
+	            	
+            	</div>
+            	
             </footer>
         </div> <!-- /container -->
         
