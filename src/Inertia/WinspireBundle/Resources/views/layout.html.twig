@@ -18,6 +18,7 @@
         {% stylesheets output="css/style.css"
             'css/less/main.less'
             'css/less/misc.less'
+            'css/less/icom.less'
         %}
         <link rel="stylesheet" href="{{ asset_url }}" media="screen">
         {% endstylesheets %}
@@ -43,7 +44,10 @@
 	        			<img src="/img/ws-logo.png" />
 	        			
 	        			<div id="core-suitcase">
-	        				<input type="button"><img src="/img/ws-core-mysuitcase.png" /></input>
+	        			
+        					<span aria-hidden="true" class="ico-briefcase icom-icon"></span>
+	        				<em>my</em><strong>Suitcase</strong>
+	        				
 	        			</div>
 	        			
 	        			<nav id="core-nav">
