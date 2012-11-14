@@ -4,7 +4,8 @@
 @ws-garamond: Garamond, Baskerville, "Baskerville Old Face", "Hoefler Text", "Times New Roman", serif;
 @ws-lucida: "Lucida Grande", "Lucida Sans Unicode", "Lucida Sans", Geneva, Verdana, sans-serif;
 
-
+@ws-white: rgb(255,255,255);
+@ws-gray: rgb(170,170,170);
 @ws-notblack: rgb(20,20,20);
 @ws-lightblue: rgb(5,120,200);
 @ws-darkblue: rgb(40,70,105);
@@ -24,7 +25,7 @@ a:hover { color:@ws-darkblue; }
 
 .c-wrap { width:1040px;margin:0 auto; }
 
-.inline-nav, .il-nav, .inline-block, .ilb { font-size: 0;
+.inline-nav, .il-nav, .inline-block, .ilb { font-size:0;padding:0;margin:0;
   li { display:-moz-inline-stack;display:inline-block;vertical-align:top;zoom:1;*display:inline;font-size:@ws-font-defaultsize; }
 }
 .inline-nav, .il-nav { li { a { display:block;text-decoration:none;cursor:pointer; }}}
@@ -49,6 +50,16 @@ a:hover { color:@ws-darkblue; }
   background: -ms-linear-gradient(top,  rgb(255,255,255) 0%,rgb(218,218,218) 100%); /* IE10+ */
   background: linear-gradient(to bottom,  rgb(255,255,255) 0%,rgb(218,218,218) 100%); /* W3C */
   filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#dadada',GradientType=0 ); /* IE6-8 */
+  
+  &:after { clear:both; }
+ 
+}
+
+
+#core-home { 
+  display:block;float:left;
+  height:65px;
+  
 }
 
 #core-nav { float:right;margin:22px 0 0 0; 
@@ -73,7 +84,7 @@ a:hover { color:@ws-darkblue; }
   height:30px;
   line-height:33px;
   padding:0 15px;
-  margin:7px 0 0 10px;
+  margin:8px 0 0 10px;
   
   
   float:right;
@@ -95,6 +106,8 @@ a:hover { color:@ws-darkblue; }
   -moz-border-radius: 3px; 
   -webkit-border-radius: 3px;
   
+  
+
   cursor: pointer;
   
   
@@ -107,24 +120,21 @@ a:hover { color:@ws-darkblue; }
     line-height:28px;
   }
   
+  .btn-label { height:30px;line-height:32px;float:left; }
+  .btn-drop { 
+    margin:0 -11px 0 5px;
+  }
   
   
+  
+  &:hover {
+    -webkit-box-shadow:  0px 0px 3px 1px rgba(0, 0, 0, .1);
+    box-shadow:  0px 0px 3px 1px rgba(0, 0, 0, .1);
+  }
   
   
   
 }
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -148,6 +158,63 @@ a:hover { color:@ws-darkblue; }
   filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#29a9fe', endColorstr='#005eb6',GradientType=0 ); /* IE6-8 */
 
   
+  
+  
+  #site-nav { 
+    float:left;  
+  }
+  
+  
+  
+  
+  #site-search { 
+  
+    margin:9px 0 0 0;
+    float:right; 
+    width:245px;
+    height:30px;
+    
+    border-radius: 3px; 
+    -moz-border-radius: 3px; 
+    -webkit-border-radius: 3px;
+    
+    background:@ws-white;
+    
+    -webkit-box-shadow: inset 0px 1px 1px 1px rgba(0, 0, 0, .25);
+    box-shadow: inset 0px 1px 1px 1px rgba(0, 0, 0, .25);
+    
+    
+    input {
+      border:none;background:none transparent;
+      
+      
+      
+      &.search-text {
+        height:20px;line-height:20px;padding:5px 15px;width:184px;
+        color:@ws-gray;
+      }
+      
+      &.search-submit {
+        margin:0 1px 0 0;
+        height:30px;
+        width:30px;
+        float:right;
+        
+        background: url('/img/ws-core-search-btn.png') center center no-repeat transparent;
+        
+      }
+      
+      
+      
+    }
+    
+  }
+  
+  
+  
+  &:after { 
+    clear:both;    
+  }
   
 }
 
