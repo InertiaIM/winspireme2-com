@@ -163,47 +163,70 @@ a:hover { color:@ws-darkblue; }
 
   
   
-  
-  #site-nav { 
-    float:left;
-    
-    
-    li { 
-    
-        
-        background:url('/img/ws-nav-vr.png') right no-repeat transparent;
-        padding:0 2px 0 0;
-        
-        &:last-child { background:none;padding:0; }
-        
-        
-        .nav-dda { float:right;padding:0 0 0 20px; }
-        
-        
-        
-        
+  /* Header -> Site Nav */
+  #site-nav { float:left;height:50px;
+    /* Main Nav */
+    li { background:url('/img/ws-nav-vr.png') right no-repeat transparent;padding:0 2px 0 0;position:relative;height:50px;
+      &:last-child { background:none;padding:0; }
+      .nav-dda { float:right;padding:0 0 0 20px; }
     }
-    
-    
-    a { 
-      
-      padding:0 20px 0 15px;
-      
-      height:50px;line-height:50px;
-      
-      color:@ws-white;font-weight:900;font-size:0.833em; 
-      
-      
-      
+    a { padding:0 20px 0 15px;height:50px;line-height:50px;color:@ws-white;font-weight:900;font-size:0.833em; 
       &:hover { color:@ws-yellow; } 
+    }
+    .active a { color:@ws-yellow; }
+    /* Main Nav */
+   
+    /* Sub Nav */
+    .nav-sub {
+      
+      position:relative;top:-50px;left:0;
+      
+      
+      a { background:@ws-white;color:@ws-darkblue; }
+      
+      ul.drop-panel { position:absolute;background:@ws-white;margin:0;padding:0;z-index:50;display:block;width:auto;
+        
+        li { height:auto;padding:0;padding:0 20px;background:none;float:left;
+        
+          ul.sub-set { 
+            margin:0;padding:0;            
+            li { padding:0;
+            
+              float:none;
+              
+              a {
+                
+                height:auto;padding:0;background:none;line-height:25px;
+                
+              }
+              
+              ul {
+                padding:0;margin:0;
+                
+                li {
+                  a {
+                    line-height:20px;
+                  }
+                }
+                
+              }
+              
+              
+              
+            }
+            
+          }
+        
+        }
+      }
+      
       
     }
     
-    .active a { color:@ws-yellow; }
-    
-    
+   
+    /* Sub Nav */
   }
-  
+  /* Header -> Site Nav */
   
   
   
