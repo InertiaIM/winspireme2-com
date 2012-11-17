@@ -3,9 +3,9 @@
 .settings
 .DS_Store
 web/bundles/
-app/bootstrap.php.cache
+#app/bootstrap.php.cache
 app/cache/*
 app/logs/*
 build/
-vendor
+/vendor
 composer.phar
