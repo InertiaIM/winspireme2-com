@@ -103,17 +103,22 @@ a:hover { color:@ws-darkblue; }
         -webkit-border-radius: 5px 5px 0px 0px;
         &:hover { color:@ws-yellow; }
       }
-      ul.drop-panel { position:absolute;background:@ws-white;margin:0;padding:0;z-index:50;display:block;width:auto;padding:20px 0;top:40px;
+      ul.drop-panel { position:absolute;background:@ws-white;margin:0;padding:0;z-index:50;display:block;width:auto;top:40px;
         -webkit-box-shadow: inset 0px -2px 1px 1px rgba(0, 0, 0, .35);
         box-shadow: inset 0px -2px 1px 1px rgba(0, 0, 0, .35);
         border-radius: 0px 5px 5px 5px; 
         -moz-border-radius: 0px 5px 5px 5px; 
         -webkit-border-radius: 0px 5px 5px 5px; 
-        &#sub-experiences { width:775px; }
+        &#sub-experiences { width:705px; }
         a { -webkit-box-shadow:none;box-shadow:none;border-radius:none;-moz-border-radius:none;-webkit-border-radius:none; }
-        li { height:auto;padding:0;padding:0 20px;background:none;float:left;display:block;
+        li { height:auto;min-height:300px;padding:0;padding:20px;background:none;float:left;display:block;
+        
+          border-right:1px solid @ws-gray;
+          &:last-child { border:none; }
+        
+        
           ul.sub-set { margin:0;padding:0;            
-            li { padding:0;float:none;
+            li { padding:0;float:none;border:none;min-height:auto;
               a { height:auto;padding:0;background:none;line-height:25px;&:hover { color:@ws-yellow; } }
               ul { padding:0;margin:0;
                 li {
