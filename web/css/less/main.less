@@ -112,11 +112,8 @@ a:hover { color:@ws-darkblue; }
         &#sub-experiences { width:705px; }
         a { -webkit-box-shadow:none;box-shadow:none;border-radius:none;-moz-border-radius:none;-webkit-border-radius:none; }
         li { height:auto;min-height:300px;padding:0;padding:20px;background:none;float:left;display:block;
-        
           border-right:1px solid @ws-gray;
           &:last-child { border:none; }
-        
-        
           ul.sub-set { margin:0;padding:0;            
             li { padding:0;float:none;border:none;min-height:auto;
               a { height:auto;padding:0;background:none;line-height:25px;&:hover { color:@ws-yellow; } }
@@ -146,18 +143,7 @@ a:hover { color:@ws-darkblue; }
   &:after { clear:both; }
 }
 
-
-
-
-
-footer, #footer {  
-  
-  height:220px;
-  
-  border-top:1px solid rgb(195,213,224);
-
-
-
+footer, #footer { height:220px;border-top:1px solid rgb(195,213,224);
   background: rgb(31,124,184); /* Old browsers */
   /* IE9 SVG, needs conditional override of 'filter' to 'none' */
   background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIwJSIgeTI9IjEwMCUiPgogICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iIzFmN2NiOCIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjMxJSIgc3RvcC1jb2xvcj0iIzU1OWVjZSIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiMyODc3YWUiIHN0b3Atb3BhY2l0eT0iMSIvPgogIDwvbGluZWFyR3JhZGllbnQ+CiAgPHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjEiIGhlaWdodD0iMSIgZmlsbD0idXJsKCNncmFkLXVjZ2ctZ2VuZXJhdGVkKSIgLz4KPC9zdmc+);
@@ -168,122 +154,44 @@ footer, #footer {
   background: -ms-linear-gradient(top,  rgb(31,124,184) 0%,rgb(85,158,206) 31%,rgb(40,119,174) 100%); /* IE10+ */
   background: linear-gradient(to bottom,  rgb(31,124,184) 0%,rgb(85,158,206) 31%,rgb(40,119,174) 100%); /* W3C */
   filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#1f7cb8', endColorstr='#2877ae',GradientType=0 ); /* IE6-8 */
-
- 
 }
 
-#nav-social { 
-  
-  width:400px;height:120px;    
-  position:relative;
-  float:left;
-  
-  .social-bg {
-    
-    position:absolute;top:-38px;left:-43px;z-index:1;
-    
-  }
-  
-  #social-nav { 
-    position:relative;z-index:5;
-    
-    padding:30px 0 0 232px;
-    
-    li {
+#nav-social { width:400px;height:120px;position:relative;float:left;
+  .social-bg { position:absolute;top:-38px;left:-43px;z-index:1; }
+  #social-nav { position:relative;z-index:5;padding:30px 0 0 232px;
+    li { margin:0 3px;
+      a { border:1px solid @ws-white;background:@ws-silver;border-radius: 3px;-moz-border-radius: 3px;-webkit-border-radius: 3px;
+        width:30px;height:30px;color:@ws-darkblue;font-size:1.333em;text-align:center;line-height:30px;
       
-      margin:0 3px;
-      
-      
-      
-      a {
-        border:1px solid @ws-white;background:@ws-silver;
-      
-        border-radius: 3px; 
-        -moz-border-radius: 3px; 
-        -webkit-border-radius: 3px;
-        
-        width:30px;height:30px;
-        
-        color:@ws-darkblue;
-        
-        font-size:1.333em;
-        
-        text-align:center;
-        line-height:30px;
-
-
         &:hover {
           -webkit-box-shadow:  0px 0px 3px 1px rgba(0, 0, 0, .5);
           box-shadow:  0px 0px 3px 1px rgba(0, 0, 0, .5);
         }
-
-        
       }
-      
     }
-    
   }
-  
 }
 
-
-
 #nav-sitemap { 
-  
   float:right;margin-right:-10px;margin-top:24px;
-  
   #sitemap-nav { 
-    
-    
     a { color:@ws-white;font-size:0.9em;padding:1px 10px; 
       &:hover { color:@ws-yellow; }
     }
-    
-    
     li { 
       ul { margin:0;padding:0;
-      
         li { display:block; }
-      
       }  
     }
-    
-    
   }
-  
 }
-
 
 #nav-legal { clear:both;
   #legal-nav { float:left; 
-    
     a { 
       color:@ws-white;font-size:0.9em;padding:1px 9px; 
       &:hover { color:@ws-yellow; }  
     }
   }
-  
-  
-  
-  
   #legal-copyright { display:block;text-align:right;color:@ws-white;font-size:0.9em; }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
