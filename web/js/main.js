@@ -30,33 +30,28 @@ var footerCtx = $('footer')[0];
     /* Header Navigation */
     var headerSiteNav = $('#site-nav', headerCtx);
     var headerSiteNavTabs = $('.has-sub');
-    
     $('.nav-sub', headerSiteNav).hide();
-    
-    
     headerSiteNavTabs.parent().hover(
-    		function() { 
-    			$(this).find('.nav-sub').show();
-    	    },
-    	    function() {
-    	    	$(this).find('.nav-sub').hide();
-    	    }
-        );
-    
-    
-    
-    
-    /*headerSiteNavTabs.hover(
 		function() { 
-			$(this).parent().find('.nav-sub').show();
+			$(this).find('.nav-sub').show();
 	    },
 	    function() {
-	    	$(this).parent().find('.nav-sub').hide();
+	    	$(this).find('.nav-sub').hide();
 	    }
-    );*/
-    
-    
-    
-    
-    
+    );    
     /* Header Navigation */
+    
+    
+    
+    /* Home Banner */
+    var homeBanner = $('#home-banner');
+    
+    $('.slide-tabs', homeBanner).tabs('#banner-slides > .banner-slide', {
+    	effect: 'fade',
+    	fadeOutSpeed: 'slow',
+    	rotate: true
+    	
+    });
+    
+    
+    /* Home Banner */
