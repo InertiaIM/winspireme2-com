@@ -2,297 +2,276 @@
 <!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
 <!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
 <!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
-    <head>
-    	
-    	<title>{% block title %}Winspire{% endblock %}</title>
-    	
-    	<!-- Meta -->
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-        <meta name="description" content="">
-        <meta name="viewport" content="width=device-width">
-        
-        <!-- Styles -->
-        <link rel="stylesheet" href="/css/normalize.min.css">
-        {% stylesheets output="css/style.css"
-            'css/less/main.less'
-            'css/less/misc.less'
-            'css/less/icom.less'
-        %}
-        <link rel="stylesheet" href="{{ asset_url }}" media="screen">
-        {% endstylesheets %}
-        <!--[if gte IE 9]><style type="text/css"> .gradient { filter: none; } </style><![endif]-->
-        
-        <!-- Scripts -->
-        <script src="/js/vendor/jquery-1.8.2.min.js"></script>
-        <script src="/js/vendor/modernizr-2.6.1.min.js"></script>
-        
-    </head>
-    <body>
-        <!--[if lt IE 7]><p class="chromeframe">You are using an outdated browser. <a href="http://browsehappy.com/">Upgrade your browser today</a> or <a href="http://www.google.com/chromeframe/?redirect=true">install Google Chrome Frame</a> to better experience this site.</p><![endif]-->
-        
-        
-        
-                
-        <div class="container">
-        	<header>
-        		
-        		<div id="nav-core">
-        			<div class="c-wrap">
-        			
-	        			<a href="#" id="core-home">
-	        				<img src="/img/ws-logo.png" />
-	        			</a>
-	        			<div id="core-suitcase">
-        					<span aria-hidden="true" class="ico-briefcase icom-icon"></span>
-	        				<div class="btn-label"><em>my</em><strong>Suitcase</strong></div>
-	        				<img class="btn-drop" src="/img/ws-core-suitcase-dropbtn.png" />
-	        			</div>
-	        			<nav id="core-nav">
-	        				<ul class="inline-nav">
-	        					<li><a href="#">About Us</a></li>
-	        					<li><a href="#">Blog</a></li>
-	        					<li><a href="#">FAQs</a></li>
-	        					<li><a href="#">Contact Us</a></li>
-	        					<li><a href="#">My Account</a></li>
-	        				</ul>
-	        			</nav>
-	        			
-        			</div><!-- end c-wrap -->
-        		</div><!-- end nav-core -->
-        		
-        		<div id="nav-site">
-        			<div class="c-wrap">
-        			
-	        			<nav id="site-nav">
-	        				<ul class="inline-nav">
-	        					<li><a href="#">Experiences<img class="nav-dda" src="/img/ws-nav-dda.png"/></a>
-	        					
-	        						
-	        						<div class="nav-sub">
-		        						 
-		        						<a href="#">Experiences <span aria-hidden="true" class="ico-arrow-down icom-icon"></span></a>
-		        						<ul class="drop-panel" id="sub-experiences">
-		        							<!-- Column 1 -->
-		        							<li>
-		        								<ul class="sub-set">
-		        									<li><a href="#">U.S. Travel</a></li>
-		        									<li><a href="#">International Travel</a>
-		        										<ul>
-				        									<li><a href="#">Canada</a></li>
-				        									<li><a href="#">Mexico</a></li>
-				        									<li><a href="#">Central/South America</a></li>
-				        									<li><a href="#">Caribbean</a></li>
-				        									<li><a href="#">Europe</a></li>
-				        									<li><a href="#">Africa</a></li>
-				        									<li><a href="#">Asia</a></li>
-				        									<li><a href="#">Australia/New Zealand</a></li>
-				        								</ul>
-		        									</li>
-		        									<li><a href="#">Food &amp; Wine</a>
-		        										<ul>
-				        									<li><a href="#">Napa Valley</a></li>
-				        									<li><a href="#">Sonoma Valley</a></li>
-				        									<li><a href="#">Culinary</a></li>
-				        								</ul>
-		        									</li>
-		        								</ul>
-		        							</li>
-		        							<!-- Column 1 -->
-		        							
-		        							<!-- Column 2 -->
-		        							<li>
-		        								<ul class="sub-set">
-		        									<li><a href="#">Sports</a>
-		        										<ul>
-				        									<li><a href="#">Golf</a></li>
-				        									<li><a href="#">Basketball</a></li>
-				        									<li><a href="#">Football</a></li>
-				        									<li><a href="#">Horse Racing</a></li>
-				        									<li><a href="#">Indy &amp; NASCAR</a></li>
-				        									<li><a href="#">Championship</a></li>
-				        								</ul>		        									
-		        									</li>
-		        									<li><a href="#">Adventure</a>
-		        										<ul>
-				        									<li><a href="#">Boating</a></li>
-				        									<li><a href="#">Flying</a></li>
-				        									<li><a href="#">Driving</a></li>
-				        									<li><a href="#">Outdoors</a></li>
-				        									<li><a href="#">Animal Lovers</a></li>
-				        									<li><a href="#">Skiing/Snowboarding</a></li>
-				        								</ul>
-		        									</li>
-		        								</ul>
-		        							</li>
-		        							<!-- Column 2 -->
-		        							
-		        							<!-- Column 3 -->
-		        							<li>
-		        								<ul class="sub-set">
-		        									<li><a href="#">Shopping &amp; Fashion</a>
-		        										<ul>
-				        									<li><a href="#">Saks Fifth Ave</a></li>
-				        									<li><a href="#">Bloomingdales</a></li>
-				        									<li><a href="#">Paris Boutique</a></li>
-				        									<li><a href="#">Fashion Week</a></li>
-				        								</ul>
-		        									</li>
-		        									<li><a href="#">Award Shows</a>
-		        										<ul>
-				        									<li><a href="#">Grammys</a></li>
-				        									<li><a href="#">Emmys</a></li>
-				        									<li><a href="#">ESPYs</a></li>
-				        									<li><a href="#">CMAs</a></li>
-				        									<li><a href="#">Kids Choice/MTV</a></li>
-				        								</ul>
-		        									</li>
-		        								</ul>
-		        							</li>
-		        							<!-- Column 3 -->
-		        							
-		        							<!-- Column 4 -->
-		        							<li>
-		        								<ul class="sub-set">
-		        									<li><a href="#">Entertainment</a>
-		        										<ul>
-				        									<li><a href="#">Broadway Theatre</a></li>
-				        									<li><a href="#">Vegas Shows</a></li>
-				        									<li><a href="#">New Orleans Jazz</a></li>
-				        								</ul>
-		        									</li>
-		        									<li><a href="#">Family Friendly</a></li>
-		        									<li><a href="#">Spa &amp; Relaxation</a></li>
-		        									<li><a href="#">Cruises</a></li>
-		        									<li><a href="#">VIP Tours</a></li>
-		        								</ul>
-		        							</li>
-		        							<!-- Column 4 -->      						
-		        						</ul>
-	        						</div>
-	        					
-	        					
-	        					
-	        					
-	        					
-	        					</li>
-	        					<li><a href="#">How it Works<img class="nav-dda" src="/img/ws-nav-dda.png"/></a></li>
-	        					<li><a href="#">Why Winspire<img class="nav-dda" src="/img/ws-nav-dda.png"/></a></li>
-	        					<li class="active"><a href="#">Winning Bidders</a></li>
-	        				</ul>
-	        			</nav>
-	        			
-	        			<div id="site-search">
-	        				<input type="text" class="search-text" value="Search" />
-	        				<input type="button" class="search-submit" value="" />
-	        			</div>
+<!--[if gt IE 8]><!-->
+<html class="no-js">
+<!--<![endif]-->
+<head>
+<title>{% block title %}Winspire{% endblock %}</title>
 
-        			</div><!-- end c-wrap -->
-        		</div><!-- end nav-site -->
+<!-- Meta -->
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="description" content="">
+<meta name="viewport" content="width=device-width">
 
-        	
-        	</header>
-        	
-        	
-        	<div class="content">
-        		
-        		<div class="c-wrap">
+<!-- Styles -->
+<link rel="stylesheet" href="/css/normalize.min.css">
+{% stylesheets output="css/style.css" 'css/less/main.less'
+'css/less/misc.less' 'css/less/icom.less' %}
+<link rel="stylesheet" href="{{ asset_url }}" media="screen">
+{% endstylesheets %}
+<!--[if gte IE 9]><style type="text/css"> .gradient { filter: none; } </style><![endif]-->
 
-	            {% block content %}
-	            {% endblock %}
-	            
-            	
-            	</div>
-            	
-            </div>
-            
-            
-            <footer>
-            	
-            	<div class="c-wrap">
-	            	
-	            	<div id="nav-social">
-	            	
-	            		<img src="/img/ws-ftr-socialbg.png" class="social-bg" />
-	            		
-	            		<nav id="social-nav">
-	        				<ul class="inline-nav">
-	        					<li><a href="#"><span aria-hidden="true" class="ico-facebook icom-icon"></span></a></li>
-	        					<li><a href="#"><span aria-hidden="true" class="ico-twitter icom-icon"></span></a></li>
-	        					<li><a href="#"><span aria-hidden="true" class="ico-youtube icom-icon"></span></a></li>
-	        					<li><a href="#"><span aria-hidden="true" class="ico-mail icom-icon"></span></a></li>
-	        				</ul>
-	        			</nav>
-	            		
-	            	</div>
-	            	
-	            	
-	            	<div id="nav-sitemap">
-	            	
-	            		<nav id="sitemap-nav">
-	            		
-	            			<ul class="inline-nav">
-	        					<li><a href="#">Experiences</a></li>
-	        					<li><a href="#">How Winspire Works</a>
-	        						<ul>
-	        							<li><a href="#">FAQs</a>
-	        						</ul>
-	        					</li>
-	        					<li><a href="#">Why Winspire</a>
-	        						<ul>
-	        							<li><a href="#">About Us</a>
-	        							<li><a href="#">Testimonials</a>
-	        						</ul>
-	        					</li>
-	        					<li><a href="#">Winning Bidders</a></li>
-	        					<li><a href="#">Contact Us</a>
-	        						<ul>
-	        							<li><a href="#">Resources</a>
-	        							<li><a href="#">Blog</a>
-	        						</ul>
-	        					</li>
-	        				</ul>
-	            		
-	            		
-	            		</nav>
-	            	
-	            	</div>
-	            	
-	            	
-	            	<div id="nav-legal">
-	            	
-	            		
-	            		<nav id="legal-nav">
-	        				<ul class="inline-nav">
-	        					<li><a href="#">Terms of Use</a></li>
-	        					<li><a href="#">Privacy Policy</a></li>
-	        					<li><a>CST# 2094258-40</a></li>
-	        				</ul>
-	        			</nav>
-	        			
-	        			<span id="legal-copyright">
-	        				&copy; {{ 'now' | date('Y') }} Winspire All Rights Reserved
-	        			</span>
+<!-- Scripts -->
+<script src="/js/vendor/jquery-1.8.2.min.js"></script>
+<script src="/js/vendor/modernizr-2.6.1.min.js"></script>
 
-	            	
-	            	</div>
+</head>
+<body>
+	<!--[if lt IE 7]><p class="chromeframe">You are using an outdated browser. <a href="http://browsehappy.com/">Upgrade your browser today</a> or <a href="http://www.google.com/chromeframe/?redirect=true">install Google Chrome Frame</a> to better experience this site.</p><![endif]-->
 
-	            	
-            	</div>
-            	
-            </footer>
-        </div> <!-- /container -->
-        
-        
-        
-        
-        
-        
-        
-        
-        <script src="/js/main.js"></script>
-        <!-- Uncomment on Production 
+	<div class="container">
+		<header>
+
+			<div id="nav-core">
+				<div class="c-wrap">
+
+					<a href="#" id="core-home"> <img src="/img/ws-logo.png" />
+					</a>
+					<div id="core-suitcase">
+						<span aria-hidden="true" class="ico-briefcase icom-icon"></span>
+						<div class="btn-label">
+							<em>my</em><strong>Suitcase</strong>
+						</div>
+						<img class="btn-drop" src="/img/ws-core-suitcase-dropbtn.png" />
+					</div>
+					<nav id="core-nav">
+						<ul class="inline-nav">
+							<li><a href="#">About Us</a></li>
+							<li><a href="#">Blog</a></li>
+							<li><a href="#">FAQs</a></li>
+							<li><a href="#">Contact Us</a></li>
+							<li><a href="#">My Account</a></li>
+						</ul>
+					</nav>
+
+				</div>
+				<!-- end c-wrap -->
+			</div>
+			<!-- end nav-core -->
+
+			<div id="nav-site">
+				<div class="c-wrap">
+					<nav id="site-nav">
+						<ul class="inline-nav">
+							<li><a href="#">Experiences<img class="nav-dda"
+									src="/img/ws-nav-dda.png" />
+							</a>
+								<div class="nav-sub">
+									<a href="#">Experiences <span aria-hidden="true"
+										class="ico-arrow-down icom-icon"></span>
+									</a>
+									<ul class="drop-panel" id="sub-experiences">
+										<!-- Column 1 -->
+										<li>
+											<ul class="sub-set">
+												<li><a href="#">U.S. Travel</a></li>
+												<li><a href="#">International Travel</a>
+													<ul>
+														<li><a href="#">Canada</a></li>
+														<li><a href="#">Mexico</a></li>
+														<li><a href="#">Central/South America</a></li>
+														<li><a href="#">Caribbean</a></li>
+														<li><a href="#">Europe</a></li>
+														<li><a href="#">Africa</a></li>
+														<li><a href="#">Asia</a></li>
+														<li><a href="#">Australia/New Zealand</a></li>
+													</ul>
+												</li>
+												<li><a href="#">Food &amp; Wine</a>
+													<ul>
+														<li><a href="#">Napa Valley</a></li>
+														<li><a href="#">Sonoma Valley</a></li>
+														<li><a href="#">Culinary</a></li>
+													</ul>
+												</li>
+											</ul>
+										</li>
+										<!-- Column 1 -->
+
+										<!-- Column 2 -->
+										<li>
+											<ul class="sub-set">
+												<li><a href="#">Sports</a>
+													<ul>
+														<li><a href="#">Golf</a></li>
+														<li><a href="#">Basketball</a></li>
+														<li><a href="#">Football</a></li>
+														<li><a href="#">Horse Racing</a></li>
+														<li><a href="#">Indy &amp; NASCAR</a></li>
+														<li><a href="#">Championship</a></li>
+													</ul>
+												</li>
+												<li><a href="#">Adventure</a>
+													<ul>
+														<li><a href="#">Boating</a></li>
+														<li><a href="#">Flying</a></li>
+														<li><a href="#">Driving</a></li>
+														<li><a href="#">Outdoors</a></li>
+														<li><a href="#">Animal Lovers</a></li>
+														<li><a href="#">Skiing/Snowboarding</a></li>
+													</ul>
+												</li>
+											</ul>
+										</li>
+										<!-- Column 2 -->
+
+										<!-- Column 3 -->
+										<li>
+											<ul class="sub-set">
+												<li><a href="#">Shopping &amp; Fashion</a>
+													<ul>
+														<li><a href="#">Saks Fifth Ave</a></li>
+														<li><a href="#">Bloomingdales</a></li>
+														<li><a href="#">Paris Boutique</a></li>
+														<li><a href="#">Fashion Week</a></li>
+													</ul>
+												</li>
+												<li><a href="#">Award Shows</a>
+													<ul>
+														<li><a href="#">Grammys</a></li>
+														<li><a href="#">Emmys</a></li>
+														<li><a href="#">ESPYs</a></li>
+														<li><a href="#">CMAs</a></li>
+														<li><a href="#">Kids Choice/MTV</a></li>
+													</ul>
+												</li>
+											</ul>
+										</li>
+										<!-- Column 3 -->
+
+										<!-- Column 4 -->
+										<li>
+											<ul class="sub-set">
+												<li><a href="#">Entertainment</a>
+													<ul>
+														<li><a href="#">Broadway Theatre</a></li>
+														<li><a href="#">Vegas Shows</a></li>
+														<li><a href="#">New Orleans Jazz</a></li>
+													</ul>
+												</li>
+												<li><a href="#">Family Friendly</a></li>
+												<li><a href="#">Spa &amp; Relaxation</a></li>
+												<li><a href="#">Cruises</a></li>
+												<li><a href="#">VIP Tours</a></li>
+											</ul>
+											
+											<ul class="sub-set all-experiences">
+												<li><a href="#">All Experiences</a></li>
+												<li><hr/></li>
+												<li><a href="#">Most Popular</a></li>
+												<li><a href="#">Newest</a></li>
+											</ul>
+											
+										</li>
+										<!-- Column 4 -->
+									</ul>
+								</div>
+							</li>
+							<li><a href="#">How it Works<img class="nav-dda"
+									src="/img/ws-nav-dda.png" />
+							</a></li>
+							<li><a href="#">Why Winspire<img class="nav-dda"
+									src="/img/ws-nav-dda.png" />
+							</a></li>
+							<li class="active"><a href="#">Winning Bidders</a></li>
+						</ul>
+					</nav>
+					<div id="site-search">
+						<input type="text" class="search-text" value="Search" /> <input
+							type="button" class="search-submit" value="" />
+					</div>
+				</div>
+				<!-- end c-wrap -->
+			</div>
+			<!-- end nav-site -->
+		</header>
+
+		<div class="content">
+			<div class="c-wrap">{% block content %} {% endblock %}</div>
+		</div>
+
+
+		<footer>
+			<div class="c-wrap">
+				<div id="nav-social">
+					<img src="/img/ws-ftr-socialbg.png" class="social-bg" />
+					<nav id="social-nav">
+						<ul class="inline-nav">
+							<li><a href="#"><span aria-hidden="true"
+									class="ico-facebook icom-icon"></span> </a></li>
+							<li><a href="#"><span aria-hidden="true"
+									class="ico-twitter icom-icon"></span> </a></li>
+							<li><a href="#"><span aria-hidden="true"
+									class="ico-youtube icom-icon"></span> </a></li>
+							<li><a href="#"><span aria-hidden="true"
+									class="ico-mail icom-icon"></span> </a></li>
+						</ul>
+					</nav>
+				</div>
+
+				<div id="nav-sitemap">
+					<nav id="sitemap-nav">
+						<ul class="inline-nav">
+							<li><a href="#">Experiences</a></li>
+							<li><a href="#">How Winspire Works</a>
+								<ul>
+									<li><a href="#">FAQs</a>
+								
+								</ul>
+							</li>
+							<li><a href="#">Why Winspire</a>
+								<ul>
+									<li><a href="#">About Us</a>
+									
+									<li><a href="#">Testimonials</a>
+								
+								</ul>
+							</li>
+							<li><a href="#">Winning Bidders</a></li>
+							<li><a href="#">Contact Us</a>
+								<ul>
+									<li><a href="#">Resources</a>
+									
+									<li><a href="#">Blog</a>
+								
+								</ul>
+							</li>
+						</ul>
+					</nav>
+				</div>
+
+				<div id="nav-legal">
+					<nav id="legal-nav">
+						<ul class="inline-nav">
+							<li><a href="#">Terms of Use</a></li>
+							<li><a href="#">Privacy Policy</a></li>
+							<li><a>CST# 2094258-40</a></li>
+						</ul>
+					</nav>
+
+					<span id="legal-copyright"> &copy; {{ 'now' | date('Y') }} Winspire All Rights Reserved </span>
+				</div>
+			</div>
+
+		</footer>
+	</div>
+	<!-- /container -->
+
+	
+	
+	<script src="/js/main.js"></script>
+	<!-- Uncomment on Production 
         <script>
             var _gaq=[['_setAccount','UA-XXXXX-X'],['_trackPageview']];
             (function(d,t){var g=d.createElement(t),s=d.getElementsByTagName(t)[0];
@@ -300,5 +279,5 @@
             s.parentNode.insertBefore(g,s)}(document,'script'));
         </script>
         -->
-    </body>
+</body>
 </html>
