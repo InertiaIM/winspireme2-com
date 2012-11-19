@@ -9,6 +9,7 @@
 @ws-darksilver: rgb(215,215,215);
 @ws-gray: rgb(170,170,170);
 @ws-darkgray: rgb(119,119,119);
+@ws-gray85: rgb(86,85,86);
 @ws-notblack: rgb(20,20,20);
 @ws-lightblue: rgb(5,120,200);
 @ws-darkblue: rgb(40,70,105);
@@ -21,6 +22,11 @@ body { font-family:@ws-arial;font-size:@ws-font-defaultsize;background:rgb(40,11
 a, a:active, a:visited { color:@ws-lightblue; }
 a:hover { color:@ws-darkblue; }
 ul, h1, h2, h3, h4, h5, h6, p { padding:0;margin:0; }
+
+
+h1 { font-size:2.625em;color:@ws-darkblue; }
+
+
 
 /* Utility */
 .c-wrap { width:1040px;margin:0 auto; }
@@ -276,9 +282,11 @@ footer, #footer { height:220px;border-top:1px solid rgb(195,213,224);
    
     #banner-slides { height:362px;overflow:hidden;
       
-      .banner-slide { height:362px;position:relative;
+      .banner-slide { height:287px;position:relative;padding:75px 30px 0 30px;
         
         img { position:absolute;bottom:0;left:0; }
+        h1, h3, a { position:relative;z-index:10; }
+        h3 { font-size:1.125em;color:@ws-gray85;font-weight:normal; }
         
       }
       
