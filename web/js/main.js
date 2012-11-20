@@ -54,9 +54,4 @@ var footerCtx = $('footer')[0];
     	clickable: false,
     	interval: 5000
     }).slideshow();
-    var homeBannerAPI = $(".slide-tabs").data("slideshow");
-    homeBannerAPI.play();
-    
-    
-    
     /* Home Banner */
