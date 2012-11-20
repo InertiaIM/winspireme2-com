@@ -49,9 +49,14 @@ var footerCtx = $('footer')[0];
     $('.slide-tabs', homeBanner).tabs('#banner-slides > .banner-slide', {
     	effect: 'fade',
     	fadeOutSpeed: 'slow',
-    	rotate: true
-    	
-    });
+    	rotate: true,
+    	autoplay: true,
+    	clickable: false,
+    	interval: 5000
+    }).slideshow();
+    var homeBannerAPI = $(".slide-tabs").data("slideshow");
+    homeBannerAPI.play();
+    
     
     
     /* Home Banner */
