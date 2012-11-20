@@ -43,10 +43,8 @@ var footerCtx = $('footer')[0];
     
     
     
-    /* Home Banner */
-    var homeBanner = $('#home-banner');
-    
-    $('.slide-tabs', homeBanner).tabs('#banner-slides > .banner-slide', {
+    /* Home Banner */    
+    $('#home-banner .slide-tabs').tabs('#banner-slides > .banner-slide', {
     	effect: 'fade',
     	fadeOutSpeed: 'slow',
     	rotate: true,
