@@ -346,8 +346,44 @@ footer, #footer { height:220px;border-top:1px solid rgb(195,213,224);
       
       -webkit-box-shadow:0px 0px 5px 1px rgba(0, 0, 0, .25);box-shadow:0px 0px 5px 1px rgba(0, 0, 0, .25);
       
-      width:555px;float:right;margin:9px 9px 0 0;
+      width:500px;float:right;margin:9px 9px 0 0;padding:0 30px;
       background:rgb(251,250,233);border:2px solid @ws-white;
+      
+      
+      h4 { font-size:1.250em;line-height:1em;margin:15px 0; }
+      .f-all { float:right;margin:18px 0 0 0;font-size:.833em; }
+      
+      
+      #featured-slides { &:after { clear:both; }
+        
+        li { display:block;float:left;width:150px;
+          
+          
+        }
+          
+      }
+      
+      
+      
+      #featured-controls {  }
+      #featured-control { display:table;margin:0 auto;position:relative;
+        ul { 
+          li { display:inline-block;cursor:pointer;padding:12px 8px 12px 8px;
+            div { width:13px;height:13px;background:rgb(204,204,204);
+              -webkit-border-radius: 6px 6px 6px 6px;border-radius: 6px 6px 6px 6px;
+              -webkit-box-shadow: inset 0px 2px 2px 0px rgba(122, 122, 122, 1);
+              box-shadow: inset 0px 2px 2px 0px rgba(122, 122, 122, 1);
+            }
+            &.current, &:hover { div { background: rgb(125,190,255);
+              -webkit-box-shadow: inset 0px -6px 6px 0px rgba(6, 93, 179, 1);
+              box-shadow: inset 0px -6px 6px 0px rgba(6, 93, 179, 1);
+              } 
+            }
+          } 
+        }
+      }
+      
+      
       
     }
  
