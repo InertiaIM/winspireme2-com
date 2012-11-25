@@ -53,3 +53,14 @@ var footerCtx = $('footer')[0];
     	interval: 5000
     }).slideshow();
     /* Home Banner */
+    
+    /* Stats Banner */    
+    $('#stats-panels .stat-tabs').tabs('#stat-slides > .stat-slide', {
+    	effect: 'fade',
+    	fadeOutSpeed: 'slow',
+    	rotate: true,
+    	autoplay: true,
+    	clickable: false,
+    	interval: 5000
+    }).slideshow();
+    /* Stats Banner */
