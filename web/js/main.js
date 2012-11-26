@@ -41,6 +41,21 @@ var footerCtx = $('footer')[0];
     );    
     /* Header Navigation */
     
+    /* Header Suitcase Panel */
+    var headerSuitcasePanel = $('#suitcase-panel', headerCtx);
+    var headerSuitcaseToggle = $('#suitcase-toggle', headerCtx);
+    $(headerSuitcasePanel).hide();
+    
+    headerSuitcaseToggle.click( function() {
+    	$(headerSuitcasePanel).show();
+    });
+    
+    $('.the-tab', headerSuitcasePanel).click( function() {
+    	$(headerSuitcasePanel).hide();
+    });
+    /* Header Suitcase Panel */
+    
+    
     
     
     /* Home Banner */    
