@@ -10,4 +10,10 @@ class DefaultController extends Controller
     {
         return $this->render('InertiaWinspireBundle:Default:index.html.twig');
     }
+    
+    public function plpAction()
+    {
+        return $this->render('InertiaWinspireBundle:Default:plp.html.twig');
+    }
+    
 }
