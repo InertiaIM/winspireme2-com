@@ -69,13 +69,52 @@ var footerCtx = $('footer')[0];
     }).slideshow();
     /* Home Banner */
     
-    /* Stats Banner */    
-    $('#stats-panels .stat-tabs').tabs('#stat-slides > .stat-slide', {
-    	effect: 'fade',
-    	fadeOutSpeed: 'slow',
-    	rotate: true,
-    	autoplay: true,
-    	clickable: false,
-    	interval: 5000
-    }).slideshow();
+    /* Stats Banner */
+    var stats = new Carousel($('#stat-slides'), {
+        behavior: {
+            circular: true,
+            autoplay: 5000,
+            keyboardNav: false
+        },
+        elements: {
+            prevNext: false,
+            handles: false,
+            counter: false
+        },
+        events: {
+            transition: function(index) {
+                // TODO fix this ugly hack
+                // Working around an issue with the carousel plugin
+                // not returning the correct slide index
+                var left = $('#stat-slides').css('left');
+                var current;
+                if (left == '0px') {
+                    current = $('#stat-slides li:nth-child(1)').attr('id');
+                }
+                
+                if (left == '-1040px') {
+                    current = $('#stat-slides li:nth-child(2)').attr('id');
+                }
+                
+                if (left == '-2080px') {
+                    current = $('#stat-slides li:nth-child(3)').attr('id');
+                }
+                
+                $('#stat-prev').removeClass('slide1 slide2 slide3').addClass(current);
+                $('#stat-next').removeClass('slide1 slide2 slide3').addClass(current);
+            }
+        }
+    });
+    stats.init();
+    
+    $('#stats-panels .carousel-container').append('<div class="carousel-nav"><span id="stat-prev" class="carousel-prev slide1"></span><span id="stat-next" class="carousel-next slide1"></span></div>');
+    
+    $('#stat-prev').on('click', function(){
+        stats.prev();
+        stats.disable();
+    });
+    $('#stat-next').on('click', function(){
+        stats.next();
+        stats.disable();
+    });
     /* Stats Banner */
