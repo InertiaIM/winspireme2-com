@@ -29,6 +29,8 @@ h5 { color:@ws-gray85; }
 h6 { color:@ws-gray85;font-weight:normal; }
 
 
+header .c-wrap, footer .c-wrap { padding:0 20px;width:1000px; }
+header .c-wrap { height:65px; }
 
 /* Core Navigation */
 #nav-core { height:65px;
@@ -43,6 +45,7 @@ h6 { color:@ws-gray85;font-weight:normal; }
   background: linear-gradient(to bottom,  rgb(255,255,255) 0%,rgb(218,218,218) 100%); /* W3C */
   filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#dadada',GradientType=0 ); /* IE6-8 */
   &:after { clear:both; }
+  
 }
 #core-home { display:block;float:left;height:65px; }
 #core-nav { float:right;margin:22px 0 0 0; 
@@ -631,13 +634,15 @@ footer, #footer { height:220px;border-top:1px solid rgb(195,213,224);
 
 #con-plp { background: url('/img/home-experiences-bg.png') transparent;padding:0 0 40px 0;
   
+  .c-wrap { padding:0 20px;width:1000px; }
+  
   h1 { font-size:3.000em;line-height:1em;color:@ws-darkblue; }
   h3 { font-size:1.083em;line-height:1.375em;color:@ws-gray85; }
   
   
   
   
-  #plp-header { padding:45px 0;
+  #plp-header { padding:39px 0 66px 0;
     background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIwJSIgeTI9IjEwMCUiPgogICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iIzkzY2JlYSIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiNlM2VhZTEiIHN0b3Atb3BhY2l0eT0iMCIvPgogIDwvbGluZWFyR3JhZGllbnQ+CiAgPHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjEiIGhlaWdodD0iMSIgZmlsbD0idXJsKCNncmFkLXVjZ2ctZ2VuZXJhdGVkKSIgLz4KPC9zdmc+);
     background: -moz-linear-gradient(top,  rgba(147,203,234,1) 0%, rgba(227,234,225,0) 100%); /* FF3.6+ */
     background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(147,203,234,1)), color-stop(100%,rgba(227,234,225,0))); /* Chrome,Safari4+ */
@@ -648,7 +653,7 @@ footer, #footer { height:220px;border-top:1px solid rgb(195,213,224);
     filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#93cbea', endColorstr='#00e3eae1',GradientType=0 ); /* IE6-8 */
    
     
-    h1 { margin:0 0 20px 0; }
+    h1 { margin:0 0 6px 0; }
    
    
   }
@@ -720,30 +725,32 @@ footer, #footer { height:220px;border-top:1px solid rgb(195,213,224);
         
         .i-image { float:left;margin:0 0 0 12px;border:3px solid @ws-darkersilver;width:129px;height:85px;position:relative;top:11px; }
         
-        .i-details { margin:0 183px 0 168px;
+        .i-details { margin:0 183px 17px 168px;
         
-          h3 { font-size:1.417em;color:@ws-darkblue;line-height:1em;font-weight:600;letter-spacing:.475px;margin:0 0 8px 0;padding:13px 0 0 0;}
-          p { font-size:0.833em;word-spacing:1px;letter-spacing:.06em;margin:0 70px 0 0; }
+          h3 { font-size:1.417em;color:@ws-darkblue;line-height:1em;font-weight:600;letter-spacing:.6px;margin:0 0 8px 0;padding:13px 0 0 0;}
+          p { font-size:0.833em;word-spacing:1px;letter-spacing:.06em;margin:0 50px 0 0; }
           
-          .i-srv { margin:14px 0 0 0; 
-          
+          .i-srv { margin:13px 0 0 0; 
             .i-sv { font-weight:600;font-size:1.125em;margin:0 5px 0 0; }
             .srv-n { color:@ws-medblue;font-size:0.833em;font-style:italic; }
-          
           }
+          
+          .i-npc { font-size:.833em; }
+          
           
         }
         
-        .i-actions { float:right;width:169px;margin:0 14px 0 0;text-align:right;position:relative;top:9px;
+        .i-actions { float:right;width:169px;margin:0 11px 0 0;text-align:right;position:relative;top:9px;
         
-          .i-a-add { .btn-blue(3px);height:37px;line-height:37px;cursor:pointer;margin:0 0 20px 0;padding:0 13px;float:right;
+          .i-a-add { .btn-blue(3px);height:37px;line-height:37px;cursor:pointer;margin:0 3px 16px 0;padding:0 13px;float:right;
             font-size:0.917em;position:relative;text-align:right;
             em { font-family: @ws-garamond; }
             strong { font-weight:550; }
             .icom-icon { font-size:1.333em;display:block;float:left;height:37px;margin:0 4px 0 0; }            
           }
           .i-a-options { clear:both; 
-            a { display:block; }
+            a { display:block;font-size:0.750em;color:@ws-orange;text-decoration:none;padding:2px 0 1px 0;
+            &:hover { color:@ws-darkblue; } .icom-icon { font-size:1.125em;position:relative;top:2px; } } 
             
           }
         
