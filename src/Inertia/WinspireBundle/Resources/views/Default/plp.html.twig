@@ -1,6 +1,6 @@
 {% extends 'InertiaWinspireBundle::layout.html.twig' %}
 
-{% block title %}Winspire | Home{% endblock %}
+{% block title %}Winspire | Package List Page{% endblock %}
 
 {% block content_header '' %}
 
@@ -22,27 +22,49 @@
 			
 			<div class="plp-filter">
 				
-				<h4>Filter Your Results</h4>
+				<section>
+					<h4>Filter Your Results</h4>
+				</section>
 				
-				<div class="plpf-divider"><!-- Divider --></div>
+				<section>
+					<div class="f-search">
+						<input type="text" class="search-text" value="Search" />
+						<input type="button" class="search-submit" value="" />
+					</div>
+				</section>
 				
-				[Search]
 				
-				<div class="plpf-divider"><!-- Divider --></div>
+				<section>
+					<a href="#">All Experiences <span aria-hidden="true" class="ico-arrow-right icom-icon"></span></a>
+				</section>
 				
-				<a href="#">All Experiences ></a>
+				<section>
 				
-				<div class="plpf-divider"><!-- Divider --></div>
 				
-				<div class="plpf-groups">
+					<ul class="f-group">
+						<li>
+							<input id="us-travel" type="checkbox" name="category" value="ustravel"/><label for="us-travel">U.S. Travel</label>
+						</li>
+						<li>
+							<input id="intl-travel" type="checkbox" name="category" value="intltravel"/><label for="intl-travel">International Travel</label>
+							<ul>
+								<li><input id="canada" type="checkbox" name="category" value="intltravel"/><label for="canada">Canada</label></li>
+								<li><input id="mexico" type="checkbox" name="category" value="intltravel"/><label for="mexico">Mexico</label></li>
+								<li><input id="europe" type="checkbox" name="category" value="intltravel"/><label for="europe">Europe</label></li>
+							</ul>
+						</li>
+						<li class="f-g-sm">Show More <span aria-hidden="true" class="ico-arrow-right icom-icon"></span></li>
+					</ul>
 					
-					[groups]
+					<ul class="f-group">
+						<li>
+							<input id="primary" type="checkbox" name="category" value="ustravel"/><label for="primary">Primary</label>
+						</li>
+						<li class="f-g-sm">Show More <span aria-hidden="true" class="ico-arrow-right icom-icon"></span></li>
+					</ul>
+					
 				
-				
-				</div>
-				
-				
-				
+				</section>
 			
 			</div>
 			
