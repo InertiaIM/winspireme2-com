@@ -3,10 +3,10 @@
 #    resource: "@FrameworkBundle/Resources/config/routing/internal.xml"
 #    prefix:   /_internal
 
-_home:
+home:
     pattern:  /
     defaults: { _controller: InertiaWinspireBundle:Default:index }
     
-plp:
-    pattern:  /plp
-    defaults: { _controller: InertiaWinspireBundle:Default:plp }
+packageList:
+    pattern:  /packages
+    defaults: { _controller: InertiaWinspireBundle:Default:packageList }

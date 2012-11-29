@@ -11,9 +11,9 @@ class DefaultController extends Controller
         return $this->render('InertiaWinspireBundle:Default:index.html.twig');
     }
     
-    public function plpAction()
+    public function packageListAction()
     {
-        return $this->render('InertiaWinspireBundle:Default:plp.html.twig');
+        return $this->render('InertiaWinspireBundle:Default:packageList.html.twig');
     }
     
 }
