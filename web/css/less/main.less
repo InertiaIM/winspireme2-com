@@ -687,16 +687,19 @@ footer, #footer { height:220px;border-top:1px solid rgb(195,213,224);
         .icom-icon { font-size:1.125em;position:relative;top:2px; }
       }
       
-      ul {
+      
+      
+      .f-group { border-bottom:1px solid rgb(226,226,226);border-top:1px solid rgb(255,255,255);padding:5px 0;position:relative;margin:0 10px;
+        &:first-child { border-top:none; }
+        &:last-child { border-bottom:none; }
+        
+        li { position:relative;left:-10px; li { left:0; } }
         
       }
       
-      li {
-        display:block;
-        
-        
-        
-        
+      
+      li { display:block;
+
         input[type=checkbox]:checked + label:before { 
           background: rgb(255,255,255); /* Old browsers */
           /* IE9 SVG, needs conditional override of 'filter' to 'none' */
@@ -709,7 +712,7 @@ footer, #footer { height:220px;border-top:1px solid rgb(195,213,224);
           background: linear-gradient(to bottom,  rgba(255,255,255,1) 0%,rgba(5,120,200,1) 40%,rgba(5,120,200,1) 60%,rgba(255,255,255,1) 100%); /* W3C */
           filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#ffffff',GradientType=0 ); /* IE6-8 */
         }
-        input[type="checkbox"] { display:none; }
+        input[type="checkbox"] { visibility:hidden;width:5px;height:5px;display:block;float:left;margin:0 0 0 -6px; }
 
         label { cursor:pointer;height:20px;font-size:.750em;position:relative;top:-1px;.noselect;font-weight:900;color:@ws-darkblue; 
           display:block;line-height:20px;
@@ -736,29 +739,16 @@ footer, #footer { height:220px;border-top:1px solid rgb(195,213,224);
         
         &.f-g-sm { 
           
-          color:@ws-orange;cursor:pointer;font-size:0.667em;font-weight:900;padding:0 0 0 25px;
+          color:@ws-orange;cursor:pointer;font-size:0.625em;font-weight:900;padding:0 0 0 25px;
           .icom-icon { font-size:1.125em;position:relative;top:2px; }
           &:hover { color:@ws-darkblue; }
             
         }
-        
-        
-        
-      }
-      
 
-      
-      
-      
+      }
+
     }
-    
-    
-    
-    
-    
-    
-    
-    
+
   }
   
   .plp-results { float:right;width:760px; 
