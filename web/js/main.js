@@ -312,7 +312,31 @@ var footerCtx = $('footer')[0];
     /* Package List Waypoints */
     
     
-    
+    /* Package List Search */
+	    /* Context */
+    	var plFilter = $('.pl-filter');
+	    var plSearchBox = $('.search-text', plFilter);
+	    var plSearchSubmit = $('.search-submit', plFilter);
+	    /* Params */
+	    var plBDefaultText = plSearchBox.attr("value");
+	    /* Cursor goes in the Box */
+	    plSearchBox.focus(function (e) {
+	        $(this).addClass("active");
+	        if ($(this).attr("value") == plBDefaultText) { $(this).attr("value", ""); }
+	    });
+	    plSearchBox.blur(function (e) {
+	        $(this).removeClass("active");
+	        if ($(this).attr("value") == "") { $(this).attr("value", plBDefaultText); }
+	    });
+	    /* search button gets clicked */
+	    plSearchSubmit.click(function () {
+	        if (plSearchBox.attr("value") == plBDefaultText) {
+	            alert('Search clicked but value is default');
+	        } else {
+	            alert('Search for ' + plSearchBox.attr("value"));
+	        }
+	    });
+	/* Package List Search */
     
     
     
