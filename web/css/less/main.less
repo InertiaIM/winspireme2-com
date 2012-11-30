@@ -553,6 +553,33 @@ footer, #footer { height:220px;border-top:1px solid rgb(195,213,224);
     
     #home-f-loved { height:82px;position:relative;background:url('/img/home-lovedby-bbg.png') bottom center no-repeat transparent;
         
+        li {
+            position:relative;
+            width:150px;
+            height:82px;
+            div {
+                position:absolute;
+                top:0;
+                left:0;
+                width:150px;
+                height:82px;
+                background-size:150px 164px;
+                background-repeat:no-repeat;
+                &.bw {
+                    background-position:0 0;
+                }
+                &.color {
+                    background-position:0 -82px;
+                    display:none;
+                }
+            }
+            img {
+                display:none;
+            }
+        }
+        
+        
+        
         
         .carousel-container {
             float:right;
@@ -561,7 +588,6 @@ footer, #footer { height:220px;border-top:1px solid rgb(195,213,224);
         
         .carousel-frame {
             width:750px;
-           /* border: 1px solid red;  */
             overflow: hidden;
             position: relative;
         }
