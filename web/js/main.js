@@ -69,6 +69,156 @@ var footerCtx = $('footer')[0];
     }).slideshow();
     /* Home Banner */
     
+    
+    /* Client Icons */
+    $('#loved-by li').each(function() {
+        // Replace the images with background layers
+        // to allow for crossfades between b/w and color
+        
+        var image = $(this).find('img');
+        var imageSrc = $(image).attr('src');
+        
+        $(image).replaceWith('<div class="bw" style="background-image:url(' + imageSrc  + ');">&nbsp;</div><div class="color" style="background-image:url(' + imageSrc + ');">&nbsp;</div>');
+        
+        $(this).on('mouseenter', function(e) {
+            $(this).find('.bw').fadeOut(200);
+            $(this).find('.color').fadeIn(200);
+        });
+        
+        $(this).on('mouseleave', function(e) {
+            $(this).find('.color').fadeOut(200);
+            $(this).find('.bw').fadeIn(200);
+        });
+    });
+    
+    var loved = new Carousel($('#loved-by'), {
+        behavior: {
+            circular: true,
+            autoplay: 0,
+            keyboardNav: false
+        },
+        elements: {
+            prevNext: false,
+            handles: false,
+            counter: false
+        },
+        visibleSlides: 5
+    });
+    loved.init();
+    
+    // TODO clean these up
+    // globals are evil
+    var speed = 0;
+    var forward = true;
+    var mode = 'stop';
+    var interval = 0;
+    var mousePosition = [-1, -1];
+    
+    $('#home-f-loved .carousel-container').on('mousemove', function(e) {
+        mousePosition[0] = Math.ceil(e.pageX - $(this).offset().left);
+        mousePosition[1] = Math.ceil(e.pageY - $(this).offset().top);
+        
+        var location = Math.ceil(e.pageX - $(this).offset().left);
+        if(location < 0) location = 0;
+        if(location > 750) location = 750;
+        
+        var newSpeed = 0;
+        
+        if(location <= 200) {
+            forward = false;
+            newSpeed = Math.ceil((1 - (location/200)) * 10);
+        }
+        
+        if(location >= 550) {
+            forward = true;
+            newSpeed = Math.ceil(((location - 550) / 200) * 10);
+        }
+        
+        if(speed != newSpeed) {
+            speed = newSpeed;
+            interval = Math.ceil(((-500 / 9) * (speed - 1)) + 900);
+            
+            if(forward && speed != 0) {
+                if(mode != 'forward') {
+                    mode = 'forward';
+                    goForward();
+                }
+            }
+            
+            if(!forward && speed != 0) {
+                if(mode != 'back') {
+                    mode = 'back';
+                    goBack();
+                }
+            }
+            
+            if(speed == 0) {
+                goStop();
+            }
+        }
+    });
+    
+    $('#home-f-loved .carousel-container').on('mouseleave', function(e) {
+        mousePosition = [-1, -1];
+        goStop();
+    });
+    
+    function colorTrigger() {
+        var index = Math.floor(mousePosition[0] / 150);
+        $('#loved-by li').each(function(i) {
+            if(index == i) {
+                $(this).find('.bw').delay(interval / 2).fadeOut(200);
+                $(this).find('.color').delay(interval / 2).fadeIn(200);
+            }
+            else {
+                $(this).find('.color').delay(interval /2).fadeOut(200);
+                $(this).find('.bw').delay(interval / 2).fadeIn(200);
+            }
+        });
+    }
+    
+    function goBack() {
+        if(speed != 0) {
+            $('#loved-by').css({left: '-150px'});
+            $('#loved-by').prepend($('#loved-by li:last-child').detach());
+            
+            colorTrigger();
+            
+            $('#loved-by').animate({left: '0'}, interval, 'linear', function() {
+                goBack();
+            });
+        }
+    }
+    
+    function goForward() {
+        if(speed != 0) {
+            $('#loved-by').css({left: '150px'});
+            $('#loved-by').append($('#loved-by li:first-child').detach());
+            
+            colorTrigger();
+            
+            $('#loved-by').animate({left: '0'}, interval, 'linear', function() {
+                goForward();
+            });
+        }
+    }
+    
+    function goStop() {
+        $('#loved-by li').each(function(i) {
+            $(this).find('.color').stop(true, true).fadeOut(0);
+            $(this).find('.bw').stop(true, true).fadeIn(0);
+        });
+        
+        var remainder = (150 - Math.abs(Math.ceil($('#loved-by').position().left))) / 150;
+        
+        $('#loved-by').stop(true, false).animate({left: '0'}, Math.ceil(interval * remainder), 'linear');
+        speed = 0;
+        interval = 0;
+        mode = 'stop';
+    }
+    /* Client Icons */
+    
+    
     /* Stats Banner */
     var stats = new Carousel($('#stat-slides'), {
         behavior: {
