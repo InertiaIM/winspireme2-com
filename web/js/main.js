@@ -118,3 +118,44 @@ var footerCtx = $('footer')[0];
         stats.disable();
     });
     /* Stats Banner */
+    
+    
+    
+    
+    
+    
+    
+    
+    /* Package List Show More */
+    $('.f-g-sm').click(function() {
+    	if ($(this).parent().find('ul').hasClass('more-shown')) {
+    		$(this).find('.sm-label').html("Show More");
+    		$(this).parent().find('ul').removeClass('more-shown');
+    	} else {
+    		$(this).find('.sm-label').html("Show Less");
+    		$(this).parent().find('ul').addClass('more-shown');
+    	}
+    });
+    
+    
+    /* Package List Show More */
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    

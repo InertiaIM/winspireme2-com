@@ -1,13 +1,13 @@
 {% extends 'InertiaWinspireBundle::layout.html.twig' %}
 
-{% block title %}Winspire | Package List Page{% endblock %}
+{% block title %}Winspire | Package List{% endblock %}
 
 {% block content_header '' %}
 
 {% block content %}
-<div id="con-plp">
+<div id="con-pl">
 	
-	<div id="plp-header">
+	<div id="pl-header">
 	
 		<div class="c-wrap">
 			<h1>Discover Your Experiences</h1>
@@ -17,10 +17,10 @@
 	</div>
 	
 	
-	<div id="plp-container" class="row">
+	<div id="pl-container" class="row">
 		<div class="c-wrap">
 			
-			<div class="plp-filter">
+			<div class="pl-filter">
 				
 				<section>
 					<h4>Filter Your Results</h4>
@@ -44,6 +44,14 @@
 					<ul class="f-group">
 						<li>
 							<input id="us-travel" type="checkbox" name="category" value="ustravel"/><label for="us-travel">U.S. Travel</label>
+							
+							<div class="f-select">
+								<select>
+									<option selected="selected" value="cali">California</option>
+									<option value="elsewhere">Elsewhere</option>
+								</select>
+							</div>
+							
 						</li>
 						<li>
 							<input id="intl-travel" type="checkbox" name="category" value="intltravel"/><label for="intl-travel">International Travel</label>
@@ -53,7 +61,7 @@
 								<li><input id="europe" type="checkbox" name="category" value="intltravel"/><label for="europe">Europe</label></li>
 							</ul>
 						</li>
-						<li class="f-g-sm">Show More <span aria-hidden="true" class="ico-arrow-right icom-icon"></span></li>
+						<li class="f-g-sm"><span class="sm-label">Show More</span> <span aria-hidden="true" class="ico-arrow-right icom-icon"></span></li>
 					</ul>
 					
 					<ul class="f-group">
@@ -65,7 +73,7 @@
 								<li><input id="culinary" type="checkbox" name="category" value="culinary"/><label for="culinary">Culinary</label></li>
 							</ul>
 						</li>
-						<li class="f-g-sm">Show More <span aria-hidden="true" class="ico-arrow-right icom-icon"></span></li>
+						<li class="f-g-sm"><span class="sm-label">Show More</span> <span aria-hidden="true" class="ico-arrow-right icom-icon"></span></li>
 					</ul>
 					
 					<ul class="f-group">
@@ -77,7 +85,7 @@
 								<li><input id="basketball" type="checkbox" name="category" value="basketball"/><label for="basketball">Basketball</label></li>
 							</ul>
 						</li>
-						<li class="f-g-sm">Show More <span aria-hidden="true" class="ico-arrow-right icom-icon"></span></li>
+						<li class="f-g-sm"><span class="sm-label">Show More</span> <span aria-hidden="true" class="ico-arrow-right icom-icon"></span></li>
 					</ul>
 					
 					<ul class="f-group">
@@ -89,7 +97,7 @@
 								<li><input id="hiking" type="checkbox" name="category" value="hiking"/><label for="hiking">Hiking</label></li>
 							</ul>
 						</li>
-						<li class="f-g-sm">Show More <span aria-hidden="true" class="ico-arrow-right icom-icon"></span></li>
+						<li class="f-g-sm"><span class="sm-label">Show More</span> <span aria-hidden="true" class="ico-arrow-right icom-icon"></span></li>
 					</ul>
 					
 					<ul class="f-group">
@@ -101,7 +109,7 @@
 								<li><input id="gucci" type="checkbox" name="category" value="gucci"/><label for="gucci">Gucci</label></li>
 							</ul>
 						</li>
-						<li class="f-g-sm">Show More <span aria-hidden="true" class="ico-arrow-right icom-icon"></span></li>
+						<li class="f-g-sm"><span class="sm-label">Show More</span> <span aria-hidden="true" class="ico-arrow-right icom-icon"></span></li>
 					</ul>
 					
 					<ul class="f-group">
@@ -113,7 +121,7 @@
 								<li><input id="onion" type="checkbox" name="category" value="onion"/><label for="onion">Onion</label></li>
 							</ul>
 						</li>
-						<li class="f-g-sm">Show More <span aria-hidden="true" class="ico-arrow-right icom-icon"></span></li>
+						<li class="f-g-sm"><span class="sm-label">Show More</span> <span aria-hidden="true" class="ico-arrow-right icom-icon"></span></li>
 					</ul>
 					
 					<ul class="f-group">
@@ -125,7 +133,7 @@
 								<li><input id="chinesetheatre" type="checkbox" name="category" value="chinesetheatre"/><label for="chinesetheatre">Chinese Theatre</label></li>
 							</ul>
 						</li>
-						<li class="f-g-sm">Show More <span aria-hidden="true" class="ico-arrow-right icom-icon"></span></li>
+						<li class="f-g-sm"><span class="sm-label">Show More</span> <span aria-hidden="true" class="ico-arrow-right icom-icon"></span></li>
 					</ul>
 					
 					<ul class="f-group">
@@ -147,9 +155,9 @@
 			
 			</div>
 			
-			<div class="plp-results">
+			<div class="pl-results">
 				
-				<div class="row plp-sort">
+				<div class="row pl-sort">
 					
 					<ul>
 						<li><a href="#" class="selected">All</a></li>
@@ -157,7 +165,7 @@
 						<li><a href="#">Newest</a></li>
 					</ul>
 
-					<div class="plp-sort-select">
+					<div class="pl-sort-select">
 						<select>
 							<option selected="selected" value="alphabeticalaz">Alphabetical A-Z</option>
 							<option value="alphabeticalza">Alphabetical Z-A</option>
@@ -168,10 +176,10 @@
 				
 				<div class="row">
 				
-					<ul class="plp-items">
+					<ul class="pl-items">
 						<li>
 							<div class="i-inner">
-								<div class="i-image"><img src="/img/placeholder/plp-i-image.png" /></div>
+								<div class="i-image"><img src="/img/placeholder/pl-i-image.png" /></div>
 								<div class="i-actions">
 									<div class="i-a-add"><span aria-hidden="true" class="ico-briefcase icom-icon"></span><em>Addto</em><strong>Suitcase</strong></div>
 									<div class="i-a-options">
@@ -193,7 +201,7 @@
 						
 						<li>
 							<div class="i-inner">
-								<div class="i-image"><img src="/img/placeholder/plp-i-image.png" /></div>
+								<div class="i-image"><img src="/img/placeholder/pl-i-image.png" /></div>
 								<div class="i-actions">
 									<div class="i-a-add"><span aria-hidden="true" class="ico-briefcase icom-icon"></span><em>Addto</em><strong>Suitcase</strong></div>
 									<div class="i-a-options">
@@ -215,7 +223,7 @@
 						
 						<li>
 							<div class="i-inner">
-								<div class="i-image"><img src="/img/placeholder/plp-i-image.png" /></div>
+								<div class="i-image"><img src="/img/placeholder/pl-i-image.png" /></div>
 								<div class="i-actions">
 									<div class="i-a-add"><span aria-hidden="true" class="ico-briefcase icom-icon"></span><em>Addto</em><strong>Suitcase</strong></div>
 									<div class="i-a-options">
@@ -237,7 +245,7 @@
 						
 						<li>
 							<div class="i-inner">
-								<div class="i-image"><img src="/img/placeholder/plp-i-image.png" /></div>
+								<div class="i-image"><img src="/img/placeholder/pl-i-image.png" /></div>
 								<div class="i-actions">
 									<div class="i-a-add"><span aria-hidden="true" class="ico-briefcase icom-icon"></span><em>Addto</em><strong>Suitcase</strong></div>
 									<div class="i-a-options">
@@ -259,7 +267,7 @@
 						
 						<li>
 							<div class="i-inner">
-								<div class="i-image"><img src="/img/placeholder/plp-i-image.png" /></div>
+								<div class="i-image"><img src="/img/placeholder/pl-i-image.png" /></div>
 								<div class="i-actions">
 									<div class="i-a-add"><span aria-hidden="true" class="ico-briefcase icom-icon"></span><em>Addto</em><strong>Suitcase</strong></div>
 									<div class="i-a-options">
