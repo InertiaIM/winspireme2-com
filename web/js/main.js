@@ -291,7 +291,25 @@ var footerCtx = $('footer')[0];
     /* Package List Show More */
     
     
-    
+    /* Package List Waypoints */
+    $(document).ready(function() {
+    	var pageBottom = $('.pagebottom'),
+    	opts = {offset: '100%'};
+    	pageBottom.waypoint(function(event, direction) {
+    		pageBottom.waypoint('remove');
+
+    		var plia = 3;
+    		
+    		for (var i=0;i<plia;i++) { 
+    			$('.pl-items').find('li:first').clone(true).appendTo('.pl-items');
+    		}
+    		
+    		pageBottom.waypoint(opts);
+
+
+    	}, opts);
+    });
+    /* Package List Waypoints */
     
     
     
