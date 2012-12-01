@@ -293,25 +293,39 @@ var footerCtx = $('footer')[0];
     
     /* Package List Waypoints */
     $(document).ready(function() {
-    	var pageBottom = $('.pagebottom'),
-    	opts = {offset: '100%'};
-    	pageBottom.waypoint(function(event, direction) {
-    		pageBottom.waypoint('remove');
+    	
+    	if ($(".pl-items").length > 0) {
+	    	var window = $(window), footer = $('footer'), opts = {offset: '100%'};
+	    	footer.waypoint(function(event, direction) {
+	    		/* Buffer Current Scroll Coordinates */
+	    		var winleft = window.scrollLeft();
+	            var wintop = window.scrollTop();
+	    		
+	            /* Reset Current Scroll Coordinates */
+	            window.scrollLeft(0);
+	            window.scrollTop(0);
+	            
+	            /* Remove Waypoint */
+	            footer.waypoint('remove');
 
-    		var plia = 3;
-    		
-    		for (var i=0;i<plia;i++) { 
-    			$('.pl-items').find('li:first').clone(true).appendTo('.pl-items');
-    		}
-    		
-    		pageBottom.waypoint(opts);
+	            /* Do Things */
+    			var plia = 3;
+        		for (var i=0;i<plia;i++) { 
+        			$('.pl-items').find('li:first').clone(true).appendTo('.pl-items');
+        		}
 
-
-    	}, opts);
+        		/* Restore Current Scroll Coordinates */
+                window.scrollLeft(winleft);
+                window.scrollTop(wintop);
+                
+                /* Reset Waypoint */
+        		footer.waypoint(opts);
+	    	}, opts);
+    	}
     });
     /* Package List Waypoints */
     
-    
+
     /* Package List Search */
 	    /* Context */
     	var plFilter = $('.pl-filter');
