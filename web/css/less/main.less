@@ -920,15 +920,20 @@ footer, #footer { height:220px;border-top:1px solid rgb(195,213,224);
       
     }
     
-    .pd-suggest { position:relative;
-      &:before, &:after { content:"";position:absolute;z-index:0;bottom:22px;box-shadow:0 25px 10px rgba(0, 0, 0, 0.65);
-        height:20%;left:10px;transform:rotate(-2deg);width:48.86%;
+    .pd-suggest { position:relative;overflow:hidden;
+      &:before, &:after { content:"";position:absolute;z-index:0;bottom:20px;box-shadow:0 25px 10px rgba(0, 0, 0, 0.65);
+        height:20%;left:10px;transform:rotate(-4deg);width:46.86%;
       }
-      &:after { left:auto;right:10px;transform: rotate(2deg); }
+      &:after { left:auto;right:10px;transform: rotate(4deg); }
       .pd-s-inner { position:relative;z-index:1;padding-top:16px;padding-bottom:16px; }
-      
-      
       .pd-s-add { .btn-blue(3px); }
+      
+      ul { width:20000em; }
+      li { display:inline-block;width:150px;height:220px;margin:0 5px 0 0;
+        
+        
+        img { border:3px solid @ws-darkersilver; }
+      }
       
     }
     
