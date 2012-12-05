@@ -56,17 +56,15 @@ var footerCtx = $('footer')[0];
     /* Header Suitcase Panel */
     
     
-    
-    
-    /* Home Banner */    
-    $('#home-banner .slide-tabs').tabs('#banner-slides > .banner-slide', {
-    	effect: 'fade',
-    	fadeOutSpeed: 'slow',
-    	rotate: true,
-    	autoplay: true,
-    	clickable: false,
-    	interval: 5000
-    }).slideshow();
+    /* Home Banner */
+//    $('#home-banner .slide-tabs').tabs('#banner-slides > .banner-slide', {
+//    	effect: 'fade',
+//    	fadeOutSpeed: 'slow',
+//    	rotate: true,
+//    	autoplay: true,
+//    	clickable: false,
+//    	interval: 5000
+//    }).slideshow();
     /* Home Banner */
     
     

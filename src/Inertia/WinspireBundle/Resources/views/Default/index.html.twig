@@ -41,7 +41,6 @@
 			</div>
 			<!-- Slides -->
 			
-
 		
 		<!-- Control -->
 		<div id="slide-controls">
@@ -64,72 +63,91 @@
 	<div id="home-experiences">
 		<div class="c-wrap">
 		
-			<!-- Experiences & Featured Suitcases -->
-			<div id="home-featured">
-				<div id="e-browse">
-					<h2><span class="small">Inspired Items for</span><br/> Nonprofit Auctions.</h2>
-					<h3>Winspire helps Nonprofits <strong>maximize fundraising revenue</strong> by providing highly sought after, hard to find and priceless Experiences for use as <strong>unique auction items</strong> in charity events and fundraisers. Start planning your next event now!</h3>
-					<a href="#" class="ws-btn"><span aria-hidden="true" class="ico-search icom-icon"></span> <strong>Browse Experiences</strong></a>
-				</div>
-			
-				<div id="e-featured">
-					
-					<a href="#" class="f-all">See All Packages <span aria-hidden="true" class="ico-arrow-right icom-icon"></span></a>
-					<h4>Featured Packages</h4>
-					
-					
-					
-					<!-- Featured Suitcase Slides -->
-					<ul id="featured-slides">
-						<li>
-							<img src="/img/home-featured-1.png" />
-							<p>The Ultimate Escape in Maui or Kawaii</p>
-							<a href="#" class="f-options">6 more options <span aria-hidden="true" class="ico-arrow-right icom-icon"></span></a>
-							<a href="#" class="f-add"><span aria-hidden="true" class="ico-briefcase icom-icon"></span><em>Add to</em><strong>Suitcase</strong></a>
-						</li>
-						<li>
-							<img src="/img/home-featured-2.png" />
-							<p>Fighter Pilot for A Day</p>
-							<a href="#" class="f-options">4 more options <span aria-hidden="true" class="ico-arrow-right icom-icon"></span></a>
-							<a href="#" class="f-add"><span aria-hidden="true" class="ico-briefcase icom-icon"></span><em>Add to</em><strong>Suitcase</strong></a>
-						</li>
-						<li>
-							<img src="/img/home-featured-3.png" />
-							<p>Samuel Adams&reg; Brewery Private Tour</p>
-							<a href="#" class="f-options">1 more options <span aria-hidden="true" class="ico-arrow-right icom-icon"></span></a>
-							<a href="#" class="f-add"><span aria-hidden="true" class="ico-briefcase icom-icon"></span><em>Add to</em><strong>Suitcase</strong></a>
-						</li>				
-					</ul>
-					<div class="reset"></div>
-					
-					<!-- Control -->
-					<div id="featured-controls">
-						<div id="featured-control">
-							<ul class="featured-tabs">
-								<li><div><!-- the div is the dot --></div></li>
-								<li><div><!-- the div is the dot --></div></li>
-								<li><div><!-- the div is the dot --></div></li>
-							</ul>
-						</div>
-					</div>
-					<!-- Control -->
-					
-					<!-- Next/Prev -->
-					<div id="featured-next" class="feat-np forward">
-						<span aria-hidden="true" class="ico-arrow-right icom-icon"></span>
-						<div class="tab-behind"></div>
-					</div>
-					<div id="featured-prev" class="feat-np backward">
-						<span aria-hidden="true" class="ico-arrow-left icom-icon"></span>
-						<div class="tab-behind"></div>
-					</div>
-					<!-- Next/Prev -->
-
-				</div>
-				<div class="reset"></div>
-			</div>
-			<!-- Experiences & Featured Suitcases -->
-			
+            <!-- Experiences & Featured Suitcases -->
+            <div class="shadow-wrapper">
+                <div id="home-featured" class="drop-shadow curved curved-hz-2">
+                    <div id="e-browse">
+                        <h2><span class="small">Inspired Items for</span><br/> Nonprofit Auctions.</h2>
+                        <h3>Winspire helps Nonprofits <strong>maximize fundraising revenue</strong> by providing highly sought after, hard to find and priceless Experiences for use as <strong>unique auction items</strong> in charity events and fundraisers. Start planning your next event now!</h3>
+                        <a href="{{ path('packageList') }}" class="ws-btn"><span aria-hidden="true" class="ico-search icom-icon"></span> Browse Experiences</a>
+                    </div>
+                    
+                    <div class="shadow-wrapper">
+                        <div id="e-featured" class="drop-shadow lifted">
+                            <a href="{{ path('packageList') }}" class="f-all">See All Packages <span aria-hidden="true" class="ico-arrow-right icom-icon"></span></a>
+                            <h4>Featured Packages</h4>
+                            
+                            <!-- Featured Suitcase Slides -->
+                            <ul id="featured-slides" class="cycle-slideshow"
+                                data-cycle-fx="carousel"
+                                data-cycle-timeout="0"
+                                data-cycle-swipe="true"
+                                data-cycle-log="false"
+                                data-cycle-carousel-visible="3"
+                                data-cycle-slides="> div"
+                                data-cycle-prev="#featured-prev"
+                                data-cycle-next="#featured-next"
+                                >
+                                <div>
+                                    <li>
+                                        <img src="/img/home-featured-1.png" />
+                                        <p>The Ultimate Escape in Maui or Kawaii</p>
+                                        <a href="#" class="f-options">6 more options <span aria-hidden="true" class="ico-arrow-right icom-icon"></span></a>
+                                        <a href="#" class="f-add"><span aria-hidden="true" class="ico-briefcase icom-icon"></span><em>Add to </em>Suitcase</a>
+                                    </li>
+                                    <li>
+                                        <img src="/img/home-featured-2.png" />
+                                        <p>Fighter Pilot for A Day</p>
+                                        <a href="#" class="f-options">4 more options <span aria-hidden="true" class="ico-arrow-right icom-icon"></span></a>
+                                        <a href="#" class="f-add"><span aria-hidden="true" class="ico-briefcase icom-icon"></span><em>Add to </em>Suitcase</a>
+                                    </li>
+                                    <li>
+                                        <img src="/img/home-featured-3.png" />
+                                        <p>Samuel Adams&reg; Brewery Private Tour</p>
+                                        <a href="#" class="f-options">1 more options <span aria-hidden="true" class="ico-arrow-right icom-icon"></span></a>
+                                        <a href="#" class="f-add"><span aria-hidden="true" class="ico-briefcase icom-icon"></span><em>Add to </em>Suitcase</a>
+                                    </li>
+                                </div>
+                                <div>
+                                    <li>
+                                        <img src="/img/home-featured-1.png" />
+                                        <p>The Ultimate Escape in Maui or Kawaii</p>
+                                        <a href="#" class="f-options">6 more options <span aria-hidden="true" class="ico-arrow-right icom-icon"></span></a>
+                                        <a href="#" class="f-add"><span aria-hidden="true" class="ico-briefcase icom-icon"></span><em>Add to </em>Suitcase</a>
+                                    </li>
+                                    <li>
+                                        <img src="/img/home-featured-2.png" />
+                                        <p>Fighter Pilot for A Day</p>
+                                        <a href="#" class="f-options">4 more options <span aria-hidden="true" class="ico-arrow-right icom-icon"></span></a>
+                                        <a href="#" class="f-add"><span aria-hidden="true" class="ico-briefcase icom-icon"></span><em>Add to </em>Suitcase</a>
+                                    </li>
+                                    <li>
+                                        <img src="/img/home-featured-3.png" />
+                                        <p>Samuel Adams&reg; Brewery Private Tour</p>
+                                        <a href="#" class="f-options">1 more options <span aria-hidden="true" class="ico-arrow-right icom-icon"></span></a>
+                                        <a href="#" class="f-add"><span aria-hidden="true" class="ico-briefcase icom-icon"></span><em>Add to </em>Suitcase</a>
+                                    </li>
+                                </div>
+                            </ul>
+                            <div class="reset"></div>
+                            
+                            <!-- Next/Prev -->
+                            <div id="featured-next" class="feat-np forward">
+                                <span aria-hidden="true" class="ico-arrow-right icom-icon"></span>
+                                <div class="tab-behind"></div>
+                            </div>
+                            <div id="featured-prev" class="feat-np backward">
+                                <span aria-hidden="true" class="ico-arrow-left icom-icon"></span>
+                                <div class="tab-behind"></div>
+                            </div>
+                            <!-- Next/Prev -->
+                        </div>
+                    </div>
+                    <div class="reset"></div>
+                </div>
+            </div>
+            <!-- Experiences & Featured Suitcases -->
+            
 			<!-- Success Panels -->
 			<div id="home-success">
 				
