@@ -1,7 +1,6 @@
 var headerCtx = $('header')[0];
 var footerCtx = $('footer')[0];
 
-
 	/* Header Search */
 	    /* Context */
 	    var headerSearchBox = $('.search-text', headerCtx);
@@ -54,10 +53,6 @@ var footerCtx = $('footer')[0];
     	$(headerSuitcasePanel).hide();
     });
     /* Header Suitcase Panel */
-    
-    
-    
-    
     /* Home Banner */    
     $('#home-banner .slide-tabs').tabs('#banner-slides > .banner-slide', {
     	effect: 'fade',
@@ -68,8 +63,7 @@ var footerCtx = $('footer')[0];
     	interval: 5000
     }).slideshow();
     /* Home Banner */
-    
-    
+
     /* Client Icons */
     $('#loved-by li').each(function() {
         // Replace the images with background layers
@@ -217,8 +211,7 @@ var footerCtx = $('footer')[0];
         mode = 'stop';
     }
     /* Client Icons */
-    
-    
+
     /* Stats Banner */
     var stats = new Carousel($('#stat-slides'), {
         behavior: {
@@ -268,14 +261,7 @@ var footerCtx = $('footer')[0];
         stats.disable();
     });
     /* Stats Banner */
-    
-    
-    
-    
-    
-    
-    
-    
+
     /* Package List Show More */
     $('.f-g-sm').click(function() {
     	if ($(this).parent().find('ul').hasClass('more-shown')) {
@@ -286,11 +272,9 @@ var footerCtx = $('footer')[0];
     		$(this).parent().find('ul').addClass('more-shown');
     	}
     });
-    
-    
+
     /* Package List Show More */
-    
-    
+
     /* Package List Waypoints */
     $(document).ready(function() {
     	
@@ -324,7 +308,6 @@ var footerCtx = $('footer')[0];
     	}
     });
     /* Package List Waypoints */
-    
 
     /* Package List Search */
 	    /* Context */
@@ -352,9 +335,19 @@ var footerCtx = $('footer')[0];
 	    });
 	/* Package List Search */
     
-    
-    
-    
+    /* Package Detail More Info */
+    if ($(".pd-detail").length > 0) {
+    	$('.d-i-mi', '.pd-detail').click(function() {
+    		if ($(this).parent().find('.detail-info').hasClass('more-shown')) {
+        		$(this).find('.d-i-ml').html("More");
+        		$(this).parent().find('.detail-info').removeClass('more-shown');
+        	} else {
+        		$(this).find('.d-i-ml').html("Less");
+        		$(this).parent().find('.detail-info').addClass('more-shown');
+        	}
+        });
+    }
+    /* Package Detail More Info */
     
     
     

@@ -1,6 +1,6 @@
 {% extends 'InertiaWinspireBundle::layout.html.twig' %}
 
-{% block title %}Winspire | Package List{% endblock %}
+{% block title %}Winspire | Package Detail{% endblock %}
 
 {% block content_header '' %}
 
@@ -36,26 +36,47 @@
 					
 					<h2>All Package Experiences</h2>
 					
-					<ul>
+					<ul class="pd-a-options">
 						<li>
-							<input id="package1" type="checkbox" name="package1" value="package1"/>
+							<input id="package1" type="radio" name="package1" value="package1"/>
 							<label for="package1">
-								[detail panel]
-								<p>Experience for one with a 3-night Stay and Airfare for two.</p>
+								<div class="a-o-fauxradio"><div class="a-o-f-dot"><div class="f-dot-inner"><!-- Fake Dot --></div></div></div>
+								<div class="a-o-pdetail">
+									<ul class="pd-detailpanel">
+										<li><span aria-hidden="true" class="ico-user icom-icon"> <span class="pd-c-usercount">1</span></li>
+										<li><span aria-hidden="true" class="ico-bed icom-icon"> <span class="pd-c-nightcount">3</span></li>
+										<li><span aria-hidden="true" class="ico-airplane icom-icon"> <span class="pd-c-airfare">2</span></li>
+									</ul>
+									<p>Experience for one with a 3-night Stay and Airfare for two.</p>
+								</div>
 							</label>
 						</li>
 						<li>
-							<input id="package1" type="checkbox" name="package1" value="package1"/>
-							<label for="package1">
-								[detail panel]
-								<p>Experience for two with a 3-night Stay and Airfare for four.</p>
+							<input id="package2" type="radio" name="package1" value="package2"/>
+							<label for="package2">
+								<div class="a-o-fauxradio"><div class="a-o-f-dot"><div class="f-dot-inner"><!-- Fake Dot --></div></div></div>
+								<div class="a-o-pdetail">
+									<ul class="pd-detailpanel">
+										<li><span aria-hidden="true" class="ico-user icom-icon"> <span class="pd-c-usercount">2</span></li>
+										<li><span aria-hidden="true" class="ico-bed icom-icon"> <span class="pd-c-nightcount">3</span></li>
+										<li><span aria-hidden="true" class="ico-airplane icom-icon"> <span class="pd-c-airfare">4</span></li>
+									</ul>
+									<p>Experience for two with a 3-night Stay and Airfare for four.</p>
+								</div>
 							</label>
 						</li>
 						<li>
-							<input id="package1" type="checkbox" name="package1" value="package1"/>
-							<label for="package1">
-								[detail panel]
-								<p>Experience for four with a 3-night Stay and Airfare for eight.</p>
+							<input id="package3" type="radio" name="package1" value="package3"/>
+							<label for="package3">
+								<div class="a-o-fauxradio"><div class="a-o-f-dot"><div class="f-dot-inner"><!-- Fake Dot --></div></div></div>
+								<div class="a-o-pdetail">
+									<ul class="pd-detailpanel">
+										<li><span aria-hidden="true" class="ico-user icom-icon"> <span class="pd-c-usercount">3</span></li>
+										<li><span aria-hidden="true" class="ico-bed icom-icon"> <span class="pd-c-nightcount">3</span></li>
+										<li><span aria-hidden="true" class="ico-airplane icom-icon"> <span class="pd-c-airfare">8</span></li>
+									</ul>
+									<p>Experience for three with a 3-night Stay and Airfare for eight.</p>
+								</div>
 							</label>
 						</li>
 					</ul>
@@ -64,22 +85,35 @@
 				</div>
 				
 				<div class="pd-suggest">
+					
+					<!-- Next/Prev -->
+					<div id="featured-next" class="feat-np forward">
+						<span aria-hidden="true" class="ico-arrow-right icom-icon"></span>
+						<div class="tab-behind"></div>
+					</div>
+					<div id="featured-prev" class="feat-np backward">
+						<span aria-hidden="true" class="ico-arrow-left icom-icon"></span>
+						<div class="tab-behind"></div>
+					</div>
+					<!-- Next/Prev -->
+				
 					<div class="pd-s-inner">
-						<h3>You Might Also Like...</h3>
-						<div class="pd-s-prev"><span aria-hidden="true" class="ico-arrow-left icom-icon"></div>
-						<div class="pd-s-next"><span aria-hidden="true" class="ico-arrow-right icom-icon"></div>
+						<h2>You Might Also Like...</h2>
+						
+						
+						
 						<ul>
 							<li>
 								<img src="/img/home-featured-1.png" />
 								<p>The Ultimate Escape in Maui or Kawaii</p>
-								<a href="#" class="pd-s-add"><span aria-hidden="true" class="ico-briefcase icom-icon"> <em>Addto</em><strong>Suitcase</strong></a>
-								<a href="#" class="pd-s-mo"><span>6</span> More Options <span aria-hidden="true" class="ico-arrow-right icom-icon"></a>
+								<a href="#" class="pd-s-add"><span aria-hidden="true" class="ico-briefcase icom-icon"></span> <em>Addto</em><strong>Suitcase</strong></a>
+								<a href="#" class="pd-s-mo"><span>6</span> More Options <span aria-hidden="true" class="ico-arrow-right icom-icon"></span></a>
 							</li>
 							<li>
 								<img src="/img/home-featured-2.png" />
-								<p>The Ultimate Escape in Maui or Kawaii</p>
-								<a href="#" class="pd-s-add"><span aria-hidden="true" class="ico-briefcase icom-icon"> <em>Addto</em><strong>Suitcase</strong></a>
-								<a href="#" class="pd-s-mo"><span>6</span> More Options <span aria-hidden="true" class="ico-arrow-right icom-icon"></a>
+								<p>Fighter Pilot For A Day</p>
+								<a href="#" class="pd-s-add"><span aria-hidden="true" class="ico-briefcase icom-icon"></span> <em>Addto</em><strong>Suitcase</strong></a>
+								<a href="#" class="pd-s-mo"><span>6</span> More Options <span aria-hidden="true" class="ico-arrow-right icom-icon"></span></a>
 							</li>
 						</ul>
 						<div class="reset"></div>
@@ -95,7 +129,7 @@
 			<div class="pd-details">
 				<div class="pd-detail">
 					
-					<h1>Indy-style Open Wheel Racing</h1>
+					<h1>Indy-Style Open Wheel Racing</h1>
 					<h3>Experience for <span class="pd-d-excount">1</span> with a <span class="pd-d-nicount">3</span>-Night Stay 
 					and Airfare for <span class="pd-d-afcount">2</span> <br/>(<span class="pd-d-itemnumber">5018-1</span>)</h3>
 					
@@ -109,7 +143,7 @@
 						</ul>
 							
 						<div class="pd-d-addthis">
-							[social media objects]
+							<img src="/img/placeholder/pdetail-smaddthis.jpg" />
 						</div>
 						
 						
@@ -123,10 +157,15 @@
 						<li>Round-trip coach class airfare for two within the 48 contiguous U.S. &amp; Canada</li>
 					</ul>
 					<h4>Complimentary Booking</h4>
-					<p><strong>Have the need for speed?</strong> Looking for the perfect gift? Feeling adventurous? The Mario Andretti Racing School Experience offers your party of one an unforgettable and thrilling racing experience. Mario Andretti Racing School Experience, "The World's Fastest Driving Experience" puts you behind the wheel of a full sized, Indy-style race car. If driving these cars weren't thrilling enough, add the fact that you'll be taking laps on the world's premiere superspeedways.</p>
-					<p>Your hands are on the wheel, white knuckled all the way for two thrilling 8-minute sessions with top speeds reaching up to 150 mph. Following the checkered flag on your first	session, you'll get feedback from an instructor on pit road, and then head back on the race track for session two; working on going faster. Note: You can purchase an additional racing experience for one individual for $650</p>
+
+					<div class="detail-info">
+						<p><strong>Have the need for speed?</strong> Looking for the perfect gift? Feeling adventurous? The Mario Andretti Racing School Experience offers your party of one an unforgettable and thrilling racing experience. Mario Andretti Racing School Experience, "The World's Fastest Driving Experience" puts you behind the wheel of a full sized, Indy-style race car. If driving these cars weren't thrilling enough, add the fact that you'll be taking laps on the world's premiere superspeedways.</p>
+						<p>Your hands are on the wheel, white knuckled all the way for two thrilling 8-minute sessions with top speeds reaching up to 150 mph. Following the checkered flag on your first	session, you'll get feedback from an instructor on pit road, and then head back on the race track for session two; working on going faster. Note: You can purchase an additional racing experience for one individual for $650</p>
+						<p><strong>Have the need for speed?</strong> Looking for the perfect gift? Feeling adventurous? The Mario Andretti Racing School Experience offers your party of one an unforgettable and thrilling racing experience. Mario Andretti Racing School Experience, "The World's Fastest Driving Experience" puts you behind the wheel of a full sized, Indy-style race car. If driving these cars weren't thrilling enough, add the fact that you'll be taking laps on the world's premiere superspeedways.</p>
+						<p>Your hands are on the wheel, white knuckled all the way for two thrilling 8-minute sessions with top speeds reaching up to 150 mph. Following the checkered flag on your first	session, you'll get feedback from an instructor on pit road, and then head back on the race track for session two; working on going faster. Note: You can purchase an additional racing experience for one individual for $650</p>
+					</div>					
 					
-					<a href="#">More Options +</a>
+					<a class="d-i-mi"><span class="d-i-ml">More</span> Info +</a>
 					
 				</div>
 				
