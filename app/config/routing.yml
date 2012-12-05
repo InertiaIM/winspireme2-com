@@ -10,3 +10,7 @@ home:
 packageList:
     pattern:  /packages
     defaults: { _controller: InertiaWinspireBundle:Default:packageList }
+    
+packageDetail:
+    pattern:  /package-detail
+    defaults: { _controller: InertiaWinspireBundle:Default:packageDetail }

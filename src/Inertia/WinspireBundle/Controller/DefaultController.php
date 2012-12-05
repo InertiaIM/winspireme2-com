@@ -16,4 +16,10 @@ class DefaultController extends Controller
         return $this->render('InertiaWinspireBundle:Default:packageList.html.twig');
     }
     
+    public function packageDetailAction()
+    {
+        return $this->render('InertiaWinspireBundle:Default:packageDetail.html.twig');
+    }
+    
+    
 }
