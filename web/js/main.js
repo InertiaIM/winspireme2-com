@@ -79,17 +79,10 @@ var footerCtx = $('footer')[0];
         var imageSrc = $(image).attr('src');
         
         $(image).replaceWith('<div class="bw" style="background-image:url(' + imageSrc  + ');">&nbsp;</div><div class="color" style="background-image:url(' + imageSrc + ');">&nbsp;</div>');
-        
-        $(this).on('mouseenter', function(e) {
-            $(this).find('.bw').fadeOut(200);
-            $(this).find('.color').fadeIn(200);
-        });
-        
-        $(this).on('mouseleave', function(e) {
-            $(this).find('.color').fadeOut(200);
-            $(this).find('.bw').fadeIn(200);
-        });
     });
+    
+    $('#loved-by li:eq(2)').find('.bw').stop(true, true).fadeOut(0);
+    $('#loved-by li:eq(2)').find('.color').stop(true, true).fadeIn(0);
     
     var loved = new Carousel($('#loved-by'), {
         behavior: {
@@ -124,19 +117,19 @@ var footerCtx = $('footer')[0];
         
         var newSpeed = 0;
         
-        if(location <= 200) {
+        if(location <= 150) {
             forward = false;
-            newSpeed = Math.ceil((1 - (location/200)) * 10);
+            newSpeed = Math.ceil((1 - (location/150)) * 10);
         }
         
-        if(location >= 550) {
+        if(location >= 600) {
             forward = true;
-            newSpeed = Math.ceil(((location - 550) / 200) * 10);
+            newSpeed = Math.ceil(((location - 600) / 150) * 10);
         }
         
         if(speed != newSpeed) {
             speed = newSpeed;
-            interval = Math.ceil(((-500 / 9) * (speed - 1)) + 900);
+            interval = Math.ceil(((-1000 / 9) * (speed - 1)) + 1800);
             
             if(forward && speed != 0) {
                 if(mode != 'forward') {
@@ -164,15 +157,21 @@ var footerCtx = $('footer')[0];
     });
     
     function colorTrigger() {
-        var index = Math.floor(mousePosition[0] / 150);
+        var index = 2;
+        var delay = (interval / 2);
+        
+        if (mode == 'back') {
+            delay = 0;
+        }
+        
         $('#loved-by li').each(function(i) {
             if(index == i) {
-                $(this).find('.bw').delay(interval / 2).fadeOut(200);
-                $(this).find('.color').delay(interval / 2).fadeIn(200);
+                $(this).find('.bw').delay(delay).fadeOut(200);
+                $(this).find('.color').delay(delay).fadeIn(200);
             }
             else {
-                $(this).find('.color').delay(interval /2).fadeOut(200);
-                $(this).find('.bw').delay(interval / 2).fadeIn(200);
+                $(this).find('.color').delay(delay).fadeOut(200);
+                $(this).find('.bw').delay(delay).fadeIn(200);
             }
         });
     }
@@ -204,11 +203,6 @@ var footerCtx = $('footer')[0];
     }
     
     function goStop() {
-        $('#loved-by li').each(function(i) {
-            $(this).find('.color').stop(true, true).fadeOut(0);
-            $(this).find('.bw').stop(true, true).fadeIn(0);
-        });
-        
         var remainder = (150 - Math.abs(Math.ceil($('#loved-by').position().left))) / 150;
         
         $('#loved-by').stop(true, false).animate({left: '0'}, Math.ceil(interval * remainder), 'linear');
@@ -268,12 +262,6 @@ var footerCtx = $('footer')[0];
         stats.disable();
     });
     /* Stats Banner */
-    
-    
-    
-    
-    
-    
     
     
     /* Package List Show More */
