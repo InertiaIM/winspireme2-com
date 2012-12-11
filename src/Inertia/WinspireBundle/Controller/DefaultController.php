@@ -21,5 +21,11 @@ class DefaultController extends Controller
         return $this->render('InertiaWinspireBundle:Default:packageDetail.html.twig');
     }
     
-    
+    public function siteNavAction()
+    {
+        return $this->render(
+                'InertiaWinspireBundle:Default:siteNav.html.twig',
+                array('categories' => null)
+        );
+    }
 }

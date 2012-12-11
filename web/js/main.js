@@ -27,17 +27,30 @@ var footerCtx = $('footer')[0];
 	/* Header Search */
     
     /* Header Navigation */
-    var headerSiteNav = $('#site-nav', headerCtx);
     var headerSiteNavTabs = $('.has-sub');
-    $('.nav-sub', headerSiteNav).hide();
+    
+    // Find the widest column in the Experiences menu,
+    // and force all columns to match.
+    var maxWidth = 0;
+    $('#nav-experiences').find('.panel-inner > ul > li').each(function() {
+        var width = $(this).innerWidth();
+        if(maxWidth < width) {
+            maxWidth = width;
+        }
+    }).find('ul.sub-set').css('width', maxWidth + 'px');
+    
+    $('a.nav-tab').click(function(e) {
+        e.preventDefault();
+    });
+    
     headerSiteNavTabs.parent().hover(
-		function() { 
-			$(this).find('.nav-sub').show();
-	    },
-	    function() {
-	    	$(this).find('.nav-sub').hide();
-	    }
-    );    
+        function() { 
+            $(this).find('.nav-sub').css('visibility', 'visible');
+        },
+        function() {
+            $(this).find('.nav-sub').css('visibility', 'hidden');
+        }
+    );
     /* Header Navigation */
     
     /* Header Suitcase Panel */
@@ -53,31 +66,18 @@ var footerCtx = $('footer')[0];
     	$(headerSuitcasePanel).hide();
     });
     /* Header Suitcase Panel */
-
-    /* Home Banner */    
-    $('#home-banner .slide-tabs').tabs('#banner-slides > .banner-slide', {
-    	effect: 'fade',
-    	fadeOutSpeed: 'slow',
-    	rotate: true,
-    	autoplay: true,
-    	clickable: false,
-    	interval: 5000
-    }).slideshow();
-
-    
     
     /* Home Banner */
 //    $('#home-banner .slide-tabs').tabs('#banner-slides > .banner-slide', {
-//    	effect: 'fade',
-//    	fadeOutSpeed: 'slow',
-//    	rotate: true,
-//    	autoplay: true,
-//    	clickable: false,
-//    	interval: 5000
+//        effect: 'fade',
+//        fadeOutSpeed: 'slow',
+//        rotate: true,
+//        autoplay: true,
+//        clickable: false,
+//        interval: 5000
 //    }).slideshow();
-
     /* Home Banner */
-
+    
     /* Client Icons */
     $('#loved-by li').each(function() {
         // Replace the images with background layers
