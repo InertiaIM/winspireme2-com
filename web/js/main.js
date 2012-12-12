@@ -80,15 +80,11 @@ var footerCtx = $('footer')[0];
     $('#loved-by li').each(function() {
         // Replace the images with background layers
         // to allow for crossfades between b/w and color
-        
         var image = $(this).find('img');
         var imageSrc = $(image).attr('src');
         
         $(image).replaceWith('<div class="bw" style="background-image:url(' + imageSrc  + ');">&nbsp;</div><div class="color" style="background-image:url(' + imageSrc + ');">&nbsp;</div>');
     });
-    
-    $('#loved-by li:eq(2)').find('.bw').stop(true, true).fadeOut(0);
-    $('#loved-by li:eq(2)').find('.color').stop(true, true).fadeIn(0);
     
     var loved = new Carousel($('#loved-by'), {
         behavior: {
@@ -111,26 +107,22 @@ var footerCtx = $('footer')[0];
     var forward = true;
     var mode = 'stop';
     var interval = 0;
-    var mousePosition = [-1, -1];
     
     $('#home-f-loved .carousel-container').on('mousemove', function(e) {
-        mousePosition[0] = Math.ceil(e.pageX - $(this).offset().left);
-        mousePosition[1] = Math.ceil(e.pageY - $(this).offset().top);
-        
         var location = Math.ceil(e.pageX - $(this).offset().left);
         if(location < 0) location = 0;
         if(location > 750) location = 750;
         
         var newSpeed = 0;
         
-        if(location <= 150) {
+        if(location <= 300) {
             forward = false;
-            newSpeed = Math.ceil((1 - (location/150)) * 10);
+            newSpeed = Math.ceil((1 - (location/300)) * 10);
         }
         
-        if(location >= 600) {
+        if(location >= 450) {
             forward = true;
-            newSpeed = Math.ceil(((location - 600) / 150) * 10);
+            newSpeed = Math.ceil(((location - 450) / 300) * 10);
         }
         
         if(speed != newSpeed) {
@@ -158,11 +150,15 @@ var footerCtx = $('footer')[0];
     });
     
     $('#home-f-loved .carousel-container').on('mouseleave', function(e) {
-        mousePosition = [-1, -1];
         goStop();
+        colorTrigger('off');
     });
     
-    function colorTrigger() {
+    $('#home-f-loved .carousel-container').on('mouseenter', function(e) {
+        colorTrigger('on');
+    });
+    
+    function colorTrigger(type) {
         var index = 2;
         var delay = (interval / 2);
         
@@ -170,6 +166,7 @@ var footerCtx = $('footer')[0];
             delay = 0;
         }
         
+        if(type == 'on') {
         $('#loved-by li').each(function(i) {
             if(index == i) {
                 $(this).find('.bw').delay(delay).fadeOut(200);
@@ -180,6 +177,13 @@ var footerCtx = $('footer')[0];
                 $(this).find('.bw').delay(delay).fadeIn(200);
             }
         });
+        }
+        else {
+            $('#loved-by li').each(function(i) {
+                $(this).find('.color').fadeOut(200);
+                $(this).find('.bw').fadeIn(200);
+            });
+        }
     }
     
     function goBack() {
@@ -187,7 +191,7 @@ var footerCtx = $('footer')[0];
             $('#loved-by').css({left: '-150px'});
             $('#loved-by').prepend($('#loved-by li:last-child').detach());
             
-            colorTrigger();
+            colorTrigger('on');
             
             $('#loved-by').animate({left: '0'}, interval, 'linear', function() {
                 goBack();
@@ -200,7 +204,7 @@ var footerCtx = $('footer')[0];
             $('#loved-by').css({left: '150px'});
             $('#loved-by').append($('#loved-by li:first-child').detach());
             
-            colorTrigger();
+            colorTrigger('on');
             
             $('#loved-by').animate({left: '0'}, interval, 'linear', function() {
                 goForward();
@@ -217,7 +221,7 @@ var footerCtx = $('footer')[0];
         mode = 'stop';
     }
     /* Client Icons */
-
+    
     /* Stats Banner */
     var stats = new Carousel($('#stat-slides'), {
         behavior: {
@@ -267,7 +271,22 @@ var footerCtx = $('footer')[0];
         stats.disable();
     });
     /* Stats Banner */
-
+    
+    /* Misc */
+    $('#home-f-testimonial').click(function(e) {
+        window.location = $(this).find('a').attr('href');
+    });
+    
+    $('#home-f-latestnews #latest-news li').hover(
+        function(e) {
+            $(this).find('a').addClass('hover');
+        },
+        function(e) {
+            $(this).find('a').removeClass('hover');
+        }
+    );
+    /* Misc */
+    
     /* Package List Show More */
     $('.f-g-sm').click(function() {
     	if ($(this).parent().find('ul').hasClass('more-shown')) {

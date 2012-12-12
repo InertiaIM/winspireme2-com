@@ -138,7 +138,7 @@ header .c-wrap { height:65px; }
         }
         &:hover { color:@ws-medblue; }
       }
-      .drop-panel { position:absolute;background:@ws-white;z-index:50;display:block;width:auto;top:40px;
+      .drop-panel { position:absolute;background:@ws-white;z-index:2001;display:block;width:auto;top:40px;
         width:215px;margin:0;padding:0;
         border-radius: 0px 5px 5px 5px;-moz-border-radius: 0px 5px 5px 5px;-webkit-border-radius: 0px 5px 5px 5px;
         -webkit-box-shadow:  0px 8px 8px 0px rgba(0, 0, 0, .25);box-shadow:  0px 8px 8px 0px rgba(0, 0, 0, .25);
@@ -771,6 +771,7 @@ footer, #footer { height:220px;border-top:1px solid rgb(195,213,224);
       background:url('/img/home-lovedby-bbg.png') bottom center no-repeat transparent;
       h4 { margin:0 0 19px 0;font-size:1.417em; }
       #home-testimonial { margin:0 41px;
+        cursor:pointer;
         .t-quote { color:@ws-darkblue;font-size:1em;line-height:1.405em;font-style:italic;margin:0 300px 0 0;
           word-spacing:1px;
           strong { font-size:1.417em; }
@@ -793,7 +794,9 @@ footer, #footer { height:220px;border-top:1px solid rgb(195,213,224);
       #latest-news { display:table;margin:0 auto;
         li { display:inline-block;width:160px;vertical-align:top;margin:0 44px; }
         img { border:1px solid @ws-gray; }
+        a:hover img, a.hover img { border:1px solid @ws-darkblue; }
         h6 { font-size:0.833em;font-weight:900;line-height:1.125em;margin:5px 0 3px 0; }
+        a:hover h6, a.hover h6 { color:@ws-darkblue; }
         p { font-size:0.750em;color:@ws-gray85; }
       }
     }
