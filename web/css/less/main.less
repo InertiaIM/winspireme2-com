@@ -66,11 +66,16 @@ header .c-wrap { height:65px; }
   background: linear-gradient(to bottom,  rgb(248,249,249) 0%,rgb(212,229,240) 100%); /* W3C */
   filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f8f9f9', endColorstr='#d4e5f0',GradientType=0 ); /* IE6-8 */
   em { font-family: @ws-garamond; }
-  .icom-icon { font-size:125%;float:left;margin:0 5px 0 0;line-height:28px; }
-  .btn-label { height:30px;line-height:32px;float:left; }  
+  .btn-label {
+      height:30px;
+      line-height:30px;
+      float:left;
+      span {
+          font-size:125%;
+      }
+  }
   .btn-drop { float:right;margin:4px 0 0 5px;
-    .btn-blue(3px);width:20px;height:20px; 
-    .icom-icon { float:none;margin:10px 0 0 0;display:block;line-height:0px;height:0px;font-size:18px; }
+    .btn-blue(3px);width:20px;height:20px;line-height:22px;font-size:18px;line-height:24px;
   }
   &:hover { -webkit-box-shadow:  0px 0px 3px 1px rgba(0, 0, 0, .1);box-shadow:  0px 0px 3px 1px rgba(0, 0, 0, .1); }
   #suitcase-panel { position:absolute;top:0;right:0;z-index:50;cursor:auto;
@@ -79,7 +84,14 @@ header .c-wrap { height:65px; }
       .tab-btn { -webkit-box-shadow: 0px -1px 1px 0px rgba(0, 0, 0, .25);box-shadow: 0px -1px 1px 0px rgba(0, 0, 0, .25);
         height:30px;width:26px;position:absolute;right:0;top:0;.rc-trbl(5px,5px,0,0);
         border:2px solid @ws-white;border-bottom:none;background:@ws-notwhite;
-        .icom-icon { float:auto;display:block;line-height:0px;height:0px;font-size:18px;position:absolute;top:13px;left:3px; }
+        font-size:18px;
+        span {
+            line-height:18px;
+            display:block;
+            position:absolute;
+            top:4px;
+            left:3px;
+        }
       }
     }
     .the-panel { .rc-trbl(5px,0,5px,5px);border:2px solid @ws-white;background:@ws-notwhite;position:relative;z-index:51;
@@ -221,7 +233,7 @@ footer, #footer { height:220px;border-top:1px solid rgb(195,213,224);
   #social-nav { position:relative;z-index:5;padding:30px 0 0 232px;
     li { margin:0 3px;
       a { border:1px solid @ws-white;background:@ws-silver;border-radius: 3px;-moz-border-radius: 3px;-webkit-border-radius: 3px;
-        width:30px;height:30px;color:@ws-darkblue;font-size:1.333em;text-align:center;line-height:30px;
+        width:30px;height:30px;color:@ws-darkblue;font-size:1.333em;text-align:center;line-height:34px;
       
         &:hover {
           -webkit-box-shadow:  0px 0px 3px 1px rgba(0, 0, 0, .5);
@@ -480,7 +492,8 @@ footer, #footer { height:220px;border-top:1px solid rgb(195,213,224);
       }
       h3 { font-size:1em;line-height:1.5em;margin:0 0 28px 0; }
       a.ws-btn { width:250px;height:50px;line-height:50px;margin:0 0 0 50px;font-size:1.333em;letter-spacing:-1px;
-        .btn-blue(3px);.icom-icon { position:relative;top:1px;margin:0 3px 0 0; }
+        .btn-blue(3px);
+        span { position:relative;top:1px;margin:0 3px 0 0; }
         &:hover { -webkit-box-shadow:0px 0px 3px 1px rgba(0, 0, 0, .25);box-shadow:0px 0px 3px 1px rgba(0, 0, 0, .25); }
       }
     }
@@ -489,7 +502,7 @@ footer, #footer { height:220px;border-top:1px solid rgb(195,213,224);
       width:516px;float:right;margin:9px 9px 9px 0;padding:0 19px 13px;background:rgb(251,250,233);border:2px solid @ws-white;
       h4 { font-size:1.250em;line-height:1em;margin:13px 0 11px 11px; }
       .f-all { float:right;margin:16px 1px 0 0;font-size:.833em;
-        .icom-icon { margin:0 3px 0 0;font-size:1.375em;line-height:0;position:relative;top:4px; }
+          span { margin:0 3px 0 0;font-size:1.375em;line-height:0;position:relative;top:4px; }
       }
       
       #featured-slides { min-height:135px; &:after { clear:both; }
@@ -500,15 +513,19 @@ footer, #footer { height:220px;border-top:1px solid rgb(195,213,224);
           a { display:block; }
           .f-add { .btn-blue(2px);position:absolute;bottom:0;width:150px;height:28px;line-height:28px;font-size:0.917em;
             em { word-spacing:-2px;font-family: @ws-garamond; }
-            .icom-icon { margin:0 3px 0 0;font-size:1.375em;line-height:1em;position:relative;top:2px; }
+            span { margin:0 3px 0 0;font-size:1.375em;line-height:1em;position:relative;top:2px; }
             &:hover { -webkit-box-shadow:0px 0px 3px 1px rgba(0, 0, 0, .25);box-shadow:0px 0px 3px 1px rgba(0, 0, 0, .25); }
           }
-          .f-options { position:absolute;bottom:35px;font-size:.833em; .icom-icon { font-size:1.3em;position:relative;top:3px; } }
+          .f-options { position:absolute;bottom:35px;font-size:.833em;
+              span { font-size:1.3em;position:relative;top:3px; }
+          }
         }
       }
       .feat-np { position:absolute;top:50%;margin-top:-15px;cursor:pointer;
         width:18px;height:30px;text-align:center;background:@ws-silver;
-        .icom-icon { height:30px;line-height:30px;color:@ws-burnorange;font-size:22px;margin-left:-2px }
+        line-height:34px;
+        font-size:22px;
+        span { color:@ws-burnorange;margin-left:-2px }
         -webkit-box-shadow:  0px 0px 2px 1px rgba(0, 0, 0, .25);
         box-shadow:  0px 0px 2px 1px rgba(0, 0, 0, .25);
       }
