@@ -76,6 +76,11 @@ class Category
      */
     private $children;
     
+    /**
+     * @ORM\ManyToMany(targetEntity="Package", mappedBy="categories")
+     */
+    private $packages;
+    
     public function getId()
     {
         return $this->id;
@@ -300,5 +305,38 @@ class Category
     public function getRank()
     {
         return $this->rank;
+    }
+
+    /**
+     * Add packages
+     *
+     * @param \Inertia\WinspireBundle\Entity\Package $packages
+     * @return Category
+     */
+    public function addPackage(\Inertia\WinspireBundle\Entity\Package $packages)
+    {
+        $this->packages[] = $packages;
+    
+        return $this;
+    }
+
+    /**
+     * Remove packages
+     *
+     * @param \Inertia\WinspireBundle\Entity\Package $packages
+     */
+    public function removePackage(\Inertia\WinspireBundle\Entity\Package $packages)
+    {
+        $this->packages->removeElement($packages);
+    }
+
+    /**
+     * Get packages
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getPackages()
+    {
+        return $this->packages;
     }
 }
