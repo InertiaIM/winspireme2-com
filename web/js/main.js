@@ -224,9 +224,12 @@ var footerCtx = $('footer')[0];
     
     /* Stats Banner */
     var stats = new Carousel($('#stat-slides'), {
+        animation: {
+            duration: 1500
+        },
         behavior: {
             circular: true,
-            autoplay: 5000,
+            autoplay: 7500,
             keyboardNav: false
         },
         elements: {

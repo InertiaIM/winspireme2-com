@@ -100,7 +100,7 @@ header .c-wrap { height:65px; }
         background:@ws-white;color:@ws-notblack;
         -webkit-box-shadow: inset 0px 2px 2px 1px rgba(0, 0, 0, .25);box-shadow: inset 0px 2px 2px 1px rgba(0, 0, 0, .25);
         input { border:none;height:20px;line-height:20px;margin:0;padding:0;
-          &.pf-text { font-size:.750em;width:123px;float:left;height:18px;line-height:18px;margin:3px 0 0 0;padding:0 5px; }
+          &.pf-text { color:#d8d8d8;font-size:.750em;width:123px;float:left;height:18px;line-height:18px;margin:3px 0 0 0;padding:0 5px;outline:none; }
           &.pf-button { .btn-blue(3px);width:50px;height:18px;margin:2px 1px 0 0;float:right;font-size:.675em; }
         }
       }
@@ -207,10 +207,10 @@ header .c-wrap { height:65px; }
     background:@ws-white;-webkit-box-shadow: inset 0px 1px 1px 1px rgba(0, 0, 0, .25);box-shadow: inset 0px 1px 1px 1px rgba(0, 0, 0, .25);
     input { border:none;background:none transparent;
       &.search-text {
-          font-size:14px;
+          font-size:12px;
           height:20px;
           line-height:20px;
-          padding:5px 15px;
+          padding:6px 15px 4px 15px;
           width:184px;
           color:#d8d8d8;
           font-style:italic;
@@ -549,6 +549,7 @@ footer, #footer { height:220px;border-top:1px solid rgb(195,213,224);
         span { color:@ws-burnorange;margin-left:-2px }
         -webkit-box-shadow:  0px 0px 2px 1px rgba(0, 0, 0, .25);
         box-shadow:  0px 0px 2px 1px rgba(0, 0, 0, .25);
+        &:hover span { color:@ws-darkblue; }
       }
       #featured-next { right:-6px;
         .tab-behind { width:0;border-bottom:8px solid transparent;border-left:4px solid @ws-gray85;position:absolute;right:0;bottom:-8px; }
