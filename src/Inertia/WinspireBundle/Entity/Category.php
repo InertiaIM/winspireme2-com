@@ -40,6 +40,16 @@ class Category
     private $sfId;
     
     /**
+     * @ORM\Column(name="slug", type="string", length=128)
+     */
+    private $slug;
+    
+    /**
+     * @ORM\Column(name="open", type="boolean")
+     */
+    private $open;
+    
+    /**
      * @Gedmo\TreeLeft
      * @ORM\Column(name="lft", type="integer")
      */
@@ -338,5 +348,51 @@ class Category
     public function getPackages()
     {
         return $this->packages;
+    }
+
+    /**
+     * Set slug
+     *
+     * @param string $slug
+     * @return Category
+     */
+    public function setSlug($slug)
+    {
+        $this->slug = $slug;
+    
+        return $this;
+    }
+
+    /**
+     * Get slug
+     *
+     * @return string 
+     */
+    public function getSlug()
+    {
+        return $this->slug;
+    }
+
+    /**
+     * Set open
+     *
+     * @param boolean $open
+     * @return Category
+     */
+    public function setOpen($open)
+    {
+        $this->open = $open;
+    
+        return $this;
+    }
+
+    /**
+     * Get open
+     *
+     * @return boolean 
+     */
+    public function getOpen()
+    {
+        return $this->open;
     }
 }

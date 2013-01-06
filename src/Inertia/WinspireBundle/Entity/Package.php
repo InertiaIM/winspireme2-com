@@ -52,6 +52,11 @@ class Package
     private $picture;
     
     /**
+     * @ORM\Column(name="thumbnail", type="string", length=256, nullable=true)
+     */
+    private $thumbnail;
+    
+    /**
      * @ORM\Column(name="yearVersion", type="string", length=256)
      */
     private $year_version;
@@ -80,6 +85,11 @@ class Package
      * @ORM\Column(name="details", type="text", nullable=true)
      */
     private $details;
+    
+    /**
+     * @ORM\Column(name="more_details", type="text", nullable=true)
+     */
+    private $moreDetails;
     
     /**
      * @ORM\Column(name="isNew", type="boolean")
@@ -710,5 +720,51 @@ class Package
     public function removeCategorie(\Inertia\WinspireBundle\Entity\Category $categories)
     {
         $this->categories->removeElement($categories);
+    }
+
+    /**
+     * Set thumbnail
+     *
+     * @param string $thumbnail
+     * @return Package
+     */
+    public function setThumbnail($thumbnail)
+    {
+        $this->thumbnail = $thumbnail;
+    
+        return $this;
+    }
+
+    /**
+     * Get thumbnail
+     *
+     * @return string 
+     */
+    public function getThumbnail()
+    {
+        return $this->thumbnail;
+    }
+
+    /**
+     * Set moreDetails
+     *
+     * @param string $moreDetails
+     * @return Package
+     */
+    public function setMoreDetails($moreDetails)
+    {
+        $this->moreDetails = $moreDetails;
+    
+        return $this;
+    }
+
+    /**
+     * Get moreDetails
+     *
+     * @return string 
+     */
+    public function getMoreDetails()
+    {
+        return $this->moreDetails;
     }
 }

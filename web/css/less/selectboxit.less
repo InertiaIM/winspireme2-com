@@ -1,0 +1,215 @@
+/*
+ * jquery.selectBoxIt.css 2.3.0
+ * Author: @gregfranko
+ */
+
+/* Div container holding the dropdown list */
+.selectboxit-container {
+    position: relative;
+    display: inline-block;
+    /* Prevents text selection */
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: -moz-none;
+    ms-user-select: none;
+    -o-user-select: none;
+    user-select: none;
+}
+
+/* Dropdown List Box */
+.selectboxit-container .selectboxit {
+    width: 220px; /* Width of the dropdown list box */
+    height: 24px; /* Height of the select box */
+    cursor: pointer;
+    padding: 0;
+    margin: 0;
+    outline:none;
+    display: block;
+    
+    -webkit-box-shadow:  0px 1px 2px 0px rgba(0, 0, 0, .30);
+    box-shadow:  0px 1px 2px 0px rgba(0, 0, 0, .30);
+    
+    background: #ffffff;
+    background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIwJSIgeTI9IjEwMCUiPgogICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iI2ZmZmZmZiIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiNlZWVlZWUiIHN0b3Atb3BhY2l0eT0iMSIvPgogIDwvbGluZWFyR3JhZGllbnQ+CiAgPHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjEiIGhlaWdodD0iMSIgZmlsbD0idXJsKCNncmFkLXVjZ2ctZ2VuZXJhdGVkKSIgLz4KPC9zdmc+);
+    background: -moz-linear-gradient(top,  #ffffff 0%, #eeeeee 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ffffff), color-stop(100%,#eeeeee));
+    background: -webkit-linear-gradient(top,  #ffffff 0%,#eeeeee 100%);
+    background: -o-linear-gradient(top,  #ffffff 0%,#eeeeee 100%);
+    background: -ms-linear-gradient(top,  #ffffff 0%,#eeeeee 100%);
+    background: linear-gradient(to bottom,  #ffffff 0%,#eeeeee 100%);
+    .rc-trbl (3px,3px,3px,3px);
+}
+
+.selectboxit-container .selectboxit:hover,
+.selectboxit-container .selectboxit.active,
+.selectboxit-container .selectboxit.selectboxit-hover {
+    box-shadow: 0px 0px 3px 1px rgba(0, 0, 0, 0.2);
+}
+
+.selectboxit-container .selectboxit.selectboxit-disabled {
+  cursor: default;
+}
+
+/* Dropdown list Default Icon Positioning */
+.selectboxit-default-icon {
+  float: left;
+}
+
+/* Dropdown List Box Text */
+.selectboxit-text {
+    font: 12px Arial, Helvetica, sans-serif;
+    text-indent: 10px;
+    line-height: 24px;
+    overflow: hidden;
+    float: left;
+    white-space: nowrap;
+    color:#666666
+}
+
+/* Dropdown List Options List*/
+.selectboxit-container .selectboxit-options {
+  min-width: 180px; /* Minimum Width of the dropdown list box options */
+  font: 12px Arial, Helvetica, sans-serif;
+  background:#fff;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  position: absolute;
+  overflow: auto;
+  cursor: pointer;
+  display: none;
+  z-index: 9999999999999;
+  outline: none;
+  top: auto;
+  bottom: auto;
+  left: auto;
+  right: auto;
+  -moz-box-shadow: none; /* Firefox */
+  -webkit-box-shadow: none; /* Safari, Chrome */
+  box-shadow: none; /* CSS3 */
+  border-radius: 6px;
+  text-align: left;
+  border:1px solid rgba(0, 0, 0, 0.2);
+}
+
+/* Overrides Bootstrap drop down option style */
+.selectboxit-options .selectboxit-option.active a.selectboxit-option-anchor {
+  color:#fff;
+  background:#d4e5f0;
+}
+
+.selectboxit-option {
+    float:none !important;
+    border:none !important;
+    height:auto !important;
+    margin:0 !important;
+    display:block !important;
+}
+
+.selectboxit-option a.selectboxit-option-anchor {
+  padding:0px 3px !important;
+  line-height:30px !important;
+  font-size:12px !important;
+  display:block !important;
+  height:auto !important;
+  top:auto !important;
+  text-decoration:none !important;
+}
+
+.selectboxit-option a.selectboxit-option-anchor:hover {
+  text-decoration:none;
+  background:#d4e5f0;
+}
+
+/* Dropdown List Individual Options */
+.selectboxit-option, .selectboxit-optgroup-header {
+  line-height: 30px; /* Height of Individual Select Box Options */
+  text-indent: 5px; /* Horizontal Positioning of the select box option text */
+  overflow: hidden;
+  white-space: nowrap;
+  list-style: none;
+  margin: 0;
+}
+
+/* The first drop down option */
+.selectboxit-option-first {
+  border-top-right-radius: 6px;
+  border-top-left-radius: 6px;
+}
+
+/* The last drop down option */
+.selectboxit-option-last {
+  border-bottom-right-radius: 6px;
+  border-bottom-left-radius: 6px;
+}
+
+/* Dropdown List Optgroup Headers */
+.selectboxit-optgroup-header {
+  font-weight: bold;
+}
+
+/* Dropdown List Optgroup Options */
+.selectboxit-optgroup-option {
+  text-indent: 20px;
+}
+
+/* Dropdown List Optgroup Header hover psuedo class */
+.selectboxit-optgroup-header[data-disabled='true']:hover {
+  cursor: default;
+}
+
+/* Dropdown List Down Arrow Container (if an image is not used) */
+.selectboxit-arrow-container {
+    /* Positions the down arrow */
+    width:20px;
+    height:20px !important;
+    
+    margin:2px 2px 0 0;
+    
+    float: right;
+    position: relative;
+    
+    background: #72c4fa;
+    background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIwJSIgeTI9IjEwMCUiPgogICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iIzcyYzRmYSIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjUyJSIgc3RvcC1jb2xvcj0iIzIxODVjNyIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiMwMDU2OTUiIHN0b3Atb3BhY2l0eT0iMSIvPgogIDwvbGluZWFyR3JhZGllbnQ+CiAgPHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjEiIGhlaWdodD0iMSIgZmlsbD0idXJsKCNncmFkLXVjZ2ctZ2VuZXJhdGVkKSIgLz4KPC9zdmc+);
+    background: -moz-linear-gradient(top,  #72c4fa 0%, #2185c7 52%, #005695 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#72c4fa), color-stop(52%,#2185c7), color-stop(100%,#005695));
+    background: -webkit-linear-gradient(top,  #72c4fa 0%,#2185c7 52%,#005695 100%);
+    background: -o-linear-gradient(top,  #72c4fa 0%,#2185c7 52%,#005695 100%);
+    background: -ms-linear-gradient(top,  #72c4fa 0%,#2185c7 52%,#005695 100%);
+    background: linear-gradient(to bottom,  #72c4fa 0%,#2185c7 52%,#005695 100%);
+    
+    .rc-trbl (3px,3px,3px,3px);
+}
+
+
+
+.selectboxit-arrow-container:hover {
+    background: rgb(243,206,61);
+    background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIwJSIgeTI9IjEwMCUiPgogICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iI2YzY2UzZCIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiNlZDhkMDEiIHN0b3Atb3BhY2l0eT0iMSIvPgogIDwvbGluZWFyR3JhZGllbnQ+CiAgPHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjEiIGhlaWdodD0iMSIgZmlsbD0idXJsKCNncmFkLXVjZ2ctZ2VuZXJhdGVkKSIgLz4KPC9zdmc+);
+    background: -moz-linear-gradient(top,  rgb(243,206,61) 0%, rgb(237,141,1) 100%); /* FF3.6+ */
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgb(243,206,61)), color-stop(100%,rgb(237,141,1))); /* Chrome,Safari4+ */
+    background: -webkit-linear-gradient(top,  rgb(243,206,61) 0%,rgb(237,141,1) 100%); /* Chrome10+,Safari5.1+ */
+    background: -o-linear-gradient(top,  rgb(243,206,61) 0%,rgb(237,141,1) 100%); /* Opera 11.10+ */
+    background: -ms-linear-gradient(top,  rgb(243,206,61) 0%,rgb(237,141,1) 100%); /* IE10+ */
+    background: linear-gradient(to bottom,  rgb(243,206,61) 0%,rgb(237,141,1) 100%); /* W3C */
+}
+
+
+/* Dropdown List Down Arrow */
+.selectboxit .selectboxit-arrow-container .selectboxit-arrow {
+    line-height:20px;
+    color:#fff;
+    display:block;
+    margin:2px 0 0 2px;
+    text-shadow: 0px -1px 0px #808080;
+}
+
+.selectboxit .selectboxit-arrow-container:hover .selectboxit-arrow {
+    color:@ws-darkblue;
+}
+
+/* Dropdown List Individual Option Icon Positioning */
+.selectboxit-option-icon {
+  float: left;
+}

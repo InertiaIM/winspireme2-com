@@ -6,51 +6,42 @@
 
 {% block content %}
 <div id="con-pl">
-	
-	<div id="pl-header">
-	
-		<div class="c-wrap">
-			<h1>Discover Your Experiences</h1>
-			<h3>Cras vestibulum porttitor tortor at condimentum. Donec mauris mi, molestie sit amet<br/>
-			ultrices id, molestie et dolor. Duis arcu risus, venin  auctor vel, ultrices porta velit.</h3>
-			
-			<img src="/img/pl-cloud.png" class="pl-h-cloud c-1">
-			<img src="/img/pl-cloud.png" class="pl-h-cloud c-2">
-			
-		</div>
-	</div>
-	
-	
-	<div id="pl-container" class="row">
-		<div class="c-wrap">
-			
-			<div class="pl-filter">
-				
-				<section>
-					<h4>Filter Your Results</h4>
-				</section>
-				
-				<section>
-					<div class="f-search">
-						<input type="text" class="search-text" value="Search" />
-						<input type="button" class="search-submit" value="" />
-					</div>
-				</section>
-				
-				
-				<section>
-					<a href="#">All Experiences <span aria-hidden="true" class="ico-arrow-right icom-icon"></span></a>
-				</section>
-				
-				<section>
-				
-				
-					<ul class="f-group">
-						<li>
-							<input id="us-travel" type="checkbox" name="category" value="ustravel"/><label for="us-travel">U.S. Travel</label>
-							
-							<div class="f-select">
-								<select name="f-state">
+    <div id="pl-header">
+        <div class="c-wrap">
+            <h1>Discover Your Experiences</h1>
+            <h3>Cras vestibulum porttitor tortor at condimentum. Donec mauris mi, molestie sit amet<br/>
+            ultrices id, molestie et dolor. Duis arcu risus, venin  auctor vel, ultrices porta velit.</h3>
+            
+            <img src="/img/pl-cloud.png" class="pl-h-cloud c-1">
+            <img src="/img/pl-cloud.png" class="pl-h-cloud c-2">
+        </div>
+    </div>
+    
+    <div id="pl-container" class="row">
+        <div class="c-wrap">
+            <div class="pl-filter">
+                <section>
+                    <h4>Filter Your Results</h4>
+                </section>
+                
+                <section>
+                    <div class="f-search">
+                        <input type="text" class="search-text" value="Search" />
+                        <input type="button" class="search-submit" value="" />
+                    </div>
+                </section>
+                
+                <section>
+                    <a{% if rootCat == 1 %} class="active"{% endif %} id="pl-link-all" href="{{ path('packageList') }}">All Experiences <span aria-hidden="true" class="ico-arrow-right icom-icon"></span></a>
+                </section>
+                
+                <section>
+                    <ul class="f-group">
+                        <li>
+                            <input id="cat2" type="checkbox" name="category[2][]" value="2"/>
+                            <label for="cat2">U.S. Travel</label>
+                            <div class="f-select">
+								<select id="catState" name="catState">
 									<option value="AL">Alabama</option>
 									<option value="AK">Alaska</option>
 									<option value="AZ">Arizona</option>
@@ -102,253 +93,83 @@
 									<option value="WI">Wisconsin</option>
 									<option value="WY">Wyoming</option>
 								</select>
-							</div>
-							
-						</li>
-						<li>
-							<input id="intl-travel" type="checkbox" name="category" value="intltravel"/><label for="intl-travel">International Travel</label>
-							<ul>
-								<li><input id="canada" type="checkbox" name="category" value="intltravel"/><label for="canada">Canada</label></li>
-								<li><input id="mexico" type="checkbox" name="category" value="intltravel"/><label for="mexico">Mexico</label></li>
-								<li><input id="europe" type="checkbox" name="category" value="intltravel"/><label for="europe">Europe</label></li>
-							</ul>
-						</li>
-						<li class="f-g-sm"><span class="sm-label">Show More</span> <span aria-hidden="true" class="ico-arrow-right icom-icon"></span></li>
-					</ul>
-					
-					<ul class="f-group">
-						<li>
-							<input id="primary" type="checkbox" name="category" value="ustravel"/><label for="primary">Food &amp; Wine</label>
-							<ul>
-								<li><input id="napavalley" type="checkbox" name="category" value="napavalley"/><label for="napavalley">Napa Valley</label></li>
-								<li><input id="sonomavalley" type="checkbox" name="category" value="sonomavalley"/><label for="sonomavalley">Sonoma Valley</label></li>
-								<li><input id="culinary" type="checkbox" name="category" value="culinary"/><label for="culinary">Culinary</label></li>
-							</ul>
-						</li>
-						<li class="f-g-sm"><span class="sm-label">Show More</span> <span aria-hidden="true" class="ico-arrow-right icom-icon"></span></li>
-					</ul>
-					
-					<ul class="f-group">
-						<li>
-							<input id="sports" type="checkbox" name="category" value="sports"/><label for="sports">Sports</label>
-							<ul>
-								<li><input id="golf" type="checkbox" name="category" value="golf"/><label for="golf">Golf</label></li>
-								<li><input id="football" type="checkbox" name="category" value="football"/><label for="football">Football</label></li>
-								<li><input id="basketball" type="checkbox" name="category" value="basketball"/><label for="basketball">Basketball</label></li>
-							</ul>
-						</li>
-						<li class="f-g-sm"><span class="sm-label">Show More</span> <span aria-hidden="true" class="ico-arrow-right icom-icon"></span></li>
-					</ul>
-					
-					<ul class="f-group">
-						<li>
-							<input id="adventure" type="checkbox" name="category" value="adventure"/><label for="adventure">Adventure</label>
-							<ul>
-								<li><input id="flying" type="checkbox" name="category" value="flying"/><label for="flying">Flying</label></li>
-								<li><input id="driving" type="checkbox" name="category" value="driving"/><label for="driving">Driving</label></li>
-								<li><input id="hiking" type="checkbox" name="category" value="hiking"/><label for="hiking">Hiking</label></li>
-							</ul>
-						</li>
-						<li class="f-g-sm"><span class="sm-label">Show More</span> <span aria-hidden="true" class="ico-arrow-right icom-icon"></span></li>
-					</ul>
-					
-					<ul class="f-group">
-						<li>
-							<input id="shoppingfashion" type="checkbox" name="category" value="shoppingfashion"/><label for="shoppingfashion">Shopping &amp; Fashion</label>
-							<ul>
-								<li><input id="saksfifthave" type="checkbox" name="category" value="saksfifthave"/><label for="saksfifthave">Saks Fifth Ave</label></li>
-								<li><input id="parisbotique" type="checkbox" name="category" value="parisbotique"/><label for="parisbotique">Paris Botique</label></li>
-								<li><input id="gucci" type="checkbox" name="category" value="gucci"/><label for="gucci">Gucci</label></li>
-							</ul>
-						</li>
-						<li class="f-g-sm"><span class="sm-label">Show More</span> <span aria-hidden="true" class="ico-arrow-right icom-icon"></span></li>
-					</ul>
-					
-					<ul class="f-group">
-						<li>
-							<input id="awardshows" type="checkbox" name="category" value="awardshows"/><label for="awardshows">Awards Shows</label>
-							<ul>
-								<li><input id="grammys" type="checkbox" name="category" value="grammys"/><label for="grammys">Grammys</label></li>
-								<li><input id="emmys" type="checkbox" name="category" value="emmys"/><label for="emmys">Emmys</label></li>
-								<li><input id="onion" type="checkbox" name="category" value="onion"/><label for="onion">Onion</label></li>
-							</ul>
-						</li>
-						<li class="f-g-sm"><span class="sm-label">Show More</span> <span aria-hidden="true" class="ico-arrow-right icom-icon"></span></li>
-					</ul>
-					
-					<ul class="f-group">
-						<li>
-							<input id="entertainment" type="checkbox" name="category" value="entertainment"/><label for="entertainment">Entertainment</label>
-							<ul>
-								<li><input id="broadwaytheatre" type="checkbox" name="category" value="broadwaytheatre"/><label for="broadwaytheatre">Broadway Theatre</label></li>
-								<li><input id="vegasshows" type="checkbox" name="category" value="vegasshows"/><label for="vegasshows">Vegas Shows</label></li>
-								<li><input id="chinesetheatre" type="checkbox" name="category" value="chinesetheatre"/><label for="chinesetheatre">Chinese Theatre</label></li>
-							</ul>
-						</li>
-						<li class="f-g-sm"><span class="sm-label">Show More</span> <span aria-hidden="true" class="ico-arrow-right icom-icon"></span></li>
-					</ul>
-					
-					<ul class="f-group">
-						<li>
-							<input id="familyfriendly" type="checkbox" name="category" value="familyfriendly"/><label for="familyfriendly">Family Friendly</label>
-						</li>
-						<li>
-							<input id="sparelaxation" type="checkbox" name="category" value="sparelaxation"/><label for="sparelaxation">Spa &amp; Relaxation</label>
-						</li>
-						<li>
-							<input id="cruises" type="checkbox" name="category" value="cruises"/><label for="cruises">Cruises</label>
-						</li>
-						<li>
-							<input id="viptours" type="checkbox" name="category" value="viptours"/><label for="viptours">VIP Tours</label>
-						</li>
-					</ul>
-				
-				</section>
-			
-			</div>
-			
-			<div class="pl-results">
-				
-				<div class="row pl-sort">
-					
-					<ul>
-						<li><a href="#" class="selected">All</a></li>
-						<li><a href="#">Most Popular</a></li>
-						<li><a href="#">Newest</a></li>
-					</ul>
-
-					<div class="pl-sort-select">
-						<select>
-							<option selected="selected" value="alphabeticalaz">Alphabetical A-Z</option>
-							<option value="alphabeticalza">Alphabetical Z-A</option>
-						</select>
-					</div>
-					
-				</div>
-				
-				<div class="row">
-				
-					<ul class="pl-items">
-						<li>
-							<div class="i-inner">
-								<div class="i-image"><img src="/img/placeholder/pl-i-image.png" /></div>
-								<div class="i-actions">
-									<div class="i-a-add"><span aria-hidden="true" class="ico-suitcase icom-icon"></span><em>Addto</em><strong>Suitcase</strong></div>
-									<div class="i-a-options">
-										<a href="#">View Details <span aria-hidden="true" class="ico-arrow-right icom-icon"></span></a>
-										<a href="#">View (<span class="i-o-count">9</span>) Options <span aria-hidden="true" class="ico-arrow-right icom-icon"></span></a>
-									</div>
-								</div>
-								<div class="i-details">
-									<h3>U.S. Capital VIP Tour Lorem Ipsum</h3>
-									<p>Behind-the-Scenes Tour of the US Capitol Building with a Noted Historian in Washington DC, 4-Night Stay and Airfare for four.</p>
-									<div class="i-srv">
-										<span class="i-sv">$3,289.00</span><span class="srv-n">Suggested Retail Value</span>
-									</div>
-									<div class="i-npc"><span class="i-cost">$2,250.00</span> Non-Profit Cost</div>
-								</div>
-								
-							</div>
-						</li>
-						
-						<li>
-							<div class="i-inner">
-								<div class="i-image"><img src="/img/placeholder/pl-i-image.png" /></div>
-								<div class="i-actions">
-									<div class="i-a-add"><span aria-hidden="true" class="ico-suitcase icom-icon"></span><em>Addto</em><strong>Suitcase</strong></div>
-									<div class="i-a-options">
-										<a href="#">View Details <span aria-hidden="true" class="ico-arrow-right icom-icon"></span></a>
-										<a href="#">View (<span class="i-o-count">9</span>) Options <span aria-hidden="true" class="ico-arrow-right icom-icon"></span></a>
-									</div>
-								</div>
-								<div class="i-details">
-									<h3>Lorem Ipsum Dolor Sit Amit</h3>
-									<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-									<div class="i-srv">
-										<span class="i-sv">$9000.01</span><span class="srv-n">Suggested Retail Value</span>
-									</div>
-									<div class="i-npc"><span class="i-cost">$8999.99</span> Non-Profit Cost</div>
-								</div>
-								
-							</div>
-						</li>
-						
-						<li>
-							<div class="i-inner">
-								<div class="i-image"><img src="/img/placeholder/pl-i-image.png" /></div>
-								<div class="i-actions">
-									<div class="i-a-add"><span aria-hidden="true" class="ico-suitcase icom-icon"></span><em>Addto</em><strong>Suitcase</strong></div>
-									<div class="i-a-options">
-										<a href="#">View Details <span aria-hidden="true" class="ico-arrow-right icom-icon"></span></a>
-										<a href="#">View (<span class="i-o-count">9</span>) Options <span aria-hidden="true" class="ico-arrow-right icom-icon"></span></a>
-									</div>
-								</div>
-								<div class="i-details">
-									<h3>Lorem Ipsum Dolor Sit Amit</h3>
-									<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-									<div class="i-srv">
-										<span class="i-sv">$9000.01</span><span class="srv-n">Suggested Retail Value</span>
-									</div>
-									<div class="i-npc"><span class="i-cost">$8999.99</span> Non-Profit Cost</div>
-								</div>
-								
-							</div>
-						</li>
-						
-						<li>
-							<div class="i-inner">
-								<div class="i-image"><img src="/img/placeholder/pl-i-image.png" /></div>
-								<div class="i-actions">
-									<div class="i-a-add"><span aria-hidden="true" class="ico-suitcase icom-icon"></span><em>Addto</em><strong>Suitcase</strong></div>
-									<div class="i-a-options">
-										<a href="#">View Details <span aria-hidden="true" class="ico-arrow-right icom-icon"></span></a>
-										<a href="#">View (<span class="i-o-count">9</span>) Options <span aria-hidden="true" class="ico-arrow-right icom-icon"></span></a>
-									</div>
-								</div>
-								<div class="i-details">
-									<h3>Lorem Ipsum Dolor Sit Amit</h3>
-									<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-									<div class="i-srv">
-										<span class="i-sv">$9000.01</span><span class="srv-n">Suggested Retail Value</span>
-									</div>
-									<div class="i-npc"><span class="i-cost">$8999.99</span> Non-Profit Cost</div>
-								</div>
-								
-							</div>
-						</li>
-						
-						<li>
-							<div class="i-inner">
-								<div class="i-image"><img src="/img/placeholder/pl-i-image.png" /></div>
-								<div class="i-actions">
-									<div class="i-a-add"><span aria-hidden="true" class="ico-suitcase icom-icon"></span><em>Addto</em><strong>Suitcase</strong></div>
-									<div class="i-a-options">
-										<a href="#">View Details <span aria-hidden="true" class="ico-arrow-right icom-icon"></span></a>
-										<a href="#">View (<span class="i-o-count">9</span>) Options <span aria-hidden="true" class="ico-arrow-right icom-icon"></span></a>
-									</div>
-								</div>
-								<div class="i-details">
-									<h3>Lorem Ipsum Dolor Sit Amit</h3>
-									<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-									<div class="i-srv">
-										<span class="i-sv">$9000.01</span><span class="srv-n">Suggested Retail Value</span>
-									</div>
-									<div class="i-npc"><span class="i-cost">$8999.99</span> Non-Profit Cost</div>
-								</div>
-								
-							</div>
-						</li>
-						
-					</ul>
-
-				</div>
-
-			</div>
-		
-		
-			
-		</div>
-	</div>
-
-</div>     
+                            </div>
+                        </li>
+                    </ul>
+{% for filter in filterTree %}
+{%     if filter.title != 'US Travel' %}
+                    <ul class="f-group">
+                        <li>
+                            <input id="cat{{ filter.id }}" type="checkbox" name="category[{{ filter.id }}][]" value="{{ filter.id }}"{% if filter.id == rootCat %} checked="checked"{% endif %}/>
+                            <label for="cat{{ filter.id }}"{% if filter.id == rootCat %} class="active"{% endif %}>{{ filter.title }}</label>
+{%         if filter.__children %}
+                            <ul{% if filter.id == rootCat %} class="more-shown"{% endif %}>
+{%             for child in filter.__children %}
+                                <li><input id="cat{{ child.id }}" type="checkbox" name="category[{{ filter.id }}][]" value="{{ child.id }}"{% if child.id == rootCat %} checked="checked"{% endif %}/>
+                                <label for="cat{{ child.id }}"{% if child.id == rootCat %} class="active"{% endif %}>{{ child.title }}</label></li>
+{%             endfor %}
+                            </ul>
+{%         endif %}
+                        </li>
+{%         if filter.__children %}
+                        <li class="f-g-sm"><span class="sm-label">Show More</span> <span aria-hidden="true" class="ico-arrow-right icom-icon"></span></li>
+{%         endif %}
+                    </ul>
+{%     endif %}
+{% endfor %}
+                </section>
+            </div>
+            
+            <div class="pl-results">
+                <div class="row pl-sort">
+                    <ul>
+                        <li><a href="#" class="selected" data-filter="all">All</a></li>
+                        <li><a href="#" data-filter="popular">Most Popular</a></li>
+                        <li><a href="#" data-filter="newest">Newest</a></li>
+                    </ul>
+                    
+                    <div class="pl-sort-select">
+                        <select id="sortOrder" name="sortOrder">
+                            <option selected="selected" value="alpha-asc">Alphabetical A-Z</option>
+                            <option value="alpha-desc">Alphabetical Z-A</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="row">
+                    <ul class="pl-items">
+{% for package in packages %}
+{%     set count = package.count %}
+{%     set package = package.package %}
+                        <li class="drop-shadow lifted2">
+                            <div class="i-inner">
+                                <div class="i-image"><img src="/uploads/packages/{{ package.thumbnail }}" alt="" width="129" height="85"/></div>
+                                <div class="i-actions">
+                                    <div class="i-a-add"><span aria-hidden="true" class="ico-suitcase"></span><em>Add to</em> Suitcase</div>
+                                    <div class="i-a-options">
+{%     if count > 1 %}
+                                        <a href="{{ path('packageDetail', {'slug': package.slug}) }}">View (<span class="i-o-count">{{ count }}</span>) Options <span aria-hidden="true" class="ico-arrow-right"></span></a>
+{%     else %}
+                                        <a href="{{ path('packageDetail', {'slug': package.slug}) }}">View Details <span aria-hidden="true" class="ico-arrow-right"></span></a>
+{%     endif %}
+                                    </div>
+                                </div>
+                                <div class="i-details">
+                                    <h3><a href="{{ path('packageDetail', {'slug': package.slug}) }}">{{ package.parentHeader }}</a></h3>
+                                    <p>{{ package.name }}</p>
+                                    <div class="i-srv">
+                                        <span class="i-sv">{{ package.suggestedRetailValue }}</span> <span class="srv-n">Suggested Retail Value</span>
+                                    </div>
+                                    <div class="i-npc"><span class="i-cost">${{ package.cost | number_format(2) }}</span> Non-Profit Cost</div>
+                                </div>
+                            </div>
+                        </li>
+{% endfor %}
+                    </ul>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock %}

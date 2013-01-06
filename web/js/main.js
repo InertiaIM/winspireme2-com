@@ -222,6 +222,7 @@ var footerCtx = $('footer')[0];
     }
     /* Client Icons */
     
+    
     /* Stats Banner */
     var stats = new Carousel($('#stat-slides'), {
         animation: {
@@ -290,53 +291,136 @@ var footerCtx = $('footer')[0];
     );
     /* Misc */
     
+    
     /* Package List Show More */
     $('.f-g-sm').click(function() {
-    	if ($(this).parent().find('ul').hasClass('more-shown')) {
-    		$(this).find('.sm-label').html("Show More");
-    		$(this).parent().find('ul').removeClass('more-shown');
-    	} else {
-    		$(this).find('.sm-label').html("Show Less");
-    		$(this).parent().find('ul').addClass('more-shown');
-    	}
+        if ($(this).parent().find('ul').hasClass('more-shown')) {
+            $(this).find('.sm-label').html('Show More');
+            $(this).parent().find('ul').removeClass('more-shown');
+        }
+        else {
+            $(this).find('.sm-label').html('Show Less');
+            $(this).parent().find('ul').addClass('more-shown');
+        }
     });
-
     /* Package List Show More */
-
+    
+    
+    /* Package List Spinner */
+    var target = $('.pl-results .row').get(1);
+    var spinner = new Spinner({
+        lines: 13,
+        length: 11,
+        width: 4,
+        radius: 14,
+        corners: 1.0,
+        color: '#1280d6',
+        rotate: 0,
+        trail: 60,
+        speed: 1.0,
+        hwaccel: 'on',
+        top: '0px',
+    }).spin(target).stop();
+    
+    
+    /* Package List Categories */
+    $('input[name^="category"]').change(function(e) {
+        // Special case for toggling between US and International Travel.
+        // No need to allow both groups to have selections.
+        if($(this).parents('ul.f-group').get(0) == $('ul.f-group').get(0)) {
+            $('ul.f-group').eq(1).find('input[name^="category"]').removeAttr('checked');
+        }
+        
+        if($(this).parents('ul.f-group').get(0) == $('ul.f-group').get(1)) {
+            $('ul.f-group').eq(0).find('input[name^="category"]').removeAttr('checked');
+        }
+        
+        // If this is a parent category, deselect all children.
+        // Otherwise, if this is a child category, deselect the parent.
+        var children = $(this).siblings('ul');
+        if(children.size()) {
+            $(children).find('input[name^="category"]').removeAttr('checked');
+        }
+        else {
+            $(this).parent('li').parent('ul').siblings('input[name^="category"]').removeAttr('checked');
+        }
+        
+        $('input[name^="category"]').siblings('label').removeClass('active');
+        $('input[name^="category"]:checked').siblings('label').addClass('active');
+        
+        var categories = $('input[name^="category"]:checked').serialize();
+        if(categories == '') {
+            $('#pl-link-all').addClass('active');
+        }
+        else {
+            $('#pl-link-all').removeClass('active');
+        }
+        
+        updatePackages();
+    });
+    
+    
+    $('select[name="sortOrder"]').change(function(e) {
+        updatePackages();
+    });
+    
+    
+    $('.pl-sort ul li a').click(function(e) {
+        e.preventDefault();
+        
+        $('.pl-sort ul li a').removeClass('selected');
+        $(this).addClass('selected');
+        
+        updatePackages();
+    });
+    
+    function updatePackages() {
+        var categories = $('input[name^="category"]:checked').serialize();
+        var filter = 'filter=' + $('.pl-sort ul li a.selected').attr('data-filter');
+        var sort = $('select[name="sortOrder"]').serialize();
+        $.ajax({
+            beforeSend: function() {
+                $('.pl-items').empty();
+                spinner.spin(target);
+            },
+            url: '/app_dev.php/packages.json',
+            data: categories + '&' + sort + '&' + filter,
+            success: function(data, textStatus, jqXHR) {
+                spinner.stop();
+                $('.pl-items').empty().append(data);
+            }
+        });
+    }
+    
+    
+    
+    /* Create custom select boxes */
+    $(function() {
+        var selectBox1 = $('select#sortOrder')
+            .selectBoxIt({
+                nostyle: false,
+                downArrowIcon: 'ico-arrow-down'
+            })
+            .data('selectBoxIt');
+        
+        var selectBox2 = $('select#catState')
+        .selectBoxIt({
+            nostyle: false,
+            downArrowIcon: 'ico-arrow-down'
+        })
+        .data('selectBoxIt');
+    });
+    
+    /* Package List Category Filters */
+    
+    
     /* Package List Waypoints */
     $(document).ready(function() {
-    	
-    	if ($(".pl-items").length > 0) {
-	    	var window = $(window), footer = $('footer'), opts = {offset: '100%'};
-	    	footer.waypoint(function(event, direction) {
-	    		/* Buffer Current Scroll Coordinates */
-	    		var winleft = window.scrollLeft();
-	            var wintop = window.scrollTop();
-	    		
-	            /* Reset Current Scroll Coordinates */
-	            window.scrollLeft(0);
-	            window.scrollTop(0);
-	            
-	            /* Remove Waypoint */
-	            footer.waypoint('remove');
-
-	            /* Do Things */
-    			var plia = 3;
-        		for (var i=0;i<plia;i++) { 
-        			$('.pl-items').find('li:first').clone(true).appendTo('.pl-items');
-        		}
-
-        		/* Restore Current Scroll Coordinates */
-                window.scrollLeft(winleft);
-                window.scrollTop(wintop);
-                
-                /* Reset Waypoint */
-        		footer.waypoint(opts);
-	    	}, opts);
-    	}
+        
     });
     /* Package List Waypoints */
-
+    
+    
     /* Package List Search */
 	    /* Context */
     	var plFilter = $('.pl-filter');
@@ -363,26 +447,44 @@ var footerCtx = $('footer')[0];
 	    });
 	/* Package List Search */
     
+    
     /* Package Detail More Info */
-    if ($(".pd-detail").length > 0) {
-    	$('.d-i-mi', '.pd-detail').click(function() {
-    		if ($(this).parent().find('.detail-info').hasClass('more-shown')) {
-        		$(this).find('.d-i-ml').html("More");
-        		$(this).parent().find('.detail-info').removeClass('more-shown');
-        	} else {
-        		$(this).find('.d-i-ml').html("Less");
-        		$(this).parent().find('.detail-info').addClass('more-shown');
-        	}
-        });
-    }
+    $('.d-i-mi', '.pd-detail').click(function() {
+        if ($('.detail-info').hasClass('active')) {
+            $(this).find('.d-i-ml').html('More');
+            $('.detail-info').removeClass('active');
+        }
+        else {
+            $(this).find('.d-i-ml').html('Less');
+            $('.detail-info').addClass('active');
+        }
+    });
     /* Package Detail More Info */
     
     
-    
-    
-    
-    
-    
-    
-    
-    
+    /* Package Detail Option Selected */
+    $('input[name="variant"]').change(function(e) {
+        var currentId = $('#pd-header').data('id');
+        var newId = $(this).val();
+        
+        if (currentId != newId) {
+            $('.srv-value').text($('#variant-holder #v' + newId).data('srv'));
+            $('.npc-value').text($('#variant-holder #v' + newId).data('cost'));
+            $('h3.name').text($('#variant-holder #v' + newId).data('name'));
+            $('.pd-d-utilbar .pd-c-nightcount').text($('#variant-holder #v' + newId).data('accommodations'));
+            $('.pd-d-utilbar .pd-c-airfare').text($('#variant-holder #v' + newId).data('airfares'));
+            $('.pd-d-utilbar .pd-c-usercount').text($('#variant-holder #v' + newId).data('persons'));
+            
+            if ($('#variant-holder #v' + newId).find('.more-details').html() == '') {
+                $('.d-i-mi').hide();
+                $('.pd-details .detail-info').html('');
+            }
+            else {
+                $('.d-i-mi').show();
+                $('.pd-details .detail-info').html($('#variant-holder #v' + newId).find('.more-details').html());
+            }
+        }
+        
+        $('#pd-header').data('id', newId);
+    });
+    /* Package Detail Option Selected */

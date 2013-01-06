@@ -8,9 +8,13 @@ home:
     defaults: { _controller: InertiaWinspireBundle:Default:index }
     
 packageList:
-    pattern:  /packages
-    defaults: { _controller: InertiaWinspireBundle:Default:packageList }
+    pattern:  /packages/{slug}
+    defaults: { _controller: InertiaWinspireBundle:Default:packageList, slug: all }
+    
+packageListJson:
+    pattern:  /packages.json
+    defaults: { _controller: InertiaWinspireBundle:Default:packageListJson }
     
 packageDetail:
-    pattern:  /package-detail
+    pattern:  /package/{slug}
     defaults: { _controller: InertiaWinspireBundle:Default:packageDetail }
