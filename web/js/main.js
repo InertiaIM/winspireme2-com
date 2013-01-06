@@ -383,7 +383,7 @@ var footerCtx = $('footer')[0];
                 $('.pl-items').empty();
                 spinner.spin(target);
             },
-            url: '/app_dev.php/packages.json',
+            url: '/packages.json',
             data: categories + '&' + sort + '&' + filter,
             success: function(data, textStatus, jqXHR) {
                 spinner.stop();
