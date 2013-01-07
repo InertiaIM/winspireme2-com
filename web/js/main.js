@@ -375,6 +375,11 @@ var footerCtx = $('footer')[0];
     });
     
     function updatePackages() {
+        var url = '/packages.json';
+        if (typeof env !== 'undefined') {
+            url = env + url;
+        }
+        
         var categories = $('input[name^="category"]:checked').serialize();
         var filter = 'filter=' + $('.pl-sort ul li a.selected').attr('data-filter');
         var sort = $('select[name="sortOrder"]').serialize();
@@ -383,7 +388,7 @@ var footerCtx = $('footer')[0];
                 $('.pl-items').empty();
                 spinner.spin(target);
             },
-            url: '/packages.json',
+            url: url,
             data: categories + '&' + sort + '&' + filter,
             success: function(data, textStatus, jqXHR) {
                 spinner.stop();
