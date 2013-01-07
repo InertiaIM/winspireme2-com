@@ -103,7 +103,15 @@
                             <input id="cat{{ filter.id }}" type="checkbox" name="category[{{ filter.id }}][]" value="{{ filter.id }}"{% if filter.id == rootCat %} checked="checked"{% endif %}/>
                             <label for="cat{{ filter.id }}"{% if filter.id == rootCat %} class="active"{% endif %}>{{ filter.title }}</label>
 {%         if filter.__children %}
-                            <ul{% if filter.id == rootCat %} class="more-shown"{% endif %}>
+{%             set open = false %}
+{%             set count = 0 %}
+{%             for child in filter.__children %}
+{%                 set count = count + 1 %}
+{%                 if child.id == rootCat and count > 2 %}
+{%                     set open = true %}
+{%                 endif %}
+{%             endfor %}
+                            <ul{% if open %} class="more-shown"{% endif %}>
 {%             for child in filter.__children %}
                                 <li><input id="cat{{ child.id }}" type="checkbox" name="category[{{ filter.id }}][]" value="{{ child.id }}"{% if child.id == rootCat %} checked="checked"{% endif %}/>
                                 <label for="cat{{ child.id }}"{% if child.id == rootCat %} class="active"{% endif %}>{{ child.title }}</label></li>
@@ -112,7 +120,7 @@
 {%         endif %}
                         </li>
 {%         if filter.__children %}
-                        <li class="f-g-sm"><span class="sm-label">Show More</span> <span aria-hidden="true" class="ico-arrow-right icom-icon"></span></li>
+                        <li class="f-g-sm"><span class="sm-label">Show {% if open %}Less{% else %}More{% endif %}</span> <span aria-hidden="true" class="ico-arrow-{% if open %}up{% else %}right{% endif %} icom-icon"></span></li>
 {%         endif %}
                     </ul>
 {%     endif %}

@@ -296,10 +296,12 @@ var footerCtx = $('footer')[0];
     $('.f-g-sm').click(function() {
         if ($(this).parent().find('ul').hasClass('more-shown')) {
             $(this).find('.sm-label').html('Show More');
+            $(this).find('.sm-label').siblings('span.ico-arrow-up').removeClass('ico-arrow-up').addClass('ico-arrow-right');
             $(this).parent().find('ul').removeClass('more-shown');
         }
         else {
             $(this).find('.sm-label').html('Show Less');
+            $(this).find('.sm-label').siblings('span.ico-arrow-right').removeClass('ico-arrow-right').addClass('ico-arrow-up');
             $(this).parent().find('ul').addClass('more-shown');
         }
     });
