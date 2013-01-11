@@ -32,7 +32,7 @@
                 </section>
                 
                 <section>
-                    <a{% if rootCat == 1 %} class="active"{% endif %} id="pl-link-all" href="{{ path('packageList') }}">All Experiences <span aria-hidden="true" class="ico-arrow-right icom-icon"></span></a>
+                    <a{% if rootCat == 1 %} class="active"{% endif %} id="pl-link-all" href="{{ path('packageList') }}">All Experiences <span aria-hidden="true" class="icon-arrow-right icom-icon"></span></a>
                 </section>
                 
                 <section>
@@ -120,7 +120,7 @@
 {%         endif %}
                         </li>
 {%         if filter.__children %}
-                        <li class="f-g-sm"><span class="sm-label">Show {% if open %}Less{% else %}More{% endif %}</span> <span aria-hidden="true" class="ico-arrow-{% if open %}up{% else %}right{% endif %} icom-icon"></span></li>
+                        <li class="f-g-sm"><span class="sm-label">Show {% if open %}Less{% else %}More{% endif %}</span> <span aria-hidden="true" class="icon-arrow-{% if open %}up{% else %}right{% endif %} icom-icon"></span></li>
 {%         endif %}
                     </ul>
 {%     endif %}

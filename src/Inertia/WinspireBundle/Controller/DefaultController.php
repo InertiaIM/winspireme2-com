@@ -14,6 +14,9 @@ class DefaultController extends Controller
     
     public function packageListAction($slug)
     {
+        $session = $this->getRequest()->getSession();
+        $suitcase = $session->get('suitcase', array());
+        
         $repo = $this->getDoctrine()->getRepository('InertiaWinspireBundle:Category');
         $filterTree = $repo->childrenHierarchy();
         $filterTree = $filterTree[0]['__children'];
@@ -45,7 +48,20 @@ class DefaultController extends Controller
             if($package->getIsDefault()) {
                 $count = 1;
                 $index = $package->getId();
-                $defaultPackages[$index] = array('package' => $package, 'count' => 1);
+                
+                // Determine whether to show the "Add to Suitcase" button based 
+                // on the Packages already contained in the session.
+                // TODO refactor for a more efficient algorithm
+                $available = true;
+                foreach($suitcase as $p) {
+                    // We already have this item in our cart;
+                    // so we can stop here...
+                    if($p['id'] == $index) {
+                        $available = false;
+                    }
+                }
+                
+                $defaultPackages[$index] = array('package' => $package, 'count' => 1, 'available' => $available);
             }
             if($currentHeader != $package->getParentHeader()) {
                 $currentHeader = $package->getParentHeader();
@@ -70,6 +86,9 @@ class DefaultController extends Controller
     
     public function packageListJsonAction(Request $request)
     {
+        $session = $this->getRequest()->getSession();
+        $suitcase = $session->get('suitcase', array());
+        
         if ($categories = $request->query->get('category')) {
             $repo = $this->getDoctrine()->getRepository('InertiaWinspireBundle:Category');
             $filterTree = $repo->childrenHierarchy();
@@ -176,7 +195,20 @@ class DefaultController extends Controller
             if($package->getIsDefault()) {
                 $count = 1;
                 $index = $package->getId();
-                $defaultPackages[$index] = array('package' => $package, 'count' => 1);
+                
+                // Determine whether to show the "Add to Suitcase" button based
+                // on the Packages already contained in the session.
+                // TODO refactor for a more efficient algorithm
+                $available = true;
+                foreach($suitcase as $p) {
+                    // We already have this item in our cart;
+                    // so we can stop here...
+                    if($p['id'] == $index) {
+                        $available = false;
+                    }
+                }
+                
+                $defaultPackages[$index] = array('package' => $package, 'count' => 1, 'available' => $available);
                 
                 $defaultPackages[$index]['new'] = false;
                 $defaultPackages[$index]['popular'] = false;

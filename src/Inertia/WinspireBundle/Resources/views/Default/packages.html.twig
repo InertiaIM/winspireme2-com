@@ -1,16 +1,17 @@
 {% for package in packages %}
 {%     set count = package.count %}
+{%     set available = package.available %}
 {%     set package = package.package %}
                         <li class="drop-shadow lifted2">
                             <div class="i-inner">
                                 <div class="i-image"><img src="/uploads/packages/{{ package.thumbnail }}" alt="" width="129" height="85"/></div>
                                 <div class="i-actions">
-                                    <div class="i-a-add"><span aria-hidden="true" class="ico-suitcase"></span><em>Add to</em> Suitcase</div>
+                                    <button class="i-a-add" data-id="{{ package.slug }}"{% if not available %} disabled="disabled"{% endif %}><span aria-hidden="true" class="icon-suitcase"></span><em>Add to</em> Suitcase</button>
                                     <div class="i-a-options">
 {%     if count > 1 %}
-                                        <a href="{{ path('packageDetail', {'slug': package.slug}) }}">View (<span class="i-o-count">{{ count }}</span>) Options <span aria-hidden="true" class="ico-arrow-right"></span></a>
+                                        <a href="{{ path('packageDetail', {'slug': package.slug}) }}">View (<span class="i-o-count">{{ count }}</span>) Options <span aria-hidden="true" class="icon-arrow-right"></span></a>
 {%     else %}
-                                        <a href="{{ path('packageDetail', {'slug': package.slug}) }}">View Details <span aria-hidden="true" class="ico-arrow-right"></span></a>
+                                        <a href="{{ path('packageDetail', {'slug': package.slug}) }}">View Details <span aria-hidden="true" class="icon-arrow-right"></span></a>
 {%     endif %}
                                     </div>
                                 </div>

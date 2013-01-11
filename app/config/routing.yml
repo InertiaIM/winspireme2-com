@@ -18,3 +18,7 @@ packageListJson:
 packageDetail:
     pattern:  /package/{slug}
     defaults: { _controller: InertiaWinspireBundle:Default:packageDetail }
+    
+suitcaseAdd:
+    pattern:  /suitcase/add/{id}
+    defaults: { _controller: InertiaWinspireBundle:Suitcase:add }
