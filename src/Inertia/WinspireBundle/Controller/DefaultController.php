@@ -97,17 +97,20 @@ class DefaultController extends Controller
             $matchedCategories = array();
             foreach($filterTree as $parent) {
                 if(array_key_exists($parent['id'], $categories)) {
-                    $matchedCategories[$parent['id']][] = $parent['id'];
+//                    $matchedCategories[$parent['id']][] = $parent['id'];
+                    $matchedCategories[] = $parent['id'];
                     
                     // if a parent category is chosen, then add all child categories
                     if(array_search($parent['id'], $categories[$parent['id']]) !== FALSE) {
                         foreach($parent['__children'] as $child) {
-                            $matchedCategories[$parent['id']][] = $child['id'];
+//                            $matchedCategories[$parent['id']][] = $child['id'];
+                            $matchedCategories[] = $child['id'];
                         }
                     }
                     else {
                         foreach($categories[$parent['id']] as $child) {
-                            $matchedCategories[$parent['id']][] = $child;
+//                            $matchedCategories[$parent['id']][] = $child;
+                            $matchedCategories[] = $child;
                         }
                     }
                 }
@@ -121,6 +124,7 @@ class DefaultController extends Controller
             
             $qb->andWhere('p.is_private != 1');
             $qb->andWhere('p.picture IS NOT NULL');
+            $qb->andWhere($qb->expr()->in('c.id', $matchedCategories));
             
             if($request->query->get('sortOrder') == 'alpha-desc') {
                 $qb->orderBy('p.parent_header', 'DESC');
@@ -131,40 +135,7 @@ class DefaultController extends Controller
             
             $qb->addOrderBy('p.is_default', 'DESC');
             
-            // TODO has to be a way to handle this directly in the queryBuilder
-            // This is an intersect operation...
-            foreach($matchedCategories as $categoryGroup) {
-//            $qb->andWhere($qb->expr()->in('c.id', $categoryGroup));
-            }
-            
-//echo $qb->getQuery()->getSql();
             $packages = $qb->getQuery()->getResult();
-            
-            
-            // TODO has to be a way to handle this directly in the queryBuilder
-            // This is an intersect operation...
-            $result = array();
-            foreach($packages as $package) {
-                $cats = $package->getCategories();
-                
-                $temp = array();
-                foreach($cats as $cat) {
-                    $temp[] = $cat->getId();
-                }
-                
-                $test = true;
-                foreach($matchedCategories as $catGroup) {
-                    if(count(array_intersect($catGroup, $temp)) == 0) {
-                        $test = false;
-                        break;
-                    }
-                }
-                
-                if($test) {
-                    $result[] = $package;
-                }
-            }
-            $packages = $result;
         }
         else {
             $em = $this->getDoctrine()->getManager();
