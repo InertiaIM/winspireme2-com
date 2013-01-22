@@ -323,20 +323,11 @@ var footerCtx = $('footer')[0];
         hwaccel: 'on',
         top: '0px',
     }).spin(target).stop();
+    /* Package List Spinner */
     
     
     /* Package List Categories */
     $('input[name^="category"]').change(function(e) {
-        // Special case for toggling between US and International Travel.
-        // No need to allow both groups to have selections.
-        if($(this).parents('ul.f-group').get(0) == $('ul.f-group').get(0)) {
-            $('ul.f-group').eq(1).find('input[name^="category"]').removeAttr('checked');
-        }
-        
-        if($(this).parents('ul.f-group').get(0) == $('ul.f-group').get(1)) {
-            $('ul.f-group').eq(0).find('input[name^="category"]').removeAttr('checked');
-        }
-        
         // If this is a parent category, deselect all children.
         // Otherwise, if this is a child category, deselect the parent.
         var children = $(this).siblings('ul');
@@ -350,17 +341,26 @@ var footerCtx = $('footer')[0];
         $('input[name^="category"]').siblings('label').removeClass('active');
         $('input[name^="category"]:checked').siblings('label').addClass('active');
         
-        var categories = $('input[name^="category"]:checked').serialize();
-        if(categories == '') {
-            $('#pl-link-all').addClass('active');
-        }
-        else {
-            $('#pl-link-all').removeClass('active');
+        // Special condition for the "Domestic Travel" select interface
+        var states = $(this).siblings('select').val();
+        if(!$.isEmptyObject(states)) {
+            $('#catState').multiselect('uncheckAll');
         }
         
         updatePackages();
     });
     
+    $('select[name^="category"]').change(function(e) {
+        // If selecting any of the states unders "US Travel,
+        // the parent checkbox becomes inactive.
+        var states = $(this).val();
+        if(!$.isEmptyObject(states)) {
+            $(this).siblings('input[name^="category"]').removeAttr('checked')
+                .siblings('label').removeClass('active');
+        }
+        
+        updatePackages();
+    });
     
     $('select[name="sortOrder"]').change(function(e) {
         updatePackages();
@@ -383,6 +383,16 @@ var footerCtx = $('footer')[0];
         }
         
         var categories = $('input[name^="category"]:checked').serialize();
+        var categories2 = $('select[name^="category"]').serialize();
+        if(categories == '' && categories2 == '') {
+            $('#pl-link-all').addClass('active');
+        }
+        else {
+            $('#pl-link-all').removeClass('active');
+        }
+        
+        categories = categories + '&' + categories2;
+        
         var filter = 'filter=' + $('.pl-sort ul li a.selected').attr('data-filter');
         var sort = $('select[name="sortOrder"]').serialize();
         $.ajax({
@@ -401,7 +411,6 @@ var footerCtx = $('footer')[0];
     }
     
     
-    
     /* Create custom select boxes */
     $(function() {
         var selectBox1 = $('select#sortOrder')
@@ -411,12 +420,12 @@ var footerCtx = $('footer')[0];
             })
             .data('selectBoxIt');
         
-        var selectBox2 = $('select#catState')
-        .selectBoxIt({
-            nostyle: false,
-            downArrowIcon: 'icon-arrow-down'
-        })
-        .data('selectBoxIt');
+        $('#catState').multiselect({
+            classes: 'states',
+            header: false,
+            minWidth: '176',
+            noneSelectedText: 'Select Destinations'
+        });
     });
     
     /* Package List Category Filters */
