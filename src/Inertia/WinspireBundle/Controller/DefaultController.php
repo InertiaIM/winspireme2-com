@@ -284,10 +284,10 @@ class DefaultController extends Controller
         return $this->render(
             'InertiaWinspireBundle:Default:packageDetail.html.twig',
             array(
-                'package' => $defaultPackages[$slug]['package'],
+                'package' => $defaultPackages[$index]['package'],
                 'search' => false,
                 'slug' => $slug,
-                'variants' => $defaultPackages[$slug]['variants']
+                'variants' => $defaultPackages[$index]['variants']
             )
         );
     }

@@ -25,7 +25,7 @@
             <div class="pd-actions">
                 <div class="pd-action">
                     <div class="pd-a-srv"><span class="srv-value">{{ package.suggestedRetailValue }}</span> <span class="srv-label">Suggested Retail Value</span></div>
-                    <span class="pd-a-npcost"><span class="npc-value">${{ package.cost | number_format(2) }}</span> Non-Profit Cost</span>
+                    <span class="pd-a-npcost"><span class="npc-value">${{ package.cost | number_format(0) }}</span> Non-Profit Cost</span>
                     <a href="#" class="pd-a-add"><span aria-hidden="true" class="ico-suitcase icom-icon"></span><em>Add to</em> Suitcase</a>
                     
 {% if variants | length > 1 %}
@@ -81,10 +81,12 @@
                         </div>
                     </div>
                     
+                    <div class="detail">
                     {{ package.details | raw }}
-                    
+                    </div>
 {% if package.moreDetails %}
-                    <div class="detail-info">
+                    
+                    <div class="more-detail">
                         {{ package.moreDetails | raw }}
                     </div>
 {% endif %}
@@ -121,9 +123,9 @@
 {% if variants | length > 1 %}
 <div id="variant-holder">
 {%     for variant in variants %}
-    <div id="v{{ variant.id }}" data-id="{{ variant.id }}" data-persons="{{ variant.persons }}" data-accommodations="{{ variant.accommodations }}" data-airfares="{{ variant.airfares }}" data-name="{{ variant.name }}" data-srv="{{ variant.suggestedRetailValue }}" data-cost="${{ variant.cost | number_format(2) }}">
-        <div class="details">{{ variant.details | raw }}</div>
-        <div class="more-details">{{ variant.moreDetails | raw}}</div>
+    <div id="v{{ variant.id }}" data-id="{{ variant.id }}" data-persons="{{ variant.persons }}" data-accommodations="{{ variant.accommodations }}" data-airfares="{{ variant.airfares }}" data-name="{{ variant.name }}" data-srv="{{ variant.suggestedRetailValue }}" data-cost="${{ variant.cost | number_format(0) }}">
+        <div class="detail">{{ variant.details | raw }}</div>
+        <div class="more-detail">{{ variant.moreDetails | raw}}</div>
     </div>
 {%     endfor %}
 </div>

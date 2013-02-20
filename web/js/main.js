@@ -474,13 +474,13 @@ var footerCtx = $('footer')[0];
     
     /* Package Detail More Info */
     $('.d-i-mi', '.pd-detail').click(function() {
-        if ($('.detail-info').hasClass('active')) {
+        if ($('.more-detail').hasClass('active')) {
             $(this).find('.d-i-ml').html('More');
-            $('.detail-info').removeClass('active');
+            $('.more-detail').removeClass('active');
         }
         else {
             $(this).find('.d-i-ml').html('Less');
-            $('.detail-info').addClass('active');
+            $('.more-detail').addClass('active');
         }
     });
     /* Package Detail More Info */
@@ -498,14 +498,15 @@ var footerCtx = $('footer')[0];
             $('.pd-d-utilbar .pd-c-nightcount').text($('#variant-holder #v' + newId).data('accommodations'));
             $('.pd-d-utilbar .pd-c-airfare').text($('#variant-holder #v' + newId).data('airfares'));
             $('.pd-d-utilbar .pd-c-usercount').text($('#variant-holder #v' + newId).data('persons'));
+            $('.pd-details .detail').html($('#variant-holder #v' + newId).find('.detail').html());
             
-            if ($('#variant-holder #v' + newId).find('.more-details').html() == '') {
+            if ($('#variant-holder #v' + newId).find('.more-detail').html() == '') {
                 $('.d-i-mi').hide();
-                $('.pd-details .detail-info').html('');
+                $('.pd-details .more-detail').html('');
             }
             else {
                 $('.d-i-mi').show();
-                $('.pd-details .detail-info').html($('#variant-holder #v' + newId).find('.more-details').html());
+                $('.pd-details .more-detail').html($('#variant-holder #v' + newId).find('.more-detail').html());
             }
         }
         

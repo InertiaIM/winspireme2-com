@@ -6,7 +6,7 @@
                             <div class="i-inner">
                                 <div class="i-image"><img src="/uploads/packages/{{ package.thumbnail }}" alt="" width="129" height="85"/></div>
                                 <div class="i-actions">
-                                    <button class="i-a-add" data-id="{{ package.slug }}"{% if not available %} disabled="disabled"{% endif %}><span aria-hidden="true" class="icon-suitcase"></span><em>Add to</em> Suitcase</button>
+                                    <button class="i-a-add" data-id="{{ package.id }}"{% if not available %} disabled="disabled"{% endif %}><span aria-hidden="true" class="icon-suitcase"></span><em>Add to</em> Suitcase</button>
                                     <div class="i-a-options">
 {%     if count > 1 %}
                                         <a href="{{ path('packageDetail', {'slug': package.slug}) }}">View (<span class="i-o-count">{{ count }}</span>) Options <span aria-hidden="true" class="icon-arrow-right"></span></a>
