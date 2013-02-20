@@ -741,7 +741,7 @@ $(document).ready(function() {
         e.preventDefault();
         e.stopPropagation();
         
-        var id = $(this).data('id');
+        var id = $(this).parent('.actions').data('id');
         
         // Delete a package from the session
         var container = $('li[data-id="' + id + '"]');
