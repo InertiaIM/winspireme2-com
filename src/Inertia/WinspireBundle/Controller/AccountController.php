@@ -158,6 +158,7 @@ class AccountController extends Controller
                 $userManager->updateUser($user);
                 
                 $suitcase = new Suitcase();
+                $suitcase->setPacked(false);
                 $suitcase->setName($form->get('suitcase')->getData());
                 $suitcase->setUser($user);
                 
