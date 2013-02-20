@@ -221,7 +221,10 @@ class SuitcaseController extends Controller
         }
         
         $form->get('name')->setData($suitcase->getEventName());
-        $form->get('date')->setData($suitcase->getEventDate()->format('m/d/Y'));
+        
+        if($suitcase->getEventDate() != '') {
+            $form->get('date')->setData($suitcase->getEventDate()->format('m/d/Y'));
+        }
         
         $counts = array('M' => 0, 'D' => 0, 'R' => 0, 'E' => 0);
         foreach($suitcase->getItems() as $item) {
