@@ -21,4 +21,7 @@ packageDetail:
     
 suitcaseAdd:
     pattern:  /suitcase/add/{id}
-    defaults: { _controller: InertiaWinspireBundle:Suitcase:add }
+    defaults: { _controller: InertiaWinspireBundle:Suitcase:add }    
+fos_user_security:
+    resource: "@FOSUserBundle/Resources/config/routing/security.xml"
+    

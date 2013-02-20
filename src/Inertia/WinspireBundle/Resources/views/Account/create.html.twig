@@ -1,0 +1,66 @@
+<div id="account-modal">
+    <h4>Please Create Your Suitcase</h4>
+    <p>The Suitcase is where you can collect and save Experiences while you are creating your ultimate auction package.
+    You can also invite others in your organization to review and comment on your selections.</p>
+    
+    <form action="{{ path('accountCreate') }}" method="post" {{ form_enctype(form) }} novalidate="novalidate">
+        <ul>
+            <li class="large">
+                <div>
+                    <span style="display:block;">
+                        <label for="{{ form.suitcase.vars.id }}" class="required" style="float:left;">{{ form.suitcase.vars.label }}</label>
+                        <span class="tip" rel="tipsy" title="Tip: Use your event name.">?</span>
+                    </span>
+                    {{ form_widget(form.suitcase, { 'attr': { 'style': 'clear:both;' }}) }}
+                </div>
+            </li>
+            <li>
+                {{ form_row(form.firstName) }}
+                {{ form_row(form.lastName) }}
+            </li>
+            <li class="large">
+                <div>
+                    {{ form_label(form.account.name) }}
+                    {{ form_widget(form.account.name) }}
+                </div>
+            </li>
+            <li class="large">
+                {{ form_row(form.email) }}
+            </li>
+            <li>
+                {{ form_row(form.plainPassword.first) }}
+                {{ form_row(form.plainPassword.second) }}
+            </li>
+            <li>
+                {{ form_row(form.phone) }}
+                {{ form_row(form.account.state) }}
+                <div>
+                    {{ form_label(form.account.zip) }}
+                    {{ form_widget(form.account.zip, { 'attr': {'class': 'zip'} }) }}
+                </div>
+            </li>
+            <li class="large">
+                {{ form_row(form.referred) }}
+            </li>
+            <li class="checkbox" style="padding-top:16px;">
+                <div>
+                    {{ form_widget(form.terms) }}
+                    <label for="fos_user_registration_form_terms">I verify that I have read and agree to the <a href="#">Terms of Use</a> and <a href="#">Privacy Policy</a>.</label>
+                </div>
+            </li>
+            <li class="checkbox">
+                <div>
+                    {{ form_widget(form.newsletter) }}
+                    {{ form_label(form.newsletter) }}
+                </div>
+            </li>
+            <li>
+                <div>
+                    <button type="submit"><span class="icon-suitcase-2"></span><em>Create</em> Suitcase</button>
+                    {{ form_widget(form._token) }}
+                    {{ form_widget(form.package) }}
+                </div>
+            </li>
+        </ul>
+    </form>
+</div>

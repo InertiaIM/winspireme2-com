@@ -42,6 +42,18 @@ class SuitcaseController extends Controller
         ));
         
         $session->set('suitcase', $suitcase);
+    
+    public function buttonWidgetAction()
+    {
+        $suitcase = $this->getSuitcase();
+        
+        return $this->render('InertiaWinspireBundle:Suitcase:buttonWidget.html.twig',
+            array(
+                'suitcase' => $suitcase
+            )
+        );
+    }
+    
         
         $response->setData(array(
             'slug' => $package->getSlug(),

@@ -12,6 +12,17 @@ class DefaultController extends Controller
         return $this->render('InertiaWinspireBundle:Default:index.html.twig');
     }
     
+    public function loginWidgetAction()
+    {
+        $csrfToken = $this->get('form.csrf_provider')->generateCsrfToken('authenticate');
+        
+        return $this->render('InertiaWinspireBundle:Default:loginWidget.html.twig', 
+            array(
+                'csrf_token' => $csrfToken
+            )
+        );
+    }
+    
     public function packageListAction($slug)
     {
         $session = $this->getRequest()->getSession();
