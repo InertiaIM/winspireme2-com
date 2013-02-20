@@ -19,9 +19,38 @@ packageDetail:
     pattern:  /package/{slug}
     defaults: { _controller: InertiaWinspireBundle:Default:packageDetail }
     
+suitcaseView:
+    pattern:  /suitcase
+    defaults: { _controller: InertiaWinspireBundle:Suitcase:view }
+    
 suitcaseAdd:
     pattern:  /suitcase/add/{id}
-    defaults: { _controller: InertiaWinspireBundle:Suitcase:add }    
+    defaults: { _controller: InertiaWinspireBundle:Suitcase:add }
+    
+suitcaseDelete:
+    pattern:  /suitcase/delete/{id}
+    defaults: { _controller: InertiaWinspireBundle:Suitcase:delete }
+    
+suitcaseFlag:
+    pattern:  /suitcase/flag/{id}
+    defaults: { _controller: InertiaWinspireBundle:Suitcase:flag }
+    
+suitcaseFlags:
+    pattern:  /suitcase/flags
+    defaults: { _controller: InertiaWinspireBundle:Suitcase:flags }
+    
+suitcasePack:
+    pattern:  /suitcase/pack
+    defaults: { _controller: InertiaWinspireBundle:Suitcase:pack }
+    
+suitcasePreview:
+    pattern:  /suitcase/preview
+    defaults: { _controller: InertiaWinspireBundle:Suitcase:preview }
+    
+accountCreate:
+    pattern:  /account/new
+    defaults: { _controller: InertiaWinspireBundle:Account:create }
+    
 fos_user_security:
     resource: "@FOSUserBundle/Resources/config/routing/security.xml"
     

@@ -144,6 +144,11 @@ class Package
     
     
     /**
+     * @ORM\OneToMany(targetEntity="SuitcaseItem", mappedBy="package")
+     */
+    protected $suitcaseItems;
+    
+    /**
      * Get id
      *
      * @return integer 
@@ -766,5 +771,38 @@ class Package
     public function getMoreDetails()
     {
         return $this->moreDetails;
+    }
+
+    /**
+     * Add suitcaseItems
+     *
+     * @param \Inertia\WinspireBundle\Entity\SuitcaseItem $suitcaseItems
+     * @return Package
+     */
+    public function addSuitcaseItem(\Inertia\WinspireBundle\Entity\SuitcaseItem $suitcaseItems)
+    {
+        $this->suitcaseItems[] = $suitcaseItems;
+    
+        return $this;
+    }
+
+    /**
+     * Remove suitcaseItems
+     *
+     * @param \Inertia\WinspireBundle\Entity\SuitcaseItem $suitcaseItems
+     */
+    public function removeSuitcaseItem(\Inertia\WinspireBundle\Entity\SuitcaseItem $suitcaseItems)
+    {
+        $this->suitcaseItems->removeElement($suitcaseItems);
+    }
+
+    /**
+     * Get suitcaseItems
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getSuitcaseItems()
+    {
+        return $this->suitcaseItems;
     }
 }

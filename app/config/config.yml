@@ -86,3 +86,12 @@ stof_doctrine_extensions:
 #    password: bx1DN
 #    token: JiUNxFoGa9kTQCuinAwd3OM6a
 #    wsdl: "%kernel.root_dir%/config/enterprise.wsdl.xml"
+    
+services:
+    # Doctrine Extension listeners to handle behaviors
+    gedmo.listener.timestampable:
+        class: Gedmo\Timestampable\TimestampableListener
+        tags:
+            - { name: doctrine.event_subscriber, connection: default }
+        calls:
+            - [ setAnnotationReader, [ @annotation_reader ] ]

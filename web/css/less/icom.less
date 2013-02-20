@@ -1,17 +1,17 @@
 @font-face {
-    font-family: 'ws-icom';
-    src:url('/fonts/ws-icom.eot');
-    src:url('/fonts/ws-icom.eot?#iefix') format('embedded-opentype'),
-        url('/fonts/ws-icom.svg#ws-icom') format('svg'),
-        url('/fonts/ws-icom.woff') format('woff'),
-        url('/fonts/ws-icom.ttf') format('truetype');
+    font-family: 'icomoon';
+    src:url('/fonts/icomoon.eot');
+    src:url('/fonts/icomoon.eot?#iefix') format('embedded-opentype'),
+        url('/fonts/icomoon.woff') format('woff'),
+        url('/fonts/icomoon.ttf') format('truetype'),
+        url('/fonts/icomoon.svg#icomoon') format('svg');
     font-weight: normal;
     font-style: normal;
 }
 
 /* Use the following CSS code if you want to use data attributes for inserting your icons */
 [data-icon]:before {
-    font-family: 'ws-icom';
+    font-family: 'icomoon';
     content: attr(data-icon);
     speak: none;
     font-weight: normal;
@@ -20,10 +20,15 @@
 }
 
 /* Use the following CSS code if you want to have a class per icon */
-[class^="icon-"]:before, [class*=" icon-"]:before {
-    font-family: 'ws-icom';
-    font-style: normal;
+/*
+Instead of a list of all class selectors,
+you can use the generic selector below, but it's slower:
+[class*="icon-"]:before {
+*/
+.icon-html5:before, .icon-menu:before, .icon-user:before, .icon-envelope:before, .icon-feed:before, .icon-airplane:before, .icon-bed:before, .icon-arrow-down:before, .icon-arrow-left:before, .icon-arrow-right:before, .icon-arrow-up:before, .icon-search:before, .icon-youtube:before, .icon-facebook:before, .icon-twitter:before, .icon-suitcase:before, .icon-bubble:before, .icon-double-up:before, .icon-double-down:before, .icon-comment:before, .icon-minus:before, .icon-suitcase-2:before, .icon-plus:before, .icon-play:before, .icon-suitcase-locked:before, .icon-checkmark:before, .icon-download:before, .icon-x:before {
+    font-family: 'icomoon';
     speak: none;
+    font-style: normal;
     font-weight: normal;
     line-height: 1;
     -webkit-font-smoothing: antialiased;
@@ -87,4 +92,28 @@
 }
 .icon-comment:before {
     content: "\e013";
+}
+.icon-minus:before {
+    content: "\e014";
+}
+.icon-suitcase-2:before {
+    content: "\e015";
+}
+.icon-plus:before {
+    content: "\e016";
+}
+.icon-play:before {
+    content: "\e017";
+}
+.icon-suitcase-locked:before {
+    content: "\e018";
+}
+.icon-checkmark:before {
+    content: "\e019";
+}
+.icon-download:before {
+    content: "\e01a";
+}
+.icon-x:before {
+    content: "\e01b";
 }

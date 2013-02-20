@@ -1,0 +1,15 @@
+{% twig_js name='previewItem' %}
+                <span class="suitcase-preview-item" data-id="{{ item.id }}">
+                    <a href="#" class="preview-item-image">
+                        <img src="/uploads/packages/{{ item.thumbnail }}" alt="" width="129" height="85"/>
+                        <div class="preview-item-delete">X</div>
+                        <div class="preview-item-info">
+                            <ul class="preview-item-info-list">
+                                {% if item.persons %}<li><span aria-hidden="true" class="icon-user icom-icon"></span> <span class="pd-c-usercount">{{ item.persons }}</span></li>{% endif %}
+                                {% if item.accommodations %}<li><span aria-hidden="true" class="icon-bed icom-icon"></span> <span class="pd-c-nightcount">{{ item.accommodations }}</span></li>{% endif %}
+                                {% if item.airfares %}<li><span aria-hidden="true" class="icon-airplane icom-icon"></span> <span class="pd-c-airfare">{{ item.airfares }}</span></li>{% endif %}
+                            </ul>
+                        </div>
+                    </a>
+                    <a href="#">{{ item.parentHeader }}</a>
+                </span>

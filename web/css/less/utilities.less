@@ -9,16 +9,19 @@
 
 .row:after, .clr:after, .group:after { content:"";display:block;height:0;clear:both;visibility:hidden; }
 .col { display:block;float:left; }
-.clearfix:before,
-.clearfix:after {
-    content: " ";
-    display: table;
-}
-
-.clearfix:after {
-    clear: both;
-}
 
 .clearfix {
-    *zoom: 1;
+    zoom: 1;
+    &:before,
+    &:after {
+        content: " ";
+        display: block;
+        font-size: 0;
+        height: 0;
+        visibility: hidden;
+    }
+    
+    &:after {
+        clear: both;
+    }
 }

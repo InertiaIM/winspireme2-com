@@ -1,7 +1,7 @@
 <?php
-
 namespace Inertia\WinspireBundle\Controller;
 
+use Inertia\WinspireBundle\Entity\Suitcase;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -26,7 +26,7 @@ class DefaultController extends Controller
     public function packageListAction($slug)
     {
         $session = $this->getRequest()->getSession();
-        $suitcase = $session->get('suitcase', array());
+        $suitcase = $this->getSuitcase();
         
         $repo = $this->getDoctrine()->getRepository('InertiaWinspireBundle:Category');
         $filterTree = $repo->childrenHierarchy();
@@ -64,10 +64,10 @@ class DefaultController extends Controller
                 // on the Packages already contained in the session.
                 // TODO refactor for a more efficient algorithm
                 $available = true;
-                foreach($suitcase as $p) {
+                foreach($suitcase->getItems() as $i) {
                     // We already have this item in our cart;
                     // so we can stop here...
-                    if($p['id'] == $index) {
+                    if($i->getPackage()->getId() == $index) {
                         $available = false;
                     }
                 }
@@ -310,5 +310,79 @@ class DefaultController extends Controller
             'InertiaWinspireBundle:Default:siteNav.html.twig',
             array('categories' => $temp)
         );
+    }
+    
+    protected function getSuitcase() {
+        // Establish which suitcase to use for current user
+        $user = $this->getUser();
+        
+        if(!$user) {
+            return new Suitcase();
+        }
+        
+        $session = $this->getRequest()->getSession();
+        $em = $this->getDoctrine()->getManager();
+        
+        // First, check the current session for a suitcase id
+        $sid = $session->get('sid');
+        if($sid) {
+            //echo 'Found SID, step 1: ' . $sid . "<br/>\n";
+            $query = $em->createQuery(
+                'SELECT s, i, p FROM InertiaWinspireBundle:Suitcase s JOIN s.items i JOIN i.package p WHERE s.user = :user_id AND s.id = :id ORDER BY i.updated DESC'
+            )
+            ->setParameter('user_id', $user->getId())
+            ->setParameter('id', $sid);
+            
+            try {
+                $suitcase = $query->getSingleResult();
+            }
+            catch (\Doctrine\Orm\NoResultException $e) {
+                // If the suitcase we were expecting doesn't exist, we'll create a new one
+                //                throw $this->createNotFoundException();
+                $suitcase = new Suitcase();
+                $suitcase->setUser($user);
+                $em->persist($suitcase);
+                $em->flush();
+                
+                $session->set('sid', $suitcase->getId());
+                
+                return $suitcase;
+            }
+            
+            return $suitcase;
+        }
+        // Second, query for the most recent suitcase (used as default)
+        else {
+            $query = $em->createQuery(
+                'SELECT s, i FROM InertiaWinspireBundle:Suitcase s JOIN s.items i JOIN i.package p WHERE s.user = :user_id ORDER BY s.updated DESC, i.updated DESC'
+            )->setParameter('user_id', $user->getId());
+            
+            try {
+                $suitcase = $query->getResult();
+            }
+            catch (\Doctrine\Orm\NoResultException $e) {
+                throw $this->createNotFoundException();
+            }
+            
+            if(count($suitcase) > 0) {
+                $suitcase = $suitcase[0];
+                
+                $session->set('sid', $suitcase->getId());
+                
+                return $suitcase;
+            }
+            else {
+                // Third, no existing suitcases found for this account... create a new one
+                $suitcase = new Suitcase();
+                $suitcase->setUser($user);
+                
+                $em->persist($suitcase);
+                $em->flush();
+                
+                $session->set('sid', $suitcase->getId());
+                
+                return $suitcase;
+            }
+        }
     }
 }

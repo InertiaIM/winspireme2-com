@@ -1,0 +1,217 @@
+{% extends "InertiaWinspireBundle::layout.html.twig" %}
+
+{% block title %}Winspire | My Suitcase{% endblock %}
+
+{% block content_header '' %}
+
+{% block content %}
+<div id="con-sc">
+    <div id="sc-header">
+        <div class="c-wrap">
+{% if suitcase.packed %}
+            <h1><span class="icon-suitcase-locked"></span> <em>my</em> Suitcase</h1>
+            <h4>Your Suitcase is packed!</h4>
+            <p>Good luck at your event and be sure to check out all of our tips for auction success.</p>
+            <ul>
+                <li><span>1</span>A copy of your Letter of Agreement and an Order Confirmation was sent to your email.</li>
+                <li><span>2</span>If you need to add another item before your event, simply <a href="{{ path('packageList') }}">find the item</a>, add it to your Suitcase and checkout again</li>
+                <li><span>3</span><a href="#">Download all of your presentation materials</a>, if you haven’t already.  We will contact you after your event to walk you through the next steps.</li>
+            </ul>
+{% else %}
+            <h1><span class="icon-suitcase-2"></span> <em>my</em> Suitcase</h1>
+            <h3>Here you can organize your Experiences, collaborate with your peers and work with your Winspire Event Consultant to decide on the best set of packages for your charity auction. Once you have finalized your selection, simply click "I'm Packed" to reserve the Experiences for your event.</h3>
+{% endif %}
+        </div>
+    </div>
+    <div id="sc-area">
+        <div class="c-wrap shadow-wrapper">
+            <div class="header drop-shadow curved curved-hz-1">
+                <ul class="key">
+                    <li><span class="definitely">{{ counts['D'] + counts['E'] }}</span> Definitely</li>
+                    <li><span class="maybe">{{ counts['M'] }}</span> Maybe</li>
+                    <li><span class="recommended">{{ counts['R'] }}</span> Blah Recommends</li>
+                </ul>
+            </div>
+            <div class="content">
+                <div class="holder">
+                    <img style="cursor:pointer; display:block; position:absolute; left:71px; top:18px" src="/img/temp-dropdown.png" alt=""/>
+                    <div class="pager">
+                        <a class="pager-all" href="#">View All</a>
+                        <div class="pager-nav">
+                            <a class="pager-prev" href="#"><span class="icon-arrow-left"></span></a>
+                            <span class="pager-count"><span class="pager-current">1</span> of <span class="pager-total">{{ pages }}</span></span>
+                            <a class="pager-next" href="#"><span class="icon-arrow-right"></span></a>
+                        </div>
+                    </div>
+                </div>
+                <ul style="width:984px;">
+                    <li class="clearfix suitcase-page">
+                        <ul>
+{% set count = 1 %}
+{% set total = 1 %}
+{% for item in suitcase.items %}
+                            <li class="p{{ count }}" data-id="{{ item.package.id }}">
+                                <div class="package drop-shadow lifted4">
+                                    <img class="thumbnail" src="/uploads/packages/{{ item.package.thumbnail }}" width="200" height="132" alt=""/>
+                                    <h4>{{ item.package.parentHeader }}</h4>
+{%     if true %}
+                                    <ul class="pd-detailpanel">
+                                        {% if item.package.persons %}<li><span aria-hidden="true" class="icon-user icom-icon"></span> <span class="pd-c-usercount">{{ item.package.persons }}</span></li>{% endif %}
+                                        {% if item.package.accommodations %}<li><span aria-hidden="true" class="icon-bed icom-icon"></span> <span class="pd-c-nightcount">{{ item.package.accommodations }}</span></li>{% endif %}
+                                        {% if item.package.airfares %}<li><span aria-hidden="true" class="icon-airplane icom-icon"></span> <span class="pd-c-airfare">{{ item.package.airfares }}</span></li>{% endif %}
+                                    </ul>
+{%     endif %}
+                                    <div class="item-open"><span class="icon-play"></span></div>
+                                    <div class="expanded">
+                                        <h3>{{ item.package.parentHeader }}</h3>
+                                        <h5>{{ item.package.name }}</h5>
+                                        <p class="srv">{{ item.package.suggestedRetailValue }} <span>Suggested Retail Value</span></p>
+                                        <p>${{ item.package.cost | number_format }} Non-Profit Cost</p>
+                                        <div class="actions" data-id="{{ item.package.id }}">
+                                            <a href="{{ path('packageDetail', { 'slug': item.package.slug }) }}"><span class="icon-plus"></span>More Details</a>
+                                            <a href="#" class="download"><span class="icon-download"></span>Download Info</a>
+                                            <a href="#" class="delete"><span class="icon-x"></span>Remove Package</a>
+                                        </div>
+                                        <div class="item-close"><span class="icon-minus"></span></div>
+                                    </div>
+                                </div>
+                                <a data-id="{{ item.package.id }}" data-status="{{ item.status }}" class="flag{% if is_granted('ROLE_USER') and not suitcase.packed %} active{% endif %} {% if item.status == 'M' %}maybe{% endif %}{% if item.status == 'D' or item.status == 'E' %}definitely{% endif %}{% if item.status == 'R' %}recommended{% endif %}" href="#"></a>
+                            </li>
+{%     if (total < suitcase.items | length) and (count % 6 == 0) %}
+                        </ul>
+                    </li>
+                    <li class="clearfix suitcase-page">
+                        <ul>
+{%         set count = 0 %}
+{%     endif %}
+{%     set count = count + 1 %}
+{%     set total = total + 1 %}
+{% endfor %}
+                        </ul>
+                    </li>
+                </ul>
+                <!-- Next/Prev -->
+                <div id="suitcase-next" class="suitcase-nav forward">
+                    <span aria-hidden="true" class="icon-arrow-right"></span>
+                    <div class="tab-behind"></div>
+                </div>
+                <div id="suitcase-prev" class="suitcase-nav backward">
+                    <span aria-hidden="true" class="icon-arrow-left"></span>
+                    <div class="tab-behind"></div>
+                </div>
+                <!-- Next/Prev -->
+                <div class="holder holder2">
+                    <div class="pager">
+                        <div class="pager-nav">
+                            <a class="pager-prev" href="#"><span class="icon-arrow-left"></span></a>
+                            <span class="pager-count"><span class="pager-current">1</span> of <span class="pager-total">{{ pages }}</span></span>
+                            <a class="pager-next" href="#"><span class="icon-arrow-right"></span></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="footer drop-shadow curved curved-hz-bottom">
+{% if suitcase.packed %}
+                <div class="packed">
+                    <span class="icon-checkmark"></span>
+                    <h4>Remember to download your presentation materials!</h4>
+                    <button class="neutral" id="download">Download Materials</button>
+                </div>
+{% else %}
+                <div class="unpacked">
+                    <h4>Ready to Go?</h4>
+                    <button id="ready"><span class="icon-suitcase-2"></span><em>I'm</em> Packed (<span class="suitcase-count">{{ suitcase.items | length }}</span>)</button>
+                </div>
+{% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="reminder-modal" style="display:none;">
+    <h3>Did you forget something?</h3>
+    <div>
+        <p>Please update all the items in your Suitcase to be labeled blue for “Ready To Go” before proceeding. If you do NOT want to include these items in your final Suitcase, please delete them before checking out.</p>
+    </div>
+    <div>
+        <p>The blue tag signifies that this package is Ready to Go!  Click on any color tag to change it to blue.</p>
+        <img style="display:block; margin:13px 0 0 3px;" src="/img/temp-instruct.png" width="299" height="37" alt=""/>
+    </div>
+    <div>
+        <p>If you need to remove any packages from your suitcase to proceed to Check out, use the Remove button below.</p>
+        <img style="display:block; margin:18px 0 0 -3px;" src="/img/temp-remove.png" width="152" height="39" alt=""/>
+    </div>
+    <div class="last">
+        <p>If you are Ready to Go and with all of your packages, please select the button below to 
+        update all of your packes to blue and start the checkout process.</p>
+    </div>
+    <button id="approve-all"><span class="icon-suitcase-2"></span><em>I'm</em> Packed (<span class="suitcase-count">{{ suitcase.items | length }}</span>)</button>
+</div>
+
+<div id="more-modal" style="display:none;">
+    <h3>We need a little more info...</h3>
+    <p>Hi {{ suitcase.user.firstName }} {{ suitcase.user.lastName }}! Your personal Winspire Event Consultant will contact you upon 
+    submitting your “Packed Suitcase”. But, we need some additional information to complete your order.</p>
+    
+    <form action="{{ path('suitcasePack') }}" method="POST" {{ form_enctype(form) }} novalidate="novalidate">
+        <ul>
+            <li class="large">
+                {{ form_row(form.address) }}
+            </li>
+            <li class="large">
+                {{ form_row(form.address2) }}
+            </li>
+            <li>
+                {{ form_row(form.city) }}
+                {{ form_row(form.state) }}
+                <div>
+                    {{ form_label(form.zip) }}
+                    {{ form_widget(form.zip, { 'attr': {'class': 'zip'} }) }}
+                </div>
+            </li>
+            <li>
+                {{ form_row(form.phone) }}
+            </li>
+            <li class="break"></li>
+            <li>
+                {{ form_row(form.name) }}
+                <div>
+                    {{ form_label(form.date) }}
+                    {{ form_widget(form.date, { 'attr': { 'class': 'date' } }) }}
+                </div>
+            </li>
+            <li class="checkbox" style="padding-top:16px;">
+                <div>
+                    {{ form_widget(form.loa) }}
+                    <label for="account_loa">By clicking the button below, I verify that I have read and that I agree to the <a href="#">Letter of Agreement</a> and all the terms within.</label>
+                </div>
+            </li>
+            <li class="checkbox">
+                <div>
+                    {{ form_widget(form.terms) }}
+                    <label for="account_terms">I verify that I have read and agree to the <a href="#">Terms of Use</a> and <a href="#">Privacy Policy</a>.</label>
+                </div>
+            </li>
+            <li class="checkbox">
+                <div>
+                    {{ form_widget(form.newsletter) }}
+                    {{ form_label(form.newsletter) }}
+                </div>
+            </li>
+            <li>
+                <div>
+                    <button><span class="icon-suitcase-2"></span><em>I'm</em> Packed (<span class="suitcase-count">{{ suitcase.items | length }}</span>)</button>
+                    {{ form_widget(form._token) }}
+                </div>
+            </li>
+        </ul>
+    </form>
+</div>
+
+<div id="thanks-modal" style="display:none;">
+    <h3><span class="icon-suitcase-locked"></span>Thank You!</h3>
+    <h4>Your Suitcase has been successfully Packed!</h4>
+    <p>An Order Confirmation and Letter of Agreement will be sent to your email address shortly.</p>
+    <p>If you have any questions, please do not hesitate to <a href="mailto:sales@winspireme.com">email us</a> or contact us by phone at (877) 555-1212.</p>
+</div>
+{% endblock %}

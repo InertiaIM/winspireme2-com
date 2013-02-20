@@ -1,3 +1,6 @@
+{% javascripts "@InertiaWinspireBundle/Resources/views/Suitcase/previewItem.html.twig" filter="twig_js, ?yui_js" %}
+<script language="javascript" src="{{ asset_url }}"></script>
+{% endjavascripts %}
 <div id="suitcase-preview"{% if app.environment == 'dev' %} style="bottom:39px;"{% endif %}>
     <div id="suitcase-preview-content">
         <div id="suitcase-preview-header">
@@ -6,18 +9,17 @@
                 <ul class="header-nav">
                     <li class="share"><a href="#"><span class="icon-bubble"></span> Share</a></li>
                     <li class="comments"><a href="#"><span class="icon-comment"></span><span class="comment-count">0</span> Comments</a></li>
-                    <li class="button"><a href="#"><span class="icon-suitcase icon"></span> <em>I'm</em> Packed <span id="suitcase-preview-count">{% if suitcase | length > 0 %}({{ suitcase | length }}){% endif %}</span></a></li>
+                    <li class="button"><a href="{{ path('suitcaseView') }}"><span class="icon-suitcase icon"></span> <em>I'm</em> Packed <span id="suitcase-preview-count">{% if suitcase.items | length > 0 %}({{ suitcase.items | length }}){% endif %}</span></a></li>
                     <li class="toggle"><a href="#"><span class="icon-double-down"></span></a>
                 </ul>
             </div>
         </div>
         <div class="c-wrap">
             <div id="suitcase-preview-items">
-{% for item in suitcase %}
-                <span>
-                    <a href="#"><img src="/uploads/packages/{{ item.thumb }}" alt="" width="129" height="85"/></a>
-                    <a href="#">{{ item.title }}</a>
-                </span>
+{% for item in suitcase.items %}
+    {% include 'InertiaWinspireBundle:Suitcase:previewItem.html.twig'
+        with {'item': item.package}
+    %}
 {% endfor %}
             </div>
             <div id="suitcase-preview-prev" class="disabled"><span class="icon-arrow-left"></span></div>
