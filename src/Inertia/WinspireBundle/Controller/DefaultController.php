@@ -328,7 +328,7 @@ class DefaultController extends Controller
         if($sid) {
             //echo 'Found SID, step 1: ' . $sid . "<br/>\n";
             $query = $em->createQuery(
-                'SELECT s, i, p FROM InertiaWinspireBundle:Suitcase s JOIN s.items i JOIN i.package p WHERE s.user = :user_id AND s.id = :id ORDER BY i.updated DESC'
+                'SELECT s, i, p FROM InertiaWinspireBundle:Suitcase s LEFT JOIN s.items i LEFT JOIN i.package p WHERE s.user = :user_id AND s.id = :id ORDER BY i.updated DESC'
             )
             ->setParameter('user_id', $user->getId())
             ->setParameter('id', $sid);
@@ -341,6 +341,7 @@ class DefaultController extends Controller
                 //                throw $this->createNotFoundException();
                 $suitcase = new Suitcase();
                 $suitcase->setUser($user);
+                $suitcase->setPacked(false);
                 $em->persist($suitcase);
                 $em->flush();
                 
@@ -354,7 +355,7 @@ class DefaultController extends Controller
         // Second, query for the most recent suitcase (used as default)
         else {
             $query = $em->createQuery(
-                'SELECT s, i FROM InertiaWinspireBundle:Suitcase s JOIN s.items i JOIN i.package p WHERE s.user = :user_id ORDER BY s.updated DESC, i.updated DESC'
+                'SELECT s, i FROM InertiaWinspireBundle:Suitcase s LEFT JOIN s.items i LEFT JOIN i.package p WHERE s.user = :user_id ORDER BY s.updated DESC, i.updated DESC'
             )->setParameter('user_id', $user->getId());
             
             try {
@@ -375,6 +376,7 @@ class DefaultController extends Controller
                 // Third, no existing suitcases found for this account... create a new one
                 $suitcase = new Suitcase();
                 $suitcase->setUser($user);
+                $suitcase->setPacked(false);
                 
                 $em->persist($suitcase);
                 $em->flush();
