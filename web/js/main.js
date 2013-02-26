@@ -1024,8 +1024,10 @@ $(document).ready(function() {
         previewUrl = env + previewUrl;
     }
     
-    
-    $('span[rel="tipsy"]').tipsy({fade: true, gravity: 'w', opacity: 0.95});
+    $('.tooltip').tooltipster({
+//        animation: 'grow',
+        position: 'right'
+    });
     
     $('#account-modal form').on('submit', function(e) {
         e.preventDefault();
