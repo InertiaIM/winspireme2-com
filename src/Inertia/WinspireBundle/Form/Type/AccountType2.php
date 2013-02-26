@@ -25,7 +25,6 @@ class AccountType2 extends AbstractType
             'constraints' => array(
             ),
             'label' => 'Address Line 2  (Apt., Suite, etc.)',
-            'mapped' => false,
             'required' => false
         ));
         
@@ -71,7 +70,6 @@ class AccountType2 extends AbstractType
         $builder->add('name', 'text', array(
             'constraints' => array(
                 new NotBlank(),
-                new Length(array('min' => 3)),
             ),
             'label' => 'Name of Event',
             'mapped' => false

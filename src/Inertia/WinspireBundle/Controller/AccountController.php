@@ -40,13 +40,11 @@ class AccountController extends Controller
         $accountForm = $this->createForm(new AccountType(), $account);
         $form->add($accountForm);
         
-        
         $form->add(
             $formFactory->createNamed('firstName', 'text', null,
                 array(
                     'constraints' => array(
-                        new NotBlank(),
-                        new Length(array('min' => 3))
+                        new NotBlank()
                     ),
                     'label' => 'First Name'
                 )
@@ -57,8 +55,7 @@ class AccountController extends Controller
             $formFactory->createNamed('lastName', 'text', null,
                 array(
                     'constraints' => array(
-                        new NotBlank(),
-                        new Length(array('min' => 3))
+                        new NotBlank()
                     ),
                     'label' => 'Last Name'
                 )

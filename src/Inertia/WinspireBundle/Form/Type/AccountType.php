@@ -14,8 +14,7 @@ class AccountType extends AbstractType
     {
         $builder->add('name', 'text', array(
             'constraints' => array(
-                new NotBlank(),
-                new Length(array('min' => 3)),
+                new NotBlank()
             ),
             'label' => 'Organization'
         ));
