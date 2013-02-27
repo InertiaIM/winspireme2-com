@@ -138,23 +138,26 @@ var env = '/app_dev.php';
 						</ul>
 					</nav>
 				</div>
-
-				<div id="nav-legal">
-					<nav id="legal-nav">
-						<ul class="inline-nav">
-							<li><a href="#">Terms of Use</a></li>
-							<li><a href="#">Privacy Policy</a></li>
-							<li><a>CST# 2094258-40</a></li>
-						</ul>
-					</nav>
-
-					<span id="legal-copyright"> &copy; {{ 'now' | date('Y') }} Winspire All Rights Reserved </span>
-				</div>
-			</div>
-
+                
+                <div id="nav-legal">
+                    <nav id="legal-nav">
+                        <ul class="inline-nav">
+                            <li><a href="#">Terms of Use</a></li>
+                            <li><a href="#">Privacy Policy</a></li>
+{% if is_granted('ROLE_USER') %}
+                            <li><a href="{{ path('pageDisplay', {'slug': 'loa'}) }}">Letter of Agreement</a></li>
+{% endif %}
+                            <li>CST# 2094258-40</li>
+                        </ul>
+                    </nav>
+                    <span id="legal-copyright"> &copy; {{ 'now' | date('Y') }} Winspire All Rights Reserved </span>
+                </div>
+            </div>
 		</footer>
 	</div>
 	<!-- /container -->
+	
+	
 {% if is_granted('ROLE_USER') and app.request.get('_route') != 'suitcaseView' %}
 {%     render "InertiaWinspireBundle:Suitcase:Preview" %}
 {% else %}

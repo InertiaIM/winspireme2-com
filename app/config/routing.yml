@@ -54,3 +54,6 @@ accountCreate:
 fos_user_security:
     resource: "@FOSUserBundle/Resources/config/routing/security.xml"
     
+pageDisplay:
+    pattern:  /{slug}
+    defaults: { _controller: InertiaWinspireBundle:Page:display }

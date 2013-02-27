@@ -13,7 +13,7 @@
             <h4>Your Suitcase is packed!</h4>
             <p>Good luck at your event and be sure to check out all of our tips for auction success.</p>
             <ul>
-                <li><span>1</span>A copy of your Letter of Agreement and an Order Confirmation was sent to your email.</li>
+                <li><span>1</span>A copy of your <a href="{{ path('pageDisplay', { 'slug': 'loa' }) }}">Letter of Agreement</a> and an Order Confirmation was sent to your email.</li>
                 <li><span>2</span>If you need to add another item before your event, simply <a href="{{ path('packageList') }}">find the item</a>, add it to your Suitcase and checkout again</li>
                 <li><span>3</span><a href="#">Download all of your presentation materials</a>, if you haven’t already.  We will contact you after your event to walk you through the next steps.</li>
             </ul>
@@ -183,7 +183,7 @@
             <li class="checkbox" style="padding-top:16px;">
                 <div>
                     {{ form_widget(form.loa) }}
-                    <label for="account_loa">By clicking the button below, I verify that I have read and that I agree to the <a href="#">Letter of Agreement</a> and all the terms within.</label>
+                    <label for="account_loa">By clicking the button below, I verify that I have read and that I agree to the <a href="{{ path('pageDisplay', { 'slug': 'loa' }) }}">Letter of Agreement</a> and all the terms within.</label>
                 </div>
             </li>
             <li class="checkbox">
