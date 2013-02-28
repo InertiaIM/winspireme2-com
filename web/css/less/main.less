@@ -117,7 +117,7 @@ header .c-wrap { height:65px; }
 #core-suitcase-button {
     .btn-yellow(3px);
     text-decoration:none;
-    font-family: @ws-lucida;
+    font-family: @ws-arial;
     height:30px;
     line-height:30px;
     padding:0 27px;
@@ -141,6 +141,10 @@ header .c-wrap { height:65px; }
     &:hover {
         -webkit-box-shadow:  0px 0px 3px 1px rgba(0, 0, 0, .1);
         box-shadow:  0px 0px 3px 1px rgba(0, 0, 0, .1);
+    }
+    
+    &.locked {
+        .btn-gray(3px);
     }
 }
 
@@ -299,14 +303,37 @@ footer, #footer { height:220px;border-top:1px solid rgb(195,213,224);
   }
 }
 
-#nav-legal { clear:both;
-  #legal-nav { float:left; 
-    a { 
-      color:@ws-white;font-size:0.9em;padding:1px 9px; 
-      &:hover { color:@ws-yellow; }  
+#nav-legal {
+    clear:both;
+    #legal-nav {
+        float:left;
+        
+        .inline-nav {
+            .clearfix;
+        }
+        
+        li {
+            color:@ws-white;
+            padding:1px 9px;
+            font-size:14px;
+            display:block;
+            float:left;
+        }
+        
+        a {
+            color:@ws-white;
+            
+            &:hover {
+                color:@ws-yellow;
+            }
+        }
     }
-  }
-  #legal-copyright { display:block;text-align:right;color:@ws-white;font-size:0.9em; }
+    #legal-copyright {
+        display:block;
+        text-align:right;
+        color:@ws-white;
+        font-size:0.9em;
+    }
 }
 .content {
     background:@ws-white;
@@ -940,7 +967,7 @@ footer, #footer { height:220px;border-top:1px solid rgb(195,213,224);
       h4 { font-size:1.125em;margin:0 4px 5px 4px; }
       a { color:@ws-orange;text-decoration:none;font-size:.833em;font-weight:900;margin:0 10px;
         &:hover { color:@ws-darkblue; }
-        .icom-icon { font-size:1.125em;position:relative;top:2px; }
+        .icon { font-size:1.125em;position:relative;top:2px; }
       }
       
       #pl-link-all {
@@ -1010,7 +1037,7 @@ footer, #footer { height:220px;border-top:1px solid rgb(195,213,224);
             font-size:0.625em;
             font-weight:900;
             padding:0 0 0 29px;
-            .icom-icon { font-size:1.125em;position:relative;top:2px; }
+            .icon { font-size:1.125em;position:relative;top:2px; }
             &:hover { color:@ws-darkblue; }
         }
       }
@@ -1102,7 +1129,7 @@ footer, #footer { height:220px;border-top:1px solid rgb(195,213,224);
           }
           .i-a-options { clear:both; 
             a { display:block;font-size:0.750em;color:@ws-orange;text-decoration:none;padding:2px 0 1px 0;
-            &:hover { color:@ws-darkblue; } .icom-icon { font-size:1.125em;position:relative;top:2px; } } 
+            &:hover { color:@ws-darkblue; } .icon { font-size:1.125em;position:relative;top:2px; } } 
           }
         }
       }
@@ -1132,7 +1159,7 @@ footer, #footer { height:220px;border-top:1px solid rgb(195,213,224);
       &:first-child { border-left:none; }
       &:last-child { border-right:none; }
       span { font-size:1.167em;font-weight:600;color:rgb(92,92,92); }
-      .icom-icon { font-size:1.225em; }
+      .icon { font-size:1.225em; }
     }
  }
  
@@ -1145,11 +1172,26 @@ footer, #footer { height:220px;border-top:1px solid rgb(195,213,224);
     background: -o-linear-gradient(top,  rgba(147,203,234,1) 0%,rgba(227,234,225,0) 100%);
     background: -ms-linear-gradient(top,  rgba(147,203,234,1) 0%,rgba(227,234,225,0) 100%);
     background: linear-gradient(to bottom,  rgba(147,203,234,1) 0%,rgba(227,234,225,0) 100%);
+    
     .c-wrap {
         position:relative;
         z-index:1
     }
-    .pd-b2-pl { font-size:.833em;font-weight:900;text-decoration:none;margin:0 0 20px 0;display:block;float:left; }
+    
+    .pd-b2-pl {
+        font-size:.833em;
+        font-weight:900;
+        text-decoration:none;
+        margin:7px 0 20px 0;
+        display:block;
+        float:left;
+        
+        .icon {
+            font-size:20px;
+            vertical-align:middle;
+        }
+    }
+    
     .pd-banner {
         background:@ws-white;
         position:relative;
@@ -1201,11 +1243,25 @@ footer, #footer { height:220px;border-top:1px solid rgb(195,213,224);
       .srv-value { font-size:1.417em;font-weight:600;color:@ws-darkblue; }
       .srv-label { font-size:.833em;font-style:italic;color:@ws-medblue; }
       .pd-a-npcost { font-size:.833em;margin:0 13px; }
-      .pd-a-add { .btn-blue(3px);height:37px;line-height:32px;text-decoration:none;margin:15px 0 19px 0; 
-        em { font-size:.833em; }
-        strong { font-size:0.917em; }
-        .icom-icon { font-size:1.333em;margin:0 5px 0 0;position:relative;top:2px; }
-      }
+      
+        .pd-a-add {
+            .btn-blue(3px);
+            height:37px;
+            line-height:32px;
+            text-decoration:none;
+            margin:15px 0 19px 0;
+            em { font-size:.833em; }
+            strong { font-size:0.917em; }
+            .icon { font-size:1.333em;margin:0 5px 0 0;position:relative;top:2px; }
+            
+            &.disabled {
+                background:#c6c6c6;
+                border-color:#c6c6c6;
+                color:#e8e8e8;
+                cursor:default;
+                text-shadow:none;
+            }
+        }
       hr { height:0px;border:none;border-top:1px solid @ws-darksilver; }
       .pd-a-options {
         li { display:block;clear:both;margin:0 0 9px 0; }
@@ -1248,7 +1304,7 @@ footer, #footer { height:220px;border-top:1px solid rgb(195,213,224);
       .pd-s-add { .btn-blue(3px);height:28px;line-height:20px;text-decoration:none;margin:0 0 10px 0;
         em { font-size:.750em;font-style:italic; }
         strong { font-size:.833em; }
-        .icom-icon { font-size:1.333em;position:relative;top:3px; }
+        .icon { font-size:1.333em;position:relative;top:3px; }
       }
 /*       ul { width:20000em; } */
       h2 { margin:0 0 15px 0; }
@@ -1257,13 +1313,13 @@ footer, #footer { height:220px;border-top:1px solid rgb(195,213,224);
         p { font-size:.833em;display:block;height:50px;font-weight:600; }
       }
       .pd-s-mo { color:@ws-orange;text-decoration:none;font-size:.833em;font-weight:600; 
-        .icom-icon { position:relative;top:1px; }
+        .icon { position:relative;top:1px; }
         &:hover { color:@ws-darkblue; } 
       }
       
       .feat-np { position:absolute;top:50%;margin-top:-15px;cursor:pointer;z-index:2;
         width:18px;height:30px;text-align:center;background:@ws-silver;
-        .icom-icon { height:30px;line-height:30px;color:@ws-burnorange; }
+        .icon { height:30px;line-height:30px;color:@ws-burnorange; }
         -webkit-box-shadow:  0px 0px 2px 1px rgba(0, 0, 0, .25);
         box-shadow:  0px 0px 2px 1px rgba(0, 0, 0, .25);
       }
@@ -1434,6 +1490,18 @@ footer, #footer { height:220px;border-top:1px solid rgb(195,213,224);
                     line-height:22px;
                     color:#fff;
                     font-weight:bold;
+                    
+                    &.suitcase-count {
+                        float:none;
+                        display:inline;
+                        width:auto;
+                        height:auto;
+                        margin:0;
+                        text-align:left;
+                        font-size:16px;
+                        color:#3e3e3e;
+                        line-height:30px;
+                    }
                 }
             }
         }
@@ -1528,6 +1596,22 @@ footer, #footer { height:220px;border-top:1px solid rgb(195,213,224);
             .holder2 {
                 height:61px;
                 position:relative;
+                
+                .return {
+                    float:left;
+                    margin:18px 76px;
+                    
+                    a {
+                        display:block;
+                        height:25px;
+                        line-height:25px;
+                        text-decoration:none;
+                        span {
+                            font-size:22px;
+                            vertical-align:middle;
+                        }
+                    }
+                }
             }
             
             
@@ -1686,7 +1770,7 @@ footer, #footer { height:220px;border-top:1px solid rgb(195,213,224);
                                             color:rgb(92,92,92);
                                         }
                                         
-                                        .icom-icon { font-size:1.225em; }
+                                        .icon { font-size:1.225em; }
                                     }
                                 }
                                 
@@ -2226,7 +2310,7 @@ footer, #footer { height:220px;border-top:1px solid rgb(195,213,224);
 
 
 #suitcase-preview {
-    height:226px;
+    height:64px;
     overflow:hidden;
     width:100%;
     background:transparent;
@@ -2240,6 +2324,7 @@ footer, #footer { height:220px;border-top:1px solid rgb(195,213,224);
     }
     
     #suitcase-preview-header {
+        cursor:pointer;
         position:absolute;
         top:0;
         width:100%;
@@ -2342,9 +2427,9 @@ footer, #footer { height:220px;border-top:1px solid rgb(195,213,224);
                 &.button {
                     margin-left:29px;
                     a {
-                        .btn-blue(3px);
+                        .btn-yellow(3px);
                         height:30px;
-                        line-height:26px;
+                        line-height:30px;
                         cursor:pointer;
                         margin:6px 0 0 0;
                         padding:0 27px;
@@ -2357,10 +2442,14 @@ footer, #footer { height:220px;border-top:1px solid rgb(195,213,224);
                             margin:0 -2px 0 0;
                         }
                         span.icon {
+                            vertical-align:middle;
                             font-size:1.4em;
                             margin:0 4px 0 0;
-                            position:relative;
-                            top:2px;
+                        }
+                        
+                        &.locked {
+                            .btn-gray(3px);
+                            border-color:#5f5f5f;
                         }
                     }
                 }
@@ -2455,7 +2544,7 @@ footer, #footer { height:220px;border-top:1px solid rgb(195,213,224);
                     box-shadow:  0px 1px 1px 0px rgba(0, 0, 0, .40);
                     
                     &:hover {
-                        color:#ff0000;
+                        color:#0578c8;
                         text-shadow:none;
                         line-height:24px;
                     }

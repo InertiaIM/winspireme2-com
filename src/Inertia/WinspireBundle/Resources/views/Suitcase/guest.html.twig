@@ -8,28 +8,32 @@
 <div id="con-sc">
     <div id="sc-header">
         <div class="c-wrap">
-{% if suitcase.packed %}
-            <h1><span class="icon-suitcase-locked"></span> <em>my</em> Suitcase</h1>
-            <h4>Your Suitcase is packed!</h4>
-            <p>Good luck at your event and be sure to check out all of our tips for auction success.</p>
-            <ul>
-                <li><span>1</span>A copy of your <a href="{{ path('pageDisplay', { 'slug': 'loa' }) }}">Letter of Agreement</a> and an Order Confirmation was sent to your email.</li>
-                <li><span>2</span>If you need to add another item before your event, simply <a href="{{ path('packageList') }}">find the item</a>, add it to your Suitcase and checkout again</li>
-                <li><span>3</span><a href="#">Download all of your presentation materials</a>, if you haven’t already.  We will contact you after your event to walk you through the next steps.</li>
-            </ul>
-{% else %}
-            <h1><span class="icon-suitcase-2"></span> <em>my</em> Suitcase</h1>
-            <h3>Here you can organize your Experiences, collaborate with your peers and work with your Winspire Event Consultant to decide on the best set of packages for your charity auction. Once you have finalized your selection, simply click "I'm Packed" to reserve the Experiences for your event.</h3>
-{% endif %}
+            <div class="packed"{% if not suitcase.packed %} style="display:none;"{% endif %}>
+                <h1><span class="icon-suitcase-locked"></span> <em>my</em> Suitcase</h1>
+                <h4>Your Suitcase is packed!</h4>
+                <p>Good luck at your event and be sure to check out all of our tips for auction success.</p>
+                <ul>
+                    <li><span>1</span>A copy of your <a href="{{ path('pageDisplay', { 'slug': 'loa' }) }}">Letter of Agreement</a> and an Order Confirmation was sent to your email.</li>
+                    <li><span>2</span>If you need to add another item before your event, simply <a href="{{ path('packageList') }}">find the item</a>, add it to your Suitcase and checkout again</li>
+                    <li><span>3</span><a href="#">Download all of your presentation materials</a>, if you haven’t already.  We will contact you after your event to walk you through the next steps.</li>
+                </ul>
+            </div>
+            <div class="unpacked"{% if suitcase.packed %} style="display:none;"{% endif %}>
+                <h1><span class="icon-suitcase-2"></span> <em>my</em> Suitcase</h1>
+                <h3>Here you can organize your Experiences, collaborate with your peers and work with your Winspire Event Consultant to decide on the best set of packages for your charity auction. Once you have finalized your selection, simply click "I'm Packed" to reserve the Experiences for your event.</h3>
+            </div>
         </div>
     </div>
     <div id="sc-area">
         <div class="c-wrap shadow-wrapper">
             <div class="header drop-shadow curved curved-hz-1">
-                <ul class="key">
+                <ul class="key unpacked"{% if suitcase.packed %} style="display:none;"{% endif %}>
                     <li><span class="definitely">{{ counts['D'] + counts['E'] }}</span> Definitely</li>
                     <li><span class="maybe">{{ counts['M'] }}</span> Maybe</li>
                     <li><span class="recommended">{{ counts['R'] }}</span> Blah Recommends</li>
+                </ul>
+                <ul class="key packed"{% if not suitcase.packed %} style="display:none;"{% endif %}>
+                    <li>You have <strong><span class="suitcase-count">{{ suitcase.items | length }} items</span></strong> in your Suitcase.</li>
                 </ul>
             </div>
             <div class="content">
@@ -56,9 +60,9 @@
                                     <h4>{{ item.package.parentHeader }}</h4>
 {%     if true %}
                                     <ul class="pd-detailpanel">
-                                        {% if item.package.persons %}<li><span aria-hidden="true" class="icon-user icom-icon"></span> <span class="pd-c-usercount">{{ item.package.persons }}</span></li>{% endif %}
-                                        {% if item.package.accommodations %}<li><span aria-hidden="true" class="icon-bed icom-icon"></span> <span class="pd-c-nightcount">{{ item.package.accommodations }}</span></li>{% endif %}
-                                        {% if item.package.airfares %}<li><span aria-hidden="true" class="icon-airplane icom-icon"></span> <span class="pd-c-airfare">{{ item.package.airfares }}</span></li>{% endif %}
+                                        {% if item.package.persons %}<li><span aria-hidden="true" class="icon-user icon"></span> <span class="pd-c-usercount">{{ item.package.persons }}</span></li>{% endif %}
+                                        {% if item.package.accommodations %}<li><span aria-hidden="true" class="icon-bed icon"></span> <span class="pd-c-nightcount">{{ item.package.accommodations }}</span></li>{% endif %}
+                                        {% if item.package.airfares %}<li><span aria-hidden="true" class="icon-airplane icon"></span> <span class="pd-c-airfare">{{ item.package.airfares }}</span></li>{% endif %}
                                     </ul>
 {%     endif %}
                                     <div class="item-open"><span class="icon-play"></span></div>
@@ -68,7 +72,7 @@
                                         <p class="srv">{{ item.package.suggestedRetailValue }} <span>Suggested Retail Value</span></p>
                                         <p>${{ item.package.cost | number_format }} Non-Profit Cost</p>
                                         <div class="actions" data-id="{{ item.package.id }}">
-                                            <a href="{{ path('packageDetail', { 'slug': item.package.slug }) }}"><span class="icon-plus"></span>More Details</a>
+                                            <a href="{{ path('packageDetail', { 'slug': item.package.slug }) }}" class="more"><span class="icon-plus"></span>More Details</a>
                                             <a href="#" class="download"><span class="icon-download"></span>Download Info</a>
                                             <a href="#" class="delete"><span class="icon-x"></span>Remove Package</a>
                                         </div>
@@ -101,6 +105,9 @@
                 </div>
                 <!-- Next/Prev -->
                 <div class="holder holder2">
+                    <div class="return">
+                        <a href="{{ path('packageList', {'slug': 'all'}) }}"><span class="icon icon-arrow-left"></span>Add More Experiences</a>
+                    </div>
                     <div class="pager">
                         <div class="pager-nav">
                             <a class="pager-prev" href="#"><span class="icon-arrow-left"></span></a>
@@ -111,18 +118,15 @@
                 </div>
             </div>
             <div class="footer drop-shadow curved curved-hz-bottom">
-{% if suitcase.packed %}
-                <div class="packed">
+                <div class="packed"{% if not suitcase.packed %} style="display:none;"{% endif %}>
                     <span class="icon-checkmark"></span>
                     <h4>Remember to download your presentation materials!</h4>
                     <button class="neutral" id="download">Download Materials</button>
                 </div>
-{% else %}
-                <div class="unpacked">
+                <div class="unpacked"{% if suitcase.packed %} style="display:none;"{% endif %}>
                     <h4>Ready to Go?</h4>
                     <button id="ready"><span class="icon-suitcase-2"></span><em>I'm</em> Packed (<span class="suitcase-count">{{ suitcase.items | length }}</span>)</button>
                 </div>
-{% endif %}
             </div>
         </div>
     </div>

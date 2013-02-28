@@ -8,8 +8,10 @@
 <div id="con-pd">
     <div id="pd-header" data-id="{{ package.id }}">
         <div class="c-wrap">
-{% if search %}
-            <a href="#" class="pd-b2-pl"><span aria-hidden="true" class="ico-arrow-left icom-icon"></span> Back To Search Results</a>
+{% if packagePath %}
+            <a href="{{ path('packageList', {'slug': packagePath}) }}" class="pd-b2-pl">
+                <span aria-hidden="true" class="icon-arrow-left icon"></span>Back To Search Results
+            </a>
 {% else %}
             <p>&nbsp;</p>
 {% endif %}
@@ -26,7 +28,7 @@
                 <div class="pd-action">
                     <div class="pd-a-srv"><span class="srv-value">{{ package.suggestedRetailValue }}</span> <span class="srv-label">Suggested Retail Value</span></div>
                     <span class="pd-a-npcost"><span class="npc-value">${{ package.cost | number_format(0) }}</span> Non-Profit Cost</span>
-                    <a href="#" class="pd-a-add"><span aria-hidden="true" class="ico-suitcase icom-icon"></span><em>Add to</em> Suitcase</a>
+                    <a href="#" class="pd-a-add{% if not available %} disabled{% endif %}" data-id="{{ package.id }}"><span aria-hidden="true" class="icon-suitcase icon"></span><em>Add to</em> Suitcase</a>
                     
 {% if variants | length > 1 %}
                     <hr/>
@@ -42,9 +44,9 @@
                                 <div class="a-o-pdetail">
 {%         if true %}
                                     <ul class="pd-detailpanel">
-                                        {% if variant.persons %}<li><span aria-hidden="true" class="icon-user icom-icon"></span> <span class="pd-c-usercount">{{ variant.persons }}</span></li>{% endif %}
-                                        {% if variant.accommodations %}<li><span aria-hidden="true" class="icon-bed icom-icon"></span> <span class="pd-c-nightcount">{{ variant.accommodations }}</span></li>{% endif %}
-                                        {% if variant.airfares %}<li><span aria-hidden="true" class="icon-airplane icom-icon"></span> <span class="pd-c-airfare">{{ variant.airfares }}</span></li>{% endif %}
+                                        {% if variant.persons %}<li><span aria-hidden="true" class="icon-user icon"></span> <span class="pd-c-usercount">{{ variant.persons }}</span></li>{% endif %}
+                                        {% if variant.accommodations %}<li><span aria-hidden="true" class="icon-bed icon"></span> <span class="pd-c-nightcount">{{ variant.accommodations }}</span></li>{% endif %}
+                                        {% if variant.airfares %}<li><span aria-hidden="true" class="icon-airplane icon"></span> <span class="pd-c-airfare">{{ variant.airfares }}</span></li>{% endif %}
                                     </ul>
 {%         endif %}
                                     <p>{{ variant.name }}</p>
@@ -64,9 +66,9 @@
                     
                     <div class="pd-d-utilbar">
                         <ul class="pd-detailpanel">
-                            {% if package.persons %}<li><span aria-hidden="true" class="icon-user icom-icon"></span> <span class="pd-c-usercount">{{ package.persons }}</span></li>{% endif %}
-                            {% if package.accommodations %}<li><span aria-hidden="true" class="icon-bed icom-icon"></span> <span class="pd-c-nightcount">{{ package.accommodations }}</span></li>{% endif %}
-                            {% if package.airfares %}<li><span aria-hidden="true" class="icon-airplane icom-icon"></span> <span class="pd-c-airfare">{{ package.airfares }}</span></li>{% endif %}
+                            {% if package.persons %}<li><span aria-hidden="true" class="icon-user icon"></span> <span class="pd-c-usercount">{{ package.persons }}</span></li>{% endif %}
+                            {% if package.accommodations %}<li><span aria-hidden="true" class="icon-bed icon"></span> <span class="pd-c-nightcount">{{ package.accommodations }}</span></li>{% endif %}
+                            {% if package.airfares %}<li><span aria-hidden="true" class="icon-airplane icon"></span> <span class="pd-c-airfare">{{ package.airfares }}</span></li>{% endif %}
                         </ul>
                         
                         <div class="pd-d-addthis">

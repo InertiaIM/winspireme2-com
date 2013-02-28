@@ -84,6 +84,8 @@ class DefaultController extends Controller
             $defaultPackages[$index]['count'] = $count;
         }
         
+        $session->set('packagePath', $slug);
+        
         return $this->render(
             'InertiaWinspireBundle:Default:packageList.html.twig',
             array(
@@ -98,7 +100,7 @@ class DefaultController extends Controller
     public function packageListJsonAction(Request $request)
     {
         $session = $this->getRequest()->getSession();
-        $suitcase = $session->get('suitcase', array());
+        $suitcase = $this->getSuitcase();
         
         if ($categories = $request->query->get('category')) {
             $repo = $this->getDoctrine()->getRepository('InertiaWinspireBundle:Category');
@@ -238,6 +240,11 @@ class DefaultController extends Controller
     
     public function packageDetailAction($slug)
     {
+        $suitcase = $this->getSuitcase();
+        
+        $session = $this->getRequest()->getSession();
+        $packagePath = $session->get('packagePath');
+        
         $em = $this->getDoctrine()->getManager();
         $query = $em->createQuery(
             'SELECT p FROM InertiaWinspireBundle:Package p WHERE p.is_private != 1 AND p.picture IS NOT NULL AND p.slug = :slug'
@@ -263,10 +270,23 @@ class DefaultController extends Controller
         $currentHeader = '';
         $count = 0;
         foreach($packages as $package) {
+            
+            // Determine whether to show the "Add to Suitcase" button based
+            // on the Packages already contained in the session.
+            // TODO refactor for a more efficient algorithm
+            $available = true;
+            foreach($suitcase->getItems() as $i) {
+                // We already have this item in our cart;
+                // so we can stop here...
+                if($i->getPackage()->getId() == $package->getId()) {
+                    $available = false;
+                }
+            }
+            
             if($package->getIsDefault()) {
                 $count = 1;
                 $index = $package->getId();
-                $defaultPackages[$index] = array('package' => $package, 'count' => 1);
+                $defaultPackages[$index] = array('package' => $package, 'count' => 1, 'available' => $available);
                 $defaultPackages[$index]['variants'] = array($package);
             }
             if($currentHeader != $package->getParentHeader()) {
@@ -284,8 +304,9 @@ class DefaultController extends Controller
         return $this->render(
             'InertiaWinspireBundle:Default:packageDetail.html.twig',
             array(
+                'available' => $defaultPackages[$index]['available'],
                 'package' => $defaultPackages[$index]['package'],
-                'search' => false,
+                'packagePath' => $packagePath,
                 'slug' => $slug,
                 'variants' => $defaultPackages[$index]['variants']
             )

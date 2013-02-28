@@ -1,16 +1,16 @@
 {% javascripts "@InertiaWinspireBundle/Resources/views/Suitcase/previewItem.html.twig" filter="twig_js" %}
 <script language="javascript" src="{{ asset_url }}"></script>
 {% endjavascripts %}
-<div id="suitcase-preview"{% if app.environment == 'dev' %} style="bottom:39px;"{% endif %}>
+<div id="suitcase-preview"{% if app.environment == 'dev' %} style="bottom:39px;"{% endif %} class="closed">
     <div id="suitcase-preview-content">
         <div id="suitcase-preview-header">
             <div class="c-wrap">
                 <div class="suitcase"><span class="icon-suitcase"></span><em>my</em> Suitcase</div>
                 <ul class="header-nav">
-                    <li class="share"><a href="#"><span class="icon-bubble"></span> Share</a></li>
-                    <li class="comments"><a href="#"><span class="icon-comment"></span><span class="comment-count">0</span> Comments</a></li>
-                    <li class="button"><a href="{{ path('suitcaseView') }}"><span class="icon-suitcase icon"></span> <em>I'm</em> Packed <span id="suitcase-preview-count">{% if suitcase.items | length > 0 %}({{ suitcase.items | length }}){% endif %}</span></a></li>
-                    <li class="toggle"><a href="#"><span class="icon-double-down"></span></a>
+                    <li class="share"><a href="{{ path('suitcaseView') }}"><span class="icon-bubble"></span> Share</a></li>
+                    <li class="comments"><a href="{{ path('suitcaseView') }}"><span class="icon-comment"></span><span class="comment-count">0</span> Comments</a></li>
+                    <li class="button"><a{% if suitcase.packed %} class="locked"{% endif %} href="{{ path('suitcaseView') }}"><span class="{% if suitcase.packed %}icon-suitcase-locked{% else %}icon-suitcase{% endif %} icon"></span> <em>I'm</em> Packed<span id="suitcase-preview-count">{% if suitcase.items | length > 0 %} ({{ suitcase.items | length }}){% endif %}</span></a></li>
+                    <li class="toggle"><a href="#"><span class="icon-double-up"></span></a>
                 </ul>
             </div>
         </div>

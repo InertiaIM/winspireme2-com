@@ -492,6 +492,15 @@ var footerCtx = $('footer')[0];
         var newId = $(this).val();
         
         if (currentId != newId) {
+            $('.pd-a-add').attr('data-id', newId);
+            
+            if($('#suitcase-preview-items').find('.suitcase-preview-item[data-id="' + newId + '"]').length > 0) {
+                $('.pd-a-add').addClass('disabled');
+            }
+            else {
+                $('.pd-a-add').removeClass('disabled');
+            }
+            
             $('.srv-value').text($('#variant-holder #v' + newId).data('srv'));
             $('.npc-value').text($('#variant-holder #v' + newId).data('cost'));
             $('h3.name').text($('#variant-holder #v' + newId).data('name'));
@@ -516,9 +525,7 @@ var footerCtx = $('footer')[0];
     
     
     /* Suitcase Preview */
-    $('#suitcase-preview-header .toggle a').click(function(e) {
-        e.preventDefault();
-        
+    $('body').on('click', '#suitcase-preview #suitcase-preview-header', function(e) {
         if ($(this).find('span').hasClass('icon-double-up')) {
             $('#suitcase-preview').css('height', '226px');
             $('#suitcase-preview-content').css('top', '162px');
@@ -535,22 +542,30 @@ var footerCtx = $('footer')[0];
         }
     });
     
+    $('body').on('click', '#suitcase-preview-header .header-nav li.share a, #suitcase-preview-header .header-nav li.comments a, #suitcase-preview-header .header-nav li.button a', function(e) {
+        e.stopPropagation();
+    });
+    
+    $('body').on('click', '#suitcase-preview-header .header-nav li.toggle a', function(e) {
+        e.preventDefault();
+    });
+    
     $(document).ready(function() {
         setupSuitcaseCycle();
         
-        $('#suitcase-preview-items')
-        .on('mouseenter mouseleave', 'a', function(e) {
+        $('body')
+        .on('mouseenter mouseleave', '#suitcase-preview-items a', function(e) {
             $(this).siblings('a').toggleClass('hover');
         });
         
-        $('#suitcase-preview-items')
-        .on('mouseenter mouseleave', 'a.preview-item-image', function(e) {
+        $('body')
+        .on('mouseenter mouseleave', '#suitcase-preview-items a.preview-item-image', function(e) {
             $(this).find('.preview-item-delete').fadeToggle('fast');
             $(this).find('.preview-item-info').slideToggle('fast');
         });
         
-        $('#suitcase-preview-items')
-        .on('click', '.preview-item-delete', function(e) {
+        $('body')
+        .on('click', '#suitcase-preview-items .preview-item-delete', function(e) {
             e.preventDefault();
             
             var item = $(this).parents('.suitcase-preview-item');
@@ -575,7 +590,11 @@ var footerCtx = $('footer')[0];
                         }
                         
                         $(item).remove();
+                        
+                        $('.pd-a-add[data-id="' + id + '"]').removeClass('disabled');
+                        
                         $('#suitcase-preview-count').text('(' + data.count + ')');
+                        $('#core-suitcase-button').find('.count').text('(' + data.count + ')');
                         
                         setupSuitcaseCycle();
                     }
@@ -583,9 +602,79 @@ var footerCtx = $('footer')[0];
             });
         });
         
+        
+        function addToSuitcase(id, el) {
+            // The existence of the account modal means that
+            // the user is currently not authenticated
+            if($('#account-modal').length > 0) {
+                // Pass the desired package id into the hidden form field
+                // and open our modal form window to create a new account
+                $('#fos_user_registration_form_package').val(id);
+                $("#account-modal").
+                    attr('data-id', id).
+                    modal({
+                        closeText: 'X',
+                        overlay: '#fff',
+                        opacity: 0.73,
+                        zIndex: 2002
+                    });
+            }
+            else {
+                var url = '/suitcase/add/' + id;
+                if (typeof env !== 'undefined') {
+                    url = env + url;
+                }
+                
+                $.ajax({
+                    dataType: 'json',
+                    url: url,
+                    success: function(data, textStatus, jqXHR) {
+                        if (!$.isEmptyObject(data)) {
+                            $(el).addClass('disabled');
+                            
+                            // Check whether we have a Cycle already running
+                            if ($('.cycle-carousel-wrap')) { 
+                                $('#suitcase-preview-items').cycle('destroy');
+                            }
+                            
+                            $('#suitcase-preview-header .button a')
+                                .removeClass('locked')
+                                .find('span.icon')
+                                .removeClass('icon-suitcase-locked')
+                                .addClass('icon-suitcase');
+                            
+                            $('#core-suitcase-button')
+                                .removeClass('locked')
+                                .find('span.icon')
+                                .removeClass('icon-suitcase-locked')
+                                .addClass('icon-suitcase');
+                            
+                            $('#core-suitcase-button').find('.count').text('(' + data.count + ')');
+                            $('#suitcase-preview-count').text('(' + data.count + ')');
+                            
+                            $('#suitcase-preview-items').prepend(Twig.render(previewItem, {item: data.item}));
+                            
+                            setupSuitcaseCycle();
+                        }
+                    }
+                });
+            }
+        }
+        
+        
+        
+        $('.pd-a-add').on('click', function(e) {
+            e.preventDefault();
+            var id = $(this).attr('data-id');
+            var self = this;
+            
+            addToSuitcase(id, self);
+        });
+        
+        
         $('.pl-items').on('click', '.i-a-add', function(e) {
             var button = $(this);
-            var id = $(this).data('id');
+            var id = $(this).attr('data-id');
             
             // The existence of the account modal means that
             // the user is currently not authenticated
@@ -620,8 +709,22 @@ var footerCtx = $('footer')[0];
                                 $('#suitcase-preview-items').cycle('destroy');
                             }
                             
-                            $('#suitcase-preview-items').prepend(Twig.render(previewItem, {item: data.item}));
+                            $('#suitcase-preview-header .button a')
+                                .removeClass('locked')
+                                .find('span.icon')
+                                .removeClass('icon-suitcase-locked')
+                                .addClass('icon-suitcase');
+                            
+                            $('#core-suitcase-button')
+                                .removeClass('locked')
+                                .find('span.icon')
+                                .removeClass('icon-suitcase-locked')
+                                .addClass('icon-suitcase');
+                            
+                            $('#core-suitcase-button').find('.count').text('(' + data.count + ')');
                             $('#suitcase-preview-count').text('(' + data.count + ')');
+                            
+                            $('#suitcase-preview-items').prepend(Twig.render(previewItem, {item: data.item}));
                             
                             setupSuitcaseCycle();
                         }
@@ -657,37 +760,37 @@ var footerCtx = $('footer')[0];
 $(document).ready(function() {
     var sc = $('#sc-area');
     
-    $(sc).find('.content').on('click', '.item-close', function(e) {
-        e.preventDefault();
-        e.stopPropagation();
-        
-        var item = $(this).parent().parent('.package');
-        var container = $(item).parent('li');
-        var all = $(sc).find('.content > ul').find('li > ul > li');
-        
-        var i = $(all).index(container);
-        var r = Math.floor(i / 3);
-        var c = (i % 3);
-        var left = ((300 * c) + 30);
-        
-        var row = $(all).slice((r * 3), (r * 3) + 3);
-        var not = $(row).not(container);
-        
-        if($(item).hasClass('open')) {
-            $(not).find('.flag').show();
-            $(not).find('.package').addClass('drop-shadow');
-            $(item).removeClass('drop-shadow expanded open');
-            
-            $(item).find('.expanded').fadeOut(0, function() {
-                $(item).animate({width: 206 + 'px'}, 'fast');
-                $(container).animate({left: left + 'px'}, 'fast', function() {
-                    $(container).find('h4').show();
-//                    $(container).find('.item-open').show();
-                    $(item).addClass('drop-shadow');
-                });
-            });
-        }
-    });
+//    $(sc).find('.content').on('click', '.item-close', function(e) {
+//        e.preventDefault();
+//        e.stopPropagation();
+//        
+//        var item = $(this).parent().parent('.package');
+//        var container = $(item).parent('li');
+//        var all = $(sc).find('.content > ul').find('li > ul > li');
+//        
+//        var i = $(all).index(container);
+//        var r = Math.floor(i / 3);
+//        var c = (i % 3);
+//        var left = ((300 * c) + 30);
+//        
+//        var row = $(all).slice((r * 3), (r * 3) + 3);
+//        var not = $(row).not(container);
+//        
+//        if($(item).hasClass('open')) {
+//            $(not).find('.flag').show();
+//            $(not).find('.package').addClass('drop-shadow');
+//            $(item).removeClass('drop-shadow expanded open');
+//            
+//            $(item).find('.expanded').fadeOut(0, function() {
+//                $(item).animate({width: 206 + 'px'}, 'fast');
+//                $(container).animate({left: left + 'px'}, 'fast', function() {
+//                    $(container).find('h4').show();
+////                    $(container).find('.item-open').show();
+//                    $(item).addClass('drop-shadow');
+//                });
+//            });
+//        }
+//    });
     
     $(sc).find('.content').on('mouseenter', '.package', function(e) {
         var item = $(this);
@@ -705,12 +808,49 @@ $(document).ready(function() {
     });
     
     $(sc).find('.content').on('click', '.package', function(e) {
+        
+//      var item = $(this).parent().parent('.package');
+//      var container = $(item).parent('li');
+//      var all = $(sc).find('.content > ul').find('li > ul > li');
+//      
+//      var i = $(all).index(container);
+//      var r = Math.floor(i / 3);
+//      var c = (i % 3);
+//      var left = ((300 * c) + 30);
+//      
+//      var row = $(all).slice((r * 3), (r * 3) + 3);
+//      var not = $(row).not(container);
+//      
+//      if($(item).hasClass('open')) {
+//          $(not).find('.flag').show();
+//          $(not).find('.package').addClass('drop-shadow');
+//          $(item).removeClass('drop-shadow expanded open');
+//          
+//          $(item).find('.expanded').fadeOut(0, function() {
+//              $(item).animate({width: 206 + 'px'}, 'fast');
+//              $(container).animate({left: left + 'px'}, 'fast', function() {
+//                  $(container).find('h4').show();
+////                  $(container).find('.item-open').show();
+//                  $(item).addClass('drop-shadow');
+//              });
+//          });
+//      }
+        
+        
+        
+        
+        
+        
+        
+        
         var item = $(this);
         var container = $(this).parent('li');
         var all = $(sc).find('.content > ul').find('li > ul > li');
         
         var i = $(all).index(container);
         var r = Math.floor(i / 3);
+        var c = (i % 3);
+        var left = ((300 * c) + 30);
         
         var row = $(all).slice((r * 3), (r * 3) + 3);
         var not = $(row).not(container);
@@ -729,14 +869,30 @@ $(document).ready(function() {
             });
             $(container).animate({left: 30}, 'fast');
         }
+        else {
+            $(not).find('.flag').show();
+            $(not).find('.package').addClass('drop-shadow');
+            $(item).removeClass('drop-shadow expanded open');
+            
+            $(item).find('.expanded').fadeOut(0, function() {
+                $(item).animate({width: 206 + 'px'}, 'fast');
+                $(container).animate({left: left + 'px'}, 'fast', function() {
+                    $(container).find('h4').show();
+                    $(item).addClass('drop-shadow');
+                });
+            });
+        }
     });
     
+    
+    $(sc).find('.content').on('click', '.actions > .more', function(e) {
+        e.stopPropagation();
+    });
     
     $(sc).find('.content').on('click', '.actions > .download', function(e) {
         e.preventDefault();
         e.stopPropagation();
     });
-    
     
     $(sc).find('.content').on('click', '.actions > .delete', function(e) {
         e.preventDefault();
@@ -804,6 +960,23 @@ $(document).ready(function() {
                     $('.key').find('.definitely').text(data.counts['D'] + data.counts['E']);
                     $('.key').find('.maybe').text(data.counts['M']);
                     $('.key').find('.recommended').text(data.counts['R']);
+                    var items = ' item';
+                    if(data.count != 1) {
+                        items = items + 's';
+                    }
+                    $('.key').find('.suitcase-count').text(data.count + items);
+                    
+                    $('.unpacked').show();
+                    $('.packed').hide();
+                    
+                    $('#core-suitcase-button')
+                        .removeClass('locked')
+                        .find('span.icon')
+                        .removeClass('icon-suitcase-locked')
+                        .addClass('icon-suitcase');
+                    $('#core-suitcase-button').find('.count').text('(' + data.count + ')');
+                    $('#more-modal').find('.suitcase-count').text(data.count);
+                    $('#ready').find('.suitcase-count').text(data.count);
                 }
             }
         });
@@ -968,7 +1141,16 @@ $(document).ready(function() {
                     else {
                         if(data.packed) {
                             $.modal.close();
-                            $('#more-info').remove();
+//                            $('#more-info').remove();
+                            
+                            $('.unpacked').hide();
+                            $('.packed').show();
+                            
+                            $('#core-suitcase-button')
+                                .addClass('locked')
+                                .find('span.icon')
+                                .removeClass('icon-suitcase')
+                                .addClass('icon-suitcase-locked');
                             
                             $('#thanks-modal').modal({
                                 closeText: 'X',
@@ -1033,6 +1215,7 @@ $(document).ready(function() {
         e.preventDefault();
         
         var data = $(this).serialize();
+        var id = $(this).parent().attr('data-id');
         
         $.ajax({
             beforeSend: function() {
@@ -1050,6 +1233,13 @@ $(document).ready(function() {
                         });
                     }
                     else {
+                        $('#core-nav').find('.inline-nav').append('<li><a href="#">My Account</a></li>');
+                        $('#core-nav').find('.inline-nav').append('<li><a href="/logout">Logout</a></li>');
+                        
+                        $('#core-suitcase').replaceWith('<a href="/suitcase" id="core-suitcase-button"><span class="icon icon-suitcase"></span><em>I\'m</em> Packed<span class="count"> (1)</span></a>');
+                        $('button[data-id="' + id + '"]').attr('disabled', 'disabled');
+                        $('.pd-a-add[data-id="' + id + '"]').addClass('disabled');
+                        $('button[data-id="' + id + '"]').attr('disabled', 'disabled');
                         $.modal.close();
                         $.get(previewUrl, function(data) {
                             $('#account-modal').replaceWith(data);

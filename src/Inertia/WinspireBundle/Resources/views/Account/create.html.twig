@@ -29,7 +29,10 @@
             </li>
             <li>
                 {{ form_row(form.plainPassword.first) }}
-                {{ form_row(form.plainPassword.second) }}
+                <div>
+                    {{ form_label(form.plainPassword.second, 'Verify Password') }}
+                    {{ form_widget(form.plainPassword.second) }}
+                </div>
             </li>
             <li>
                 {{ form_row(form.phone) }}

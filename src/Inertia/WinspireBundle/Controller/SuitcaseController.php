@@ -55,6 +55,11 @@ class SuitcaseController extends Controller
         $em->persist($suitcaseItem);
         
         $suitcase->addItem($suitcaseItem);
+        if($suitcase->getPacked()) {
+            // reopen suitcase and trigger reminder message
+            $suitcase->setPacked(false);
+            $this->retrigger();
+        }
         $suitcase->setUpdated($suitcaseItem->getUpdated());
         
         $em->persist($suitcase);
@@ -99,6 +104,13 @@ class SuitcaseController extends Controller
             if($id == $item->getPackage()->getId()) {
                 $em->remove($item);
                 $suitcase->setUpdated(new \DateTime());
+                
+                if($suitcase->getPacked()) {
+                    // reopen suitcase and trigger reminder message
+                    $suitcase->setPacked(false);
+                    $this->retrigger();
+                }
+                
                 $em->persist($suitcase);
                 $em->flush();
                 
@@ -471,5 +483,9 @@ class SuitcaseController extends Controller
                 return $suitcase;
             }
         }
+    }
+    
+    protected function retrigger() {
+        return true;
     }
 }
