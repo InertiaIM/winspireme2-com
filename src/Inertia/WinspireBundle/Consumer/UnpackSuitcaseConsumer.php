@@ -59,7 +59,7 @@ class UnpackSuitcaseConsumer implements ConsumerInterface
             return false;
         }
         
-        $this->mailer->getTransport()->start();
+        $this->mailer->getTransport()->stop();
         return true;
     }
 }
