@@ -64,8 +64,7 @@ doctrine:
 # Swiftmailer Configuration
 swiftmailer:
     transport:  smtp
-    host:       mx2.inertiainteractive.net
-    encryption: ssl
+    host:       "%mailer_host%"
     username:   "%mailer_user%"
     password:   "%mailer_password%"
 #    spool:      { type: memory }
@@ -81,13 +80,13 @@ stof_doctrine_extensions:
     orm:
         default:
             tree: true
-            
-#
-# ddeboer_salesforce_client:
-#    username: confirmation@winspireme.com
-#    password: bx1DN
-#    token: JiUNxFoGa9kTQCuinAwd3OM6a
-#    wsdl: "%kernel.root_dir%/config/enterprise.wsdl.xml"
+
+ddeboer_salesforce_client:
+    username: confirmation@winspireme.com
+    password: bx1DN
+    token: JiUNxFoGa9kTQCuinAwd3OM6a
+    wsdl: "%kernel.root_dir%/config/enterprise.wsdl.xml"
+    logging: false
     
 services:
     # Doctrine Extension listeners to handle behaviors
