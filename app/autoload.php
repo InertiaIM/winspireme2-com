@@ -3,6 +3,9 @@
 use Doctrine\Common\Annotations\AnnotationRegistry;
 
 $loader = require __DIR__.'/../vendor/autoload.php';
+$loader->addClassMap(array(
+    'WinspirePDF' =>  __DIR__.'/../src/Inertia/WinspireBundle/Resources/lib/WinspirePDF.php'
+));
 
 // intl
 if (!function_exists('intl_get_error_code')) {

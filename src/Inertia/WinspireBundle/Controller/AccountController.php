@@ -203,6 +203,9 @@ class AccountController extends Controller
                 $em->persist($suitcase);
                 $em->flush();
                 
+                $msg = array('suitcase_id' => $suitcase->getId());
+                $this->get('old_sound_rabbit_mq.winspire_producer')->publish(serialize($msg), 'create-suitcase');
+                
                 $loginManager->loginUser('main', $user);
                 
                 $session->set('sid', $suitcase->getId());

@@ -38,6 +38,11 @@ class Suitcase
     private $eventDate;
     
     /**
+     * @ORM\Column(name="packed_at", type="datetime", nullable=true)
+     */
+    private $packedAt;
+    
+    /**
      * @ORM\Column(name="sf_id", type="string", length=128, nullable=true)
      */
     private $sfId;
@@ -331,5 +336,28 @@ class Suitcase
     public function getPacked()
     {
         return $this->packed;
+    }
+
+    /**
+     * Set packedAt
+     *
+     * @param \DateTime $packedAt
+     * @return Suitcase
+     */
+    public function setPackedAt($packedAt)
+    {
+        $this->packedAt = $packedAt;
+    
+        return $this;
+    }
+
+    /**
+     * Get packedAt
+     *
+     * @return \DateTime 
+     */
+    public function getPackedAt()
+    {
+        return $this->packedAt;
     }
 }

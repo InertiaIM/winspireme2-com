@@ -1,0 +1,812 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        
+        <!-- Facebook sharing information tags -->
+        <meta property="og:title" content="Winspire Order Confirmation" />
+        
+        <title>Winspire Order Confirmation</title>
+		<style type="text/css">
+			/* Client-specific Styles */
+			#outlook a{padding:0;} /* Force Outlook to provide a "view in browser" button. */
+			body{width:100% !important;} .ReadMsgBody{width:100%;} .ExternalClass{width:100%;} /* Force Hotmail to display emails at full width */
+			body{-webkit-text-size-adjust:none;} /* Prevent Webkit platforms from changing default text sizes. */
+
+			/* Reset Styles */
+			body{margin:0; padding:0;}
+			img{border:0; height:auto; line-height:100%; outline:none; text-decoration:none;}
+			table td{border-collapse:collapse;}
+			#backgroundTable{height:100% !important; margin:0; padding:0; width:100% !important;}
+
+			/* Template Styles */
+
+			/* /\/\/\/\/\/\/\/\/\/\ STANDARD STYLING: COMMON PAGE ELEMENTS /\/\/\/\/\/\/\/\/\/\ */
+			
+			/**
+			* @tab Page
+			* @section background color
+			* @tip Set the background color for your email. You may want to choose one that matches your company's branding.
+			* @theme page
+			*/
+			body, #backgroundTable{
+				/*@editable*/ background-color:#FFF;
+			}
+			
+			/**
+			* @tab Page
+			* @section email border
+			* @tip Set the border for your email.
+			*/
+			#templateContainer{
+				/*@editable*/ border: 0px solid #FFF;
+			}
+			
+			/**
+			* @tab Page
+			* @section heading 1
+			* @tip Set the styling for all first-level headings in your emails. These should be the largest of your headings.
+			* @style heading 1
+			*/
+			h1, .h1{
+				/*@editable*/ color:#202020;
+				display:block;
+				/*@editable*/ font-family:Arial;
+				/*@editable*/ font-size:34px;
+				/*@editable*/ font-weight:bold;
+				/*@editable*/ line-height:100%;
+				margin-top:0;
+				margin-right:0;
+				margin-bottom:10px;
+				margin-left:0;
+				/*@editable*/ text-align:left;
+			}
+
+			/**
+			* @tab Page
+			* @section heading 2
+			* @tip Set the styling for all second-level headings in your emails.
+			* @style heading 2
+			*/
+			h2, .h2{
+				/*@editable*/ color:#202020;
+				display:block;
+				/*@editable*/ font-family:Arial;
+				/*@editable*/ font-size:30px;
+				/*@editable*/ font-weight:bold;
+				/*@editable*/ line-height:100%;
+				margin-top:0;
+				margin-right:0;
+				margin-bottom:10px;
+				margin-left:0;
+				/*@editable*/ text-align:left;
+			}
+
+			/**
+			* @tab Page
+			* @section heading 3
+			* @tip Set the styling for all third-level headings in your emails.
+			* @style heading 3
+			*/
+			h3, .h3{
+				/*@editable*/ color:#202020;
+				display:block;
+				/*@editable*/ font-family:Arial;
+				/*@editable*/ font-size:26px;
+				/*@editable*/ font-weight:bold;
+				/*@editable*/ line-height:100%;
+				margin-top:0;
+				margin-right:0;
+				margin-bottom:10px;
+				margin-left:0;
+				/*@editable*/ text-align:left;
+			}
+
+			/**
+			* @tab Page
+			* @section heading 4
+			* @tip Set the styling for all fourth-level headings in your emails. These should be the smallest of your headings.
+			* @style heading 4
+			*/
+			h4, .h4{
+				/*@editable*/ color:#202020;
+				display:block;
+				/*@editable*/ font-family:Arial;
+				/*@editable*/ font-size:22px;
+				/*@editable*/ font-weight:bold;
+				/*@editable*/ line-height:100%;
+				margin-top:0;
+				margin-right:0;
+				margin-bottom:10px;
+				margin-left:0;
+				/*@editable*/ text-align:left;
+			}
+			
+			/* /\/\/\/\/\/\/\/\/\/\ STANDARD STYLING: PREHEADER /\/\/\/\/\/\/\/\/\/\ */
+			
+			/**
+			* @tab Header
+			* @section preheader style
+			* @tip Set the background color for your email's preheader area.
+			* @theme page
+			*/
+			#templatePreheader{
+				/*@editable*/ background-color:#FFF;
+			}
+			
+			/**
+			* @tab Header
+			* @section preheader text
+			* @tip Set the styling for your email's preheader text. Choose a size and color that is easy to read.
+			*/
+			.preheaderContent div{
+				/*@editable*/ color:#777777;
+				/*@editable*/ font-family:Arial;
+				/*@editable*/ font-size:10px;
+				/*@editable*/ line-height:100%;
+			}
+			
+			/**
+			* @tab Header
+			* @section preheader link
+			* @tip Set the styling for your email's preheader links. Choose a color that helps them stand out from your text.
+			*/
+			.preheaderContent div a:link, .preheaderContent div a:visited, /* Yahoo! Mail Override */ .preheaderContent div a .yshortcuts /* Yahoo! Mail Override */{
+				/*@editable*/ color:#336699;
+				/*@editable*/ font-weight:normal;
+				/*@editable*/ text-decoration:underline;
+			}
+			
+
+			
+			/* /\/\/\/\/\/\/\/\/\/\ STANDARD STYLING: HEADER /\/\/\/\/\/\/\/\/\/\ */
+			
+			/**
+			* @tab Header
+			* @section header style
+			* @tip Set the background color and border for your email's header area.
+			* @theme header
+			*/
+			#templateHeader{
+				/*@editable*/ background-color:#FFFFFF;
+				/*@editable*/ border-bottom:0;
+			}
+			
+			/**
+			* @tab Header
+			* @section header text
+			* @tip Set the styling for your email's header text. Choose a size and color that is easy to read.
+			*/
+			.headerContent{
+				/*@editable*/ color:#202020;
+				/*@editable*/ font-family:Arial;
+				/*@editable*/ font-size:34px;
+				/*@editable*/ font-weight:bold;
+				/*@editable*/ line-height:100%;
+				/*@editable*/ padding:0;
+				/*@editable*/ text-align:center;
+				/*@editable*/ vertical-align:middle;
+			}
+			
+			/**
+			* @tab Header
+			* @section header link
+			* @tip Set the styling for your email's header links. Choose a color that helps them stand out from your text.
+			*/
+			.headerContent a:link, .headerContent a:visited, /* Yahoo! Mail Override */ .headerContent a .yshortcuts /* Yahoo! Mail Override */{
+				/*@editable*/ color:#336699;
+				/*@editable*/ font-weight:normal;
+				/*@editable*/ text-decoration:underline;
+			}
+			
+			#headerImage{
+				height:auto;
+				max-width:600px;
+			}
+			
+			/* /\/\/\/\/\/\/\/\/\/\ STANDARD STYLING: MAIN BODY /\/\/\/\/\/\/\/\/\/\ */
+			
+			/**
+			* @tab Body
+			* @section body style
+			* @tip Set the background color for your email's body area.
+			*/
+			#templateContainer, .bodyContent{
+				/*@editable*/ background-color:#FFFFFF;
+			}
+
+			/**
+			* @tab Body
+			* @section body text
+			* @tip Set the styling for your email's main content text. Choose a size and color that is easy to read.
+			* @theme main
+			*/
+			.bodyContent div{
+				/*@editable*/ color:#505050;
+				/*@editable*/ font-family:Arial;
+				/*@editable*/ font-size:12px;
+				/*@editable*/ line-height:150%;
+				/*@editable*/ text-align:left;
+			}
+
+			/**
+			* @tab Body
+			* @section body link
+			* @tip Set the styling for your email's main content links. Choose a color that helps them stand out from your text.
+			*/
+			.bodyContent div a:link, .bodyContent div a:visited, /* Yahoo! Mail Override */ .bodyContent div a .yshortcuts /* Yahoo! Mail Override */{
+				/*@editable*/ color:#0578c8;
+				/*@editable*/ font-weight:normal;
+				/*@editable*/ text-decoration:underline;
+			}
+
+			.bodyContent img{
+				display:inline;
+				height:auto;
+			}
+
+			/* /\/\/\/\/\/\/\/\/\/\ STANDARD STYLING: COLUMNS; LEFT, RIGHT /\/\/\/\/\/\/\/\/\/\ */
+
+			/**
+			* @tab Columns
+			* @section left column text
+			* @tip Set the styling for your email's left column text. Choose a size and color that is easy to read.
+			*/
+			.leftColumnContent{
+				/*@editable*/ background-color:#FFFFFF;
+			}
+			
+			/**
+			* @tab Columns
+			* @section left column text
+			* @tip Set the styling for your email's left column text. Choose a size and color that is easy to read.
+			*/
+			.leftColumnContent div{
+				/*@editable*/ color:#505050;
+				/*@editable*/ font-family:Arial;
+				/*@editable*/ font-size:14px;
+				/*@editable*/ line-height:150%;
+				/*@editable*/ text-align:left;
+			}
+			
+			/**
+			* @tab Columns
+			* @section left column link
+			* @tip Set the styling for your email's left column links. Choose a color that helps them stand out from your text.
+			*/
+			.leftColumnContent div a:link, .leftColumnContent div a:visited, /* Yahoo! Mail Override */ .leftColumnContent div a .yshortcuts /* Yahoo! Mail Override */{
+				/*@editable*/ color:#336699;
+				/*@editable*/ font-weight:normal;
+				/*@editable*/ text-decoration:underline;
+			}
+
+			.leftColumnContent img{
+				display:inline;
+				height:auto;
+			}
+
+			/**
+			* @tab Columns
+			* @section right column text
+			* @tip Set the styling for your email's right column text. Choose a size and color that is easy to read.
+			*/
+			.rightColumnContent{
+				/*@editable*/ background-color:#FFFFFF;
+			}
+			
+			/**
+			* @tab Columns
+			* @section right column text
+			* @tip Set the styling for your email's right column text. Choose a size and color that is easy to read.
+			*/
+			.rightColumnContent div{
+				/*@editable*/ color:#505050;
+				/*@editable*/ font-family:Arial;
+				/*@editable*/ font-size:14px;
+				/*@editable*/ line-height:150%;
+				/*@editable*/ text-align:left;
+			}
+			
+			/**
+			* @tab Columns
+			* @section right column link
+			* @tip Set the styling for your email's right column links. Choose a color that helps them stand out from your text.
+			*/
+			.rightColumnContent div a:link, .rightColumnContent div a:visited, /* Yahoo! Mail Override */ .rightColumnContent div a .yshortcuts /* Yahoo! Mail Override */{
+				/*@editable*/ color:#336699;
+				/*@editable*/ font-weight:normal;
+				/*@editable*/ text-decoration:underline;
+			}
+
+			.rightColumnContent img{
+				display:inline;
+				height:auto;
+			}
+
+			/* /\/\/\/\/\/\/\/\/\/\ STANDARD STYLING: FOOTER /\/\/\/\/\/\/\/\/\/\ */
+
+			/**
+			* @tab Footer
+			* @section footer style
+			* @tip Set the background color and top border for your email's footer area.
+			* @theme footer
+			*/
+			#templateFooter{
+				/*@editable*/ background-color:#FFFFFF;
+				/*@editable*/ border-top:0;
+			}
+
+			/**
+			* @tab Footer
+			* @section footer text
+			* @tip Set the styling for your email's footer text. Choose a size and color that is easy to read.
+			* @theme footer
+			*/
+			.footerContent div{
+				/*@editable*/ color:#707070;
+				/*@editable*/ font-family:Arial;
+				/*@editable*/ font-size:12px;
+				/*@editable*/ line-height:125%;
+			}
+
+			/**
+			* @tab Footer
+			* @section footer link
+			* @tip Set the styling for your email's footer links. Choose a color that helps them stand out from your text.
+			*/
+			.footerContent div a:link, .footerContent div a:visited, /* Yahoo! Mail Override */ .footerContent div a .yshortcuts /* Yahoo! Mail Override */{
+				/*@editable*/ color:#336699;
+				/*@editable*/ font-weight:normal;
+				/*@editable*/ text-decoration:underline;
+			}
+
+			.footerContent img{
+				display:inline;
+			}
+
+			/**
+			* @tab Footer
+			* @section social bar style
+			* @tip Set the background color and border for your email's footer social bar.
+			* @theme footer
+			*/
+			#social{
+				/*@editable*/ background-color:#FAFAFA;
+				/*@editable*/ border:0;
+			}
+			
+			/**
+			* @tab Footer
+			* @section social bar style
+			* @tip Set the background color and border for your email's footer social bar.
+			*/
+			#social div{
+				/*@editable*/ text-align:center;
+			}
+
+			/**
+			* @tab Footer
+			* @section utility bar style
+			* @tip Set the background color and border for your email's footer utility bar.
+			* @theme footer
+			*/
+			#utility{
+				/*@editable*/ background-color:#FFFFFF;
+				/*@editable*/ border:0;
+			}
+
+			/**
+			* @tab Footer
+			* @section utility bar style
+			* @tip Set the background color and border for your email's footer utility bar.
+			*/
+			#utility div{
+				/*@editable*/ text-align:center;
+			}
+
+			#monkeyRewards img{
+				max-width:190px;
+			}
+			
+			
+		</style>
+	</head>
+    <body leftmargin="0" marginwidth="0" topmargin="0" marginheight="0" offset="0">
+    	<center>
+        	<table border="0" cellpadding="0" cellspacing="0" height="100%" width="100%" id="backgroundTable">
+            	<tr>
+                	<td align="center" valign="top">
+                        <!-- // Begin Template Preheader \\ -->
+                        <table border="0" cellpadding="10" cellspacing="0" width="600" id="templatePreheader">
+                            <tr>
+                                <td valign="top" class="preheaderContent">
+                                
+                                	<!-- // Begin Module: Standard Preheader \ -->
+                                    <table border="0" cellpadding="10" cellspacing="0" width="100%">
+                                    	<tr>
+                                        	<td valign="top" align="center">
+                                            	<div mc:edit="std_preheader_content">
+                                                	 Thank you for reserving Winspire Experiences for your event.<br/>
+                                                	 Don't miss a thing - add <a style="color: color:#336699; text-decoration: none;font-weight:bold;" href="mailto:notice@winspireme.com">notice@winspireme.com</a> to your contacts list!
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                	<!-- // End Module: Standard Preheader \ -->
+                                
+                                </td>
+                            </tr>
+                        </table>
+                        <!-- // End Template Preheader \\ -->
+                    	<table border="0" cellpadding="0" cellspacing="0" width="600" id="templateContainer">
+                        	<tr>
+                            	<td align="center" valign="top">
+                            	<!-- // Begin Template Header \\ -->
+                            	<table width="600" border="0" cellpadding="0" cellspacing="0">
+									<tbody>
+										<tr>
+											<td align="left" class="hideme"><img src="https://s3.amazonaws.com/winspire-transactional-emails/spacer1px.gif" /></td>
+											<td align="right"><a href="http://winspire.inertia.im/suitcase" title="Visit mySuitcase" border="0"><img src="https://s3.amazonaws.com/winspire-transactional-emails/mySuitcase-logo.gif" width="107" height="24" alt="" border="0"></a></td>
+										</tr>
+									</tbody>
+								</table>
+								<table width="600" class="width300" border="0" cellpadding="0" cellspacing="0">
+  										<tbody>
+  											<tr>
+												<td align="left" bgcolor="#ffffff" width="150"><a href="http://winspire.inertia.im/" title="Winspire Homepage"><img src="https://s3.amazonaws.com/winspire-transactional-emails/winspire-logo.gif" style="display:block;" width="122" height="23" border="0" alt="winspireme.com"></a></td>
+												<td align="center" bgcolor="#ffffff" width="50"><a href="http://winspire.inertia.im/about" style="text-decoration: none; display: block;"><span style="font-family:Arial, Helvetica, sans-serif; font-size:11px; color:#777777">About Us</span></a></td>
+												<td align="center" bgcolor="#ffffff" width="40"><a href="http://winspire.inertia.im/faqs" style="text-decoration: none; display: block;"><span style="font-family:Arial, Helvetica, sans-serif; font-size:11px; color:#777777">FAQs</span></a></td>
+												<td align="center" bgcolor="#ffffff" width="50"><a href="http://winspire.inertia.im/contact-us" style="text-decoration: none; display: block;"><span style="font-family:Arial, Helvetica, sans-serif; font-size:11px; color:#777777">Contact Us</span></a></td>
+												<td align="right" bgcolor="#ffffff" width="100"><a href="http://winspire.inertia.im/packages" style="text-decoration: none; display: block;"><span style="font-family:Arial, Helvetica, sans-serif; font-size:11px; color:#dc8100;font-weight:bold;">BROWSE EXPERIENCES ></span></a></td>
+												
+											</tr>
+										</tbody>
+									</table>
+									<table cellspacing="0" cellpadding="0"><tbody><tr><td><img src="https://s3.amazonaws.com/winspire-transactional-emails/dotted_menu_underline.gif" width="600" height="23" style="display:block;" alt="" class="width300"></td></tr></tbody></table>
+                                    
+                                    <!-- // End Template Header \\ -->
+                                </td>
+                            </tr>
+                        	<tr>
+                            	<td align="center" valign="top">
+                                    <!-- // Begin Template Body \\ -->
+                                	<table border="0" cellpadding="0" cellspacing="0" width="600" id="templateBody">
+                                    	<tr>
+                                        	<td colspan="3" valign="top" class="bodyContent">
+                                            
+                                                <!-- // Begin Module: Standard Content \\ -->
+                                                <table border="0" cellpadding="20" cellspacing="0" width="100%">
+                                                    <tr>
+                                                        <td valign="top">
+                                                            <div mc:edit="std_content00">
+                                                                <table border="0" cellpadding="0" cellspacing="0" width="100%">
+																	<tr>
+																		<td width="35">
+																			<img src="https://s3.amazonaws.com/winspire-transactional-emails/packed-suitcase-icon.gif" style="display:inline;"/>
+																		</td>
+																		<td width="20">
+																			<img src="https://s3.amazonaws.com/winspire-transactional-emails/spacer1px.gif" />
+																		</td>
+																		<td valign="middle" align="left" style="line-height:20px;">
+																			<span style="font-size:18px;"><b>Your Suitcase is Packed!</b></span><br/>
+																			<span style="font-size:14px;">Thank you for reserving Winspire Experiences for your event.</span>
+																		</td>
+																	</tr>
+																</table>
+                                                                <br />
+                                                                Please verify that the information below is correct. This will be important for when you deliver the Experiences to the Winning Bidders after the event is over.
+                                                                <br/>
+                                                                <br/>
+                                                                <!-- // Begin SUITCASE CONFIRM \\ -->
+                                                                <table border="0" cellpadding="0" cellspacing="0" width="100%"  bgcolor="f1f1f1">
+																	<tr>
+																		<td valign="top" align="left" colspan="3" style="padding:0px;" bgcolor="ffffff"> 
+																			<table border="0" cellpadding="0" cellspacing="0" width="100%">
+																				<tr>
+																					<td valign="middle" align="left" style="padding:3px 5px;;font-size:14px;color:#005695;" width="80"> 
+																						<span style="font-family:serif;font-style:italic;">my</span><b>Suitcase</b>:
+																					</td>
+																					<td valign="middle" align="left" colspan="2" style="font-style:italic;color:#505050;font-size:15px;"> 
+																						{{ suitcase.name }}
+																					</td>
+																				</tr>
+																			</table>
+																		</td>
+																	</tr>
+																	<tr>
+																		<td valign="top" align="left" style="padding:0px;"> 
+																			<table border="0" cellpadding="0" cellspacing="10" width="350">
+																				<tr>
+																					<td valign="middle" align="right" width="90" style="padding:0px;font-weight:bold;"> 
+																						Event Name:
+																					</td>
+																					<td valign="middle" align="left" width="250" style="padding:5px 10px;font-size:11px;font-style:italic;line-height:15px;" bgcolor="ffffff"> 
+																						{{ suitcase.eventName }}
+																					</td>
+																				</tr>
+																				<tr>
+																					<td valign="middle" align="right" style="padding:0px;font-weight:bold;"> 
+																						Event Date:
+																					</td>
+																					<td valign="middle" align="left" style="padding:3px 10px;font-size:11px;" bgcolor="ffffff"> 
+																						{{ suitcase.eventDate | date('m/d/Y') }}
+																					</td>
+																				</tr>
+																				<tr>
+																					<td valign="middle" align="right" style="padding:0px;font-weight:bold;"> 
+																						Organization:
+																					</td>
+																					<td valign="middle" align="left" style="padding:3px 10px;font-size:11px;" bgcolor="ffffff"> 
+																						{{ suitcase.user.company.name }}
+																					</td>
+																				</tr>
+																			</table>
+																		</td>
+																		<td align="left" class="hideme" style="padding:0px;">
+																			<img src="https://s3.amazonaws.com/winspire-transactional-emails/spacer1px.gif" />
+																		</td>
+																		<td valign="top" align="left" style="padding:10px;" width="300"> 
+																			<table border="0" cellpadding="10" cellspacing="0" width="100%">
+																				<tr>
+																					<td valign="middle" align="left" style="padding:0px;font-weight:bold;font-size:13px;"> 
+																						Contact:
+																					</td>
+																				</tr>
+																				<tr>
+																					<td valign="top" align="left" style="padding:10px 15px;font-size:12px;line-height:15px;" bgcolor="ffffff"> 
+																						{{ suitcase.user.firstName }} {{ suitcase.user.lastName }}<br/>
+																						{{ suitcase.user.phone }}<br/>
+																						<a href="mailto:{{ suitcase.user.email }}">{{ suitcase.user.email }}</a>
+																					</td>
+																				</tr>
+																			</table>
+																		</td>
+																	</tr>
+																</table>
+																<!-- // END SUITCASE CONFIRM \\ -->
+																<br />
+																Below you will find an order confirmation{% if first %} and an attached copy of your Letter of Agreement{% endif %}. Please review these before your event.
+																<br/>
+                                                            </div>
+														</td>
+													</tr>
+												</table>
+												<!-- // Begin ORDER CONFIRM \\ -->
+												<table cellpadding="0" cellspacing="0" width="100%">
+                                                    <tr>
+                                                        <td valign="top">
+                                                        	<!-- // ORDER CONFIRM HEADER \\ -->
+															<table border="0" cellpadding="0" cellspacing="0" width="100%" style="line-height:20px;font-size:12px;font-family:Arial;color:#505050;" bgcolor="f1f1f1">
+																<tr>
+																	<td valign="top" align="center" colspan="2" style="padding:5px 10px;" bgcolor="005695"> 
+																		<span style="color: #fff;"><b>Order Confirmation</b></span>
+																	</td>
+																</tr>
+															</table>
+														</td>
+													</tr>
+												</table>
+												<table style="border: 1PX SOLID #CECECE;" cellpadding="10" cellspacing="0" width="100%" >
+													<tr>
+														<td valign="top" style="line-height:18px;font-size:12px;font-family:Arial;color:#505050;">
+															<span style="font-size:16px;font-weight:bold;">Thank you for your order.</span><br /> 
+															Following are a few things to keep in mind between now and your event:
+															<br/>
+															<ol style="font-size:11px;color:#555;padding-left:20px;line-height:14px;">
+																<li style="margin-bottom:10px;"><span style="font-size:12px;color:#dc8100;"><b>Display Materials</b></span><br/>
+																Display Materials for each Experience are available for download here and in <a href="http://winspire.inertia.im/suitcase" title="{{ suitcase.name }}" style="color:#0578c8;">your Suitcase</a>. These include a display PDF, Package Details document and extra images for you to use in your own presentation materials.</li>
+																<li style="margin-bottom:10px;"><span style="font-size:12px;color:#dc8100;"><b>Adding More Experiences</b></span><br/>
+																It is never too late to add another Experience to your event. Contact your Event Consultant or simply <a href="http://winspire.inertia.im/packages" style="color:#0578c8;">find the item</a>, add it your Suitcase and checkout again. You will get another email confirmation just like this one.</li>
+																<li style="margin-bottom:10px;"><span style="font-size:12px;color:#dc8100;"><b>Sell Experiences Multiple Times</b></span></br/>
+																All of our Experiences can be sold multiple times, most with no limit. Even after your event, you can still sell Experiences to donors who neglected to bid or were unable to attend.</li>
+															</ol>
+														</td>
+													</tr>
+													
+													<!-- // *****************SPACER***************** \\ -->
+													<tr><td align="middle" style="padding:10px;"><img src="https://s3.amazonaws.com/winspire-transactional-emails/line-split.gif" /></td></tr>
+													
+													
+{% for item in suitcase.items %}
+													<!-- // Begin PACKAGE \\ -->
+													<tr>
+														<td valign="top">
+															<table border="0" cellpadding="15" cellspacing="0" width="100%" style="line-height:20px;font-size:12px;font-family:Arial;color:#505050;" >
+																<tr>
+																	<td valign="top" align="left" style="margin:0px;" width="150">
+																		<img src="http://winspire.inertia.im/uploads/packages/{{ item.package.thumbnail }}" style="display:block;padding:0px;margin:0px;border:1px solid #ccc;" width="150" height="98"/>
+																	</td>
+																	<td align="left" valign="top" style="padding-left:0px;">
+																		<table border="0" cellpadding="0" cellspacing="0" width="100%">
+																			<tr>
+																				<td align="left" valign="top" colspan="2">
+																					<a href="http://winspire.inertia.im/package/{{ item.package.slug }}" style="text-decoration:none;"><span style="font-size:16px;color:#005695;font-weight:bold;">{{ item.package.parentHeader }}</span></a><br />
+																					<span style="font-size:12px;line-height:15px;">{{ item.package.name }}</span>
+																				</td>
+																			</tr>
+																			<tr>
+																				<td align="left" height="25" colspan="2" style="font-size:11px;">
+																					<img src="https://s3.amazonaws.com/winspire-transactional-emails/spacer1px.gif" />
+																				</td>
+																			</tr>
+																			<tr>
+																				<td>
+																					<span style="font-size:16px;color:#000;font-weight:bold;">{{ item.package.suggestedRetailValue }}</span>&nbsp;<span style="font-size:12px;color:#006bb6;font-style:italic;">Suggested Retail Value</span><br />
+																				</td>
+																				<td align="right" rowspan="3">
+																					<a title="View Suitcase" href="http://winspire.inertia.im/suitcase"><img src="https://s3.amazonaws.com/winspire-transactional-emails/download-display-materials.gif" width="140" height="28" alt="View Suitcase" /></a>
+																				</td>
+																			</tr>
+																			<tr>
+																				<td align="left" style="line-height:14px;">
+																					${{ item.package.cost | number_format(0) }} Nonprofit Cost
+																				</td>
+																			</tr>
+																			<tr>
+																				<td align="left" colspan="2" style="font-size:11px;color:#999;line-height:16px;">
+																					<em>Package Code:</em> ( {{ item.package.code }} )
+																				</td>
+																			</tr>
+																		</table>
+																	</td>
+																</tr>
+															</table>
+														</td>
+													</tr>
+													<!-- // End PACKAGE \\ -->
+													
+													<!-- // *****************SPACER***************** \\ -->
+													<tr><td align="middle" style="padding:10px;"><img src="https://s3.amazonaws.com/winspire-transactional-emails/line-split.gif" /></td></tr>
+{% endfor %}
+													<tr>
+														<td align="middle">
+															<table border="0" cellpadding="0" cellspacing="0" width="100%">
+																<tr>
+																	<td align="top" style="font-size:9px;color:#999999;font-family:arial, sans-serif;">
+																			Winspire experiences are offered on a no-risk basis, meaning that the Nonprofit purchases these item(s) only after knowing what is sold at the event.  If an experience does not successfully sell, the Nonprofit is not required to purchase the item(s).  Prior to placing an order, the Nonprofit will be asked to confirm the receipt of payment from the winning bidder.  <b>All experiences that are confirmed by the Nonprofit organization and invoiced by Winspire are non-refundable.</b>{% if first %} See the attached <a href="http://winspire.inertia.im/loa" style="color:#6aa5ce;" title="General Letter of Agreement">Letter of Agreement</a> for full details.{% endif %}
+																	</td>
+																</tr>
+															</table>
+														</td>
+													</tr>
+												</table>
+												<!-- // End ORDER CONFIRM \\ -->
+												
+                                    			<table border="0" cellpadding="20" cellspacing="0" width="100%">
+													<tr>
+														<td align="top">
+															<div mc:edit="std_content00">
+                                                                 <table border="0" cellpadding="15" cellspacing="0" width="100%">
+																	<tbody>
+																	<tr>
+																		<td>
+																			<img src="https://s3.amazonaws.com/winspire-transactional-emails/plane-icon.gif" style="display:inline;margin-right:10px;" width="35" height="40"/><span style="font-size:16px;color:#005695;font-weight:bold;line-height:26px;">We're here to help.</span><br />
+																			If you have any questions or would like to make a change to your order, please give us a call at <a href="tel:1-877-544-8555">1.877.544.8555</a> or contact your Winspire Event Consultant: 
+																			<br />
+																			<br />
+																			<table border="0" cellpadding="0" cellspacing="0" width="100%">
+																				<tr>
+																					<td>
+																						<table border="0" cellpadding="15" cellspacing="0" width="240" bgcolor="e6f9ff" style="border: 1px solid #ececec;line-height:14px;font-size:11px;" >
+																							<tr>
+																								<td valign="top">
+																									<strong>Lucinda Lambros</strong>&nbsp;&nbsp;|&nbsp;&nbsp;<em>Event Consultant</em><br />
+																									<a href="tel:1-877-544-5555">1.877.544.5555</a><br />
+																									<a href="mailto:llambros@winspireme.com">llambros@winspireme.com</a>
+																								</td>
+																							</tr>
+																						</table>
+																					</td>
+																				</tr>
+																			</table>
+																			<br />
+																			Cheers,<br/>
+																			<em>Your Winspire Team</em>
+																		</td>
+																		<td align="right">
+																			<img src="https://s3.amazonaws.com/winspire-transactional-emails/winspire-twins-order.jpg" />
+																		</td>
+																	</tr></tbody>
+																</table>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                                <!-- // End Module: Standard Content \\ -->
+                                            
+                                            </td>
+                                        </tr>
+                                    	
+                                    </table>
+                                    <!-- // End Template Body \\ -->
+                                </td>
+                            </tr>
+                        	<tr>
+                            	<td align="center" valign="top">
+                                    <!-- // Begin Template Footer \\ -->
+                                    <table cellspacing="0" cellpadding="0" align="center">
+                                    	<tbody>
+                                    		<tr>
+                                    			<td align="center"><img style="display:block;" src="https://s3.amazonaws.com/winspire-transactional-emails/dotted_menu_underline.gif" alt="" width="600" height="23" class="width300">
+                                    			</td>
+                                    		</tr>
+                                    	</tbody>
+                                    </table>
+									<!-- // Begin Footer Links \\ -->
+									<table class="width300" border="0" cellspacing="0" cellpadding="0" width="600" align="center">
+										<tbody>
+											<tr class="blockme">
+												<td valign="middle" width="200" align="left">
+													<table cellspacing="0" cellpadding="0">
+														<tbody><tr>
+															<td align="left">
+																<img alt="" width="21" height="21" style="display: block" src="https://s3.amazonaws.com/winspire-transactional-emails/referral-icon.gif">
+															</td>
+															<td align="left">
+																<div style="margin-left: 9px"><a style="color: #74a2fb; text-decoration: none" href="###"><span style="line-height: 14px; font-family: arial, sans-serif; color: #777777; font-size: 11px">Refer Friends and Get<br/><b>$150 Off Your Next Order</b></span></a></div>
+															</td>
+												   		</tr></tbody>
+												   	</table>
+												</td>
+												<td class="width150 height30 blockme float_left align_left" valign="middle" width="157" align="right">
+													<table cellspacing="0" cellpadding="0">
+														<tbody>
+															<tr>
+																<td class="height30">
+																	<div style="line-height: 14px; font-family: arial, sans-serif; color: #777777; font-size: 11px">Call Us at <a style="color:#0578c8" href="tel:1-877-544-8555">1.877.544.8555</a></div>
+																</td>
+															</tr>
+										  
+														</tbody>
+													</table>
+												</td>
+												<td class="width150 blockme float_left align_left" valign="middle" width="136" align="right">
+													<table cellspacing="0" cellpadding="0">
+														<tbody>
+															<tr>
+																<td class="height30" valign="middle" align="left"><span style="line-height: 14px; font-family: arial, sans-serif; color: #777777; font-size: 11px">Find Us&nbsp;</span></td>
+																<td width="22" align="center"><a href="https://www.facebook.com/Winspire"><img border="0" alt="Facebook" width="19" height="18" style="display: block" src="https://s3.amazonaws.com/winspire-transactional-emails/facebook.gif"></a></td>
+																<td width="22" align="center"><a href="https://twitter.com/winspireme"><img border="0" alt="Twitter" width="18" height="18" style="display: block" src="https://s3.amazonaws.com/winspire-transactional-emails/twitter.gif"></a></td>
+															</tr>
+														</tbody>
+													</table>
+												</td>
+											</tr>
+										</tbody>
+									</table>
+									<!-- // End Footer Links \\ -->
+                                	<table border="0" cellpadding="10" cellspacing="0" width="600" id="templateFooter">
+                                    	<tr>
+                                        	<td valign="top" class="footerContent">
+                                            
+                                                <!-- // Begin Module: Standard Footer \\ -->
+                                                <table border="0" cellpadding="10" cellspacing="0" width="100%">
+                                                    <tr>
+                                                        <td valign="top" width="400" align="center">
+                                                            <div mc:edit="std_footer" style="line-height: 14px; font-family: arial, sans-serif; color: #777777; font-size: 11px">
+																Cross our hearts, we promise not to share your information! <a style="color:#0578c8" href="http://winspire.inertia.im/privacy">Read our updated Privacy Policy</a>.
+																<br>
+																Copyright &copy; 2013 Winspire, Inc, All rights reserved.
+																<br>
+																23091 Mill Creek Rd, Laguna Hills, CA 92653
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                                <!-- // End Module: Standard Footer \\ -->
+                                            
+                                            </td>
+                                        </tr>
+                                    </table>
+                                    <!-- // End Template Footer \\ -->
+                                </td>
+                            </tr>
+                        </table>
+                        <br />
+                    </td>
+                </tr>
+            </table>
+        </center>
+    </body>
+</html>

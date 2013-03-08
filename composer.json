@@ -73,7 +73,11 @@
         "doctrine/doctrine-fixtures-bundle": "dev-master",
         "jms/twig-js": "1.0.*@dev",
         "jms/twig-js-bundle": "dev-master",
-        "friendsofsymfony/user-bundle": "2.0.*@dev"
+        "friendsofsymfony/user-bundle": "2.0.*@dev",
+        "videlalvaro/php-amqplib": "v2.0.2",
+        "oldsound/rabbitmq-bundle": "dev-master",
+        "whiteoctober/tcpdf-bundle": "dev-master",
+        "tecnick.com/tcpdf": "dev-master"
     },
     "scripts": {
         "post-install-cmd": [

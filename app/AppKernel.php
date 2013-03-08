@@ -25,6 +25,8 @@ class AppKernel extends Kernel
             new JMS\TwigJsBundle\JMSTwigJsBundle(),
             new FOS\UserBundle\FOSUserBundle(),
             new Inertia\WinspireBundle\InertiaWinspireBundle(),
+            new OldSound\RabbitMqBundle\OldSoundRabbitMqBundle(),
+            new WhiteOctober\TCPDFBundle\WhiteOctoberTCPDFBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {

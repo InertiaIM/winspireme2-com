@@ -63,11 +63,13 @@ doctrine:
 
 # Swiftmailer Configuration
 swiftmailer:
-    transport: "%mailer_transport%"
-    host:      "%mailer_host%"
-    username:  "%mailer_user%"
-    password:  "%mailer_password%"
-    spool:     { type: memory }
+    transport:  smtp
+    host:       mx2.inertiainteractive.net
+    encryption: ssl
+    username:   "%mailer_user%"
+    password:   "%mailer_password%"
+#    spool:      { type: memory }
+    logging:    true
 
 fos_user:
     db_driver: orm
@@ -95,3 +97,44 @@ services:
             - { name: doctrine.event_subscriber, connection: default }
         calls:
             - [ setAnnotationReader, [ @annotation_reader ] ]
+            
+    pack_suitcase_service:
+        class: Inertia\WinspireBundle\Consumer\PackSuitcaseConsumer
+        arguments: [@doctrine.orm.entity_manager, @mailer, @templating]
+        
+    create_suitcase_service:
+        class: Inertia\WinspireBundle\Consumer\CreateSuitcaseConsumer
+        arguments: [@doctrine.orm.entity_manager, @mailer, @templating]
+        
+    unpack_suitcase_service:
+        class: Inertia\WinspireBundle\Consumer\UnpackSuitcaseConsumer
+        arguments: [@doctrine.orm.entity_manager, @mailer, @templating]
+
+old_sound_rabbit_mq:
+    connections:
+        default:
+            host:      localhost
+            port:      5672
+            user:      winspire
+            password:  qubaouew1024
+            vhost:     /
+    producers:
+        winspire:
+            connection: default
+            exchange_options: { name: 'winspire', type: direct }
+    consumers:
+        pack_suitcase:
+            connection: default
+            exchange_options: { name: 'winspire', type: direct }
+            queue_options:    { name: 'winspire-pack-suitcase' }
+            callback:         pack_suitcase_service
+        create_suitcase:
+            connection: default
+            exchange_options: { name: 'winspire', type: direct }
+            queue_options:    { name: 'winspire-create-suitcase' }
+            callback:         create_suitcase_service
+        unpack_suitcase:
+            connection: default
+            exchange_options: { name: 'winspire', type: direct }
+            queue_options:    { name: 'winspire-unpack-suitcase' }
+            callback:         unpack_suitcase_service

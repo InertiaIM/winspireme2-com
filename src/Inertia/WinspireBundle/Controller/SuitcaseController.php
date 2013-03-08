@@ -58,7 +58,7 @@ class SuitcaseController extends Controller
         if($suitcase->getPacked()) {
             // reopen suitcase and trigger reminder message
             $suitcase->setPacked(false);
-            $this->retrigger();
+            $this->retrigger($suitcase);
         }
         $suitcase->setUpdated($suitcaseItem->getUpdated());
         
@@ -108,7 +108,7 @@ class SuitcaseController extends Controller
                 if($suitcase->getPacked()) {
                     // reopen suitcase and trigger reminder message
                     $suitcase->setPacked(false);
-                    $this->retrigger();
+                    $this->retrigger($suitcase);
                 }
                 
                 $em->persist($suitcase);
@@ -270,14 +270,23 @@ class SuitcaseController extends Controller
         if ($request->isMethod('POST')) {
             $form->bind($request);
             if ($form->isValid()) {
+                $first = true;
+                if($suitcase->getPackedAt() != '') {
+                    $first = false;
+                }
+                
                 $eventDate = new \DateTime($form->get('date')->getData());
                 $suitcase->setEventName($form->get('name')->getData());
                 $suitcase->setEventDate($eventDate);
                 $suitcase->setPacked(true);
+                $suitcase->setPackedAt(new \DateTime());
                 
                 $em->persist($suitcase);
                 $em->persist($account);
                 $em->flush();
+                
+                $msg = array('suitcase_id' => $suitcase->getId(), 'first' => $first);
+                $this->get('old_sound_rabbit_mq.winspire_producer')->publish(serialize($msg), 'pack-suitcase');
                 
                 return $response->setData(array(
                     'packed' => true
@@ -485,7 +494,8 @@ class SuitcaseController extends Controller
         }
     }
     
-    protected function retrigger() {
-        return true;
+    protected function retrigger($s) {
+        $msg = array('suitcase_id' => $s->getId());
+        $this->get('old_sound_rabbit_mq.winspire_producer')->publish(serialize($msg), 'unpack-suitcase');
     }
 }
