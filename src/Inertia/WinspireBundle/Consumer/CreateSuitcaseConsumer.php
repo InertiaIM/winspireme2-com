@@ -48,6 +48,8 @@ class CreateSuitcaseConsumer implements ConsumerInterface
             )
         ;
         
+        $this->em->clear();
+        
         if (!$this->mailer->send($message)) {
             // Any other value not equal to false will acknowledge the message and remove it
             // from the queue
