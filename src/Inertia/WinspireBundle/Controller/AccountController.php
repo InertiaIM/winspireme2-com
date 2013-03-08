@@ -151,7 +151,6 @@ class AccountController extends Controller
                 $em->flush();
                 
                 $user->setCompany($account);
-                $user->setPlainPassword($user->getPassword());
                 $userManager->updateUser($user);
                 
                 $suitcase = new Suitcase();
