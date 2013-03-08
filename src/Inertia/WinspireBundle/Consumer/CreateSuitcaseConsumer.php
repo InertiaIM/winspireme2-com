@@ -17,6 +17,8 @@ class CreateSuitcaseConsumer implements ConsumerInterface
         $this->em = $entityManager;
         $this->mailer = $mailer;
         $this->templating = $templating;
+        
+        $this->mailer->getTransport()->stop();
     }
     
     public function execute(AMQPMessage $msg)
@@ -50,11 +52,14 @@ class CreateSuitcaseConsumer implements ConsumerInterface
         
         $this->em->clear();
         
+        $this->mailer->getTransport()->start();
         if (!$this->mailer->send($message)) {
             // Any other value not equal to false will acknowledge the message and remove it
             // from the queue
             return false;
         }
+        
+        $this->mailer->getTransport()->stop();
         return true;
     }
 }
