@@ -1099,6 +1099,10 @@ $(document).ready(function() {
               beforeSend: function() {
                   $('#share-modal #share-result #share-result-successes').hide();
                   $('#share-modal #share-result #share-result-errors').hide();
+                  $('#share-modal #share-result-holder #share-result-errors').hide();
+                  $('#share-modal #share-result-holder #share-result-successes').hide();
+                  $('#share-modal #share-result-holder .successes li').remove();
+                  $('#share-modal #share-result-holder .errors li').remove();
               },
               data: data,
               dataType: 'json',
@@ -1112,7 +1116,6 @@ $(document).ready(function() {
                           
                           if (!$.isEmptyObject(data.successes)) {
                               $('#share-modal #share-result-holder #share-result-successes').show();
-                              $('#share-modal #share-result-holder .successes li').remove();
                               $.each(data.successes, function(index, value) {
                                   $('#share-modal #share-result-holder .successes').append('<li><span class="number">' + (index + 1) + '</span><span class="name">' + value.name + '</span><span class="email">'   + value.email + '</span></li>')
                               });
@@ -1120,7 +1123,6 @@ $(document).ready(function() {
                           
                           if (!$.isEmptyObject(data.errors)) {
                               $('#share-modal #share-result-holder #share-result-errors').show();
-                              $('#share-modal #share-result-holder #share-result-errors .errors li').remove();
                               $.each(data.errors, function(index, value) {
                                   $('#share-modal #share-result-holder #share-result-errors .errors').append('<li>' + value.email + ' &gt;  This person has already been invited. &nbsp;<a href="#" data-id="' + value.id + '">Resend invite.</a></li>')
                               });
