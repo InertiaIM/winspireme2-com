@@ -35,6 +35,10 @@
                 <ul class="key packed"{% if not suitcase.packed %} style="display:none;"{% endif %}>
                     <li>You have <strong><span class="suitcase-count">{{ suitcase.items | length }} items</span></strong> in your Suitcase.</li>
                 </ul>
+                <ul class="social">
+                    <li class="share"><a href="#"><span class="icon icon-bubble"></span> Share</a></li>
+                    <li class="comments"><a href="#"><span class="icon icon-comment"></span><span class="comment-count">0</span> Comments</a></li>
+                </ul>
             </div>
             <div class="content">
                 <div class="holder">
@@ -210,6 +214,60 @@
             </li>
         </ul>
     </form>
+</div>
+
+<div id="share-modal" style="display:none;">
+    <h3><span class="icon icon-bubble"></span>Invite Others To Your Suitcase</h3>
+    <div id="share-form-holder">
+        <p>Fill out the fields below to Invite others in your organization to review and comment on your selections in your Suitcase.</p>
+        
+        <form id="share-form" action="{{ path('suitcaseShare') }}" method="POST" {{ form_enctype(share) }} novalidate="novalidate">
+            <ul>
+                <li>
+                    {{ form_row(share.name.1) }}
+                    {{ form_row(share.email.1) }}
+                </li>
+                <li>
+                    {{ form_row(share.name.2) }}
+                    {{ form_row(share.email.2) }}
+                </li>
+                <li>
+                    {{ form_row(share.name.3) }}
+                    {{ form_row(share.email.3) }}
+                </li>
+                <li>
+                    {{ form_row(share.name.4) }}
+                    {{ form_row(share.email.4) }}
+                </li>
+                <li class="break"></li>
+                <li class="large">
+                    <div>
+                        {{ form_widget(share.message) }}
+                    </div>
+                </li>
+                <li>
+                    <div>
+                        <button type="submit" id="share">Send Invites!</button>
+                        {{ form_widget(share._token) }}
+                        {{ form_widget(share.suitcase) }}
+                    </div>
+                </li>
+            </ul>
+        </form>
+    </div>
+    
+    <div id="share-result-holder" style="display:none;">
+        <div id="share-result-successes" style="display:none;">
+            <p>The following people have been sent invites to view your Suitcase.</p>
+            <ul class="successes"></ul>
+        </div>
+        <hr/>
+        <div id="share-result-errors" style="display:none;">
+            <h4><span class="icon icon-warning"></span>There were some errors!</h4>
+            <ul class="errors"></ul>
+        </div>
+        <button id="share-more">Send More Invites!</button>
+    </div>
 </div>
 
 <div id="thanks-modal" style="display:none;">

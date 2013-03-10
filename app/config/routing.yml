@@ -47,6 +47,18 @@ suitcasePreview:
     pattern:  /suitcase/preview
     defaults: { _controller: InertiaWinspireBundle:Suitcase:preview }
     
+suitcaseShare:
+    pattern:  /suitcase/share
+    defaults: { _controller: InertiaWinspireBundle:Suitcase:share }
+    
+suitcaseShareAgain:
+    pattern:  /suitcase/reshare/{id}
+    defaults: { _controller: InertiaWinspireBundle:Suitcase:shareAgain }
+    
+shareView:
+    pattern:  /share/{token}
+    defaults: { _controller: InertiaWinspireBundle:Share:view }
+    
 accountCreate:
     pattern:  /account/new
     defaults: { _controller: InertiaWinspireBundle:Account:create }

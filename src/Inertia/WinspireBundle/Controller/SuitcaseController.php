@@ -1,12 +1,14 @@
 <?php
 namespace Inertia\WinspireBundle\Controller;
 
+use Inertia\WinspireBundle\Entity\Share;
 use Inertia\WinspireBundle\Entity\Suitcase;
 use Inertia\WinspireBundle\Entity\SuitcaseItem;
 use Inertia\WinspireBundle\Form\Type\AccountType2;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Validator\Constraints\Email;
 
 class SuitcaseController extends Controller
 {
@@ -232,6 +234,9 @@ class SuitcaseController extends Controller
             throw $this->createNotFoundException();
         }
         
+        $share = $this->shareAction();
+        $share->get('suitcase')->setData($suitcase->getId());
+        
         $form->get('name')->setData($suitcase->getEventName());
         
         if($suitcase->getEventDate() != '') {
@@ -243,9 +248,10 @@ class SuitcaseController extends Controller
             $counts[$item->getStatus()]++;
         }
         
-        return $this->render('InertiaWinspireBundle:Suitcase:guest.html.twig', array(
+        return $this->render('InertiaWinspireBundle:Suitcase:view.html.twig', array(
             'creator' => $suitcase->getUser(),
             'form' => $form->createView(),
+            'share' => $share->createView(),
             'suitcase' => $suitcase,
             'counts' => $counts,
             'pages' => ceil(count($suitcase->getItems()) / 6)
@@ -408,7 +414,253 @@ class SuitcaseController extends Controller
         ));
     }
     
-    protected function getCounts($suitcase) {
+    public function shareAction()
+    {
+        $request = $this->getRequest();
+        $response = new JsonResponse();
+        
+        // TODO refactor into form type?
+        $form = $this->get('form.factory')->createNamedBuilder('share', 'form', array());
+        
+        $form->add('name', 'form');
+        $form->add('email', 'form');
+        $form->add('message', 'textarea');
+        $form->add('suitcase', 'hidden');
+        
+        $form->get('message')->setData('I’ve invited you to my Winspire Suitcase. I am using Winspire to select some amazing auction items for our upcoming fundraising auction. Please review at your earliest convenience and let me know what you think about my choices!');
+        
+        $form->get('name')->add('1', 'text',
+            array(
+                'constraints' => array(
+                ),
+                'label' => 'Name',
+                'required' => false
+            )
+        );
+        $form->get('email')->add('1', 'text',
+            array(
+                'constraints' => array(
+                    new Email(),
+                ),
+                'label' => 'Email',
+                'required' => false
+            )
+        );
+        $form->get('name')->add('2', 'text',
+            array(
+                'constraints' => array(
+                ),
+                'label' => 'Name',
+                'required' => false
+            )
+        );
+        $form->get('email')->add('2', 'text',
+            array(
+                'constraints' => array(
+                    new Email(),
+                ),
+                'label' => 'Email',
+                'required' => false
+            )
+        );
+        $form->get('name')->add('3', 'text',
+            array(
+                'constraints' => array(
+                ),
+                'label' => 'Name',
+                'required' => false
+            )
+        );
+        $form->get('email')->add('3', 'text',
+            array(
+                'constraints' => array(
+                    new Email(),
+                ),
+                'label' => 'Email',
+                'required' => false
+            )
+        );
+        $form->get('name')->add('4', 'text',
+            array(
+                'constraints' => array(
+                ),
+                'label' => 'Name',
+                'required' => false
+            )
+        );
+        $form->get('email')->add('4', 'text',
+            array(
+                'constraints' => array(
+                ),
+                'label' => 'Email',
+                'required' => false
+            )
+        );
+        $form->get('name')->add('5', 'text',
+            array(
+                'constraints' => array(
+                ),
+                'label' => 'Name',
+                'required' => false
+            )
+        );
+        $form->get('email')->add('5', 'text',
+            array(
+                'constraints' => array(
+                    new Email(),
+                ),
+                'label' => 'Email',
+                'required' => false
+            )
+        );
+        
+        $form = $form->getForm();
+        
+        
+        // process the form on POST
+        if ($request->isMethod('POST')) {
+            $form->bind($request);
+            $errors = array();
+            if ($form->isValid()) {
+                $user = $this->getUser();
+                $em = $this->getDoctrine()->getManager();
+                
+                $query = $em->createQuery(
+                    'SELECT s, h FROM InertiaWinspireBundle:Suitcase s LEFT JOIN s.shares h WHERE s.user = :user_id AND s.id = :id'
+                )
+                    ->setParameter('user_id', $user->getId())
+                    ->setParameter('id', $form->get('suitcase')->getData())
+                ;
+                try {
+                    $suitcase = $query->getSingleResult();
+                }
+                catch (\Doctrine\Orm\NoResultException $e) {
+                    return $response->setData(array(
+                        'formerror' => 'no suitcase'
+                    ));
+                }
+                
+                $shares = $suitcase->getShares();
+                $names = $form->get('name');
+                $emails = $form->get('email');
+                $successes = array();
+                foreach($names as $key => $formItem) {
+                    if($formItem->getData() != '') {
+                        $name = $formItem->getData();
+                        $email = $emails[$key]->getData();
+                        
+                        $exists = false;
+                        foreach($shares as $share) {
+                            if($email === $share->getEmail()) {
+                                $exists = true;
+                                $id = $share->getId();
+                            }
+                        }
+                        
+                        if(!$exists) {
+                            $share = new Share();
+                            $share->setName($name);
+                            $share->setEmail($email);
+                            $share->setActive(true);
+                            $share->setToken($this->generateToken());
+                            $share->setMessage($form->get('message')->getData());
+                            
+                            $suitcase->addShare($share);
+                            
+                            $em->persist($share);
+                            $em->flush();
+                            
+                            $msg = array('share_id' => $share->getId());
+                            $this->get('old_sound_rabbit_mq.winspire_producer')->publish(serialize($msg), 'share-suitcase');
+                            
+                            $successes[] = array('name' => $name, 'email' => $email);
+                        }
+                        else {
+                            $errors[] = array('name' => $name, 'email' => $email, 'id' => $id);
+                        }
+                    }
+                }
+                
+                $response->setData(array(
+                    'successes' => $successes,
+                    'errors' => $errors
+                ));
+                
+                return $response;
+            }
+            else {
+                return $response->setData(array(
+                    'formerror' => 'invalid'
+                ));
+            }
+        }
+        else {
+            return $form;
+        }
+    }
+    
+    
+    public function shareAgainAction($id)
+    {
+        $response = new JsonResponse();
+        
+        $user = $this->getUser();
+        $em = $this->getDoctrine()->getManager();
+        
+        $query = $em->createQuery(
+            'SELECT s, h FROM InertiaWinspireBundle:Share h JOIN h.suitcase s WHERE s.user = :user_id AND h.id = :id'
+        )
+            ->setParameter('user_id', $user->getId())
+            ->setParameter('id', $id)
+        ;
+        try {
+            $share = $query->getSingleResult();
+        }
+        catch (\Doctrine\Orm\NoResultException $e) {
+            return $response->setData(array(
+                'success' => false
+            ));
+        }
+        
+        $msg = array('share_id' => $share->getId());
+        $this->get('old_sound_rabbit_mq.winspire_producer')->publish(serialize($msg), 'share-suitcase');
+        
+        return $response->setData(array(
+            'success' => true
+        ));
+    }
+    
+    
+    protected function crypto_rand_secure($min, $max)
+    {
+        $range = $max - $min;
+        if ($range < 0) return $min; // not so random...
+        $log = log($range, 2);
+        $bytes = (int) ($log / 8) + 1; // length in bytes
+        $bits = (int) $log + 1; // length in bits
+        $filter = (int) (1 << $bits) - 1; // set all lower bits to 1
+        do {
+            $rnd = hexdec(bin2hex(openssl_random_pseudo_bytes($bytes)));
+            $rnd = $rnd & $filter; // discard irrelevant bits
+        } while ($rnd >= $range);
+        return $min + $rnd;
+    }
+    
+    protected function generateToken()
+    {
+        $token = '';
+        $codeAlphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        $codeAlphabet.= 'abcdefghijklmnopqrstuvwxyz';
+        $codeAlphabet.= '0123456789';
+        
+        for($i = 0; $i < 20; $i++) {
+            $token .= $codeAlphabet[$this->crypto_rand_secure(0, strlen($codeAlphabet))];
+        }
+        return $token;
+    }
+    
+    protected function getCounts($suitcase)
+    {
         $counts = array('M' => 0, 'D' => 0, 'R' => 0, 'E' => 0);
         foreach($suitcase->getItems() as $item) {
             $counts[$item->getStatus()]++;
@@ -417,7 +669,8 @@ class SuitcaseController extends Controller
         return $counts;
     }
     
-    protected function getSuitcase() {
+    protected function getSuitcase()
+    {
         // Establish which suitcase to use for current user
         $user = $this->getUser();
         
@@ -494,7 +747,8 @@ class SuitcaseController extends Controller
         }
     }
     
-    protected function retrigger($s) {
+    protected function retrigger($s)
+    {
         $msg = array('suitcase_id' => $s->getId());
         $this->get('old_sound_rabbit_mq.winspire_producer')->publish(serialize($msg), 'unpack-suitcase');
     }

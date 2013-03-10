@@ -79,12 +79,19 @@ class Suitcase
      * @ORM\OneToMany(targetEntity="SuitcaseItem", mappedBy="suitcase")
      */
     protected $items;
+    
+    /**
+     * @ORM\OneToMany(targetEntity="Share", mappedBy="suitcase")
+     */
+    protected $shares;
+    
     /**
      * Constructor
      */
     public function __construct()
     {
         $this->items = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->shares = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     /**
@@ -359,5 +366,39 @@ class Suitcase
     public function getPackedAt()
     {
         return $this->packedAt;
+    }
+
+    /**
+     * Add shares
+     *
+     * @param \Inertia\WinspireBundle\Entity\Share $shares
+     * @return Suitcase
+     */
+    public function addShare(\Inertia\WinspireBundle\Entity\Share $shares)
+    {
+        $shares->setSuitcase($this);
+        $this->shares[] = $shares;
+        
+        return $this;
+    }
+
+    /**
+     * Remove shares
+     *
+     * @param \Inertia\WinspireBundle\Entity\Share $shares
+     */
+    public function removeShare(\Inertia\WinspireBundle\Entity\Share $shares)
+    {
+        $this->shares->removeElement($shares);
+    }
+
+    /**
+     * Get shares
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getShares()
+    {
+        return $this->shares;
     }
 }

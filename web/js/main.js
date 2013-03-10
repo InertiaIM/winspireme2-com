@@ -1036,6 +1036,147 @@ $(document).ready(function() {
         }
     });
     
+    
+    // Suitcase social
+    $(sc).find('.share a').on('click', function(e) {
+        e.preventDefault();
+        
+        $('#share-modal').modal({
+            closeText: 'X',
+            overlay: '#fff',
+            opacity: 0.73,
+            zIndex: 2002
+        });
+        
+        $('#share-modal form input#share_name_1').focus();
+    });
+    
+    
+    $('#share-form').validate({
+        rules: {
+            'share[name][1]': {
+                required: '#share_email_1:filled'
+            },
+            'share[name][2]': {
+                required: '#share_email_2:filled'
+            },
+            'share[name][3]': {
+                required: '#share_email_3:filled'
+            },
+            'share[name][4]': {
+                required: '#share_email_4:filled'
+            },
+            'share[email][1]': {
+                email: true,
+                required: '#share_name_1:filled'
+            },
+            'share[email][2]': {
+                email: true,
+                required: '#share_name_2:filled'
+            },
+            'share[email][3]': {
+                email: true,
+                required: '#share_name_3:filled'
+            },
+            'share[email][4]': {
+                email: true,
+                required: '#share_name_4:filled'
+            }
+        },
+        messages: {
+            'share[email][1]': 'Please enter a valid email address',
+            'share[name][1]': 'Please enter a name',
+            'share[email][2]': 'Please enter a valid email address',
+            'share[name][2]': 'Please enter a name',
+            'share[email][3]': 'Please enter a valid email address',
+            'share[name][3]': 'Please enter a name',
+            'share[email][4]': 'Please enter a valid email address',
+            'share[name][4]': 'Please enter a name'
+        },
+        submitHandler: function(form) {
+          var data = $(form).serialize();
+          $.ajax({
+              beforeSend: function() {
+                  $('#share-modal #share-result #share-result-successes').hide();
+                  $('#share-modal #share-result #share-result-errors').hide();
+              },
+              data: data,
+              dataType: 'json',
+              url: $(form).attr('action'),
+              success: function(data, textStatus, jqXHR) {
+                  if (!$.isEmptyObject(data)) {
+                      if ($.isEmptyObject(data.formerror)) {
+                          
+                          $('#share-modal #share-form-holder').hide();
+                          $('#share-modal #share-result-holder').show();
+                          
+                          if (!$.isEmptyObject(data.successes)) {
+                              $('#share-modal #share-result-holder #share-result-successes').show();
+                              $('#share-modal #share-result-holder .successes li').remove();
+                              $.each(data.successes, function(index, value) {
+                                  $('#share-modal #share-result-holder .successes').append('<li><span class="number">' + (index + 1) + '</span><span class="name">' + value.name + '</span><span class="email">'   + value.email + '</span></li>')
+                              });
+                          }
+                          
+                          if (!$.isEmptyObject(data.errors)) {
+                              $('#share-modal #share-result-holder #share-result-errors').show();
+                              $('#share-modal #share-result-holder #share-result-errors .errors li').remove();
+                              $.each(data.errors, function(index, value) {
+                                  $('#share-modal #share-result-holder #share-result-errors .errors').append('<li>' + value.email + ' &gt;  This person has already been invited. &nbsp;<a href="#" data-id="' + value.id + '">Resend invite.</a></li>')
+                              });
+                          }
+                      }
+                      else {
+                          // Server-side form errors
+                      }
+                  }
+              },
+              type: 'POST'
+          });
+        }
+    });
+    
+    $('#share-modal #share-result-errors').on('click', 'a', function(e) {
+        e.preventDefault();
+        
+        var self = $(this);
+        var parent = $(this).parent();
+        var id = $(self).data('id');
+        
+        var url = '/suitcase/reshare/' + id;
+        if (typeof env !== 'undefined') {
+            url = env + url;
+        }
+        
+        $.ajax({
+            beforeSend: function() {
+                $(self).replaceWith('...');
+            },
+            dataType: 'json',
+            url: url,
+            success: function(data, textStatus, jqXHR) {
+                if (!$.isEmptyObject(data)) {
+                    $(parent).append('Resent!');
+                }
+            }
+        });
+    });
+    
+    $('#share-modal #share-more').on('click', function(e) {
+        e.preventDefault();
+        
+        $('#share-modal form input[type=text]').val('');
+        
+        $('#share-modal #share-form-holder').show();
+        $('#share-modal form input#share_name_1').focus();
+        
+        $('#share-modal #share-result-holder').hide();
+    });
+    
+    
+    
+    
+    
     $('#sc-area .content > ul').on('cycle-after', function(event, opts) {
         $('#sc-area').find('.pager-current').text(opts.slideNum);
         $('#sc-area').find('.pager-total').text(opts.slideCount);

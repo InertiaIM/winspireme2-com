@@ -108,6 +108,10 @@ services:
     unpack_suitcase_service:
         class: Inertia\WinspireBundle\Consumer\UnpackSuitcaseConsumer
         arguments: [@doctrine.orm.entity_manager, @mailer, @templating]
+        
+    share_suitcase_service:
+        class: Inertia\WinspireBundle\Consumer\ShareSuitcaseConsumer
+        arguments: [@doctrine.orm.entity_manager, @mailer, @templating]
 
 old_sound_rabbit_mq:
     connections:
@@ -137,3 +141,8 @@ old_sound_rabbit_mq:
             exchange_options: { name: 'winspire', type: direct }
             queue_options:    { name: 'winspire-unpack-suitcase' }
             callback:         unpack_suitcase_service
+        share_suitcase:
+            connection: default
+            exchange_options: { name: 'winspire', type: direct }
+            queue_options:    { name: 'winspire-share-suitcase' }
+            callback:         share_suitcase_service

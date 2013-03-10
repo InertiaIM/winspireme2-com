@@ -15,6 +15,8 @@
     content: attr(data-icon);
     speak: none;
     font-weight: normal;
+    font-variant: normal;
+    text-transform: none;
     line-height: 1;
     -webkit-font-smoothing: antialiased;
 }
@@ -25,11 +27,13 @@ Instead of a list of all class selectors,
 you can use the generic selector below, but it's slower:
 [class*="icon-"]:before {
 */
-.icon-html5:before, .icon-menu:before, .icon-user:before, .icon-envelope:before, .icon-feed:before, .icon-airplane:before, .icon-bed:before, .icon-arrow-down:before, .icon-arrow-left:before, .icon-arrow-right:before, .icon-arrow-up:before, .icon-search:before, .icon-youtube:before, .icon-facebook:before, .icon-twitter:before, .icon-suitcase:before, .icon-bubble:before, .icon-double-up:before, .icon-double-down:before, .icon-comment:before, .icon-minus:before, .icon-suitcase-2:before, .icon-plus:before, .icon-play:before, .icon-suitcase-locked:before, .icon-checkmark:before, .icon-download:before, .icon-x:before {
+.icon-html5:before, .icon-menu:before, .icon-user:before, .icon-envelope:before, .icon-feed:before, .icon-airplane:before, .icon-bed:before, .icon-arrow-down:before, .icon-arrow-left:before, .icon-arrow-right:before, .icon-arrow-up:before, .icon-search:before, .icon-youtube:before, .icon-facebook:before, .icon-twitter:before, .icon-suitcase:before, .icon-bubble:before, .icon-double-up:before, .icon-double-down:before, .icon-comment:before, .icon-minus:before, .icon-suitcase-2:before, .icon-plus:before, .icon-play:before, .icon-suitcase-locked:before, .icon-checkmark:before, .icon-download:before, .icon-x:before, .icon-warning:before {
     font-family: 'icomoon';
     speak: none;
     font-style: normal;
     font-weight: normal;
+    font-variant: normal;
+    text-transform: none;
     line-height: 1;
     -webkit-font-smoothing: antialiased;
 }
@@ -116,4 +120,7 @@ you can use the generic selector below, but it's slower:
 }
 .icon-x:before {
     content: "\e01b";
+}
+.icon-warning:before {
+    content: "\e01c";
 }

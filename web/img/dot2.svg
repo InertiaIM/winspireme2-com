@@ -1,0 +1,24 @@
+<svg width="32" height="32" xmlns="http://www.w3.org/2000/svg">
+ <!-- Created with SVG-edit - http://svg-edit.googlecode.com/ -->
+ <defs>
+  <filter id="svg_7_blur">
+   <feGaussianBlur stdDeviation="1.5"/>
+  </filter>
+  <linearGradient y2="1" x2="0.5" y1="0" x1="0.5" id="svg_3">
+   <stop offset="0" stop-opacity="0.992188" stop-color="#f0ede6"/>
+   <stop offset="1" stop-opacity="0.992188" stop-color="#d2cfc8"/>
+  </linearGradient>
+ </defs>
+ <g>
+  <title>Layer 5</title>
+  <circle id="svg_7" stroke="#000000" fill-opacity="0.4" r="13.12756" cy="16.64198" cx="15.85185" stroke-width="0" fill="#000000" filter="url(#svg_7_blur)"/>
+ </g>
+ <g display="inline">
+  <title>Layer 4</title>
+  <circle id="svg_5" stroke="#000000" r="13.12756" cy="15.12346" cx="15.85185" stroke-width="0" fill="#ffffff"/>
+ </g>
+ <g display="inline">
+  <title>Layer 3</title>
+  <circle id="svg_1" r="11.58049" cy="15.14738" cx="15.79552" stroke-width="0" fill="url(#svg_3)" stroke="#000000"/>
+ </g>
+</svg>
