@@ -55,6 +55,10 @@ suitcaseShareAgain:
     pattern:  /suitcase/reshare/{id}
     defaults: { _controller: InertiaWinspireBundle:Suitcase:shareAgain }
     
+shareComment:
+    pattern:  /comment/{id}/{token}
+    defaults: { _controller: InertiaWinspireBundle:Share:comment, token: none }
+    
 shareView:
     pattern:  /share/{token}
     defaults: { _controller: InertiaWinspireBundle:Share:view }

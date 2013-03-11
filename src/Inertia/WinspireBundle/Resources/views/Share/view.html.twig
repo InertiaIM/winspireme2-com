@@ -27,7 +27,7 @@
                     <li>There are <strong><span class="suitcase-count">{{ suitcase.items | length }} items</span></strong> in the Suitcase.</li>
                 </ul>
                 <ul class="social">
-                    <li class="comments"><a href="#"><span class="icon icon-comment"></span><span class="comment-count">0</span> Comments</a></li>
+                    <li class="comments"><a href="#"><span class="icon icon-comment"></span><span class="comment-count">{{ suitcase.comments | length }}</span> Comments</a></li>
                 </ul>
             </div>
             <div class="content">
@@ -107,6 +107,32 @@
                 </div>
             </div>
             <div class="footer drop-shadow curved curved-hz-bottom">
+            </div>
+        </div>
+    </div>
+    
+    <div id="comment-area">
+        <div class="c-wrap shadow-wrapper">
+            <div class="header drop-shadow curved curved-hz-1">
+                <h3>Comments</h3>
+                <ul class="social">
+                    <li class="comments"><a href="#"><span class="icon icon-comment"></span><span class="comment-count">{{ suitcase.comments | length }}</span> Comments</a></li>
+                </ul>
+            </div>
+            <div class="content">
+                <div class="commentary">
+{% for comment in suitcase.comments %}
+                    <div class="comment">
+                        <p><strong>{{ comment.name }}</strong> <span class="timestamp">{{ comment.created | date('M j, Y, g:i a') }}</span></p>
+                        <p>{{ comment.message | nl2br }}</p>
+                        <hr/>
+                    </div>
+{% endfor %}
+                </div>
+                <form id="comment-form" action={{ path('shareComment', {'id': suitcase.id, 'token': token}) }} method="post">
+                    <textarea name="message" placeholder="Share your comments with everyone that is invited to this Suitcase."></textarea>
+                    <button type="submit">Add Comment</button>
+                </form>
             </div>
         </div>
     </div>

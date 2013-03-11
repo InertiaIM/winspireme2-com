@@ -1038,7 +1038,7 @@ $(document).ready(function() {
     
     
     // Suitcase social
-    $(sc).find('.share a').on('click', function(e) {
+    $('.share a').on('click', function(e) {
         e.preventDefault();
         
         $('#share-modal').modal({
@@ -1175,7 +1175,33 @@ $(document).ready(function() {
         $('#share-modal #share-result-holder').hide();
     });
     
-    
+    $('#comment-form').on('submit', function(e) {
+        e.preventDefault();
+        
+        var data = $(this).serialize();
+        
+        $.ajax({
+            beforeSend: function() {},
+            data: data,
+            dataType: 'json',
+            url: $(this).attr('action'),
+            success: function(data, textStatus, jqXHR) {
+                if (data.success) {
+                    $('#comment-area .commentary').append('<div class="comment"><p><strong>' + data.name + '</strong> <span class="timestamp">' + data.timestamp + '</span></p><p>' + data.message + '</p><hr/></div>');
+                    $('#comment-form textarea').val('');
+                    
+                    var commentCount = $('.comment-count');
+                    commentCount = commentCount[0];
+                    
+                    var count = parseInt($(commentCount).text());
+                    count++;
+                    
+                    $('.comment-count').text(count);
+                }
+            },
+            type: 'POST'
+        });
+    });
     
     
     

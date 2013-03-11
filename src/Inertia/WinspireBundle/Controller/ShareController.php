@@ -1,6 +1,7 @@
 <?php
 namespace Inertia\WinspireBundle\Controller;
 
+use Inertia\WinspireBundle\Entity\Comment;
 use Inertia\WinspireBundle\Entity\Share;
 use Inertia\WinspireBundle\Entity\Suitcase;
 use Inertia\WinspireBundle\Entity\SuitcaseItem;
@@ -12,6 +13,107 @@ use Symfony\Component\Validator\Constraints\Email;
 
 class ShareController extends Controller
 {
+    public function commentAction($id, $token)
+    {
+        $request = $this->getRequest();
+        $response = new JsonResponse();
+        $em = $this->getDoctrine()->getManager();
+        
+        if($request->request->has('message') && $request->request->get('message') != '') {
+            $message = $request->request->get('message');
+        }
+        else {
+            return $response->setData(array(
+                'success' => false
+            ));
+        }
+        
+        $send = false;
+        
+        if($token != 'none') {
+            $query = $em->createQuery(
+                'SELECT s, h FROM InertiaWinspireBundle:share h JOIN h.suitcase s WHERE h.token = :token AND s.id = :id'
+            )
+                ->setParameter('token', $token)
+                ->setParameter('id', $id)
+            ;
+            try {
+                $share = $query->getSingleResult();
+            }
+            catch (\Doctrine\Orm\NoResultException $e) {
+                return $response->setData(array(
+                    'success' => false
+                ));
+            }
+            
+            $name = $share->getName();
+            $email = $share->getEmail();
+            $suitcase = $share->getSuitcase();
+            
+            $send = true;
+        }
+        else {
+            $user = $this->getUser();
+            
+            if(!$user) {
+                return $response->setData(array(
+                    'success' => false
+                ));
+            }
+            
+            $query = $em->createQuery(
+                'SELECT s FROM InertiaWinspireBundle:Suitcase s WHERE s.user = :user_id AND s.id = :id'
+            )
+                ->setParameter('user_id', $user->getId())
+                ->setParameter('id', $id)
+            ;
+            try {
+                $suitcase = $query->getSingleResult();
+            }
+            catch (\Doctrine\Orm\NoResultException $e) {
+                return $response->setData(array(
+                    'success' => false
+                ));
+            }
+            
+            
+//            
+//            if(false === $user->isGranted('ROLE_USER')) {
+//                return $response->setData(array(
+//                    'success' => false
+//                ));
+//            }
+//            else {
+                $name = $user->getFirstName() . ' ' . $user->getLastName();
+                $email = $user->getEmail();
+//            }
+        }
+        
+        $comment = new Comment();
+        $comment->setName($name);
+        $comment->setEmail($email);
+        $comment->setMessage($message);
+        $comment->setSuitcase($suitcase);
+        
+        $em->persist($comment);
+        $em->flush();
+        
+        if($send) {
+            $msg = array('comment_id' => $comment->getId());
+            $this->get('old_sound_rabbit_mq.winspire_producer')->publish(serialize($msg), 'comment');
+        }
+        
+        
+        $timestamp = date_format($comment->getCreated(), 'M j, Y, g:i a');
+        
+        return $response->setData(array(
+            'success' => true,
+            'name' => $name,
+            'message' => nl2br($message),
+            'timestamp' => $timestamp
+        ));
+    }
+    
     public function viewAction($token)
     {
         $em = $this->getDoctrine()->getManager();
@@ -42,7 +144,8 @@ class ShareController extends Controller
             'user' => $user,
             'suitcase' => $suitcase,
             'counts' => $counts,
-            'pages' => ceil(count($suitcase->getItems()) / 6)
+            'pages' => ceil(count($suitcase->getItems()) / 6),
+            'token' => $token
         ));
     }
     

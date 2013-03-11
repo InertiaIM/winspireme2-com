@@ -8,7 +8,7 @@
                 <div class="suitcase"><span class="icon-suitcase"></span><em>my</em> Suitcase</div>
                 <ul class="header-nav">
                     <li class="share"><a href="{{ path('suitcaseView') }}"><span class="icon-bubble"></span> Share</a></li>
-                    <li class="comments"><a href="{{ path('suitcaseView') }}"><span class="icon-comment"></span><span class="comment-count">0</span> Comments</a></li>
+                    <li class="comments"><a href="{{ path('suitcaseView') }}"><span class="icon-comment"></span><span class="comment-count">{{ suitcase.comments | length }}</span> Comments</a></li>
                     <li class="button"><a{% if suitcase.packed %} class="locked"{% endif %} href="{{ path('suitcaseView') }}"><span class="{% if suitcase.packed %}icon-suitcase-locked{% else %}icon-suitcase{% endif %} icon"></span> <em>I'm</em> Packed<span id="suitcase-preview-count">{% if suitcase.items | length > 0 %} ({{ suitcase.items | length }}){% endif %}</span></a></li>
                     <li class="toggle"><a href="#"><span class="icon-double-up"></span></a>
                 </ul>

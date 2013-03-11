@@ -86,12 +86,18 @@ class Suitcase
     protected $shares;
     
     /**
+     * @ORM\OneToMany(targetEntity="Comment", mappedBy="suitcase")
+     */
+    protected $comments;
+    
+    /**
      * Constructor
      */
     public function __construct()
     {
         $this->items = new \Doctrine\Common\Collections\ArrayCollection();
         $this->shares = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->comments = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     /**
@@ -400,5 +406,38 @@ class Suitcase
     public function getShares()
     {
         return $this->shares;
+    }
+
+    /**
+     * Add comments
+     *
+     * @param \Inertia\WinspireBundle\Entity\Comment $comments
+     * @return Suitcase
+     */
+    public function addComment(\Inertia\WinspireBundle\Entity\Comment $comments)
+    {
+        $this->comments[] = $comments;
+    
+        return $this;
+    }
+
+    /**
+     * Remove comments
+     *
+     * @param \Inertia\WinspireBundle\Entity\Comment $comments
+     */
+    public function removeComment(\Inertia\WinspireBundle\Entity\Comment $comments)
+    {
+        $this->comments->removeElement($comments);
+    }
+
+    /**
+     * Get comments
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getComments()
+    {
+        return $this->comments;
     }
 }

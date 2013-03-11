@@ -97,6 +97,10 @@ services:
         calls:
             - [ setAnnotationReader, [ @annotation_reader ] ]
             
+    comment_service:
+        class: Inertia\WinspireBundle\Consumer\CommentConsumer
+        arguments: [@doctrine.orm.entity_manager, @mailer, @templating]
+            
     pack_suitcase_service:
         class: Inertia\WinspireBundle\Consumer\PackSuitcaseConsumer
         arguments: [@doctrine.orm.entity_manager, @mailer, @templating]
@@ -126,6 +130,11 @@ old_sound_rabbit_mq:
             connection: default
             exchange_options: { name: 'winspire', type: direct }
     consumers:
+        comment:
+            connection: default
+            exchange_options: { name: 'winspire', type: direct }
+            queue_options:    { name: 'winspire-comment' }
+            callback:         comment_service
         pack_suitcase:
             connection: default
             exchange_options: { name: 'winspire', type: direct }
