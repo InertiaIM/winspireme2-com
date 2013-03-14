@@ -73,7 +73,7 @@ var env = '/app_dev.php';
 {% endif %}
                     <nav id="core-nav">
                         <ul class="inline-nav">
-                            <li><a href="#">About Us</a></li>
+                            <li><a href="{{ path('pageDisplay', {'slug': 'about-us'}) }}">About Us</a></li>
                             <li><a href="#">Blog</a></li>
                             <li><a href="#">FAQs</a></li>
                             <li><a href="#">Contact Us</a></li>
@@ -124,7 +124,7 @@ var env = '/app_dev.php';
 							</li>
 							<li><a href="#">Why Winspire</a>
 								<ul>
-									<li><a href="#">About Us</a></li>
+									<li><a href="{{ path('pageDisplay', {'slug': 'about-us'}) }}">About Us</a></li>
 									
 									<li><a href="#">Testimonials</a></li>
 								
