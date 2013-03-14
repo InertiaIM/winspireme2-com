@@ -11,8 +11,6 @@
 </style>
 {% endif %}
     <div id="standard-page">
-        <div class="c-wrap">
-            {{ page.html | replace({'{{ date }}': 'now' | date('F jS, Y')}) | raw }}
-        </div>
+        {{ page.html | replace({'{{ date }}': 'now' | date('F jS, Y')}) | raw }}
     </div>
 {% endblock %}
