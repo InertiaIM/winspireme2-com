@@ -146,8 +146,8 @@ var env = '/app_dev.php';
                 <div id="nav-legal">
                     <nav id="legal-nav">
                         <ul class="inline-nav">
-                            <li><a href="#">Terms of Use</a></li>
-                            <li><a href="#">Privacy Policy</a></li>
+                            <li><a href="{{ path('pageDisplay', {'slug': 'terms'}) }}">Terms of Use</a></li>
+                            <li><a href="{{ path('pageDisplay', {'slug': 'privacy'}) }}">Privacy Policy</a></li>
 {% if is_granted('ROLE_USER') %}
                             <li><a href="{{ path('pageDisplay', {'slug': 'loa'}) }}">Letter of Agreement</a></li>
 {% endif %}
