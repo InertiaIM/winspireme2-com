@@ -316,6 +316,16 @@ footer, #footer { height:220px;border-top:1px solid rgb(195,213,224);
 
 #nav-legal {
     clear:both;
+    
+    a {
+        color:@ws-white;
+        text-decoration:none;
+        
+        &:hover {
+            color:@ws-yellow;
+        }
+    }
+    
     #legal-nav {
         float:left;
         
@@ -330,20 +340,13 @@ footer, #footer { height:220px;border-top:1px solid rgb(195,213,224);
             display:block;
             float:left;
         }
-        
-        a {
-            color:@ws-white;
-            
-            &:hover {
-                color:@ws-yellow;
-            }
-        }
     }
     #legal-copyright {
         display:block;
         text-align:right;
         color:@ws-white;
         font-size:0.9em;
+        
     }
 }
 .content {

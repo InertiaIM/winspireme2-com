@@ -74,7 +74,7 @@ var env = '/app_dev.php';
                     <nav id="core-nav">
                         <ul class="inline-nav">
                             <li><a href="{{ path('pageDisplay', {'slug': 'about-us'}) }}">About Us</a></li>
-                            <li><a href="#">Blog</a></li>
+                            <li><a href="http://www.winspireme.com/blog/">Blog</a></li>
                             <li><a href="{{ path('pageDisplay', {'slug': 'faqs'}) }}">FAQs</a></li>
                             <li><a href="{{ path('contactUs') }}">Contact Us</a></li>
 {% if is_granted('ROLE_USER') %}
@@ -100,13 +100,13 @@ var env = '/app_dev.php';
 					<img src="/img/ws-ftr-socialbg.png" class="social-bg" alt=""/>
 					<nav id="social-nav">
 						<ul class="inline-nav">
-							<li><a href="#"><span aria-hidden="true"
+							<li><a href="https://facebook.com/winspire" target="_blank"><span aria-hidden="true"
 									class="icon-facebook"></span> </a></li>
-							<li><a href="#"><span aria-hidden="true"
+							<li><a href="https://twitter.com/winspireme" target="_blank"><span aria-hidden="true"
 									class="icon-twitter"></span> </a></li>
-							<li><a href="#"><span aria-hidden="true"
+							<li><a href="http://www.youtube.com/user/WinspireNews" target="_blank"><span aria-hidden="true"
 									class="icon-youtube"></span> </a></li>
-							<li><a href="#"><span aria-hidden="true"
+							<li><a href="{{ path('pageDisplay', {'slug': 'newsletter'}) }}"><span aria-hidden="true"
 									class="icon-envelope"></span> </a></li>
 						</ul>
 					</nav>
@@ -133,10 +133,7 @@ var env = '/app_dev.php';
 							<li><a href="{{ path('pageDisplay', {'slug': 'winning-bidders'}) }}">Winning Bidders</a></li>
 							<li><a href="{{ path('contactUs') }}">Contact Us</a>
 								<ul>
-									<li><a href="#">Resources</a></li>
-									
-									<li><a href="#">Blog</a></li>
-								
+									<li><a href="http://www.winspireme.com/blog/">Blog</a></li>
 								</ul>
 							</li>
 						</ul>
@@ -154,7 +151,7 @@ var env = '/app_dev.php';
                             <li>CST# 2094258-40</li>
                         </ul>
                     </nav>
-                    <span id="legal-copyright"> &copy; {{ 'now' | date('Y') }} Winspire All Rights Reserved </span>
+                    <span id="legal-copyright"> <a href="{{ path('pageDisplay', {'slug': 'copyright'}) }}">&copy; {{ 'now' | date('Y') }} Winspire All Rights Reserved</a> </span>
                 </div>
             </div>
 		</footer>
