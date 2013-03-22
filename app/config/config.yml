@@ -100,7 +100,11 @@ services:
     comment_service:
         class: Inertia\WinspireBundle\Consumer\CommentConsumer
         arguments: [@doctrine.orm.entity_manager, @mailer, @templating]
-            
+        
+    contact_service:
+        class: Inertia\WinspireBundle\Consumer\ContactConsumer
+        arguments: [@doctrine.orm.entity_manager, @mailer, @templating]
+        
     pack_suitcase_service:
         class: Inertia\WinspireBundle\Consumer\PackSuitcaseConsumer
         arguments: [@doctrine.orm.entity_manager, @mailer, @templating]
@@ -135,6 +139,11 @@ old_sound_rabbit_mq:
             exchange_options: { name: 'winspire', type: direct }
             queue_options:    { name: 'winspire-comment' }
             callback:         comment_service
+        contact:
+            connection: default
+            exchange_options: { name: 'winspire', type: direct }
+            queue_options:    { name: 'winspire-contact' }
+            callback:         contact_service
         pack_suitcase:
             connection: default
             exchange_options: { name: 'winspire', type: direct }

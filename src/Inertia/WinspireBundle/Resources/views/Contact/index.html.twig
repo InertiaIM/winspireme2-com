@@ -1,0 +1,114 @@
+{% extends 'InertiaWinspireBundle::layout.html.twig' %}
+
+{% block title %}Winspire | Contact Us{% endblock %}
+
+{% block content_header '' %}
+
+{% block content %}
+<div id="standard-page" class="contact-us">
+<div class="page-content">
+    <div class="c-wrap">
+        <h1>Contact Us</h1>
+        <p style="width:480px">We are here to help you any time during normal west coast business hours. You can reach us by phone or email.</p>
+        
+        <div class="wrapper">
+            <h2>
+                Give us a call!<br/>
+                <span>877.544.8555</span>
+            </h2>
+            <div class="banner">&nbsp;</div>
+            
+            <div class="clearfix">
+                <div class="form-wrapper">
+{% if form %}
+                    <h3>Contact Form</h3>
+                    <p>You can also complete the following form and we will get<br/>
+                    back to you within 1 business day.</p>
+                    
+                    <form id="contact-form" action="{{ path('contactUs') }}" method="POST" {{ form_enctype(form) }} novalidate="novalidate">
+                        <ul>
+                            <li class="topic">
+                                {{ form_row(form.topic) }}
+                            </li>
+                            <li class="break"></li>
+                            <li>
+                                <div>
+                                    {{ form_widget(form.first, {'attr': {'class': 'required', 'placeholder': form.first.vars.label ~ (form.first.vars.required ? '*' : '') }}) }}
+                                </div>
+                                <div>
+                                    {{ form_widget(form.last, {'attr': {'class': 'required', 'placeholder': form.last.vars.label ~ (form.last.vars.required ? '*' : '') }}) }}
+                                </div>
+                            </li>
+                            
+                            <li class="large">
+                                <div>
+                                    {{ form_widget(form.organization, {'attr': {'placeholder': form.organization.vars.label ~ (form.organization.vars.required ? '*' : '') }}) }}
+                                </div>
+                            </li>
+                            <li class="small">
+                                <div>
+                                    {{ form_widget(form.phone, {'attr': {'placeholder': form.phone.vars.label ~ (form.phone.vars.required ? '*' : '') }}) }}
+                                </div>
+                            </li>
+                            <li class="small">
+                                <div>
+                                    {{ form_widget(form.email, {'attr': {'class': 'required email', 'placeholder': form.email.vars.label ~ (form.email.vars.required ? '*' : '') }}) }}
+                                </div>
+                            </li>
+                            <li class="comments">
+                                <div>
+                                    {{ form_widget(form.comments, {'attr': {'placeholder': form.comments.vars.label ~ (form.comments.vars.required ? '*' : '') }}) }}
+                                    <div class="note">
+                                        *Indicates required field
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="button">
+                                <div>
+                                    <button type="submit">Send</button>
+                                    {{ form_widget(form._token) }}
+                                </div>
+                            </li>
+                        </ul>
+                    </form>
+{% else %}
+                    <h3>Thank you for contacting Winspire.</h3>
+                    <p style="text-align:left; margin-bottom:15px;">Someone will be getting in touch with you shortly. In the meantime, take a look at some of our <a href="{{ path('pageDisplay', {'slug': 'faqs'}) }}">Frequently Asked Questions</a> to see if your answer can be found there.</p> 
+                    <p style="text-align:left; margin-bottom:15px;">If this is important and you need to speak with someone sooner, you can give us a call at 1.877.544.8555 during normal business hours to speak with a Winspire Team Member.</p>
+                    <p>&nbsp;</p>
+                    <p>&nbsp;</p>
+{% endif %}
+                </div>
+                <div class="social">
+                    <h3>Be Our Buddy!</h3>
+                    <p>Click on the links below to subscribe to our newsletter or follow us on social media for updates about new packages, fundraising tips and donation give-aways!</p>
+                    <ul>
+                        <li class="newsletter">
+                            <a href="https://www.winspireme.com/newsletter">Subscribe to our Newsletter</a>
+                        </li>
+                        <li class="facebook">
+                            <a href="https://www.facebook.com/Winspire" target="_blank">Like Us on Facebook</a>
+                        </li>
+                        <li class="twitter">
+                            <a href="https://www.twitter.com/Winspireme" target="_blank">Follow Us on Twitter</a>
+                        </li>
+                        <li class="youtube">
+                            <a href="#">On YouTube</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="page-footer">&nbsp;</div>
+        </div>
+    </div>
+</div>
+<script>
+$(function() {
+    $('#contact-form').validate({
+        
+    });
+});
+</script>
+</div>
+{% endblock %}

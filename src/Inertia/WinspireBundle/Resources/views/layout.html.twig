@@ -18,8 +18,8 @@
 <link rel="stylesheet" href="/css/jquery-ui.css">
 <link rel="stylesheet" href="/css/normalize.min.css">
 {% stylesheets output="css/style.css"
-'css/less/main.less'
 'css/less/icom.less'
+'css/less/main.less'
 %}
 <link rel="stylesheet" href="{{ asset_url }}">
 {% endstylesheets %}
@@ -76,7 +76,7 @@ var env = '/app_dev.php';
                             <li><a href="{{ path('pageDisplay', {'slug': 'about-us'}) }}">About Us</a></li>
                             <li><a href="#">Blog</a></li>
                             <li><a href="{{ path('pageDisplay', {'slug': 'faqs'}) }}">FAQs</a></li>
-                            <li><a href="#">Contact Us</a></li>
+                            <li><a href="{{ path('contactUs') }}">Contact Us</a></li>
 {% if is_granted('ROLE_USER') %}
                             <li><a href="#">My Account</a></li>
                             <li><a href="{{ path('fos_user_security_logout') }}">Logout</a></li>
@@ -131,7 +131,7 @@ var env = '/app_dev.php';
 								</ul>
 							</li>
 							<li><a href="{{ path('pageDisplay', {'slug': 'winning-bidders'}) }}">Winning Bidders</a></li>
-							<li><a href="#">Contact Us</a>
+							<li><a href="{{ path('contactUs') }}">Contact Us</a>
 								<ul>
 									<li><a href="#">Resources</a></li>
 									

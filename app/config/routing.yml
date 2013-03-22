@@ -7,6 +7,14 @@ home:
     pattern:  /
     defaults: { _controller: InertiaWinspireBundle:Default:index }
     
+contactUs:
+    pattern:  /contact-us
+    defaults: { _controller: InertiaWinspireBundle:Contact:index }
+    
+contactSuccess:
+    pattern:  /contact-success
+    defaults: { _controller: InertiaWinspireBundle:Contact:success }
+    
 packageList:
     pattern:  /packages/{slug}
     defaults: { _controller: InertiaWinspireBundle:Default:packageList, slug: all }
