@@ -348,7 +348,7 @@ class AccountController extends Controller
                         $user->setPlainPassword($newPassword);
                         $userManager->updateUser($user);
                         
-                        return $response->setData(true);
+                        return $response->setData(array('success' => true));
                     }
                 }
                 
@@ -382,7 +382,7 @@ class AccountController extends Controller
             }
         }
         
-        return $response;
+        return $response->setData(false);
     }
     
     
