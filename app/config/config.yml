@@ -74,6 +74,14 @@ fos_user:
     db_driver: orm
     firewall_name: main
     user_class: Inertia\WinspireBundle\Entity\User
+    service:
+        mailer: fos_user.mailer.twig_swift
+    resetting:
+        email:
+            template: InertiaWinspireBundle:Email:password-reset-link.html.twig
+            from_email:
+                address:        notice@winspireme.com
+                sender_name:    Winspire
 
 stof_doctrine_extensions:
     default_locale: en_US

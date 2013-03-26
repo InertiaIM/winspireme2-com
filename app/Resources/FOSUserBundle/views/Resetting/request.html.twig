@@ -1,0 +1,38 @@
+{% extends "FOSUserBundle::layout.html.twig" %}
+
+{% block title %}Winspire | Reset Your Password{% endblock %}
+
+{% block fos_user_content %}
+<h1>Recover Your Password</h1>
+<p>Please enter your email address and click “Submit”.  You will receive an email with a link to reset your password.</p>
+
+<div class="form-card">
+    <h3>Enter your email.</h3>
+    
+    <form action="{{ path('fos_user_resetting_send_email') }}" method="post" class="fos_user_resetting_request">
+        <ul>
+            <li>
+                <div>
+                    <label for="username">Email*</label>
+                    <input type="text" id="username" name="username" required="required" {% if invalid_username is defined %}value="{{ invalid_username }}"{% endif %} />
+                </div>
+            </li>
+            <li>
+                <div>
+                    <button type="submit">Submit</button>
+                </div>
+            </li>
+        </ul>
+{% if invalid_username is defined %}
+        <p class="error">{{ 'Email address does not exist.  Please check for misspelling.' }}</p>
+{% endif %}
+        
+    </form>
+</div>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+{% endblock fos_user_content %}

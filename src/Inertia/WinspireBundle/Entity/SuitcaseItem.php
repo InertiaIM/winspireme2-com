@@ -65,7 +65,7 @@ class SuitcaseItem
     
     /**
      * @ORM\ManyToOne(targetEntity="Suitcase", inversedBy="items")
-     * @ORM\JoinColumn(name="suitcase_id", referencedColumnName="id")
+     * @ORM\JoinColumn(name="suitcase_id", referencedColumnName="id", onDelete="CASCADE")
      */
     protected $suitcase;
     

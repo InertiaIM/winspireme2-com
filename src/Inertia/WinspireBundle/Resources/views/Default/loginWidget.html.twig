@@ -25,7 +25,7 @@
                                     
                                     <div class="panel-password panel-field">
                                         <input type="password" class="pf-text" name="_password" value="Password" />
-                                        <input type="button" class="pf-button" value="Forgot?" />
+                                        <input type="button" class="pf-button" value="Forgot?" onclick="window.location='{{ path('fos_user_resetting_request') }}';" />
                                     </div>
                                     
                                     <div class="panel-buttons">

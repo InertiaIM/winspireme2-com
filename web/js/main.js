@@ -1376,7 +1376,6 @@ $(document).ready(function() {
     }
     
     $('.tooltip').tooltipster({
-//        animation: 'grow',
         position: 'right'
     });
     
@@ -1417,6 +1416,219 @@ $(document).ready(function() {
                 }
             },
             type: 'POST'
+        });
+    });
+});
+
+
+
+/* Account Edit Modal */
+$(function() {
+    $('#edit-contact-modal form').validate({
+        submitHandler: function(form) {
+            var data = $(form).serialize();
+            $.ajax({
+                beforeSend: function() {
+                },
+                data: data,
+                dataType: 'json',
+                url: $(form).attr('action'),
+                success: function(data, textStatus, jqXHR) {
+                    if (!$.isEmptyObject(data)) {
+                        var holder = $('#contact-info');
+                        
+                        // Address 1
+                        if($('#contact-info-address').length == 0 && data.contact.address != '') {
+                            $('<span id="contact-info-address"></span><br/>').insertAfter('#contact-info-cname + br');
+                        }
+                        $(holder).find('#contact-info-address').text(data.contact['address']);
+                        
+                        // Address 2
+                        if($('#contact-info-address2').length == 0 && data.contact.address2 != '') {
+                            $('<span id="contact-info-address2"></span><br/>').insertAfter('#contact-info-address + br');
+                        }
+                        if($('#contact-info-address2').length > 0 && data.contact.address2 == '') {
+                            $('#contact-info-address2 + br').remove();
+                        }
+                        $(holder).find('#contact-info-address2').text(data.contact['address2']);
+                        
+                        // City + State + Zip
+                        if($('#contact-info-city').length == 0 && data.contact.city != '') {
+                            $('<span id="contact-info-city"></span>, <span id="contact-info-state"></span> <span id="contact-info-zip"></span><br/>').insertBefore('#contact-info-email');
+                        }
+                        $(holder).find('#contact-info-city').text(data.contact['city']);
+                        $(holder).find('#contact-info-state').text(data.contact['state']);
+                        $(holder).find('#contact-info-zip').text(data.contact['zip']);
+                        
+                        // Phone
+                        $(holder).find('#contact-info-phone').text(data.contact['phone']);
+                        $.modal.close();
+                    }
+                },
+                type: 'POST'
+            });
+        }
+    });
+    
+    $('#contact-info .button.edit').on('click', function(e) {
+        e.preventDefault();
+        
+        $('#edit-contact-modal').modal({
+            closeText: 'X',
+            overlay: '#fff',
+            opacity: 0.73,
+            zIndex: 2002
+        });
+        
+        $('#edit-contact-modal form input#contact_address').focus();
+    });
+    
+    
+    var url = '/account/validate';
+    if (typeof env !== 'undefined') {
+        url = env + url;
+    }
+    $('#edit-password-modal form').validate({
+        rules: {
+            'contact[password][old]': {
+                required: true,
+                remote: {
+                    url: url
+                }
+            },
+            'contact[password][new]': 'required',
+            'contact[password][verify]': {
+                equalTo: '#contact_password_new'
+            }
+        },
+        messages: {
+            'contact[password][old]': 'The password is incorrect.',
+            'contact[password][verify]': 'The chosen passwords do no match.'
+        },
+        onfocusout: false,
+        submitHandler: function(form) {
+            var data = $(form).serialize();
+            $.ajax({
+                beforeSend: function() {
+                    $('#contact_password_old').val('');
+                    $('#contact_password_new').val('');
+                    $('#contact_password_verify').val('');
+                },
+                data: data,
+                dataType: 'json',
+                url: $(form).attr('action'),
+                success: function(data, textStatus, jqXHR) {
+                    if (!$.isEmptyObject(data)) {
+                        $.modal.close();
+                    }
+                },
+                type: 'POST'
+            });
+        }
+    });
+    
+    
+    $('#password-info .button.edit').on('click', function(e) {
+        e.preventDefault();
+        
+        $('#edit-password-modal').modal({
+            closeText: 'X',
+            overlay: '#fff',
+            opacity: 0.73,
+            zIndex: 2002
+        });
+        
+        $('#edit-password-modal form input#contact_password_old').focus();
+    });
+    
+    
+    
+    $('#edit-suitcase-modal form').validate({
+        submitHandler: function(form) {
+            var data = $(form).serialize();
+            $.ajax({
+                beforeSend: function() {
+                },
+                data: data,
+                dataType: 'json',
+                url: $(form).attr('action'),
+                success: function(data, textStatus, jqXHR) {
+                    if (!$.isEmptyObject(data) && data.success) {
+                        $('#name-' + data.suitcase.id).find('strong').text(data.suitcase.name);
+                        $('#event-name-' + data.suitcase.id).text(data.suitcase.event_name);
+                        $('#event-date-' + data.suitcase.id).text(data.suitcase.event_date);
+                        
+                        $.modal.close();
+                    }
+                },
+                type: 'POST'
+            });
+        }
+    });
+    
+    
+    $('#suitcase-info .button.edit').on('click', function(e) {
+        e.preventDefault();
+        
+        var id = $(this).attr('data-id');
+        var name = $('#name-' + id).text();
+        var eventName = $('#event-name-' + id).text();
+        var eventDate = $('#event-date-' + id).text();
+        
+        var form = $('#edit-suitcase-modal form');
+        $(form).find('#suitcase_name').val(name);
+        $(form).find('#suitcase_event_name').val(eventName);
+        $(form).find('#suitcase_event_date').val(eventDate);
+        $(form).find('#suitcase_id').val(id);
+        
+        $('#edit-suitcase-modal').modal({
+            closeText: 'X',
+            overlay: '#fff',
+            opacity: 0.73,
+            zIndex: 2002
+        });
+        
+        $('#edit-suitcase-modal form input#suitcase_name').focus();
+    });
+    
+    
+    var url = '/suitcase/kill';
+    if (typeof env !== 'undefined') {
+        url = env + url;
+    }
+    $('#delete-suitcase-modal button').on('click', function(e) {
+        e.preventDefault();
+        
+        var id = $(this).attr('data-id');
+        
+        $.ajax({
+            beforeSend: function() {
+            },
+            dataType: 'json',
+            url: url + '/' + id,
+            success: function(data, textStatus, jqXHR) {
+                if (!$.isEmptyObject(data) && data.success) {
+                    $('#suitcase-info tr[data-id="' + data.suitcase.id + '"]').remove();
+                    $.modal.close();
+                }
+            },
+            type: 'GET'
+        });
+        
+    });
+    
+    
+    $('#suitcase-info .button.delete').on('click', function(e) {
+        e.preventDefault();
+        
+        var id = $(this).attr('data-id');
+        $('#delete-suitcase-modal').find('button').attr('data-id', id);
+        
+        $('#delete-suitcase-modal').modal({
+            closeText: 'X',
+            overlay: '#fff',
+            opacity: 0.73,
+            zIndex: 2002
         });
     });
 });

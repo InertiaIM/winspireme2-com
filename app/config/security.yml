@@ -29,11 +29,14 @@ security:
             anonymous: true
 
     access_control:
+        - { path: ^/account, role: ROLE_USER }
+        - { path: ^/account/edit, role: ROLE_USER }
         - { path: ^/suitcase, role: ROLE_USER }
         - { path: ^/suitcase/add, role: ROLE_USER }
         - { path: ^/suitcase/delete, role: ROLE_USER }
         - { path: ^/suitcase/flag, role: ROLE_USER }
         - { path: ^/suitcase/flags, role: ROLE_USER }
+        - { path: ^/suitcase/kill, role: ROLE_USER }
         - { path: ^/suitcase/pack, role: ROLE_USER }
         - { path: ^/suitcase/preview, role: ROLE_USER }
         - { path: ^/suitcase/share, role: ROLE_USER }

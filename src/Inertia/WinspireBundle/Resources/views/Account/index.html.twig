@@ -1,0 +1,195 @@
+{% extends 'InertiaWinspireBundle::layout.html.twig' %}
+
+{% block title %}Winspire | Home{% endblock %}
+
+{% block content_header '' %}
+
+{% block content %}
+<div id="standard-page" class="account-page">
+    <div class="page-content">
+        <div class="c-wrap">
+            <h1>My Account Information</h1>
+            <p>Manage your Suitcases, Contact Information and Login Password.</p>
+            
+            <div class="wrapper clearfix">
+                <div class="" style="float:left; width:360px; padding-right:40px; margin-right:48px;">
+                    <div id="contact-info">
+                        <h2>Contact Information</h2>
+                        <p><span id="contact-info-name">{{ user.firstName }} {{ user.lastName }}</span><br/>
+                        <span id="contact-info-cname">{{ user.company.name }}</span><br/>
+{% if user.company.address != '' %}
+                        <span id="contact-info-address">{{ user.company.address }}</span><br/>
+{% endif %}
+{% if user.company.address2 != '' %}
+                        <span id="contact-info-address2">{{ user.company.address2 }}</span><br/>
+{% endif %}
+{% if user.company.city != '' %}
+                        <span id="contact-info-city">{{ user.company.city }}</span>, <span id="contact-info-state">{{ user.company.state }}</span> <span id="contact-info-zip">{{ user.company.zip }}</span><br/>
+{% endif %}
+                        <span id="contact-info-email">{{ user.email }}</span><br/>
+                        <span id="contact-info-phone">{{ user.phone }}</span></p>
+                        
+                        <a href="#" class="button edit">Edit</a>
+                    </div>
+                    
+                    <div id="password-info">
+                        <h2>Password</h2>
+                        <p>********</p>
+                        <a href="#" class="button edit">Edit</a>
+                    </div>
+                </div>
+                
+                <div class="" style="float:left; width:468px;">
+                <div id="suitcase-info">
+                    <h2>Your Suitcases</h2>
+                    <table>
+{% for suitcase in user.suitcases %}
+{%     if suitcase.eventDate == '' or date(suitcase.eventDate) > date() %}
+                        <tr data-id="{{ suitcase.id }}">
+                            <td class="name" id="name-{{ suitcase.id }}"><strong>{{ suitcase.name }}</strong></td>
+                            <td class="date">&nbsp;</td>
+                            <td class="action"><a href="#" data-id="{{ suitcase.id }}" class="button edit">Edit</a></td>
+                            <td class="action"><a href="#" data-id="{{ suitcase.id }}" class="button delete">Delete</a></td>
+                        </tr>
+                        <tr data-id="{{ suitcase.id }}">
+                            <td id="event-name-{{ suitcase.id }}">{% if suitcase.eventName != '' %}{{ suitcase.eventName }}{% endif %}</td>
+                            <td id="event-date-{{ suitcase.id }}">{% if suitcase.eventDate != '' %}{{ suitcase.eventDate | date('m/d/y') }}{% endif %}</td>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                        </tr>
+                        <tr data-id="{{ suitcase.id }}">
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                        </tr>
+{%     endif %}
+{% endfor %}
+                    </table>
+                </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="edit-contact-modal" style="display:none;">
+    <h3><span class="icon icon-pencil"></span>Edit Your Contact Info</h3>
+    <p>If you need to edit your Organization Name or your Contact Name, please contact your Winspire Event Consultant directly.</p>
+    
+    <form action="{{ path('accountEdit') }}" method="POST" novalidate="novalidate">
+        <ul>
+            <li class="large">
+                <div>
+                    <label for="contact_address">Address Line 1</label>
+                    <input class="required" type="text" name="contact[address]" id="contact_address" value="{{ user.company.address }}"/>
+                </div>
+            </li>
+            <li class="large">
+                <div>
+                    <label for="contact_address2">Address Line 2</label>
+                    <input type="text" name="contact[address2]" id="contact_address2" value="{{ user.company.address2 }}"/>
+                </div>
+            </li>
+            <li>
+                <div>
+                    <label for="contact_city">City</label>
+                    <input class="required" type="text" name="contact[city]" id="contact_city" value="{{ user.company.city }}"/>
+                </div>
+                <div>
+                    <label for="contact_state">State</label>
+                    <select name="contact[state]" id="contact_state">
+                        <option value="CA" selected="selected">CA</option>
+                    </select>
+                </div>
+                <div>
+                    <label for="contact_zip">Zip Code</label>
+                    <input class="zip required" type="text" name="contact[zip]" id="contact_zip" value="{{ user.company.zip }}"/>
+                </div>
+            </li>
+            <li>
+                <div>
+                    <label for="contact_phone">Phone</label>
+                    <input class="required" type="text" name="contact[phone]" id="contact_phone" value="{{ user.phone }}"/>
+                </div>
+            </li>
+            <li>
+                <div>
+                    <button type="submit">Submit</button>
+                </div>
+            </li>
+        </ul>
+    </form>
+</div>
+
+<div id="edit-password-modal" style="display:none; width:380px;">
+    <h3><span class="icon icon-pencil"></span>Change Your Password</h3>
+    
+    <form action="{{ path('accountEdit') }}" method="POST" novalidate="novalidate">
+        <ul>
+            <li>
+                <div>
+                    <label for="contact_password_old">Enter Old Password</label>
+                    <input class="required" type="password" name="contact[password][old]" id="contact_password_old"/>
+                </div>
+            </li>
+            <li>
+                <div>
+                    <label for="contact_password_new">New Password</label>
+                    <input class="required" type="password" name="contact[password][new]" id="contact_password_new"/>
+                </div>
+            </li>
+            <li>
+                <div>
+                    <label for="contact_password_verify">Re-enter New Password</label>
+                    <input class="required" type="password" name="contact[password][verify]" id="contact_password_verify"/>
+                </div>
+            </li>
+            <li>
+                <div>
+                    <button type="submit">Submit</button>
+                </div>
+            </li>
+        </ul>
+    </form>
+</div>
+
+<div id="edit-suitcase-modal" style="display:none; width:380px;">
+    <h3><span class="icon icon-pencil"></span>Edit Your Suitcase</h3>
+    
+    <form action="{{ path('suitcaseEdit') }}" method="POST" novalidate="novalidate">
+        <ul>
+            <li>
+                <div>
+                    <label for="suitcase_name">Suitcase Name</label>
+                    <input class="required" type="text" name="suitcase[name]" id="suitcase_name" value=""/>
+                </div>
+            </li>
+            <li>
+                <div>
+                    <label for="suitcase_event_name">Name of Event</label>
+                    <input type="text" name="suitcase[event_name]" id="suitcase_event_name" value=""/>
+                </div>
+            </li>
+            <li>
+                <div>
+                    <label for="suitcase_event_date">Date of Event</label>
+                    <input class="date" type="text" name="suitcase[event_date]" id="suitcase_event_date" value=""/>
+                </div>
+            </li>
+            <li>
+                <div>
+                    <input type="hidden" name="suitcase[id]" id="suitcase_id" value=""/>
+                    <button type="submit">Submit</button>
+                </div>
+            </li>
+        </ul>
+    </form>
+</div>
+
+<div id="delete-suitcase-modal" style="display:none;">
+    <h3>Sure You Want to Delete This?</h3>
+    <p>Are you certain you want to delete this suitcase? All information associated with this suitcase will be lost and cannont be recovered.</p>
+    <button data-id="">Delete Suitcase</button>
+</div>
+{% endblock %}

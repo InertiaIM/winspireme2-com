@@ -39,6 +39,14 @@ suitcaseDelete:
     pattern:  /suitcase/delete/{id}
     defaults: { _controller: InertiaWinspireBundle:Suitcase:delete }
     
+suitcaseKill:
+    pattern:  /suitcase/kill/{id}
+    defaults: { _controller: InertiaWinspireBundle:Suitcase:kill }
+    
+suitcaseEdit:
+    pattern:  /suitcase/edit
+    defaults: { _controller: InertiaWinspireBundle:Suitcase:edit }
+    
 suitcaseFlag:
     pattern:  /suitcase/flag/{id}
     defaults: { _controller: InertiaWinspireBundle:Suitcase:flag }
@@ -75,8 +83,23 @@ accountCreate:
     pattern:  /account/new
     defaults: { _controller: InertiaWinspireBundle:Account:create }
     
+accountEdit:
+    pattern:  /account/edit
+    defaults: { _controller: InertiaWinspireBundle:Account:edit }
+    
+accountValidate:
+    pattern:  /account/validate
+    defaults: { _controller: InertiaWinspireBundle:Account:validate }
+    
 fos_user_security:
     resource: "@FOSUserBundle/Resources/config/routing/security.xml"
+    
+fos_user_resetting:
+    resource: "@FOSUserBundle/Resources/config/routing/resetting.xml"
+    
+fos_user_profile_show:
+    pattern:  /account
+    defaults: { _controller: InertiaWinspireBundle:Account:index }
     
 pageDisplay:
     pattern:  /{slug}

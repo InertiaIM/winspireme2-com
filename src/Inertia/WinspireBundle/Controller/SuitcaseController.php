@@ -129,6 +129,58 @@ class SuitcaseController extends Controller
         return $response;
     }
     
+    public function editAction(Request $request)
+    {
+        $response = new JsonResponse();
+        $em = $this->getDoctrine()->getManager();
+        $user = $this->getUser();
+        
+        if ($request->isMethod('POST')) {
+            $suitcase = $request->request->get('suitcase');
+            $id = $suitcase['id'];
+            $name = $suitcase['name'];
+            $eventName = $suitcase['event_name'];
+            $eventDate = $suitcase['event_date'];
+            
+            $query = $em->createQuery(
+                'SELECT s FROM InertiaWinspireBundle:Suitcase s WHERE s.user = :user_id AND s.id = :id'
+            )
+                ->setParameter('user_id', $user->getId())
+                ->setParameter('id', $id)
+            ;
+            
+            try {
+                $suitcase = $query->getSingleResult();
+                $suitcase->setName($name);
+                $suitcase->setEventName($eventName);
+                if($eventDate != '') {
+                    $suitcase->setEventDate(new \DateTime($eventDate));
+                }
+                else {
+                    $suitcase->setEventDate(null);
+                }
+                
+                $em->persist($suitcase);
+                $em->flush();
+                
+                return $response->setData(array(
+                    'success' => true,
+                    'suitcase' => array(
+                        'id' => $suitcase->getId(),
+                        'name' => $suitcase->getName(),
+                        'event_name' => $suitcase->getEventName(),
+                        'event_date' => $suitcase->getEventDate() != '' ? $suitcase->getEventDate()->format('m/d/y') : ''
+                    )
+                ));
+            }
+            catch (\Doctrine\Orm\NoResultException $e) {
+                return $response->setData(false);
+            }
+        }
+        
+        return $response->setData(false);
+    }
+    
     public function flagAction($id)
     {
         $response = new JsonResponse();
@@ -219,6 +271,39 @@ class SuitcaseController extends Controller
         ));
         
         return $response;
+    }
+    
+    
+    public function killAction($id)
+    {
+        $response = new JsonResponse();
+        $em = $this->getDoctrine()->getManager();
+        $user = $this->getUser();
+        
+        $query = $em->createQuery(
+            'SELECT s FROM InertiaWinspireBundle:Suitcase s WHERE s.user = :user_id AND s.id = :id'
+        )
+            ->setParameter('user_id', $user->getId())
+            ->setParameter('id', $id)
+        ;
+        
+        try {
+            $suitcase = $query->getSingleResult();
+            $em->remove($suitcase);
+            $em->flush();
+            
+            return $response->setData(array(
+                'success' => true,
+                'suitcase' => array(
+                    'id' => $id
+                )
+            ));
+        }
+        catch (\Doctrine\Orm\NoResultException $e) {
+            return $response->setData(false);
+        }
+        
+        return $response->setData(false);
     }
     
     
@@ -698,15 +783,15 @@ class SuitcaseController extends Controller
                 
                 // If the suitcase we were expecting doesn't exist, we'll create a new one
 //                throw $this->createNotFoundException();
-                $suitcase = new Suitcase();
-                $suitcase->setUser($user);
-                $suitcase->setPacked(false);
-                $em->persist($suitcase);
-                $em->flush();
-                
-                $session->set('sid', $suitcase->getId());
-                
-                return $suitcase;
+//                $suitcase = new Suitcase();
+//                $suitcase->setUser($user);
+//                $suitcase->setPacked(false);
+//                $em->persist($suitcase);
+//                $em->flush();
+//                
+//                $session->set('sid', $suitcase->getId());
+//                
+//                return $suitcase;
             }
             
             return $suitcase;

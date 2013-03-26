@@ -321,6 +321,103 @@ class AccountController extends Controller
         ));
     }
     
+    
+    public function editAction(Request $request)
+    {
+        $response = new JsonResponse();
+        
+        if ($request->isMethod('POST')) {
+            $em = $this->getDoctrine()->getManager();
+            $user = $this->container->get('security.context')->getToken()->getUser();
+            
+            $contact = $request->request->get('contact');
+            
+            if(isset($contact['password'])) {
+                $password = $contact['password'];
+                $oldPassword = $password['old'];
+                $newPassword = $password['new'];
+                
+                if ($user) {
+                    // Get the encoder for the users password
+                    $encoder_service = $this->get('security.encoder_factory');
+                    $encoder = $encoder_service->getEncoder($user);
+                    $encoded_pass = $encoder->encodePassword($oldPassword, $user->getSalt());
+                    
+                    if ($user->getPassword() == $encoded_pass) {
+                        $userManager = $this->get('fos_user.user_manager');
+                        $user->setPlainPassword($newPassword);
+                        $userManager->updateUser($user);
+                        
+                        return $response->setData(true);
+                    }
+                }
+                
+                return $response->setData(false);
+            }
+            else {
+                $company = $user->getCompany();
+                $company->setAddress($contact['address']);
+                $company->setAddress2($contact['address2']);
+                $company->setCity($contact['city']);
+                $company->setZip($contact['zip']);
+                $company->setState($contact['state']);
+                
+                $user->setPhone($contact['phone']);
+                
+                $em->persist($company);
+                $em->persist($user);
+                $em->flush();
+                
+                return $response->setData(array(
+                    'success' => true,
+                    'contact' => array(
+                        'address' => $company->getAddress(),
+                        'address2' => $company->getAddress2(),
+                        'city' => $company->getCity(),
+                        'state' => $company->getState(),
+                        'zip' => $company->getZip(),
+                        'phone' => $user->getPhone()
+                    )
+                ));
+            }
+        }
+        
+        return $response;
+    }
+    
+    
+    public function indexAction()
+    {
+        $user = $this->container->get('security.context')->getToken()->getUser();
+        
+        return $this->render('InertiaWinspireBundle:Account:index.html.twig', array(
+            'user' => $user
+        ));
+    }
+    
+    
+    public function validateAction(Request $request)
+    {
+        $response = new JsonResponse();
+        $user = $this->container->get('security.context')->getToken()->getUser();
+        $password = $request->query->get('contact');
+        $password = $password['password']['old'];
+        
+        if ($user) {
+            // Get the encoder for the users password
+            $encoder_service = $this->get('security.encoder_factory');
+            $encoder = $encoder_service->getEncoder($user);
+            $encoded_pass = $encoder->encodePassword($password, $user->getSalt());
+            
+            if ($user->getPassword() == $encoded_pass) {
+                return $response->setData(true);
+            }
+        }
+        
+        return $response->setData(false);
+    }
+    
+    
     protected function getSuitcase() {
         // Establish which suitcase to use for current user
         $user = $this->getUser();

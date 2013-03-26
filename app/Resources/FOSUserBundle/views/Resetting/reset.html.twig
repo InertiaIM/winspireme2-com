@@ -1,0 +1,32 @@
+{% extends "FOSUserBundle::layout.html.twig" %}
+
+{% block title %}Winspire | Reset Your Password{% endblock %}
+
+{% block fos_user_content %}
+<h1>Recover Your Password</h1>
+<p>Please enter your new password and click “Submit”.</p>
+
+<div class="form-card">
+    <h3>Enter your new password.</h3>
+    
+    <form action="{{ path('fos_user_resetting_reset', {'token': token}) }}" {{ form_enctype(form) }} method="POST" class="fos_user_resetting_reset">
+        <ul>
+            <li>
+{{ form_widget(form) }}
+            </li>
+            <li>
+                <div>
+                    <button type="submit">Submit</button>
+                </div>
+            </li>
+        </ul>
+    </form>
+</div>
+
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+{% endblock fos_user_content %}
