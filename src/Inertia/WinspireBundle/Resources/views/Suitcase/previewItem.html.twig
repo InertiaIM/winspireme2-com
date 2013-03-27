@@ -1,6 +1,6 @@
 {% twig_js name='previewItem' %}
                 <span class="suitcase-preview-item" data-id="{{ item.id }}">
-                    <a href="#" class="preview-item-image">
+                    <a href="{{ path('packageDetail', {'slug': item.slug}) }}" class="preview-item-image">
                         <img src="/uploads/packages/{{ item.thumbnail }}" alt="" width="129" height="85"/>
                         <div class="preview-item-delete">X</div>
                         <div class="preview-item-info">
@@ -11,5 +11,5 @@
                             </ul>
                         </div>
                     </a>
-                    <a href="#">{{ item.parentHeader }}</a>
+                    <a href="{{ path('packageDetail', {'slug': item.slug}) }}">{{ item.parentHeader }}</a>
                 </span>
