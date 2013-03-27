@@ -74,7 +74,7 @@
                                         <h3>{{ item.package.parentHeader }}</h3>
                                         <h5>{{ item.package.name }}</h5>
                                         <p class="srv">{{ item.package.suggestedRetailValue }} <span>Suggested Retail Value</span></p>
-                                        <p>${{ item.package.cost | number_format }} Non-Profit Cost</p>
+                                        <p>${{ item.package.cost | number_format }} Nonprofit Cost</p>
                                         <div class="actions" data-id="{{ item.package.id }}">
                                             <a href="{{ path('packageDetail', { 'slug': item.package.slug }) }}" class="more"><span class="icon-plus"></span>More Details</a>
                                             <a href="#" class="download"><span class="icon-download"></span>Download Info</a>

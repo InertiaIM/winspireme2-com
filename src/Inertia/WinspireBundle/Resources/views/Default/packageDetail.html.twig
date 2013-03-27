@@ -27,13 +27,13 @@
             <div class="pd-actions">
                 <div class="pd-action">
                     <div class="pd-a-srv"><span class="srv-value">{{ package.suggestedRetailValue }}</span> <span class="srv-label">Suggested Retail Value</span></div>
-                    <span class="pd-a-npcost"><span class="npc-value">${{ package.cost | number_format(0) }}</span> Non-Profit Cost</span>
+                    <span class="pd-a-npcost"><span class="npc-value">${{ package.cost | number_format(0) }}</span> Nonprofit Cost</span>
                     <a href="#" class="pd-a-add{% if not available %} disabled{% endif %}" data-id="{{ package.id }}"><span aria-hidden="true" class="icon-suitcase icon"></span><em>Add to</em> Suitcase</a>
                     
 {% if variants | length > 1 %}
                     <hr/>
                     
-                    <h2>All Package Experiences</h2>
+                    <h2>Package Variations</h2>
                     
                     <ul class="pd-a-options">
 {%     for variant in variants %}
