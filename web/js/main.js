@@ -1038,7 +1038,7 @@ $(document).ready(function() {
     
     
     // Suitcase social
-    $('.share a').on('click', function(e) {
+    $('.social .share a').on('click', function(e) {
         e.preventDefault();
         
         $('#share-modal').modal({
