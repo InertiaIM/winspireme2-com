@@ -29,7 +29,7 @@ security:
             anonymous: true
 
     access_control:
-        - { path: ^/account, role: ROLE_USER }
+        - { path: ^/account$, role: ROLE_USER }
         - { path: ^/account/edit, role: ROLE_USER }
         - { path: ^/admin, role: ROLE_ADMIN }
         - { path: ^/suitcase, role: ROLE_USER }
