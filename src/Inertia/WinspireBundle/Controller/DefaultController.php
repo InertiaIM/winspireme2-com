@@ -333,7 +333,44 @@ class DefaultController extends Controller
         );
     }
     
-    protected function getSuitcase() {
+    protected function getSuitcase()
+    {
+        $em = $this->getDoctrine()->getManager();
+        
+        $session = $this->getRequest()->getSession();
+        $sid = $session->get('sid');
+        
+        if($this->get('security.context')->isGranted('ROLE_ADMIN')) {
+            if($sid) {
+                $query = $em->createQuery(
+                    'SELECT s, i FROM InertiaWinspireBundle:Suitcase s LEFT JOIN s.items i WHERE s.id = :id ORDER BY i.updated DESC'
+                )
+                ->setParameter('id', $sid)
+                ;
+                
+                try {
+                    $suitcase = $query->getSingleResult();
+                }
+                catch (\Doctrine\Orm\NoResultException $e) {
+                    //                    throw $this->createNotFoundException();
+                    $suitcase = new Suitcase();
+                }
+                
+                return $suitcase;
+            }
+            else {
+                return false;
+            }
+        }
+        
+        
+        
+        
+        
+        
+        
+        
+        
         // Establish which suitcase to use for current user
         $user = $this->getUser();
         
@@ -341,11 +378,11 @@ class DefaultController extends Controller
             return new Suitcase();
         }
         
-        $session = $this->getRequest()->getSession();
-        $em = $this->getDoctrine()->getManager();
+//        $session = $this->getRequest()->getSession();
+//        $em = $this->getDoctrine()->getManager();
         
         // First, check the current session for a suitcase id
-        $sid = $session->get('sid');
+//        $sid = $session->get('sid');
         if($sid) {
             //echo 'Found SID, step 1: ' . $sid . "<br/>\n";
             $query = $em->createQuery(

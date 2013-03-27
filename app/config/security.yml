@@ -31,6 +31,7 @@ security:
     access_control:
         - { path: ^/account, role: ROLE_USER }
         - { path: ^/account/edit, role: ROLE_USER }
+        - { path: ^/admin, role: ROLE_ADMIN }
         - { path: ^/suitcase, role: ROLE_USER }
         - { path: ^/suitcase/add, role: ROLE_USER }
         - { path: ^/suitcase/delete, role: ROLE_USER }

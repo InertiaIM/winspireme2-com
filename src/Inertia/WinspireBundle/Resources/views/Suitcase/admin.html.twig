@@ -1,0 +1,123 @@
+{% extends "InertiaWinspireBundle::layout.html.twig" %}
+
+{% block title %}Winspire | Event Consultant Admin{% endblock %}
+
+{% block content_header '' %}
+
+{% block content %}
+<div id="standard-page" class="admin-page">
+    <div class="page-content">
+        <div class="c-wrap">
+            <h1>Event Consultant Admin</h1>
+            <p>This is your access to your non-profit client’s Suitcases.  You can filter your searches by Suitcase Name, Contact Name and Non-Profit.  Once you find the Suitcase you are looking for, click and you will be logged into your client’s Suitcase with equal priviledges.</p>
+            
+            <div class="tools">
+                <select id="select-consultant">
+                    <option value="all">Select Event Consultant</option>
+{% for consultant in consultants %}
+                    <option value="{{ consultant.id }}">{{ consultant.firstName }} {{ consultant.lastName }}</option>
+{% endfor %}
+                </select>
+                
+                <div id="suitcase-search">
+                    <input type="text" class="search-text" placeholder="Search Suitcases" value="">
+                    <input type="button" class="search-submit" value="Search">
+                </div>
+            </div>
+            
+            <table class="suitcases" id="suitcases">
+                <thead>
+                    <tr>
+                        <th data-sort="string" class="cname sort sorting-asc"><a href="#">Organization</a> <span class="icon icon-arrow-down"></span></td>
+                        <th data-sort="string" class="lname"><a href="#">Last Name</a></td>
+                        <th data-sort="string" class="fname"><a href="#">First Name</a></td>
+                        <th data-sort="string" class="email"><a href="#">Email</a></td>
+                        <th data-sort="int" class="date"><a href="#">Event Date</a></td>
+                        <th data-sort="int" class="shares"><a href="#"><span class="icon icon-bubble"></span></a></td>
+                        <th data-sort="int" class="comments"><a href="#"><span class="icon icon-comment"></span></a></td>
+                    </tr>
+                </thead>
+                
+{% if suitcases | length > 0 %}
+                <tbody>
+{%     for suitcase in suitcases %}
+                    <tr class="suitcase{% if (loop.index % 2) == 0 %} even{% endif %}" data-name="{{ suitcase.name }}" data-id="{{ suitcase.id }}" data-user-id="{{ suitcase.user.company.salesperson.id }}">
+                        <td class="cname">{{ suitcase.user.company.name }}</td>
+                        <td class="lname">{{ suitcase.user.lastName }}</td>
+                        <td class="fname">{{ suitcase.user.firstName }}</td>
+                        <td class="email">{{ suitcase.user.email }}</td>
+                        <td class="date" data-sort-value="{{ suitcase.eventDate != '' ? suitcase.eventDate | date('Ymd') : '99999999' }}">{{ suitcase.eventDate != '' ? suitcase.eventDate | date('m/d/y') : 'N/A' }}</td>
+                        <td class="shares">{{ suitcase.shares | length }}</td>
+                        <td class="comments">{{ suitcase.comments | length }}</td>
+                    </tr>
+{%     endfor %}
+                </tbody>
+{% endif %}
+            </table>
+        </div>
+    </div>
+</div>
+<script src="/js/vendor/stupidtable.min.js"></script>
+<script>
+$(function() {
+    var table = $('#suitcases').stupidtable();
+    
+    // pre-click to establish our default sort
+    $('#suitcases').find('th.cname').click();
+    
+    table.on('aftertablesort', function (event, data) {
+        // data.column - the index of the column sorted after a click
+        // data.direction - the sorting direction (either asc or desc)
+        // $(this) - this table object
+        
+        $('#suitcases tbody tr')
+            .removeClass('even')
+            .filter(':visible')
+            .filter(':odd')
+            .addClass('even');
+        
+        $('#suitcases th').removeClass('sort').find('.icon-arrow-up, .icon-arrow-down').remove();
+        
+        $('#suitcases th').eq(data.column).addClass('sort');
+        
+        if(data.direction == 'asc') {
+            $('#suitcases th').eq(data.column).append('<span class="icon icon-arrow-up"></span>');
+        }
+        else {
+            $('#suitcases th').eq(data.column).append('<span class="icon icon-arrow-down"></span>');
+        }
+    });
+    
+    $(table).find('tbody tr').on('click', function(e) {
+        var id = $(this).attr('data-id');
+        var url = '/admin/' + id;
+        if (typeof env !== 'undefined') {
+            url = env + url;
+        }
+        
+        window.location = url;
+    });
+    
+    $(table).find('th a').on('click', function(e) {
+        e.preventDefault();
+    });
+    
+    $('.tools select').on('change', function(e){
+        var userId = $(this).val();
+        
+        $('#suitcases tbody tr')
+            .removeClass('even')
+            .show();
+        
+        if (userId != 'all') {
+            $('#suitcases tbody tr[data-user-id!="' + userId + '"]').hide();
+        }
+        
+        $('#suitcases tbody tr')
+            .filter(':visible')
+            .filter(':odd')
+            .addClass('even');
+    });
+});
+</script>
+{% endblock %}

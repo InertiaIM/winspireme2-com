@@ -16,6 +16,7 @@
                     <div id="contact-info">
                         <h2>Contact Information</h2>
                         <p><span id="contact-info-name">{{ user.firstName }} {{ user.lastName }}</span><br/>
+{% if user.type != 'S' %}
                         <span id="contact-info-cname">{{ user.company.name }}</span><br/>
 {% if user.company.address != '' %}
                         <span id="contact-info-address">{{ user.company.address }}</span><br/>
@@ -25,6 +26,7 @@
 {% endif %}
 {% if user.company.city != '' %}
                         <span id="contact-info-city">{{ user.company.city }}</span>, <span id="contact-info-state">{{ user.company.state }}</span> <span id="contact-info-zip">{{ user.company.zip }}</span><br/>
+{% endif %}
 {% endif %}
                         <span id="contact-info-email">{{ user.email }}</span><br/>
                         <span id="contact-info-phone">{{ user.phone }}</span></p>
@@ -79,6 +81,7 @@
     
     <form action="{{ path('accountEdit') }}" method="POST" novalidate="novalidate">
         <ul>
+{% if user.type != 'S' %}
             <li class="large">
                 <div>
                     <label for="contact_address">Address Line 1</label>
@@ -107,6 +110,7 @@
                     <input class="zip required" type="text" name="contact[zip]" id="contact_zip" value="{{ user.company.zip }}"/>
                 </div>
             </li>
+{% endif %}
             <li>
                 <div>
                     <label for="contact_phone">Phone</label>

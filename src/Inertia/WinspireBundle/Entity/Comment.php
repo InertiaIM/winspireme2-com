@@ -52,7 +52,7 @@ class Comment
     
     /**
      * @ORM\ManyToOne(targetEntity="Suitcase", cascade={"all"}, inversedBy="comments")
-     * @ORM\JoinColumn(name="suitcase_id", referencedColumnName="id")
+     * @ORM\JoinColumn(name="suitcase_id", referencedColumnName="id", onDelete="CASCADE")
      */
     protected $suitcase;
 

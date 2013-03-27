@@ -62,7 +62,7 @@ class Share
     
     /**
      * @ORM\ManyToOne(targetEntity="Suitcase", inversedBy="shares")
-     * @ORM\JoinColumn(name="suitcase_id", referencedColumnName="id")
+     * @ORM\JoinColumn(name="suitcase_id", referencedColumnName="id", onDelete="CASCADE")
      */
     protected $suitcase;
 

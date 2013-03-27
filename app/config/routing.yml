@@ -27,6 +27,10 @@ packageDetail:
     pattern:  /package/{slug}
     defaults: { _controller: InertiaWinspireBundle:Default:packageDetail }
     
+suitcaseAdmin:
+    pattern:  /admin/{id}
+    defaults: { _controller: InertiaWinspireBundle:Suitcase:admin, id: none }
+    
 suitcaseView:
     pattern:  /suitcase
     defaults: { _controller: InertiaWinspireBundle:Suitcase:view }

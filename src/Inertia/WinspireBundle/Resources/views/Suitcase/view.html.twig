@@ -30,7 +30,7 @@
                 <ul class="key unpacked"{% if suitcase.packed %} style="display:none;"{% endif %}>
                     <li><span class="definitely">{{ counts['D'] + counts['E'] }}</span> Definitely</li>
                     <li><span class="maybe">{{ counts['M'] }}</span> Maybe</li>
-                    <li><span class="recommended">{{ counts['R'] }}</span> Blah Recommends</li>
+                    <li><span class="recommended">{{ counts['R'] }}</span> {{ suitcase.user.company.salesperson.firstName }} Recommends</li>
                 </ul>
                 <ul class="key packed"{% if not suitcase.packed %} style="display:none;"{% endif %}>
                     <li>You have <strong><span class="suitcase-count">{{ suitcase.items | length }} items</span></strong> in your Suitcase.</li>

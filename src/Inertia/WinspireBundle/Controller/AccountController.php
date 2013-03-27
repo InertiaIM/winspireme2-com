@@ -355,30 +355,47 @@ class AccountController extends Controller
                 return $response->setData(false);
             }
             else {
-                $company = $user->getCompany();
-                $company->setAddress($contact['address']);
-                $company->setAddress2($contact['address2']);
-                $company->setCity($contact['city']);
-                $company->setZip($contact['zip']);
-                $company->setState($contact['state']);
-                
                 $user->setPhone($contact['phone']);
                 
-                $em->persist($company);
+                if(!$this->get('security.context')->isGranted('ROLE_ADMIN')) {
+                    $company = $user->getCompany();
+                    $company->setAddress($contact['address']);
+                    $company->setAddress2($contact['address2']);
+                    $company->setCity($contact['city']);
+                    $company->setZip($contact['zip']);
+                    $company->setState($contact['state']);
+                    
+                    $em->persist($company);
+                }
                 $em->persist($user);
                 $em->flush();
                 
-                return $response->setData(array(
-                    'success' => true,
-                    'contact' => array(
-                        'address' => $company->getAddress(),
-                        'address2' => $company->getAddress2(),
-                        'city' => $company->getCity(),
-                        'state' => $company->getState(),
-                        'zip' => $company->getZip(),
-                        'phone' => $user->getPhone()
-                    )
-                ));
+                if($this->get('security.context')->isGranted('ROLE_ADMIN')) {
+                    return $response->setData(array(
+                        'success' => true,
+                        'contact' => array(
+                            'address' => '',
+                            'address2' => '',
+                            'city' => '',
+                            'state' => '',
+                            'zip' => '',
+                            'phone' => $user->getPhone()
+                        )
+                    ));
+                }
+                else {
+                    return $response->setData(array(
+                        'success' => true,
+                        'contact' => array(
+                            'address' => $company->getAddress(),
+                            'address2' => $company->getAddress2(),
+                            'city' => $company->getCity(),
+                            'state' => $company->getState(),
+                            'zip' => $company->getZip(),
+                            'phone' => $user->getPhone()
+                        )
+                    ));
+                }
             }
         }
         
@@ -415,82 +432,5 @@ class AccountController extends Controller
         }
         
         return $response->setData(false);
-    }
-    
-    
-    protected function getSuitcase() {
-        // Establish which suitcase to use for current user
-        $user = $this->getUser();
-        
-        if(!$user) {
-            return false;
-        }
-        
-        $company = $user->getCompany();
-        $session = $this->getRequest()->getSession();
-        $em = $this->getDoctrine()->getManager();
-        
-        // First, check the current session for a suitcase id
-        $sid = $session->get('sid');
-        if($sid) {
-//echo 'Found SID, step 1: ' . $sid . "<br/>\n";
-            $query = $em->createQuery(
-                'SELECT s FROM InertiaWinspireBundle:Suitcase s WHERE s.account = :account_id AND s.id = :id')
-            ->setParameter('account_id', $company->getId())
-            ->setParameter('id', $sid);
-            
-            try {
-                $suitcase = $query->getSingleResult();
-            }
-            catch (\Doctrine\Orm\NoResultException $e) {
-                throw $this->createNotFoundException();
-            }
-            
-            $session->set('token', $suitcase->getToken());
-            
-            return $suitcase;
-        }
-        // Second, query for the most recent suitcase (used as default)
-        else {
-            $query = $em->createQuery(
-                'SELECT s FROM InertiaWinspireBundle:Suitcase s WHERE s.account = :account_id'
-            )->setParameter('account_id', $company->getId());
-            
-            try {
-                $suitcase = $query->getResult();
-            }
-            catch (\Doctrine\Orm\NoResultException $e) {
-                throw $this->createNotFoundException();
-            }
-            
-            if(count($suitcase) > 0) {
-                $suitcase = $suitcase[0];
-//                $sid = $suitcase->getId();
-//echo 'Found SID, step 2: ' . $sid . "<br/>\n";
-                
-                
-                $session->set('sid', $suitcase->getId());
-                $session->set('token', $suitcase->getToken());
-                
-                return $suitcase;
-            }
-            else {
-                // Third, no existing suitcases found for this account... create a new one
-                $suitcase = new Suitcase();
-                $suitcase->setAccount($company);
-                $suitcase->setToken(base64_encode(sha1(openssl_random_pseudo_bytes(32, $cstrong), true)));
-                $em->persist($suitcase);
-                $em->flush();
-                
-//                $sid = $suitcase->getId();
-//echo 'Created new SID, step 3: ' . $sid . "<br/>\n";
-                
-                
-                $session->set('sid', $suitcase->getId());
-                $session->set('token', $suitcase->getToken());
-                
-                return $suitcase;
-            }
-        }
     }
 }

@@ -35,10 +35,20 @@ class SuitcaseController extends Controller
         catch (\Doctrine\Orm\NoResultException $e) {
         }
         
-        $query = $em->createQuery(
-            'SELECT p FROM InertiaWinspireBundle:Package p WHERE p.is_private != 1 AND p.picture IS NOT NULL AND p.id = :id'
-        )
-        ->setParameter('id', $id);
+        if ($this->get('security.context')->isGranted('ROLE_ADMIN')) {
+            $query = $em->createQuery(
+                'SELECT p FROM InertiaWinspireBundle:Package p WHERE p.picture IS NOT NULL AND p.id = :id'
+            )
+                ->setParameter('id', $id)
+            ;
+        }
+        else {
+            $query = $em->createQuery(
+                'SELECT p FROM InertiaWinspireBundle:Package p WHERE p.is_private != 1 AND p.picture IS NOT NULL AND p.id = :id'
+            )
+                ->setParameter('id', $id)
+            ;
+        }
         
         try {
             $package = $query->getSingleResult();
@@ -53,7 +63,12 @@ class SuitcaseController extends Controller
         $suitcaseItem->setPrice(0);
         $suitcaseItem->setSubtotal(0);
         $suitcaseItem->setTotal(0);
-        $suitcaseItem->setStatus('M');
+        if ($this->get('security.context')->isGranted('ROLE_ADMIN')) {
+            $suitcaseItem->setStatus('R');
+        }
+        else {
+            $suitcaseItem->setStatus('M');
+        }
         $em->persist($suitcaseItem);
         
         $suitcase->addItem($suitcaseItem);
@@ -81,6 +96,38 @@ class SuitcaseController extends Controller
         ));
         
         return $response;
+    }
+    
+    public function adminAction($id)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $session = $this->getRequest()->getSession();
+        
+        if ($id == 'none') {
+            $query = $em->createQuery(
+                'SELECT s, u, c FROM InertiaWinspireBundle:Suitcase s JOIN s.user u JOIN u.company c ORDER BY c.name ASC'
+            );
+            $suitcases = $query->getResult();
+            
+            $query = $em->createQuery(
+                'SELECT u FROM InertiaWinspireBundle:User u WHERE u.type = :type'
+            )
+                ->setParameter('type', 'S')
+            ;
+            $consultants = $query->getResult();
+            
+            return $this->render('InertiaWinspireBundle:Suitcase:admin.html.twig',
+                array(
+                    'consultants' => $consultants,
+                    'suitcases' => $suitcases
+                )
+            );
+        }
+        else {
+            $session->set('sid', $id);
+            
+            return $this->redirect($this->generateUrl('suitcaseView'));
+        }
     }
     
     public function buttonWidgetAction()
@@ -309,15 +356,24 @@ class SuitcaseController extends Controller
     
     public function viewAction(Request $request)
     {
-        $user = $this->getUser();
+//        $user = $this->getUser();
+        $suitcase = $this->getSuitcase();
+        
+        if(!$suitcase) {
+            throw $this->createNotFoundException();
+        }
+        
+        
+        
+        $user = $suitcase->getUser();
+        
+        
+        
         $form = $this->createForm(new AccountType2(), $user->getCompany());
         $form->get('newsletter')->setData($user->getNewsletter());
         $form->get('phone')->setData($user->getPhone());
         
-        $suitcase = $this->getSuitcase();
-        if(!$suitcase) {
-            throw $this->createNotFoundException();
-        }
+        
         
         $share = $this->shareAction();
         $share->get('suitcase')->setData($suitcase->getId());
@@ -353,7 +409,11 @@ class SuitcaseController extends Controller
             throw $this->createNotFoundException();
         }
         
-        $user = $this->getUser();
+//        $user = $this->getUser();
+        
+        $user = $suitcase->getUser();
+        
+        
         $account = $user->getCompany();
         $form = $this->createForm(new AccountType2(), $account);
         
@@ -610,12 +670,23 @@ class SuitcaseController extends Controller
                 $user = $this->getUser();
                 $em = $this->getDoctrine()->getManager();
                 
-                $query = $em->createQuery(
-                    'SELECT s, h FROM InertiaWinspireBundle:Suitcase s LEFT JOIN s.shares h WHERE s.user = :user_id AND s.id = :id'
-                )
-                    ->setParameter('user_id', $user->getId())
-                    ->setParameter('id', $form->get('suitcase')->getData())
-                ;
+                
+                if($this->get('security.context')->isGranted('ROLE_ADMIN')) {
+                    $query = $em->createQuery(
+                        'SELECT s, h FROM InertiaWinspireBundle:Suitcase s LEFT JOIN s.shares h WHERE s.id = :id'
+                    )
+                        ->setParameter('id', $form->get('suitcase')->getData())
+                    ;
+                }
+                else {
+                    $query = $em->createQuery(
+                        'SELECT s, h FROM InertiaWinspireBundle:Suitcase s LEFT JOIN s.shares h WHERE s.user = :user_id AND s.id = :id'
+                    )
+                        ->setParameter('user_id', $user->getId())
+                        ->setParameter('id', $form->get('suitcase')->getData())
+                    ;
+                }
+                
                 try {
                     $suitcase = $query->getSingleResult();
                 }
@@ -692,12 +763,22 @@ class SuitcaseController extends Controller
         $user = $this->getUser();
         $em = $this->getDoctrine()->getManager();
         
-        $query = $em->createQuery(
-            'SELECT s, h FROM InertiaWinspireBundle:Share h JOIN h.suitcase s WHERE s.user = :user_id AND h.id = :id'
-        )
-            ->setParameter('user_id', $user->getId())
-            ->setParameter('id', $id)
-        ;
+        if($this->get('security.context')->isGranted('ROLE_ADMIN')) {
+            $query = $em->createQuery(
+                'SELECT s, h FROM InertiaWinspireBundle:Share h JOIN h.suitcase s WHERE h.id = :id'
+            )
+                ->setParameter('id', $id)
+            ;
+        }
+        else {
+            $query = $em->createQuery(
+                'SELECT s, h FROM InertiaWinspireBundle:Share h JOIN h.suitcase s WHERE s.user = :user_id AND h.id = :id'
+            )
+                ->setParameter('user_id', $user->getId())
+                ->setParameter('id', $id)
+            ;
+        }
+        
         try {
             $share = $query->getSingleResult();
         }
@@ -756,6 +837,38 @@ class SuitcaseController extends Controller
     
     protected function getSuitcase()
     {
+        $em = $this->getDoctrine()->getManager();
+        
+        $session = $this->getRequest()->getSession();
+        $sid = $session->get('sid');
+        
+        if($this->get('security.context')->isGranted('ROLE_ADMIN')) {
+            if($sid) {
+                $query = $em->createQuery(
+                    'SELECT s, i FROM InertiaWinspireBundle:Suitcase s LEFT JOIN s.items i WHERE s.id = :id ORDER BY i.updated DESC'
+                )
+                    ->setParameter('id', $sid)
+                ;
+                
+                try {
+                    $suitcase = $query->getSingleResult();
+                }
+                catch (\Doctrine\Orm\NoResultException $e) {
+//                    throw $this->createNotFoundException();
+                    $suitcase = new Suitcase();
+                }
+                
+                return $suitcase;
+            }
+            else {
+                return false;
+            }
+        }
+        
+        
+        
+        
+        
         // Establish which suitcase to use for current user
         $user = $this->getUser();
         
@@ -763,11 +876,11 @@ class SuitcaseController extends Controller
             return false;
         }
         
-        $session = $this->getRequest()->getSession();
-        $em = $this->getDoctrine()->getManager();
+        
+
         
         // First, check the current session for a suitcase id
-        $sid = $session->get('sid');
+//        $sid = $session->get('sid');
         if($sid) {
 //echo 'Found SID, step 1: ' . $sid . "<br/>\n";
             $query = $em->createQuery(
@@ -777,13 +890,13 @@ class SuitcaseController extends Controller
             ->setParameter('id', $sid);
             
             try {
-                $suitcase = $query->getSingleResult();
+                 $suitcase = $query->getSingleResult();
             }
             catch (\Doctrine\Orm\NoResultException $e) {
                 
                 // If the suitcase we were expecting doesn't exist, we'll create a new one
 //                throw $this->createNotFoundException();
-//                $suitcase = new Suitcase();
+                $suitcase = new Suitcase();
 //                $suitcase->setUser($user);
 //                $suitcase->setPacked(false);
 //                $em->persist($suitcase);
