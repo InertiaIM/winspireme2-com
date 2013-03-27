@@ -1009,12 +1009,36 @@ footer, #footer { height:220px;border-top:1px solid rgb(195,213,224);
     background: -o-linear-gradient(top,  rgba(147,203,234,1) 0%,rgba(227,234,225,0) 100%); /* Opera 11.10+ */
     background: -ms-linear-gradient(top,  rgba(147,203,234,1) 0%,rgba(227,234,225,0) 100%); /* IE10+ */
     background: linear-gradient(to bottom,  rgba(147,203,234,1) 0%,rgba(227,234,225,0) 100%); /* W3C */
-    .c-wrap { position:relative; }
-    h1, h3 { position:relative;z-index:5; }
-    h1 { margin:0 0 6px 0; }
-    .pl-h-cloud { position:absolute;z-index:3;
-      &.c-1 { top:-16px;right:195px;width:316px;height:139px; }
-      &.c-2 { top:88px;right:51px;width:140px;height:63px; }
+    
+    .c-wrap {
+        position:relative;
+    }
+    
+    h1, h3 {
+        position:relative;
+        z-index:5;
+    }
+    
+    h3 {
+        width:630px;
+        em {
+            font-family:@ws-garamond;
+            font-size:1.1em;
+            color:#282828;
+            margin-right:2px;
+        }
+    }
+    
+    h1 {
+        margin:0 0 6px 0;
+        text-shadow: 0px 1px 0px #ffffff;
+    }
+    
+    .pl-h-cloud {
+        position:absolute;
+        z-index:3;
+        top:-25px;
+        right:5px;
     }
   }
 
@@ -1229,7 +1253,13 @@ footer, #footer { height:220px;border-top:1px solid rgb(195,213,224);
 
 #con-pd { background: url('/img/home-experiences-bg.png') transparent;padding:0 0 40px 0;
   .c-wrap { padding:0 20px;width:1000px; }
-  h1 { font-size:2.167em;line-height:1em;color:@ws-darkblue;margin:0 0 11px 0;letter-spacing:.75px; }
+  h1 {
+      font-size:2.167em;
+      line-height:1em;
+      color:@ws-darkblue;
+      margin:0 0 11px 0;
+      text-shadow: 0px 1px 0px #ffffff;
+  }
   h3 { font-size:1.167em;line-height:1em;color:@ws-yarblack;margin:0 0 14px 0;font-weight:600;line-height:1.125em;letter-spacing:.5px; }
   h4 { font-size:1em;line-height:1em;color:@ws-yarblack;margin:0 0 8px 0; }
   /* Detail Panel */
@@ -1468,6 +1498,8 @@ footer, #footer { height:220px;border-top:1px solid rgb(195,213,224);
             margin:0 0 16px 10px;
         }
         h1 {
+            text-shadow: 0px 1px 0px #ffffff;
+            
             span {
                 font-size:42px;
             }
