@@ -63,7 +63,7 @@ class ShareController extends Controller
             
             
             
-            if($user->isGranted('ROLE_ADMIN')) {
+            if($this->get('security.context')->isGranted('ROLE_ADMIN')) {
                 $query = $em->createQuery(
                     'SELECT s FROM InertiaWinspireBundle:Suitcase s WHERE s.id = :id'
                 )
@@ -87,17 +87,8 @@ class ShareController extends Controller
                 ));
             }
             
-            
-//            
-//            if(false === $user->isGranted('ROLE_USER')) {
-//                return $response->setData(array(
-//                    'success' => false
-//                ));
-//            }
-//            else {
-                $name = $user->getFirstName() . ' ' . $user->getLastName();
-                $email = $user->getEmail();
-//            }
+            $name = $user->getFirstName() . ' ' . $user->getLastName();
+            $email = $user->getEmail();
         }
         
         $comment = new Comment();
