@@ -42,10 +42,10 @@
                 <tbody>
 {%     for suitcase in suitcases %}
                     <tr class="suitcase{% if (loop.index % 2) == 0 %} even{% endif %}" data-name="{{ suitcase.name }}" data-id="{{ suitcase.id }}" data-user-id="{{ suitcase.user.company.salesperson.id }}">
-                        <td class="cname">{{ suitcase.user.company.name }}</td>
-                        <td class="lname">{{ suitcase.user.lastName }}</td>
-                        <td class="fname">{{ suitcase.user.firstName }}</td>
-                        <td class="email">{{ suitcase.user.email }}</td>
+                        <td class="cname" data-sort-value="{{ suitcase.user.company.name | lower }}">{{ suitcase.user.company.name }}</td>
+                        <td class="lname" data-sort-value="{{ suitcase.user.lastName | lower }}">{{ suitcase.user.lastName }}</td>
+                        <td class="fname" data-sort-value="{{ suitcase.user.firstName | lower }}">{{ suitcase.user.firstName }}</td>
+                        <td class="email">{{ suitcase.user.emailCanonical }}</td>
                         <td class="date" data-sort-value="{{ suitcase.eventDate != '' ? suitcase.eventDate | date('Ymd') : '99999999' }}">{{ suitcase.eventDate != '' ? suitcase.eventDate | date('m/d/y') : 'N/A' }}</td>
                         <td class="shares">{{ suitcase.shares | length }}</td>
                         <td class="comments">{{ suitcase.comments | length }}</td>
