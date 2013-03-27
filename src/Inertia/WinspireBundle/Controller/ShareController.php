@@ -61,12 +61,23 @@ class ShareController extends Controller
                 ));
             }
             
-            $query = $em->createQuery(
-                'SELECT s FROM InertiaWinspireBundle:Suitcase s WHERE s.user = :user_id AND s.id = :id'
-            )
-                ->setParameter('user_id', $user->getId())
-                ->setParameter('id', $id)
-            ;
+            
+            
+            if($user->isGranted('ROLE_ADMIN')) {
+                $query = $em->createQuery(
+                    'SELECT s FROM InertiaWinspireBundle:Suitcase s WHERE s.id = :id'
+                )
+                    ->setParameter('id', $id)
+                ;
+            }
+            else {
+                $query = $em->createQuery(
+                    'SELECT s FROM InertiaWinspireBundle:Suitcase s WHERE s.user = :user_id AND s.id = :id'
+                )
+                    ->setParameter('user_id', $user->getId())
+                    ->setParameter('id', $id)
+                ;
+            }
             try {
                 $suitcase = $query->getSingleResult();
             }
