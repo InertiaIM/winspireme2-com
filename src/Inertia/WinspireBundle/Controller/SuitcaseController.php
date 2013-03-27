@@ -360,6 +360,9 @@ class SuitcaseController extends Controller
         $suitcase = $this->getSuitcase();
         
         if(!$suitcase) {
+            if($this->get('security.context')->isGranted('ROLE_ADMIN')) {
+                return $this->redirect($this->generateUrl('suitcaseAdmin'));
+            }
             throw $this->createNotFoundException();
         }
         
