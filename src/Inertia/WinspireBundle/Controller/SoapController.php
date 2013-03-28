@@ -9,7 +9,7 @@ class SoapController extends ContainerAware
     /**
      * @Soap\Method("notifications")
      * @Soap\Param("notifications", phpType = "Inertia\WinspireBundle\Entity\SfNotification")
-     * @Soap\Result("notificationsResponse", phpType = "boolean")
+     * @Soap\Result(phpType = "boolean")
      */
     public function notificationsAction($id)
     {
