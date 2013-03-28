@@ -5,13 +5,13 @@ class TestService
 {
     public function __construct()
     {
-//        $this->mailer = $mailer;
+        
     }
     
     public function notifications($notifications)
     {
         $dump = fopen('wtf.log', 'w');
-        fwrite($dump, serialize($notifications));
+        fwrite($dump, print_r($notifications, true));
         
         return array('Ack' => true);
     }
