@@ -12,6 +12,6 @@ class TestService
     {
         
         
-        return true;
+        return array('Ack' => true);
     }
 }
