@@ -105,6 +105,10 @@ fos_user_profile_show:
     pattern:  /account
     defaults: { _controller: InertiaWinspireBundle:Account:index }
     
+_besimple_soap:
+    resource: "@BeSimpleSoapBundle/Resources/config/routing/webservicecontroller.xml"
+    prefix:   /ws
+    
 pageDisplay:
     pattern:  /{slug}
     defaults: { _controller: InertiaWinspireBundle:Page:display }

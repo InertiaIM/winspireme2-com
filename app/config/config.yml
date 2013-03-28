@@ -89,6 +89,14 @@ stof_doctrine_extensions:
         default:
             tree: true
 
+be_simple_soap:
+    services:
+        SoapApi:
+            namespace:     http://winspire.inertia.im/ws/SoapApi/1.0/
+            binding:       rpc-literal
+            resource:      "@InertiaWinspireBundle/Controller/SoapController.php"
+            resource_type: annotation
+
 #ddeboer_salesforce_client:
 #    username: confirmation@winspireme.com
 #    password: bx1DN

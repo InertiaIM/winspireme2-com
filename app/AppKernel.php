@@ -20,8 +20,8 @@ class AppKernel extends Kernel
             new JMS\DiExtraBundle\JMSDiExtraBundle($this),
             new JMS\SecurityExtraBundle\JMSSecurityExtraBundle(),
             new Stof\DoctrineExtensionsBundle\StofDoctrineExtensionsBundle(),
-            /*new BeSimple\SoapBundle\BeSimpleSoapBundle(),*/
-            /*new Ddeboer\Salesforce\ClientBundle\DdeboerSalesforceClientBundle(),*/
+            new BeSimple\SoapBundle\BeSimpleSoapBundle(),
+//            new Ddeboer\Salesforce\ClientBundle\DdeboerSalesforceClientBundle(),
             new JMS\TwigJsBundle\JMSTwigJsBundle(),
             new FOS\UserBundle\FOSUserBundle(),
             new Inertia\WinspireBundle\InertiaWinspireBundle(),
