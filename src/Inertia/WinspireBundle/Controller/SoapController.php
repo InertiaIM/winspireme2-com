@@ -11,7 +11,7 @@ class SoapController extends ContainerAware
      * @Soap\Param("notifications", phpType = "Inertia\WinspireBundle\Entity\SfNotification")
      * @Soap\Result(phpType = "boolean")
      */
-    public function notificationsAction($id)
+    public function notificationsAction($notifications)
     {
         $logger = $this->get('logger');
         $logger->info('It\'s big, it\'s heavy, it\'s wood');
