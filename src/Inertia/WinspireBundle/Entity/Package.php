@@ -22,6 +22,11 @@ class Package
     private $name;
     
     /**
+     * @ORM\Column(name="keywords", type="string", length=256, nullable=true)
+     */
+    private $keywords;
+    
+    /**
      * @ORM\Column(name="parentHeader", type="string", length=256)
      */
     private $parent_header;
@@ -37,11 +42,6 @@ class Package
     private $code;
     
     /**
-     * @ORM\Column(name="description", type="text", nullable=true)
-     */
-    private $description;
-    
-    /**
      * @ORM\Column(name="location", type="string", length=256, nullable=true)
      */
     private $location;
@@ -55,6 +55,11 @@ class Package
      * @ORM\Column(name="thumbnail", type="string", length=256, nullable=true)
      */
     private $thumbnail;
+    
+    /**
+     * @ORM\Column(name="picture_title", type="string", length=256, nullable=true)
+     */
+    private $pictureTitle;
     
     /**
      * @ORM\Column(name="yearVersion", type="string", length=256)
@@ -75,6 +80,11 @@ class Package
      * @ORM\Column(name="cost", type="float", nullable=true)
      */
     private $cost;
+    
+    /**
+     * @ORM\Column(name="recommendations", type="string", length=256, nullable=true)
+     */
+    private $recommendations;
     
     /**
      * @ORM\Column(name="isOnHome", type="boolean")
@@ -112,6 +122,11 @@ class Package
     private $is_private;
     
     /**
+     * @ORM\Column(name="seasonal", type="boolean", nullable=true)
+     */
+    private $seasonal;
+    
+    /**
      * @ORM\Column(name="airfares", type="integer", nullable=true)
      */
     private $airfares;
@@ -125,6 +140,26 @@ class Package
      * @ORM\Column(name="accommodations", type="integer", nullable=true)
      */
     private $accommodations;
+    
+    /**
+     * @ORM\Column(name="content_pack", type="string", length=256, nullable=true)
+     */
+    private $contentPack;
+    
+    /**
+     * @ORM\Column(name="meta_title", type="string", length=256, nullable=true)
+     */
+    private $metaTitle;
+    
+    /**
+     * @ORM\Column(name="meta_description", type="string", length=256, nullable=true)
+     */
+    private $metaDescription;
+    
+    /**
+     * @ORM\Column(name="meta_keywords", type="string", length=256, nullable=true)
+     */
+    private $metaKeywords;
     
     /**
      * @ORM\Column(name="sf_pricebook_entry_id", type="string", length=128)
@@ -804,5 +839,189 @@ class Package
     public function getSuitcaseItems()
     {
         return $this->suitcaseItems;
+    }
+
+    /**
+     * Set keywords
+     *
+     * @param string $keywords
+     * @return Package
+     */
+    public function setKeywords($keywords)
+    {
+        $this->keywords = $keywords;
+    
+        return $this;
+    }
+
+    /**
+     * Get keywords
+     *
+     * @return string 
+     */
+    public function getKeywords()
+    {
+        return $this->keywords;
+    }
+
+    /**
+     * Set pictureTitle
+     *
+     * @param string $pictureTitle
+     * @return Package
+     */
+    public function setPictureTitle($pictureTitle)
+    {
+        $this->pictureTitle = $pictureTitle;
+    
+        return $this;
+    }
+
+    /**
+     * Get pictureTitle
+     *
+     * @return string 
+     */
+    public function getPictureTitle()
+    {
+        return $this->pictureTitle;
+    }
+
+    /**
+     * Set seasonal
+     *
+     * @param boolean $seasonal
+     * @return Package
+     */
+    public function setSeasonal($seasonal)
+    {
+        $this->seasonal = $seasonal;
+    
+        return $this;
+    }
+
+    /**
+     * Get seasonal
+     *
+     * @return boolean 
+     */
+    public function getSeasonal()
+    {
+        return $this->seasonal;
+    }
+
+    /**
+     * Set contentPack
+     *
+     * @param string $contentPack
+     * @return Package
+     */
+    public function setContentPack($contentPack)
+    {
+        $this->contentPack = $contentPack;
+    
+        return $this;
+    }
+
+    /**
+     * Get contentPack
+     *
+     * @return string 
+     */
+    public function getContentPack()
+    {
+        return $this->contentPack;
+    }
+
+    /**
+     * Set metaTitle
+     *
+     * @param string $metaTitle
+     * @return Package
+     */
+    public function setMetaTitle($metaTitle)
+    {
+        $this->metaTitle = $metaTitle;
+    
+        return $this;
+    }
+
+    /**
+     * Get metaTitle
+     *
+     * @return string 
+     */
+    public function getMetaTitle()
+    {
+        return $this->metaTitle;
+    }
+
+    /**
+     * Set metaDescription
+     *
+     * @param string $metaDescription
+     * @return Package
+     */
+    public function setMetaDescription($metaDescription)
+    {
+        $this->metaDescription = $metaDescription;
+    
+        return $this;
+    }
+
+    /**
+     * Get metaDescription
+     *
+     * @return string 
+     */
+    public function getMetaDescription()
+    {
+        return $this->metaDescription;
+    }
+
+    /**
+     * Set metaKeywords
+     *
+     * @param string $metaKeywords
+     * @return Package
+     */
+    public function setMetaKeywords($metaKeywords)
+    {
+        $this->metaKeywords = $metaKeywords;
+    
+        return $this;
+    }
+
+    /**
+     * Get metaKeywords
+     *
+     * @return string 
+     */
+    public function getMetaKeywords()
+    {
+        return $this->metaKeywords;
+    }
+
+    /**
+     * Set recommendations
+     *
+     * @param string $recommendations
+     * @return Package
+     */
+    public function setRecommendations($recommendations)
+    {
+        $this->recommendations = $recommendations;
+    
+        return $this;
+    }
+
+    /**
+     * Get recommendations
+     *
+     * @return string 
+     */
+    public function getRecommendations()
+    {
+        return $this->recommendations;
     }
 }
