@@ -4,54 +4,6 @@
     "autoload": {
         "psr-0": { "": "src/" }
     },
-    "repositories": [
-        {
-            "type": "package",
-            "package": {
-                "name": "besimple/soap-bundle",
-                "version": "dev-master",
-                "source": {
-                    "url": "https://github.com/ddeboer/BeSimpleSoapBundle.git",
-                    "type": "git",
-                    "reference": "master"
-                },
-                "target-dir": "BeSimple/SoapBundle",
-                "autoload": {
-                    "psr-0": { "BeSimple\\SoapBundle": "" }
-                }
-            }
-        },
-        {
-            "type": "package",
-            "package": {
-                "name": "besimple/soap-client",
-                "version": "dev-master",
-                "source": {
-                    "url": "https://github.com/ddeboer/BeSimpleSoapClient.git",
-                    "type": "git",
-                    "reference": "master"
-                },
-                "autoload": {
-                    "psr-0": { "BeSimple\\SoapClient": "src" }
-                }
-            }
-        },
-        {
-            "type": "package",
-            "package": {
-                "name": "besimple/soap-common",
-                "version": "master-dev",
-                "source": {
-                    "url": "https://github.com/BeSimple/BeSimpleSoapCommon.git",
-                    "type": "git",
-                    "reference": "master"
-                },
-                "autoload": {
-                    "psr-0": { "BeSimple\\SoapCommon": "src" }
-                }
-            }
-        }
-    ],
     "require": {
         "php": ">=5.3.3",
         "symfony/symfony": "2.1.8",
@@ -76,7 +28,16 @@
         "friendsofsymfony/user-bundle": "2.0.*@dev",
         "videlalvaro/php-amqplib": "v2.0.2",
         "oldsound/rabbitmq-bundle": "dev-master",
-        "tecnick.com/tcpdf": "dev-master"
+        "tecnick.com/tcpdf": "dev-master",
+        "besimple/soap-bundle": "dev-master",
+        "besimple/soap-common": "dev-master",
+"besimple/soap-server": "dev-master",
+"besimple/soap-client": "dev-master",
+        "ass/xmlsecurity":      "dev-master"
+        
+
+
+
     },
     "scripts": {
         "post-install-cmd": [
