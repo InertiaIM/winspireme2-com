@@ -9,4 +9,5 @@ class SfResponse
      * @Soap\ComplexType("boolean")
      */
     public $Ack;
+    
 }
