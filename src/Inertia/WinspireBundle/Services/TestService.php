@@ -10,7 +10,8 @@ class TestService
     
     public function notifications($notifications)
     {
-        
+        $dump = fopen('wtf.log', 'w');
+        fwrite($dump, serialize($notifications));
         
         return array('Ack' => true);
     }
