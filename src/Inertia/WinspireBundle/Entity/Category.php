@@ -30,11 +30,6 @@ class Category
     private $number;
     
     /**
-     * @ORM\Column(name="rank", type="integer")
-     */
-    private $rank;
-    
-    /**
      * @ORM\Column(name="sf_id", type="string", length=128)
      */
     private $sfId;
@@ -43,6 +38,11 @@ class Category
      * @ORM\Column(name="slug", type="string", length=128)
      */
     private $slug;
+    
+    /**
+     * @ORM\Column(name="col", type="integer")
+     */
+    private $col;
     
     /**
      * @ORM\Column(name="open", type="boolean")
@@ -394,5 +394,51 @@ class Category
     public function getOpen()
     {
         return $this->open;
+    }
+
+    /**
+     * Set column
+     *
+     * @param integer $column
+     * @return Category
+     */
+    public function setColumn($column)
+    {
+        $this->column = $column;
+    
+        return $this;
+    }
+
+    /**
+     * Get column
+     *
+     * @return integer 
+     */
+    public function getColumn()
+    {
+        return $this->column;
+    }
+
+    /**
+     * Set col
+     *
+     * @param integer $col
+     * @return Category
+     */
+    public function setCol($col)
+    {
+        $this->col = $col;
+    
+        return $this;
+    }
+
+    /**
+     * Get col
+     *
+     * @return integer 
+     */
+    public function getCol()
+    {
+        return $this->col;
     }
 }

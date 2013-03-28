@@ -320,12 +320,16 @@ class DefaultController extends Controller
         
         $categoryTree = $categoryTree[0]['__children'];
         
-        // TODO need an algorithm to assign columns automatically?
+        // Assign categories to columns for the drop-down navigation
         $temp = array();
-        $temp[0] = array($categoryTree[0], $categoryTree[1], $categoryTree[2]);
-        $temp[1] = array($categoryTree[3], $categoryTree[4]);
-        $temp[2] = array($categoryTree[5], $categoryTree[6]);
-        $temp[3] = array($categoryTree[7], $categoryTree[8], $categoryTree[9], $categoryTree[10], $categoryTree[11]);
+        foreach($categoryTree as $subtree) {
+            $temp[$subtree['col']][] = $subtree;
+        }
+        
+        
+        if(count($temp) < 4) {
+            $temp[] = array();
+        }
         
         return $this->render(
             'InertiaWinspireBundle:Default:siteNav.html.twig',
