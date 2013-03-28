@@ -20,7 +20,7 @@
         "jms/di-extra-bundle": "1.1.*",
         "leafo/lessphp": "0.3.8", 
         "stof/doctrine-extensions-bundle": "1.1.x-dev",
-        "ddeboer/salesforce-client-bundle": "*",
+        "ddeboer/salesforce-client-bundle": "dev-master",
         "elao/web-profiler-extra-bundle": "dev-master",
         "doctrine/doctrine-fixtures-bundle": "dev-master",
         "jms/twig-js": "1.0.*@dev",
@@ -28,16 +28,7 @@
         "friendsofsymfony/user-bundle": "2.0.*@dev",
         "videlalvaro/php-amqplib": "v2.0.2",
         "oldsound/rabbitmq-bundle": "dev-master",
-        "tecnick.com/tcpdf": "dev-master",
-        "besimple/soap-bundle": "dev-master",
-        "besimple/soap-common": "dev-master",
-"besimple/soap-server": "dev-master",
-"besimple/soap-client": "dev-master",
-        "ass/xmlsecurity":      "dev-master"
-        
-
-
-
+        "tecnick.com/tcpdf": "dev-master"
     },
     "scripts": {
         "post-install-cmd": [

@@ -21,7 +21,7 @@ class AppKernel extends Kernel
             new JMS\SecurityExtraBundle\JMSSecurityExtraBundle(),
             new Stof\DoctrineExtensionsBundle\StofDoctrineExtensionsBundle(),
             new BeSimple\SoapBundle\BeSimpleSoapBundle(),
-//            new Ddeboer\Salesforce\ClientBundle\DdeboerSalesforceClientBundle(),
+            new Ddeboer\Salesforce\ClientBundle\DdeboerSalesforceClientBundle(),
             new JMS\TwigJsBundle\JMSTwigJsBundle(),
             new FOS\UserBundle\FOSUserBundle(),
             new Inertia\WinspireBundle\InertiaWinspireBundle(),

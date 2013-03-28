@@ -1,5 +1,5 @@
 {
-    "hash": "928747e8399318f3aa38e87fa4766af0",
+    "hash": "2619ef1e86bfd920855610762f6efd9f",
     "packages": [
         {
             "name": "ass/xmlsecurity",
@@ -216,58 +216,6 @@
                 "soap-common"
             ],
             "time": "2013-02-27 16:03:38"
-        },
-        {
-            "name": "besimple/soap-server",
-            "version": "dev-master",
-            "target-dir": "BeSimple/SoapServer",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/BeSimple/BeSimpleSoapServer.git",
-                "reference": "127d06fcb9b401593203ce9287da14a4986158f4"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/BeSimple/BeSimpleSoapServer/zipball/127d06fcb9b401593203ce9287da14a4986158f4",
-                "reference": "127d06fcb9b401593203ce9287da14a4986158f4",
-                "shasum": ""
-            },
-            "require": {
-                "besimple/soap-common": "dev-master",
-                "php": ">=5.3.0"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-0": {
-                    "BeSimple\\SoapServer": "BeSimple/SoapServer/src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Francis Besset",
-                    "email": "francis.besset@gmail.com",
-                    "homepage": "http://www.apercite.fr"
-                },
-                {
-                    "name": "Andreas Schamberger",
-                    "email": "mail@andreass.net"
-                },
-                {
-                    "name": "Christian Kerl",
-                    "email": "christian-kerl@web.de"
-                }
-            ],
-            "description": "Build and consume SOAP Server based web services",
-            "homepage": "https://github.com/BeSimple/BeSimpleSoapServer",
-            "keywords": [
-                "soap",
-                "soap-server"
-            ],
-            "time": "2013-01-15 21:45:13"
         },
         {
             "name": "ddeboer/salesforce-client-bundle",
@@ -3075,18 +3023,14 @@
     "minimum-stability": "dev",
     "stability-flags": {
         "stof/doctrine-extensions-bundle": 20,
+        "ddeboer/salesforce-client-bundle": 20,
         "elao/web-profiler-extra-bundle": 20,
         "doctrine/doctrine-fixtures-bundle": 20,
         "jms/twig-js": 20,
         "jms/twig-js-bundle": 20,
         "friendsofsymfony/user-bundle": 20,
         "oldsound/rabbitmq-bundle": 20,
-        "tecnick.com/tcpdf": 20,
-        "besimple/soap-bundle": 20,
-        "besimple/soap-common": 20,
-        "besimple/soap-server": 20,
-        "besimple/soap-client": 20,
-        "ass/xmlsecurity": 20
+        "tecnick.com/tcpdf": 20
     },
     "platform": {
         "php": ">=5.3.3"
