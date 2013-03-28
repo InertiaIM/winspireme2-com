@@ -13,6 +13,11 @@ class SoapController extends ContainerAware
      */
     public function packageAction($id)
     {
+        $logger = $this->get('logger');
+        $logger->info('It\'s big, it\'s heavy, it\'s wood');
+        
+        
+        
         return sprintf('Hello!');
 //        return $this->container->get('besimple.soap.response')->setReturnValue(sprintf('Goodbye %s!', $name));
     }
