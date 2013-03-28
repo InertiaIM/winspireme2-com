@@ -31,7 +31,7 @@ class SfNotification
     private $PartnerUrl;
     
     /**
-     * @Soap\ComplexType("array")
+     * @Soap\ComplexType("string[]")
      */
-    private $PartnerUrl;
+    private $Notification;
 }
