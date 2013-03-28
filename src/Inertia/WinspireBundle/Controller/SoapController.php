@@ -8,10 +8,10 @@ class SoapController extends ContainerAware
 {
     /**
      * @Soap\Method("notifications")
-     * @Soap\Param("notifications", phpType = "Inertia\WinspireBundle\Entity\SfNotification")
-     * @Soap\Result(phpType = "boolean")
+     * @Soap\Param("request", phpType = "Inertia\WinspireBundle\Entity\SfNotification")
+     * @Soap\Result(phpType = "Inertia\WinspireBundle\Entity\SfResponse")
      */
-    public function notificationsAction($notifications)
+    public function notificationsAction($request)
     {
         $logger = $this->get('logger');
         $logger->info('It\'s big, it\'s heavy, it\'s wood');
