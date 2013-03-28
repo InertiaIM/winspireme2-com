@@ -105,6 +105,9 @@ be_simple_soap:
 #    logging: false
     
 services:
+    test_service:
+        class: Inertia\WinspireBundle\Services\TestService
+    
     # Doctrine Extension listeners to handle behaviors
     gedmo.listener.timestampable:
         class: Gedmo\Timestampable\TimestampableListener

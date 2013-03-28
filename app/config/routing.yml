@@ -95,6 +95,10 @@ accountValidate:
     pattern:  /account/validate
     defaults: { _controller: InertiaWinspireBundle:Account:validate }
     
+soap:
+    pattern:  /soap
+    defaults: { _controller: InertiaWinspireBundle:Test:test }
+    
 fos_user_security:
     resource: "@FOSUserBundle/Resources/config/routing/security.xml"
     
