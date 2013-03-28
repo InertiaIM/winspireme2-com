@@ -7,11 +7,11 @@ use Symfony\Component\DependencyInjection\ContainerAware;
 class SoapController extends ContainerAware
 {
     /**
-     * @Soap\Method("package")
+     * @Soap\Method("notifications")
      * @Soap\Param("id", phpType = "string")
      * @Soap\Result(phpType = "string")
      */
-    public function packageAction($id)
+    public function notificationsAction($id)
     {
         $logger = $this->get('logger');
         $logger->info('It\'s big, it\'s heavy, it\'s wood');
