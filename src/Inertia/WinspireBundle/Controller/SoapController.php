@@ -8,8 +8,8 @@ class SoapController extends ContainerAware
 {
     /**
      * @Soap\Method("notifications")
-     * @Soap\Param("id", phpType = "string")
-     * @Soap\Result(phpType = "string")
+     * @Soap\Param("notifications", phpType = "Inertia\WinspireBundle\Entity\SfNotification")
+     * @Soap\Result("notificationsResponse", phpType = "boolean")
      */
     public function notificationsAction($id)
     {
@@ -18,7 +18,7 @@ class SoapController extends ContainerAware
         
         
         
-        return sprintf('Hello!');
+        return true;
 //        return $this->container->get('besimple.soap.response')->setReturnValue(sprintf('Goodbye %s!', $name));
     }
 }
