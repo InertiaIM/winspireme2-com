@@ -85,7 +85,7 @@ $this->logger->info('Package doesn\'t meet the criteria');
         
         
         // Test whether this package is already in our database
-        $package = $this->em->getRepository('InertiaWinspireBundle:Package')->findBySfId($id);
+        $package = $this->em->getRepository('InertiaWinspireBundle:Package')->findOneBySfId($id);
         
         if(!$package) {
             // New package, not in our database yet
