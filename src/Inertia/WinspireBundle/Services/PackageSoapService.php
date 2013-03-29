@@ -22,16 +22,14 @@ class PackageSoapService
     
     public function notifications($notifications)
     {
-$this->logger->info('It\'s big, it\'s heavy, it\'s wood');
+        $this->logger->info('It\'s big, it\'s heavy, it\'s wood');
         
-        $dump = fopen('wtf.log', 'a');
-        fwrite($dump, print_r($notifications, true));
+$dump = fopen('wtf.log', 'a');
+fwrite($dump, print_r($notifications, true));
         
         $id = $notifications->Notification->sObject->Id;
         
-$this->logger->info('id: ' . $id);
-        
-//        $packages = $this->sf->retrieve(array(), array(), 'Product2');
+        $this->logger->info('id: ' . $id);
         
         $packageResult = $this->sf->query('SELECT ' .
             'Id, ' .
@@ -75,13 +73,11 @@ $this->logger->info('id: ' . $id);
         );
         
         
+        // If we don't receive a Package, then it doesn't meet the criteria
         if(count($packageResult) == 0) {
-$this->logger->info('Package doesn\'t meet the criteria');
+            $this->logger->info('Package doesn\'t meet the criteria');
             return array('Ack' => true);
         }
-        
-        
-        
         
         
         // Test whether this package is already in our database
@@ -89,19 +85,16 @@ $this->logger->info('Package doesn\'t meet the criteria');
         
         if(!$package) {
             // New package, not in our database yet
-$this->logger->info('New package to be added');
+            $this->logger->info('New package to be added');
             $package = new Package();
         }
         else {
             // Package already exists, just update
-$this->logger->info('Existing package to be updated');
-            
+            $this->logger->info('Existing package to be updated');
         }
         
         
-        
-        
-        
+        // TODO why do we have to use iterator when we only want a single Package
         foreach ($packageResult as $p) {
             // For now, only sync if there is a description available
             if(isset($p->WEB_package_description__c) && $p->WEB_package_description__c != '') {
@@ -205,7 +198,6 @@ $this->logger->info('Existing package to be updated');
                 }
                 
                 
-                
                 $categories = array();
                 if(isset($p->Package_Category_Pairings__c)) {
                     $categories = explode(';', $p->Package_Category_Pairings__c);
@@ -224,11 +216,6 @@ $this->logger->info('Existing package to be updated');
                 }
                 
                 
-                
-                
-                
-                
-                
                 $priceCounter = 0;
                 if(isset($p->PricebookEntries)) {
                     foreach ($p->PricebookEntries as $price) {
@@ -238,7 +225,7 @@ $this->logger->info('Existing package to be updated');
                     }
                 }
                 else {
-//                    $output->writeln('<error>No prices available...</error>');
+                    // No prices available, so we're not saving this Package
                     continue;
                 }
                 
@@ -252,20 +239,12 @@ $this->logger->info('Existing package to be updated');
                 $this->em->flush();
                 
                 
-$this->logger->info('Package saved...');
+                $this->logger->info('Package saved...');
             }
         }
         
-        
-        
-        
-        
-        
-        
-        
         return array('Ack' => true);
     }
-    
     
     
     protected function findCategoryByCode($code)
