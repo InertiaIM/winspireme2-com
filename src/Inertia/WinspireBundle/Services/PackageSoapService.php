@@ -211,6 +211,14 @@ $this->logger->info('Existing package to be updated');
                     $categories = explode(';', $p->Package_Category_Pairings__c);
                 }
                 
+                
+                // TODO do we have to remove each category manually
+                // TODO create "merge" category method
+                foreach($package->getCategories() as $c) {
+                    $package->removeCategory($c);
+                }
+                
+                
                 foreach($categories as $category) {
                     $package->addCategory($this->findCategoryByCode(trim($category)));
                 }
