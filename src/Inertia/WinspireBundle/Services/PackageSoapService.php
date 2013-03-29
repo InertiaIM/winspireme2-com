@@ -22,14 +22,14 @@ class PackageSoapService
     
     public function notifications($notifications)
     {
-$logger->info('It\'s big, it\'s heavy, it\'s wood');
+$this->logger->info('It\'s big, it\'s heavy, it\'s wood');
         
         $dump = fopen('wtf.log', 'a');
         fwrite($dump, print_r($notifications, true));
         
         $id = $notifications->Notification->sObject->Id;
         
-$logger->info('id: ' . $id);
+$this->logger->info('id: ' . $id);
         
 //        $packages = $this->sf->retrieve(array(), array(), 'Product2');
         
@@ -76,7 +76,7 @@ $logger->info('id: ' . $id);
         
         
         if(count($packageResult) == 0) {
-$logger->info('Package doesn\'t meet the criteria');
+$this->logger->info('Package doesn\'t meet the criteria');
             return array('Ack' => true);
         }
         
@@ -89,12 +89,12 @@ $logger->info('Package doesn\'t meet the criteria');
         
         if(!$package) {
             // New package, not in our database yet
-$logger->info('New package to be added');
+$this->logger->info('New package to be added');
             $package = new Package();
         }
         else {
             // Package already exists, just update
-$logger->info('Existing package to be updated');
+$this->logger->info('Existing package to be updated');
             
         }
         
@@ -244,7 +244,7 @@ $logger->info('Existing package to be updated');
                 $em->flush();
                 
                 
-$logger->info('Package saved...');
+$this->logger->info('Package saved...');
             }
         }
         
