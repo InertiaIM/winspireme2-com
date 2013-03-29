@@ -33,7 +33,7 @@ $this->logger->info('id: ' . $id);
         
 //        $packages = $this->sf->retrieve(array(), array(), 'Product2');
         
-        $packageResult = $sf->query('SELECT ' .
+        $packageResult = $this->sf->query('SELECT ' .
             'Id, ' .
             'Name, ' .
             'ProductCode, ' .
@@ -85,7 +85,7 @@ $this->logger->info('Package doesn\'t meet the criteria');
         
         
         // Test whether this package is already in our database
-        $package = $em->getRepository('InertiaWinspireBundle:Package')->findBySfId($id);
+        $package = $this->em->getRepository('InertiaWinspireBundle:Package')->findBySfId($id);
         
         if(!$package) {
             // New package, not in our database yet
@@ -240,8 +240,8 @@ $this->logger->info('Existing package to be updated');
                 
                 
                 
-                $em->persist($package);
-                $em->flush();
+                $this->em->persist($package);
+                $this->em->flush();
                 
                 
 $this->logger->info('Package saved...');
