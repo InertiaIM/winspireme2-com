@@ -95,9 +95,9 @@ accountValidate:
     pattern:  /account/validate
     defaults: { _controller: InertiaWinspireBundle:Account:validate }
     
-soap:
-    pattern:  /soap
-    defaults: { _controller: InertiaWinspireBundle:Test:test }
+soap_package:
+    pattern:  /soap/package
+    defaults: { _controller: InertiaWinspireBundle:Soap:package }
     
 fos_user_security:
     resource: "@FOSUserBundle/Resources/config/routing/security.xml"
@@ -108,10 +108,6 @@ fos_user_resetting:
 fos_user_profile_show:
     pattern:  /account
     defaults: { _controller: InertiaWinspireBundle:Account:index }
-    
-_besimple_soap:
-    resource: "@BeSimpleSoapBundle/Resources/config/routing/webservicecontroller.xml"
-    prefix:   /ws
     
 pageDisplay:
     pattern:  /{slug}

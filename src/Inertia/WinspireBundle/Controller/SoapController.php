@@ -1,24 +1,23 @@
 <?php
 namespace Inertia\WinspireBundle\Controller;
 
-use BeSimple\SoapBundle\ServiceDefinition\Annotation as Soap;
-use Symfony\Component\DependencyInjection\ContainerAware;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\Response;
 
-class SoapController extends ContainerAware
+class SoapController extends Controller
 {
-    /**
-     * @Soap\Method("notifications")
-     * @Soap\Param("request", phpType = "Inertia\WinspireBundle\Entity\SfNotification")
-     * @Soap\Result(phpType = "Inertia\WinspireBundle\Entity\SfResponse")
-     */
-    public function notificationsAction($request)
+    public function packageAction()
     {
-        $logger = $this->get('logger');
-        $logger->info('It\'s big, it\'s heavy, it\'s wood');
+        $server = new \SoapServer(__DIR__ . '/../../../../app/config/packageNotifications.wsdl.xml');
+        $server->setObject($this->get('package_soap_service'));
         
+        $response = new Response();
+        $response->headers->set('Content-Type', 'text/xml; charset=ISO-8859-1');
         
+        ob_start();
+        $server->handle();
+        $response->setContent(ob_get_clean());
         
-        return true;
-//        return $this->container->get('besimple.soap.response')->setReturnValue(sprintf('Goodbye %s!', $name));
+        return $response;
     }
 }

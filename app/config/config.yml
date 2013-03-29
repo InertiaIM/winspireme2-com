@@ -103,8 +103,9 @@ be_simple_soap:
             wsdl: blah
 
 services:
-    test_service:
-        class: Inertia\WinspireBundle\Services\TestService
+    package_soap_service:
+        class: Inertia\WinspireBundle\Services\PackageSoapService
+        arguments: [@ddeboer_salesforce_client, @doctrine.orm.entity_manager, @logger]
     
     # Doctrine Extension listeners to handle behaviors
     gedmo.listener.timestampable:
