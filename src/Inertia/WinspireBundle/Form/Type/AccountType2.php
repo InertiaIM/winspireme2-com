@@ -100,16 +100,6 @@ class AccountType2 extends AbstractType
             'mapped' => false,
             'required' => false
         ));
-        
-        $builder->add('terms', 'checkbox', array(
-            'constraints' => array(
-                new True(array(
-                    'message' => 'You must agree to the Terms of Use before proceeding.'
-                )),
-            ),
-            'mapped' => false,
-            'required' => true
-        ));
     }
     
     public function setDefaultOptions(OptionsResolverInterface $resolver)

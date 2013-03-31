@@ -461,7 +461,6 @@ class SuitcaseController extends Controller
                 $name = $form->get('name');
                 $date = $form->get('date');
                 $loa = $form->get('loa');
-                $terms = $form->get('terms');
                 
                 $errors = array();
                 
@@ -535,14 +534,6 @@ class SuitcaseController extends Controller
                         $temp[] = $blah->getMessage();
                     }
                     $errors['account_loa'] = $temp;
-                }
-                
-                if($blahs = $terms->getErrors()) {
-                    $temp = array();
-                    foreach($blahs as $blah) {
-                        $temp[] = $blah->getMessage();
-                    }
-                    $errors['account_terms'] = $temp;
                 }
                 
                 return $response->setData(array(
