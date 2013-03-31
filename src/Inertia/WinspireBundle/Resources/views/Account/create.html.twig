@@ -48,7 +48,7 @@
             <li class="checkbox" style="padding-top:16px;">
                 <div>
                     {{ form_widget(form.terms) }}
-                    <label for="fos_user_registration_form_terms">I verify that I have read and agree to the <a href="#">Terms of Use</a> and <a href="#">Privacy Policy</a>.</label>
+                    <label for="fos_user_registration_form_terms">I verify that I have read and agree to the <a href="{{ path('pageDisplay', {'slug': 'terms'}) }}" target="_blank">Terms of Use</a> and <a href="{{ path('pageDisplay', {'slug': 'privacy'}) }}" target="_blank">Privacy Policy</a>.</label>
                 </div>
             </li>
             <li class="checkbox">

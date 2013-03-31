@@ -220,13 +220,13 @@
             <li class="checkbox" style="padding-top:16px;">
                 <div>
                     {{ form_widget(form.loa) }}
-                    <label for="account_loa">By clicking the button below, I verify that I have read and that I agree to the <a href="{{ path('pageDisplay', { 'slug': 'loa' }) }}">Letter of Agreement</a> and all the terms within.</label>
+                    <label for="account_loa">By clicking the button below, I verify that I have read and that I agree to the <a href="{{ path('pageDisplay', { 'slug': 'loa' }) }}" target="_blank">Letter of Agreement</a> and all the terms within.</label>
                 </div>
             </li>
             <li class="checkbox">
                 <div>
                     {{ form_widget(form.terms) }}
-                    <label for="account_terms">I verify that I have read and agree to the <a href="{{ path('pageDisplay', {'slug': 'terms'}) }}">Terms of Use</a> and <a href="{{ path('pageDisplay', {'slug': 'privacy'}) }}">Privacy Policy</a>.</label>
+                    <label for="account_terms">I verify that I have read and agree to the <a href="{{ path('pageDisplay', {'slug': 'terms'}) }}" target="_blank">Terms of Use</a> and <a href="{{ path('pageDisplay', {'slug': 'privacy'}) }}" target="_blank">Privacy Policy</a>.</label>
                 </div>
             </li>
             <li class="checkbox">
