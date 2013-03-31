@@ -67,6 +67,9 @@
                                         <p>${{ item.package.cost | number_format }} Nonprofit Cost</p>
                                         <div class="actions" data-id="{{ item.package.id }}">
                                             <a href="{{ path('packageDetail', { 'slug': item.package.slug }) }}" class="more"><span class="icon-plus"></span>More Details</a>
+{%     if downloadLinks[item.package.id] %}
+                                            <a href="{{ path('packageDownload', {'versionId': downloadLinks[item.package.id]}) }}" class="download"><span class="icon-download"></span>Download Info</a>
+{%     endif %}
                                         </div>
                                         <div class="item-close"><span class="icon-minus"></span></div>
                                     </div>

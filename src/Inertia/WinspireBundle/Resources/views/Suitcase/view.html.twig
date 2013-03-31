@@ -15,7 +15,7 @@
                 <ul>
                     <li><span>1</span>A copy of your <a href="{{ path('pageDisplay', { 'slug': 'loa' }) }}">Letter of Agreement</a> and an Order Confirmation was sent to your email.</li>
                     <li><span>2</span>If you need to add another item before your event, simply <a href="{{ path('packageList') }}">find the item</a>, add it to your Suitcase and checkout again</li>
-                    <li><span>3</span><a href="#">Download all of your presentation materials</a>, if you haven’t already.  We will contact you after your event to walk you through the next steps.</li>
+                    <li><span>3</span><a href="{{ path('suitcaseDownload', {'suitcaseId': suitcase.id}) }}">Download all of your presentation materials</a>, if you haven’t already.  We will contact you after your event to walk you through the next steps.</li>
                 </ul>
             </div>
             <div class="unpacked"{% if suitcase.packed %} style="display:none;"{% endif %}>
@@ -127,7 +127,7 @@
                 <div class="packed"{% if not suitcase.packed %} style="display:none;"{% endif %}>
                     <span class="icon-checkmark"></span>
                     <h4>Remember to download your presentation materials!</h4>
-                    <button class="neutral" id="download">Download Materials</button>
+                    <button class="neutral" id="download" onclick="window.location='{{ path('suitcaseDownload', {'suitcaseId': suitcase.id}) }}';">Download Materials</button>
                 </div>
                 <div class="unpacked"{% if suitcase.packed %} style="display:none;"{% endif %}>
                     <h4>Ready to Go?</h4>

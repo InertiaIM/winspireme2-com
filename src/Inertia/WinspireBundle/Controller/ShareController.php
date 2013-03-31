@@ -137,9 +137,11 @@ class ShareController extends Controller
         $user = $suitcase->getUser(); 
         
         // TODO move to entity class method
+        $downloadLinks = array();
         $counts = array('M' => 0, 'D' => 0, 'R' => 0, 'E' => 0);
         foreach($suitcase->getItems() as $item) {
             $counts[$item->getStatus()]++;
+            $downloadLinks[$item->getPackage()->getId()] = $this->getDownloadLink($item->getPackage()->getSfContentPackId());
         }
         
         return $this->render('InertiaWinspireBundle:Share:view.html.twig', array(
@@ -147,7 +149,8 @@ class ShareController extends Controller
             'suitcase' => $suitcase,
             'counts' => $counts,
             'pages' => ceil(count($suitcase->getItems()) / 6),
-            'token' => $token
+            'token' => $token,
+            'downloadLinks' => $downloadLinks
         ));
     }
     
@@ -188,6 +191,31 @@ class ShareController extends Controller
         }
         
         return $counts;
+    }
+    
+    // TODO refactor this method from here and SuitcaseController
+    protected function getDownloadLink($id)
+    {
+        $em = $this->getDoctrine()->getManager();
+        
+        $query = $em->createQuery(
+            'SELECT c, v FROM InertiaWinspireBundle:ContentPack c LEFT JOIN c.versions v WHERE c.sfId = :id ORDER BY v.updated DESC'
+        )
+            ->setParameter('id', $id)
+            ->setMaxResults(1)
+        ;
+        
+        try {
+            $contentPack = $query->getSingleResult();
+            $versions = $contentPack->getVersions();
+            $version = $versions[0];
+            $version = $version->getId();
+        }
+        catch (\Doctrine\Orm\NoResultException $e) {
+            $version = false;
+        }
+        
+        return $version;
     }
     
     protected function getSuitcase()

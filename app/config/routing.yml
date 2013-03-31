@@ -47,6 +47,10 @@ suitcaseDelete:
     pattern:  /suitcase/delete/{id}
     defaults: { _controller: InertiaWinspireBundle:Suitcase:delete }
     
+suitcaseDownload:
+    pattern:  /suitcase/download/{suitcaseId}
+    defaults: { _controller: InertiaWinspireBundle:Suitcase:download }
+    
 suitcaseKill:
     pattern:  /suitcase/kill/{id}
     defaults: { _controller: InertiaWinspireBundle:Suitcase:kill }

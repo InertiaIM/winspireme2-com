@@ -8,6 +8,7 @@ use Inertia\WinspireBundle\Form\Type\AccountType2;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Validator\Constraints\Email;
 
 class SuitcaseController extends Controller
@@ -175,6 +176,89 @@ class SuitcaseController extends Controller
         
         return $response;
     }
+    
+    
+    public function downloadAction($suitcaseId)
+    {
+        $user = $this->getUser();
+        $em = $this->getDoctrine()->getManager();
+        
+        if($this->get('security.context')->isGranted('ROLE_ADMIN')) {
+            $query = $em->createQuery(
+                'SELECT s FROM InertiaWinspireBundle:Suitcase s WHERE s.id = :id'
+            )
+                ->setParameter('id', $suitcaseId)
+            ;
+        }
+        else {
+            $query = $em->createQuery(
+                'SELECT s FROM InertiaWinspireBundle:Suitcase s WHERE s.id = :id AND s.user = :uid'
+            )
+                ->setParameter('id', $suitcaseId)
+                ->setParameter('uid', $user->getId())
+            ;
+        }
+        
+        try {
+            $suitcase = $query->getSingleResult();
+        }
+        catch (\Exception $e) {
+            throw $this->createNotFoundException();
+        }
+        
+        
+        $sfContentPackIds = array();
+        $sfContentPacks = array();
+        foreach($suitcase->getItems() as $item) {
+            $sfContentPackIds[] = $item->getPackage()->getSfContentPackId();
+            $sfContentPacks[$item->getPackage()->getSfContentPackId()] = $item->getPackage()->getSlug();
+        }
+        
+        
+        $edate = $suitcase->getEventDate() ? $suitcase->getEventDate() : new \DateTime();
+        $query = $em->createQuery(
+            'SELECT c, v FROM InertiaWinspireBundle:ContentPack c LEFT JOIN c.versions v WHERE c.sfId IN (:ids) AND v.updated <= :edate ORDER BY v.updated ASC'
+        )
+            ->setParameter('ids', $sfContentPackIds)
+            ->setParameter('edate', $edate)
+        ;
+        
+        $contentPacks = $query->getResult();
+        
+        $versions = array();
+        foreach($contentPacks as $cp) {
+            foreach($cp->getVersions() as $version) {
+                $versions[$cp->getSfId()] = $version;
+            }
+        }
+        
+        
+        
+        $zip = new \ZipArchive();
+        $filename = tempnam(null, null);
+        
+        if ($zip->open($filename, \ZipArchive::OVERWRITE) !== true) {
+            exit("cannot open tmp file\n");
+        }
+        
+        foreach($versions as $key => $version) {
+            $zip->addEmptyDir($sfContentPacks[$key]);
+            foreach($version->getFiles() as $file) {
+                $zip->addFile(
+                    $this->container->getParameter('kernel.root_dir') . '/documents/' . $version->getSfId() . '/' . $file->getName(),
+                    $sfContentPacks[$key] . '/' . $file->getName()
+                );
+            }
+        }
+        $zip->close();
+        
+        $response = new Response();
+        $response->headers->set('Content-Type', 'application/zip');
+        $response->headers->set('Content-Disposition', 'attachment; filename="' . 'Winspire-Materials.zip' . '"');
+        
+        return $response->setContent(file_get_contents($filename));
+    }
+    
     
     public function editAction(Request $request)
     {
