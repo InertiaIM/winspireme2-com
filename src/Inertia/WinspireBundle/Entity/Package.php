@@ -147,6 +147,11 @@ class Package
     private $contentPack;
     
     /**
+     * @ORM\Column(name="sf_content_pack_id", type="string", length=256, nullable=true)
+     */
+    private $sfContentPackId;
+    
+    /**
      * @ORM\Column(name="meta_title", type="string", length=256, nullable=true)
      */
     private $metaTitle;
@@ -1023,5 +1028,28 @@ class Package
     public function getRecommendations()
     {
         return $this->recommendations;
+    }
+
+    /**
+     * Set sfContentPackId
+     *
+     * @param string $sfContentPackId
+     * @return Package
+     */
+    public function setSfContentPackId($sfContentPackId)
+    {
+        $this->sfContentPackId = $sfContentPackId;
+    
+        return $this;
+    }
+
+    /**
+     * Get sfContentPackId
+     *
+     * @return string 
+     */
+    public function getSfContentPackId()
+    {
+        return $this->sfContentPackId;
     }
 }

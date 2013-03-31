@@ -890,7 +890,6 @@ $(document).ready(function() {
     });
     
     $(sc).find('.content').on('click', '.actions > .download', function(e) {
-        e.preventDefault();
         e.stopPropagation();
     });
     

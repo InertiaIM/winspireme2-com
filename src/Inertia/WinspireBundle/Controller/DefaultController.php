@@ -4,6 +4,7 @@ namespace Inertia\WinspireBundle\Controller;
 use Inertia\WinspireBundle\Entity\Suitcase;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 class DefaultController extends Controller
 {
@@ -312,6 +313,50 @@ class DefaultController extends Controller
             )
         );
     }
+    
+    
+    public function packageDownloadAction($versionId)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $query = $em->createQuery(
+            'SELECT v FROM InertiaWinspireBundle:ContentPackVersion v WHERE v.id = :id'
+        )->setParameter('id', $versionId);
+        
+        try {
+            $contentPackVersion = $query->getSingleResult();
+        }
+        catch (\Exception $e) {
+            throw $this->createNotFoundException();
+        }
+        
+        // Find a package using this Content Pack to give it file name
+        $query = $em->createQuery(
+            'SELECT p FROM InertiaWinspireBundle:Package p WHERE p.sfContentPackId = :sfId'
+        )
+            ->setParameter('sfId', $contentPackVersion->getContentPack()->getSfId())
+            ->setMaxResults(1);
+        ;
+        
+        
+        try {
+            $package = $query->getSingleResult();
+            $name = $package->getSlug() . '.zip';
+        }
+        catch(\Exception $e) {
+            $name = $contentPackVersion->getId() . '.zip';
+        }
+        
+        $directory = $this->container->getParameter('kernel.root_dir') . '/documents/';
+        $directory .= $contentPackVersion->getSfId() . '/';
+        $filename = $contentPackVersion->getSfId() . '.zip';
+        
+        $response = new Response();
+        $response->headers->set('Content-Type', 'application/zip');
+        $response->headers->set('Content-Disposition', 'attachment; filename="' . $name . '"');
+        
+        return $response->setContent(file_get_contents($directory . $filename));
+    }
+    
     
     public function siteNavAction()
     {

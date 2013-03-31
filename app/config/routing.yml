@@ -23,6 +23,10 @@ packageListJson:
     pattern:  /packages.json
     defaults: { _controller: InertiaWinspireBundle:Default:packageListJson }
     
+packageDownload:
+    pattern:  /package/download/{versionId}
+    defaults: { _controller: InertiaWinspireBundle:Default:packageDownload }
+    
 packageDetail:
     pattern:  /package/{slug}
     defaults: { _controller: InertiaWinspireBundle:Default:packageDetail }
