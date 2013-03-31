@@ -74,7 +74,7 @@ var env = '/app_dev.php';
                     <nav id="core-nav">
                         <ul class="inline-nav">
                             <li><a href="{{ path('pageDisplay', {'slug': 'about-us'}) }}">About Us</a></li>
-                            <li><a href="http://www.winspireme.com/blog/">Blog</a></li>
+                            <li><a href="http://www.winspireme.com/blog/" target="_blank">Blog</a></li>
                             <li><a href="{{ path('pageDisplay', {'slug': 'faqs'}) }}">FAQs</a></li>
                             <li><a href="{{ path('contactUs') }}">Contact Us</a></li>
 {% if is_granted('ROLE_USER') %}
@@ -137,7 +137,7 @@ var env = '/app_dev.php';
 							<li><a href="{{ path('pageDisplay', {'slug': 'winning-bidders'}) }}">Winning Bidders</a></li>
 							<li><a href="{{ path('contactUs') }}">Contact Us</a>
 								<ul>
-									<li><a href="http://www.winspireme.com/blog/">Blog</a></li>
+									<li><a href="http://www.winspireme.com/blog/" target="_blank">Blog</a></li>
 								</ul>
 							</li>
 						</ul>
