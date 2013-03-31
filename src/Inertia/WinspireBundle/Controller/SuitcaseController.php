@@ -253,8 +253,10 @@ class SuitcaseController extends Controller
         $zip->close();
         
         $response = new Response();
-        $response->headers->set('Content-Type', 'application/zip');
         $response->headers->set('Content-Disposition', 'attachment; filename="' . 'Winspire-Materials.zip' . '"');
+        $response->headers->set('Content-Type', 'application/zip');
+        $response->headers->set('Content-Description: File Transfer');
+        $response->headers->set('Content-Length: ' . filesize($filename));
         
         return $response->setContent(file_get_contents($filename));
     }
