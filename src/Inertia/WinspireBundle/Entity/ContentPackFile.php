@@ -180,29 +180,6 @@ class ContentPackFile
     }
 
     /**
-     * Set contentVersion
-     *
-     * @param \Inertia\WinspireBundle\Entity\ContentVersion $contentVersion
-     * @return ContentPackFile
-     */
-    public function setContentVersion(\Inertia\WinspireBundle\Entity\ContentVersion $contentVersion = null)
-    {
-        $this->contentVersion = $contentVersion;
-    
-        return $this;
-    }
-
-    /**
-     * Get contentVersion
-     *
-     * @return \Inertia\WinspireBundle\Entity\ContentVersion 
-     */
-    public function getContentVersion()
-    {
-        return $this->contentVersion;
-    }
-
-    /**
      * Set contentPackVersion
      *
      * @param \Inertia\WinspireBundle\Entity\ContentPackVersion $contentPackVersion
