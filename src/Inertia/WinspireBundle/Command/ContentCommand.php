@@ -210,7 +210,6 @@ echo "Name:               " . zip_entry_name($zip_entry) . "\n";
                     
                     zip_entry_close($zip_entry);
                 }
-echo "\n";
             }
             zip_close($zip);
         }
