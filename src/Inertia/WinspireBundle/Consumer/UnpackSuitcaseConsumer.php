@@ -37,10 +37,15 @@ class UnpackSuitcaseConsumer implements ConsumerInterface
 //            throw $this->createNotFoundException();
         }
         
+        $name = $suitcase->getUser()->getFirstName() . ' ' .
+            $suitcase->getUser()->getLastName();
+        
+        $email = $suitcase->getUser()->getEmail();
+        
         $message = \Swift_Message::newInstance()
             ->setSubject('Please confirm changes to your Suitcase')
-            ->setFrom('notice@winspireme.com')
-            ->setTo($suitcase->getUser()->getEmail())
+            ->setFrom(array('notice@winspireme.com' => 'Winspire'))
+            ->setTo(array($email => $name))
             ->setBody(
                 $this->templating->render(
                     'InertiaWinspireBundle:Email:suitcase-unpacked.html.twig',

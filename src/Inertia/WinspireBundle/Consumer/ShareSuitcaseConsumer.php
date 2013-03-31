@@ -39,7 +39,7 @@ class ShareSuitcaseConsumer implements ConsumerInterface
         
         $message = \Swift_Message::newInstance()
             ->setSubject('You have been invited to view a Suitcase')
-            ->setFrom('notice@winspireme.com')
+            ->setFrom(array('notice@winspireme.com' => 'Winspire'))
             ->setTo(array($share->getEmail() => $share->getName()))
             ->setBody(
                 $this->templating->render(

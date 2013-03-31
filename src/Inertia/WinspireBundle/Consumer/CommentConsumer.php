@@ -44,7 +44,7 @@ class CommentConsumer implements ConsumerInterface
         
         $message = \Swift_Message::newInstance()
             ->setSubject('New Comment in your Suitcase')
-            ->setFrom('notice@winspireme.com')
+            ->setFrom(array('notice@winspireme.com' => 'Winspire'))
             ->setTo(array($email => $name))
             ->setBody(
                 $this->templating->render(

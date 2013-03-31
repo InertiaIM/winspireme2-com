@@ -96,7 +96,7 @@ class ContactConsumer implements ConsumerInterface
         // Email to the user
         $message = \Swift_Message::newInstance()
             ->setSubject('We\'ve received your message')
-            ->setFrom('notice@winspireme.com')
+            ->setFrom(array('notice@winspireme.com' => 'Winspire'))
             ->setTo(array($email => $name))
             ->setBody(
                 $this->templating->render(

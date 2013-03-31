@@ -37,10 +37,15 @@ class CreateSuitcaseConsumer implements ConsumerInterface
 //            throw $this->createNotFoundException();
         }
         
+        $name = $suitcase->getUser()->getFirstName() . ' ' .
+            $suitcase->getUser()->getLastName();
+        
+        $email = $suitcase->getUser()->getEmail();
+        
         $message = \Swift_Message::newInstance()
             ->setSubject('Welcome to Winspire!')
-            ->setFrom('notice@winspireme.com')
-            ->setTo($suitcase->getUser()->getEmail())
+            ->setFrom(array('notice@winspireme.com' => 'Winspire'))
+            ->setTo(array($email => $name))
             ->setBody(
                 $this->templating->render(
                     'InertiaWinspireBundle:Email:create-suitcase-welcome.html.twig',
