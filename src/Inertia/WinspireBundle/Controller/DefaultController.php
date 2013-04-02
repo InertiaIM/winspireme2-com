@@ -24,6 +24,25 @@ class DefaultController extends Controller
         );
     }
     
+    public function lovedByAction()
+    {
+        $em = $this->getDoctrine()->getManager();
+        $clientLogos = $em->getRepository('InertiaWinspireBundle:ClientLogo')->findAll();
+        
+        $keys = array_rand($clientLogos, 5);
+        
+        $temp = array();
+        foreach($keys as $key) {
+            $temp[] = $clientLogos[$key];
+        }
+        
+        return $this->render('InertiaWinspireBundle:Default:lovedBy.html.twig',
+            array(
+                'clientLogos' => $temp
+            )
+        );
+    }
+    
     public function packageListAction($slug)
     {
         $session = $this->getRequest()->getSession();

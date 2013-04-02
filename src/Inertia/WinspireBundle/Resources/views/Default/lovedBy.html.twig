@@ -1,0 +1,8 @@
+            <div id="home-f-loved">
+                <img src="/img/home-lovedby.png" alt="Loved By..." width="180" height="82"/>
+                <ul id="loved-by">
+{% for logo in clientLogos %}
+                    <li title="{{ logo.name }}"><img src="/uploads/client-logos/{{ logo.filename }}" alt="{{ logo.name }}" title="{{ logo.name }}" width="150" height="82"/></li>
+{% endfor %}
+                </ul>
+            </div>

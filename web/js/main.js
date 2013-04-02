@@ -83,6 +83,7 @@ var footerCtx = $('footer')[0];
     });
     /* Home Banner */
     
+    
     /* Client Icons */
     $('#loved-by li').each(function() {
         // Replace the images with background layers
@@ -93,140 +94,15 @@ var footerCtx = $('footer')[0];
         $(image).replaceWith('<div class="bw" style="background-image:url(' + imageSrc  + ');">&nbsp;</div><div class="color" style="background-image:url(' + imageSrc + ');">&nbsp;</div>');
     });
     
-    var loved = new Carousel($('#loved-by'), {
-        behavior: {
-            circular: true,
-            autoplay: 0,
-            keyboardNav: false
-        },
-        elements: {
-            prevNext: false,
-            handles: false,
-            counter: false
-        },
-        visibleSlides: 5
-    });
-    loved.init();
-    
-    // TODO clean these up
-    // globals are evil
-    var speed = 0;
-    var forward = true;
-    var mode = 'stop';
-    var interval = 0;
-    
-    $('#home-f-loved .carousel-container').on('mousemove', function(e) {
-        var location = Math.ceil(e.pageX - $(this).offset().left);
-        if(location < 0) location = 0;
-        if(location > 750) location = 750;
-        
-        var newSpeed = 0;
-        
-        if(location <= 300) {
-            forward = false;
-            newSpeed = Math.ceil((1 - (location/300)) * 10);
-        }
-        
-        if(location >= 450) {
-            forward = true;
-            newSpeed = Math.ceil(((location - 450) / 300) * 10);
-        }
-        
-        if(speed != newSpeed) {
-            speed = newSpeed;
-            interval = Math.ceil(((-1000 / 9) * (speed - 1)) + 1800);
-            
-            if(forward && speed != 0) {
-                if(mode != 'forward') {
-                    mode = 'forward';
-                    goForward();
-                }
-            }
-            
-            if(!forward && speed != 0) {
-                if(mode != 'back') {
-                    mode = 'back';
-                    goBack();
-                }
-            }
-            
-            if(speed == 0) {
-                goStop();
-            }
-        }
+    $('#home-f-loved li').on('mouseleave', function(e) {
+        $(this).find('.color').stop(true, true).fadeOut(200);
+        $(this).find('.bw').stop(true, true).fadeIn(200);
     });
     
-    $('#home-f-loved .carousel-container').on('mouseleave', function(e) {
-        goStop();
-        colorTrigger('off');
+    $('#home-f-loved li').on('mouseenter', function(e) {
+        $(this).find('.bw').stop(true, true).fadeOut(200);
+        $(this).find('.color').stop(true, true).fadeIn(200);
     });
-    
-    $('#home-f-loved .carousel-container').on('mouseenter', function(e) {
-        colorTrigger('on');
-    });
-    
-    function colorTrigger(type) {
-        var index = 2;
-        var delay = (interval / 2);
-        
-        if (mode == 'back') {
-            delay = 0;
-        }
-        
-        if(type == 'on') {
-        $('#loved-by li').each(function(i) {
-            if(index == i) {
-                $(this).find('.bw').delay(delay).fadeOut(200);
-                $(this).find('.color').delay(delay).fadeIn(200);
-            }
-            else {
-                $(this).find('.color').delay(delay).fadeOut(200);
-                $(this).find('.bw').delay(delay).fadeIn(200);
-            }
-        });
-        }
-        else {
-            $('#loved-by li').each(function(i) {
-                $(this).find('.color').fadeOut(200);
-                $(this).find('.bw').fadeIn(200);
-            });
-        }
-    }
-    
-    function goBack() {
-        if(speed != 0) {
-            $('#loved-by').css({left: '-150px'});
-            $('#loved-by').prepend($('#loved-by li:last-child').detach());
-            
-            colorTrigger('on');
-            
-            $('#loved-by').animate({left: '0'}, interval, 'linear', function() {
-                goBack();
-            });
-        }
-    }
-    
-    function goForward() {
-        if(speed != 0) {
-            $('#loved-by').css({left: '150px'});
-            $('#loved-by').append($('#loved-by li:first-child').detach());
-            
-            colorTrigger('on');
-            
-            $('#loved-by').animate({left: '0'}, interval, 'linear', function() {
-                goForward();
-            });
-        }
-    }
-    
-    function goStop() {
-        var remainder = (150 - Math.abs(Math.ceil($('#loved-by').position().left))) / 150;
-        
-        $('#loved-by').stop(true, false).animate({left: '0'}, Math.ceil(interval * remainder), 'linear');
-        speed = 0;
-        interval = 0;
-        mode = 'stop';
-    }
     /* Client Icons */
     
     
