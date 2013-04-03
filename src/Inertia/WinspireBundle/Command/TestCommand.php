@@ -26,7 +26,7 @@ class TestCommand extends ContainerAwareCommand
         $output->writeln('<info>retrieving SF objects...</info>');
         
         
-        $id = '01t70000004OEWEAA4';
+        $id = '01t70000004OdOeAAK';
         
         
         
@@ -76,10 +76,10 @@ class TestCommand extends ContainerAwareCommand
         
         
 echo count($packageResult);
+//print_r($packageResult);
+        foreach($packageResult as $c) {
         
-//        foreach($packageResult as $c) {
-//        
-//print_r($c);
-//        }
+print_r($c);
+        }
     }
 }
