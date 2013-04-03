@@ -270,6 +270,9 @@ fwrite($dump, print_r($notifications, true));
                 
                 $this->logger->info('Package saved...');
             }
+            else {
+                $this->logger->info('Package doesn\'t meet the criteria');
+            }
         }
         
         return array('Ack' => true);
