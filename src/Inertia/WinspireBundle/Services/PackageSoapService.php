@@ -99,6 +99,9 @@ fwrite($dump, print_r($notifications, true));
         
         $this->logger->info(print_r($packageResult, true));
         
+        $this->logger->info('wtf2');
+        
+        
         // TODO why do we have to use iterator when we only want a single Package
         foreach ($packageResult as $p) {
             $this->logger->info(print_r($p, true));
