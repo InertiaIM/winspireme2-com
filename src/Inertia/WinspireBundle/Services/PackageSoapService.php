@@ -90,7 +90,7 @@ fwrite($dump, print_r($notifications, true));
         if(!$package) {
             // New package, not in our database yet
             $this->logger->info('New package to be added');
-            $package = new Package();
+//            $package = new Package();
         }
         else {
             // Package already exists, just update
