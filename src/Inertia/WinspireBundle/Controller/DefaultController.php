@@ -412,8 +412,72 @@ class DefaultController extends Controller
         
         
         if($env == 'prod') {
-            require('/var/www/blog.winspireme.com/wp-blog-header.php');
+            if(!defined('SHORTINIT')) {
+                define('SHORTINIT', true);
+            }
+            
+            define('WP_USE_THEMES', false);
+            define('ABSPATH', '/var/www/blog.winspireme.com/');
+            
+            // Default load
+            require( ABSPATH . 'wp-config.php' );
+            
+            // Loading code from wp-settings after SHORTINIT
+            require( ABSPATH . WPINC . '/l10n.php' );
+            require( ABSPATH . WPINC . '/formatting.php' );
+            require( ABSPATH . WPINC . '/capabilities.php' );
+            require( ABSPATH . WPINC . '/query.php' );
+            require( ABSPATH . WPINC . '/user.php' );
+            require( ABSPATH . WPINC . '/meta.php' );
+            require( ABSPATH . WPINC . '/general-template.php' );
+            require( ABSPATH . WPINC . '/link-template.php' );
+            require( ABSPATH . WPINC . '/post.php' );
+            require( ABSPATH . WPINC . '/comment.php' );
+            require( ABSPATH . WPINC . '/rewrite.php' );
+            require( ABSPATH . WPINC . '/script-loader.php' );
+            require( ABSPATH . WPINC . '/theme.php' ); 
+            require( ABSPATH . WPINC . '/taxonomy.php' );
+            
+            create_initial_taxonomies();
+            create_initial_post_types();
+            
+            require( ABSPATH . WPINC . '/pluggable.php' );
+            
+            wp_set_internal_encoding();
+            wp_functionality_constants( );
+            
+            $GLOBALS['wp_the_query'] =& new \WP_Query();
+            $GLOBALS['wp_query'] =& $GLOBALS['wp_the_query'];
+            $GLOBALS['wp_rewrite'] =& new \WP_Rewrite();
+            $GLOBALS['wp'] =& new \WP();
+            $GLOBALS['wp']->init();
+            
             $wpPost = get_posts(array('cat' => 230, 'showposts' => 1));
+            
+            $args = array(
+                'post_type' => 'attachment',
+                'numberposts' => -1,
+                'post_parent' => $wpPost[0]->ID
+            );
+            $attachments = get_posts($args);
+            if ($attachments) {
+                foreach ( $attachments as $attachment ) {
+print_r($attachment);
+//                    echo apply_filters( 'the_title' , $attachment->post_title );
+//                    the_attachment_link( $attachment->ID , false );
+                }
+            }
+            
+            $posts[] = array(
+                'image' => '',
+                'title' => $wpPost[0]->post_title,
+                'link' => 'http://winspireme.com/blog/' . $wpPost[0]->post_name,
+                'date' => new \DateTime($wpPost[0]->post_date)
+            ); 
+            
+            
+//            $wpPost = get_posts(array('cat' => 233, 'showposts' => 1));
+            
             
 //print_r($wpPost);
         }
