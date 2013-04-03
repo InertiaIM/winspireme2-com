@@ -74,6 +74,9 @@ fwrite($dump, print_r($notifications, true));
         );
         
         
+        
+        $this->logger->info(print_r($packageResult, true));
+        
         // If we don't receive a Package, then it doesn't meet the criteria
         if(count($packageResult) == 0) {
             $this->logger->info('Package doesn\'t meet the criteria');
