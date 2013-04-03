@@ -456,7 +456,7 @@ class DefaultController extends Controller
             
             $args = array(
                 'post_type' => 'attachment',
-                'numberposts' => 1,
+                'numberposts' => -1,
                 'post_parent' => $wpPost[0]->ID,
                 'meta_query' => array(
                     array(
@@ -466,7 +466,7 @@ class DefaultController extends Controller
                 )
             );
             $attachments = get_posts($args);
-            
+print_r($attachments);
             if ($attachments) {
                 $attachment = $attachments[0];
 //                foreach ( $attachments as $attachment ) {
