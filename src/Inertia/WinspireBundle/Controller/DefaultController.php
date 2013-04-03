@@ -446,10 +446,10 @@ class DefaultController extends Controller
             wp_set_internal_encoding();
             wp_functionality_constants( );
             
-            $GLOBALS['wp_the_query'] =& new \WP_Query();
-            $GLOBALS['wp_query'] =& $GLOBALS['wp_the_query'];
-            $GLOBALS['wp_rewrite'] =& new \WP_Rewrite();
-            $GLOBALS['wp'] =& new \WP();
+            $GLOBALS['wp_the_query'] = new \WP_Query();
+            $GLOBALS['wp_query'] = $GLOBALS['wp_the_query'];
+            $GLOBALS['wp_rewrite'] = new \WP_Rewrite();
+            $GLOBALS['wp'] = new \WP();
             $GLOBALS['wp']->init();
             
             $wpPost = get_posts(array('cat' => 230, 'showposts' => 1));
