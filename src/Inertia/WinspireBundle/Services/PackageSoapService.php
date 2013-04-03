@@ -250,7 +250,7 @@ fwrite($dump, print_r($notifications, true));
                 
                 $pricebookEntry = $pricebookResult->first();
                 $package->setSfPricebookEntryId($pricebookEntry->Id);
-                $package->setCose($pricebookEntry->UnitPrice);
+                $package->setCost($pricebookEntry->UnitPrice);
                 
                 
                 $this->em->persist($package);
