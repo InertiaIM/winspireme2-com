@@ -454,34 +454,34 @@ class DefaultController extends Controller
             
             $wpPost = get_posts(array('cat' => 230, 'showposts' => 1));
             
-//            $args = array(
-//                'post_type' => 'attachment',
-//                'numberposts' => -1,
-//                'post_parent' => $wpPost[0]->ID
+            $args = array(
+                'post_type' => 'attachment',
+                'numberposts' => -1,
+                'post_parent' => $wpPost[0]->ID
 //                'meta_query' => array(
 //                    array(
 //                        'key' => 'width',
 //                        'value' => '160',
 //                    )
 //                )
-//            );
+            );
             
             
-            $thumbnails = wp_get_attachment_image_src(get_post_thumbnail_id($wpPost[0]->ID), 'thumbnail');
+//            $thumbnails = wp_get_attachment_image_src(get_post_thumbnail_id($wpPost[0]->ID), 'thumbnail');
             
-//            $attachments = get_posts($args);
+            $thumbnails = get_posts($args);
 //print_r($attachments);
-            if ($attachments) {
-                $attachment = $thumbnails[0];
+//            if ($attachments) {
+//                $attachment = $thumbnails[0];
 //                foreach ( $attachments as $attachment ) {
 //print_r($attachment);
 ////                    echo apply_filters( 'the_title' , $attachment->post_title );
 ////                    the_attachment_link( $attachment->ID , false );
 //                }
-            }
+//            }
             
             $posts[] = array(
-                'image' => $attachment->guid,
+                'image' => $thumbnails[0],
                 'title' => $wpPost[0]->post_title,
                 'link' => 'http://winspireme.com/blog/' . $wpPost[0]->post_name,
                 'date' => new \DateTime($wpPost[0]->post_date)
