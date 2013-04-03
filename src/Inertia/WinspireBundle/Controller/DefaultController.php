@@ -461,7 +461,7 @@ class DefaultController extends Controller
             $wpPost1 = get_posts(array('cat' => 230, 'showposts' => 1));
             $wpPost2 = get_posts(array('cat' => 231, 'showposts' => 1));
             $wpPost3 = get_posts(array('cat' => 232, 'showposts' => 1));
-            $wpPost3 = get_posts(array('cat' => 233, 'showposts' => 1));
+            $wpPost4 = get_posts(array('cat' => 233, 'showposts' => 1));
             
             if(count($wpPost1) > 0) {
                 $image =  wp_get_attachment_image_src(get_post_thumbnail_id($wpPost1[0]->ID), array(160, 100)); 
