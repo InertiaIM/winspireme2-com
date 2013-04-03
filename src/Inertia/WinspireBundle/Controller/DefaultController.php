@@ -405,12 +405,11 @@ class DefaultController extends Controller
     public function wordpressAction()
     {
         $env = $this->container->getParameter('kernel.environment');
-        
         $posts = array();
         
         
-        
-        
+        // TODO Why is Wordpress such a nightmare?
+        // There has to be a shorter method for loading the Wordpress core.
         if($env == 'prod') {
             if(!defined('SHORTINIT')) {
                 define('SHORTINIT', true);
@@ -418,6 +417,7 @@ class DefaultController extends Controller
             
 //            define('WP_USE_THEMES', false);
             define('ABSPATH', '/var/www/blog.winspireme.com/');
+            define('WP_CONTENT_URL', 'http://winspireme.com/blog/wp-content');
             
             // Default load
             require( ABSPATH . 'wp-config.php' );
@@ -437,7 +437,12 @@ class DefaultController extends Controller
             require( ABSPATH . WPINC . '/script-loader.php' );
             require( ABSPATH . WPINC . '/theme.php' ); 
             require( ABSPATH . WPINC . '/taxonomy.php' );
+            require( ABSPATH . WPINC . '/class-wp-walker.php' );
+            require( ABSPATH . WPINC . '/category.php' );
             require( ABSPATH . WPINC . '/category-template.php' );
+            require( ABSPATH . WPINC . '/post-thumbnail-template.php' );
+            require( ABSPATH . WPINC . '/shortcodes.php' );
+            require( ABSPATH . WPINC . '/media.php' );
             
             create_initial_taxonomies();
             create_initial_post_types();
@@ -459,53 +464,44 @@ class DefaultController extends Controller
             $wpPost3 = get_posts(array('cat' => 233, 'showposts' => 1));
             
             if(count($wpPost1) > 0) {
+                $image =  wp_get_attachment_image_src(get_post_thumbnail_id($wpPost1[0]->ID), array(160, 100)); 
                 $posts[] = array(
-                    'image' => '',
+                    'image' => $image[0],
                     'title' => $wpPost1[0]->post_title,
                     'link' => get_permalink($wpPost1[0]->ID),
                     'date' => new \DateTime($wpPost1[0]->post_date)
                 );
             }
             
+            if(count($wpPost2) > 0) {
+                $image =  wp_get_attachment_image_src(get_post_thumbnail_id($wpPost2[0]->ID), array(160, 100));
+                $posts[] = array(
+                    'image' => $image[0],
+                    'title' => $wpPost2[0]->post_title,
+                    'link' => get_permalink($wpPost2[0]->ID),
+                    'date' => new \DateTime($wpPost2[0]->post_date)
+                );
+            }
             
+            if(count($wpPost3) > 0) {
+                $image =  wp_get_attachment_image_src(get_post_thumbnail_id($wpPost3[0]->ID), array(160, 100));
+                $posts[] = array(
+                    'image' => $image[0],
+                    'title' => $wpPost3[0]->post_title,
+                    'link' => get_permalink($wpPost3[0]->ID),
+                    'date' => new \DateTime($wpPost3[0]->post_date)
+                );
+            }
             
-            
-            
-            
-            
-//            $args = array(
-//                'post_type' => 'attachment',
-//                'numberposts' => -1,
-//                'post_parent' => $wpPost1[0]->ID
-//                'meta_query' => array(
-//                    array(
-//                        'key' => 'width',
-//                        'value' => '160',
-//                    )
-//                )
-//            );
-            
-            
-//            $thumbnails = wp_get_attachment_image_src(get_post_thumbnail_id($wpPost[0]->ID), 'thumbnail');
-            
-//            $thumbnails = get_posts($args);
-//print_r($attachments);
-//            if ($attachments) {
-//                $attachment = $thumbnails[0];
-//                foreach ( $attachments as $attachment ) {
-//print_r($attachment);
-////                    echo apply_filters( 'the_title' , $attachment->post_title );
-////                    the_attachment_link( $attachment->ID , false );
-//                }
-//            }
-//print_r($thumbnails[0]);
-
-            
-            
-//            $wpPost = get_posts(array('cat' => 233, 'showposts' => 1));
-            
-            
-//print_r($wpPost);
+            if(count($wpPost4) > 0) {
+                $image =  wp_get_attachment_image_src(get_post_thumbnail_id($wpPost4[0]->ID), array(160, 100));
+                $posts[] = array(
+                    'image' => $image[0],
+                    'title' => $wpPost4[0]->post_title,
+                    'link' => get_permalink($wpPost4[0]->ID),
+                    'date' => new \DateTime($wpPost4[0]->post_date)
+                );
+            }
         }
         else {
             // All non-production environments will load the sample posts
