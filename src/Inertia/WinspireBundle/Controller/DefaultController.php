@@ -437,6 +437,7 @@ class DefaultController extends Controller
             require( ABSPATH . WPINC . '/script-loader.php' );
             require( ABSPATH . WPINC . '/theme.php' ); 
             require( ABSPATH . WPINC . '/taxonomy.php' );
+            require( ABSPATH . WPINC . '/category-template.php' );
             
             create_initial_taxonomies();
             create_initial_post_types();
@@ -461,7 +462,7 @@ class DefaultController extends Controller
                 $posts[] = array(
                     'image' => '',
                     'title' => $wpPost1[0]->post_title,
-                    'link' => '',
+                    'link' => get_permalink($wpPost1[0]->ID),
                     'date' => new \DateTime($wpPost1[0]->post_date)
                 );
             }
