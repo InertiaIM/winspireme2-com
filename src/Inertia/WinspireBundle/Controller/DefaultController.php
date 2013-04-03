@@ -479,9 +479,9 @@ class DefaultController extends Controller
 ////                    the_attachment_link( $attachment->ID , false );
 //                }
 //            }
-            
+print_r($thumbnails[0]);
             $posts[] = array(
-                'image' => $thumbnails[0],
+                'image' => '',
                 'title' => $wpPost[0]->post_title,
                 'link' => 'http://winspireme.com/blog/' . $wpPost[0]->post_name,
                 'date' => new \DateTime($wpPost[0]->post_date)
