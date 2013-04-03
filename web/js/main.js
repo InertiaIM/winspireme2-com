@@ -377,7 +377,15 @@ var footerCtx = $('footer')[0];
                 $('.pd-a-add').removeClass('disabled');
             }
             
-            $('.srv-value').text($('#variant-holder #v' + newId).data('srv'));
+            
+            $('.srv-value').find('.up-to').remove();
+            if($('#variant-holder #v' + newId).data('upto')) {
+                $('.srv-value').text(' ' + $('#variant-holder #v' + newId).data('srv'));
+                $('.srv-value').prepend('<span class="up-to">Up to</span>');
+            }
+            else {
+                $('.srv-value').text($('#variant-holder #v' + newId).data('srv'));
+            }
             $('.npc-value').text($('#variant-holder #v' + newId).data('cost'));
             $('h3.name').text($('#variant-holder #v' + newId).data('name'));
             $('.pd-d-utilbar .pd-c-nightcount').text($('#variant-holder #v' + newId).data('accommodations'));
