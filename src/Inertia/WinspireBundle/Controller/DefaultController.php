@@ -461,7 +461,7 @@ class DefaultController extends Controller
                 $posts[] = array(
                     'image' => '',
                     'title' => $wpPost1[0]->post_title,
-                    'link' => get_permalink($wpPost1[0]->ID),
+                    'link' => '',
                     'date' => new \DateTime($wpPost1[0]->post_date)
                 );
             }
