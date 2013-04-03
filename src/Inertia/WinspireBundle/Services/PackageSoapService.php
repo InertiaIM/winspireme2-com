@@ -98,8 +98,6 @@ fwrite($dump, print_r($notifications, true));
         // TODO why do we have to use iterator when we only want a single Package
         foreach ($packageResult as $p) {
 $this->logger->info(print_r($p, true));
-
-
 //[Id] => 01t70000004OBcWAAW
 //[Best_Seller__c] => 1
 //[Content_PACK__c] => https://na5.salesforce.com/sfc/#version?selectedDocumentId=06970000000ap7X
@@ -126,6 +124,10 @@ $this->logger->info(print_r($p, true));
             if(isset($p->WEB_package_description__c) && $p->WEB_package_description__c != '') {
                 $package->setName($p->WEB_package_subtitle__c);
                 $package->setParentHeader($p->Parent_Header__c);
+                
+                
+                $this->logger->info('1');
+                
                 $package->setCode($p->ProductCode);
                 $package->setSfId($p->Id);
                 $package->setIsOnHome($p->Home_Page_view__c);
@@ -133,6 +135,10 @@ $this->logger->info(print_r($p, true));
                 $package->setIsNew($p->New_Item__c);
                 $package->setSeasonal($p->WEB_seasonal_pkg__c);
                 $package->setIsDefault($p->WEB_Default_version__c);
+                
+                
+                $this->logger->info('2');
+                
                 $package->setSuggestedRetailValue($p->Suggested_Retail_Value__c);
                 $package->setYearVersion($p->Year_Version__c);
                 
@@ -149,6 +155,10 @@ $this->logger->info(print_r($p, true));
                         $package->setMoreDetails(trim($details[1]));
                     }
                 }
+                
+                
+                $this->logger->info('3');
+                
                 
                 if(isset($p->Web_URL_slug__c)) {
                     $package->setSlug($p->Web_URL_slug__c);
