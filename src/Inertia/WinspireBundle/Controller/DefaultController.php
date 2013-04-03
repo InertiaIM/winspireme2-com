@@ -416,7 +416,7 @@ class DefaultController extends Controller
                 define('SHORTINIT', true);
             }
             
-            define('WP_USE_THEMES', false);
+//            define('WP_USE_THEMES', false);
             define('ABSPATH', '/var/www/blog.winspireme.com/');
             
             // Default load
@@ -461,7 +461,7 @@ class DefaultController extends Controller
                 $posts[] = array(
                     'image' => '',
                     'title' => $wpPost1[0]->post_title,
-                    'link' => '',
+                    'link' => get_permalink($wpPost1[0]->ID),
                     'date' => new \DateTime($wpPost1[0]->post_date)
                 );
             }
