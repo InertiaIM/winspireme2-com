@@ -284,20 +284,62 @@ footer, #footer { height:220px;border-top:1px solid rgb(195,213,224);
   background: linear-gradient(to bottom,  rgb(31,124,184) 0%,rgb(85,158,206) 31%,rgb(40,119,174) 100%); /* W3C */
 }
 
-#nav-social { width:400px;height:120px;position:relative;float:left;
-  .social-bg { position:absolute;top:-38px;left:-43px;z-index:1; }
-  #social-nav { position:relative;z-index:5;padding:30px 0 0 232px;
-    li { margin:0 3px;
-      a { border:1px solid @ws-white;background:@ws-silver;border-radius: 3px;-moz-border-radius: 3px;-webkit-border-radius: 3px;
-        width:30px;height:30px;color:@ws-darkblue;font-size:1.333em;text-align:center;line-height:34px;
-      
-        &:hover {
-          -webkit-box-shadow:  0px 0px 3px 1px rgba(0, 0, 0, .5);
-          box-shadow:  0px 0px 3px 1px rgba(0, 0, 0, .5);
-        }
-      }
+#nav-social {
+    width:400px;
+    height:120px;
+    position:relative;
+    float:left;
+    
+    .social-bg {
+        position:absolute;
+        top:-38px;
+        left:-43px;
+        z-index:1;
     }
-  }
+    
+    h5 {
+        position:absolute;
+        font-family:'ArchitectsDaughter';
+        font-weight:normal;
+        font-style:normal;
+        font-size:13px;
+        line-height:100%;
+        
+        color:#fff;
+        top:33px;
+        left:128px;
+        
+        text-shadow: 0px 1px 0px rgba(0, 0, 0, 0.3);
+    }
+    
+    #social-nav {
+        position:relative;
+        z-index:5;
+        padding:70px 0 0 46px;
+        
+        li {
+            margin:0 3px;
+            
+            a {
+                border:1px solid @ws-white;
+                background:@ws-silver;
+                border-radius: 3px;
+                -moz-border-radius: 3px;
+                -webkit-border-radius: 3px;
+                width:30px;
+                height:30px;
+                color:@ws-darkblue;
+                font-size:1.333em;
+                text-align:center;
+                line-height:34px;
+                
+                &:hover {
+                    -webkit-box-shadow:  0px 0px 3px 1px rgba(0, 0, 0, .5);
+                    box-shadow:  0px 0px 3px 1px rgba(0, 0, 0, .5);
+                }
+            }
+        }
+    }
 }
 
 #nav-sitemap { 
@@ -891,6 +933,18 @@ footer, #footer { height:220px;border-top:1px solid rgb(195,213,224);
         height:82px;
         position:relative;
         background:url('/img/home-lovedby-bbg.png') bottom center no-repeat transparent;
+        
+        h5 {
+            font-family:'ArchitectsDaughter';
+            font-weight:normal;
+            font-style:normal;
+            font-size:18px;
+            line-height:80px;
+            position:absolute;
+            top:0;
+            left:73px;
+            color:#cacaca;
+        }
         
         ul {
             width:750px;
