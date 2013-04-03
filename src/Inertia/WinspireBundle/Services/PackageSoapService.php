@@ -28,100 +28,94 @@ class PackageSoapService
 $dump = fopen('wtf.log', 'a');
 fwrite($dump, print_r($notifications, true));
         
-        $id = $notifications->Notification->sObject->Id;
-        
-        $this->logger->info('id: ' . $id);
-        
-        $packageResult = $this->sf->query('SELECT ' .
-            'Id, ' .
-            'Name, ' .
-            'ProductCode, ' .
-            'WEB_package_subtitle__c, ' .
-            'WEB_package_description__c, ' .
-            'Keyword_search__c, ' .
-            'Location__c, ' .
-            'Content_PACK__c, ' .
-            'Year_Version__c, ' .
-            'Suggested_Retail_Value__c, ' .
-            'Home_Page_view__c, ' .
-            'Package_Category_Pairings__c, ' .
-            'New_Item__c, ' .
-            'Best_Seller__c, ' .
-            'WEB_Default_version__c, ' .
-            'Parent_Header__c, ' .
-            'WEB_picture__c, ' .
-            'WEB_thumbnail__c, ' .
-            'WEB_picture_title__c, ' .
-            'Web_URL_slug__c, ' .
-            'WEB_seasonal_pkg__c, ' .
-            'WEB_meta_title__c, ' .
-            'WEB_meta_description__c, ' .
-            'WEB_meta_keywords__c, ' .
-            'WEB_Airfare_pax__c, ' .
-            'WEB_Nights__c, ' .
-            'WEB_Participants__c, ' .
-            'WEB_Recommendations__c, ' .
-            'OMIT_from_Winspire__c, ' .
-            '(SELECT Id, Name, UnitPrice FROM PricebookEntries WHERE Pricebook2Id = \'' . $this->pricebookId . '\') ' .
-            'FROM Product2 ' .
-            'WHERE ' .
-            'family = \'No-Risk Auction Package\' ' .
-            'AND IsActive = true ' .
-            'AND IsDeleted = false ' .
-            'AND WEB_package_subtitle__c != \'\' ' .
-            'AND Parent_Header__c != \'\' ' .
-            'AND Id = \''. $id . '\''
-        );
         
         
-        
-        
-        
-        // If we don't receive a Package, then it doesn't meet the criteria
-        if(count($packageResult) == 0) {
-            $this->logger->info('Package doesn\'t meet the criteria');
-            return array('Ack' => true);
+        if(!isset($notifications->Notification)) {
+            $this->logger->info('notification object is bogus');
+            exit;
         }
         
+        $ids = array();
         
-        // Test whether this package is already in our database
-        $package = $this->em->getRepository('InertiaWinspireBundle:Package')->findOneBySfId($id);
-        
-        if(!$package) {
-            // New package, not in our database yet
-            $this->logger->info('New package to be added');
-//            $package = new Package();
+        if(!is_array($notifications->Notification)) {
+            $ids[] = $notifications->Notification->sObject->Id;
         }
         else {
-            // Package already exists, just update
-            $this->logger->info('Existing package to be updated');
+            foreach($notifications->Notification as $n) {
+                $ids[] = $n->sObject->Id;
+            }
         }
         
-        
-        $this->logger->info('wtf');
-        //$this->logger->info(print_r($packageResult->current(), true));
-        $this->logger->info(print_r($packageResult, true));
-        $this->logger->info('wtf2');
-exit;
-        
-        // TODO why do we have to use iterator when we only want a single Package
-        foreach ($packageResult as $p) {
-            $this->logger->info(print_r($p, true));
+        foreach($ids as $id) {
+            $this->logger->info('id: ' . $id);
             
-            $this->logger->info('0');
+            $packageResult = $this->sf->query('SELECT ' .
+                'Id, ' .
+                'Name, ' .
+                'ProductCode, ' .
+                'WEB_package_subtitle__c, ' .
+                'WEB_package_description__c, ' .
+                'Keyword_search__c, ' .
+                'Location__c, ' .
+                'Content_PACK__c, ' .
+                'Year_Version__c, ' .
+                'Suggested_Retail_Value__c, ' .
+                'Home_Page_view__c, ' .
+                'Package_Category_Pairings__c, ' .
+                'New_Item__c, ' .
+                'Best_Seller__c, ' .
+                'WEB_Default_version__c, ' .
+                'Parent_Header__c, ' .
+                'WEB_picture__c, ' .
+                'WEB_thumbnail__c, ' .
+                'WEB_picture_title__c, ' .
+                'Web_URL_slug__c, ' .
+                'WEB_seasonal_pkg__c, ' .
+                'WEB_meta_title__c, ' .
+                'WEB_meta_description__c, ' .
+                'WEB_meta_keywords__c, ' .
+                'WEB_Airfare_pax__c, ' .
+                'WEB_Nights__c, ' .
+                'WEB_Participants__c, ' .
+                'WEB_Recommendations__c, ' .
+                'OMIT_from_Winspire__c ' .
+                'FROM Product2 ' .
+                'WHERE ' .
+                'family = \'No-Risk Auction Package\' ' .
+                'AND IsActive = true ' .
+                'AND IsDeleted = false ' .
+                'AND WEB_package_subtitle__c != \'\' ' .
+                'AND Parent_Header__c != \'\' ' .
+                'AND Id = \''. $id . '\''
+            );
+            
+            // If we don't receive a Package, then it doesn't meet the criteria
+            if(count($packageResult) == 0) {
+                $this->logger->info('Package (' . $id . ') doesn\'t meet the criteria');
+                continue;
+            }
+            
+            
+            // Test whether this package is already in our database
+            $package = $this->em->getRepository('InertiaWinspireBundle:Package')->findOneBySfId($id);
+            
+            if(!$package) {
+                // New package, not in our database yet
+                $this->logger->info('New package (' . $id . ') to be added');
+                $package = new Package();
+            }
+            else {
+                // Package already exists, just update
+                $this->logger->info('Existing package (' . $id . ') to be updated');
+            }
+            
+            
+            $p = $packageResult->first();
             
             // For now, only sync if there is a description available
             if(isset($p->WEB_package_description__c) && $p->WEB_package_description__c != '') {
-                $this->logger->info('1');
-                
-                
-                
                 $package->setName($p->WEB_package_subtitle__c);
                 $package->setParentHeader($p->Parent_Header__c);
-                
-                
-                $this->logger->info('1');
-                
                 $package->setCode($p->ProductCode);
                 $package->setSfId($p->Id);
                 $package->setIsOnHome($p->Home_Page_view__c);
@@ -129,10 +123,6 @@ exit;
                 $package->setIsNew($p->New_Item__c);
                 $package->setSeasonal($p->WEB_seasonal_pkg__c);
                 $package->setIsDefault($p->WEB_Default_version__c);
-                
-                
-                $this->logger->info('2');
-                
                 $package->setSuggestedRetailValue($p->Suggested_Retail_Value__c);
                 $package->setYearVersion($p->Year_Version__c);
                 
@@ -149,10 +139,6 @@ exit;
                         $package->setMoreDetails(trim($details[1]));
                     }
                 }
-                
-                
-                $this->logger->info('3');
-                
                 
                 if(isset($p->Web_URL_slug__c)) {
                     $package->setSlug($p->Web_URL_slug__c);
@@ -246,36 +232,29 @@ exit;
                 }
                 
                 
-                $priceCounter = 0;
+                $this->logger->info('Starting pricebook lookup...');
                 
-                $this->logger-info('Entering pricebook...');
+                $pricebookResult = $this->sf->query('SELECT ' .
+                    'Id, ' .
+                    'Name, ' .
+                    'UnitPrice ' .
+                    'FROM PricebookEntry ' .
+                    'WHERE Pricebook2Id = \'' . $this->pricebookId . '\' ' .
+                    'AND Product2Id = \'' . $id . '\''
+                );
                 
-                if(isset($p->PricebookEntries)) {
-                    
-                    $this->logger-info('Inside pricebook...');
-                    
-                    foreach ($p->PricebookEntries as $price) {
-                        
-                        $this->logger-info('Looping pricebook...');
-                        $package->setCost($price->UnitPrice);
-                        $package->setSfPricebookEntryId($price->Id);
-                        $priceCounter++;
-                    }
-                }
-                else {
-                    // No prices available, so we're not saving this Package
+                if(count($pricebookResult) < 1) {
+                    $this->logger->info('No prices available, so we\'re not saving this Package');
                     continue;
                 }
                 
-                if($priceCounter > 1) {
-//                    $output->writeln('<error>Too many prices available...</error>');
-                }
-                
+                $pricebookEntry = $pricebookResult->first();
+                $package->setSfPricebookEntryId($pricebookEntry->Id);
+                $package->setCose($pricebookEntry->UnitPrice);
                 
                 
                 $this->em->persist($package);
                 $this->em->flush();
-                
                 
                 $this->logger->info('Package saved...');
             }
