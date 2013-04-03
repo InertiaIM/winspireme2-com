@@ -96,9 +96,7 @@ fwrite($dump, print_r($notifications, true));
         
         
         $this->logger->info('wtf');
-        
-        $this->logger->info(print_r($packageResult, true));
-        
+        //$this->logger->info(print_r($packageResult, true));
         $this->logger->info('wtf2');
         
         
