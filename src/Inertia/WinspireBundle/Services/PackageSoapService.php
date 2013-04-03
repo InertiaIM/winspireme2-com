@@ -97,6 +97,7 @@ fwrite($dump, print_r($notifications, true));
         
         // TODO why do we have to use iterator when we only want a single Package
         foreach ($packageResult as $p) {
+print_r($p);
             // For now, only sync if there is a description available
             if(isset($p->WEB_package_description__c) && $p->WEB_package_description__c != '') {
                 $package->setName($p->WEB_package_subtitle__c);
