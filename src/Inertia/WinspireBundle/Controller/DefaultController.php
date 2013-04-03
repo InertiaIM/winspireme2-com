@@ -452,24 +452,42 @@ class DefaultController extends Controller
             $GLOBALS['wp'] = new \WP();
             $GLOBALS['wp']->init();
             
-            $wpPost = get_posts(array('cat' => 230, 'showposts' => 1));
+            $wpPost1 = get_posts(array('cat' => 230, 'showposts' => 1));
+            $wpPost2 = get_posts(array('cat' => 231, 'showposts' => 1));
+            $wpPost3 = get_posts(array('cat' => 232, 'showposts' => 1));
+            $wpPost3 = get_posts(array('cat' => 233, 'showposts' => 1));
             
-            $args = array(
-                'post_type' => 'attachment',
-                'numberposts' => -1,
-                'post_parent' => $wpPost[0]->ID
+            if(count($wpPost1) > 0) {
+                $posts[] = array(
+                    'image' => get_the_post_thumbnail($wpPost1[0]->ID, array(160, 100)),
+                    'title' => $wpPost1[0]->post_title,
+                    'link' => get_permalink($wpPost1[0]->ID),
+                    'date' => new \DateTime($wpPost1[0]->post_date)
+                );
+            }
+            
+            
+            
+            
+            
+            
+            
+//            $args = array(
+//                'post_type' => 'attachment',
+//                'numberposts' => -1,
+//                'post_parent' => $wpPost1[0]->ID
 //                'meta_query' => array(
 //                    array(
 //                        'key' => 'width',
 //                        'value' => '160',
 //                    )
 //                )
-            );
+//            );
             
             
 //            $thumbnails = wp_get_attachment_image_src(get_post_thumbnail_id($wpPost[0]->ID), 'thumbnail');
             
-            $thumbnails = get_posts($args);
+//            $thumbnails = get_posts($args);
 //print_r($attachments);
 //            if ($attachments) {
 //                $attachment = $thumbnails[0];
@@ -480,12 +498,7 @@ class DefaultController extends Controller
 //                }
 //            }
 //print_r($thumbnails[0]);
-            $posts[] = array(
-                'image' => $thumbnails[0]->guid,
-                'title' => $wpPost[0]->post_title,
-                'link' => 'http://winspireme.com/blog/' . $wpPost[0]->post_name,
-                'date' => new \DateTime($wpPost[0]->post_date)
-            ); 
+
             
             
 //            $wpPost = get_posts(array('cat' => 233, 'showposts' => 1));
