@@ -401,6 +401,62 @@ class DefaultController extends Controller
         );
     }
     
+    
+    public function wordpressAction()
+    {
+        $env = $this->container->getParameter('kernel.environment');
+        
+        $posts = array();
+        
+        
+        
+        
+        if($env == 'prod') {
+            require('/var/www/blog.winspireme.com/wp-blog-header.php');
+            $wpPost = get_posts(array('cat' => 230, 'showposts' => 1));
+            
+//print_r($wpPost);
+        }
+        else {
+            // All non-production environments will load the sample posts
+            $posts[] = array(
+                'image' => '/img/home-ln-placeholder-1.png',
+                'title' => 'An Open Plea to Hold Better Events',
+                'link' => '#',
+                'date' => new \DateTime('October 24, 2012')
+            );
+            
+            $posts[] = array(
+                'image' => '/img/home-ln-placeholder-2.png',
+                'title' => '6 Ways to Engage with Millenials',
+                'link' => '#',
+                'date' => new \DateTime('July 26, 2012')
+            );
+            
+            $posts[] = array(
+                'image' => '/img/home-ln-placeholder-3.png',
+                'title' => 'How Social Media & Fundraising Fit Together',
+                'link' => '#',
+                'date' => new \DateTime('August 15, 2012')
+            );
+            
+            $posts[] = array(
+                'image' => '/img/home-ln-placeholder-4.png',
+                'title' => 'Expensive Travels',
+                'link' => '#',
+                'date' => new \DateTime('July 26, 2012')
+            );
+        }
+        
+        
+        return $this->render('InertiaWinspireBundle:Default:wordpress.html.twig',
+            array(
+                'posts' => $posts
+            )
+        );
+    }
+    
+    
     protected function getSuitcase()
     {
         $em = $this->getDoctrine()->getManager();
