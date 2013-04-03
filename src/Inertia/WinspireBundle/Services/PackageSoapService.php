@@ -3,6 +3,7 @@ namespace Inertia\WinspireBundle\Services;
 
 use Ddeboer\Salesforce\ClientBundle\Client;
 use Doctrine\ORM\EntityManager;
+use Inertia\WinspireBundle\Entity\Package;
 use Symfony\Bridge\Monolog\Logger;
 
 class PackageSoapService
