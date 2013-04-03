@@ -454,21 +454,25 @@ class DefaultController extends Controller
             
             $wpPost = get_posts(array('cat' => 230, 'showposts' => 1));
             
-            $args = array(
-                'post_type' => 'attachment',
-                'numberposts' => -1,
-                'post_parent' => $wpPost[0]->ID,
-                'meta_query' => array(
-                    array(
-                        'key' => 'width',
-                        'value' => '160',
-                    )
-                )
-            );
-            $attachments = get_posts($args);
-print_r($attachments);
+//            $args = array(
+//                'post_type' => 'attachment',
+//                'numberposts' => -1,
+//                'post_parent' => $wpPost[0]->ID
+//                'meta_query' => array(
+//                    array(
+//                        'key' => 'width',
+//                        'value' => '160',
+//                    )
+//                )
+//            );
+            
+            
+            $thumbnails = wp_get_attachment_image_src(get_post_thumbnail_id($wpPost[0]->ID), 'thumbnail');
+            
+//            $attachments = get_posts($args);
+//print_r($attachments);
             if ($attachments) {
-                $attachment = $attachments[0];
+                $attachment = $thumbnails[0];
 //                foreach ( $attachments as $attachment ) {
 //print_r($attachment);
 ////                    echo apply_filters( 'the_title' , $attachment->post_title );
