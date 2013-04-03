@@ -459,7 +459,7 @@ class DefaultController extends Controller
             
             if(count($wpPost1) > 0) {
                 $posts[] = array(
-                    'image' => get_the_post_thumbnail($wpPost1[0]->ID, array(160, 100)),
+                    'image' => '',
                     'title' => $wpPost1[0]->post_title,
                     'link' => get_permalink($wpPost1[0]->ID),
                     'date' => new \DateTime($wpPost1[0]->post_date)
