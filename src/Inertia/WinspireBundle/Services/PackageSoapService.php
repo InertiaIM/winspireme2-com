@@ -98,6 +98,30 @@ fwrite($dump, print_r($notifications, true));
         // TODO why do we have to use iterator when we only want a single Package
         foreach ($packageResult as $p) {
 $this->logger->info(print_r($p, true));
+
+
+//[Id] => 01t70000004OBcWAAW
+//[Best_Seller__c] => 1
+//[Content_PACK__c] => https://na5.salesforce.com/sfc/#version?selectedDocumentId=06970000000ap7X
+//[Home_Page_view__c] =>
+//[Keyword_search__c] => luxury;Marriott
+//[Name] => JW Marriott Los Angeles L.A. LIVE 1-Night Stay for 2   ( 1742-2c )
+//[New_Item__c] =>
+//[OMIT_from_Winspire__c] => 1
+//[Package_Category_Pairings__c] => C0005;C0039
+//[Parent_Header__c] => JW Marriott L.A. LIVE
+//[ProductCode] => 1742-2c
+//[Suggested_Retail_Value__c] => Up to $459
+//[WEB_Default_version__c] =>
+//[WEB_Nights__c] => 1
+//[WEB_Participants__c] => 2
+//[WEB_package_subtitle__c] => 1-Night Stay at JW Marriott Los Angeles L.A. LIVE for 2
+//[WEB_picture__c] => 1742-1742_JW-Marriott-LA-LIVE-MAIN.jpg
+//[WEB_seasonal_pkg__c] =>
+//[WEB_thumbnail__c] => 1742-1742_JW-Marriott-LA-LIVE-THUMB.jpg
+//[Year_Version__c] => 2013
+
+
             // For now, only sync if there is a description available
             if(isset($p->WEB_package_description__c) && $p->WEB_package_description__c != '') {
                 $package->setName($p->WEB_package_subtitle__c);
@@ -219,8 +243,16 @@ $this->logger->info(print_r($p, true));
                 
                 
                 $priceCounter = 0;
+                
+                $this->logger-info('Entering pricebook...');
+                
                 if(isset($p->PricebookEntries)) {
+                    
+                    $this->logger-info('Inside pricebook...');
+                    
                     foreach ($p->PricebookEntries as $price) {
+                        
+                        $this->logger-info('Looping pricebook...');
                         $package->setCost($price->UnitPrice);
                         $package->setSfPricebookEntryId($price->Id);
                         $priceCounter++;
