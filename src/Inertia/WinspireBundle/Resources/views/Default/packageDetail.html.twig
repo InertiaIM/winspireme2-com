@@ -49,7 +49,7 @@
                                         {% if variant.airfares %}<li><span aria-hidden="true" class="icon-airplane icon"></span> <span class="pd-c-airfare">{{ variant.airfares }}</span></li>{% endif %}
                                     </ul>
 {%         endif %}
-                                    <p>{{ variant.name }} ({{ package.code }})</p>
+                                    <p>{{ variant.name }} ({{ variant.code }})</p>
                                 </div>
                             </label>
                         </li>
@@ -125,7 +125,7 @@
 {% if variants | length > 1 %}
 <div id="variant-holder">
 {%     for variant in variants %}
-    <div id="v{{ variant.id }}" data-id="{{ variant.id }}" data-persons="{{ variant.persons }}" data-accommodations="{{ variant.accommodations }}" data-airfares="{{ variant.airfares }}" data-name="{{ variant.name }} ({{ package.code }})" data-upto="{% if 'up to' in variant.suggestedRetailValue | lower %}true{% else %}false{% endif %}" data-srv="{{ variant.suggestedRetailValue | replace({'Up to ': '', 'up to ': '', 'Up To ': ''}) }}" data-cost="${{ variant.cost | number_format(0) }}">
+    <div id="v{{ variant.id }}" data-id="{{ variant.id }}" data-persons="{{ variant.persons }}" data-accommodations="{{ variant.accommodations }}" data-airfares="{{ variant.airfares }}" data-name="{{ variant.name }} ({{ variant.code }})" data-upto="{% if 'up to' in variant.suggestedRetailValue | lower %}true{% else %}false{% endif %}" data-srv="{{ variant.suggestedRetailValue | replace({'Up to ': '', 'up to ': '', 'Up To ': ''}) }}" data-cost="${{ variant.cost | number_format(0) }}">
         <div class="detail">{{ variant.details | raw }}</div>
         <div class="more-detail">{{ variant.moreDetails | raw}}</div>
     </div>
