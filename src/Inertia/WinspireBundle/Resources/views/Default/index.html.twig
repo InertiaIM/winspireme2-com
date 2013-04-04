@@ -202,18 +202,9 @@
     <div id="home-footer">
         <div class="c-wrap">
 {% render "InertiaWinspireBundle:Default:lovedBy" %}
-            
-            <div id="home-f-testimonials">
-                <h4>Testimonials</h4>
-                <div id="home-f-testimonial">
-                    <div id="home-testimonial">
-                        <a href="#"><img src="/img/home-testimonial-logo.png" alt=""/></a>
-                        <p class="t-quote"><span class="quote-mark"><span class="qm-start">&ldquo;</span></span>We could not have <strong>met our fundraising goals</strong> without the help of Winspire. Their team helped us pick experiences that seem to fit the taste of our donors perfectly.  In fact, <strong>we sold every single package</strong>, and some of them multiple times!<span class="quote-mark"><span class="qm-end">&rdquo;</span></span></p>
-                        <p class="t-quote-e">Bruce Fetter, <span class="e-title">C.E.O.</span></p>
-                        <div class="reset">&nbsp;</div>
-                    </div>
-                </div>
-            </div>
+
+{% render "InertiaWinspireBundle:Default:testimonial" %}
+
 {% render "InertiaWinspireBundle:Default:wordpress" %}
             
         </div>

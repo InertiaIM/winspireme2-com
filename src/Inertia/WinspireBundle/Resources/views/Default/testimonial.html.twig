@@ -1,0 +1,15 @@
+            <div id="home-f-testimonials">
+                <h4>Testimonials</h4>
+                <div id="home-f-testimonial">
+                    <div id="home-testimonial">
+                        <a href="{{ path('pageDisplay', {'slug': 'testimonials'}) }}"><img src="/uploads/testimonials/{{ testimonial.logo }}" alt="{{ testimonial.organization }}"/></a>
+                        <p class="t-quote"><span class="quote-mark"><span class="qm-start">&ldquo;</span></span>{{ testimonial.quote | raw }}<span class="quote-mark"><span class="qm-end">&rdquo;</span></span></p>
+{% if testimonial.name %}
+                        <p class="t-quote-e">{{ testimonial.name }}, <span class="e-title">{{ testimonial.title }}</span></p>
+{% else %}
+                        <p class="t-quote-e">{{ testimonial.organization }}</p>
+{% endif %}
+                        <div class="reset">&nbsp;</div>
+                    </div>
+                </div>
+            </div>

@@ -402,6 +402,21 @@ class DefaultController extends Controller
     }
     
     
+    public function testimonialAction()
+    {
+        $em = $this->getDoctrine()->getManager();
+        $testimonials = $em->getRepository('InertiaWinspireBundle:Testimonial')->findAll();
+        
+        $key = array_rand($testimonials, 1);
+        
+        return $this->render('InertiaWinspireBundle:Default:testimonial.html.twig',
+            array(
+                'testimonial' => $testimonials[$key]
+            )
+        );
+    }
+    
+    
     public function wordpressAction()
     {
         $env = $this->container->getParameter('kernel.environment');
