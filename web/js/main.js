@@ -80,6 +80,11 @@ var footerCtx = $('footer')[0];
             autoplay: true,
             interval: 10000
         });
+        
+        $('#home-banner .slide-wrapper .step').on('click', function(e) {
+            var url = $(this).find('a.primary').attr('href');
+            window.location = url;
+        });
     });
     /* Home Banner */
     
