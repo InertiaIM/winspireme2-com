@@ -880,14 +880,64 @@ footer, #footer { height:220px;border-top:1px solid rgb(195,213,224);
       margin:40px 0 30px 0;
       text-shadow: 0px 1px 1px #ffffff;
     }
-    #success-panels { display:table;margin:0 auto;
-      li { 
-        width:300px;display:inline-block;vertical-align:top;margin:0 15px;
-        img { width:300px;margin:0 0 15px 0; }
-        a { color:@ws-lightblue; &:hover { color:@ws-darkblue; } }
-        h4 { font-size:1.417em;margin:0 0 7px 0; }
-        p { font-size:0.875em;color:@ws-gray85;line-height:1.65em; }
-      }
+    #success-panels {
+        display:table;
+        margin:0 auto;
+        
+        li {
+            width:300px;
+            display:inline-block;
+            vertical-align:top;
+            padding:0 15px 35px 15px;
+            position:relative;
+            min-height:350px;
+            
+            img {
+                width:300px;
+                margin:0 0 15px 0;
+            }
+            
+            a {
+                color:@ws-lightblue;
+                
+                &:hover {
+                    color:@ws-darkblue;
+                }
+            }
+            
+            h4 {
+                font-size:1.417em;
+                margin:0 0 7px 0;
+            }
+            
+            p {
+                font-size:0.875em;
+                color:@ws-gray85;
+                line-height:1.65em;
+                
+                &.action {
+                    display:block;
+                    position:absolute;
+                    bottom:0;
+                    right:15px;
+                    text-align:right;
+                    
+                    a {
+                        color:@ws-burnorange;
+                        font-weight:bold;
+                        
+                        span {
+                            font-size:18px;
+                            vertical-align:middle;
+                        }
+                        
+                        &:hover {
+                            color:@ws-darkblue;
+                        }
+                    }
+                }
+            }
+        }
     }
   } /* End Home Success */
  

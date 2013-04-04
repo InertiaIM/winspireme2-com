@@ -6,9 +6,7 @@
 
 {% block content %}
 
-
 <div id="con-home">
-
     <!-- Banner & Slides -->
     <section id="home-banner" class="home-slideshow">
         <div class="slide-wrapper">
@@ -52,46 +50,45 @@
     </section>
     <!-- Banner & Slides -->
     
-	<!-- Experiences CTAs -->
-	<div id="home-experiences">
-		<div class="c-wrap">
-		
+    <!-- Experiences CTAs -->
+    <div id="home-experiences">
+        <div class="c-wrap">
+            
             <!-- Experiences & Featured Suitcases -->
             <div class="shadow-wrapper">
 {% render "InertiaWinspireBundle:Default:featuredPackages" %}
             </div>
             <!-- Experiences & Featured Suitcases -->
             
-			<!-- Success Panels -->
-			<div id="home-success">
-				
-				<h2>Winspire Simplifies Fundraising Success</h2>
-			
-				<!-- Panels -->
-				<div id="success-panels">
-					<ul>
-						<li>
-							<img src="/img/winspire-success-select-your-experiences.png" alt=""/>
-							<h4>Select Experiences.</h4>
-							<p>Choose from the largest selection of highly sought after, unique charity auction items for your fundraiser. Include any of them in your event at <a href="{{ path('pageDisplay', {'slug': 'faqs'}) }}#q1">No Risk</a> to your Nonprofit.</p>
-						</li>
-						<li>
-							<img src="/img/winspire-success-impress-your-donors.png" alt=""/>
-							<h4>Impress Your Donors.</h4>
-							<p>Winspire Experiences create the kind of “buzz” that drives up bidding and impresses donors. Work with our practiced Event Consultants who will help you find the most attractive items for your audience.</p>
-						</li>
-						<li>
-							<img src="/img/winspire-success-reap-the-rewards.png" alt=""/>
-							<h4>Reap the Rewards.</h4>
-							<p>After your event, we will make sure your Winning Bidders are well taken care of. Winspire has a team of experienced travel professionals to help them book their Experience down to every last detail.</p>
-						</li>
-					</ul>
-				</div>
-				<!-- Panels -->
-
-			</div>
-			<!-- Success Panels -->
-			
+            <!-- Success Panels -->
+            <div id="home-success">
+                <h2>Winspire Simplifies Fundraising Success</h2>
+                
+                <div id="success-panels">
+                    <ul>
+                        <li>
+                            <img src="/img/winspire-success-select-your-experiences.png" alt=""/>
+                            <h4>Select Experiences.</h4>
+                            <p>Choose from the largest selection of highly sought after, unique charity auction items for your fundraiser. Include any of them in your event at <a href="{{ path('pageDisplay', {'slug': 'faqs'}) }}#q1">No Risk</a> to your Nonprofit.</p>
+                            <p class="action"><a href="{{ path('packageList') }}">Select Experiences <span aria-hidden="true" class="icon-arrow-right"></span></a></p>
+                        </li>
+                        <li>
+                            <img src="/img/winspire-success-impress-your-donors.png" alt=""/>
+                            <h4>Impress Your Donors.</h4>
+                            <p>Winspire Experiences create the kind of “buzz” that drives up bidding and impresses donors. Work with our practiced Event Consultants who will help you find the most attractive items for your audience.</p>
+                            <p class="action"><a href="{{ path('pageDisplay', {'slug': 'why-winspire'}) }}">Impress Donors <span aria-hidden="true" class="icon-arrow-right"></span></a></p>
+                        </li>
+                        <li>
+                            <img src="/img/winspire-success-reap-the-rewards.png" alt=""/>
+                            <h4>Reap the Rewards.</h4>
+                            <p>After your event, we will make sure your Winning Bidders are well taken care of. Winspire has a team of experienced travel professionals to help them book their Experience down to every last detail.</p>
+                            <p class="action"><a href="{{ path('pageDisplay', {'slug': 'testimonials'}) }}">Reap the Rewards <span aria-hidden="true" class="icon-arrow-right"></span></a></p>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <!-- Success Panels -->
+            
             <!-- Stats Panels -->
             <div id="home-stats">
                 <!-- Panels -->
@@ -114,11 +111,9 @@
                 <!-- Panels -->
             </div>
             <!-- Stats Panels -->
-		
-		
-		</div>
-	</div>
-	<!-- Experiences CTAs -->
+        </div>
+    </div>
+    <!-- Experiences CTAs -->
     
     <div id="home-footer">
         <div class="c-wrap">
@@ -130,7 +125,5 @@
             
         </div>
     </div>
-
 </div>
-
 {% endblock %}
