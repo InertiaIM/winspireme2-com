@@ -8,6 +8,57 @@ use Symfony\Component\HttpFoundation\Response;
 
 class DefaultController extends Controller
 {
+    public function featuredPackagesAction()
+    {
+        $em = $this->getDoctrine()->getManager();
+        $query = $em->createQuery(
+            'SELECT p FROM InertiaWinspireBundle:Package p WHERE p.is_private != 1 ORDER BY p.parent_header ASC, p.is_default DESC'
+        );
+        
+        $packages = $query->getResult();
+        
+        // TODO this is too complex.  Break the Packages and Variants into
+        // separate entities to simplify the queries.
+        $defaultPackages = array();
+        $currentHeader = '';
+        $count = 0;
+        foreach($packages as $package) {
+            if($package->getIsDefault() && $package->getIsOnHome()) {
+                $count = 1;
+                $index = $package->getId();
+                
+                // Determine whether to show the "Add to Suitcase" button based 
+                // on the Packages already contained in the session.
+                // TODO refactor for a more efficient algorithm
+//                $available = true;
+//                foreach($suitcase->getItems() as $i) {
+//                    // We already have this item in our cart;
+//                    // so we can stop here...
+//                    if($i->getPackage()->getId() == $index) {
+//                        $available = false;
+//                    }
+//                }
+$available = true;
+                
+                $defaultPackages[$index] = array('package' => $package, 'count' => 1, 'available' => $available);
+            }
+            if($currentHeader != $package->getParentHeader()) {
+                $currentHeader = $package->getParentHeader();
+            }
+            else {
+                $count++;
+            }
+            
+            $defaultPackages[$index]['count'] = $count;
+        }
+        
+        return $this->render('InertiaWinspireBundle:Default:featuredPackages.html.twig',
+            array(
+                'packages' => $defaultPackages
+            )
+        );
+    }
+    
     public function indexAction()
     {
         return $this->render('InertiaWinspireBundle:Default:index.html.twig');

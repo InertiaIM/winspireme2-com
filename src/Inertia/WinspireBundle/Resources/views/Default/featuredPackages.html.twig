@@ -1,0 +1,59 @@
+                <div id="home-featured" class="drop-shadow curved curved-hz-2">
+                    <div id="e-browse">
+                        <h2><span class="small">Inspired Items for</span><br/> Nonprofit Auctions.</h2>
+                        <h3>Winspire helps Nonprofits <strong>maximize fundraising revenue</strong> by providing highly sought after, hard to find and priceless Experiences for use as <strong>unique auction items</strong> in charity events and fundraisers. Start planning your next event now!</h3>
+                        <a href="{{ path('packageList') }}" class="ws-btn"><span aria-hidden="true" class="ico-search"></span> Browse Experiences</a>
+                    </div>
+                    
+                    <div class="shadow-wrapper">
+                        <div id="e-featured" class="drop-shadow lifted">
+                            <a href="{{ path('packageList') }}" class="f-all">See All Packages <span aria-hidden="true" class="icon-arrow-right"></span></a>
+                            <h4>Featured Packages</h4>
+                            
+                            <!-- Featured Suitcase Slides -->
+                            <ul id="featured-slides" class="cycle-slideshow"
+                                data-allow-wrap="false"
+                                data-cycle-fx="carousel"
+                                data-cycle-timeout="0"
+                                data-cycle-swipe="true"
+                                data-cycle-log="false"
+                                data-cycle-carousel-visible="1"
+                                data-cycle-slides="> div"
+                                data-cycle-prev="#featured-prev"
+                                data-cycle-next="#featured-next"
+                                >
+                                <div>
+{% for package in packages %}
+                                    <li>
+                                        <a href="{{ path('packageDetail', {'slug': package.package.slug}) }}"><img src="/uploads/packages/{{ package.package.thumbnail }}" width="144" height="94" alt=""/></a>
+                                        <p>{{ package.package.parentHeader }}</p>
+{%     if (package.count) > 1 %}
+                                        <a href="{{ path('packageDetail', {'slug': package.package.slug}) }}" class="f-options">view {{ package.count }} options <span aria-hidden="true" class="icon-arrow-right"></span></a>
+{%     else %}
+                                        <a href="{{ path('packageDetail', {'slug': package.package.slug}) }}" class="f-options">view details <span aria-hidden="true" class="icon-arrow-right"></span></a>
+{%     endif %}
+                                        <a href="#" class="f-add"><span aria-hidden="true" class="icon-suitcase"></span><em>Add to </em>Suitcase</a>
+                                    </li>
+{%     if loop.index is divisibleby(3) %}
+                                </div>
+                                <div>
+{%     endif %}
+{% endfor %}
+                                </div>
+                            </ul>
+                            <div class="reset"></div>
+                            
+                            <!-- Next/Prev -->
+                            <div id="featured-next" class="feat-np forward">
+                                <span aria-hidden="true" class="icon-arrow-right"></span>
+                                <div class="tab-behind"></div>
+                            </div>
+                            <div id="featured-prev" class="feat-np backward">
+                                <span aria-hidden="true" class="icon-arrow-left"></span>
+                                <div class="tab-behind"></div>
+                            </div>
+                            <!-- Next/Prev -->
+                        </div>
+                    </div>
+                    <div class="reset"></div>
+                </div>
