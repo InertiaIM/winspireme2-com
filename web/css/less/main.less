@@ -111,8 +111,35 @@ header .c-wrap { height:65px; }
       .panel-field { width:184px;height:21px;margin:2px 0 12px 0;.rc-trbl(5px,5px,5px,5px);padding:3px;
         background:@ws-white;color:@ws-notblack;
         -webkit-box-shadow: inset 0px 2px 2px 1px rgba(0, 0, 0, .25);box-shadow: inset 0px 2px 2px 1px rgba(0, 0, 0, .25);
-        input { border:none;height:20px;line-height:20px;margin:0;padding:0;
-          &.pf-text { color:#d8d8d8;font-size:.750em;width:123px;float:left;height:18px;line-height:18px;margin:3px 0 0 0;padding:0 5px;outline:none; }
+        input {
+            border:none;
+            height:20px;
+            line-height:20px;
+            margin:0;
+            padding:0;
+            
+            &::-webkit-input-placeholder {
+                color:#d8d8d8;
+            }
+            &::-moz-placeholder {
+                color:#c0c0c0;
+            }
+            &:-ms-input-placeholder {
+                color:#d8d8d8;
+            }
+            
+            &.pf-text {
+                color:#4a4a4a;
+                font-size:.750em;
+                width:123px;
+                float:left;
+                height:18px;
+                line-height:18px;
+                margin:3px 0 0 0;
+                padding:0 5px;
+                outline:none;
+            }
+            
           &.pf-button { .btn-blue(3px);width:50px;height:18px;margin:2px 1px 0 0;float:right;font-size:.675em; }
         }
       }
