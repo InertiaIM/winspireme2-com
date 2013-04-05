@@ -441,6 +441,7 @@ class SalesforceCommand extends ContainerAwareCommand
                     if($u->Id != '005700000013DkmAAE') {
                         $user->setUsername($u->Email);
                         $user->setEmail($u->Email);
+                        $output->writeln('<info>User (' . $user->getEmail() . ')</info>');
                     }
                     
                     if(isset($u->Phone)) {
@@ -451,12 +452,12 @@ class SalesforceCommand extends ContainerAwareCommand
                     $user->setFirstName($name[0]);
                     $user->setLastName($name[1]);
                     
-                    try {
+//                    try {
                         $userManager->updateUser($user);
-                    }
-                    catch(\Exception $e) {
-                        $output->writeln('<error>Ooops!</error>');
-                    }
+//                    }
+//                    catch(\Exception $e) {
+//                        $output->writeln('<error>Ooops!</error>');
+//                    }
                 }
                 
                 break;
