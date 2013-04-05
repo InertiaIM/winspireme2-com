@@ -146,12 +146,6 @@ class AccountType2 extends AbstractType
             'mapped' => false,
             'required' => true
         ));
-        
-        $builder->add('newsletter', 'checkbox', array(
-            'label' => 'Please sign me up for the Winspire newsletter, offers and important updates.',
-            'mapped' => false,
-            'required' => false
-        ));
     }
     
     public function setDefaultOptions(OptionsResolverInterface $resolver)

@@ -1196,54 +1196,105 @@ $(document).ready(function() {
     
     
     /* More Modal handler */
-    $('#more-modal form').on('submit', function(e) {
-        e.preventDefault();
-        
-        var data = $(this).serialize();
-        
-        $.ajax({
-            beforeSend: function() {
-                $('#more-modal .error').removeClass('error');
-            },
-            data: data,
-            dataType: 'json',
-            url: $(this).attr('action'),
-            success: function(data, textStatus, jqXHR) {
-                if (!$.isEmptyObject(data)) {
-                    if (!$.isEmptyObject(data.errors)) {
-                        $.each(data.errors, function(index, value) {
-                            $('#' + index).addClass('error');
-                            $('#more-modal label[for="' + index + '"]').addClass('error');
-                        });
-                    }
-                    else {
-                        if(data.packed) {
-                            $.modal.close();
-//                            $('#more-info').remove();
-                            
-                            $('.unpacked').hide();
-                            $('.packed').show();
-                            
-                            $('#core-suitcase-button')
-                                .addClass('locked')
-                                .find('span.icon')
-                                .removeClass('icon-suitcase')
-                                .addClass('icon-suitcase-locked');
-                            
-                            $('#thanks-modal').modal({
-                                closeText: 'X',
-                                overlay: '#fff',
-                                opacity: 0.73,
-                                zIndex: 2002
-                            });
-                        }
-                    }
-                }
-            },
-            type: 'POST'
-        });
+    $('#account_date').datepicker({
+        buttonImage: '/img/calendar.png',
+        buttonImageOnly: true,
+        constrainInput: true,
+        dateFormat: 'mm/dd/y',
+        minDate: '+1',
+        maxDate: '+1y',
+        showOn: 'both'
     });
     
+    
+    $('#more-modal form').validate({
+        errorElement: 'em',
+        errorPlacement: function(error, element) {
+            switch(element.attr('name')) {
+            case 'account[loa]':
+                error.insertAfter('label[for="account_loa"]');
+                break;
+            case 'account[date]':
+                error.insertAfter('#account_date + img');
+                break;
+            default:
+                error.insertAfter(element);
+            }
+        },
+        rules: {
+            'account[address]': {
+                required: true
+            },
+            'account[city]': {
+                required: true
+            },
+            'account[state]': {
+                required: true
+            },
+            'account[zip]': {
+                required: true
+            },
+            'account[name]': {
+                required: true
+            },
+            'account[loa]': {
+                required: true
+            }
+        },
+        messages: {
+            'account[address]': 'Address required',
+            'account[city]': 'City name required',
+            'account[state]': 'Required',
+            'account[zip]': 'Zip code required',
+            'account[name]': 'Event name required',
+            'account[loa]': 'Must agree to the terms in our Letter of Agreement'
+        },
+        onfocusout: false,
+        submitHandler: function(form) {
+            var data = $(form).serialize();
+            
+            $.ajax({
+                beforeSend: function() {
+                    $('#more-modal .error').removeClass('error');
+                },
+                data: data,
+                dataType: 'json',
+                url: $(form).attr('action'),
+                success: function(data, textStatus, jqXHR) {
+                    if (!$.isEmptyObject(data)) {
+                        if (!$.isEmptyObject(data.errors)) {
+                            $.each(data.errors, function(index, value) {
+                                $('#' + index).addClass('error');
+                                $('#more-modal label[for="' + index + '"]').addClass('error');
+                            });
+                        }
+                        else {
+                            if(data.packed) {
+                                $.modal.close();
+                                
+                                $('.unpacked').hide();
+                                $('.packed').show();
+                                
+                                $('#core-suitcase-button')
+                                    .addClass('locked')
+                                    .find('span.icon')
+                                    .removeClass('icon-suitcase')
+                                    .addClass('icon-suitcase-locked');
+                                
+                                $('#thanks-modal').modal({
+                                    closeText: 'X',
+                                    overlay: '#fff',
+                                    opacity: 0.73,
+                                    zIndex: 2002
+                                });
+                            }
+                        }
+                    }
+                },
+                type: 'POST'
+            });
+        }
+    });
     
     
     setupSuitcaseCycle();

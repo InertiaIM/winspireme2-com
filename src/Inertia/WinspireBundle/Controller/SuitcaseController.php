@@ -460,7 +460,6 @@ class SuitcaseController extends Controller
         
         
         $form = $this->createForm(new AccountType2(), $user->getCompany());
-        $form->get('newsletter')->setData($user->getNewsletter());
         $form->get('phone')->setData($user->getPhone());
         
         

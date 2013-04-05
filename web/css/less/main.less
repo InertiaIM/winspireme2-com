@@ -3414,6 +3414,12 @@ footer, #footer { height:220px;border-top:1px solid rgb(195,213,224);
 #edit-password-modal,
 #edit-suitcase-modal {
     display:none;
+    
+    .ui-datepicker-trigger {
+        vertical-align:middle;
+        margin-left:5px;
+    }
+    
     h3 {
         margin-bottom:7px;
         
@@ -3498,6 +3504,13 @@ footer, #footer { height:220px;border-top:1px solid rgb(195,213,224);
             div {
                 float:left;
                 margin:0 18px 0 0;
+                
+                &>em {
+                    font-size:14px;
+                    display:block;
+                    color:#ff0000;
+                    margin-top:5px;
+                }
                 
                 &:last-child {
                     margin:0;

@@ -214,19 +214,13 @@
                 {{ form_row(form.name) }}
                 <div>
                     {{ form_label(form.date) }}
-                    {{ form_widget(form.date, { 'attr': { 'class': 'date' } }) }}
+                    {{ form_widget(form.date, { 'attr': { 'class': 'date', 'placeholder': 'MM/DD/YY', 'readonly': 'readonly' }}) }}
                 </div>
             </li>
             <li class="checkbox" style="padding-top:16px;">
                 <div>
                     {{ form_widget(form.loa) }}
                     <label for="account_loa">By clicking the button below, I verify that I have read and that I agree to the <a href="{{ path('pageDisplay', { 'slug': 'loa' }) }}" target="_blank">Letter of Agreement</a> and all the terms within.</label>
-                </div>
-            </li>
-            <li class="checkbox">
-                <div>
-                    {{ form_widget(form.newsletter) }}
-                    {{ form_label(form.newsletter) }}
                 </div>
             </li>
             <li>
