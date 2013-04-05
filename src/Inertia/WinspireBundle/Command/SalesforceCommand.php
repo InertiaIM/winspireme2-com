@@ -423,7 +423,7 @@ class SalesforceCommand extends ContainerAwareCommand
                 
                 foreach($userResult as $u) {
                     // Test whether the user already exists
-                    $user = $em->getRepository('InertiaWinspireBundle:User')->findOneBySfId($u->Id);
+                    $user = $userManager->findUserBy(array('sfId' => $u->Id));
                     
                     if(!$user) {
                         $user = $userManager->createUser();
@@ -435,13 +435,12 @@ class SalesforceCommand extends ContainerAwareCommand
                         $user->setSfId($u->Id);
                     }
                     else {
-                        $output->writeln('<error>User (' . $user->getEmail() . ') already in the system</error>');
+                        $output->writeln('<info>User (' . $user->getEmail() . ') already in the system</info>');
                     }
                     
                     if($u->Id != '005700000013DkmAAE') {
                         $user->setUsername($u->Email);
                         $user->setEmail($u->Email);
-                        $output->writeln('<info>User (' . $user->getEmail() . ')</info>');
                     }
                     
                     if(isset($u->Phone)) {
@@ -452,12 +451,12 @@ class SalesforceCommand extends ContainerAwareCommand
                     $user->setFirstName($name[0]);
                     $user->setLastName($name[1]);
                     
-//                    try {
+                    try {
                         $userManager->updateUser($user);
-//                    }
-//                    catch(\Exception $e) {
-//                        $output->writeln('<error>Ooops!</error>');
-//                    }
+                    }
+                    catch(\Exception $e) {
+                        $output->writeln('<error>Ooops!</error>');
+                    }
                 }
                 
                 break;
