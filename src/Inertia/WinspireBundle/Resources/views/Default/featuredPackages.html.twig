@@ -32,7 +32,7 @@
 {%     else %}
                                         <a href="{{ path('packageDetail', {'slug': package.package.slug}) }}" class="f-options">view details <span aria-hidden="true" class="icon-arrow-right"></span></a>
 {%     endif %}
-                                        <a href="#" class="f-add"><span aria-hidden="true" class="icon-suitcase"></span><em>Add to </em>Suitcase</a>
+                                        <a href="#" class="f-add{% if not package.available %} disabled{% endif %}" data-id="{{ package.package.id }}"><span aria-hidden="true" class="icon-suitcase"></span><em>Add to </em>Suitcase</a>
                                     </li>
 {%     if loop.index is divisibleby(3) %}
                                 </div>

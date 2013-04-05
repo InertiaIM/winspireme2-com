@@ -74,6 +74,27 @@ var footerCtx = $('footer')[0];
     
     /* Header Suitcase Panel */
     
+    
+    /* Global Sign Up */
+    $(headerSuitcasePanel).find('.pa-su').on('click', function(e) {
+        e.preventDefault();
+        
+        $(headerSuitcasePanel).hide();
+        
+        if($('#account-modal').length > 0) {
+            $('#account-modal')
+                .modal({
+                    closeText: 'X',
+                    overlay: '#fff',
+                    opacity: 0.73,
+                    zIndex: 2002
+                });
+        }
+        
+    });
+    /* Global Sign Up */
+    
+    
     /* Home Banner */
     $(function() {
         $('#home-banner').homeslideshow({
@@ -480,7 +501,7 @@ var footerCtx = $('footer')[0];
                         
                         $(item).remove();
                         
-                        $('.pd-a-add[data-id="' + id + '"]').removeClass('disabled');
+                        $('.pd-a-add[data-id="' + id + '"], .f-add[data-id="' + id + '"]').removeClass('disabled');
                         
                         $('#suitcase-preview-count').text('(' + data.count + ')');
                         $('#core-suitcase-button').find('.count').text('(' + data.count + ')');
@@ -552,7 +573,7 @@ var footerCtx = $('footer')[0];
         
         
         
-        $('.pd-a-add').on('click', function(e) {
+        $('.pd-a-add, .f-add').on('click', function(e) {
             e.preventDefault();
             var id = $(this).attr('data-id');
             var self = this;
@@ -1292,9 +1313,14 @@ $(document).ready(function() {
                         $('#core-nav').find('.inline-nav').append('<li><a href="#">My Account</a></li>');
                         $('#core-nav').find('.inline-nav').append('<li><a href="/logout">Logout</a></li>');
                         
-                        $('#core-suitcase').replaceWith('<a href="/suitcase" id="core-suitcase-button"><span class="icon icon-suitcase"></span><em>I\'m</em> Packed<span class="count"> (1)</span></a>');
-                        $('button[data-id="' + id + '"]').attr('disabled', 'disabled');
-                        $('.pd-a-add[data-id="' + id + '"]').addClass('disabled');
+                        if(id != 'none') {
+                            $('#core-suitcase').replaceWith('<a href="/suitcase" id="core-suitcase-button"><span class="icon icon-suitcase"></span><em>I\'m</em> Packed<span class="count"> (1)</span></a>');
+                        }
+                        else {
+                            $('#core-suitcase').replaceWith('<a href="/suitcase" id="core-suitcase-button"><span class="icon icon-suitcase"></span><em>I\'m</em> Packed<span class="count"></span></a>');
+                        }
+//                        $('button[data-id="' + id + '"]').attr('disabled', 'disabled');
+                        $('.pd-a-add[data-id="' + id + '"], .f-add[data-id="' + id + '"]').addClass('disabled');
                         $('button[data-id="' + id + '"]').attr('disabled', 'disabled');
                         $.modal.close();
                         $.get(previewUrl, function(data) {

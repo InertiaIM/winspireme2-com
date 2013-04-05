@@ -35,7 +35,6 @@ class AccountController extends Controller
         
         $form = $this->container->get('fos_user.registration.form.factory')->createForm();
         $form->setData($user);
-//        $form->remove('username');
         
         $accountForm = $this->createForm(new AccountType(), $account);
         $form->add($accountForm);
@@ -209,6 +208,10 @@ class AccountController extends Controller
                 
                 $session->set('sid', $suitcase->getId());
                 
+                // No packages added to Suitcase (Sign up directly without an item)
+                $response->setData(array(
+                    'count' => 0
+                ));
                 
                 return $response;
             }
