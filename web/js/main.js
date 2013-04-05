@@ -947,6 +947,22 @@ $(document).ready(function() {
     
     
     // Suitcase social
+    
+    // For viewports that are smaller than our modal, hook onto the
+    // open event and change the modal box to position absolute for 
+    // scrolling.
+    $('#share-modal').on($.modal.OPEN, function(event, modal) {
+        if(($(window).height() - $(modal.elm).outerHeight()) < 94) {
+            $(modal.elm).css({
+                position: 'absolute',
+                marginTop: '0',
+                top: '0'
+            });
+            
+            $(window).scrollTop(100);
+        }
+    });
+    
     $('.social .share a').on('click', function(e) {
         e.preventDefault();
         
@@ -1119,6 +1135,23 @@ $(document).ready(function() {
         $('#sc-area').find('.pager-total').text(opts.slideCount);
     });
     
+    
+    // For viewports that are smaller than our modal, hook onto the
+    // open event and change the modal box to position absolute for 
+    // scrolling.
+    $('#reminder-modal').on($.modal.OPEN, function(event, modal) {
+        if(($(window).height() - $(modal.elm).outerHeight()) < 94) {
+            $(modal.elm).css({
+                position: 'absolute',
+                marginTop: '0',
+                top: '0'
+            });
+            
+            $(window).scrollTop(100);
+        }
+    });
+    
+    
     $('button#ready').on('click', function(e) {
         var maybeCount = $('a[data-status="M"], a[data-status="R"]').length;
         
@@ -1196,6 +1229,23 @@ $(document).ready(function() {
     
     
     /* More Modal handler */
+    
+    // For viewports that are smaller than our modal, hook onto the
+    // open event and change the modal box to position absolute for 
+    // scrolling.
+    $('#more-modal').on($.modal.OPEN, function(event, modal) {
+        if(($(window).height() - $(modal.elm).outerHeight()) < 94) {
+            $(modal.elm).css({
+                position: 'absolute',
+                marginTop: '0',
+                top: '0'
+            });
+            
+            $(window).scrollTop(100);
+        }
+    });
+    
+    
     $('#account_date').datepicker({
         buttonImage: '/img/calendar.png',
         buttonImageOnly: true,
@@ -1287,6 +1337,8 @@ $(document).ready(function() {
                                     opacity: 0.73,
                                     zIndex: 2002
                                 });
+                                
+                                $(window).scrollTop(100);
                             }
                         }
                     }
@@ -1342,6 +1394,22 @@ $(document).ready(function() {
     
     $('.tooltip').tooltipster({
         position: 'right'
+    });
+    
+    
+    // For viewports that are smaller than our modal, hook onto the
+    // open event and change the modal box to position absolute for 
+    // scrolling.
+    $('#account-modal').on($.modal.OPEN, function(event, modal) {
+        if(($(window).height() - $(modal.elm).outerHeight()) < 94) {
+            $(modal.elm).css({
+                position: 'absolute',
+                marginTop: '0',
+                top: '0'
+            });
+            
+            $(window).scrollTop(100);
+        }
     });
     
     
