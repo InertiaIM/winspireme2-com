@@ -1284,53 +1284,123 @@ $(document).ready(function() {
         previewUrl = env + previewUrl;
     }
     
+    var validateUrl = '/account/validate-email';
+    if (typeof env !== 'undefined') {
+        validateUrl = env + validateUrl;
+    }
+    
     $('.tooltip').tooltipster({
         position: 'right'
     });
     
-    $('#account-modal form').on('submit', function(e) {
-        e.preventDefault();
-        
-        var data = $(this).serialize();
-        var id = $(this).parent().attr('data-id');
-        
-        $.ajax({
-            beforeSend: function() {
-                $('#account-modal .error').removeClass('error');
+    
+    $('#account-modal form').validate({
+        errorElement: 'em',
+        errorPlacement: function(error, element) {
+            if (element.attr('name') == 'fos_user_registration_form[terms]') {
+                error.insertAfter('label[for="fos_user_registration_form_terms"]');
+            }
+            else {
+                error.insertAfter(element);
+            }
+        },
+        rules: {
+            'fos_user_registration_form[suitcase]': {
+                required: true
             },
-            data: data,
-            dataType: 'json',
-            url: $(this).attr('action'),
-            success: function(data, textStatus, jqXHR) {
-                if (!$.isEmptyObject(data)) {
-                    if (!$.isEmptyObject(data.errors)) {
-                        $.each(data.errors, function(index, value) {
-                            $('#' + index).addClass('error');
-                            $('#account-modal label[for="' + index + '"]').addClass('error');
-                        });
-                    }
-                    else {
-                        $('#core-nav').find('.inline-nav').append('<li><a href="#">My Account</a></li>');
-                        $('#core-nav').find('.inline-nav').append('<li><a href="/logout">Logout</a></li>');
-                        
-                        if(id != 'none') {
-                            $('#core-suitcase').replaceWith('<a href="/suitcase" id="core-suitcase-button"><span class="icon icon-suitcase"></span><em>I\'m</em> Packed<span class="count"> (1)</span></a>');
-                        }
-                        else {
-                            $('#core-suitcase').replaceWith('<a href="/suitcase" id="core-suitcase-button"><span class="icon icon-suitcase"></span><em>I\'m</em> Packed<span class="count"></span></a>');
-                        }
-//                        $('button[data-id="' + id + '"]').attr('disabled', 'disabled');
-                        $('.pd-a-add[data-id="' + id + '"], .f-add[data-id="' + id + '"]').addClass('disabled');
-                        $('button[data-id="' + id + '"]').attr('disabled', 'disabled');
-                        $.modal.close();
-                        $.get(previewUrl, function(data) {
-                            $('#account-modal').replaceWith(data);
-                        });
-                    }
+            'fos_user_registration_form[firstName]': {
+                required: true
+            },
+            'fos_user_registration_form[lastName]': {
+                required: true
+            },
+            'fos_user_registration_form[account][name]': {
+                required: true
+            },
+            'fos_user_registration_form[email]': {
+                email: true,
+                required: true,
+                remote: {
+                    url: validateUrl
                 }
             },
-            type: 'POST'
-        });
+            'fos_user_registration_form[plainPassword][first]': {
+                required: true,
+                minlength: 10
+            },
+            'fos_user_registration_form[plainPassword][second]': {
+                equalTo: '#fos_user_registration_form_plainPassword_first'
+            },
+            'fos_user_registration_form[phone]': {
+                required: true
+            },
+            'fos_user_registration_form[account][state]': {
+                required: true
+            },
+            'fos_user_registration_form[account][zip]': {
+                required: true
+            },
+            'fos_user_registration_form[terms]': {
+                required: true
+            }
+        },
+        messages: {
+            'fos_user_registration_form[suitcase]': 'A suitcase name is required',
+            'fos_user_registration_form[firstName]': 'First name required',
+            'fos_user_registration_form[lastName]': 'Last name required',
+            'fos_user_registration_form[account][name]': 'Organization name required',
+            'fos_user_registration_form[email]': { 
+                required: 'Email address is required',
+                remote: 'An account with that email is already registered'
+            },
+            'fos_user_registration_form[plainPassword][second]': 'The chosen passwords do no match',
+            'fos_user_registration_form[account][state]': 'Required',
+            'fos_user_registration_form[phone]': 'Phone number required',
+            'fos_user_registration_form[account][zip]': 'Zip code required',
+            'fos_user_registration_form[terms]': 'Must agree to our Terms of Service'
+        },
+        onfocusout: false,
+        submitHandler: function(form) {
+            var data = $(form).serialize();
+            var id = $(form).parent().attr('data-id');
+            
+            $.ajax({
+                beforeSend: function() {
+                    $('#account-modal .error').removeClass('error');
+                },
+                data: data,
+                dataType: 'json',
+                url: $(form).attr('action'),
+                success: function(data, textStatus, jqXHR) {
+                    if (!$.isEmptyObject(data)) {
+                        if (!$.isEmptyObject(data.errors)) {
+                            $.each(data.errors, function(index, value) {
+                                $('#' + index).addClass('error');
+                                $('#account-modal label[for="' + index + '"]').addClass('error');
+                            });
+                        }
+                        else {
+                            $('#core-nav').find('.inline-nav').append('<li><a href="#">My Account</a></li>');
+                            $('#core-nav').find('.inline-nav').append('<li><a href="/logout">Logout</a></li>');
+                            
+                            if(id != 'none') {
+                                $('#core-suitcase').replaceWith('<a href="/suitcase" id="core-suitcase-button"><span class="icon icon-suitcase"></span><em>I\'m</em> Packed<span class="count"> (1)</span></a>');
+                            }
+                            else {
+                                $('#core-suitcase').replaceWith('<a href="/suitcase" id="core-suitcase-button"><span class="icon icon-suitcase"></span><em>I\'m</em> Packed<span class="count"></span></a>');
+                            }
+                            $('.pd-a-add[data-id="' + id + '"], .f-add[data-id="' + id + '"]').addClass('disabled');
+                            $('button[data-id="' + id + '"]').attr('disabled', 'disabled');
+                            $.modal.close();
+                            $.get(previewUrl, function(data) {
+                                $('#account-modal').replaceWith(data);
+                            });
+                        }
+                    }
+                },
+                type: 'POST'
+            });
+        }
     });
 });
 

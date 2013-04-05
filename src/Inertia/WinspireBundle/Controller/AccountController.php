@@ -417,6 +417,24 @@ class AccountController extends Controller
     }
     
     
+    public function validateEmailAction(Request $request)
+    {
+        $userManager = $this->get('fos_user.user_manager');
+        $response = new JsonResponse();
+        
+        $form = $request->query->get('fos_user_registration_form');
+        $email = $form['email'];
+        
+        $user = $userManager->findUserByEmail($email);
+        if($user) {
+            return $response->setData(false);
+        }
+        else {
+            return $response->setData(true);
+        }
+    }
+    
+    
     public function validateAction(Request $request)
     {
         $response = new JsonResponse();
