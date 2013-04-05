@@ -7,6 +7,10 @@ imports:
 #        result_cache_driver: apc
 #        query_cache_driver: apc
 
+framework:
+    session:
+        cookie_domain: '.winspireme.com'
+
 monolog:
     handlers:
         main:
