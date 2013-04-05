@@ -1404,7 +1404,7 @@ $(document).ready(function() {
         if(($(window).height() - $(modal.elm).outerHeight()) < 94) {
             $(modal.elm).css({
                 position: 'absolute',
-                marginTop: '0',
+                marginTop: '120px',
                 top: '0'
             });
             
