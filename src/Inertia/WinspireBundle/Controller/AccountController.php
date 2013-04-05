@@ -146,6 +146,7 @@ class AccountController extends Controller
                 
                 // TODO configure cascade persist to avoid the extra calls to the EM
                 $account->setSalesperson($salesperson);
+                $account->setReferred($form->get('referred')->getData());
                 $em->persist($account);
                 $em->flush();
                 
