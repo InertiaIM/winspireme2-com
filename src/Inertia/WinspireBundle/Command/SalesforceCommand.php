@@ -434,6 +434,9 @@ class SalesforceCommand extends ContainerAwareCommand
                         $user->setNewsletter(true);
                         $user->setSfId($u->Id);
                     }
+                    else {
+                        $output->writeln('<error>User (' . $user->getEmail() . ') already in the system</error>');
+                    }
                     
                     if($u->Id != '005700000013DkmAAE') {
                         $user->setUsername($u->Email);

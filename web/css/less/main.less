@@ -1737,7 +1737,36 @@ footer, #footer { height:220px;border-top:1px solid rgb(195,213,224);
         background: -ms-linear-gradient(top,  rgba(255,255,255,0.76) 0%,rgba(255,255,255,0.76) 78%,rgba(255,255,255,0) 100%);
         background: linear-gradient(to bottom,  rgba(255,255,255,0.76) 0%,rgba(255,255,255,0.76) 78%,rgba(255,255,255,0) 100%);
         
-        .c-wrap { position:relative; }
+        .c-wrap { position:relative; .clearfix }
+        
+        .col {
+            float:left;
+            width:688px;
+        }
+        
+        .help {
+            margin-top:-20px;
+            float:right;
+            width:254px;
+            min-height:160px;
+            background:url(/img/suitcase-bg-help.png) no-repeat;
+            background-size:254px 160px;
+            padding:54px 0 0 0;
+            text-align:center;
+            
+            h2 {
+                font-size:24px;
+                line-height:100%;
+                color:@ws-darkblue;
+            }
+            
+            p {
+                font-size:14px;
+                line-height:120%;
+                margin:0;
+            }
+        }
+        
         h1, h3 {
             position:relative;
             margin:0 0 16px 10px;
