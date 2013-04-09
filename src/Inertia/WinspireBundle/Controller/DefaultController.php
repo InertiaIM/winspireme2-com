@@ -570,11 +570,6 @@ class DefaultController extends Controller
             }
         }
         
-        //print_r($matches); exit;
-        
-        
-        
-        
         if(!empty($matches)) {
             $em = $this->getDoctrine()->getManager();
             $qb = $em->createQueryBuilder();
@@ -609,9 +604,6 @@ class DefaultController extends Controller
                     ),
                     'count' => 1
                 );
-                
-//                $defaultPackages[$index]['new'] = false;
-//                $defaultPackages[$index]['popular'] = false;
             }
             if($currentHeader != $package->getParentHeader()) {
                 $currentHeader = $package->getParentHeader();
@@ -621,8 +613,6 @@ class DefaultController extends Controller
             }
             
             if(isset($index)) {
-//                $defaultPackages[$index]['new'] = $defaultPackages[$index]['new'] || $package->getIsNew();
-//                $defaultPackages[$index]['popular'] = $defaultPackages[$index]['popular'] || $package->getIsBestSeller();
                 $defaultPackages[$index]['count'] = $count;
             }
         }
@@ -630,7 +620,7 @@ class DefaultController extends Controller
         
         return $response->setData(
             array(
-                'packages' => $defaultPackages
+                'packages' => array_slice($defaultPackages, 0, 10)
             )
         );
     }
