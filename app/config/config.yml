@@ -71,6 +71,17 @@ swiftmailer:
 #    spool:      { type: memory }
     logging:    true
 
+
+sphinxsearch:
+    indexes:
+        Packages: test1
+    searchd:
+        host:   localhost
+        port:   9312
+    indexer:
+        bin:    /opt/local/bin/indexer
+
+
 fos_user:
     db_driver: orm
     firewall_name: main

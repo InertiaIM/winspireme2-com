@@ -27,6 +27,14 @@ packageDownload:
     pattern:  /package/download/{versionId}
     defaults: { _controller: InertiaWinspireBundle:Default:packageDownload }
     
+packageSearch:
+    pattern:  /package/search
+    defaults: { _controller: InertiaWinspireBundle:Default:packageSearch }
+    
+packageSearchJson:
+    pattern:  /package/search.json
+    defaults: { _controller: InertiaWinspireBundle:Default:packageSearchJson }
+    
 packageDetail:
     pattern:  /package/{slug}
     defaults: { _controller: InertiaWinspireBundle:Default:packageDetail }

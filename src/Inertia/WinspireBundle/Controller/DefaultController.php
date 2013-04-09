@@ -3,6 +3,7 @@ namespace Inertia\WinspireBundle\Controller;
 
 use Inertia\WinspireBundle\Entity\Suitcase;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -426,6 +427,212 @@ class DefaultController extends Controller
         $response->headers->set('Content-Disposition', 'attachment; filename="' . $name . '"');
         
         return $response->setContent(file_get_contents($directory . $filename));
+    }
+    
+    
+    public function packageSearchAction(Request $request)
+    {
+        $sphinxSearch = $this->get('search.sphinxsearch.search');
+        
+        if(!$this->get('security.context')->isGranted('ROLE_ADMIN')) {
+            $sphinxSearch->setFilter('isprivate', array(1), true);
+        }
+        
+        $sphinxSearch->setMatchMode(SPH_MATCH_ANY);
+        $searchResults = $sphinxSearch->search($request->query->get('q'), array('Packages'), array(), false);
+        
+        $matches = array();
+        if(isset($searchResults['matches'])) {
+            foreach($searchResults['matches'] as $key => $value) {
+                $matches[] = $key;
+            }
+        }
+        
+//print_r($matches); exit;
+        
+        
+        
+        $session = $this->getRequest()->getSession();
+        $suitcase = $this->getSuitcase();
+        
+        if(!empty($matches)) {
+            $em = $this->getDoctrine()->getManager();
+            $qb = $em->createQueryBuilder();
+            
+            $qb->select('p')->from('InertiaWinspireBundle:Package', 'p');
+            
+            $qb->andWhere($qb->expr()->in('p.id', $matches));
+            
+            
+            if($request->query->get('sortOrder') == 'alpha-desc') {
+                $qb->orderBy('p.parent_header', 'DESC');
+            }
+            else {
+                $qb->orderBy('p.parent_header', 'ASC');
+            }
+            $qb->addOrderBy('p.is_default', 'DESC');
+            
+            $packages = $qb->getQuery()->getResult();
+        }
+        else {
+            $packages = array();
+        }
+        
+        // TODO this is too complex.  Break the Packages and Variants into
+        // separate entities to simplify the queries.
+        $defaultPackages = array();
+        $currentHeader = '';
+        $count = 0;
+        foreach($packages as $package) {
+//echo $package->getParentHeader();
+//echo "<br/>\n";
+            if($package->getIsDefault()) {
+                $count = 1;
+                $index = $package->getId();
+                
+                // Determine whether to show the "Add to Suitcase" button based
+                // on the Packages already contained in the session.
+                // TODO refactor for a more efficient algorithm
+                $available = true;
+                foreach($suitcase as $p) {
+                    // We already have this item in our cart;
+                    // so we can stop here...
+                    if($p['id'] == $index) {
+                        $available = false;
+                    }
+                }
+                
+                $defaultPackages[$index] = array('package' => $package, 'count' => 1, 'available' => $available);
+                
+                $defaultPackages[$index]['new'] = false;
+                $defaultPackages[$index]['popular'] = false;
+            }
+            if($currentHeader != $package->getParentHeader()) {
+                $currentHeader = $package->getParentHeader();
+            }
+            else {
+                $count++;
+            }
+            
+            if(isset($index)) {
+            $defaultPackages[$index]['new'] = $defaultPackages[$index]['new'] || $package->getIsNew();
+            $defaultPackages[$index]['popular'] = $defaultPackages[$index]['popular'] || $package->getIsBestSeller();
+            $defaultPackages[$index]['count'] = $count;
+            }
+        }
+        
+        
+        if($request->query->get('filter') == 'popular') {
+            $defaultPackages = array_filter($defaultPackages, function ($item) {
+                if($item['popular']) {
+                    return true;
+                }
+                return false;
+            });
+        }
+        
+        if($request->query->get('filter') == 'newest') {
+            $defaultPackages = array_filter($defaultPackages, function ($item) {
+                if($item['new']) {
+                    return true;
+                }
+                return false;
+            });
+        }
+        
+        
+        
+        return $this->render(
+            'InertiaWinspireBundle:Default:packages.html.twig',
+            array(
+                'packages' => $defaultPackages,
+            )
+        );
+    }
+    
+    
+    public function packageSearchJsonAction(Request $request)
+    {
+        $response = new JsonResponse();
+        $sphinxSearch = $this->get('search.sphinxsearch.search');
+        
+        if(!$this->get('security.context')->isGranted('ROLE_ADMIN')) {
+            $sphinxSearch->setFilter('isprivate', array(1), true);
+        }
+        
+        $sphinxSearch->setMatchMode(SPH_MATCH_ANY);
+        $searchResults = $sphinxSearch->search($request->query->get('q'), array('Packages'), array(), false);
+        
+        $matches = array();
+        if(isset($searchResults['matches'])) {
+            foreach($searchResults['matches'] as $key => $value) {
+                $matches[] = $key;
+            }
+        }
+        
+        //print_r($matches); exit;
+        
+        
+        
+        
+        if(!empty($matches)) {
+            $em = $this->getDoctrine()->getManager();
+            $qb = $em->createQueryBuilder();
+            
+            $qb->select('p')->from('InertiaWinspireBundle:Package', 'p');
+            $qb->andWhere($qb->expr()->in('p.id', $matches));
+            $qb->addOrderBy('p.parent_header', 'ASC');
+            $qb->addOrderBy('p.is_default', 'DESC');
+            $packages = $qb->getQuery()->getResult();
+        }
+        else {
+            $packages = array();
+        }
+        
+        // TODO this is too complex.  Break the Packages and Variants into
+        // separate entities to simplify the queries.
+        $defaultPackages = array();
+        $currentHeader = '';
+        $count = 0;
+        foreach($packages as $package) {
+            if($package->getIsDefault()) {
+                $count = 1;
+                $index = $package->getSlug();
+                
+                $available = true;
+                
+                $defaultPackages[$index] = array('package' =>
+                    array(
+                        'slug'    => $package->getSlug(),
+                        'title' => $package->getParentHeader(),
+                        'image' => $package->getThumbnail()
+                    ),
+                    'count' => 1
+                );
+                
+//                $defaultPackages[$index]['new'] = false;
+//                $defaultPackages[$index]['popular'] = false;
+            }
+            if($currentHeader != $package->getParentHeader()) {
+                $currentHeader = $package->getParentHeader();
+            }
+            else {
+                $count++;
+            }
+            
+            if(isset($index)) {
+//                $defaultPackages[$index]['new'] = $defaultPackages[$index]['new'] || $package->getIsNew();
+//                $defaultPackages[$index]['popular'] = $defaultPackages[$index]['popular'] || $package->getIsBestSeller();
+                $defaultPackages[$index]['count'] = $count;
+            }
+        }
+        
+        
+        return $response->setData(
+            array(
+                'packages' => $defaultPackages
+            )
+        );
     }
     
     

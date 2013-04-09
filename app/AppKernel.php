@@ -26,6 +26,7 @@ class AppKernel extends Kernel
             new FOS\UserBundle\FOSUserBundle(),
             new Inertia\WinspireBundle\InertiaWinspireBundle(),
             new OldSound\RabbitMqBundle\OldSoundRabbitMqBundle(),
+            new Search\SphinxsearchBundle\SphinxsearchBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {

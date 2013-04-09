@@ -1,30 +1,107 @@
 var headerCtx = $('header')[0];
 var footerCtx = $('footer')[0];
 
-	/* Header Search */
-	    /* Context */
-	    var headerSearchBox = $('.search-text', headerCtx);
-	    var headerSearchSubmit = $('.search-submit', headerCtx);
-	    /* Params */
-	    var hSBDefaultText = headerSearchBox.attr("value");
-	    /* Cursor goes in the Box */
-	    headerSearchBox.focus(function (e) {
-	        $(this).addClass("active");
-	        if ($(this).attr("value") == hSBDefaultText) { $(this).attr("value", ""); }
-	    });
-	    headerSearchBox.blur(function (e) {
-	        $(this).removeClass("active");
-	        if ($(this).attr("value") == "") { $(this).attr("value", hSBDefaultText); }
-	    });
-	    /* search button gets clicked */
-	    headerSearchSubmit.click(function () {
-	        if (headerSearchBox.attr("value") == hSBDefaultText) {
-	            alert('Search clicked but value is default');
-	        } else {
-	            alert('Search for ' + headerSearchBox.attr("value"));
-	        }
-	    });
-	/* Header Search */
+    /* Header Search */
+    /* Context */
+    var headerSearchBox = $('.search-text', headerCtx);
+    var headerSearchSubmit = $('.search-submit', headerCtx);
+    
+    headerSearchBox.focus(function(e) {
+        $(this).addClass('active');
+    });
+    
+    headerSearchBox.blur(function(e) {
+        $(this).removeClass('active');
+    });
+    
+    
+    
+    var spinTarget = $('#site-search-result .panel-inner').get(0);
+    var searchSpinner = new Spinner({
+        lines: 13,
+        length: 5,
+        width: 2,
+        radius: 7,
+        corners: 1.0,
+        color: '#1280d6',
+        rotate: 0,
+        trail: 60,
+        speed: 1.0,
+        hwaccel: 'on'
+    }).spin(spinTarget).stop();
+    
+    
+    headerSearchBox.keyup(function(e) {
+        if($(headerSearchBox).val() == '') {
+            $('#site-search-result').slideUp('fast');
+        }
+        else {
+            $('#site-search-result').slideDown('fast');
+            searchSpinner.spin(spinTarget);
+        }
+    });
+    
+    
+    afterDelayedKeyup(headerSearchBox, 'submitQuery2()', 500);
+    
+    
+    function submitQuery2() {
+//        if($(plSearchBox).val().length > 3) {
+        var url = '/package/search.json';
+        if (typeof env !== 'undefined') {
+            url = env + url;
+        }
+        
+        var q = 'q=' + $(headerSearchBox).val();
+        
+        $.ajax({
+            beforeSend: function() {
+                searchSpinner.stop();
+                $('#site-search-result ul').empty();
+                searchSpinner.spin(spinTarget);
+//                $('.pl-items').empty();
+//                searchSpinner.spin(spinTarget);
+            },
+            url: url,
+            data: q,
+            dataType: 'json',
+            success: function(data, textStatus, jqXHR) {
+                
+//console.log(data);
+                
+
+                
+                
+//                spinner.stop();
+//                $('#site-search-result ul').empty();
+                
+                if(!$.isEmptyObject(data.packages)) {
+                    searchSpinner.stop();
+                }
+                else {
+//                    searchSpinner.spin(spinTarget);
+                }
+                
+                $.each(data.packages, function(index, item) {
+                    $('#site-search-result ul').append('<li><a href="/package/' + item.package.slug + '"><img width="50" src="/uploads/packages/' + item.package.image + '"/>' + item.package.title + '</a></li>');
+                });
+            }
+        });
+    }
+    
+    
+    
+    
+    
+//    /* search button gets clicked */
+//    headerSearchSubmit.click(function () {
+//        if (headerSearchBox.attr("value") == hSBDefaultText) {
+//            alert('Search clicked but value is default');
+//        } else {
+//            alert('Search for ' + headerSearchBox.attr("value"));
+//        }
+//    });
+    /* Header Search */
     
     /* Header Navigation */
     var headerSiteNavTabs = $('.has-sub');
@@ -237,6 +314,12 @@ var footerCtx = $('footer')[0];
     
     /* Package List Categories */
     $('input[name^="category"]').change(function(e) {
+        // If we're checking something in the categories,
+        // then we'll clear the search box.
+        if($(this).is(':checked')) {
+            $(plSearchBox).val('');
+        }
+        
         // If this is a parent category, deselect all children.
         // Otherwise, if this is a child category, deselect the parent.
         var children = $(this).siblings('ul');
@@ -268,6 +351,14 @@ var footerCtx = $('footer')[0];
                 .siblings('label').removeClass('active');
         }
         
+        
+        // If we're checking something in the US Travel selector,
+        // then we'll clear the search box.
+        if(!$.isEmptyObject(states)) {
+            $(plSearchBox).val('');
+        }
+        
+        
         updatePackages();
     });
     
@@ -286,6 +377,11 @@ var footerCtx = $('footer')[0];
     });
     
     function updatePackages() {
+        if($(plSearchBox).val() != '') {
+            submitQuery();
+            return;
+        }
+        
         var url = '/packages.json';
         if (typeof env !== 'undefined') {
             url = env + url;
@@ -348,30 +444,71 @@ var footerCtx = $('footer')[0];
     
     
     /* Package List Search */
-	    /* Context */
-    	var plFilter = $('.pl-filter');
-	    var plSearchBox = $('.search-text', plFilter);
-	    var plSearchSubmit = $('.search-submit', plFilter);
-	    /* Params */
-	    var plBDefaultText = plSearchBox.attr("value");
-	    /* Cursor goes in the Box */
-	    plSearchBox.focus(function (e) {
-	        $(this).addClass("active");
-	        if ($(this).attr("value") == plBDefaultText) { $(this).attr("value", ""); }
-	    });
-	    plSearchBox.blur(function (e) {
-	        $(this).removeClass("active");
-	        if ($(this).attr("value") == "") { $(this).attr("value", plBDefaultText); }
-	    });
-	    /* search button gets clicked */
-	    plSearchSubmit.click(function () {
-	        if (plSearchBox.attr("value") == plBDefaultText) {
-	            alert('Search clicked but value is default');
-	        } else {
-	            alert('Search for ' + plSearchBox.attr("value"));
-	        }
-	    });
-	/* Package List Search */
+    /* Context */
+    var plFilter = $('.pl-filter');
+    var plSearchBox = $('.search-text', plFilter);
+    var plSearchSubmit = $('.search-submit', plFilter);
+    
+    
+    plSearchBox.focus(function (e) {
+        $(this).addClass('active');
+    });
+    
+    
+    plSearchBox.blur(function (e) {
+        $(this).removeClass('active');
+    });
+    
+    
+    plSearchBox.keyup(function (e) {
+        // Wipe out all the category selections when we're
+        // typing in the search field.
+        $('input[name^="category"]').removeAttr('checked').siblings('label').removeClass('active');
+        
+        if($('#catState').multiselect('getChecked').length > 0) {
+            $('#catState').multiselect('uncheckAll');
+        }
+    });
+    
+    
+    afterDelayedKeyup(plSearchBox, 'submitQuery()', 500);
+    function afterDelayedKeyup(selector, action, delay) {
+        jQuery(selector).keyup(function() {
+            if(typeof(window['inputTimeout']) != 'undefined'){
+                clearTimeout(inputTimeout);
+            }
+            inputTimeout = setTimeout(action, delay);
+        });
+    }
+    
+    
+    function submitQuery() {
+//        if($(plSearchBox).val().length > 3) {
+        var url = '/package/search';
+        if (typeof env !== 'undefined') {
+            url = env + url;
+        }
+        
+        var q = 'q=' + $(plSearchBox).val();
+        var filter = 'filter=' + $('.pl-sort ul li a.selected').attr('data-filter');
+        var sort = $('select[name="sortOrder"]').serialize();
+        
+        $.ajax({
+            beforeSend: function() {
+                $('.pl-items').empty();
+                spinner.spin(target);
+            },
+            url: url,
+            data: q + '&' + sort + '&' + filter,
+            dataType: 'html',
+            success: function(data, textStatus, jqXHR) {
+                spinner.stop();
+                $('.pl-items').empty();
+                $('.pl-items').append($(data));
+            }
+        });
+    }
+    /* Package List Search */
     
     
     /* Package Detail More Info */

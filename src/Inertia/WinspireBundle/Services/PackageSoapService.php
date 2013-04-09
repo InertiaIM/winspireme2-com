@@ -200,7 +200,7 @@ fwrite($dump, print_r($notifications, true));
                         $keywords[$i] = trim($k);
                     }
                     
-                    $package->setKeywords(serialize($keywords));
+                    $package->setKeywords(implode(' ', $keywords));
                 }
                 
                 if(isset($p->WEB_Recommendations__c)) {
