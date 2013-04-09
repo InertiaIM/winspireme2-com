@@ -32,7 +32,14 @@ class TestCommand extends ContainerAwareCommand
         
         
         foreach($packages as $package) {
-            $keywords = unserialize($package->getKeywords());
+            
+            try {
+                $keywords = unserialize($package->getKeywords());
+            }
+            catch(\Exception $e) {
+echo 'can\'t unserialize...' . "\n";
+                continue;
+            }
             
             if(is_array($keywords)) {
 print_r(implode(' ', $keywords));
