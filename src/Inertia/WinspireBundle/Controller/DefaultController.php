@@ -54,7 +54,7 @@ class DefaultController extends Controller
             $defaultPackages[$index]['count'] = $count;
         }
         
-        $keys = array_rand($defaultPackages, 15);
+        $keys = array_rand($defaultPackages, 17);
         $temp = array();
         foreach($keys as $key) {
             $temp[] = $defaultPackages[$key];
