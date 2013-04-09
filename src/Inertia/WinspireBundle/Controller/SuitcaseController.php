@@ -444,7 +444,7 @@ class SuitcaseController extends Controller
     public function viewAction(Request $request)
     {
 //        $user = $this->getUser();
-        $suitcase = $this->getSuitcase();
+        $suitcase = $this->getSuitcase('alpha');
         
         if(!$suitcase) {
             if($this->get('security.context')->isGranted('ROLE_ADMIN')) {
@@ -942,7 +942,7 @@ class SuitcaseController extends Controller
         return $version;
     }
     
-    protected function getSuitcase()
+    protected function getSuitcase($order = 'update')
     {
         $em = $this->getDoctrine()->getManager();
         
@@ -951,11 +951,21 @@ class SuitcaseController extends Controller
         
         if($this->get('security.context')->isGranted('ROLE_ADMIN')) {
             if($sid) {
-                $query = $em->createQuery(
-                    'SELECT s, i FROM InertiaWinspireBundle:Suitcase s LEFT JOIN s.items i WHERE s.id = :id ORDER BY i.updated DESC'
-                )
-                    ->setParameter('id', $sid)
-                ;
+                
+                if($order == 'update') {
+                    $query = $em->createQuery(
+                        'SELECT s, i FROM InertiaWinspireBundle:Suitcase s LEFT JOIN s.items i WHERE s.id = :id ORDER BY i.updated DESC'
+                    )
+                        ->setParameter('id', $sid)
+                    ;
+                }
+                else {
+                    $query = $em->createQuery(
+                        'SELECT s, i, p FROM InertiaWinspireBundle:Suitcase s LEFT JOIN s.items i JOIN i.package p WHERE s.id = :id ORDER BY p.parent_header ASC'
+                    )
+                        ->setParameter('id', $sid)
+                    ;
+                }
                 
                 try {
                     $suitcase = $query->getSingleResult();
@@ -990,11 +1000,20 @@ class SuitcaseController extends Controller
 //        $sid = $session->get('sid');
         if($sid) {
 //echo 'Found SID, step 1: ' . $sid . "<br/>\n";
-            $query = $em->createQuery(
-                'SELECT s, i FROM InertiaWinspireBundle:Suitcase s LEFT JOIN s.items i WHERE s.user = :user_id AND s.id = :id ORDER BY i.updated DESC'
-            )
-            ->setParameter('user_id', $user->getId())
-            ->setParameter('id', $sid);
+            if($order == 'update') {
+                $query = $em->createQuery(
+                    'SELECT s, i FROM InertiaWinspireBundle:Suitcase s LEFT JOIN s.items i WHERE s.user = :user_id AND s.id = :id ORDER BY i.updated DESC'
+                )
+                ->setParameter('user_id', $user->getId())
+                ->setParameter('id', $sid);
+            }
+            else {
+                $query = $em->createQuery(
+                    'SELECT s, i, p FROM InertiaWinspireBundle:Suitcase s LEFT JOIN s.items i JOIN i.package p WHERE s.user = :user_id AND s.id = :id ORDER BY p.parent_header ASC'
+                )
+                ->setParameter('user_id', $user->getId())
+                ->setParameter('id', $sid);
+            }
             
             try {
                  $suitcase = $query->getSingleResult();
