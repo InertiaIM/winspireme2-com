@@ -54,9 +54,15 @@ class DefaultController extends Controller
             $defaultPackages[$index]['count'] = $count;
         }
         
+        $keys = array_rand($defaultPackages, 15);
+        $temp = array();
+        foreach($keys as $key) {
+            $temp[] = $defaultPackages[$key];
+        }
+        
         return $this->render('InertiaWinspireBundle:Default:featuredPackages.html.twig',
             array(
-                'packages' => $defaultPackages
+                'packages' => $temp
             )
         );
     }
