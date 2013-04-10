@@ -72,6 +72,12 @@ swiftmailer:
     logging:    true
 
 
+mz_mail_chimp:
+    api_key: ba4f761b3989ac0aac392d54430fa307-us2
+    default_list: '52e0574410'
+    ssl: true
+
+
 sphinxsearch:
     indexes:
         Packages: test1
@@ -141,7 +147,7 @@ services:
         
     create_suitcase_service:
         class: Inertia\WinspireBundle\Consumer\CreateSuitcaseConsumer
-        arguments: [@doctrine.orm.entity_manager, @mailer, @templating]
+        arguments: [@doctrine.orm.entity_manager, @mailer, @templating, @mailchimp]
         
     unpack_suitcase_service:
         class: Inertia\WinspireBundle\Consumer\UnpackSuitcaseConsumer

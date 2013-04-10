@@ -1,6 +1,8 @@
 <?php
 namespace Inertia\WinspireBundle\Consumer;
 
+use MZ\MailChimpBundle\Services\MailChimp;
+
 use Doctrine\ORM\EntityManager;
 use OldSound\RabbitMqBundle\RabbitMq\ConsumerInterface;
 use PhpAmqpLib\Message\AMQPMessage;
@@ -11,12 +13,14 @@ class CreateSuitcaseConsumer implements ConsumerInterface
     protected $em;
     protected $mailer;
     protected $templating;
+    protected $mailchimp;
     
-    public function __construct(EntityManager $entityManager, \Swift_Mailer $mailer, EngineInterface $templating)
+    public function __construct(EntityManager $entityManager, \Swift_Mailer $mailer, EngineInterface $templating, MailChimp $mailchimp)
     {
         $this->em = $entityManager;
         $this->mailer = $mailer;
         $this->templating = $templating;
+        $this->mailchimp = $mailchimp;
         
         $this->mailer->getTransport()->stop();
     }
@@ -36,6 +40,19 @@ class CreateSuitcaseConsumer implements ConsumerInterface
         catch (\Doctrine\Orm\NoResultException $e) {
 //            throw $this->createNotFoundException();
         }
+        
+        $user = $suitcase->getUser();
+        if($user->getNewsletter()) {
+            $list = $this->mailchimp->getList();
+            $list->setMerge(array(
+                'FNAME' => $user->getFirstName(),
+                'LNAME' => $user->getLastName(),
+                'MMERGE3' => $user->getCompany()->getName()
+            ));
+            
+            $result = $list->Subscribe($user->getEmail());
+        }
+        
         
         $name = $suitcase->getUser()->getFirstName() . ' ' .
             $suitcase->getUser()->getLastName();
