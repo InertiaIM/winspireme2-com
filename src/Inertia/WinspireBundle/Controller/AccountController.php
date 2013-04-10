@@ -72,7 +72,7 @@ class AccountController extends Controller
         );
         
         $form->add(
-            $formFactory->createNamed('newsletter', 'checkbox', null,
+            $formFactory->createNamed('newsletter', 'checkbox', true,
                 array(
                     'label' => 'Please sign me up for the Winspire newsletter, offers and important updates.',
                     'required' => false
