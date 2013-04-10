@@ -897,6 +897,10 @@ $(document).ready(function() {
     });
     
     
+    $(sc).find('.content').on('click', 'h3 > a', function(e) {
+        e.stopPropagation();
+    });
+    
     $(sc).find('.content').on('click', '.actions > .more', function(e) {
         e.stopPropagation();
     });

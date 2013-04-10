@@ -80,8 +80,8 @@
 {%     endif %}
                                     <div class="item-open"><span class="icon-play"></span></div>
                                     <div class="expanded">
-                                        <h3>{{ item.package.parentHeader }}</h3>
-                                        <h5>{{ item.package.name }}</h5>
+                                        <h3><a href="{{ path('packageDetail', { 'slug': item.package.slug }) }}">{{ item.package.parentHeader }}</a></h3>
+                                        <h5>{{ item.package.name }} ({{ item.package.code }})</h5>
                                         <p class="srv">{{ item.package.suggestedRetailValue }} <span>Suggested Retail Value</span></p>
                                         <p>${{ item.package.cost | number_format }} Nonprofit Cost</p>
                                         <div class="actions" data-id="{{ item.package.id }}">
