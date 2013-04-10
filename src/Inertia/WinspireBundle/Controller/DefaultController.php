@@ -34,11 +34,13 @@ class DefaultController extends Controller
                 // on the Packages already contained in the session.
                 // TODO refactor for a more efficient algorithm
                 $available = true;
-                foreach($suitcase->getItems() as $i) {
-                    // We already have this item in our cart;
-                    // so we can stop here...
-                    if($i->getPackage()->getId() == $index) {
-                        $available = false;
+                if($suitcase) {
+                    foreach($suitcase->getItems() as $i) {
+                        // We already have this item in our cart;
+                        // so we can stop here...
+                        if($i->getPackage()->getId() == $index) {
+                            $available = false;
+                        }
                     }
                 }
                 

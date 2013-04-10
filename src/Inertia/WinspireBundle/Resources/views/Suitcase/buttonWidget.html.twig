@@ -1,4 +1,4 @@
-<a href="{{ path('suitcaseView') }}" id="core-suitcase-button"{% if suitcase.packed %} class="locked"{% endif %}>
-    <span class="icon {% if suitcase.packed %}icon-suitcase-locked{% else %}icon-suitcase{% endif %}"></span>
-    <em>I'm</em> Packed<span class="count">{% if suitcase.items | length > 0 %} ({{ suitcase.items | length }}){% endif %}</span>
+<a href="{{ path('suitcaseView') }}" id="core-suitcase-button"{% if suitcase and suitcase.packed %} class="locked"{% endif %}>
+    <span class="icon {% if suitcase and suitcase.packed %}icon-suitcase-locked{% else %}icon-suitcase{% endif %}"></span>
+    <em>I'm</em> Packed<span class="count">{% if suitcase and (suitcase.items | length > 0) %} ({{ suitcase.items | length }}){% endif %}</span>
 </a>

@@ -443,7 +443,6 @@ class SuitcaseController extends Controller
     
     public function viewAction(Request $request)
     {
-//        $user = $this->getUser();
         $suitcase = $this->getSuitcase('alpha');
         
         if(!$suitcase) {
@@ -456,8 +455,6 @@ class SuitcaseController extends Controller
         
         
         $user = $suitcase->getUser();
-        
-        
         
         $form = $this->createForm(new AccountType2(), $user->getCompany());
         $form->get('phone')->setData($user->getPhone());
@@ -961,7 +958,7 @@ class SuitcaseController extends Controller
                 }
                 else {
                     $query = $em->createQuery(
-                        'SELECT s, i, p FROM InertiaWinspireBundle:Suitcase s LEFT JOIN s.items i JOIN i.package p WHERE s.id = :id ORDER BY p.parent_header ASC'
+                        'SELECT s, i, p FROM InertiaWinspireBundle:Suitcase s LEFT JOIN s.items i LEFT JOIN i.package p WHERE s.id = :id ORDER BY p.parent_header ASC'
                     )
                         ->setParameter('id', $sid)
                     ;
@@ -971,8 +968,8 @@ class SuitcaseController extends Controller
                     $suitcase = $query->getSingleResult();
                 }
                 catch (\Doctrine\Orm\NoResultException $e) {
-//                    throw $this->createNotFoundException();
-                    $suitcase = new Suitcase();
+                    throw $this->createNotFoundException();
+//                    $suitcase = new Suitcase();
                 }
                 
                 return $suitcase;
@@ -1009,7 +1006,7 @@ class SuitcaseController extends Controller
             }
             else {
                 $query = $em->createQuery(
-                    'SELECT s, i, p FROM InertiaWinspireBundle:Suitcase s LEFT JOIN s.items i JOIN i.package p WHERE s.user = :user_id AND s.id = :id ORDER BY p.parent_header ASC'
+                    'SELECT s, i, p FROM InertiaWinspireBundle:Suitcase s LEFT JOIN s.items i LEFT JOIN i.package p WHERE s.user = :user_id AND s.id = :id ORDER BY p.parent_header ASC'
                 )
                 ->setParameter('user_id', $user->getId())
                 ->setParameter('id', $sid);

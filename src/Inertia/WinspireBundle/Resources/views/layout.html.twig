@@ -61,7 +61,6 @@ var env = '/app_dev.php';
 
 	<div class="container">
 		<header>
-
 			<div id="nav-core">
 				<div class="c-wrap">
 
@@ -160,19 +159,19 @@ var env = '/app_dev.php';
                     <span id="legal-copyright"> <a href="{{ path('pageDisplay', {'slug': 'copyright'}) }}">&copy; {{ 'now' | date('Y') }} Winspire All Rights Reserved</a> </span>
                 </div>
             </div>
-		</footer>
-	</div>
-	<!-- /container -->
-	
-	
-{% if is_granted('ROLE_USER') and app.request.get('_route') != 'suitcaseView' and app.request.get('_route') != 'suitcaseAdmin' %}
+        </footer>
+    </div>
+    <!-- /container -->
+    
+    
+{% if is_granted('ROLE_USER') and (app.session.get('sid')) and app.request.get('_route') != 'suitcaseView' and app.request.get('_route') != 'suitcaseAdmin' %}
 {%     render "InertiaWinspireBundle:Suitcase:Preview" %}
 {% else %}
 {%     if not is_granted('ROLE_USER') %}
 {%         render "InertiaWinspireBundle:Account:Create" %}
 {%     endif %}
 {% endif %}
-
+    
     <script src="/js/main.js"></script>
 {% if app.environment == 'prod' and (app.request.host == 'winspireme.com' or app.request.host == 'www.winspireme.com') %}
     <script>
