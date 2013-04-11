@@ -125,9 +125,18 @@ class DefaultController extends Controller
         }
         
         $em = $this->getDoctrine()->getManager();
-        $query = $em->createQuery(
-            'SELECT p, c FROM InertiaWinspireBundle:Package p JOIN p.categories c WHERE c.id IN (:ids) AND p.is_private != 1 AND p.picture IS NOT NULL ORDER BY p.parent_header ASC, p.is_default DESC'
-        )->setParameter('ids', $catIds);
+        
+        
+        if($this->get('security.context')->isGranted('ROLE_ADMIN')) {
+            $query = $em->createQuery(
+                'SELECT p, c FROM InertiaWinspireBundle:Package p JOIN p.categories c WHERE c.id IN (:ids) AND p.picture IS NOT NULL ORDER BY p.parent_header ASC, p.is_default DESC'
+            )->setParameter('ids', $catIds);
+        }
+        else {
+            $query = $em->createQuery(
+                'SELECT p, c FROM InertiaWinspireBundle:Package p JOIN p.categories c WHERE c.id IN (:ids) AND p.is_private != 1 AND p.picture IS NOT NULL ORDER BY p.parent_header ASC, p.is_default DESC'
+            )->setParameter('ids', $catIds);
+        }
         
         $packages = $query->getResult();
         
@@ -145,11 +154,13 @@ class DefaultController extends Controller
                 // on the Packages already contained in the session.
                 // TODO refactor for a more efficient algorithm
                 $available = true;
-                foreach($suitcase->getItems() as $i) {
-                    // We already have this item in our cart;
-                    // so we can stop here...
-                    if($i->getPackage()->getId() == $index) {
-                        $available = false;
+                if($suitcase) {
+                    foreach($suitcase->getItems() as $i) {
+                        // We already have this item in our cart;
+                        // so we can stop here...
+                        if($i->getPackage()->getId() == $index) {
+                            $available = false;
+                        }
                     }
                 }
                 
@@ -216,7 +227,9 @@ class DefaultController extends Controller
             $qb->select('p')->from('InertiaWinspireBundle:Package', 'p');
             $qb->innerJoin('p.categories', 'c');
             
-            $qb->andWhere('p.is_private != 1');
+            if(!$this->get('security.context')->isGranted('ROLE_ADMIN')) {
+                $qb->andWhere('p.is_private != 1');
+            }
             $qb->andWhere('p.picture IS NOT NULL');
             $qb->andWhere($qb->expr()->in('c.id', $matchedCategories));
             
@@ -237,7 +250,9 @@ class DefaultController extends Controller
             
             $qb->select('p')->from('InertiaWinspireBundle:Package', 'p');
             
-            $qb->andWhere('p.is_private != 1');
+            if(!$this->get('security.context')->isGranted('ROLE_ADMIN')) {
+                $qb->andWhere('p.is_private != 1');
+            }
             $qb->andWhere('p.picture IS NOT NULL');
             
             if($request->query->get('sortOrder') == 'alpha-desc') {
@@ -327,9 +342,17 @@ class DefaultController extends Controller
         $packagePath = $session->get('packagePath');
         
         $em = $this->getDoctrine()->getManager();
-        $query = $em->createQuery(
-            'SELECT p FROM InertiaWinspireBundle:Package p WHERE p.is_private != 1 AND p.picture IS NOT NULL AND p.slug = :slug'
-        )->setParameter('slug', $slug);
+        
+        if($this->get('security.context')->isGranted('ROLE_ADMIN')) {
+            $query = $em->createQuery(
+                'SELECT p FROM InertiaWinspireBundle:Package p WHERE p.picture IS NOT NULL AND p.slug = :slug'
+            )->setParameter('slug', $slug);
+        }
+        else {
+            $query = $em->createQuery(
+                'SELECT p FROM InertiaWinspireBundle:Package p WHERE p.is_private != 1 AND p.picture IS NOT NULL AND p.slug = :slug'
+            )->setParameter('slug', $slug);
+        }
         
         $package = $query->getResult();
         
@@ -337,9 +360,16 @@ class DefaultController extends Controller
             throw $this->createNotFoundException();
         }
         
-        $query = $em->createQuery(
-            'SELECT p FROM InertiaWinspireBundle:Package p WHERE p.is_private != 1 AND p.picture IS NOT NULL AND p.parent_header = :ph ORDER BY p.parent_header ASC, p.is_default DESC'
-        )->setParameter('ph', $package[0]->getParentHeader());
+        if($this->get('security.context')->isGranted('ROLE_ADMIN')) {
+            $query = $em->createQuery(
+                'SELECT p FROM InertiaWinspireBundle:Package p WHERE p.picture IS NOT NULL AND p.parent_header = :ph ORDER BY p.parent_header ASC, p.is_default DESC'
+            )->setParameter('ph', $package[0]->getParentHeader());
+        }
+        else {
+            $query = $em->createQuery(
+                'SELECT p FROM InertiaWinspireBundle:Package p WHERE p.is_private != 1 AND p.picture IS NOT NULL AND p.parent_header = :ph ORDER BY p.parent_header ASC, p.is_default DESC'
+            )->setParameter('ph', $package[0]->getParentHeader());
+        }
         
         $packages = $query->getResult();
         
@@ -356,11 +386,13 @@ class DefaultController extends Controller
             // on the Packages already contained in the session.
             // TODO refactor for a more efficient algorithm
             $available = true;
-            foreach($suitcase->getItems() as $i) {
-                // We already have this item in our cart;
-                // so we can stop here...
-                if($i->getPackage()->getId() == $package->getId()) {
-                    $available = false;
+            if($suitcase) {
+                foreach($suitcase->getItems() as $i) {
+                    // We already have this item in our cart;
+                    // so we can stop here...
+                    if($i->getPackage()->getId() == $package->getId()) {
+                        $available = false;
+                    }
                 }
             }
             
