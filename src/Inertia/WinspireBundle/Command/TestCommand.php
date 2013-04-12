@@ -61,7 +61,9 @@ class TestCommand extends ContainerAwareCommand
             );
             
             $sfAccount = $accountResult->first();
-echo $sfAccount->Name . "\n";
+if(isset($sfAccount->Name)) {
+    echo $sfAccount->Name . "\n";
+}
 if(isset($sfAccount->BillingStreet)) {
     echo $sfAccount->BillingStreet . "\n";
 }
