@@ -44,7 +44,7 @@ class AccountSoapService
         foreach($ids as $id) {
             $this->logger->info('Account Id: ' . $id);
             
-            $accountResult = $client->query('SELECT ' .
+            $accountResult = $this->sf->query('SELECT ' .
                 'Id, ' .
                 'Name, ' .
                 'OwnerId, ' .
