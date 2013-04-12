@@ -146,9 +146,7 @@ class AccountSoapService
 //                $output->writeln('<error>    Missing OwnerId?!?!</error>');
             }
             
-            
-            
-            
+            $account->setSfId($id);
             $this->em->persist($account);
             $this->em->flush();
             
