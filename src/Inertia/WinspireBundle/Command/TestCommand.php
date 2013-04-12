@@ -26,7 +26,7 @@ class TestCommand extends ContainerAwareCommand
         
         
         $query = $em->createQuery(
-            'SELECT a FROM InertiaWinspireBundle:Account a WHERE sfId NOT NULL'
+            'SELECT a FROM InertiaWinspireBundle:Account a WHERE a.sfId IS NOT NULL'
         );
         
 //        try {
@@ -40,8 +40,46 @@ class TestCommand extends ContainerAwareCommand
         
         foreach($accounts as $account) {
             $output->writeln('<info>' . $account->getName() . ' (' . $account->getSfId() . ')</info>');
+            $output->writeln('<info>retrieving SF objects...</info>');
             
+            $accountResult = $client->query('SELECT ' .
+                'Id, ' .
+                'Name, ' .
+                'OwnerId, ' .
+                'BillingStreet, ' .
+                'BillingCity, ' .
+                'BillingState, ' .
+                'BillingPostalCode, ' .
+                'BillingCountry, ' .
+                'Phone, ' .
+                'Referred_by__c,  ' .
+                'RecordTypeId ' .
+                'FROM Account ' .
+                'WHERE ' .
+                'RecordTypeId = \'' . $this->recordTypeId . '\'' .
+                'AND Id =\'' . $account->getSfId() . '\''
+            );
             
+            $sfAccount = $accountResult->first();
+echo $sfAccount->Name . "\n";
+if(isset($sfAccount->BillingStreet)) {
+    echo $sfAccount->BillingStreet . "\n";
+}
+if(isset($sfAccount->BillingCity)) {
+    echo $sfAccount->BillingCity . "\n";
+}
+if(isset($sfAccount->BillingState)) {
+    echo $sfAccount->BillingState . "\n";
+}
+if(isset($sfAccount->BillingPostalCode)) {
+    echo $sfAccount->BillingPostalCode . "\n";
+}
+if(isset($sfAccount->BillingCountry)) {
+    echo $sfAccount->BillingCountry . "\n";
+}
+if(isset($sfAccount->OwnerId)) {
+    echo $sfAccount->OwnerId . "\n";
+}
         }
         
         
