@@ -61,27 +61,40 @@ class TestCommand extends ContainerAwareCommand
             );
             
             $sfAccount = $accountResult->first();
-if(isset($sfAccount->Name)) {
-    echo $sfAccount->Name . "\n";
-}
-if(isset($sfAccount->BillingStreet)) {
-    echo $sfAccount->BillingStreet . "\n";
-}
-if(isset($sfAccount->BillingCity)) {
-    echo $sfAccount->BillingCity . "\n";
-}
-if(isset($sfAccount->BillingState)) {
-    echo $sfAccount->BillingState . "\n";
-}
-if(isset($sfAccount->BillingPostalCode)) {
-    echo $sfAccount->BillingPostalCode . "\n";
-}
-if(isset($sfAccount->BillingCountry)) {
-    echo $sfAccount->BillingCountry . "\n";
-}
-if(isset($sfAccount->OwnerId)) {
-    echo $sfAccount->OwnerId . "\n";
-}
+echo $sfAccount->Id . "\n";
+            
+            if(isset($sfAccount->Name)) {
+                echo $sfAccount->Name . "\n";
+            }
+            if(isset($sfAccount->BillingStreet)) {
+                echo $sfAccount->BillingStreet . "\n";
+            }
+            if(isset($sfAccount->BillingCity)) {
+                echo $sfAccount->BillingCity . "\n";
+            }
+            if(isset($sfAccount->BillingState)) {
+                echo $sfAccount->BillingState . "\n";
+            }
+            if(isset($sfAccount->BillingPostalCode)) {
+                echo $sfAccount->BillingPostalCode . "\n";
+            }
+            if(isset($sfAccount->BillingCountry)) {
+                echo $sfAccount->BillingCountry . "\n";
+            }
+            if(isset($sfAccount->OwnerId)) {
+                echo $sfAccount->OwnerId . "\n";
+                $query = $em->createQuery(
+                    'SELECT u FROM InertiaWinspireBundle:User u WHERE u.sfId = :sfid'
+                )
+                    ->setParameter('sfid', $sfAccount->OwnerId)
+                ;
+                
+                $owner = $query->getSingleResult();
+echo 'owner: ' . $owner->getEmail() . "\n";
+            }
+            else {
+                $output->writeln('<error>Missing OwnerId?!?!</error>');
+            }
         }
         
         
