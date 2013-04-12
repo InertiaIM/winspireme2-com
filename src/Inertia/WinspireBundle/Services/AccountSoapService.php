@@ -3,7 +3,8 @@ namespace Inertia\WinspireBundle\Services;
 
 use Ddeboer\Salesforce\ClientBundle\Client;
 use Doctrine\ORM\EntityManager;
-use Inertia\WinspireBundle\Entity\Package;
+use Inertia\WinspireBundle\Entity\Account;
+use Inertia\WinspireBundle\Entity\User;
 use Symfony\Bridge\Monolog\Logger;
 
 class AccountSoapService
