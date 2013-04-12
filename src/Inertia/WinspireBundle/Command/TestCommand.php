@@ -61,6 +61,10 @@ class TestCommand extends ContainerAwareCommand
             );
             
             $sfAccount = $accountResult->first();
+if(!$sfAccount || !isset($sfAccount->Id)) {
+    $output->writeln('<error>Something wrong with ' . $account->getSfId() . '</error>');
+    exit;
+}
 echo $sfAccount->Id . "\n";
             
             if(isset($sfAccount->Name)) {
