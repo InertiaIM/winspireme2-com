@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
 Salesforce.com Enterprise Web Services API Version 27.0
-Generated on 2013-03-27 18:39:56 +0000.
+Generated on 2013-04-12 22:15:31 +0000.
 
 Package Versions:
 Salesforce for Google AdWords (Version: 1.2, Namespace: sfga)
@@ -208,6 +208,7 @@ All Rights Reserved
                         <element name="Rail_Protect_Plan__c" nillable="true" minOccurs="0" type="xsd:boolean"/>
                         <element name="RecordType" nillable="true" minOccurs="0" type="ens:RecordType"/>
                         <element name="RecordTypeId" nillable="true" minOccurs="0" type="tns:ID"/>
+                        <element name="Referred_by__c" nillable="true" minOccurs="0" type="xsd:string"/>
                         <element name="Regarding__pc" nillable="true" minOccurs="0" type="xsd:string"/>
                         <element name="Reservations_Contact__c" nillable="true" minOccurs="0" type="tns:ID"/>
                         <element name="Reservations_Contact__r" nillable="true" minOccurs="0" type="ens:Contact"/>
@@ -4279,6 +4280,7 @@ All Rights Reserved
                         <element name="Opportunities1__r" nillable="true" minOccurs="0" type="tns:QueryResult"/>
                         <element name="Opportunities__r" nillable="true" minOccurs="0" type="tns:QueryResult"/>
                         <element name="OpportunityLineItems" nillable="true" minOccurs="0" type="tns:QueryResult"/>
+                        <element name="Origin__c" nillable="true" minOccurs="0" type="xsd:string"/>
                         <element name="PDF_doc__c" nillable="true" minOccurs="0" type="xsd:string"/>
                         <element name="PDS__Average_Cost__c" nillable="true" minOccurs="0" type="xsd:double"/>
                         <element name="PDS__Cost__c" nillable="true" minOccurs="0" type="xsd:double"/>
@@ -6859,7 +6861,7 @@ All Rights Reserved
                     <element name="body"                nillable="true" minOccurs="0" type="xsd:base64Binary"/>
                     <element name="contentType"         nillable="true" minOccurs="0" type="xsd:string" />
                     <element name="fileName"            type="xsd:string" />
-                    <element name="inline"              type="xsd:boolean" minOccurs="0"/>
+                    <element name="inline"				type="xsd:boolean" minOccurs="0"/>
                 </sequence>
             </complexType>
             <simpleType name="EmailPriority">
@@ -7659,14 +7661,14 @@ All Rights Reserved
                 </complexType>
             </element>
 
-        <element name="OwnerChangeOptions">
-            <complexType>
-                <sequence>
-                    <element name="transferAttachments" type="xsd:boolean"/>
-                    <element name="transferOpenActivities" type="xsd:boolean"/>
-                </sequence>
-            </complexType>
-        </element>
+		<element name="OwnerChangeOptions">
+			<complexType>
+				<sequence>
+					<element name="transferAttachments" type="xsd:boolean"/>
+					<element name="transferOpenActivities" type="xsd:boolean"/>
+				</sequence>
+			</complexType>
+		</element>
 
         </schema>
 

@@ -28,13 +28,7 @@ class TestCommand extends ContainerAwareCommand
         $query = $em->createQuery(
             'SELECT a FROM InertiaWinspireBundle:Account a WHERE a.sfId IS NOT NULL'
         );
-        
-//        try {
-            $accounts = $query->getResult();
-//        }
-//        catch (\Doctrine\Orm\NoResultException $e) {
-//            echo 'problem with category lookup';
-//        }
+        $accounts = $query->getResult();
         
         
         
@@ -61,13 +55,10 @@ class TestCommand extends ContainerAwareCommand
             );
             
             $sfAccount = $accountResult->first();
-if(!$sfAccount || !isset($sfAccount->Id)) {
-    
-print_r($sfAccount);
-    
-    $output->writeln('<error>Something wrong with ' . $account->getSfId() . '</error>');
-    exit;
-}
+            if(!$sfAccount || !isset($sfAccount->Id)) {
+                $output->writeln('<error>    Something wrong with ' . $account->getSfId() . '</error>');
+                continue;
+            }
             $account->setSfId($sfAccount->Id);
             
             // ACCOUNT NAME
@@ -159,7 +150,6 @@ print_r($sfAccount);
 //                echo $sfAccount->BillingCountry . "\n";
 //            }
             if(isset($sfAccount->OwnerId)) {
-//echo $sfAccount->OwnerId . "\n";
                 $query = $em->createQuery(
                     'SELECT u FROM InertiaWinspireBundle:User u WHERE u.sfId = :sfid'
                 )
@@ -178,6 +168,14 @@ print_r($sfAccount);
             else {
                 $output->writeln('<error>    Missing OwnerId?!?!</error>');
             }
+            
+            
+            
+            if ($account->getReferred() != '') {
+                $sfAccount->Referred_by__c = $account->getReferred();
+                $output->writeln('<info>    New REFERRED in SF: ' .  $account->getReferred() . '</info>');
+            }
+            
             
             $output->writeln('<info>    Updating SF record...</info>');
             $result = $client->update(array($sfAccount), 'Account');
