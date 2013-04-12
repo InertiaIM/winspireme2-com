@@ -11,17 +11,89 @@ use Inertia\WinspireBundle\Entity\Package;
 
 class TestCommand extends ContainerAwareCommand
 {
-    private $pricebookId = '01s700000006IU7AAM';
+    private $recordTypeId = '01270000000DVD5AAO';
     
     protected function configure()
     {
-        $this->setName('test:content')
-            ->setDescription('Test SF Content');
+        $this->setName('test:command')
+            ->setDescription('Test SF Command');
     }
     
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $em = $this->getContainer()->get('doctrine')->getManager();
+        $client = $this->getContainer()->get('ddeboer_salesforce_client');
+        
+        
+        $query = $em->createQuery(
+            'SELECT a FROM InertiaWinspireBundle:Account a WHERE sfId NOT NULL'
+        );
+        
+//        try {
+            $accounts = $query->getResult();
+//        }
+//        catch (\Doctrine\Orm\NoResultException $e) {
+//            echo 'problem with category lookup';
+//        }
+        
+        
+        
+        foreach($accounts as $account) {
+            $output->writeln('<info>' . $account->getName() . ' (' . $account->getSfId() . ')</info>');
+            
+            
+        }
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+exit;
+        $output->writeln('<info>retrieving SF objects...</info>');
+        
+        $accountResult = $client->query('SELECT ' .
+            'Id, ' .
+            'Name, ' .
+            'OwnerId, ' .
+            'BillingStreet, ' .
+            'BillingCity, ' .
+            'BillingState, ' .
+            'BillingPostalCode, ' .
+            'BillingCountry, ' .
+            'Phone, ' .
+            'Referred_by__c,  ' .
+            'RecordTypeId ' .
+            'FROM Account ' .
+            'WHERE ' .
+            'RecordTypeId = \'' . $this->recordTypeId . '\''
+//            'AND Parent_Category__c != \'US Travel\' ' .
+//            'ORDER BY WEB_category_sort__c, ' .
+//            'Child_Category__c'
+        );
+        
+        foreach($accountResult as $account) {
+print_r($account);
+        }
+exit;
+//print_r($accountResult); exit;
+        
+        
+        
+        
+        
+        
+        
         
         $query = $em->createQuery(
             'SELECT p FROM InertiaWinspireBundle:Package p'
