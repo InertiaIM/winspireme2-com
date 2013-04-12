@@ -40,7 +40,7 @@ class TestCommand extends ContainerAwareCommand
         
         foreach($accounts as $account) {
             $output->writeln('<info>' . $account->getName() . ' (' . $account->getSfId() . ')</info>');
-            $output->writeln('<info>retrieving SF objects...</info>');
+            $output->writeln('<info>retrieving SF object...</info>');
             
             $accountResult = $client->query('SELECT ' .
                 'Id, ' .
@@ -62,43 +62,133 @@ class TestCommand extends ContainerAwareCommand
             
             $sfAccount = $accountResult->first();
 if(!$sfAccount || !isset($sfAccount->Id)) {
+    
+print_r($sfAccount);
+    
     $output->writeln('<error>Something wrong with ' . $account->getSfId() . '</error>');
     exit;
 }
-echo $sfAccount->Id . "\n";
+            $account->setSfId($sfAccount->Id);
             
+            // ACCOUNT NAME
             if(isset($sfAccount->Name)) {
-                echo $sfAccount->Name . "\n";
+                if ($account->getName() != $sfAccount->Name) {
+                    $output->writeln('<info>    Old Account Name in SF: ' .  $sfAccount->Name . '</info>');
+                    $output->writeln('<info>    New Account Name in SF: ' .  $account->getName() . '</info>');
+                    $sfAccount->Name = $account->getName();
+                }
             }
+            else {
+                $output->writeln('<info>    Old Account Name in SF: none</info>');
+                $output->writeln('<info>    New Account Name in SF: ' .  $account->getName() . '</info>');
+                $sfAccount->Name = $account->getName();
+            }
+            
+            // ACCOUNT BILLING STREET
             if(isset($sfAccount->BillingStreet)) {
-                echo $sfAccount->BillingStreet . "\n";
+                if ($account->getAddress() != $sfAccount->BillingStreet) {
+                    $output->writeln('<info>    Old STREET in SF: ' .  $sfAccount->BillingStreet . '</info>');
+                    $output->writeln('<info>    New STREET in SF: ' .  $account->getAddress() . '</info>');
+                    $sfAccount->BillingStreet = $account->getAddress();
+                    if ($account->getAddress2() != '') {
+                        $sfAccount->BillingStreet = $account->getAddress() . chr(10) . $account->getAddress2();
+                    }
+                }
             }
+            else {
+                if ($account->getAddress() != '') {
+                    $output->writeln('<info>    Old STREET in SF: none</info>');
+                    $output->writeln('<info>    New STREET in SF: ' .  $account->getAddress() . '</info>');
+                    if ($account->getAddress2() != '') {
+                        $sfAccount->BillingStreet = $account->getAddress() . chr(10) . $account->getAddress2();
+                    }
+                }
+            }
+            
+            // ACCOUNT BILLING CITY
             if(isset($sfAccount->BillingCity)) {
-                echo $sfAccount->BillingCity . "\n";
+                if ($account->getCity() != $sfAccount->BillingCity) {
+                    $output->writeln('<info>    Old CITY in SF: ' . $sfAccount->BillingCity . '</info>');
+                    $output->writeln('<info>    New CITY in SF: ' .  $account->getCity() . '</info>');
+                    $sfAccount->BillingCity = $account->getCity();
+                }
             }
+            else {
+                if ($account->getCity() != '') {
+                    $output->writeln('<info>    Old CITY in SF: none</info>');
+                    $output->writeln('<info>    New CITY in SF: ' .  $account->getCity() . '</info>');
+                    $sfAccount->BillingCity = $account->getCity();
+                }
+            }
+            
+            // ACCOUNT BILLING STATE
             if(isset($sfAccount->BillingState)) {
-                echo $sfAccount->BillingState . "\n";
+                if ($account->getState() != $sfAccount->BillingState) {
+                    $output->writeln('<info>    Old STATE in SF: ' . $sfAccount->BillingState . '</info>');
+                    $output->writeln('<info>    New STATE in SF: ' . $account->getState() . '</info>');
+                    $sfAccount->BillingState = $account->getState();
+                }
             }
+            else {
+                if ($account->getState() != '') {
+                    $output->writeln('<info>    Old STATE in SF: none</info>');
+                    $output->writeln('<info>    New STATE in SF: ' .  $account->getState() . '</info>');
+                    $sfAccount->BillingState = $account->getState();
+                }
+            }
+            
+            
+            // ACCOUNT BILLING ZIP
             if(isset($sfAccount->BillingPostalCode)) {
-                echo $sfAccount->BillingPostalCode . "\n";
+                if ($account->getZip() != $sfAccount->BillingPostalCode) {
+                    $output->writeln('<info>    Old ZIP in SF: ' . $sfAccount->BillingPostalCode . '</info>');
+                    $output->writeln('<info>    New ZIP in SF: ' . $account->getZip() . '</info>');
+                    $sfAccount->BillingPostalCode = $account->getZip();
+                }
             }
-            if(isset($sfAccount->BillingCountry)) {
-                echo $sfAccount->BillingCountry . "\n";
+            else {
+                if ($account->getZip() != '') {
+                    $output->writeln('<info>    Old ZIP in SF: none</info>');
+                    $output->writeln('<info>    New ZIP in SF: ' .  $account->getZip() . '</info>');
+                    $sfAccount->BillingPostalCode = $account->getZip();
+                }
             }
+            
+            
+//            if(isset($sfAccount->BillingCountry)) {
+//                echo $sfAccount->BillingCountry . "\n";
+//            }
             if(isset($sfAccount->OwnerId)) {
-                echo $sfAccount->OwnerId . "\n";
+//echo $sfAccount->OwnerId . "\n";
                 $query = $em->createQuery(
                     'SELECT u FROM InertiaWinspireBundle:User u WHERE u.sfId = :sfid'
                 )
                     ->setParameter('sfid', $sfAccount->OwnerId)
                 ;
                 
-                $owner = $query->getSingleResult();
-echo 'owner: ' . $owner->getEmail() . "\n";
+                try {
+                    $owner = $query->getSingleResult();
+                    $output->writeln('<info>    Owner: ' .  $owner->getEmail() . '</info>');
+                    $account->setSalesperson($owner);
+                }
+                catch (\Exception $e) {
+                    $output->writeln('<error>    Owner ID es no bueno: ' . $sfAccount->OwnerId . '</error>');
+                }
             }
             else {
-                $output->writeln('<error>Missing OwnerId?!?!</error>');
+                $output->writeln('<error>    Missing OwnerId?!?!</error>');
             }
+            
+            $output->writeln('<info>    Updating SF record...</info>');
+            $result = $client->update(array($sfAccount), 'Account');
+            
+            if(!$result[0]->success) {
+                $output->writeln('<error>    Error updating SF record...</error>');
+                print_r($result); exit;
+            }
+            
+            $em->persist($account);
+            $em->flush();
         }
         
         
