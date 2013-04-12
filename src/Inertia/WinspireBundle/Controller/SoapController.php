@@ -6,6 +6,21 @@ use Symfony\Component\HttpFoundation\Response;
 
 class SoapController extends Controller
 {
+    public function accountAction()
+    {
+        $server = new \SoapServer(__DIR__ . '/../../../../app/config/accountNotifications.wsdl.xml');
+        $server->setObject($this->get('account_soap_service'));
+        
+        $response = new Response();
+        $response->headers->set('Content-Type', 'text/xml; charset=ISO-8859-1');
+        
+        ob_start();
+        $server->handle();
+        $response->setContent(ob_get_clean());
+        
+        return $response;
+    }
+    
     public function packageAction()
     {
         $server = new \SoapServer(__DIR__ . '/../../../../app/config/packageNotifications.wsdl.xml');

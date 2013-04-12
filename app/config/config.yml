@@ -124,6 +124,10 @@ services:
     package_soap_service:
         class: Inertia\WinspireBundle\Services\PackageSoapService
         arguments: [@ddeboer_salesforce_client, @doctrine.orm.entity_manager, @logger]
+        
+    account_soap_service:
+        class: Inertia\WinspireBundle\Services\AccountSoapService
+        arguments: [@ddeboer_salesforce_client, @doctrine.orm.entity_manager, @logger]
     
     # Doctrine Extension listeners to handle behaviors
     gedmo.listener.timestampable:

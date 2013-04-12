@@ -115,6 +115,10 @@ emailValidate:
     pattern:  /account/validate-email
     defaults: { _controller: InertiaWinspireBundle:Account:validateEmail }
     
+soap_account:
+    pattern:  /soap/account
+    defaults: { _controller: InertiaWinspireBundle:Soap:account }
+    
 soap_package:
     pattern:  /soap/package
     defaults: { _controller: InertiaWinspireBundle:Soap:package }
