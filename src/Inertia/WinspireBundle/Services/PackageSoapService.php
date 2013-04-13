@@ -82,7 +82,6 @@ fwrite($dump, print_r($notifications, true));
                 'FROM Product2 ' .
                 'WHERE ' .
                 'family = \'No-Risk Auction Package\' ' .
-                'AND IsActive = true ' .
                 'AND IsDeleted = false ' .
                 'AND WEB_package_subtitle__c != \'\' ' .
                 'AND Parent_Header__c != \'\' ' .
@@ -128,6 +127,11 @@ fwrite($dump, print_r($notifications, true));
                 
                 if(isset($p->OMIT_from_Winspire__c)) {
                     $package->setIsPrivate($p->OMIT_from_Winspire__c == '1' ? true : false);
+                }
+                
+                // TODO IF CHANGE FROM Active -> Inactive???
+                if(isset($p->IsActive)) {
+                    $package->setActive($p->IsActive == '1' ? true : false);
                 }
                 
                 if(isset($p->WEB_package_description__c)) {

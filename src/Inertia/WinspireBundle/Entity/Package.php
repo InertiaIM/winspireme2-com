@@ -2,6 +2,7 @@
 namespace Inertia\WinspireBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @ORM\Table(name="package")
@@ -127,6 +128,11 @@ class Package
     private $seasonal;
     
     /**
+     * @ORM\Column(name="active", type="boolean", nullable=true)
+     */
+    private $active;
+    
+    /**
      * @ORM\Column(name="airfares", type="integer", nullable=true)
      */
     private $airfares;
@@ -175,6 +181,22 @@ class Package
      * @ORM\Column(name="sf_id", type="string", length=128)
      */
     private $sfId;
+    
+    /**
+     * @var datetime $created
+     *
+     * @Gedmo\Timestampable(on="create")
+     * @ORM\Column(type="datetime")
+     */
+    private $created;
+    
+    /**
+     * @var datetime $updated
+     *
+     * @Gedmo\Timestampable(on="update")
+     * @ORM\Column(type="datetime")
+     */
+    private $updated;
     
     /**
     * @ORM\ManyToMany(targetEntity="Category", inversedBy="packages")
@@ -1051,5 +1073,74 @@ class Package
     public function getSfContentPackId()
     {
         return $this->sfContentPackId;
+    }
+
+    /**
+     * Set active
+     *
+     * @param boolean $active
+     * @return Package
+     */
+    public function setActive($active)
+    {
+        $this->active = $active;
+    
+        return $this;
+    }
+
+    /**
+     * Get active
+     *
+     * @return boolean 
+     */
+    public function getActive()
+    {
+        return $this->active;
+    }
+
+    /**
+     * Set created
+     *
+     * @param \DateTime $created
+     * @return Package
+     */
+    public function setCreated($created)
+    {
+        $this->created = $created;
+    
+        return $this;
+    }
+
+    /**
+     * Get created
+     *
+     * @return \DateTime 
+     */
+    public function getCreated()
+    {
+        return $this->created;
+    }
+
+    /**
+     * Set updated
+     *
+     * @param \DateTime $updated
+     * @return Package
+     */
+    public function setUpdated($updated)
+    {
+        $this->updated = $updated;
+    
+        return $this;
+    }
+
+    /**
+     * Get updated
+     *
+     * @return \DateTime 
+     */
+    public function getUpdated()
+    {
+        return $this->updated;
     }
 }
