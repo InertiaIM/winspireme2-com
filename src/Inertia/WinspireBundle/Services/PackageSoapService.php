@@ -66,6 +66,7 @@ fwrite($dump, print_r($notifications, true));
                 'Best_Seller__c, ' .
                 'WEB_Default_version__c, ' .
                 'Parent_Header__c, ' .
+                'IsActive, ' .
                 'WEB_picture__c, ' .
                 'WEB_thumbnail__c, ' .
                 'WEB_picture_title__c, ' .
@@ -132,6 +133,9 @@ fwrite($dump, print_r($notifications, true));
                 // TODO IF CHANGE FROM Active -> Inactive???
                 if(isset($p->IsActive)) {
                     $package->setActive($p->IsActive == '1' ? true : false);
+                    if ($package->getActive()) {
+                        $this->logger->info('INACTIVE package (' . $id . ')');
+                    }
                 }
                 
                 if(isset($p->WEB_package_description__c)) {
