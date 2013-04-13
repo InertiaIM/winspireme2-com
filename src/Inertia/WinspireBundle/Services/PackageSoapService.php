@@ -133,7 +133,7 @@ fwrite($dump, print_r($notifications, true));
                 // TODO IF CHANGE FROM Active -> Inactive???
                 if(isset($p->IsActive)) {
                     $package->setActive($p->IsActive == '1' ? true : false);
-                    if ($package->getActive()) {
+                    if (!$package->getActive()) {
                         $this->logger->info('INACTIVE package (' . $id . ')');
                     }
                 }
