@@ -198,6 +198,12 @@ class AccountController extends Controller
                     catch (\Doctrine\Orm\NoResultException $e) {
                     }
                 }
+                else {
+                    // No packages added to Suitcase (Sign up directly without an item)
+                    $response->setData(array(
+                        'count' => 0
+                    ));
+                }
                 
                 $em->persist($suitcase);
                 $em->flush();
@@ -208,11 +214,6 @@ class AccountController extends Controller
                 $loginManager->loginUser('main', $user);
                 
                 $session->set('sid', $suitcase->getId());
-                
-                // No packages added to Suitcase (Sign up directly without an item)
-                $response->setData(array(
-                    'count' => 0
-                ));
                 
                 return $response;
             }
