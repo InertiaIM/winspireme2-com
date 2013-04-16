@@ -37,7 +37,9 @@ class CreateSuitcaseConsumer implements ConsumerInterface
             $suitcase = $query->getSingleResult();
         }
         catch (\Doctrine\Orm\NoResultException $e) {
-            return false;
+            // If we can't get the Suitcase record we'll 
+            // throw out the message from the queue (ack)
+            return true;
         }
         
         $user = $suitcase->getUser();
