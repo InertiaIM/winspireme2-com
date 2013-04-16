@@ -19,7 +19,7 @@ class CreateSuitcaseConsumer implements ConsumerInterface
         $this->em = $entityManager;
         $this->mailer = $mailer;
         $this->templating = $templating;
-//        $this->mailchimp = $mailchimp;
+        $this->mailchimp = $mailchimp;
         
         $this->mailer->getTransport()->stop();
     }
@@ -41,16 +41,16 @@ class CreateSuitcaseConsumer implements ConsumerInterface
         }
         
         $user = $suitcase->getUser();
-//        if($user->getNewsletter()) {
-//            $list = $this->mailchimp->getList();
-//            $list->setMerge(array(
-//                'FNAME' => $user->getFirstName(),
-//                'LNAME' => $user->getLastName(),
-//                'MMERGE3' => $user->getCompany()->getName()
-//            ));
-//            
-//            $result = $list->Subscribe($user->getEmail());
-//        }
+        if($user->getNewsletter()) {
+            $list = $this->mailchimp->getList();
+            $list->setMerge(array(
+                'FNAME' => $user->getFirstName(),
+                'LNAME' => $user->getLastName(),
+                'MMERGE3' => $user->getCompany()->getName()
+            ));
+            
+            $result = $list->Subscribe($user->getEmail());
+        }
         
         
         $name = $suitcase->getUser()->getFirstName() . ' ' .
