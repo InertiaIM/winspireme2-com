@@ -10,6 +10,7 @@ use Inertia\WinspireBundle\Entity\SuitcaseItem;
 use Inertia\WinspireBundle\Form\Type\AccountType;
 use Inertia\WinspireBundle\Form\Type\UserType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Bridge\Monolog\Logger;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Validator\Constraints\Length;
@@ -208,8 +209,13 @@ class AccountController extends Controller
                 $em->persist($suitcase);
                 $em->flush();
                 
-                $msg = array('suitcase_id' => $suitcase->getId());
-                $this->get('old_sound_rabbit_mq.winspire_producer')->publish(serialize($msg), 'create-suitcase');
+                try {
+                    $msg = array('suitcase_id' => $suitcase->getId());
+                    $this->get('old_sound_rabbit_mq.winspire_producer')->publish(serialize($msg), 'create-suitcase');
+                }
+                catch (\Exception $e) {
+                    $this->get('logger')->err('Rabbit queue (create-suitcase) es no bueno!');
+                }
                 
                 $loginManager->loginUser('main', $user);
                 
