@@ -173,7 +173,9 @@ class DefaultController extends Controller
                 $count++;
             }
             
-            $defaultPackages[$index]['count'] = $count;
+            if (isset($index)) {
+                $defaultPackages[$index]['count'] = $count;
+            }
         }
         
         $session->set('packagePath', $slug);
@@ -302,9 +304,11 @@ class DefaultController extends Controller
                 $count++;
             }
             
-            $defaultPackages[$index]['new'] = $defaultPackages[$index]['new'] || $package->getIsNew();
-            $defaultPackages[$index]['popular'] = $defaultPackages[$index]['popular'] || $package->getIsBestSeller();
-            $defaultPackages[$index]['count'] = $count;
+            if (isset($index)) {
+                $defaultPackages[$index]['new'] = $defaultPackages[$index]['new'] || $package->getIsNew();
+                $defaultPackages[$index]['popular'] = $defaultPackages[$index]['popular'] || $package->getIsBestSeller();
+                $defaultPackages[$index]['count'] = $count;
+            }
         }
         
         
@@ -412,7 +416,9 @@ class DefaultController extends Controller
                 $defaultPackages[$index]['variants'][] = $package;
             }
             
-            $defaultPackages[$index]['count'] = $count;
+            if (isset($index)) {
+                $defaultPackages[$index]['count'] = $count;
+            }
         }
         
         
@@ -555,9 +561,9 @@ class DefaultController extends Controller
             }
             
             if(isset($index)) {
-            $defaultPackages[$index]['new'] = $defaultPackages[$index]['new'] || $package->getIsNew();
-            $defaultPackages[$index]['popular'] = $defaultPackages[$index]['popular'] || $package->getIsBestSeller();
-            $defaultPackages[$index]['count'] = $count;
+                $defaultPackages[$index]['new'] = $defaultPackages[$index]['new'] || $package->getIsNew();
+                $defaultPackages[$index]['popular'] = $defaultPackages[$index]['popular'] || $package->getIsBestSeller();
+                $defaultPackages[$index]['count'] = $count;
             }
         }
         
