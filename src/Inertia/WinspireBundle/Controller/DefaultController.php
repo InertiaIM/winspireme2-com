@@ -115,7 +115,12 @@ class DefaultController extends Controller
         
         // Accumulate an array of possible category IDs
         $catIds = array();
+        
         $category = $repo->findOneBySlug($slug);
+        if(!$category) {
+            throw $this->createNotFoundException();
+        }
+        
         $catIds[] = $category->getId();
         foreach($category->getChildren() as $child) {
             $catIds[] = $child->getId();
