@@ -1,6 +1,7 @@
 <?php
 namespace Inertia\WinspireBundle\Consumer;
 
+use Ddeboer\Salesforce\ClientBundle\Client;
 use Doctrine\ORM\EntityManager;
 use MZ\MailChimpBundle\Services\MailChimp;
 use OldSound\RabbitMqBundle\RabbitMq\ConsumerInterface;
@@ -13,13 +14,18 @@ class CreateSuitcaseConsumer implements ConsumerInterface
     protected $mailer;
     protected $templating;
     protected $mailchimp;
+    protected $sf;
     
-    public function __construct(EntityManager $entityManager, \Swift_Mailer $mailer, EngineInterface $templating, MailChimp $mailchimp)
+    private $recordTypeId = '01270000000DVD5AAO';
+    private $opportunityTypeId = '01270000000DVGnAAO';
+    
+    public function __construct(EntityManager $entityManager, \Swift_Mailer $mailer, EngineInterface $templating, MailChimp $mailchimp, Client $salesforce)
     {
         $this->em = $entityManager;
         $this->mailer = $mailer;
         $this->templating = $templating;
         $this->mailchimp = $mailchimp;
+        $this->sf = $salesforce;
         
         $this->mailer->getTransport()->stop();
     }
@@ -42,6 +48,7 @@ class CreateSuitcaseConsumer implements ConsumerInterface
             return true;
         }
         
+        // MailChimp sync
         $user = $suitcase->getUser();
         if($user->getNewsletter()) {
             $list = $this->mailchimp->getList();
@@ -55,6 +62,86 @@ class CreateSuitcaseConsumer implements ConsumerInterface
         }
         
         
+        // Salesforce Updates
+        $account = $user->getCompany();
+        if ($account->getSfId() == '') {
+            $address = $account->getAddress();
+            if ($account->getAddress2() != '') {
+                $address .= chr(10) . $account->getAddress2();
+            }
+            
+            $sfAccount = new \stdClass();
+            $sfAccount->Name = $account->getName();
+            $sfAccount->BillingStreet = $address;
+            $sfAccount->BillingCity = $account->getCity();
+            $sfAccount->BillingState = $account->getState();
+            $sfAccount->BillingPostalCode = $account->getZip();
+            $sfAccount->Phone = $account->getPhone();
+            $sfAccount->Referred_by__c = $account->getReferred();
+            $sfAccount->RecordTypeId = $this->recordTypeId;
+            $sfAccount->OwnerId = $account->getSalesperson()->getSfId();
+            
+            $saveResult = $this->sf->create(array($sfAccount), 'Account');
+            
+            if($saveResult[0]->success) {
+                $timestamp = new \DateTime();
+                $account->setSfId($saveResult[0]->id);
+                $account->setDirty(false);
+                $account->setSfUpdated($timestamp);
+                $account->setUpdated($timestamp);
+                $this->em->persist($account);
+                $this->em->flush();
+            }
+        }
+        
+        if ($user->getSfId() == '' && $account->getSfId() != '') {
+            $sfContact = new \stdClass();
+            $sfContact->FirstName = $user->getFirstName();
+            $sfContact->LastName = $user->getLastName();
+            $sfContact->Phone = $user->getPhone();
+            $sfContact->Email = $user->getEmail();
+            $sfContact->AccountId = $account->getSfId();
+            $sfContact->Default_contact__c = 1;
+            $sfContact->OwnerId = $account->getSalesperson()->getSfId();
+            
+            $saveResult = $this->sf->create(array($sfContact), 'Contact');
+            
+            if($saveResult[0]->success) {
+                $user->setSfId($saveResult[0]->id);
+                $this->em->persist($user);
+                $this->em->flush();
+            }
+        }
+        
+        if ($suitcase->getSfId() == '' && $account->getSfId() != '') {
+            $sfOpportunity = new \stdClass();
+            $sfOpportunity->CloseDate = new \DateTime();
+            $sfOpportunity->Name = $suitcase->getName();
+            $sfOpportunity->StageName = 'Councel';
+            $sfOpportunity->Web_Suitcase_Name__c = $suitcase->getName();
+            $sfOpportunity->Event_Name__c = $suitcase->getEventName();
+            if ($suitcase->getEventDate() != '') {
+                $sfOpportunity->Event_Date__c = $suitcase->getEventDate();
+            }
+            else {
+                $sfOpportunity->Event_Date__c = new \DateTime();
+            }
+            $sfOpportunity->AccountId = $account->getSfId();
+            $sfOpportunity->RecordTypeId = $this->opportunityTypeId;
+            $sfOpportunity->Lead_Souce_by_Client__c = 'Online User';
+            $sfOpportunity->Type = 'New Business';
+            
+            $saveResult = $this->sf->create(array($sfOpportunity), 'Opportunity');
+            
+            if($saveResult[0]->success) {
+                $suitcase->setSfId($saveResult[0]->id);
+                $this->em->persist($suitcase);
+                $this->em->flush();
+            }
+        }
+        
+        
+        // Send Mail Messages
         $name = $suitcase->getUser()->getFirstName() . ' ' .
             $suitcase->getUser()->getLastName();
         

@@ -92,6 +92,7 @@ class AccountSoapService
             if(isset($a->Name) && $new) {
                 $account->setName($a->Name);
             }
+            $account->setNameCanonical($this->slugify($account->getName()));
             
             // ACCOUNT ADDRESS
             if(isset($a->BillingStreet) && $new) {
@@ -147,6 +148,12 @@ class AccountSoapService
             }
             
             $account->setSfId($id);
+            $account->setDirty(false);
+            
+            $timestamp = new \DateTime();
+            $account->setSfUpdated($timestamp);
+            $account->setUpdated($timestamp);
+            
             $this->em->persist($account);
             $this->em->flush();
             
@@ -154,25 +161,6 @@ class AccountSoapService
         }
         
         return array('Ack' => true);
-    }
-    
-    
-    protected function findCategoryByCode($code)
-    {
-        $query = $this->em->createQuery(
-            'SELECT c FROM InertiaWinspireBundle:Category c WHERE c.number = :code'
-        )
-            ->setParameter('code', $code)
-        ;
-        
-        try {
-            $category = $query->getSingleResult();
-        }
-        catch (\Doctrine\Orm\NoResultException $e) {
-//            echo 'problem with category lookup';
-        }
-        
-        return $category;
     }
     
     protected function remove_accent($str)
