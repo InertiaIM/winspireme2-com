@@ -2,6 +2,7 @@
 namespace Inertia\WinspireBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @ORM\Table(name="account")
@@ -20,6 +21,11 @@ class Account
      * @ORM\Column(name="name", type="string", length=256, nullable=true)
      */
     private $name;
+    
+    /**
+     * @ORM\Column(name="name_canonical", type="string", length=256, nullable=true)
+     */
+    private $nameCanonical;
     
     /**
      * @ORM\Column(name="sf_id", type="string", length=128, nullable=true)
@@ -67,6 +73,32 @@ class Account
      * @ORM\Column(name="referred", type="string", length=256, nullable=true)
      */
     private $referred;
+    
+    /**
+     * @ORM\Column(name="dirty", type="boolean", nullable=true)
+     */
+    private $dirty;
+    
+    /**
+     * @var datetime $created
+     *
+     * @Gedmo\Timestampable(on="create")
+     * @ORM\Column(type="datetime")
+     */
+    private $created;
+    
+    /**
+     * @var datetime $updated
+     *
+     * @Gedmo\Timestampable(on="update")
+     * @ORM\Column(type="datetime")
+     */
+    private $updated;
+    
+    /**
+     * @ORM\Column(name="sf_updated", type="datetime", nullable=true)
+     */
+    private $sfUpdated;
     
     /**
      * @ORM\ManyToOne(targetEntity="User", inversedBy="accounts")
@@ -359,5 +391,120 @@ class Account
     public function getReferred()
     {
         return $this->referred;
+    }
+
+    /**
+     * Set nameCanonical
+     *
+     * @param string $nameCanonical
+     * @return Account
+     */
+    public function setNameCanonical($nameCanonical)
+    {
+        $this->nameCanonical = $nameCanonical;
+    
+        return $this;
+    }
+
+    /**
+     * Get nameCanonical
+     *
+     * @return string 
+     */
+    public function getNameCanonical()
+    {
+        return $this->nameCanonical;
+    }
+
+    /**
+     * Set dirty
+     *
+     * @param boolean $dirty
+     * @return Account
+     */
+    public function setDirty($dirty)
+    {
+        $this->dirty = $dirty;
+    
+        return $this;
+    }
+
+    /**
+     * Get dirty
+     *
+     * @return boolean 
+     */
+    public function getDirty()
+    {
+        return $this->dirty;
+    }
+
+    /**
+     * Set created
+     *
+     * @param \DateTime $created
+     * @return Account
+     */
+    public function setCreated($created)
+    {
+        $this->created = $created;
+    
+        return $this;
+    }
+
+    /**
+     * Get created
+     *
+     * @return \DateTime 
+     */
+    public function getCreated()
+    {
+        return $this->created;
+    }
+
+    /**
+     * Set updated
+     *
+     * @param \DateTime $updated
+     * @return Account
+     */
+    public function setUpdated($updated)
+    {
+        $this->updated = $updated;
+    
+        return $this;
+    }
+
+    /**
+     * Get updated
+     *
+     * @return \DateTime 
+     */
+    public function getUpdated()
+    {
+        return $this->updated;
+    }
+
+    /**
+     * Set sfUpdated
+     *
+     * @param \DateTime $sfUpdated
+     * @return Account
+     */
+    public function setSfUpdated($sfUpdated)
+    {
+        $this->sfUpdated = $sfUpdated;
+    
+        return $this;
+    }
+
+    /**
+     * Get sfUpdated
+     *
+     * @return \DateTime 
+     */
+    public function getSfUpdated()
+    {
+        return $this->sfUpdated;
     }
 }
