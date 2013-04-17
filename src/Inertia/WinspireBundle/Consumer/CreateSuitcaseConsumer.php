@@ -48,18 +48,7 @@ class CreateSuitcaseConsumer implements ConsumerInterface
             return true;
         }
         
-        // MailChimp sync
         $user = $suitcase->getUser();
-        if($user->getNewsletter()) {
-            $list = $this->mailchimp->getList();
-            $list->setMerge(array(
-                'FNAME' => $user->getFirstName(),
-                'LNAME' => $user->getLastName(),
-                'MMERGE3' => $user->getCompany()->getName()
-            ));
-            
-            $result = $list->Subscribe($user->getEmail());
-        }
         
         
         // Salesforce Updates
@@ -118,7 +107,7 @@ class CreateSuitcaseConsumer implements ConsumerInterface
             $sfOpportunity->CloseDate = new \DateTime();
             $sfOpportunity->Name = $suitcase->getName();
             $sfOpportunity->StageName = 'Councel';
-            $sfOpportunity->Web_Suitcase_Name__c = $suitcase->getName();
+            $sfOpportunity->Web_Suitcase_Name__c = substr($suitcase->getName(), 0, 30);
             $sfOpportunity->Event_Name__c = $suitcase->getEventName();
             if ($suitcase->getEventDate() != '') {
                 $sfOpportunity->Event_Date__c = $suitcase->getEventDate();
@@ -170,6 +159,21 @@ class CreateSuitcaseConsumer implements ConsumerInterface
         }
         
         $this->mailer->getTransport()->stop();
+        
+        
+        // MailChimp sync
+        if($user->getNewsletter()) {
+            $list = $this->mailchimp->getList();
+            $list->setMerge(array(
+                'FNAME' => $user->getFirstName(),
+                'LNAME' => $user->getLastName(),
+                'MMERGE3' => $user->getCompany()->getName()
+            ));
+            
+            $result = $list->Subscribe($user->getEmail());
+        }
+        
+        
         return true;
     }
 }
