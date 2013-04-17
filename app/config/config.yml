@@ -151,7 +151,7 @@ services:
         
     create_suitcase_service:
         class: Inertia\WinspireBundle\Consumer\CreateSuitcaseConsumer
-        arguments: [@doctrine.orm.entity_manager, @mailer, @templating, @mailchimp]
+        arguments: [@doctrine.orm.entity_manager, @mailer, @templating, @mailchimp, @ddeboer_salesforce_client]
         
     unpack_suitcase_service:
         class: Inertia\WinspireBundle\Consumer\UnpackSuitcaseConsumer
