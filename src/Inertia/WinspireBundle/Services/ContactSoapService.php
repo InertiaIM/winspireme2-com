@@ -105,7 +105,7 @@ class ContactSoapService
                 $this->logger->err('    Missing AccountID!?!?');
             }
             
-            if (($sfContact->SystemModstamp > $user->getSfUpdated()) && !$user->isDirty()) {
+            if (($sfContact->SystemModstamp > $user->getSfUpdated()) && !$user->getDirty()) {
                 // CONTACT FIRST NAME
                 if (isset($sfContact->FirstName)) {
                     $user->setFirstName($sfContact->FirstName);
