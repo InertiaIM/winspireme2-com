@@ -119,6 +119,10 @@ soap_account:
     pattern:  /soap/account
     defaults: { _controller: InertiaWinspireBundle:Soap:account }
     
+soap_contact:
+    pattern:  /soap/contact
+    defaults: { _controller: InertiaWinspireBundle:Soap:contact }
+    
 soap_package:
     pattern:  /soap/package
     defaults: { _controller: InertiaWinspireBundle:Soap:package }

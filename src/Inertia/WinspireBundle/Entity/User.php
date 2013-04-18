@@ -3,6 +3,7 @@ namespace Inertia\WinspireBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use FOS\UserBundle\Entity\User as BaseUser;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * Inertia\WinspireBundle\Entity\User
@@ -43,6 +44,32 @@ class User extends BaseUser implements \Serializable
      * @ORM\Column(name="newsletter", type="boolean")
      */
     private $newsletter;
+    
+    /**
+     * @ORM\Column(name="dirty", type="boolean", nullable=true)
+     */
+    private $dirty;
+    
+    /**
+     * @var datetime $created
+     *
+     * @Gedmo\Timestampable(on="create")
+     * @ORM\Column(type="datetime")
+     */
+    private $created;
+    
+    /**
+     * @var datetime $updated
+     *
+     * @Gedmo\Timestampable(on="update")
+     * @ORM\Column(type="datetime")
+     */
+    private $updated;
+    
+    /**
+     * @ORM\Column(name="sf_updated", type="datetime", nullable=true)
+     */
+    private $sfUpdated;
     
     /**
      * @ORM\Column(name="sf_id", type="string", length=128, nullable=true)
@@ -354,5 +381,97 @@ class User extends BaseUser implements \Serializable
     public function getNewsletter()
     {
         return $this->newsletter;
+    }
+
+    /**
+     * Set dirty
+     *
+     * @param boolean $dirty
+     * @return User
+     */
+    public function setDirty($dirty)
+    {
+        $this->dirty = $dirty;
+    
+        return $this;
+    }
+
+    /**
+     * Get dirty
+     *
+     * @return boolean 
+     */
+    public function getDirty()
+    {
+        return $this->dirty;
+    }
+
+    /**
+     * Set created
+     *
+     * @param \DateTime $created
+     * @return User
+     */
+    public function setCreated($created)
+    {
+        $this->created = $created;
+    
+        return $this;
+    }
+
+    /**
+     * Get created
+     *
+     * @return \DateTime 
+     */
+    public function getCreated()
+    {
+        return $this->created;
+    }
+
+    /**
+     * Set updated
+     *
+     * @param \DateTime $updated
+     * @return User
+     */
+    public function setUpdated($updated)
+    {
+        $this->updated = $updated;
+    
+        return $this;
+    }
+
+    /**
+     * Get updated
+     *
+     * @return \DateTime 
+     */
+    public function getUpdated()
+    {
+        return $this->updated;
+    }
+
+    /**
+     * Set sfUpdated
+     *
+     * @param \DateTime $sfUpdated
+     * @return User
+     */
+    public function setSfUpdated($sfUpdated)
+    {
+        $this->sfUpdated = $sfUpdated;
+    
+        return $this;
+    }
+
+    /**
+     * Get sfUpdated
+     *
+     * @return \DateTime 
+     */
+    public function getSfUpdated()
+    {
+        return $this->sfUpdated;
     }
 }

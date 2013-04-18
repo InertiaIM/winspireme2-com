@@ -125,6 +125,10 @@ services:
         class: Inertia\WinspireBundle\Services\AccountSoapService
         arguments: [@ddeboer_salesforce_client, @doctrine.orm.entity_manager, @logger]
         
+    contact_soap_service:
+        class: Inertia\WinspireBundle\Services\ContactSoapService
+        arguments: [@ddeboer_salesforce_client, @doctrine.orm.entity_manager, @logger]
+        
     package_soap_service:
         class: Inertia\WinspireBundle\Services\PackageSoapService
         arguments: [@ddeboer_salesforce_client, @doctrine.orm.entity_manager, @logger]

@@ -21,6 +21,21 @@ class SoapController extends Controller
         return $response;
     }
     
+    public function contactAction()
+    {
+        $server = new \SoapServer(__DIR__ . '/../../../../app/config/contactNotifications.wsdl.xml');
+        $server->setObject($this->get('contact_soap_service'));
+        
+        $response = new Response();
+        $response->headers->set('Content-Type', 'text/xml; charset=ISO-8859-1');
+        
+        ob_start();
+        $server->handle();
+        $response->setContent(ob_get_clean());
+        
+        return $response;
+    }
+    
     public function packageAction()
     {
         $server = new \SoapServer(__DIR__ . '/../../../../app/config/packageNotifications.wsdl.xml');
