@@ -55,7 +55,6 @@ class ContactSoapService
                 'Phone, ' .
                 'Email, ' .
                 'AccountId, ' .
-                'AccountId, ' .
                 'SystemModstamp ' .
                 'FROM Contact ' .
                 'WHERE ' .
