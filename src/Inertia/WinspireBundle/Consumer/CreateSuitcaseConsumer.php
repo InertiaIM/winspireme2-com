@@ -18,6 +18,7 @@ class CreateSuitcaseConsumer implements ConsumerInterface
     
     private $recordTypeId = '01270000000DVD5AAO';
     private $opportunityTypeId = '01270000000DVGnAAO';
+    private $partnerRecordId = '0017000000PKyUfAAL';
     
     public function __construct(EntityManager $entityManager, \Swift_Mailer $mailer, EngineInterface $templating, MailChimp $mailchimp, Client $salesforce)
     {
@@ -117,7 +118,9 @@ class CreateSuitcaseConsumer implements ConsumerInterface
             $sfOpportunity->AccountId = $account->getSfId();
             $sfOpportunity->RecordTypeId = $this->opportunityTypeId;
             $sfOpportunity->Lead_Souce_by_Client__c = 'Online User';
-            $sfOpportunity->Type = 'New Business';
+            $sfOpportunity->Type = 'Web Suitcase';
+            $sfOpportunity->Partner_Class__c = $this->partnerRecordId;
+            $sfOpportunity->Item_Use__c = 'Silent Auction';
             
             $saveResult = $this->sf->create(array($sfOpportunity), 'Opportunity');
             
