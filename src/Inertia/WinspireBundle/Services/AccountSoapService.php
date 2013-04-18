@@ -56,7 +56,8 @@ class AccountSoapService
                 'BillingCountry, ' .
                 'Phone, ' .
                 'Referred_by__c,  ' .
-                'RecordTypeId ' .
+                'RecordTypeId, ' .
+                'SystemModstamp ' .
                 'FROM Account ' .
                 'WHERE ' .
                 'RecordTypeId = \'' . $this->recordTypeId . '\'' .
@@ -88,85 +89,90 @@ class AccountSoapService
             
             $a = $accountResult->first();
             
-            // ACCOUNT NAME
-            if(isset($a->Name) && $new) {
-                $account->setName($a->Name);
-            }
-            $account->setNameCanonical($this->slugify($account->getName()));
-            
-            // ACCOUNT ADDRESS
-            if(isset($a->BillingStreet) && $new) {
-// TODO NEED TO SPLIT STREET into TWO
-                $account->setAddress($a->BillingStreet);
-            }
-            
-            // ACCOUNT CITY
-            if(isset($a->BillingCity) && $new) {
-                $account->setCity($a->BillingCity);
-            }
-            
-            // ACCOUNT STATE
-            if(isset($a->BillingState) && $new) {
-                $account->setState($a->BillingState);
-            }
-            
-            // ACCOUNT ZIP
-            if(isset($a->BillingPostalCode) && $new) {
-                $account->setZip($a->BillingPostalCode);
-            }
-            
-            // ACCOUNT PHONE
-            if(isset($a->Phone) && $new) {
-                $account->setPhone($a->Phone);
-            }
-            
-            // ACCOUNT REFERRED
-            if(isset($a->Referred_by__c) && $new) {
-                $account->setReferred($a->Referred_by__c);
-            }
-            
-            // ACCOUNT OWNER
-            if(isset($a->OwnerId)) {
-                $query = $this->em->createQuery(
-                    'SELECT u FROM InertiaWinspireBundle:User u WHERE u.sfId = :sfid'
-                )
-                    ->setParameter('sfid', $a->OwnerId)
-                ;
+            if ($new || (($a->SystemModstamp > $account->getSfUpdated())) && !$account->getDirty()) {
+                // ACCOUNT NAME
+                if(isset($a->Name)) {
+                    $account->setName($a->Name);
+                }
+                $account->setNameCanonical($this->slugify($account->getName()));
                 
-                try {
-                    $owner = $query->getSingleResult();
-//                    $output->writeln('<info>    Owner: ' .  $owner->getEmail() . '</info>');
-                    $account->setSalesperson($owner);
+                // ACCOUNT ADDRESS
+                if(isset($a->BillingStreet)) {
+                    $address = explode(chr(10), $a->BillingStreet);
+                    $account->setAddress($address[0]);
+                    if (isset($address[1])) {
+                        $account->setAddress2($address[1]);
+                    }
                 }
-                catch (\Exception $e) {
-//                    $output->writeln('<error>    Owner ID es no bueno: ' . $sfAccount->OwnerId . '</error>');
+                
+                // ACCOUNT CITY
+                if(isset($a->BillingCity)) {
+                    $account->setCity($a->BillingCity);
+                }
+                
+                // ACCOUNT STATE
+                if(isset($a->BillingState)) {
+                    $account->setState($a->BillingState);
+                }
+                
+                // ACCOUNT ZIP
+                if(isset($a->BillingPostalCode)) {
+                    $account->setZip($a->BillingPostalCode);
+                }
+                
+                // ACCOUNT PHONE
+                if(isset($a->Phone)) {
+                    $account->setPhone($a->Phone);
+                }
+                
+                // ACCOUNT REFERRED
+                if(isset($a->Referred_by__c)) {
+                    $account->setReferred($a->Referred_by__c);
+                }
+                
+                // ACCOUNT OWNER
+                if(isset($a->OwnerId)) {
                     $query = $this->em->createQuery(
-                        'SELECT u FROM InertiaWinspireBundle:User u WHERE u.id = :id'
+                        'SELECT u FROM InertiaWinspireBundle:User u WHERE u.sfId = :sfid'
                     )
-                        ->setParameter('id', 1)
+                        ->setParameter('sfid', $a->OwnerId)
                     ;
-                    $owner = $query->getSingleResult();
-                    $account->setSalesperson(owner);
+                    
+                    try {
+                        $owner = $query->getSingleResult();
+//                    $output->writeln('<info>    Owner: ' .  $owner->getEmail() . '</info>');
+                        $account->setSalesperson($owner);
+                    }
+                    catch (\Exception $e) {
+//                    $output->writeln('<error>    Owner ID es no bueno: ' . $sfAccount->OwnerId . '</error>');
+                        $query = $this->em->createQuery(
+                            'SELECT u FROM InertiaWinspireBundle:User u WHERE u.id = :id'
+                        )
+                            ->setParameter('id', 1)
+                        ;
+                        $owner = $query->getSingleResult();
+                        $account->setSalesperson(owner);
+                    }
                 }
-            }
-            else {
+                else {
 //                $output->writeln('<error>    Missing OwnerId?!?!</error>');
+                }
+                
+                $account->setSfId($id);
+                $account->setDirty(false);
+                
+                $timestamp = new \DateTime();
+                $account->setSfUpdated($timestamp);
+                $account->setUpdated($timestamp);
+                
+                $this->em->persist($account);
+                $this->em->flush();
+                
+                $this->logger->info('Account saved...');
             }
             
-            $account->setSfId($id);
-            $account->setDirty(false);
-            
-            $timestamp = new \DateTime();
-            $account->setSfUpdated($timestamp);
-            $account->setUpdated($timestamp);
-            
-            $this->em->persist($account);
-            $this->em->flush();
-            
-            $this->logger->info('Account saved...');
+            return array('Ack' => true);
         }
-        
-        return array('Ack' => true);
     }
     
     protected function remove_accent($str)
