@@ -6,6 +6,7 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
+use Inertia\WinspireBundle\Entity\Account;
 use Inertia\WinspireBundle\Entity\Category;
 use Inertia\WinspireBundle\Entity\Package;
 use Inertia\WinspireBundle\Entity\User;
@@ -13,6 +14,7 @@ use Inertia\WinspireBundle\Entity\User;
 
 class SalesforceCommand extends ContainerAwareCommand
 {
+    private $recordTypeId = '01270000000DVD5AAO';
     private $pricebookId = '01s700000006IU7AAM';
     private $roleIds = '(\'00E700000018WJiEAM\', \'00E700000018HOeEAM\')';
     
@@ -457,6 +459,133 @@ class SalesforceCommand extends ContainerAwareCommand
                     catch(\Exception $e) {
                         $output->writeln('<error>Ooops!</error>');
                     }
+                }
+                
+            break;
+                
+            case 'accounts':
+                $accountResult = $client->query('SELECT ' .
+                    'Id, ' .
+                    'Name, ' .
+                    'OwnerId, ' .
+                    'BillingStreet, ' .
+                    'BillingCity, ' .
+                    'BillingState, ' .
+                    'BillingPostalCode, ' .
+                    'BillingCountry, ' .
+                    'Phone, ' .
+                    'Referred_by__c,  ' .
+                    'RecordTypeId ' .
+                    'FROM Account ' .
+                    'WHERE ' .
+                    'RecordTypeId = \'' . $this->recordTypeId . '\''
+                );
+                
+                // If we don't receive any Accounts, then it doesn't meet the criteria
+                if(count($accountResult) == 0) {
+                    $output->writeln('<error>Ooops, no accounts found!</error>');
+                }
+                
+                foreach ($accountResult as $sfAccount) {
+                    // Test whether this account is already in our database
+                    $account = $em->getRepository('InertiaWinspireBundle:Account')->findOneBySfId($sfAccount->Id);
+                    
+                    if(!$account) {
+                        // New account, not in our database yet
+                        $output->writeln('<info>New account (' . $sfAccount->Id . ') to be added</info>');
+                        $account = new Account();
+                        $new = true;
+                    }
+                    else {
+                        // Account already exists, just update
+                        $output->writeln('<info>Existing account (' . $sfAccount->Id . ') to be updated NOT!!!</info>');
+                        $new = false;
+continue;
+                    }
+                    
+                    
+                    // ACCOUNT NAME
+                    if(isset($sfAccount->Name) && $new) {
+                        $account->setName($sfAccount->Name);
+                    }
+                    $account->setNameCanonical($this->slugify($account->getName()));
+                    
+                    // ACCOUNT ADDRESS
+                    if(isset($sfAccount->BillingStreet) && $new) {
+                        $address = explode(chr(10), $sfAccount->BillingStreet);
+                        $account->setAddress(trim($address[0]));
+                        if(isset($address[1])) {
+                            $account->setAddress2(trim($address[1]));
+                        }
+                    }
+                    
+                    // ACCOUNT CITY
+                    if(isset($sfAccount->BillingCity) && $new) {
+                        $account->setCity($sfAccount->BillingCity);
+                    }
+                    
+                    // ACCOUNT STATE
+                    if(isset($sfAccount->BillingState) && $new) {
+                        // TODO Need to test for proper two-letter state code
+                        $account->setState($sfAccount->BillingState);
+                    }
+                    
+                    // ACCOUNT ZIP
+                    if(isset($sfAccount->BillingPostalCode) && $new) {
+                        $account->setZip($sfAccount->BillingPostalCode);
+                    }
+                    
+                    // ACCOUNT PHONE
+                    if(isset($sfAccount->Phone) && $new) {
+                        $account->setPhone($sfAccount->Phone);
+                    }
+                    
+                    // ACCOUNT REFERRED
+                    if(isset($sfAccount->Referred_by__c) && $new) {
+                        $account->setReferred($sfAccount->Referred_by__c);
+                    }
+                    
+                    // ACCOUNT OWNER
+                    if(isset($sfAccount->OwnerId)) {
+                        $query = $em->createQuery(
+                            'SELECT u FROM InertiaWinspireBundle:User u WHERE u.sfId = :sfid'
+                        )
+                            ->setParameter('sfid', $sfAccount->OwnerId)
+                        ;
+                        
+                        try {
+                            $owner = $query->getSingleResult();
+                            $output->writeln('<info>    Owner: ' .  $owner->getEmail() . '</info>');
+                            $account->setSalesperson($owner);
+                        }
+                        catch (\Exception $e) {
+                            $output->writeln('<error>    Owner ID es no bueno: ' . $sfAccount->OwnerId . '</error>');
+                            $query = $em->createQuery(
+                                'SELECT u FROM InertiaWinspireBundle:User u WHERE u.id = :id'
+                            )
+                                ->setParameter('id', 1)
+                            ;
+                            $owner = $query->getSingleResult();
+                            
+                            $account->setSalesperson($owner);
+                        }
+                    }
+                    else {
+                        $output->writeln('<error>    Missing OwnerId?!?!</error>');
+                    }
+                    
+                    $account->setSfId($sfAccount->Id);
+                    $account->setDirty(false);
+                    
+                    $timestamp = new \DateTime();
+                    $account->setSfUpdated($timestamp);
+                    $account->setUpdated($timestamp);
+                    
+                    $em->persist($account);
+                    $em->flush();
+                    
+                    $output->writeln('<info>    Account saved...</info>');
+                    
                 }
                 
                 break;

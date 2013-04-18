@@ -140,7 +140,13 @@ class AccountSoapService
                 }
                 catch (\Exception $e) {
 //                    $output->writeln('<error>    Owner ID es no bueno: ' . $sfAccount->OwnerId . '</error>');
-                    $account->setSalesperson(1);
+                    $query = $this->em->createQuery(
+                        'SELECT u FROM InertiaWinspireBundle:User u WHERE u.id = :id'
+                    )
+                        ->setParameter('id', 1)
+                    ;
+                    $owner = $query->getSingleResult();
+                    $account->setSalesperson(owner);
                 }
             }
             else {
