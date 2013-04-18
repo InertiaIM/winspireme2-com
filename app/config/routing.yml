@@ -123,6 +123,10 @@ soap_package:
     pattern:  /soap/package
     defaults: { _controller: InertiaWinspireBundle:Soap:package }
     
+soap_suitcase:
+    pattern:  /soap/suitcase
+    defaults: { _controller: InertiaWinspireBundle:Soap:suitcase }
+    
 fos_user_security:
     resource: "@FOSUserBundle/Resources/config/routing/security.xml"
     

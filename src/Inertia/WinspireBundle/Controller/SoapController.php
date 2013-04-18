@@ -35,4 +35,19 @@ class SoapController extends Controller
         
         return $response;
     }
+    
+    public function suitcaseAction()
+    {
+        $server = new \SoapServer(__DIR__ . '/../../../../app/config/suitcaseNotifications.wsdl.xml');
+        $server->setObject($this->get('suitcase_soap_service'));
+        
+        $response = new Response();
+        $response->headers->set('Content-Type', 'text/xml; charset=ISO-8859-1');
+        
+        ob_start();
+        $server->handle();
+        $response->setContent(ob_get_clean());
+        
+        return $response;
+    }
 }
