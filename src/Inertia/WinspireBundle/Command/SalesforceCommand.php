@@ -461,7 +461,7 @@ class SalesforceCommand extends ContainerAwareCommand
                     }
                 }
                 
-            break;
+                break;
                 
             case 'accounts':
                 $accountResult = $client->query('SELECT ' .
@@ -565,9 +565,9 @@ continue;
                             )
                                 ->setParameter('id', 1)
                             ;
-                            $owner = $query->getSingleResult();
+                            $defaultOwner = $query->getSingleResult();
                             
-                            $account->setSalesperson($owner);
+                            $account->setSalesperson($defaultOwner);
                         }
                     }
                     else {
@@ -583,6 +583,7 @@ continue;
                     
                     $em->persist($account);
                     $em->flush();
+                    $em->clear();
                     
                     $output->writeln('<info>    Account saved...</info>');
                     

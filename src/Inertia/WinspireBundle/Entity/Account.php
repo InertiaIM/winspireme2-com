@@ -5,7 +5,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
- * @ORM\Table(name="account")
+ * @ORM\Table(name="account", indexes={@ORM\Index(name="sf_id", columns={"sf_id"})})
  * @ORM\Entity
  */
 class Account

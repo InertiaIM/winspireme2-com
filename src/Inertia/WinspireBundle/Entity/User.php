@@ -7,7 +7,7 @@ use FOS\UserBundle\Entity\User as BaseUser;
 /**
  * Inertia\WinspireBundle\Entity\User
  *
- * @ORM\Table(name="user")
+ * @ORM\Table(name="user", indexes={@ORM\Index(name="sf_id", columns={"sf_id"})})
  * @ORM\Entity
  */
 class User extends BaseUser implements \Serializable
