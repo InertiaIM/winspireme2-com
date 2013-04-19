@@ -64,6 +64,16 @@ class Suitcase
     private $updated;
     
     /**
+     * @ORM\Column(name="dirty", type="boolean", nullable=true)
+     */
+    private $dirty;
+    
+    /**
+     * @ORM\Column(name="sf_updated", type="datetime", nullable=true)
+     */
+    private $sfUpdated;
+    
+    /**
      * @ORM\ManyToOne(targetEntity="User", inversedBy="suitcases")
      * @ORM\JoinColumn(name="salesperson_id", referencedColumnName="id")
      */
@@ -439,5 +449,51 @@ class Suitcase
     public function getComments()
     {
         return $this->comments;
+    }
+
+    /**
+     * Set sfUpdated
+     *
+     * @param \DateTime $sfUpdated
+     * @return Suitcase
+     */
+    public function setSfUpdated($sfUpdated)
+    {
+        $this->sfUpdated = $sfUpdated;
+    
+        return $this;
+    }
+
+    /**
+     * Get sfUpdated
+     *
+     * @return \DateTime 
+     */
+    public function getSfUpdated()
+    {
+        return $this->sfUpdated;
+    }
+
+    /**
+     * Set dirty
+     *
+     * @param boolean $dirty
+     * @return Suitcase
+     */
+    public function setDirty($dirty)
+    {
+        $this->dirty = $dirty;
+    
+        return $this;
+    }
+
+    /**
+     * Get dirty
+     *
+     * @return boolean 
+     */
+    public function getDirty()
+    {
+        return $this->dirty;
     }
 }

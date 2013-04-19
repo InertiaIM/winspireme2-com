@@ -859,7 +859,7 @@ if(($sfAccount->SystemModstamp > $account->getSfUpdated()) && !$account->getDirt
             case 'suitcases':
                 // Phase 1:  Push all "dirty" records in our Suitcase table
                 $query = $em->createQuery(
-                    'SELECT a, u, s FROM InertiaWinspireBundle:Suitcase s JOIN s.user u JOIN u.company a WHERE u.sfId IS NOT NULL AND a.sfId NOT IN (:blah)'
+                    'SELECT a, u, s FROM InertiaWinspireBundle:Suitcase s JOIN s.user u JOIN u.company a WHERE u.sfId IS NOT NULL AND a.sfId NOT IN (:blah) AND s.dirty = 1'
                 );
                 $query->setParameter('blah', array('TEST', 'CANADA', 'PARTNER'));
                 $suitcases = $query->getResult();
@@ -876,7 +876,9 @@ if(($sfAccount->SystemModstamp > $account->getSfUpdated()) && !$account->getDirt
                     $sfOpportunity->CloseDate = new \DateTime('+60 days');
                     $sfOpportunity->Name = $suitcase->getName();
                     $sfOpportunity->StageName = 'Counsel';
-                    $sfOpportunity->Event_Name__c = substr($suitcase->getEventName(), 0, 40);
+                    if ($suitcase->getEventName() != '') {
+                        $sfOpportunity->Event_Name__c = substr($suitcase->getEventName(), 0, 40);
+                    }
                     if ($suitcase->getEventDate() != '') {
                         $sfOpportunity->Event_Date__c = $suitcase->getEventDate();
                     }
@@ -892,116 +894,112 @@ if(($sfAccount->SystemModstamp > $account->getSfUpdated()) && !$account->getDirt
                     
                     if ($new) {
                         $saveResult = $client->create(array($sfOpportunity), 'Opportunity');
+                        $output->writeln('<info>Gonna create: ' . $suitcase->getId() . '</info>');
                     }
                     else {
-//                        $sfOpportunity->Id = $contact->getSfId();
-//                        $saveResult = $client->update(array($sfOpportunity), 'Opportunity');
+                        $sfOpportunity->Id = $suitcase->getSfId();
+                        $output->writeln('<info>Gonna update: ' . $suitcase->getSfId() . '</info>');
+                        $saveResult = $client->update(array($sfOpportunity), 'Opportunity');
                     }
                     
-                    if($new && $saveResult[0]->success) {
+                    if(false && $saveResult[0]->success) {
                         $suitcase->setSfId($saveResult[0]->id);
+                        $timestamp = new \DateTime();
+                        $suitcase->setDirty(false);
+                        $suitcase->setSfUpdated($timestamp);
+                        $suitcase->setUpdated($timestamp);
                         $em->persist($suitcase);
                         $em->flush();
                     }
                 }
                 
-exit;
+                
                 
                 // Phase 2:  Attempt to locate deleted (and changed) Opportunities
                 $query = $em->createQuery(
-                    'SELECT u FROM InertiaWinspireBundle:User u WHERE u.sfId IS NOT NULL AND u.sfId NOT IN (:blah) AND u.type = \'C\''
+                    'SELECT a, u, s FROM InertiaWinspireBundle:Suitcase s JOIN s.user u JOIN u.company a WHERE u.sfId IS NOT NULL AND a.sfId NOT IN (:blah) AND a.sfId IS NOT NULL s.dirty = 0'
                 );
-                        $query->setParameter('blah', array('TEST', 'PARTNER', 'CANADA'));
-                        $contacts = $query->getResult();
-                        $count = 0;
-                        $ids = array();
-                        foreach ($contacts as $contact) {
-                            $count++;
-                            $ids[] = $contact->getSfId();
-                            if ($count == 2000) {
-                                $output->writeln('<info>Gonna retrieve now...' . $count . '</info>');
-                
-                                $result = $client->retrieve(array('Id', 'FirstName', 'LastName', 'Phone', 'Email', 'AccountId', 'SystemModstamp'), $ids, 'Contact');
-                                foreach ($result as $key => $value) {
-                                    if ($value === null && ($contacts[$key]->getSfId() == $ids[$key])) {
-                                        $output->writeln('<error>Missing Contact on SF: ' . $ids[$key] . '</error>');
-                                    }
-                                    else {
-                                        if (($contacts[$key]->getSfId() == $ids[$key]) && ($value->SystemModstamp > $contacts[$key]->getSfUpdated())) {
-                                            $output->writeln('<info>Updating Contact: ' . $ids[$key] . '</info>');
-                                            $output->writeln('<info>Updating Contact: ' . $value->FirstName . '</info>');
-                                            $output->writeln('<info>Updating Contact: ' . $value->LastName . '</info>');
-                                            if (isset($value->Email)) {
-                                                $output->writeln('<info>Updating Contact: ' . $value->Email . '</info>');
-                                            }
-                                            if (isset($value->Phone)) {
-                                                $output->writeln('<info>Updating Contact: ' . $value->Phone . '</info>');
-                                            }
-                
-                                            $contacts[$key]->getFirstName($value->FirstName);
-                                            $contacts[$key]->getLastName($value->LastName);
-                                            if (isset($value->Email)) {
-                                                $contacts[$key]->getEmail($value->Email);
-                                            }
-                                            if (isset($value->Phone)) {
-                                                $contacts[$key]->getPhone($value->Phone);
-                                            }
-                                            // TODO Assign Account
-                
-                                            $timestamp = new \DateTime();
-                                            $contacts[$key]->setDirty(false);
-                                            $contacts[$key]->setSfUpdated($timestamp);
-                                            $contacts[$key]->setUpdated($timestamp);
-                                            $em->persist($contacts[$key]);
-                                            $em->flush();
-                                        }
-                                    }
-                                }
-                
-                                $count = 0;
-                                $ids = array();
-                            }
-                        }
-                
+                $query->setParameter('blah', array('TEST', 'PARTNER', 'CANADA'));
+                $suitcases = $query->getResult();
+                $count = 0;
+                $ids = array();
+                foreach ($suitcases as $suitcase) {
+                    $count++;
+                    $ids[] = $suitcase->getSfId();
+                    if ($count == 2000) {
                         $output->writeln('<info>Gonna retrieve now...' . $count . '</info>');
-                        $result = $client->retrieve(array('Id', 'FirstName', 'LastName', 'Phone', 'Email', 'AccountId', 'SystemModstamp'), $ids, 'Contact');
+                        
+                        $result = $client->retrieve(array('Id', 'Name', 'Event_Name__c', 'Event_Date__c', 'AccountId', 'SystemModstamp'), $ids, 'Opportunity');
                         foreach ($result as $key => $value) {
-                            if ($value === null && ($contacts[$key]->getSfId() == $ids[$key])) {
-                                $output->writeln('<error>Missing Contact on SF: ' . $ids[$key] . '</error>');
+                            if ($value === null && ($suitcases[$key]->getSfId() == $ids[$key])) {
+                                $output->writeln('<error>Missing Opportunity in SF: ' . $ids[$key] . '</error>');
                             }
                             else {
-                                if (($contacts[$key]->getSfId() == $ids[$key]) && ($value->SystemModstamp > $contacts[$key]->getSfUpdated())) {
-                                    $output->writeln('<info>Updating Contact: ' . $ids[$key] . '</info>');
-                                    $output->writeln('<info>Updating Contact: ' . $value->FirstName . '</info>');
-                                    $output->writeln('<info>Updating Contact: ' . $value->LastName . '</info>');
-                                    if (isset($value->Email)) {
-                                        $output->writeln('<info>Updating Contact: ' . $value->Email . '</info>');
+                                if (($suitcases[$key]->getSfId() == $ids[$key]) && ($value->SystemModstamp > $suitcases[$key]->getSfUpdated())) {
+                                    $output->writeln('<info>Updating Suitcase: ' . $ids[$key] . '</info>');
+                                    $output->writeln('<info>    Name: ' . $value->Name . '</info>');
+                                    $suitcases[$key]->setName($value->Name);
+                                    
+                                    if(isset($value->Event_Name__c)) {
+                                        $output->writeln('<info>    Event Name: ' . $value->Event_Name__c . '</info>');
+                                        $suitcases[$key]->setEventName($value->Event_Name__c);
                                     }
-                                    if (isset($value->Phone)) {
-                                        $output->writeln('<info>Updating Contact: ' . $value->Phone . '</info>');
+                                    if(isset($value->Event_Date__c) && $suitcases[$key]->getPacked()) {
+                                        $output->writeln('<info>    Event Date: ' . $value->Event_Date__c->format('Ymd') . '</info>');
+                                        $suitcases[$key]->setEventDate($value->Event_Date__c);
                                     }
-                
-                                    $contacts[$key]->getFirstName($value->FirstName);
-                                    $contacts[$key]->getLastName($value->LastName);
-                                    if (isset($value->Email)) {
-                                        $contacts[$key]->getEmail($value->Email);
-                                    }
-                                    if (isset($value->Phone)) {
-                                        $contacts[$key]->getPhone($value->Phone);
-                                    }
-                                    //TODO Assign Account
-                
+                                    
+                                    
+                                    // TODO Assign Account
+                                    
                                     $timestamp = new \DateTime();
-                                    $contacts[$key]->setDirty(false);
-                                    $contacts[$key]->setSfUpdated($timestamp);
-                                    $contacts[$key]->setUpdated($timestamp);
-                                    $em->persist($contacts[$key]);
+                                    $suitcases[$key]->setSfUpdated($timestamp);
+                                    $suitcases[$key]->setUpdated($timestamp);
+                                    $em->persist($suitcases[$key]);
                                     $em->flush();
                                 }
                             }
                         }
+                        
+                        $count = 0;
+                        $ids = array();
+                    }
+                }
                 
-                        break;
+                $output->writeln('<info>Gonna retrieve now...' . $count . '</info>');
+                $result = $client->retrieve(array('Id', 'Name', 'Event_Name__c', 'Event_Date__c', 'AccountId', 'SystemModstamp'), $ids, 'Opportunity');
+                foreach ($result as $key => $value) {
+                    if ($value === null && ($suitcases[$key]->getSfId() == $ids[$key])) {
+                        $output->writeln('<error>Missing Opportunity in SF: ' . $ids[$key] . '</error>');
+                    }
+                    else {
+                        if (($suitcases[$key]->getSfId() == $ids[$key]) && ($value->SystemModstamp > $suitcases[$key]->getSfUpdated())) {
+                            $output->writeln('<info>Updating Suitcase: ' . $ids[$key] . '</info>');
+                            $output->writeln('<info>    Name: ' . $value->Name . '</info>');
+                            $suitcases[$key]->setName($value->Name);
+                            
+                            if(isset($value->Event_Name__c)) {
+                                $output->writeln('<info>    Event Name: ' . $value->Event_Name__c . '</info>');
+                                $suitcases[$key]->setEventName($value->Event_Name__c);
+                            }
+                            if(isset($value->Event_Date__c) && $suitcases[$key]->getPacked()) {
+                                $output->writeln('<info>    Event Date: ' . $value->Event_Date__c->format('Ymd') . '</info>');
+                                $suitcases[$key]->setEventDate($value->Event_Date__c);
+                            }
+                            
+                            
+                            // TODO Assign Account
+                            
+                            $timestamp = new \DateTime();
+                            $suitcases[$key]->setSfUpdated($timestamp);
+                            $suitcases[$key]->setUpdated($timestamp);
+                            $em->persist($suitcases[$key]);
+                            $em->flush();
+                        }
+                    }
+                }
+                
+                break;
         }
     }
     

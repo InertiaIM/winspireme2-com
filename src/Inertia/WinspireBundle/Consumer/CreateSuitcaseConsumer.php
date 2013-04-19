@@ -129,7 +129,11 @@ class CreateSuitcaseConsumer implements ConsumerInterface
             $saveResult = $this->sf->create(array($sfOpportunity), 'Opportunity');
             
             if($saveResult[0]->success) {
+                $timestamp = new \DateTime();
                 $suitcase->setSfId($saveResult[0]->id);
+                $suitcase->setDirty(false);
+                $suitcase->setSfUpdated($timestamp);
+                $suitcase->setUpdated($timestamp);
                 $this->em->persist($suitcase);
                 $this->em->flush();
             }
