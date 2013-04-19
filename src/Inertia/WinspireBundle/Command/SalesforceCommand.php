@@ -702,9 +702,152 @@ if(($sfAccount->SystemModstamp > $account->getSfUpdated()) && !$account->getDirt
                         $output->writeln('<info>    Account saved...</info>');
                     }
                     
-$output->writeln('<info>NO UPDATE: ' . $sfAccount->Id . '</info>');
+//$output->writeln('<info>NO UPDATE: ' . $sfAccount->Id . '</info>');
                     
                     
+                }
+                
+                break;
+                
+                
+            case 'contacts':
+                // Phase 1:  Push all "dirty" records in our Contact table
+                $query = $em->createQuery(
+                    'SELECT u, a FROM InertiaWinspireBundle:USER u JOIN u.company a WHERE a.sfId IS NOT NULL AND a.sfId NOT IN (:blah) AND u.dirty = 1'
+                );
+                $query->setParameter('blah', array('TEST', 'CANADA', 'PARTNER'));
+                $contacts = $query->getResult();
+                
+                foreach ($contacts as $contact) {
+                    if ($contact->getSfId() == '') {
+                        $new = true;
+                    }
+                    else {
+                        $new = false;
+                    }
+                    
+                    $sfContact = new \stdClass();
+                    $sfContact->FirstName = $contact->getFirstName();
+                    $sfContact->LastName = $contact->getLastName();
+                    $sfContact->Phone = $contact->getPhone();
+                    $sfContact->Email = $contact->getEmailCanonical();
+                    $sfContact->AccountId = $contact->getCompany()->getSfId();
+                    $sfContact->OwnerId = $contact->getCompany()->getSalesperson()->getSfId();
+                    $sfContact->Default_contact__c = 1;
+                    
+                    if ($new) {
+                        $saveResult = $client->create(array($sfContact), 'Contact');
+                    }
+                    else {
+                        $sfAccount->Id = $contact->getSfId();
+                        $saveResult = $client->update(array($sfContact), 'Contact');
+                    }
+                    
+                    if($saveResult[0]->success) {
+                        $timestamp = new \DateTime();
+                        $contact->setSfId($saveResult[0]->id);
+                        $contact->setDirty(false);
+                        $contact->setSfUpdated($timestamp);
+                        $contact->setUpdated($timestamp);
+                        $em->persist($contact);
+                        $em->flush();
+                    }
+                }
+                
+                
+                
+                // Phase 2:  Attempt to locate deleted (and changed) Contacts
+                $query = $em->createQuery(
+                    'SELECT u FROM InertiaWinspireBundle:User u WHERE u.sfId IS NOT NULL AND u.sfId NOT IN (:blah) AND u.type = \'C\''
+                );
+                $query->setParameter('blah', array('TEST', 'PARTNER', 'CANADA'));
+                $contacts = $query->getResult();
+                $count = 0;
+                $ids = array();
+                foreach ($contacts as $contact) {
+                    $count++;
+                    $ids[] = $contact->getSfId();
+                    if ($count == 2000) {
+                        $output->writeln('<info>Gonna retrieve now...' . $count . '</info>');
+                        
+                        $result = $client->retrieve(array('Id', 'FirstName', 'LastName', 'Phone', 'Email', 'AccountId', 'SystemModstamp'), $ids, 'Contact');
+                        foreach ($result as $key => $value) {
+                            if ($value === null && ($contacts[$key]->getSfId() == $ids[$key])) {
+                                $output->writeln('<error>Missing Contact on SF: ' . $ids[$key] . '</error>');
+                            }
+                            else {
+                                if (($contacts[$key]->getSfId() == $ids[$key]) && ($value->SystemModstamp > $contacts[$key]->getSfUpdated())) {
+                                    $output->writeln('<info>Updating Contact: ' . $ids[$key] . '</info>');
+                                    $output->writeln('<info>Updating Contact: ' . $value->FirstName . '</info>');
+                                    $output->writeln('<info>Updating Contact: ' . $value->LastName . '</info>');
+                                    if (isset($value->Email)) {
+                                        $output->writeln('<info>Updating Contact: ' . $value->Email . '</info>');
+                                    }
+                                    if (isset($value->Phone)) {
+                                        $output->writeln('<info>Updating Contact: ' . $value->Phone . '</info>');
+                                    }
+                                    
+                                    $contacts[$key]->getFirstName($value->FirstName);
+                                    $contacts[$key]->getLastName($value->LastName);
+                                    if (isset($value->Email)) {
+                                        $contacts[$key]->getEmail($value->Email);
+                                    }
+                                    if (isset($value->Phone)) {
+                                        $contacts[$key]->getPhone($value->Phone);
+                                    }
+                                    // TODO Assign Account
+                                    
+                                    $timestamp = new \DateTime();
+                                    $contacts[$key]->setDirty(false);
+                                    $contacts[$key]->setSfUpdated($timestamp);
+                                    $contacts[$key]->setUpdated($timestamp);
+                                    $em->persist($contacts[$key]);
+                                    $em->flush();
+                                }
+                            }
+                        }
+                        
+                        $count = 0;
+                        $ids = array();
+                    }
+                }
+                
+                $output->writeln('<info>Gonna retrieve now...' . $count . '</info>');
+                $result = $client->retrieve(array('Id', 'FirstName', 'LastName', 'Phone', 'Email', 'AccountId', 'SystemModstamp'), $ids, 'Contact');
+                foreach ($result as $key => $value) {
+                    if ($value === null && ($contacts[$key]->getSfId() == $ids[$key])) {
+                        $output->writeln('<error>Missing Contact on SF: ' . $ids[$key] . '</error>');
+                    }
+                    else {
+                        if (($contacts[$key]->getSfId() == $ids[$key]) && ($value->SystemModstamp > $contacts[$key]->getSfUpdated())) {
+                            $output->writeln('<info>Updating Contact: ' . $ids[$key] . '</info>');
+                            $output->writeln('<info>Updating Contact: ' . $value->FirstName . '</info>');
+                            $output->writeln('<info>Updating Contact: ' . $value->LastName . '</info>');
+                            if (isset($value->Email)) {
+                                $output->writeln('<info>Updating Contact: ' . $value->Email . '</info>');
+                            }
+                            if (isset($value->Phone)) {
+                                $output->writeln('<info>Updating Contact: ' . $value->Phone . '</info>');
+                            }
+                            
+                            $contacts[$key]->getFirstName($value->FirstName);
+                            $contacts[$key]->getLastName($value->LastName);
+                            if (isset($value->Email)) {
+                                $contacts[$key]->getEmail($value->Email);
+                            }
+                            if (isset($value->Phone)) {
+                                $contacts[$key]->getPhone($value->Phone);
+                            }
+                            //TODO Assign Account
+                            
+                            $timestamp = new \DateTime();
+                            $contacts[$key]->setDirty(false);
+                            $contacts[$key]->setSfUpdated($timestamp);
+                            $contacts[$key]->setUpdated($timestamp);
+                            $em->persist($contacts[$key]);
+                            $em->flush();
+                        }
+                    }
                 }
                 
                 break;
