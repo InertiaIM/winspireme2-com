@@ -210,8 +210,8 @@ class SalesforceCommand extends ContainerAwareCommand
                     $em->flush();
                 }
                 
-            break;
-            
+                break;
+                
             case 'packages':
                 $packageResult = $client->query('SELECT ' .
                     'Id, ' .
@@ -464,6 +464,110 @@ class SalesforceCommand extends ContainerAwareCommand
                 break;
                 
             case 'accounts':
+                // Phase 1:  Push all "dirty" records in our Account table
+                $query = $em->createQuery(
+                    'SELECT a FROM InertiaWinspireBundle:Account a WHERE a.dirty = 1'
+                );
+                $accounts = $query->getResult();
+$accounts = array();
+                foreach ($accounts as $account) {
+                    $account->setNameCanonical($this->slugify($account->getName()));
+                    
+                    if ($account->getSfId() == '') {
+                        $new = true;
+                    }
+                    else {
+                        $new = false;
+                    }
+                    
+                    $address = $account->getAddress();
+                    if ($account->getAddress2() != '') {
+                        $address .= chr(10) . $account->getAddress2();
+                    }
+                    
+                    $sfAccount = new \stdClass();
+                    $sfAccount->Name = $account->getName();
+                    $sfAccount->BillingStreet = $address;
+                    $sfAccount->BillingCity = $account->getCity();
+                    $sfAccount->BillingState = $account->getState();
+                    $sfAccount->BillingPostalCode = $account->getZip();
+                    $sfAccount->Phone = $account->getPhone();
+                    $sfAccount->Referred_by__c = $account->getReferred();
+                    $sfAccount->RecordTypeId = $this->recordTypeId;
+                    $sfAccount->OwnerId = $account->getSalesperson()->getSfId();
+                    
+                    if ($new) {
+                        $saveResult = $client->create(array($sfAccount), 'Account');
+                    }
+                    else {
+                        $sfAccount->Id = $account->getSfId();
+                        $saveResult = $client->update(array($sfAccount), 'Account');
+                    }
+                    
+                    if($saveResult[0]->success) {
+                        $timestamp = new \DateTime();
+                        $account->setSfId($saveResult[0]->id);
+                        $account->setDirty(false);
+                        $account->setSfUpdated($timestamp);
+                        $account->setUpdated($timestamp);
+                        $em->persist($account);
+                        $em->flush();
+                    }
+                }
+                
+                
+                
+                // Phase 2:  Attempt to locate and remove deleted Accounts
+                $query = $em->createQuery(
+                    'SELECT a FROM InertiaWinspireBundle:Account a WHERE a.sfId IS NOT NULL AND a.sfId NOT IN (:blah)'
+                );
+                $query->setParameter('blah', array('TEST', 'PARTNER', 'CANADA'));
+                $accounts = $query->getResult();
+                $count = 0;
+                $ids = array();
+                foreach ($accounts as $account) {
+                    $count++;
+                    $ids[] = $account->getSfId();
+                    if ($count == 2000) {
+                        $output->writeln('<info>Gonna retrieve now...' . $count . '</info>');
+                        
+                        $result = $client->retrieve(array('Id'), $ids, 'Account');
+                        foreach ($result as $key => $value) {
+                            if ($value === null && ($accounts[$key]->getSfId() == $ids[$key])) {
+                                if (count($accounts[$key]->getUsers()) == 0) {
+                                    $output->writeln('<info>Gonna delete: ' . $ids[$key] . '</info>');
+                                    $em->remove($accounts[$key]);
+                                    $em->flush();
+                                }
+                                else {
+                                    $output->writeln('<error>Can\'t delete: ' . $ids[$key] . '</info>');
+                                }
+                            }
+                        }
+                        
+                        $count = 0;
+                        $ids = array();
+                    }
+                }
+                
+                $output->writeln('<info>Gonna retrieve now...' . $count . '</info>');
+                $result = $client->retrieve(array('Id'), $ids, 'Account');
+                foreach ($result as $key => $value) {
+                    if ($value === null && ($accounts[$key]->getSfId() == $ids[$key])) {
+                        if (count($accounts[$key]->getUsers()) == 0) {
+                            $output->writeln('<info>Gonna delete: ' . $ids[$key] . '</info>');
+                            $em->remove($accounts[$key]);
+                            $em->flush();
+                        }
+                        else {
+                            $output->writeln('<error>Can\'t delete: ' . $ids[$key] . '</info>');
+                        }
+                    }
+                }
+                
+                
+                
+                // Phase 3:  Check for viable Account changes and new Accounts from SF
                 $accountResult = $client->query('SELECT ' .
                     'Id, ' .
                     'Name, ' .
@@ -475,7 +579,8 @@ class SalesforceCommand extends ContainerAwareCommand
                     'BillingCountry, ' .
                     'Phone, ' .
                     'Referred_by__c,  ' .
-                    'RecordTypeId ' .
+                    'RecordTypeId, ' .
+                    'SystemModstamp ' .
                     'FROM Account ' .
                     'WHERE ' .
                     'RecordTypeId = \'' . $this->recordTypeId . '\''
@@ -492,100 +597,113 @@ class SalesforceCommand extends ContainerAwareCommand
                     
                     if(!$account) {
                         // New account, not in our database yet
-                        $output->writeln('<info>New account (' . $sfAccount->Id . ') to be added</info>');
+//                        $output->writeln('<info>New account (' . $sfAccount->Id . ') to be added</info>');
                         $account = new Account();
                         $new = true;
                     }
                     else {
-                        // Account already exists, just update
-                        $output->writeln('<info>Existing account (' . $sfAccount->Id . ') to be updated NOT!!!</info>');
+                        // Account already exists, just an update
+//                        $output->writeln('<info>Existing account (' . $sfAccount->Id . ') to be updated (maybe)</info>');
                         $new = false;
-continue;
                     }
                     
                     
-                    // ACCOUNT NAME
-                    if(isset($sfAccount->Name) && $new) {
-                        $account->setName($sfAccount->Name);
-                    }
-                    $account->setNameCanonical($this->slugify($account->getName()));
-                    
-                    // ACCOUNT ADDRESS
-                    if(isset($sfAccount->BillingStreet) && $new) {
-                        $address = explode(chr(10), $sfAccount->BillingStreet);
-                        $account->setAddress(trim($address[0]));
-                        if(isset($address[1])) {
-                            $account->setAddress2(trim($address[1]));
-                        }
-                    }
-                    
-                    // ACCOUNT CITY
-                    if(isset($sfAccount->BillingCity) && $new) {
-                        $account->setCity($sfAccount->BillingCity);
-                    }
-                    
-                    // ACCOUNT STATE
-                    if(isset($sfAccount->BillingState) && $new) {
-                        // TODO Need to test for proper two-letter state code
-                        $account->setState($sfAccount->BillingState);
-                    }
-                    
-                    // ACCOUNT ZIP
-                    if(isset($sfAccount->BillingPostalCode) && $new) {
-                        $account->setZip($sfAccount->BillingPostalCode);
-                    }
-                    
-                    // ACCOUNT PHONE
-                    if(isset($sfAccount->Phone) && $new) {
-                        $account->setPhone($sfAccount->Phone);
-                    }
-                    
-                    // ACCOUNT REFERRED
-                    if(isset($sfAccount->Referred_by__c) && $new) {
-                        $account->setReferred($sfAccount->Referred_by__c);
-                    }
-                    
-                    // ACCOUNT OWNER
-                    if(isset($sfAccount->OwnerId)) {
-                        $query = $em->createQuery(
-                            'SELECT u FROM InertiaWinspireBundle:User u WHERE u.sfId = :sfid'
-                        )
-                            ->setParameter('sfid', $sfAccount->OwnerId)
-                        ;
+                    if ($new || (($sfAccount->SystemModstamp > $account->getSfUpdated()) && !$account->getDirty())) {
                         
-                        try {
-                            $owner = $query->getSingleResult();
-                            $output->writeln('<info>    Owner: ' .  $owner->getEmail() . '</info>');
-                            $account->setSalesperson($owner);
+if($new) {
+    $output->writeln('<info>NEW RECORD: ' . $sfAccount->Id . '</info>');
+}
+if(($sfAccount->SystemModstamp > $account->getSfUpdated()) && !$account->getDirty()) {
+    $output->writeln('<info>EXISTING RECORD: ' . $sfAccount->Id . '</info>');
+    $output->writeln($sfAccount->SystemModstamp);
+}
+                        
+                        // ACCOUNT NAME
+                        if(isset($sfAccount->Name)) {
+                            $account->setName($sfAccount->Name);
                         }
-                        catch (\Exception $e) {
-                            $output->writeln('<error>    Owner ID es no bueno: ' . $sfAccount->OwnerId . '</error>');
+                        $account->setNameCanonical($this->slugify($account->getName()));
+                        
+                        // ACCOUNT ADDRESS
+                        if(isset($sfAccount->BillingStreet)) {
+                            $address = explode(chr(10), $sfAccount->BillingStreet);
+                            $account->setAddress(trim($address[0]));
+                            if(isset($address[1])) {
+                                $account->setAddress2(trim($address[1]));
+                            }
+                        }
+                        
+                        // ACCOUNT CITY
+                        if(isset($sfAccount->BillingCity)) {
+                            $account->setCity($sfAccount->BillingCity);
+                        }
+                        
+                        // ACCOUNT STATE
+                        if(isset($sfAccount->BillingState)) {
+                            // TODO Need to test for proper two-letter state code
+                            $account->setState($sfAccount->BillingState);
+                        }
+                        
+                        // ACCOUNT ZIP
+                        if(isset($sfAccount->BillingPostalCode)) {
+                            $account->setZip($sfAccount->BillingPostalCode);
+                        }
+                        
+                        // ACCOUNT PHONE
+                        if(isset($sfAccount->Phone)) {
+                            $account->setPhone($sfAccount->Phone);
+                        }
+                        
+                        // ACCOUNT REFERRED
+                        if(isset($sfAccount->Referred_by__c)) {
+                            $account->setReferred($sfAccount->Referred_by__c);
+                        }
+                        
+                        // ACCOUNT OWNER
+                        if(isset($sfAccount->OwnerId)) {
                             $query = $em->createQuery(
-                                'SELECT u FROM InertiaWinspireBundle:User u WHERE u.id = :id'
+                                'SELECT u FROM InertiaWinspireBundle:User u WHERE u.sfId = :sfid'
                             )
-                                ->setParameter('id', 1)
+                                ->setParameter('sfid', $sfAccount->OwnerId)
                             ;
-                            $defaultOwner = $query->getSingleResult();
                             
-                            $account->setSalesperson($defaultOwner);
+                            try {
+                                $owner = $query->getSingleResult();
+                                $output->writeln('<info>    Owner: ' .  $owner->getEmail() . '</info>');
+                                $account->setSalesperson($owner);
+                            }
+                            catch (\Exception $e) {
+                                $output->writeln('<error>    Owner ID es no bueno: ' . $sfAccount->OwnerId . '</error>');
+                                $query = $em->createQuery(
+                                    'SELECT u FROM InertiaWinspireBundle:User u WHERE u.id = :id'
+                                )
+                                    ->setParameter('id', 1)
+                                ;
+                                $defaultOwner = $query->getSingleResult();
+                                
+                                $account->setSalesperson($defaultOwner);
+                            }
                         }
+                        else {
+                            $output->writeln('<error>    Missing OwnerId?!?!</error>');
+                        }
+                        
+                        
+                        $account->setSfId($sfAccount->Id);
+                        
+                        $timestamp = new \DateTime();
+                        $account->setSfUpdated($timestamp);
+                        $account->setUpdated($timestamp);
+                        
+                        $em->persist($account);
+                        $em->flush();
+                        $em->clear();
+                        
+                        $output->writeln('<info>    Account saved...</info>');
                     }
-                    else {
-                        $output->writeln('<error>    Missing OwnerId?!?!</error>');
-                    }
                     
-                    $account->setSfId($sfAccount->Id);
-                    $account->setDirty(false);
+$output->writeln('<info>NO UPDATE: ' . $sfAccount->Id . '</info>');
                     
-                    $timestamp = new \DateTime();
-                    $account->setSfUpdated($timestamp);
-                    $account->setUpdated($timestamp);
-                    
-                    $em->persist($account);
-                    $em->flush();
-                    $em->clear();
-                    
-                    $output->writeln('<info>    Account saved...</info>');
                     
                 }
                 
