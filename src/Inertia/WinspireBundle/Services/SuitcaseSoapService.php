@@ -54,7 +54,8 @@ class SuitcaseSoapService
                 'AccountId, ' .
                 'Event_Name__c, ' .
                 'Event_Date__c, ' .
-                'RecordTypeId ' .
+                'RecordTypeId, ' .
+                'SystemModstamp ' .
                 'FROM Opportunity ' .
                 'WHERE ' .
                 'Id =\'' . $id . '\''
@@ -82,30 +83,48 @@ class SuitcaseSoapService
             
             $sfOpp = $oppResult->first();
             
-            
-            // CHANGE SUITCASE USER ACCOUNT
-            if(isset($sfOpp->AccountId)) {
-                $user = $suitcase->getUser();
-                
-                $query = $this->em->createQuery(
-                    'SELECT a FROM InertiaWinspireBundle:Account a WHERE a.sfId = :sfid'
-                )
-                    ->setParameter('sfid', $sfOpp->AccountId)
-                ;
-                
-                try {
-                    $account = $query->getSingleResult();
-                    $this->logger->info('    Account: ' . $account->getName());
-                    $user->setCompany($account);
-                }
-                catch (\Exception $e) {
-                    $this->logger->err('    Account ID es no bueno: ' . $sfOpp->AccountId);
+            if ($sfOpp->SystemModstamp > $suitcase->getSfUpdated()) {
+                $suitcase->setName($sfOpp->Name);
+                if(isset($sfOpp->Event_Name__c)) {
+                    $suitcase->setEventName($sfOpp->Event_Name__c);
                 }
                 
-                $this->em->persist($user);
-            }
-            else {
-                $this->logger->err('    Missing AccountID!?!?');
+                if(isset($sfOpp->Event_Date__c) && $suitcase->getPacked()) {
+                    $suitcase->setEventDate($sfOpp->Event_Date__c);
+                }
+                
+                // CHANGE SUITCASE USER ACCOUNT
+                if(isset($sfOpp->AccountId)) {
+                    $user = $suitcase->getUser();
+                    
+                    $query = $this->em->createQuery(
+                        'SELECT a FROM InertiaWinspireBundle:Account a WHERE a.sfId = :sfid'
+                    )
+                        ->setParameter('sfid', $sfOpp->AccountId)
+                    ;
+                    
+                    try {
+                        $account = $query->getSingleResult();
+                        $this->logger->info('    Account: ' . $account->getName());
+                        $user->setCompany($account);
+                    }
+                    catch (\Exception $e) {
+                        $this->logger->err('    Account ID es no bueno: ' . $sfOpp->AccountId);
+                    }
+                    
+                    $this->em->persist($user);
+                }
+                else {
+                    $this->logger->err('    Missing AccountID!?!?');
+                }
+                
+                
+                $timestamp = new \DateTime();
+                $suitcase->setDirty(false);
+                $suitcase->setSfUpdated($timestamp);
+                $suitcase->setUpdated($timestamp);
+                $this->em->persist($suitcase);
+                
             }
             
             $this->em->flush();

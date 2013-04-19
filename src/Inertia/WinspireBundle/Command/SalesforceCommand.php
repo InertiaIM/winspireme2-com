@@ -920,7 +920,7 @@ if(($sfAccount->SystemModstamp > $account->getSfUpdated()) && !$account->getDirt
                 
                 // Phase 2:  Attempt to locate deleted (and changed) Opportunities
                 $query = $em->createQuery(
-                    'SELECT a, u, s FROM InertiaWinspireBundle:Suitcase s JOIN s.user u JOIN u.company a WHERE u.sfId IS NOT NULL AND a.sfId NOT IN (:blah) AND a.sfId IS NOT NULL s.dirty = 0'
+                    'SELECT a, u, s FROM InertiaWinspireBundle:Suitcase s JOIN s.user u JOIN u.company a WHERE u.sfId IS NOT NULL AND a.sfId NOT IN (:blah) AND a.sfId IS NOT NULL AND s.dirty = 0'
                 );
                 $query->setParameter('blah', array('TEST', 'PARTNER', 'CANADA'));
                 $suitcases = $query->getResult();
