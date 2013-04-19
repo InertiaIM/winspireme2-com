@@ -140,11 +140,11 @@ class AccountSoapService
                     
                     try {
                         $owner = $query->getSingleResult();
-//                    $output->writeln('<info>    Owner: ' .  $owner->getEmail() . '</info>');
+                        $this->logger->info('    Owner: ' .  $owner->getEmail() . '...');
                         $account->setSalesperson($owner);
                     }
                     catch (\Exception $e) {
-//                    $output->writeln('<error>    Owner ID es no bueno: ' . $sfAccount->OwnerId . '</error>');
+                        $this->logger->err('    Owner ID es no bueno: ' . $sfAccount->OwnerId);
                         $query = $this->em->createQuery(
                             'SELECT u FROM InertiaWinspireBundle:User u WHERE u.id = :id'
                         )
@@ -155,7 +155,7 @@ class AccountSoapService
                     }
                 }
                 else {
-//                $output->writeln('<error>    Missing OwnerId?!?!</error>');
+                    $this->logger->err('    Missing OwnerId?!?!');
                 }
                 
                 $account->setSfId($id);
