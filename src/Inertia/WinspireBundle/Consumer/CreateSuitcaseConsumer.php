@@ -97,7 +97,11 @@ class CreateSuitcaseConsumer implements ConsumerInterface
             $saveResult = $this->sf->create(array($sfContact), 'Contact');
             
             if($saveResult[0]->success) {
+                $timestamp = new \DateTime();
                 $user->setSfId($saveResult[0]->id);
+                $user->setDirty(false);
+                $user->setSfUpdated($timestamp);
+                $user->setUpdated($timestamp);
                 $this->em->persist($user);
                 $this->em->flush();
             }
@@ -105,7 +109,7 @@ class CreateSuitcaseConsumer implements ConsumerInterface
         
         if ($suitcase->getSfId() == '' && $account->getSfId() != '') {
             $sfOpportunity = new \stdClass();
-            $sfOpportunity->CloseDate = new \DateTime();
+            $sfOpportunity->CloseDate = new \DateTime('+60 days');
             $sfOpportunity->Name = $suitcase->getName();
             $sfOpportunity->StageName = 'Counsel';
             $sfOpportunity->Event_Name__c = $suitcase->getEventName();
@@ -113,7 +117,7 @@ class CreateSuitcaseConsumer implements ConsumerInterface
                 $sfOpportunity->Event_Date__c = $suitcase->getEventDate();
             }
             else {
-                $sfOpportunity->Event_Date__c = new \DateTime();
+                $sfOpportunity->Event_Date__c = new \DateTime('+30 days');
             }
             $sfOpportunity->AccountId = $account->getSfId();
             $sfOpportunity->RecordTypeId = $this->opportunityTypeId;
