@@ -859,7 +859,7 @@ if(($sfAccount->SystemModstamp > $account->getSfUpdated()) && !$account->getDirt
             case 'suitcases':
                 // Phase 1:  Push all "dirty" records in our Suitcase table
                 $query = $em->createQuery(
-                    'SELECT a, u, s FROM InertiaWinspireBundle:Suitcase s JOIN s.user u JOIN u.company a WHERE a.sfId IS NOT NULL AND a.sfId NOT IN (:blah)'
+                    'SELECT a, u, s FROM InertiaWinspireBundle:Suitcase s JOIN s.user u JOIN u.company a WHERE u.sfId IS NOT NULL AND a.sfId NOT IN (:blah)'
                 );
                 $query->setParameter('blah', array('TEST', 'CANADA', 'PARTNER'));
                 $suitcases = $query->getResult();
@@ -876,7 +876,7 @@ if(($sfAccount->SystemModstamp > $account->getSfUpdated()) && !$account->getDirt
                     $sfOpportunity->CloseDate = new \DateTime('+60 days');
                     $sfOpportunity->Name = $suitcase->getName();
                     $sfOpportunity->StageName = 'Counsel';
-                    $sfOpportunity->Event_Name__c = $suitcase->getEventName();
+                    $sfOpportunity->Event_Name__c = substr($suitcase->getEventName(), 0, 40);
                     if ($suitcase->getEventDate() != '') {
                         $sfOpportunity->Event_Date__c = $suitcase->getEventDate();
                     }
