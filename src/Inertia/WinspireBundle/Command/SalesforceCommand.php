@@ -713,7 +713,7 @@ if(($sfAccount->SystemModstamp > $account->getSfUpdated()) && !$account->getDirt
             case 'contacts':
                 // Phase 1:  Push all "dirty" records in our Contact table
                 $query = $em->createQuery(
-                    'SELECT u, a FROM InertiaWinspireBundle:USER u JOIN u.company a WHERE a.sfId IS NOT NULL AND a.sfId NOT IN (:blah) AND u.dirty = 1'
+                    'SELECT u, a FROM InertiaWinspireBundle:User u JOIN u.company a WHERE a.sfId IS NOT NULL AND a.sfId NOT IN (:blah) AND u.dirty = 1'
                 );
                 $query->setParameter('blah', array('TEST', 'CANADA', 'PARTNER'));
                 $contacts = $query->getResult();
