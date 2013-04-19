@@ -789,13 +789,13 @@ if(($sfAccount->SystemModstamp > $account->getSfUpdated()) && !$account->getDirt
                                         $output->writeln('<info>Updating Contact: ' . $value->Phone . '</info>');
                                     }
                                     
-                                    $contacts[$key]->getFirstName($value->FirstName);
-                                    $contacts[$key]->getLastName($value->LastName);
+                                    $contacts[$key]->setFirstName($value->FirstName);
+                                    $contacts[$key]->setLastName($value->LastName);
                                     if (isset($value->Email)) {
-                                        $contacts[$key]->getEmail($value->Email);
+                                        $contacts[$key]->setEmail($value->Email);
                                     }
                                     if (isset($value->Phone)) {
-                                        $contacts[$key]->getPhone($value->Phone);
+                                        $contacts[$key]->setPhone($value->Phone);
                                     }
                                     // TODO Assign Account
                                     
@@ -832,13 +832,13 @@ if(($sfAccount->SystemModstamp > $account->getSfUpdated()) && !$account->getDirt
                                 $output->writeln('<info>Updating Contact: ' . $value->Phone . '</info>');
                             }
                             
-                            $contacts[$key]->getFirstName($value->FirstName);
-                            $contacts[$key]->getLastName($value->LastName);
+                            $contacts[$key]->setFirstName($value->FirstName);
+                            $contacts[$key]->setLastName($value->LastName);
                             if (isset($value->Email)) {
-                                $contacts[$key]->getEmail($value->Email);
+                                $contacts[$key]->setEmail($value->Email);
                             }
                             if (isset($value->Phone)) {
-                                $contacts[$key]->getPhone($value->Phone);
+                                $contacts[$key]->setPhone($value->Phone);
                             }
                             //TODO Assign Account
                             
