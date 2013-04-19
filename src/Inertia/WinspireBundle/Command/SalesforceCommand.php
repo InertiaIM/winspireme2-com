@@ -469,7 +469,7 @@ class SalesforceCommand extends ContainerAwareCommand
                     'SELECT a FROM InertiaWinspireBundle:Account a WHERE a.dirty = 1'
                 );
                 $accounts = $query->getResult();
-$accounts = array();
+                
                 foreach ($accounts as $account) {
                     $account->setNameCanonical($this->slugify($account->getName()));
                     
