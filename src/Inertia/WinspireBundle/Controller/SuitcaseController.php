@@ -21,7 +21,7 @@ class SuitcaseController extends Controller
         $suitcase = $this->getSuitcase();
         
         $query = $em->createQuery(
-            'SELECT i FROM InertiaWinspireBundle:SuitcaseItem i WHERE i.suitcase = :suitcase_id AND i.package = :package_id'
+            'SELECT i FROM InertiaWinspireBundle:SuitcaseItem i WHERE i.suitcase = :suitcase_id AND i.package = :package_id AND i.status != \'X\''
         )
         ->setParameter('suitcase_id', $suitcase->getId())
         ->setParameter('package_id', $id);
@@ -152,7 +152,7 @@ class SuitcaseController extends Controller
         $deleted = false;
         foreach($items as $item) {
             if($id == $item->getPackage()->getId()) {
-                $em->remove($item);
+                $item->setStatus('X');
                 $suitcase->setUpdated(new \DateTime());
                 
                 if($suitcase->getPacked()) {
@@ -161,6 +161,7 @@ class SuitcaseController extends Controller
                     $this->retrigger($suitcase);
                 }
                 
+                $em->persist($item);
                 $em->persist($suitcase);
                 $em->flush();
                 
@@ -293,6 +294,7 @@ class SuitcaseController extends Controller
                 else {
                     $suitcase->setEventDate(null);
                 }
+                $suitcase->setDirty(true);
                 
                 $em->persist($suitcase);
                 $em->flush();
@@ -410,6 +412,7 @@ class SuitcaseController extends Controller
     
     public function killAction($id)
     {
+        // TODO What to do with orphaned Opportunity in SF?
         $response = new JsonResponse();
         $em = $this->getDoctrine()->getManager();
         $user = $this->getUser();
@@ -498,11 +501,7 @@ class SuitcaseController extends Controller
             throw $this->createNotFoundException();
         }
         
-//        $user = $this->getUser();
-        
         $user = $suitcase->getUser();
-        
-        
         $account = $user->getCompany();
         $form = $this->createForm(new AccountType2(), $account);
         
@@ -951,14 +950,14 @@ class SuitcaseController extends Controller
                 
                 if($order == 'update') {
                     $query = $em->createQuery(
-                        'SELECT s, i FROM InertiaWinspireBundle:Suitcase s LEFT JOIN s.items i WHERE s.id = :id ORDER BY i.updated DESC'
+                        'SELECT s, i FROM InertiaWinspireBundle:Suitcase s LEFT JOIN s.items i WHERE s.id = :id AND i.status != \'X\' ORDER BY i.updated DESC'
                     )
                         ->setParameter('id', $sid)
                     ;
                 }
                 else {
                     $query = $em->createQuery(
-                        'SELECT s, i, p FROM InertiaWinspireBundle:Suitcase s LEFT JOIN s.items i LEFT JOIN i.package p WHERE s.id = :id ORDER BY p.parent_header ASC'
+                        'SELECT s, i, p FROM InertiaWinspireBundle:Suitcase s LEFT JOIN s.items i LEFT JOIN i.package p WHERE s.id = :id AND i.status != \'X\' ORDER BY p.parent_header ASC'
                     )
                         ->setParameter('id', $sid)
                     ;
@@ -999,14 +998,14 @@ class SuitcaseController extends Controller
 //echo 'Found SID, step 1: ' . $sid . "<br/>\n";
             if($order == 'update') {
                 $query = $em->createQuery(
-                    'SELECT s, i FROM InertiaWinspireBundle:Suitcase s LEFT JOIN s.items i WHERE s.user = :user_id AND s.id = :id ORDER BY i.updated DESC'
+                    'SELECT s, i FROM InertiaWinspireBundle:Suitcase s LEFT JOIN s.items i WHERE s.user = :user_id AND s.id = :id AND i.status != \'X\' ORDER BY i.updated DESC'
                 )
                 ->setParameter('user_id', $user->getId())
                 ->setParameter('id', $sid);
             }
             else {
                 $query = $em->createQuery(
-                    'SELECT s, i, p FROM InertiaWinspireBundle:Suitcase s LEFT JOIN s.items i LEFT JOIN i.package p WHERE s.user = :user_id AND s.id = :id ORDER BY p.parent_header ASC'
+                    'SELECT s, i, p FROM InertiaWinspireBundle:Suitcase s LEFT JOIN s.items i LEFT JOIN i.package p WHERE s.user = :user_id AND s.id = :id AND i.status != \'X\' ORDER BY p.parent_header ASC'
                 )
                 ->setParameter('user_id', $user->getId())
                 ->setParameter('id', $sid);
@@ -1035,7 +1034,7 @@ class SuitcaseController extends Controller
         // Second, query for the most recent suitcase (used as default)
         else {
             $query = $em->createQuery(
-                'SELECT s, i FROM InertiaWinspireBundle:Suitcase s LEFT JOIN s.items i WHERE s.user = :user_id ORDER BY s.updated DESC, i.updated DESC'
+                'SELECT s, i FROM InertiaWinspireBundle:Suitcase s LEFT JOIN s.items i WHERE s.user = :user_id AND i.status != \'X\'ORDER BY s.updated DESC, i.updated DESC'
             )->setParameter('user_id', $user->getId());
             
             try {

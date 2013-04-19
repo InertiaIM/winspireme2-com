@@ -155,7 +155,7 @@ services:
         
     pack_suitcase_service:
         class: Inertia\WinspireBundle\Consumer\PackSuitcaseConsumer
-        arguments: [@doctrine.orm.entity_manager, @mailer, @templating]
+        arguments: [@doctrine.orm.entity_manager, @mailer, @templating, @ddeboer_salesforce_client]
         
     create_suitcase_service:
         class: Inertia\WinspireBundle\Consumer\CreateSuitcaseConsumer
@@ -163,7 +163,7 @@ services:
         
     unpack_suitcase_service:
         class: Inertia\WinspireBundle\Consumer\UnpackSuitcaseConsumer
-        arguments: [@doctrine.orm.entity_manager, @mailer, @templating]
+        arguments: [@doctrine.orm.entity_manager, @mailer, @templating, @ddeboer_salesforce_client]
         
     share_suitcase_service:
         class: Inertia\WinspireBundle\Consumer\ShareSuitcaseConsumer

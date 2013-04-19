@@ -875,7 +875,7 @@ class DefaultController extends Controller
         if($this->get('security.context')->isGranted('ROLE_ADMIN')) {
             if($sid) {
                 $query = $em->createQuery(
-                    'SELECT s, i FROM InertiaWinspireBundle:Suitcase s LEFT JOIN s.items i WHERE s.id = :id ORDER BY i.updated DESC'
+                    'SELECT s, i FROM InertiaWinspireBundle:Suitcase s LEFT JOIN s.items i WHERE s.id = :id AND i.status != \'X\' ORDER BY i.updated DESC'
                 )
                 ->setParameter('id', $sid)
                 ;
@@ -918,7 +918,7 @@ class DefaultController extends Controller
         if($sid) {
             //echo 'Found SID, step 1: ' . $sid . "<br/>\n";
             $query = $em->createQuery(
-                'SELECT s, i, p FROM InertiaWinspireBundle:Suitcase s LEFT JOIN s.items i LEFT JOIN i.package p WHERE s.user = :user_id AND s.id = :id ORDER BY i.updated DESC'
+                'SELECT s, i, p FROM InertiaWinspireBundle:Suitcase s LEFT JOIN s.items i LEFT JOIN i.package p WHERE s.user = :user_id AND s.id = :id AND i.status != \'X\' ORDER BY i.updated DESC'
             )
             ->setParameter('user_id', $user->getId())
             ->setParameter('id', $sid);
@@ -945,7 +945,7 @@ class DefaultController extends Controller
         // Second, query for the most recent suitcase (used as default)
         else {
             $query = $em->createQuery(
-                'SELECT s, i FROM InertiaWinspireBundle:Suitcase s LEFT JOIN s.items i LEFT JOIN i.package p WHERE s.user = :user_id ORDER BY s.updated DESC, i.updated DESC'
+                'SELECT s, i FROM InertiaWinspireBundle:Suitcase s LEFT JOIN s.items i LEFT JOIN i.package p WHERE s.user = :user_id AND i.status != \'X\' ORDER BY s.updated DESC, i.updated DESC'
             )->setParameter('user_id', $user->getId());
             
             try {
