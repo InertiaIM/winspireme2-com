@@ -112,7 +112,12 @@ class CreateSuitcaseConsumer implements ConsumerInterface
             $sfOpportunity->CloseDate = new \DateTime('+60 days');
             $sfOpportunity->Name = $suitcase->getName();
             $sfOpportunity->StageName = 'Counsel';
-            $sfOpportunity->Event_Name__c = $suitcase->getEventName();
+            if ($suitcase->getEventName() != '') {
+                $sfOpportunity->Event_Name__c = $suitcase->getEventName();
+            }
+            else {
+                $sfOpportunity->Event_Name__c = '';
+            }
             if ($suitcase->getEventDate() != '') {
                 $sfOpportunity->Event_Date__c = $suitcase->getEventDate();
             }
