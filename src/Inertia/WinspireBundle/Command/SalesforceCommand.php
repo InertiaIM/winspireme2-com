@@ -879,6 +879,9 @@ if(($sfAccount->SystemModstamp > $account->getSfUpdated()) && !$account->getDirt
                     if ($suitcase->getEventName() != '') {
                         $sfOpportunity->Event_Name__c = substr($suitcase->getEventName(), 0, 40);
                     }
+                    else {
+                        $sfOpportunity->Event_Name__c = '';
+                    }
                     if ($suitcase->getEventDate() != '') {
                         $sfOpportunity->Event_Date__c = $suitcase->getEventDate();
                     }
@@ -893,8 +896,8 @@ if(($sfAccount->SystemModstamp > $account->getSfUpdated()) && !$account->getDirt
                     $sfOpportunity->Item_Use__c = 'Silent Auction';
                     
                     if ($new) {
-                        $saveResult = $client->create(array($sfOpportunity), 'Opportunity');
                         $output->writeln('<info>Gonna create: ' . $suitcase->getId() . '</info>');
+                        $saveResult = $client->create(array($sfOpportunity), 'Opportunity');
                     }
                     else {
                         $sfOpportunity->Id = $suitcase->getSfId();
@@ -902,7 +905,7 @@ if(($sfAccount->SystemModstamp > $account->getSfUpdated()) && !$account->getDirt
                         $saveResult = $client->update(array($sfOpportunity), 'Opportunity');
                     }
                     
-                    if(false && $saveResult[0]->success) {
+                    if($saveResult[0]->success) {
                         $suitcase->setSfId($saveResult[0]->id);
                         $timestamp = new \DateTime();
                         $suitcase->setDirty(false);
