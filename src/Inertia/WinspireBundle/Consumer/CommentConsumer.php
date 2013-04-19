@@ -54,6 +54,7 @@ class CommentConsumer implements ConsumerInterface
                 'text/html'
             )
         ;
+        $message->setBcc($comment->getSuitcase()->getUser()->getCompany()->getSalesperson()->getEmail());
         
         $this->em->clear();
         
