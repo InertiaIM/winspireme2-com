@@ -876,7 +876,7 @@ if(($sfAccount->SystemModstamp > $account->getSfUpdated()) && !$account->getDirt
                     $sfOpportunity->CloseDate = new \DateTime('+60 days');
                     $sfOpportunity->Name = $suitcase->getName();
                     $sfOpportunity->StageName = 'Counsel';
-                    if ($suitcase->getEventName() != '') {
+                    if ($suitcase->getEventName() != '' && $suitcase->getEventName() != 'false') {
                         $sfOpportunity->Event_Name__c = substr($suitcase->getEventName(), 0, 40);
                     }
                     else {
