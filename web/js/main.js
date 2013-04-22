@@ -1550,10 +1550,18 @@ $(document).ready(function() {
     });
     
     
-    // For viewports that are smaller than our modal, hook onto the
-    // open event and change the modal box to position absolute for 
-    // scrolling.
     $('#account-modal').on($.modal.OPEN, function(event, modal) {
+        // For viewports that are narrower than our page,
+        // change the modal box to position with an appropriate margin. 
+        if($(window).width() < $(document).width()) {
+            $(modal.elm).css({
+                marginLeft: Math.floor(($(document).width() - $(modal.elm).outerWidth()) / 2) + 'px',
+                left: '0'
+            });
+        }
+        
+        // For viewports that are smaller than our modal,
+        // change the modal box to position absolute for scrolling.
         if(($(window).height() - $(modal.elm).outerHeight()) < 94) {
             $(modal.elm).css({
                 position: 'absolute',
