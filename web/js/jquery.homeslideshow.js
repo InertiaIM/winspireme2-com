@@ -115,7 +115,8 @@
             this.$jmsWrapper.jmpress(this.options.jmpressOpts);
             // check if supported (function from jmpress.js):
             // it adds the class not-suported to the wrapper
-            this.support = !this.$jmsWrapper.hasClass('not-supported');
+//            this.support = !this.$jmsWrapper.hasClass('not-supported');
+            this.support = true;
             
             // if not supported remove unnecessary elements
             if(!this.support) {
