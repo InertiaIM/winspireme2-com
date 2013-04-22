@@ -121,7 +121,7 @@ class ShareController extends Controller
         $em = $this->getDoctrine()->getManager();
         
         $query = $em->createQuery(
-            'SELECT s, h, i FROM InertiaWinspireBundle:Share h JOIN h.suitcase s LEFT JOIN s.items i WHERE h.token = :token AND i.status != \'X\''
+            'SELECT s, h, i FROM InertiaWinspireBundle:Share h JOIN h.suitcase s LEFT JOIN s.items i WHERE h.token = :token AND (i.status != \'X\' OR i.status IS NULL)'
         )
             ->setParameter('token', $token)
         ;
@@ -235,7 +235,7 @@ class ShareController extends Controller
         if($sid) {
 //echo 'Found SID, step 1: ' . $sid . "<br/>\n";
             $query = $em->createQuery(
-                'SELECT s, i FROM InertiaWinspireBundle:Suitcase s LEFT JOIN s.items i WHERE s.user = :user_id AND s.id = :id AND i.status != \'X\' ORDER BY i.updated DESC'
+                'SELECT s, i FROM InertiaWinspireBundle:Suitcase s LEFT JOIN s.items i WHERE s.user = :user_id AND s.id = :id AND (i.status != \'X\' OR i.status IS NULL) ORDER BY i.updated DESC'
             )
             ->setParameter('user_id', $user->getId())
             ->setParameter('id', $sid);
@@ -263,7 +263,7 @@ class ShareController extends Controller
         // Second, query for the most recent suitcase (used as default)
         else {
             $query = $em->createQuery(
-                'SELECT s, i FROM InertiaWinspireBundle:Suitcase s LEFT JOIN s.items i WHERE s.user = :user_id AND i.status != \'X\' ORDER BY s.updated DESC, i.updated DESC'
+                'SELECT s, i FROM InertiaWinspireBundle:Suitcase s LEFT JOIN s.items i WHERE s.user = :user_id AND (i.status != \'X\' OR i.status IS NULL) ORDER BY s.updated DESC, i.updated DESC'
             )->setParameter('user_id', $user->getId());
             
             try {
