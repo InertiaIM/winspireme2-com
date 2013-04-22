@@ -265,9 +265,17 @@ header .c-wrap { height:65px; }
             li { li { a { line-height:20px;font-weight:normal;color:@ws-darkgray; } }
               ul li { text-indent:5px; }
             }
-            &.all-experiences { margin:30px 0 0 0;
-              li:first-child a { color:@ws-orange; }
-              hr { height:1px;color:@ws-silver;margin:2px 20px 2px 15px; }
+            &.all-experiences {
+              li:first-child a {
+                  color:@ws-orange;
+              }
+              hr {
+                  height:1px;
+                  border: none;
+                  border-bottom:2px solid @ws-silver;
+                  padding:0;
+                  margin:2px 20px 2px 15px;
+              }
             }
           }
         }
