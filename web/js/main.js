@@ -1055,15 +1055,22 @@ $(document).ready(function() {
     
     
     // Suitcase social
-    
-    // For viewports that are smaller than our modal, hook onto the
-    // open event and change the modal box to position absolute for 
-    // scrolling.
     $('#share-modal').on($.modal.OPEN, function(event, modal) {
+        // For viewports that are narrower than our page,
+        // change the modal box to position with an appropriate margin.
+        if($(window).width() < $(document).width()) {
+            $(modal.elm).css({
+                marginLeft: Math.floor(($(document).width() - $(modal.elm).outerWidth()) / 2) + 'px',
+                left: '0'
+            });
+        }
+        
+        // For viewports that are smaller than our modal,
+        // change the modal box to position absolute for scrolling.
         if(($(window).height() - $(modal.elm).outerHeight()) < 94) {
             $(modal.elm).css({
                 position: 'absolute',
-                marginTop: '0',
+                marginTop: '120px',
                 top: '0'
             });
             
@@ -1244,14 +1251,22 @@ $(document).ready(function() {
     });
     
     
-    // For viewports that are smaller than our modal, hook onto the
-    // open event and change the modal box to position absolute for 
-    // scrolling.
     $('#reminder-modal').on($.modal.OPEN, function(event, modal) {
+        // For viewports that are narrower than our page,
+        // change the modal box to position with an appropriate margin.
+        if($(window).width() < $(document).width()) {
+            $(modal.elm).css({
+                marginLeft: Math.floor(($(document).width() - $(modal.elm).outerWidth()) / 2) + 'px',
+                left: '0'
+            });
+        }
+        
+        // For viewports that are smaller than our modal,
+        // change the modal box to position absolute for scrolling.
         if(($(window).height() - $(modal.elm).outerHeight()) < 94) {
             $(modal.elm).css({
                 position: 'absolute',
-                marginTop: '0',
+                marginTop: '120px',
                 top: '0'
             });
             
@@ -1338,14 +1353,22 @@ $(document).ready(function() {
     
     /* More Modal handler */
     
-    // For viewports that are smaller than our modal, hook onto the
-    // open event and change the modal box to position absolute for 
-    // scrolling.
     $('#more-modal').on($.modal.OPEN, function(event, modal) {
+        // For viewports that are narrower than our page,
+        // change the modal box to position with an appropriate margin.
+        if($(window).width() < $(document).width()) {
+            $(modal.elm).css({
+                marginLeft: Math.floor(($(document).width() - $(modal.elm).outerWidth()) / 2) + 'px',
+                left: '0'
+            });
+        }
+        
+        // For viewports that are smaller than our modal,
+        // change the modal box to position absolute for scrolling.
         if(($(window).height() - $(modal.elm).outerHeight()) < 94) {
             $(modal.elm).css({
                 position: 'absolute',
-                marginTop: '0',
+                marginTop: '120px',
                 top: '0'
             });
             
@@ -1552,7 +1575,7 @@ $(document).ready(function() {
     
     $('#account-modal').on($.modal.OPEN, function(event, modal) {
         // For viewports that are narrower than our page,
-        // change the modal box to position with an appropriate margin. 
+        // change the modal box to position with an appropriate margin.
         if($(window).width() < $(document).width()) {
             $(modal.elm).css({
                 marginLeft: Math.floor(($(document).width() - $(modal.elm).outerWidth()) / 2) + 'px',
