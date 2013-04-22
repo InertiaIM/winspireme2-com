@@ -49,8 +49,8 @@ class PackSuitcaseConsumer implements ConsumerInterface
         $user = $suitcase->getUser();
         $account = $user->getCompany();
         
-        
-        
+        // TODO temp fix for abnormal account/suitcases flagged
+        if ($suitcase->getSfId() != 'TEST' && $suitcase->getSfId() != 'CANADA' && $suitcase->getSfId() != 'PARTNER') {
         // Salesforce Updates
         $sfOpportunity = new \stdClass();
         $sfOpportunity->Name = $suitcase->getName();
@@ -170,7 +170,7 @@ class PackSuitcaseConsumer implements ConsumerInterface
                 $this->em->flush();
             }
         }
-        
+        }
         
         
         
