@@ -186,14 +186,14 @@ class SuitcaseController extends Controller
         
         if($this->get('security.context')->isGranted('ROLE_ADMIN')) {
             $query = $em->createQuery(
-                'SELECT s FROM InertiaWinspireBundle:Suitcase s WHERE s.id = :id'
+                'SELECT s, i FROM InertiaWinspireBundle:Suitcase s LEFT JOIN s.items i WITH i.status != \'X\' WHERE s.id = :id'
             )
                 ->setParameter('id', $suitcaseId)
             ;
         }
         else {
             $query = $em->createQuery(
-                'SELECT s FROM InertiaWinspireBundle:Suitcase s WHERE s.id = :id AND s.user = :uid'
+                'SELECT s, i FROM InertiaWinspireBundle:Suitcase s LEFT JOIN s.items i WITH i.status != \'X\'X WHERE s.id = :id AND s.user = :uid'
             )
                 ->setParameter('id', $suitcaseId)
                 ->setParameter('uid', $user->getId())
