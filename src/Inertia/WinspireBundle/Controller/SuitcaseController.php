@@ -908,7 +908,9 @@ class SuitcaseController extends Controller
     {
         $counts = array('M' => 0, 'D' => 0, 'R' => 0, 'E' => 0);
         foreach($suitcase->getItems() as $item) {
-            $counts[$item->getStatus()]++;
+            if ($item->getStatus() != 'X') {
+                $counts[$item->getStatus()]++;
+            }
         }
         
         return $counts;
