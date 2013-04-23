@@ -59,14 +59,17 @@ class ContentCommand extends ContainerAwareCommand
         
         
         $query = $em->createQuery(
-            'SELECT p FROM InertiaWinspireBundle:Package p WHERE p.contentPack != :cp'
-        )
-            ->setParameter('cp', '')
-        ;
+            'SELECT p FROM InertiaWinspireBundle:Package p WHERE p.contentPack != \'\''
+        );
         $packages = $query->getResult();
         
         foreach($packages as $p) {
             $sfId = trim(preg_replace('/.*selectedDocumentId=(.*)/i', '$1', $p->getContentPack()));
+            
+            // Sanity check on whether we've parsed a reasonable sfId
+            if (strlen($sfId) > 25) {
+                continue;
+            }
             
             $contentResult = $client->query('SELECT ' .
                 'Title, ' .
