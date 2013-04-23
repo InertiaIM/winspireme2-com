@@ -49,7 +49,7 @@ class UnpackSuitcaseConsumer implements ConsumerInterface
         $account = $user->getCompany();
         
         // TODO temp fix for abnormal account/suitcases flagged
-        if ($suitcase->getSfId() != 'TEST' && $suitcase->getSfId() != 'CANADA' && $suitcase->getSfId() != 'PARTNER') {
+        if ($account->getSfId() != 'TEST' && $account->getSfId() != 'CANADA' && $account->getSfId() != 'PARTNER') {
         // Salesforce Updates
         $sfOpportunity = new \stdClass();
         $sfOpportunity->Name = $suitcase->getName();
