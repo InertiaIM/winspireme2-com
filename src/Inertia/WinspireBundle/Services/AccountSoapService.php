@@ -144,14 +144,14 @@ class AccountSoapService
                         $account->setSalesperson($owner);
                     }
                     catch (\Exception $e) {
-                        $this->logger->err('    Owner ID es no bueno: ' . $sfAccount->OwnerId);
+                        $this->logger->err('    Owner ID es no bueno: ' . $a->OwnerId);
                         $query = $this->em->createQuery(
                             'SELECT u FROM InertiaWinspireBundle:User u WHERE u.id = :id'
                         )
                             ->setParameter('id', 1)
                         ;
                         $owner = $query->getSingleResult();
-                        $account->setSalesperson(owner);
+                        $account->setSalesperson($owner);
                     }
                 }
                 else {
