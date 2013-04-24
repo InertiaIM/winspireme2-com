@@ -193,7 +193,7 @@ class SuitcaseController extends Controller
         }
         else {
             $query = $em->createQuery(
-                'SELECT s, i FROM InertiaWinspireBundle:Suitcase s LEFT JOIN s.items i WITH i.status != \'X\'X WHERE s.id = :id AND s.user = :uid'
+                'SELECT s, i FROM InertiaWinspireBundle:Suitcase s LEFT JOIN s.items i WITH i.status != \'X\' WHERE s.id = :id AND s.user = :uid'
             )
                 ->setParameter('id', $suitcaseId)
                 ->setParameter('uid', $user->getId())
