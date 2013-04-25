@@ -170,6 +170,9 @@ var env = '/app_dev.php';
 {%         render "InertiaWinspireBundle:Account:Create" %}
 {%     endif %}
 {% endif %}
+{% if is_granted('ROLE_USER') %}
+{%     render "InertiaWinspireBundle:Suitcase:Create" %}
+{% endif %}
     
     <script src="/js/main.js"></script>
 {% if app.environment == 'prod' and (app.request.host == 'winspireme.com' or app.request.host == 'www.winspireme.com') %}

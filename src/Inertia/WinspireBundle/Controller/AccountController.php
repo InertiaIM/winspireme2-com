@@ -211,10 +211,10 @@ class AccountController extends Controller
                 
                 try {
                     $msg = array('suitcase_id' => $suitcase->getId());
-                    $this->get('old_sound_rabbit_mq.winspire_producer')->publish(serialize($msg), 'create-suitcase');
+                    $this->get('old_sound_rabbit_mq.winspire_producer')->publish(serialize($msg), 'create-account');
                 }
                 catch (\Exception $e) {
-                    $this->get('logger')->err('Rabbit queue (create-suitcase) es no bueno!');
+                    $this->get('logger')->err('Rabbit queue (create-account) es no bueno!');
                 }
                 
                 $loginManager->loginUser('main', $user);

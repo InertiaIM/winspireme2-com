@@ -10,6 +10,9 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Validator\Constraints\Email;
+use Symfony\Component\Validator\Constraints\Length;
+use Symfony\Component\Validator\Constraints\NotBlank;
+use Symfony\Component\Validator\Constraints\True;
 
 class SuitcaseController extends Controller
 {
@@ -140,6 +143,179 @@ class SuitcaseController extends Controller
                 'suitcase' => $suitcase
             )
         );
+    }
+    
+    public function createAction(Request $request)
+    {
+//        $response = new JsonResponse();
+        $session = $this->getRequest()->getSession();
+        $em = $this->getDoctrine()->getManager();
+        $formFactory = $this->get('form.factory');
+        
+        $form = $formFactory->createNamed('suitcase');
+        $form->add(
+            $formFactory->createNamed('name', 'text', null,
+                array(
+                    'constraints' => array(
+                        new NotBlank()
+                    ),
+                    'label' => 'Event Name',
+                    'mapped' => false
+                )
+            )
+        );
+        
+        $form->add(
+            $formFactory->createNamed('date', 'text', null,
+                array(
+                    'constraints' => array(
+                        new NotBlank()
+                    ),
+                    'label' => 'Event Date',
+                    'mapped' => false
+                )
+            )
+        );
+        
+        $form->add(
+            $formFactory->createNamed('package', 'hidden', null,
+                array(
+                    'mapped' => false,
+                    'required' => false
+                )
+            )
+        );
+        
+        
+        
+        // process the form on POST
+        if ($request->isMethod('POST')) {
+            $form->bind($request);
+            if ($form->isValid()) {
+                if($this->get('security.context')->isGranted('ROLE_ADMIN')) {
+                    $sid = $session->get('sid');
+                    
+                    if ($sid) {
+                        $query = $em->createQuery(
+                            'SELECT s, u FROM InertiaWinspireBundle:Suitcase s JOIN s.user u WHERE s.id = :sid'
+                        )
+                            ->setParameter('sid', $sid)
+                        ;
+                        
+                        $user = $query->getSingleResult()->getUser();
+                    }
+                    else {
+                        return $this->redirect($this->generateUrl('suitcaseAdmin'));
+                    }
+                }
+                else {
+                    $user = $this->getUser();
+                }
+                
+                $suitcase = new Suitcase();
+                $suitcase->setPacked(false);
+                $suitcase->setDirty(true);
+                $suitcase->setName($form->get('name')->getData());
+                $suitcase->setEventDate(new \DateTime($form->get('date')->getData()));
+                $suitcase->setUser($user);
+                
+                if($form->get('package')->getData() != '') {
+                    // TODO Can I call the SuitcaseController::addAction directly
+                    // rather than repeating the logic here?
+                    
+                    $id = $form->get('package')->getData();
+                    $query = $em->createQuery(
+                        'SELECT p FROM InertiaWinspireBundle:Package p WHERE p.is_private != 1 AND p.picture IS NOT NULL AND p.id = :id'
+                    )
+                    ->setParameter('id', $id);
+                    
+                    try {
+                        $package = $query->getSingleResult();
+                        
+                        $suitcaseItem = new SuitcaseItem();
+                        $suitcaseItem->setPackage($package);
+                        $suitcaseItem->setQuantity(1);
+                        $suitcaseItem->setPrice(0);
+                        $suitcaseItem->setSubtotal(0);
+                        $suitcaseItem->setTotal(0);
+                        $suitcaseItem->setStatus('M');
+                        
+                        $suitcase->addItem($suitcaseItem);
+                        $em->persist($suitcaseItem);
+                        
+//                        $response->setData(array(
+//                            'count' => count($suitcase->getItems()),
+//                            'item' => array(
+//                                'id' => $package->getId(),
+//                                'slug' => $package->getSlug(),
+//                                'thumbnail' => $package->getThumbnail(),
+//                                'parentHeader' => $package->getParentHeader(),
+//                                'persons' => $package->getPersons(),
+//                                'accommodations' => $package->getAccommodations(),
+//                                'airfares' => $package->getAirfares()
+//                            )
+//                        ));
+                    }
+                    catch (\Doctrine\Orm\NoResultException $e) {
+                    }
+                }
+                else {
+                    // No packages added to Suitcase (new Suitcase directly)
+//                    $response->setData(array(
+//                        'count' => 0
+//                    ));
+                }
+                
+                $em->persist($suitcase);
+                $em->flush();
+                
+                try {
+                    $msg = array('suitcase_id' => $suitcase->getId());
+                    $this->get('old_sound_rabbit_mq.winspire_producer')->publish(serialize($msg), 'create-suitcase');
+                }
+                catch (\Exception $e) {
+                    $this->get('logger')->err('Rabbit queue (create-suitcase) es no bueno!');
+                }
+                
+                $session->set('sid', $suitcase->getId());
+                
+                
+                return $this->redirect($this->generateUrl('suitcaseView'));
+            }
+            else {
+                // TODO there has to be a better way to iterate through the
+                // possible errors.
+                $name = $form->get('name');
+                $date = $form->get('date');
+                
+                $errors = array();
+                
+                if($blahs = $name->getErrors()) {
+                    $temp = array();
+                    foreach($blahs as $blah) {
+                        $temp[] = $blah->getMessage();
+                    }
+                    $errors['name'] = $temp;
+                }
+                
+                if($blahs = $date->getErrors()) {
+                    $temp = array();
+                    foreach($blahs as $blah) {
+                        $temp[] = $blah->getMessage();
+                    }
+                    $errors['date'] = $temp;
+                }
+                
+                
+                return $response->setData(array(
+                    'errors' => $errors
+                ));
+            }
+        }
+        
+        return $this->render('InertiaWinspireBundle:Suitcase:create.html.twig', array(
+            'form' => $form->createView()
+        ));
     }
     
     public function deleteAction($id)
@@ -459,6 +635,20 @@ class SuitcaseController extends Controller
         
         $user = $suitcase->getUser();
         
+        // Get full list of Suitcases owned by this user
+        $em = $this->getDoctrine()->getManager();
+        $query = $em->createQuery(
+            'SELECT s FROM InertiaWinspireBundle:Suitcase s WHERE s.user = :user ORDER BY s.name ASC'
+        )
+            ->setParameter('user', $user)
+        ;
+        $suitcases = $query->getResult();
+        
+        $suitcaseList = array();
+        foreach($suitcases as $s) {
+            $suitcaseList[] = array('id' => $s->getId(), 'name' => $s->getName());
+        }
+        
         $form = $this->createForm(new AccountType2(), $user->getCompany());
         $form->get('phone')->setData($user->getPhone());
         
@@ -487,7 +677,8 @@ class SuitcaseController extends Controller
             'suitcase' => $suitcase,
             'counts' => $counts,
             'pages' => ceil(count($suitcase->getItems()) / 6),
-            'downloadLinks' => $downloadLinks
+            'downloadLinks' => $downloadLinks,
+            'suitcaseList' => $suitcaseList
         ));
     }
     
@@ -873,6 +1064,43 @@ class SuitcaseController extends Controller
         return $response->setData(array(
             'success' => true
         ));
+    }
+    
+    
+    public function switchAction(Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $session = $this->getRequest()->getSession();
+        
+        if($this->get('security.context')->isGranted('ROLE_ADMIN')) {
+            $query = $em->createQuery(
+                'SELECT s FROM InertiaWinspireBundle:Suitcase s WHERE s.id = :sid'
+            )
+                ->setParameter('sid', $request->query->get('sid'))
+            ;
+            
+        }
+        else {
+            $user = $this->getUser();
+            $query = $em->createQuery(
+                'SELECT s FROM InertiaWinspireBundle:Suitcase s WHERE s.id = :sid AND s.user = :user'
+            )
+                ->setParameter('sid', $request->query->get('sid'))
+                ->setParameter('user', $user)
+            ;
+        }
+        
+        try {
+            $suitcase = $query->getSingleResult();
+            $session->set('sid', $suitcase->getId());
+        }
+        catch (\Doctrine\Orm\NoResultException $e) {
+            // Do nothing, leave the session alone
+            // We didn't find an appropriate suitcase
+        }
+        
+        
+        return $this->redirect($this->generateUrl('suitcaseView'));
     }
     
     

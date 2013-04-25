@@ -1553,6 +1553,136 @@ $(document).ready(function() {
             $('#sc-area').find('.pager-total').text('1');
         }
     }
+    
+    
+    // Suitcase Create Modal
+    var currentSid = $('.suitcase-switcher').attr('data-id');
+    
+    // prevent the browser from "remembering" our selection with back/forward navigation
+    $('.suitcase-switcher select').val(currentSid);
+    
+    
+    $('form.suitcase-switcher select[name="sid"]').selectBoxIt({
+        nostyle: false,
+        downArrowIcon: 'icon-arrow-down'
+    });
+    
+    var selectBoxSuitcase1 = $('form.suitcase-switcher select[name="sid"]').eq(0).data('selectBox-selectBoxIt');
+    var selectBoxSuitcase2 = $('form.suitcase-switcher select[name="sid"]').eq(1).data('selectBox-selectBoxIt');
+    
+    // make sure the non-visible selectbox widget has the correct width
+    var width = $('form.suitcase-switcher:visible').find('.selectboxit.selectboxit-btn').css('width');
+    $('form.suitcase-switcher').find('.selectboxit.selectboxit-btn').css('width', width);
+    
+    $('#suitcase-modal').on($.modal.BEFORE_CLOSE, function(event, modal) {
+        selectBoxSuitcase1.selectOption(currentSid);
+        selectBoxSuitcase2.selectOption(currentSid);
+    });
+    
+    $('.suitcase-switcher select').on('change', function(e) {
+        if ($(this).val() == 'new') {
+            $('#suitcase-modal').modal({
+                closeText: 'X',
+                overlay: '#fff',
+                opacity: 0.73,
+                zIndex: 2002
+            });
+        }
+        else {
+            if ($(this).val() != currentSid) {
+                $(this).parent('form').submit();
+            }
+        }
+    });
+    
+    $('#suitcase-modal form').validate({
+        errorElement: 'em',
+        errorPlacement: function(error, element) {
+            switch(element.attr('name')) {
+            case 'suitcase[date]':
+                error.insertAfter('#suitcase_date + img');
+                break;
+            default:
+                error.insertAfter(element);
+            }
+        },
+        rules: {
+            'suitcase[name]': {
+                required: true
+            },
+            'suitcase[date]': {
+                required: true
+            }
+        },
+        messages: {
+            'suitcase[name]': 'Event name required',
+            'suitcase[date]': 'Event date required'
+        },
+        submitHandler: function(form) {
+            form.submit();
+            
+            
+            var data = $(form).serialize();
+            
+/*          
+            $.ajax({
+                beforeSend: function() {
+                    $('#more-modal .error').removeClass('error');
+                },
+                data: data,
+                dataType: 'json',
+                url: $(form).attr('action'),
+                success: function(data, textStatus, jqXHR) {
+                    if (!$.isEmptyObject(data)) {
+                        if (!$.isEmptyObject(data.errors)) {
+                            $.each(data.errors, function(index, value) {
+                                $('#' + index).addClass('error');
+                                $('#more-modal label[for="' + index + '"]').addClass('error');
+                            });
+                        }
+                        else {
+                            if(data.packed) {
+                                $.modal.close();
+                                
+                                $('.unpacked').hide();
+                                $('.packed').show();
+                                
+                                $('#core-suitcase-button')
+                                    .addClass('locked')
+                                    .find('span.icon')
+                                    .removeClass('icon-suitcase')
+                                    .addClass('icon-suitcase-locked');
+                                
+                                $('#thanks-modal').modal({
+                                    closeText: 'X',
+                                    overlay: '#fff',
+                                    opacity: 0.73,
+                                    zIndex: 2002
+                                });
+                                
+                                $(window).scrollTop(100);
+                            }
+                        }
+                    }
+                },
+                type: 'POST'
+            });
+*/
+        }
+    });
+    
+    $('#suitcase_date').datepicker({
+        buttonImage: '/img/calendar.png',
+        buttonImageOnly: true,
+        constrainInput: true,
+        dateFormat: 'mm/dd/y',
+        minDate: '+1',
+        maxDate: '+1y',
+        onSelect: function(date, dp) {
+            $('#suitcase-modal form').validate().element('#suitcase_date');
+        },
+        showOn: 'both'
+    });
 });
 
 

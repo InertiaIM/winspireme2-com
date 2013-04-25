@@ -3,26 +3,29 @@ namespace Inertia\WinspireBundle\Consumer;
 
 use Ddeboer\Salesforce\ClientBundle\Client;
 use Doctrine\ORM\EntityManager;
+use MZ\MailChimpBundle\Services\MailChimp;
 use OldSound\RabbitMqBundle\RabbitMq\ConsumerInterface;
 use PhpAmqpLib\Message\AMQPMessage;
 use Symfony\Component\Templating\EngineInterface;
 
-class CreateSuitcaseConsumer implements ConsumerInterface
+class CreateAccountConsumer implements ConsumerInterface
 {
     protected $em;
     protected $mailer;
     protected $templating;
+    protected $mailchimp;
     protected $sf;
     
     private $recordTypeId = '01270000000DVD5AAO';
     private $opportunityTypeId = '01270000000DVGnAAO';
     private $partnerRecordId = '0017000000PKyUfAAL';
     
-    public function __construct(EntityManager $entityManager, \Swift_Mailer $mailer, EngineInterface $templating, Client $salesforce)
+    public function __construct(EntityManager $entityManager, \Swift_Mailer $mailer, EngineInterface $templating, MailChimp $mailchimp, Client $salesforce)
     {
         $this->em = $entityManager;
         $this->mailer = $mailer;
         $this->templating = $templating;
+        $this->mailchimp = $mailchimp;
         $this->sf = $salesforce;
         
         $this->mailer->getTransport()->stop();
@@ -106,11 +109,21 @@ class CreateSuitcaseConsumer implements ConsumerInterface
         
         if ($suitcase->getSfId() == '' && $account->getSfId() != '') {
             $sfOpportunity = new \stdClass();
-            $sfOpportunity->CloseDate = new \DateTime($suitcase->getEventDate()->format('Y-m-d') . ' +30 days');
+            $sfOpportunity->CloseDate = new \DateTime('+60 days');
             $sfOpportunity->Name = $suitcase->getName();
             $sfOpportunity->StageName = 'Counsel';
-            $sfOpportunity->Event_Name__c = $suitcase->getName();
-            $sfOpportunity->Event_Date__c = $suitcase->getEventDate();
+            if ($suitcase->getEventName() != '') {
+                $sfOpportunity->Event_Name__c = $suitcase->getEventName();
+            }
+            else {
+                $sfOpportunity->Event_Name__c = '';
+            }
+            if ($suitcase->getEventDate() != '') {
+                $sfOpportunity->Event_Date__c = $suitcase->getEventDate();
+            }
+            else {
+                $sfOpportunity->Event_Date__c = new \DateTime('+30 days');
+            }
             $sfOpportunity->AccountId = $account->getSfId();
             $sfOpportunity->RecordTypeId = $this->opportunityTypeId;
             $sfOpportunity->Lead_Souce_by_Client__c = 'Online User';
@@ -133,34 +146,48 @@ class CreateSuitcaseConsumer implements ConsumerInterface
         
         
         // Send Mail Messages
-//        $name = $suitcase->getUser()->getFirstName() . ' ' .
-//            $suitcase->getUser()->getLastName();
-//        
-//        $email = $suitcase->getUser()->getEmail();
-//        
-//        $message = \Swift_Message::newInstance()
-//            ->setSubject('Welcome to Winspire!')
-//            ->setFrom(array('notice@winspireme.com' => 'Winspire'))
-//            ->setTo(array($email => $name))
-//            ->setBody(
-//                $this->templating->render(
-//                    'InertiaWinspireBundle:Email:create-suitcase-welcome.html.twig',
-//                    array('user' => $suitcase->getUser())
-//                ),
-//                'text/html'
-//            )
-//        ;
-//        
-//        $this->em->clear();
-//        
-//        $this->mailer->getTransport()->start();
-//        if (!$this->mailer->send($message)) {
-//            // Any other value not equal to false will acknowledge the message and remove it
-//            // from the queue
-//            return false;
-//        }
-//        
-//        $this->mailer->getTransport()->stop();
+        $name = $suitcase->getUser()->getFirstName() . ' ' .
+            $suitcase->getUser()->getLastName();
+        
+        $email = $suitcase->getUser()->getEmail();
+        
+        $message = \Swift_Message::newInstance()
+            ->setSubject('Welcome to Winspire!')
+            ->setFrom(array('notice@winspireme.com' => 'Winspire'))
+            ->setTo(array($email => $name))
+            ->setBody(
+                $this->templating->render(
+                    'InertiaWinspireBundle:Email:create-suitcase-welcome.html.twig',
+                    array('user' => $suitcase->getUser())
+                ),
+                'text/html'
+            )
+        ;
+        
+        $this->em->clear();
+        
+        $this->mailer->getTransport()->start();
+        if (!$this->mailer->send($message)) {
+            // Any other value not equal to false will acknowledge the message and remove it
+            // from the queue
+            return false;
+        }
+        
+        $this->mailer->getTransport()->stop();
+        
+        
+        // MailChimp sync
+        if($user->getNewsletter()) {
+            $list = $this->mailchimp->getList();
+            $list->setMerge(array(
+                'FNAME' => $user->getFirstName(),
+                'LNAME' => $user->getLastName(),
+                'MMERGE3' => $user->getCompany()->getName()
+            ));
+            
+            $result = $list->Subscribe($user->getEmail());
+        }
+        
         
         return true;
     }

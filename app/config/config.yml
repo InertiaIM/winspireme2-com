@@ -121,6 +121,11 @@ be_simple_soap:
             wsdl: blah
 
 services:
+    twig.extension.text:
+        class: Twig_Extensions_Extension_Text
+        tags:
+            - { name: twig.extension }
+            
     account_soap_service:
         class: Inertia\WinspireBundle\Services\AccountSoapService
         arguments: [@ddeboer_salesforce_client, @doctrine.orm.entity_manager, @logger]
@@ -157,9 +162,13 @@ services:
         class: Inertia\WinspireBundle\Consumer\PackSuitcaseConsumer
         arguments: [@doctrine.orm.entity_manager, @mailer, @templating, @ddeboer_salesforce_client]
         
+    create_account_service:
+        class: Inertia\WinspireBundle\Consumer\CreateAccountConsumer
+        arguments: [@doctrine.orm.entity_manager, @mailer, @templating, @mailchimp, @ddeboer_salesforce_client]
+        
     create_suitcase_service:
         class: Inertia\WinspireBundle\Consumer\CreateSuitcaseConsumer
-        arguments: [@doctrine.orm.entity_manager, @mailer, @templating, @mailchimp, @ddeboer_salesforce_client]
+        arguments: [@doctrine.orm.entity_manager, @mailer, @templating, @ddeboer_salesforce_client]
         
     unpack_suitcase_service:
         class: Inertia\WinspireBundle\Consumer\UnpackSuitcaseConsumer
@@ -197,6 +206,11 @@ old_sound_rabbit_mq:
             exchange_options: { name: 'winspire', type: direct }
             queue_options:    { name: 'winspire-pack-suitcase' }
             callback:         pack_suitcase_service
+        create_account:
+            connection: default
+            exchange_options: { name: 'winspire', type: direct }
+            queue_options:    { name: 'winspire-create-account' }
+            callback:         create_account_service
         create_suitcase:
             connection: default
             exchange_options: { name: 'winspire', type: direct }

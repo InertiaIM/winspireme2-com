@@ -11,9 +11,17 @@
             <div class="col">
                 <div class="packed"{% if not suitcase.packed %} style="display:none;"{% endif %}>
                     <h1><span class="icon-suitcase-locked"></span> <em>my</em> Suitcase</h1>
+                    <form data-id="{{ suitcase.id }}" method="get" action="{{ path('suitcaseSwitch') }}" class="suitcase-switcher">
+                        <select name="sid">
+                            <option value="new">Create New Suitcase</option>
+{% for s in suitcaseList %}
+                            <option{% if s.id == suitcase.id %} selected="selected"{% endif %} value="{{ s.id }}">{{ s.name | truncate(30) }}</option>
+{% endfor %}
+                        </select>
+                    </form>
                     <h4>Your Suitcase is packed!</h4>
                     <p>Good luck at your event and be sure to check out all of our tips for auction success.</p>
-                    <ul>
+                    <ul class="packed">
                         <li><span>1</span>A copy of your <a href="{{ path('pageDisplay', { 'slug': 'loa' }) }}">Letter of Agreement</a> and an Order Confirmation was sent to your email.</li>
                         <li><span>2</span>If you need to add another item before your event, simply <a href="{{ path('packageList') }}">find the item</a>, add it to your Suitcase and checkout again</li>
                         <li><span>3</span><a href="{{ path('suitcaseDownload', {'suitcaseId': suitcase.id}) }}">Download all of your presentation materials</a>, if you haven’t already.  We will contact you after your event to walk you through the next steps.</li>
@@ -21,6 +29,14 @@
                 </div>
                 <div class="unpacked"{% if suitcase.packed %} style="display:none;"{% endif %}>
                     <h1><span class="icon-suitcase-2"></span> <em>my</em> Suitcase</h1>
+                    <form data-id="{{ suitcase.id }}" method="get" action="{{ path('suitcaseSwitch') }}" class="suitcase-switcher">
+                        <select name="sid">
+                            <option value="new">Create New Suitcase</option>
+{% for s in suitcaseList %}
+                            <option{% if s.id == suitcase.id %} selected="selected"{% endif %} value="{{ s.id }}">{{ s.name | truncate(30) }}</option>
+{% endfor %}
+                        </select>
+                    </form>
                     <h3>Here you can organize your Experiences, collaborate with your peers and work with your Winspire Event Consultant to decide on the best set of packages for your charity auction. Once you have finalized your selection, simply click "I'm Packed" to reserve the Experiences for your event.</h3>
                 </div>
             </div>

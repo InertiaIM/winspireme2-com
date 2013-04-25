@@ -1,0 +1,28 @@
+<div id="suitcase-modal" data-id="none">
+    <h4>Create New Suitcase</h4>
+    
+    <form action="{{ path('suitcaseCreate') }}" method="post" {{ form_enctype(form) }} novalidate="novalidate">
+        <ul>
+            <li>
+                <div>
+                    <span style="display:block;">
+                        <label for="{{ form.name.vars.id }}" class="required" style="float:left;">{{ form.name.vars.label }}</label>
+                        <span class="tip tooltip" title="Tip: This will also be the name of your Suitcase.">?</span>
+                    </span>
+                    {{ form_widget(form.name, { 'attr': { 'style': 'clear:both;', 'maxlength': '40' }}) }}
+                </div>
+                <div>
+                    {{ form_label(form.date) }}
+                    {{ form_widget(form.date, { 'attr': { 'class': 'date', 'placeholder': 'MM/DD/YY', 'readonly': 'readonly' }}) }}
+                </div>
+            </li>
+            <li>
+                <div>
+                    <button type="submit" id="create-suitcase">Create Suitcase</button>
+                    {{ form_widget(form._token) }}
+                    {{ form_widget(form.package) }}
+                </div>
+            </li>
+        </ul>
+    </form>
+</div>

@@ -51,6 +51,10 @@ suitcaseAdd:
     pattern:  /suitcase/add/{id}
     defaults: { _controller: InertiaWinspireBundle:Suitcase:add }
     
+suitcaseCreate:
+    pattern:  /suitcase/create
+    defaults: { _controller: InertiaWinspireBundle:Suitcase:create }
+    
 suitcaseDelete:
     pattern:  /suitcase/delete/{id}
     defaults: { _controller: InertiaWinspireBundle:Suitcase:delete }
@@ -90,6 +94,10 @@ suitcaseShare:
 suitcaseShareAgain:
     pattern:  /suitcase/reshare/{id}
     defaults: { _controller: InertiaWinspireBundle:Suitcase:shareAgain }
+    
+suitcaseSwitch:
+    pattern:  /suitcase/switch
+    defaults: { _controller: InertiaWinspireBundle:Suitcase:switch }
     
 shareComment:
     pattern:  /comment/{id}/{token}
