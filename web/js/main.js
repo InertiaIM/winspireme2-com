@@ -772,38 +772,6 @@ var footerCtx = $('footer')[0];
 $(document).ready(function() {
     var sc = $('#sc-area');
     
-//    $(sc).find('.content').on('click', '.item-close', function(e) {
-//        e.preventDefault();
-//        e.stopPropagation();
-//        
-//        var item = $(this).parent().parent('.package');
-//        var container = $(item).parent('li');
-//        var all = $(sc).find('.content > ul').find('li > ul > li');
-//        
-//        var i = $(all).index(container);
-//        var r = Math.floor(i / 3);
-//        var c = (i % 3);
-//        var left = ((300 * c) + 30);
-//        
-//        var row = $(all).slice((r * 3), (r * 3) + 3);
-//        var not = $(row).not(container);
-//        
-//        if($(item).hasClass('open')) {
-//            $(not).find('.flag').show();
-//            $(not).find('.package').addClass('drop-shadow');
-//            $(item).removeClass('drop-shadow expanded open');
-//            
-//            $(item).find('.expanded').fadeOut(0, function() {
-//                $(item).animate({width: 206 + 'px'}, 'fast');
-//                $(container).animate({left: left + 'px'}, 'fast', function() {
-//                    $(container).find('h4').show();
-////                    $(container).find('.item-open').show();
-//                    $(item).addClass('drop-shadow');
-//                });
-//            });
-//        }
-//    });
-    
     $(sc).find('.content').on('mouseenter', '.package', function(e) {
         var item = $(this);
         var open = $(this).find('.item-open');
@@ -820,41 +788,6 @@ $(document).ready(function() {
     });
     
     $(sc).find('.content').on('click', '.package', function(e) {
-        
-//      var item = $(this).parent().parent('.package');
-//      var container = $(item).parent('li');
-//      var all = $(sc).find('.content > ul').find('li > ul > li');
-//      
-//      var i = $(all).index(container);
-//      var r = Math.floor(i / 3);
-//      var c = (i % 3);
-//      var left = ((300 * c) + 30);
-//      
-//      var row = $(all).slice((r * 3), (r * 3) + 3);
-//      var not = $(row).not(container);
-//      
-//      if($(item).hasClass('open')) {
-//          $(not).find('.flag').show();
-//          $(not).find('.package').addClass('drop-shadow');
-//          $(item).removeClass('drop-shadow expanded open');
-//          
-//          $(item).find('.expanded').fadeOut(0, function() {
-//              $(item).animate({width: 206 + 'px'}, 'fast');
-//              $(container).animate({left: left + 'px'}, 'fast', function() {
-//                  $(container).find('h4').show();
-////                  $(container).find('.item-open').show();
-//                  $(item).addClass('drop-shadow');
-//              });
-//          });
-//      }
-        
-        
-        
-        
-        
-        
-        
-        
         var item = $(this);
         var container = $(this).parent('li');
         var all = $(sc).find('.content > ul').find('li > ul > li');
