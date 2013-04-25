@@ -124,7 +124,10 @@ fwrite($dump, print_r($notifications, true));
                 $package->setSeasonal($p->WEB_seasonal_pkg__c);
                 $package->setIsDefault($p->WEB_Default_version__c);
                 $package->setSuggestedRetailValue($p->Suggested_Retail_Value__c);
-                $package->setYearVersion($p->Year_Version__c);
+                
+                if (isset($p->Year_Version__c)) {
+                    $package->setYearVersion($p->Year_Version__c);
+                }
                 
                 if(isset($p->OMIT_from_Winspire__c)) {
                     $package->setIsPrivate($p->OMIT_from_Winspire__c == '1' ? true : false);
