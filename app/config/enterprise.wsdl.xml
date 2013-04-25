@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
 Salesforce.com Enterprise Web Services API Version 27.0
-Generated on 2013-04-12 22:15:31 +0000.
+Generated on 2013-04-25 06:16:12 +0000.
 
 Package Versions:
 Salesforce for Google AdWords (Version: 1.2, Namespace: sfga)
@@ -3351,6 +3351,7 @@ All Rights Reserved
                         <element name="AccountPartners" nillable="true" minOccurs="0" type="tns:QueryResult"/>
                         <element name="Accrual_Item__c" nillable="true" minOccurs="0" type="tns:ID"/>
                         <element name="Accrual_Item__r" nillable="true" minOccurs="0" type="ens:Product2"/>
+                        <element name="Acct_Opp_Event__c" nillable="true" minOccurs="0" type="xsd:string"/>
                         <element name="ActivityHistories" nillable="true" minOccurs="0" type="tns:QueryResult"/>
                         <element name="Actual_Profit__c" nillable="true" minOccurs="0" type="xsd:double"/>
                         <element name="Actual_Purchase_Price__c" nillable="true" minOccurs="0" type="xsd:double"/>
@@ -3405,6 +3406,7 @@ All Rights Reserved
                         <element name="Customer_traveler_last__c" nillable="true" minOccurs="0" type="xsd:string"/>
                         <element name="Date_converted_to_Reservation__c" nillable="true" minOccurs="0" type="xsd:date"/>
                         <element name="Description" nillable="true" minOccurs="0" type="xsd:string"/>
+                        <element name="Duplicate_record__c" nillable="true" minOccurs="0" type="xsd:boolean"/>
                         <element name="Email__c" nillable="true" minOccurs="0" type="xsd:string"/>
                         <element name="Event_Date__c" nillable="true" minOccurs="0" type="xsd:date"/>
                         <element name="Event_Name__c" nillable="true" minOccurs="0" type="xsd:string"/>
@@ -3573,7 +3575,7 @@ All Rights Reserved
                         <element name="Vendor_billing_9__c" nillable="true" minOccurs="0" type="xsd:string"/>
                         <element name="WSE_Notes__c" nillable="true" minOccurs="0" type="xsd:string"/>
                         <element name="WSE_Profit_Margin__c" nillable="true" minOccurs="0" type="xsd:double"/>
-                        <element name="Web_Suitcase_Name__c" nillable="true" minOccurs="0" type="xsd:string"/>
+                        <element name="Website_suitcase_status__c" nillable="true" minOccurs="0" type="xsd:string"/>
                         <element name="What_company_is_hosting_online_auction__c" nillable="true" minOccurs="0" type="xsd:string"/>
                         <element name="Wireless_data_recorder_provider__c" nillable="true" minOccurs="0" type="xsd:string"/>
                         <element name="consignment_items_supplier__c" nillable="true" minOccurs="0" type="xsd:string"/>
