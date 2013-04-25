@@ -112,6 +112,7 @@ class CreateAccountConsumer implements ConsumerInterface
             $sfOpportunity->CloseDate = new \DateTime('+60 days');
             $sfOpportunity->Name = $suitcase->getName();
             $sfOpportunity->StageName = 'Counsel';
+            $sfOpportunity->Website_suitcase_status__c = 'Unpacked';
             if ($suitcase->getEventName() != '') {
                 $sfOpportunity->Event_Name__c = $suitcase->getEventName();
             }

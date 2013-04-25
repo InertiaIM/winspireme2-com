@@ -53,8 +53,7 @@ class UnpackSuitcaseConsumer implements ConsumerInterface
         // Salesforce Updates
         $sfOpportunity = new \stdClass();
         $sfOpportunity->Name = $suitcase->getName();
-        $sfOpportunity->StageName = 'Counsel';
-        $sfOpportunity->fieldsToNull = array('Date_converted_to_Reservation__c');
+        $sfOpportunity->Website_suitcase_status__c = 'Unpacked';
         $sfOpportunity->Event_Name__c = $suitcase->getEventName();
         if ($suitcase->getEventDate() != '') {
             $sfOpportunity->Event_Date__c = $suitcase->getEventDate();

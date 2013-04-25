@@ -865,17 +865,25 @@ if(($sfAccount->SystemModstamp > $account->getSfUpdated()) && !$account->getDirt
                 $suitcases = $query->getResult();
                 
                 foreach ($suitcases as $suitcase) {
+                    $sfOpportunity = new \stdClass();
+                    
                     if ($suitcase->getSfId() == '') {
+                        $sfOpportunity->StageName = 'Counsel';
                         $new = true;
                     }
                     else {
                         $new = false;
                     }
                     
-                    $sfOpportunity = new \stdClass();
+                    if ($suitcase->getPacked()) {
+                        $sfOpportunity->Website_suitcase_status__c = 'Packed';
+                    }
+                    else {
+                        $sfOpportunity->Website_suitcase_status__c = 'Unpacked';
+                    }
                     $sfOpportunity->CloseDate = new \DateTime('+60 days');
                     $sfOpportunity->Name = $suitcase->getName();
-                    $sfOpportunity->StageName = 'Counsel';
+                    
                     if ($suitcase->getEventName() != '' && $suitcase->getEventName() != 'false') {
                         $sfOpportunity->Event_Name__c = substr($suitcase->getEventName(), 0, 40);
                     }

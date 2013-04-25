@@ -54,8 +54,7 @@ class PackSuitcaseConsumer implements ConsumerInterface
         // Salesforce Updates
         $sfOpportunity = new \stdClass();
         $sfOpportunity->Name = $suitcase->getName();
-        $sfOpportunity->StageName = 'Reserves Made';
-        $sfOpportunity->Date_converted_to_Reservation__c = $suitcase->getPackedAt();
+        $sfOpportunity->Website_suitcase_status__c = 'Packed';
         $sfOpportunity->LOA_Received__c = 1;
         $sfOpportunity->Event_Name__c = substr($suitcase->getEventName(), 0, 40);
         if ($suitcase->getEventDate() != '') {
