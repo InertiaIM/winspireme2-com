@@ -182,7 +182,7 @@ class AccountController extends Controller
                         
                         $suitcase->addItem($suitcaseItem);
                         $em->persist($suitcaseItem);
-echo 'step1';
+                        
                         $response->setData(array(
                             'count' => count($suitcase->getItems()),
                             'item' => array(
@@ -206,12 +206,8 @@ echo 'step1';
                     ));
                 }
                 
-echo 'step2';
-                
                 $em->persist($suitcase);
                 $em->flush();
-                
-echo 'step3';
                 
                 try {
                     $msg = array('suitcase_id' => $suitcase->getId());
@@ -221,7 +217,6 @@ echo 'step3';
                     $this->get('logger')->err('Rabbit queue (create-account) es no bueno!');
                 }
                 
-echo 'step4';
                 
                 $loginManager->loginUser('main', $user);
                 
