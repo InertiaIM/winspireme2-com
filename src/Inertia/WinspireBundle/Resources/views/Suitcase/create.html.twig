@@ -9,7 +9,7 @@
                         <label for="{{ form.name.vars.id }}" class="required" style="float:left;">{{ form.name.vars.label }}</label>
                         <span class="tip tooltip" title="Tip: This will also be the name of your Suitcase.">?</span>
                     </span>
-                    {{ form_widget(form.name, { 'attr': { 'style': 'clear:both;', 'maxlength': '40' }}) }}
+                    {{ form_widget(form.name, { 'attr': { 'style': 'clear:both; display:block;', 'maxlength': '40' }}) }}
                 </div>
                 <div>
                     {{ form_label(form.date) }}
