@@ -147,12 +147,18 @@ class SuitcaseController extends Controller
     
     public function createAction(Request $request)
     {
-//        $response = new JsonResponse();
+        $json = false;
+        if ($request->query->get('format') == 'json') {
+            $json = true;
+            $response = new JsonResponse();
+        }
+        
+        
         $session = $this->getRequest()->getSession();
         $em = $this->getDoctrine()->getManager();
         $formFactory = $this->get('form.factory');
         
-        $form = $formFactory->createNamed('suitcase');
+        $form = $formFactory->createNamed('suitcase', 'form', null, array('csrf_protection' => false));
         $form->add(
             $formFactory->createNamed('name', 'text', null,
                 array(
@@ -243,27 +249,28 @@ class SuitcaseController extends Controller
                         $suitcase->addItem($suitcaseItem);
                         $em->persist($suitcaseItem);
                         
-//                        $response->setData(array(
-//                            'count' => count($suitcase->getItems()),
-//                            'item' => array(
-//                                'id' => $package->getId(),
-//                                'slug' => $package->getSlug(),
-//                                'thumbnail' => $package->getThumbnail(),
-//                                'parentHeader' => $package->getParentHeader(),
-//                                'persons' => $package->getPersons(),
-//                                'accommodations' => $package->getAccommodations(),
-//                                'airfares' => $package->getAirfares()
-//                            )
-//                        ));
+                        if ($json) {
+                            $items = array(array(
+                                'id' => $package->getId(),
+                                'slug' => $package->getSlug(),
+                                'thumbnail' => $package->getThumbnail(),
+                                'parentHeader' => $package->getParentHeader(),
+                                'persons' => $package->getPersons(),
+                                'accommodations' => $package->getAccommodations(),
+                                'airfares' => $package->getAirfares()
+                            ));
+                            $count = 1;
+                        }
                     }
                     catch (\Doctrine\Orm\NoResultException $e) {
                     }
                 }
                 else {
                     // No packages added to Suitcase (new Suitcase directly)
-//                    $response->setData(array(
-//                        'count' => 0
-//                    ));
+                    if ($json) {
+                        $items = array();
+                        $count = 0;
+                    }
                 }
                 
                 $em->persist($suitcase);
@@ -280,7 +287,20 @@ class SuitcaseController extends Controller
                 $session->set('sid', $suitcase->getId());
                 
                 
-                return $this->redirect($this->generateUrl('suitcaseView'));
+                if ($json) {
+                    return $response->setData(array(
+                        'count' => $count,
+                        'items' => $items,
+                        'locked' => $suitcase->getPacked(),
+                        'suitcase' => array(
+                            'id' => $suitcase->getId(),
+                            'name' => $suitcase->getName()
+                        )
+                    ));
+                }
+                else {
+                    return $this->redirect($this->generateUrl('suitcaseView'));
+                }
             }
             else {
                 // TODO there has to be a better way to iterate through the
@@ -347,7 +367,7 @@ class SuitcaseController extends Controller
         
         $response->setData(array(
             'deleted' => $deleted,
-            'count' => count($suitcase->getItems()),
+            'count' => $deleted ? count($suitcase->getItems()) - 1 : count($suitcase->getItems()),
             'counts' => $this->getCounts($suitcase)
         ));
         
@@ -387,8 +407,33 @@ class SuitcaseController extends Controller
         $sfContentPackIds = array();
         $sfContentPacks = array();
         foreach($suitcase->getItems() as $item) {
-            $sfContentPackIds[] = $item->getPackage()->getSfContentPackId();
-            $sfContentPacks[$item->getPackage()->getSfContentPackId()] = $item->getPackage()->getSlug();
+            if ($item->getPackage()->getSfContentPackId() != '' || $item->getPackage()->getIsDefault()) {
+                $contentPackId = $item->getPackage()->getSfContentPackId();
+                $sfContentPackIds[] = $contentPackId;
+            }
+            else {
+                // If the Package variant doesn't have its own SF Content Pack, then we'll try to find
+                // the content pack associated with the default Package with the same parent header.
+                // TODO this really should be pushed into the model... too much logic in our controller.
+                $query = $em->createQuery(
+                    'SELECT p FROM InertiaWinspireBundle:Package p WHERE p.parent_header = :ph AND p.is_default = 1 ORDER BY p.active ASC, p.created DESC'
+                )
+                    ->setParameter('ph', $item->getPackage()->getParentHeader())
+                    ->setMaxResults(1)
+                ;
+                
+                try {
+                    $p = $query->getSingleResult();
+                    $contentPackId = $p->getSfContentPackId();
+                }
+                catch (\Exception $e) {
+                    $contentPackId = '';
+                }
+                
+                $sfContentPackIds[] = $contentPackId;
+            }
+            
+            $sfContentPacks[$contentPackId] = $item->getPackage()->getSlug();
         }
         
         
@@ -667,7 +712,33 @@ class SuitcaseController extends Controller
         $counts = array('M' => 0, 'D' => 0, 'R' => 0, 'E' => 0);
         foreach($suitcase->getItems() as $item) {
             $counts[$item->getStatus()]++;
-            $downloadLinks[$item->getPackage()->getId()] = $this->getDownloadLink($item->getPackage()->getSfContentPackId());
+            
+            if ($item->getPackage()->getSfContentPackId() != '' || $item->getPackage()->getIsDefault()) {
+                $downloadLinks[$item->getPackage()->getId()] = $this->getDownloadLink($item->getPackage()->getSfContentPackId());
+            }
+            else {
+                // If the Package variant doesn't have its own SF Content Pack, then we'll try to find
+                // the content pack associated with the default Package with the same parent header.
+                // TODO this really should be pushed into the model... too much logic in our controller.
+                
+                $em = $this->getDoctrine()->getManager();
+                $query = $em->createQuery(
+                    'SELECT p FROM InertiaWinspireBundle:Package p WHERE p.parent_header = :ph AND p.is_default = 1 ORDER BY p.active ASC, p.created DESC'
+                )
+                    ->setParameter('ph', $item->getPackage()->getParentHeader())
+                    ->setMaxResults(1)
+                ;
+                
+                try {
+                    $p = $query->getSingleResult();
+                    $contentPackId = $p->getSfContentPackId();
+                }
+                catch (\Exception $e) {
+                    $contentPackId = '';
+                }
+                
+                $downloadLinks[$item->getPackage()->getId()] = $this->getDownloadLink($contentPackId);
+            }
         }
         
         return $this->render('InertiaWinspireBundle:Suitcase:view.html.twig', array(
@@ -823,9 +894,25 @@ class SuitcaseController extends Controller
     public function previewAction()
     {
         $suitcase = $this->getSuitcase();
+        $user = $suitcase->getUser();
+        
+        // Get full list of Suitcases owned by this user
+        $em = $this->getDoctrine()->getManager();
+        $query = $em->createQuery(
+            'SELECT s FROM InertiaWinspireBundle:Suitcase s WHERE s.user = :user ORDER BY s.name ASC'
+        )
+        ->setParameter('user', $user)
+        ;
+        $suitcases = $query->getResult();
+        
+        $suitcaseList = array();
+        foreach($suitcases as $s) {
+            $suitcaseList[] = array('id' => $s->getId(), 'name' => $s->getName());
+        }
         
         return $this->render('InertiaWinspireBundle:Suitcase:preview.html.twig', array(
-            'suitcase' => $suitcase
+            'suitcase' => $suitcase,
+            'suitcaseList' => $suitcaseList
         ));
     }
     
@@ -1069,12 +1156,19 @@ class SuitcaseController extends Controller
     
     public function switchAction(Request $request)
     {
+        $json = false;
+        if ($request->query->get('format') == 'json') {
+            $json = true;
+            $response = new JsonResponse();
+        }
+        
+        
         $em = $this->getDoctrine()->getManager();
         $session = $this->getRequest()->getSession();
         
         if($this->get('security.context')->isGranted('ROLE_ADMIN')) {
             $query = $em->createQuery(
-                'SELECT s FROM InertiaWinspireBundle:Suitcase s WHERE s.id = :sid'
+                'SELECT s, i, p FROM InertiaWinspireBundle:Suitcase s LEFT JOIN s.items i WITH i.status != \'X\' LEFT JOIN i.package p WHERE s.id = :sid'
             )
                 ->setParameter('sid', $request->query->get('sid'))
             ;
@@ -1083,7 +1177,7 @@ class SuitcaseController extends Controller
         else {
             $user = $this->getUser();
             $query = $em->createQuery(
-                'SELECT s FROM InertiaWinspireBundle:Suitcase s WHERE s.id = :sid AND s.user = :user'
+                'SELECT s, i, p FROM InertiaWinspireBundle:Suitcase s LEFT JOIN s.items i WITH i.status != \'X\' LEFT JOIN i.package p WHERE s.id = :sid AND s.user = :user'
             )
                 ->setParameter('sid', $request->query->get('sid'))
                 ->setParameter('user', $user)
@@ -1100,7 +1194,35 @@ class SuitcaseController extends Controller
         }
         
         
-        return $this->redirect($this->generateUrl('suitcaseView'));
+        if ($json) {
+            $items = array();
+            foreach ($suitcase->getItems() as $item) {
+                $package = $item->getPackage();
+                $items[] = array(
+                    'id' => $package->getId(),
+                    'slug' => $package->getSlug(),
+                    'thumbnail' => $package->getThumbnail(),
+                    'parentHeader' => $package->getParentHeader(),
+                    'persons' => $package->getPersons(),
+                    'accommodations' => $package->getAccommodations(),
+                    'airfares' => $package->getAirfares()
+                );
+            }
+            
+            
+            return $response->setData(array(
+                'count' => count($suitcase->getItems()),
+                'items' => $items,
+                'locked' => $suitcase->getPacked(),
+                'suitcase' => array(
+                    'id' => $suitcase->getId(),
+                    'name' => $suitcase->getName()
+                )
+            ));
+        }
+        else {
+            return $this->redirect($this->generateUrl('suitcaseView'));
+        }
     }
     
     

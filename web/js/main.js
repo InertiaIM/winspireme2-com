@@ -558,6 +558,10 @@ var footerCtx = $('footer')[0];
         e.stopPropagation();
     });
     
+    $('body').on('click', '#suitcase-preview-header .suitcase-switcher', function(e) {
+        e.stopPropagation();
+    });
+    
     $('body').on('click', '#suitcase-preview-header .header-nav li.toggle a', function(e) {
         e.preventDefault();
     });
@@ -605,8 +609,8 @@ var footerCtx = $('footer')[0];
                         
                         $('.pd-a-add[data-id="' + id + '"], .f-add[data-id="' + id + '"]').removeClass('disabled');
                         
-                        $('#suitcase-preview-count').text('(' + data.count + ')');
-                        $('#core-suitcase-button').find('.count').text('(' + data.count + ')');
+                        $('#suitcase-preview-count').text(' (' + data.count + ')');
+                        $('#core-suitcase-button').find('.count').text(' (' + data.count + ')');
                         
                         setupSuitcaseCycle();
                     }
@@ -661,8 +665,8 @@ var footerCtx = $('footer')[0];
                                 .removeClass('icon-suitcase-locked')
                                 .addClass('icon-suitcase');
                             
-                            $('#core-suitcase-button').find('.count').text('(' + data.count + ')');
-                            $('#suitcase-preview-count').text('(' + data.count + ')');
+                            $('#core-suitcase-button').find('.count').text(' (' + data.count + ')');
+                            $('#suitcase-preview-count').text(' (' + data.count + ')');
                             
                             $('#suitcase-preview-items').prepend(Twig.render(previewItem, {item: data.item}));
                             
@@ -733,8 +737,8 @@ var footerCtx = $('footer')[0];
                                 .removeClass('icon-suitcase-locked')
                                 .addClass('icon-suitcase');
                             
-                            $('#core-suitcase-button').find('.count').text('(' + data.count + ')');
-                            $('#suitcase-preview-count').text('(' + data.count + ')');
+                            $('#core-suitcase-button').find('.count').text(' (' + data.count + ')');
+                            $('#suitcase-preview-count').text(' (' + data.count + ')');
                             
                             $('#suitcase-preview-items').prepend(Twig.render(previewItem, {item: data.item}));
                             
@@ -744,6 +748,264 @@ var footerCtx = $('footer')[0];
                 });
             }
         });
+        
+        
+        // Suitcase Create Modal
+        var openNew = true;
+        
+        // prevent the browser from "remembering" our selection with back/forward navigation
+        $('.suitcase-switcher select').val($('.suitcase-switcher').attr('data-id'));
+        
+        
+        $('#sc-header form.suitcase-switcher select[name="sid"]').selectBoxIt({
+            nostyle: false,
+            downArrowIcon: 'icon-arrow-down'
+        });
+        
+        $('#suitcase-preview-header form.suitcase-switcher select[name="sid"]').selectBoxIt({
+            alwaysUp: true,
+            nostyle: false,
+            downArrowIcon: 'icon-arrow-down'
+        });
+        
+        var selectBoxSuitcases = new Array();
+        $('form.suitcase-switcher select[name="sid"]').each(function(i, el) {
+            selectBoxSuitcases[i] = $(el).data('selectBox-selectBoxIt');
+        });
+        
+        // make sure the non-visible selectbox widget has the correct width
+        var width = $('form.suitcase-switcher:visible').find('.selectboxit.selectboxit-btn').css('width');
+        $('form.suitcase-switcher').find('.selectboxit.selectboxit-btn').css('width', width);
+        
+        $('#suitcase-modal').on($.modal.BEFORE_CLOSE, function(event, modal) {
+            $.each(selectBoxSuitcases, function(i, el) {
+                selectBoxSuitcases[i].selectOption($('.suitcase-switcher').attr('data-id'));
+            });
+        });
+        
+        $('#suitcase-modal').on($.modal.CLOSE, function(event, modal) {
+            openNew = true;
+        });
+        
+        $('.suitcase-switcher select').on('change', function(e) {
+            if ($(this).val() == 'new' && openNew) {
+                $('#suitcase-modal form').attr('data-style', $(this).parent('form').attr('data-style'));
+                openNew = false;
+                
+                $('#suitcase-modal').modal({
+                    closeText: 'X',
+                    overlay: '#fff',
+                    opacity: 0.73,
+                    zIndex: 2002
+                });
+                
+                $('input#suitcase_name').focus();
+            }
+            else {
+                if ($(this).val() != 'new' && $(this).val() != $('.suitcase-switcher').attr('data-id')) {
+                    $('.suitcase-switcher').attr('data-id', $(this).val());
+                    
+                    if ($(this).parent('form').attr('data-style') == 'html') {
+                        $(this).parent('form').submit();
+                    }
+                    else {
+                        var data = $(this).parent('form').serialize();
+                        
+                        $.ajax({
+                            beforeSend: function() {},
+                            data: data,
+                            dataType: 'json',
+                            url: $(this).parent('form').attr('action') + '?format=json',
+                            success: function(data, textStatus, jqXHR) {
+                                if (!$.isEmptyObject(data)) {
+                                    $('button.i-a-add').removeAttr('disabled');
+                                    $('.pd-a-add, .f-add').removeClass('disabled');
+                                    
+                                    // Check whether we have a Cycle already running
+                                    if ($('.cycle-carousel-wrap')) { 
+                                        $('#suitcase-preview-items').cycle('destroy');
+                                    }
+                                    
+                                    if (data.locked) {
+                                        $('#suitcase-preview-header .button a')
+                                            .addClass('locked')
+                                            .find('span.icon')
+                                            .removeClass('icon-suitcase')
+                                            .addClass('icon-suitcase-locked');
+                                        
+                                        $('#core-suitcase-button')
+                                            .addClass('locked')
+                                            .find('span.icon')
+                                            .removeClass('icon-suitcase')
+                                            .addClass('icon-suitcase-locked');
+                                    }
+                                    else {
+                                        $('#suitcase-preview-header .button a')
+                                            .removeClass('locked')
+                                            .find('span.icon')
+                                            .removeClass('icon-suitcase-locked')
+                                            .addClass('icon-suitcase');
+                                        
+                                        $('#core-suitcase-button')
+                                            .removeClass('locked')
+                                            .find('span.icon')
+                                            .removeClass('icon-suitcase-locked')
+                                            .addClass('icon-suitcase');
+                                    }
+                                    
+                                    if (data.count > 0) {
+                                        $('#core-suitcase-button').find('.count').text(' (' + data.count + ')');
+                                        $('#suitcase-preview-count').text(' (' + data.count + ')');
+                                    }
+                                    else {
+                                        $('#core-suitcase-button').find('.count').text('');
+                                        $('#suitcase-preview-count').text('');
+                                    }
+                                    
+                                    $('#suitcase-preview-items .suitcase-preview-item').remove();
+                                    $.each(data.items, function(i, el) {
+                                        $('button.i-a-add[data-id="' + el.id + '"]').attr('disabled', 'disabled');
+                                        $('.pd-a-add[data-id="' + el.id + '"], .f-add[data-id="' + el.id + '"]').addClass('disabled');
+                                        $('#suitcase-preview-items').prepend(Twig.render(previewItem, {item: el}));
+                                    });
+                                    
+                                    setupSuitcaseCycle();
+                                }
+                            },
+                            type: 'GET'
+                        });
+                    }
+                }
+            }
+        });
+        
+        $('#suitcase-modal form').validate({
+            errorElement: 'em',
+            errorPlacement: function(error, element) {
+                switch(element.attr('name')) {
+                case 'suitcase[date]':
+                    error.insertAfter('#suitcase_date + img');
+                    break;
+                default:
+                    error.insertAfter(element);
+                }
+            },
+            rules: {
+                'suitcase[name]': {
+                    required: true
+                },
+                'suitcase[date]': {
+                    required: true
+                }
+            },
+            messages: {
+                'suitcase[name]': 'Event name required',
+                'suitcase[date]': 'Event date required'
+            },
+            submitHandler: function(form) {
+                if($(form).attr('data-style') == 'html') {
+                    form.submit();
+                }
+                else {
+                    var data = $(form).serialize();
+                    
+                    $.ajax({
+                        beforeSend: function() {},
+                        data: data,
+                        dataType: 'json',
+                        url: $(form).attr('action') + '?format=json',
+                        success: function(data, textStatus, jqXHR) {
+                            if (!$.isEmptyObject(data)) {
+                                $('#suitcase-preview-header form.suitcase-switcher select[name="sid"]')
+                                    .append('<option value="' + data.suitcase.id + '">' + data.suitcase.name + '</option>');
+                                
+                                $('.suitcase-switcher').attr('data-id', data.suitcase.id);
+                                $.each(selectBoxSuitcases, function(i, el) {
+                                    selectBoxSuitcases[i].refresh();
+                                });
+                                
+                                $('#suitcase-modal input[type="text"]').val('');
+                                
+                                // TODO refactor this into a separate function
+                                // This code is redundant with the switcher.
+                                $('button.i-a-add').removeAttr('disabled');
+                                $('.pd-a-add, .f-add').removeClass('disabled');
+                                
+                                // Check whether we have a Cycle already running
+                                if ($('.cycle-carousel-wrap')) { 
+                                    $('#suitcase-preview-items').cycle('destroy');
+                                }
+                                
+                                if (data.locked) {
+                                    $('#suitcase-preview-header .button a')
+                                        .addClass('locked')
+                                        .find('span.icon')
+                                        .removeClass('icon-suitcase')
+                                        .addClass('icon-suitcase-locked');
+                                    
+                                    $('#core-suitcase-button')
+                                        .addClass('locked')
+                                        .find('span.icon')
+                                        .removeClass('icon-suitcase')
+                                        .addClass('icon-suitcase-locked');
+                                }
+                                else {
+                                    $('#suitcase-preview-header .button a')
+                                        .removeClass('locked')
+                                        .find('span.icon')
+                                        .removeClass('icon-suitcase-locked')
+                                        .addClass('icon-suitcase');
+                                    
+                                    $('#core-suitcase-button')
+                                        .removeClass('locked')
+                                        .find('span.icon')
+                                        .removeClass('icon-suitcase-locked')
+                                        .addClass('icon-suitcase');
+                                }
+                                
+                                if (data.count > 0) {
+                                    $('#core-suitcase-button').find('.count').text(' (' + data.count + ')');
+                                    $('#suitcase-preview-count').text(' (' + data.count + ')');
+                                }
+                                else {
+                                    $('#core-suitcase-button').find('.count').text('');
+                                    $('#suitcase-preview-count').text('');
+                                }
+                                
+                                $('#suitcase-preview-items .suitcase-preview-item').remove();
+                                $.each(data.items, function(i, el) {
+                                    $('button.i-a-add[data-id="' + el.id + '"]').attr('disabled', 'disabled');
+                                    $('.pd-a-add[data-id="' + el.id + '"], .f-add[data-id="' + el.id + '"]').addClass('disabled');
+                                    $('#suitcase-preview-items').prepend(Twig.render(previewItem, {item: el}));
+                                });
+                                
+                                setupSuitcaseCycle();
+                                
+                                
+                                
+                                $.modal.close();
+                            }
+                        },
+                        type: 'POST'
+                    });
+                }
+            }
+        });
+        
+        $('#suitcase_date').datepicker({
+            buttonImage: '/img/calendar.png',
+            buttonImageOnly: true,
+            constrainInput: true,
+            dateFormat: 'mm/dd/y',
+            minDate: '+1',
+            maxDate: '+1y',
+            onSelect: function(date, dp) {
+                $('#suitcase-modal form').validate().element('#suitcase_date');
+            },
+            showOn: 'both'
+        });
+        
+        
         
         function setupSuitcaseCycle() {
             if($('#suitcase-preview-items > span').length > 6) {
@@ -924,7 +1186,7 @@ $(document).ready(function() {
                         .find('span.icon')
                         .removeClass('icon-suitcase-locked')
                         .addClass('icon-suitcase');
-                    $('#core-suitcase-button').find('.count').text('(' + data.count + ')');
+                    $('#core-suitcase-button').find('.count').text(' (' + data.count + ')');
                     $('#more-modal').find('.suitcase-count').text(data.count);
                     $('#ready').find('.suitcase-count').text(data.count);
                 }
@@ -1486,136 +1748,6 @@ $(document).ready(function() {
             $('#sc-area').find('.pager-total').text('1');
         }
     }
-    
-    
-    // Suitcase Create Modal
-    var currentSid = $('.suitcase-switcher').attr('data-id');
-    
-    // prevent the browser from "remembering" our selection with back/forward navigation
-    $('.suitcase-switcher select').val(currentSid);
-    
-    
-    $('form.suitcase-switcher select[name="sid"]').selectBoxIt({
-        nostyle: false,
-        downArrowIcon: 'icon-arrow-down'
-    });
-    
-    var selectBoxSuitcase1 = $('form.suitcase-switcher select[name="sid"]').eq(0).data('selectBox-selectBoxIt');
-    var selectBoxSuitcase2 = $('form.suitcase-switcher select[name="sid"]').eq(1).data('selectBox-selectBoxIt');
-    
-    // make sure the non-visible selectbox widget has the correct width
-    var width = $('form.suitcase-switcher:visible').find('.selectboxit.selectboxit-btn').css('width');
-    $('form.suitcase-switcher').find('.selectboxit.selectboxit-btn').css('width', width);
-    
-    $('#suitcase-modal').on($.modal.BEFORE_CLOSE, function(event, modal) {
-        selectBoxSuitcase1.selectOption(currentSid);
-        selectBoxSuitcase2.selectOption(currentSid);
-    });
-    
-    $('.suitcase-switcher select').on('change', function(e) {
-        if ($(this).val() == 'new') {
-            $('#suitcase-modal').modal({
-                closeText: 'X',
-                overlay: '#fff',
-                opacity: 0.73,
-                zIndex: 2002
-            });
-        }
-        else {
-            if ($(this).val() != currentSid) {
-                $(this).parent('form').submit();
-            }
-        }
-    });
-    
-    $('#suitcase-modal form').validate({
-        errorElement: 'em',
-        errorPlacement: function(error, element) {
-            switch(element.attr('name')) {
-            case 'suitcase[date]':
-                error.insertAfter('#suitcase_date + img');
-                break;
-            default:
-                error.insertAfter(element);
-            }
-        },
-        rules: {
-            'suitcase[name]': {
-                required: true
-            },
-            'suitcase[date]': {
-                required: true
-            }
-        },
-        messages: {
-            'suitcase[name]': 'Event name required',
-            'suitcase[date]': 'Event date required'
-        },
-        submitHandler: function(form) {
-            form.submit();
-            
-            
-            var data = $(form).serialize();
-            
-/*          
-            $.ajax({
-                beforeSend: function() {
-                    $('#more-modal .error').removeClass('error');
-                },
-                data: data,
-                dataType: 'json',
-                url: $(form).attr('action'),
-                success: function(data, textStatus, jqXHR) {
-                    if (!$.isEmptyObject(data)) {
-                        if (!$.isEmptyObject(data.errors)) {
-                            $.each(data.errors, function(index, value) {
-                                $('#' + index).addClass('error');
-                                $('#more-modal label[for="' + index + '"]').addClass('error');
-                            });
-                        }
-                        else {
-                            if(data.packed) {
-                                $.modal.close();
-                                
-                                $('.unpacked').hide();
-                                $('.packed').show();
-                                
-                                $('#core-suitcase-button')
-                                    .addClass('locked')
-                                    .find('span.icon')
-                                    .removeClass('icon-suitcase')
-                                    .addClass('icon-suitcase-locked');
-                                
-                                $('#thanks-modal').modal({
-                                    closeText: 'X',
-                                    overlay: '#fff',
-                                    opacity: 0.73,
-                                    zIndex: 2002
-                                });
-                                
-                                $(window).scrollTop(100);
-                            }
-                        }
-                    }
-                },
-                type: 'POST'
-            });
-*/
-        }
-    });
-    
-    $('#suitcase_date').datepicker({
-        buttonImage: '/img/calendar.png',
-        buttonImageOnly: true,
-        constrainInput: true,
-        dateFormat: 'mm/dd/y',
-        minDate: '+1',
-        maxDate: '+1y',
-        onSelect: function(date, dp) {
-            $('#suitcase-modal form').validate().element('#suitcase_date');
-        },
-        showOn: 'both'
-    });
 });
 
 

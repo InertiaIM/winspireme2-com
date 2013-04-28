@@ -6,6 +6,15 @@
         <div id="suitcase-preview-header">
             <div class="c-wrap">
                 <div class="suitcase"><span class="icon-suitcase"></span><em>my</em> Suitcase</div>
+                <form data-style="ajax" data-id="{{ suitcase.id }}" method="get" action="{{ path('suitcaseSwitch') }}" class="suitcase-switcher">
+                    <select name="sid">
+                        <option value="new">Create New Suitcase</option>
+                        
+{% for s in suitcaseList %}
+                        <option{% if s.id == suitcase.id %} selected="selected"{% endif %} value="{{ s.id }}">{{ s.name | truncate(30) }}</option>
+{% endfor %}
+                    </select>
+                </form>
                 <ul class="header-nav">
                     <li class="share"><a href="{{ path('suitcaseView') }}"><span class="icon-bubble"></span> Share</a></li>
                     <li class="comments"><a href="{{ path('suitcaseView') }}"><span class="icon-comment"></span><span class="comment-count">{{ suitcase.comments | length }}</span> Comments</a></li>

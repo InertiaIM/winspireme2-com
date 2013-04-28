@@ -3132,7 +3132,6 @@ footer, #footer { height:220px;border-top:1px solid rgb(195,213,224);
 
 #suitcase-preview {
     height:64px;
-    overflow:hidden;
     width:100%;
     background:transparent;
     position:fixed;
@@ -3181,6 +3180,27 @@ footer, #footer { height:220px;border-top:1px solid rgb(195,213,224);
             em {
                 font-family:Garamond, Baskerville, 'Baskerville Old Face', 'Hoefler Text', 'Times New Roman', serif;
                 font-weight:normal;
+            }
+        }
+        
+        form {
+            float:left;
+            margin:10px 0 0 10px;
+            
+            select {
+                display: none;
+            }
+            
+            .selectboxit-selected {
+                background-color: #efefef;
+                
+                a {
+                    color: #000000;
+                }
+            }
+            
+            .selectboxit-option-first a {
+                font-style:italic;
             }
         }
         

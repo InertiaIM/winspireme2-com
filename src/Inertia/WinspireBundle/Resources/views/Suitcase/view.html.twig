@@ -11,7 +11,7 @@
             <div class="col">
                 <div class="packed"{% if not suitcase.packed %} style="display:none;"{% endif %}>
                     <h1><span class="icon-suitcase-locked"></span> <em>my</em> Suitcase</h1>
-                    <form data-id="{{ suitcase.id }}" method="get" action="{{ path('suitcaseSwitch') }}" class="suitcase-switcher">
+                    <form data-style="html" data-id="{{ suitcase.id }}" method="get" action="{{ path('suitcaseSwitch') }}" class="suitcase-switcher">
                         <select name="sid">
                             <option value="new">Create New Suitcase</option>
 {% for s in suitcaseList %}
@@ -29,7 +29,7 @@
                 </div>
                 <div class="unpacked"{% if suitcase.packed %} style="display:none;"{% endif %}>
                     <h1><span class="icon-suitcase-2"></span> <em>my</em> Suitcase</h1>
-                    <form data-id="{{ suitcase.id }}" method="get" action="{{ path('suitcaseSwitch') }}" class="suitcase-switcher">
+                    <form data-style="html" data-id="{{ suitcase.id }}" method="get" action="{{ path('suitcaseSwitch') }}" class="suitcase-switcher">
                         <select name="sid">
                             <option value="new">Create New Suitcase</option>
 {% for s in suitcaseList %}
