@@ -5,13 +5,17 @@
     
     <form action="{{ path('accountCreate') }}" method="post" {{ form_enctype(form) }} novalidate="novalidate">
         <ul>
-            <li class="large">
+            <li>
                 <div>
                     <span style="display:block;">
-                        <label for="{{ form.suitcase.vars.id }}" class="required" style="float:left;">{{ form.suitcase.vars.label }}</label>
-                        <span class="tip tooltip" title="Tip: Use your event name.">?</span>
+                        <label for="{{ form.event_name.vars.id }}" class="required" style="float:left;">{{ form.event_name.vars.label }}</label>
+                        <span class="tip tooltip" title="Tip: This will also be the name of your Suitcase.">?</span>
                     </span>
-                    {{ form_widget(form.suitcase, { 'attr': { 'style': 'clear:both; display:block;', 'maxlength': '30' }}) }}
+                    {{ form_widget(form.event_name, { 'attr': { 'style': 'clear:both; display:block;', 'maxlength': '40' }}) }}
+                </div>
+                <div>
+                    {{ form_label(form.event_date) }}
+                    {{ form_widget(form.event_date, { 'attr': { 'class': 'date', 'placeholder': 'MM/DD/YY', 'readonly': 'readonly' }}) }}
                 </div>
             </li>
             <li>
@@ -35,12 +39,15 @@
                 </div>
             </li>
             <li>
-                {{ form_row(form.phone) }}
+                {{ form_row(form.account.country) }}
                 {{ form_row(form.account.state) }}
                 <div>
                     {{ form_label(form.account.zip) }}
                     {{ form_widget(form.account.zip, { 'attr': {'class': 'zip'} }) }}
                 </div>
+            </li>
+            <li>
+                {{ form_row(form.phone) }}
             </li>
             <li class="large">
                 {{ form_row(form.referred) }}

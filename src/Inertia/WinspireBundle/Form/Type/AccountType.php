@@ -10,83 +10,113 @@ use Symfony\Component\Validator\Constraints\NotBlank;
 
 class AccountType extends AbstractType
 {
-    protected $states = array(
-        'AL' => 'AL',
-        'AK' => 'AK',
-        'AZ' => 'AZ',
-        'AR' => 'AR',
-        'CA' => 'CA',
-        'CO' => 'CO',
-        'CT' => 'CT',
-        'DE' => 'DE',
-        'FL' => 'FL',
-        'GA' => 'GA',
-        'HI' => 'HI',
-        'ID' => 'ID',
-        'IL' => 'IL',
-        'IN' => 'IN',
-        'IA' => 'IA',
-        'KS' => 'KS',
-        'KY' => 'KY',
-        'LA' => 'LA',
-        'ME' => 'ME',
-        'MD' => 'MD',
-        'MA' => 'MA',
-        'MI' => 'MI',
-        'MN' => 'MN',
-        'MS' => 'MS',
-        'MO' => 'MO',
-        'MT' => 'MT',
-        'NE' => 'NE',
-        'NV' => 'NV',
-        'NH' => 'NH',
-        'NJ' => 'NJ',
-        'NM' => 'NM',
-        'NY' => 'NY',
-        'NC' => 'NC',
-        'ND' => 'ND',
-        'OH' => 'OH',
-        'OK' => 'OK',
-        'OR' => 'OR',
-        'PA' => 'PA',
-        'RI' => 'RI',
-        'SC' => 'SC',
-        'SD' => 'SD',
-        'TN' => 'TN',
-        'TX' => 'TX',
-        'UT' => 'UT',
-        'VT' => 'VT',
-        'VA' => 'VA',
-        'WA' => 'WA',
-        'WV' => 'WV',
-        'WI' => 'WI',
-        'WY' => 'WY',
-        'DC' => 'DC',
+    protected $countries = array(
+        'CA' => 'Canada',
+        'US' => 'United States'
     );
+    
+    protected $states = array(
+        'CA-AB' => 'Alberta',
+        'CA-BC' => 'British Columbia',
+        'CA-MB' => 'Manitoba',
+        'CA-NB' => 'New Brunswick',
+        'CA-NL' => 'Newfoundland and Labrador',
+        'CA-NS' => 'Nova Scotia',
+        'CA-NT' => 'Northwest Territories',
+        'CA-NU' => 'Nunavut',
+        'CA-ON' => 'Ontario',
+        'CA-PE' => 'Prince Edward Island',
+        'CA-QC' => 'Quebec',
+        'CA-SK' => 'Saskatchewan',
+        'CA-YT' => 'Yukon',
+        'US-AL' => 'Alabama',
+        'US-AK' => 'Alaska',
+        'US-AZ' => 'Arizona',
+        'US-AR' => 'Arkansas',
+        'US-CA' => 'California',
+        'US-CO' => 'Colorado',
+        'US-CT' => 'Connecticut',
+        'US-DE' => 'Delaware',
+        'US-DC' => 'District of Columbia',
+        'US-FL' => 'Florida',
+        'US-GA' => 'Georgia',
+        'US-HI' => 'Hawaii',
+        'US-ID' => 'Idaho',
+        'US-IL' => 'Illinois',
+        'US-IN' => 'Indiana',
+        'US-IA' => 'Iowa',
+        'US-KS' => 'Kansas',
+        'US-KY' => 'Kentucky',
+        'US-LA' => 'Louisiana',
+        'US-ME' => 'Maine',
+        'US-MD' => 'Maryland',
+        'US-MA' => 'Massachusetts',
+        'US-MI' => 'Michigan',
+        'US-MN' => 'Minnesota',
+        'US-MS' => 'Mississippi',
+        'US-MO' => 'Missouri',
+        'US-MT' => 'Montana',
+        'US-NE' => 'Nebraska',
+        'US-NV' => 'Nevada',
+        'US-NH' => 'New Hampshire',
+        'US-NJ' => 'New Jersey',
+        'US-NM' => 'New Mexico',
+        'US-NY' => 'New York',
+        'US-NC' => 'North Carolina',
+        'US-ND' => 'North Dakota',
+        'US-OH' => 'Ohio',
+        'US-OK' => 'Oklahoma',
+        'US-OR' => 'Oregon',
+        'US-PA' => 'Pennsylvania',
+        'US-RI' => 'Rhode Island',
+        'US-SC' => 'South Carolina',
+        'US-SD' => 'South Dakota',
+        'US-TN' => 'Tennessee',
+        'US-TX' => 'Texas',
+        'US-UT' => 'Utah',
+        'US-VT' => 'Vermont',
+        'US-VA' => 'Virginia',
+        'US-WA' => 'Washington',
+        'US-WV' => 'West Virginia',
+        'US-WI' => 'Wisconsin',
+        'US-WY' => 'Wyoming',
+    );
+    
     
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        ksort($this->states);
-        
         $builder->add('name', 'text', array(
             'constraints' => array(
                 new NotBlank()
             ),
             'label' => 'Organization'
         ));
+        $builder->add('country', 'choice', array(
+            'choices' => $this->countries,
+            'constraints' => array(
+                new Choice(array(
+                    'choices' => $this->getKeys($this->countries),
+                    'message' => 'Please choose a country.'
+                )),
+                new NotBlank(array(
+                    'message' => 'Please choose a country.'
+                ))
+            ),
+            'empty_value' => '',
+        ));
         $builder->add('state', 'choice', array(
             'choices' => $this->states,
             'constraints' => array(
                 new Choice(array(
-                    'choices' => $this->states,
-                    'message' => 'Please choose a state.'
+                    'choices' => $this->getKeys($this->states),
+                    'message' => 'Please choose an available state/province.'
                 )),
                 new NotBlank(array(
-                    'message' => 'Please choose a state.'
+                    'message' => 'Please choose a state/province.'
                 ))
             ),
             'empty_value' => '',
-            
+            'mapped' => false,
         ));
         $builder->add('zip', 'text', array(
             'constraints' => array(
@@ -103,9 +133,19 @@ class AccountType extends AbstractType
             'data_class' => 'Inertia\WinspireBundle\Entity\Account',
         ));
     }
-
+    
     public function getName()
     {
         return 'account';
+    }
+    
+    private function getKeys($array)
+    {
+        $temp = array();
+        foreach ($array as $key => $val) {
+            $temp[] = $key;
+        }
+        
+        return $temp;
     }
 }

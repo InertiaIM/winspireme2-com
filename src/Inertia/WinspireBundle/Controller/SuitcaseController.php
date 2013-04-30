@@ -4,7 +4,7 @@ namespace Inertia\WinspireBundle\Controller;
 use Inertia\WinspireBundle\Entity\Share;
 use Inertia\WinspireBundle\Entity\Suitcase;
 use Inertia\WinspireBundle\Entity\SuitcaseItem;
-use Inertia\WinspireBundle\Form\Type\AccountType2;
+use Inertia\WinspireBundle\Form\Type\AccountType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -79,6 +79,7 @@ class SuitcaseController extends Controller
         if($suitcase->getPacked()) {
             // reopen suitcase and trigger reminder message
             $suitcase->setPacked(false);
+            $suitcase->setDirty(true);
             $this->retrigger($suitcase);
         }
         $suitcase->setUpdated($suitcaseItem->getUpdated());
@@ -222,6 +223,7 @@ class SuitcaseController extends Controller
                 $suitcase->setPacked(false);
                 $suitcase->setDirty(true);
                 $suitcase->setName($form->get('name')->getData());
+                $suitcase->setEventName(substr($form->get('name')->getData(), 0, 40));
                 $suitcase->setEventDate(new \DateTime($form->get('date')->getData()));
                 $suitcase->setUser($user);
                 
@@ -354,6 +356,7 @@ class SuitcaseController extends Controller
                 if($suitcase->getPacked()) {
                     // reopen suitcase and trigger reminder message
                     $suitcase->setPacked(false);
+                    $suitcase->setDirty(true);
                     $this->retrigger($suitcase);
                 }
                 
@@ -694,18 +697,100 @@ class SuitcaseController extends Controller
             $suitcaseList[] = array('id' => $s->getId(), 'name' => $s->getName());
         }
         
-        $form = $this->createForm(new AccountType2(), $user->getCompany());
-        $form->get('phone')->setData($user->getPhone());
+        $form = $this->createForm(new AccountType(), $user->getCompany());
+        $formFactory = $this->get('form.factory');
         
+        $form->add(
+            $formFactory->createNamed('address', 'text', null,
+                array(
+                    'constraints' => array(
+                        new NotBlank(),
+                    ),
+                    'label' => 'Address Line 1'
+                )
+            )
+        );
+        
+        $form->add(
+            $formFactory->createNamed('address2', 'text', null,
+                array(
+                    'constraints' => array(),
+                    'label' => 'Address Line 2  (Apt., Suite, etc.)',
+                    'required' => false
+                )
+            )
+        );
+        
+        $form->add(
+            $formFactory->createNamed('city', 'text', null,
+                array(
+                    'constraints' => array(
+                        new NotBlank(),
+                    )
+                )
+            )
+        );
+        
+        $form->add(
+            $formFactory->createNamed('phone', 'text', null,
+                array(
+                    'constraints' => array(),
+                    'required' => false
+                )
+            )
+        );
+        
+        $form->add(
+            $formFactory->createNamed('event_name', 'text', null,
+                array(
+                    'constraints' => array(
+                        new NotBlank(),
+                    ),
+                    'label' => 'Name of Event',
+                    'mapped' => false
+                )
+            )
+        );
+        
+        $form->add(
+            $formFactory->createNamed('event_date', 'text', null,
+                array(
+                    'constraints' => array(
+                        new NotBlank(),
+                    ),
+                    'label' => 'Date of Event',
+                    'mapped' => false,
+                    'required' => true
+                )
+            )
+        );
+        
+        $form->add(
+            $formFactory->createNamed('loa', 'checkbox', null,
+                array(
+                    'constraints' => array(
+                        new True(array(
+                            'message' => 'You must agree to the Letter of Agreement before proceeding.'
+                        )),
+                    ),
+                    'mapped' => false,
+                    'required' => true
+                )
+            )
+        );
+        
+        $form->remove('name');
+        
+        $form->get('phone')->setData($user->getPhone());
+        $form->get('event_name')->setData($suitcase->getEventName());
+        $form->get('state')->setData($user->getCompany()->getCountry() . '-' . $user->getCompany()->getState());
         
         
         $share = $this->shareAction();
         $share->get('suitcase')->setData($suitcase->getId());
         
-        $form->get('name')->setData($suitcase->getEventName());
-        
         if($suitcase->getEventDate() != '') {
-            $form->get('date')->setData($suitcase->getEventDate()->format('m/d/Y'));
+            $form->get('event_date')->setData($suitcase->getEventDate()->format('m/d/Y'));
         }
         
         $downloadLinks = array();
@@ -765,7 +850,89 @@ class SuitcaseController extends Controller
         
         $user = $suitcase->getUser();
         $account = $user->getCompany();
-        $form = $this->createForm(new AccountType2(), $account);
+        $form = $this->createForm(new AccountType(), $account);
+        $formFactory = $this->get('form.factory');
+        
+        $form->add(
+            $formFactory->createNamed('address', 'text', null,
+                array(
+                    'constraints' => array(
+                        new NotBlank(),
+                    ),
+                    'label' => 'Address Line 1'
+                )
+            )
+        );
+        
+        $form->add(
+            $formFactory->createNamed('address2', 'text', null,
+                array(
+                    'constraints' => array(),
+                    'label' => 'Address Line 2  (Apt., Suite, etc.)',
+                    'required' => false
+                )
+            )
+        );
+        
+        $form->add(
+            $formFactory->createNamed('city', 'text', null,
+                array(
+                    'constraints' => array(
+                        new NotBlank(),
+                    )
+                )
+            )
+        );
+        
+        $form->add(
+            $formFactory->createNamed('phone', 'text', null,
+                array(
+                    'constraints' => array(),
+                    'required' => false
+                )
+            )
+        );
+        
+        $form->add(
+            $formFactory->createNamed('event_name', 'text', null,
+                array(
+                    'constraints' => array(
+                        new NotBlank(),
+                    ),
+                    'label' => 'Name of Event',
+                    'mapped' => false
+                )
+            )
+        );
+        
+        $form->add(
+            $formFactory->createNamed('event_date', 'text', null,
+                array(
+                    'constraints' => array(
+                        new NotBlank(),
+                    ),
+                    'label' => 'Date of Event',
+                    'mapped' => false,
+                    'required' => true
+                )
+            )
+        );
+        
+        $form->add(
+            $formFactory->createNamed('loa', 'checkbox', null,
+                array(
+                    'constraints' => array(
+                        new True(array(
+                            'message' => 'You must agree to the Letter of Agreement before proceeding.'
+                        )),
+                    ),
+                    'mapped' => false,
+                    'required' => true
+                )
+            )
+        );
+        
+        $form->remove('name');
         
         // process the form on POST
         if ($request->isMethod('POST')) {
@@ -776,11 +943,14 @@ class SuitcaseController extends Controller
                     $first = false;
                 }
                 
-                $eventDate = new \DateTime($form->get('date')->getData());
-                $suitcase->setEventName($form->get('name')->getData());
+                $eventDate = new \DateTime($form->get('event_date')->getData());
+                $suitcase->setEventName($form->get('event_name')->getData());
                 $suitcase->setEventDate($eventDate);
                 $suitcase->setPacked(true);
                 $suitcase->setPackedAt(new \DateTime());
+                $suitcase->setDirty(true);
+                $account->setState(substr($form->get('state')->getData(), -2));
+                $account->setDirty(true);
                 
                 $em->persist($suitcase);
                 $em->persist($account);
@@ -800,10 +970,11 @@ class SuitcaseController extends Controller
                 $address2 = $form->get('address2');
                 $city = $form->get('city');
                 $state = $form->get('state');
+                $country = $form->get('country');
                 $zip = $form->get('zip');
                 $phone = $form->get('phone');
-                $name = $form->get('name');
-                $date = $form->get('date');
+                $name = $form->get('event_name');
+                $date = $form->get('event_date');
                 $loa = $form->get('loa');
                 
                 $errors = array();
@@ -838,6 +1009,14 @@ class SuitcaseController extends Controller
                         $temp[] = $blah->getMessage();
                     }
                     $errors['account_state'] = $temp;
+                }
+                
+                if($blahs = $country->getErrors()) {
+                    $temp = array();
+                    foreach($blahs as $blah) {
+                        $temp[] = $blah->getMessage();
+                    }
+                    $errors['account_country'] = $temp;
                 }
                 
                 if($blahs = $zip->getErrors()) {

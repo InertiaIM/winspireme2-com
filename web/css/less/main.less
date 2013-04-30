@@ -3528,6 +3528,11 @@ footer, #footer { height:220px;border-top:1px solid rgb(195,213,224);
     form {
         padding:10px 0;
         
+        .ui-datepicker-trigger {
+            vertical-align:middle;
+            margin-left:5px;
+        }
+        
         ul {
             list-style:none;
         }
@@ -3621,13 +3626,30 @@ footer, #footer { height:220px;border-top:1px solid rgb(195,213,224);
                     margin:0;
                     
                     &.zip {
-                        width:178px;
+                        width:100px;
+                    }
+                    
+                    &.date {
+                        width:80px;
+                        text-align:center;
                     }
                 }
                 
                 select {
-                    width:60px;
                     font-size:14px;
+                }
+                
+                .selectboxit-container .selectboxit-options {
+                    max-height: 240px;
+                    width: 200px;
+                }
+                
+                #fos_user_registration_form_account_countrySelectBoxIt {
+                    width:200px;
+                }
+                
+                #fos_user_registration_form_account_stateSelectBoxIt {
+                    width:200px;
                 }
             }
             
@@ -3834,7 +3856,7 @@ footer, #footer { height:220px;border-top:1px solid rgb(195,213,224);
                     margin:0;
                     
                     &.zip {
-                        width:178px;
+                        width:100px;
                     }
                     
                     &.date {
@@ -3847,6 +3869,43 @@ footer, #footer { height:220px;border-top:1px solid rgb(195,213,224);
                 select {
                     width:60px;
                     font-size:14px;
+                }
+                
+                .selectboxit-selected {
+                    background-color: #efefef;
+                    
+                    a {
+                        color: #000000;
+                    }
+                }
+                
+                .selectboxit-option-first a {
+                    font-style:italic;
+                }
+                
+                .selectboxit-container .selectboxit-options {
+                    max-height: 200px;
+                    width: 200px;
+                }
+                
+                #contact_stateSelectBoxItOptions {
+                    max-height: 92px;
+                }
+                
+                #account_countrySelectBoxIt {
+                    width:200px;
+                }
+                
+                #account_stateSelectBoxIt {
+                    width:200px;
+                }
+                
+                #contact_countrySelectBoxIt {
+                    width:200px;
+                }
+                
+                #contact_stateSelectBoxIt {
+                    width:200px;
                 }
             }
             

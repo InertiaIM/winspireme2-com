@@ -64,6 +64,12 @@ class Account
     private $zip;
     
     /**
+     * @ORM\Column(name="country", type="string", length=2, nullable=true)
+     */
+    
+    private $country;
+    
+    /**
      * @ORM\Column(name="phone", type="string", length=64, nullable=true)
      */
     
@@ -506,5 +512,28 @@ class Account
     public function getSfUpdated()
     {
         return $this->sfUpdated;
+    }
+
+    /**
+     * Set country
+     *
+     * @param string $country
+     * @return Account
+     */
+    public function setCountry($country)
+    {
+        $this->country = $country;
+    
+        return $this;
+    }
+
+    /**
+     * Get country
+     *
+     * @return string 
+     */
+    public function getCountry()
+    {
+        return $this->country;
     }
 }

@@ -18,15 +18,18 @@
                         <p><span id="contact-info-name">{{ user.firstName }} {{ user.lastName }}</span><br/>
 {% if user.type != 'S' %}
                         <span id="contact-info-cname">{{ user.company.name }}</span><br/>
-{% if user.company.address != '' %}
+{%     if user.company.address != '' %}
                         <span id="contact-info-address">{{ user.company.address }}</span><br/>
-{% endif %}
-{% if user.company.address2 != '' %}
+{%     endif %}
+{%     if user.company.address2 != '' %}
                         <span id="contact-info-address2">{{ user.company.address2 }}</span><br/>
-{% endif %}
-{% if user.company.city != '' %}
-                        <span id="contact-info-city">{{ user.company.city }}</span>, <span id="contact-info-state">{{ user.company.state }}</span> <span id="contact-info-zip">{{ user.company.zip }}</span><br/>
-{% endif %}
+{%     endif %}
+{%     if user.company.city != '' %}
+                        <span id="contact-info-city">{{ user.company.city }}, </span><span id="contact-info-state">{{ user.company.state }}</span> <span id="contact-info-zip">{{ user.company.zip }}</span><br/>
+{%     else %}
+                        <span id="contact-info-city"></span><span id="contact-info-state">{{ user.company.state }}</span> <span id="contact-info-zip">{{ user.company.zip }}</span><br/>
+{%     endif %}
+                        <span id="contact-info-country">{% if user.company.country == 'CA' %}Canada{% else %}United States{% endif %}</span><br/>
 {% endif %}
                         <span id="contact-info-email">{{ user.email }}</span><br/>
                         <span id="contact-info-phone">{{ user.phone }}</span></p>
@@ -94,15 +97,88 @@
                     <input type="text" name="contact[address2]" id="contact_address2" value="{{ user.company.address2 }}"/>
                 </div>
             </li>
-            <li>
+            <li class="large">
                 <div>
                     <label for="contact_city">City</label>
                     <input class="required" type="text" name="contact[city]" id="contact_city" value="{{ user.company.city }}"/>
                 </div>
+            </li>
+            <li>
+                <div>
+                    <label for="contact_country">Country</label>
+                    <select name="contact[country]" id="contact_country">
+                        <option value="CA"{% if user.company.country == 'CA' %} selected="selected"{% endif %}>Canada</option>
+                        <option value="US"{% if user.company.country == 'US' %} selected="selected"{% endif %}>United States</option>
+                    </select>
+                </div>
                 <div>
                     <label for="contact_state">State</label>
-                    <select name="contact[state]" id="contact_state">
-                        <option value="CA" selected="selected">CA</option>
+                    <select id="contact_state" name="contact[state]" required="required">
+                        <option value=""></option>
+                        <option {% if user.company.state == 'AB' %}selected="selected"{% endif %} value="CA-AB">Alberta</option>
+                        <option {% if user.company.state == 'BC' %}selected="selected"{% endif %} value="CA-BC">British Columbia</option>
+                        <option {% if user.company.state == 'MB' %}selected="selected"{% endif %} value="CA-MB">Manitoba</option>
+                        <option {% if user.company.state == 'NB' %}selected="selected"{% endif %} value="CA-NB">New Brunswick</option>
+                        <option {% if user.company.state == 'NL' %}selected="selected"{% endif %} value="CA-NL">Newfoundland and Labrador</option>
+                        <option {% if user.company.state == 'NS' %}selected="selected"{% endif %} value="CA-NS">Nova Scotia</option>
+                        <option {% if user.company.state == 'NT' %}selected="selected"{% endif %} value="CA-NT">Northwest Territories</option>
+                        <option {% if user.company.state == 'NU' %}selected="selected"{% endif %} value="CA-NU">Nunavut</option>
+                        <option {% if user.company.state == 'ON' %}selected="selected"{% endif %} value="CA-ON">Ontario</option>
+                        <option {% if user.company.state == 'PE' %}selected="selected"{% endif %} value="CA-PE">Prince Edward Island</option>
+                        <option {% if user.company.state == 'QC' %}selected="selected"{% endif %} value="CA-QC">Quebec</option>
+                        <option {% if user.company.state == 'SK' %}selected="selected"{% endif %} value="CA-SK">Saskatchewan</option>
+                        <option {% if user.company.state == 'YT' %}selected="selected"{% endif %} value="CA-YT">Yukon</option>
+                        <option {% if user.company.state == 'AL' %}selected="selected"{% endif %} value="US-AL">Alabama</option>
+                        <option {% if user.company.state == 'AK' %}selected="selected"{% endif %} value="US-AK">Alaska</option>
+                        <option {% if user.company.state == 'AZ' %}selected="selected"{% endif %} value="US-AZ">Arizona</option>
+                        <option {% if user.company.state == 'AR' %}selected="selected"{% endif %} value="US-AR">Arkansas</option>
+                        <option {% if user.company.state == 'CA' %}selected="selected"{% endif %} value="US-CA">California</option>
+                        <option {% if user.company.state == 'CO' %}selected="selected"{% endif %} value="US-CO">Colorado</option>
+                        <option {% if user.company.state == 'CT' %}selected="selected"{% endif %} value="US-CT">Connecticut</option>
+                        <option {% if user.company.state == 'DE' %}selected="selected"{% endif %} value="US-DE">Delaware</option>
+                        <option {% if user.company.state == 'DC' %}selected="selected"{% endif %} value="US-DC">District of Columbia</option>
+                        <option {% if user.company.state == 'FL' %}selected="selected"{% endif %} value="US-FL">Florida</option>
+                        <option {% if user.company.state == 'GA' %}selected="selected"{% endif %} value="US-GA">Georgia</option>
+                        <option {% if user.company.state == 'HI' %}selected="selected"{% endif %} value="US-HI">Hawaii</option>
+                        <option {% if user.company.state == 'ID' %}selected="selected"{% endif %} value="US-ID">Idaho</option>
+                        <option {% if user.company.state == 'IL' %}selected="selected"{% endif %} value="US-IL">Illinois</option>
+                        <option {% if user.company.state == 'IN' %}selected="selected"{% endif %} value="US-IN">Indiana</option>
+                        <option {% if user.company.state == 'IA' %}selected="selected"{% endif %} value="US-IA">Iowa</option>
+                        <option {% if user.company.state == 'KS' %}selected="selected"{% endif %} value="US-KS">Kansas</option>
+                        <option {% if user.company.state == 'KY' %}selected="selected"{% endif %} value="US-KY">Kentucky</option>
+                        <option {% if user.company.state == 'LA' %}selected="selected"{% endif %} value="US-LA">Louisiana</option>
+                        <option {% if user.company.state == 'ME' %}selected="selected"{% endif %} value="US-ME">Maine</option>
+                        <option {% if user.company.state == 'MD' %}selected="selected"{% endif %} value="US-MD">Maryland</option>
+                        <option {% if user.company.state == 'MA' %}selected="selected"{% endif %} value="US-MA">Massachusetts</option>
+                        <option {% if user.company.state == 'MI' %}selected="selected"{% endif %} value="US-MI">Michigan</option>
+                        <option {% if user.company.state == 'MN' %}selected="selected"{% endif %} value="US-MN">Minnesota</option>
+                        <option {% if user.company.state == 'MS' %}selected="selected"{% endif %} value="US-MS">Mississippi</option>
+                        <option {% if user.company.state == 'MO' %}selected="selected"{% endif %} value="US-MO">Missouri</option>
+                        <option {% if user.company.state == 'MT' %}selected="selected"{% endif %} value="US-MT">Montana</option>
+                        <option {% if user.company.state == 'NE' %}selected="selected"{% endif %} value="US-NE">Nebraska</option>
+                        <option {% if user.company.state == 'NV' %}selected="selected"{% endif %} value="US-NV">Nevada</option>
+                        <option {% if user.company.state == 'NH' %}selected="selected"{% endif %} value="US-NH">New Hampshire</option>
+                        <option {% if user.company.state == 'NJ' %}selected="selected"{% endif %} value="US-NJ">New Jersey</option>
+                        <option {% if user.company.state == 'NM' %}selected="selected"{% endif %} value="US-NM">New Mexico</option>
+                        <option {% if user.company.state == 'NY' %}selected="selected"{% endif %} value="US-NY">New York</option>
+                        <option {% if user.company.state == 'NC' %}selected="selected"{% endif %} value="US-NC">North Carolina</option>
+                        <option {% if user.company.state == 'ND' %}selected="selected"{% endif %} value="US-ND">North Dakota</option>
+                        <option {% if user.company.state == 'OH' %}selected="selected"{% endif %} value="US-OH">Ohio</option>
+                        <option {% if user.company.state == 'OK' %}selected="selected"{% endif %} value="US-OK">Oklahoma</option>
+                        <option {% if user.company.state == 'OR' %}selected="selected"{% endif %} value="US-OR">Oregon</option>
+                        <option {% if user.company.state == 'PA' %}selected="selected"{% endif %} value="US-PA">Pennsylvania</option>
+                        <option {% if user.company.state == 'RI' %}selected="selected"{% endif %} value="US-RI">Rhode Island</option>
+                        <option {% if user.company.state == 'SC' %}selected="selected"{% endif %} value="US-SC">South Carolina</option>
+                        <option {% if user.company.state == 'SD' %}selected="selected"{% endif %} value="US-SD">South Dakota</option>
+                        <option {% if user.company.state == 'TN' %}selected="selected"{% endif %} value="US-TN">Tennessee</option>
+                        <option {% if user.company.state == 'TX' %}selected="selected"{% endif %} value="US-TX">Texas</option>
+                        <option {% if user.company.state == 'UT' %}selected="selected"{% endif %} value="US-UT">Utah</option>
+                        <option {% if user.company.state == 'VT' %}selected="selected"{% endif %} value="US-VT">Vermont</option>
+                        <option {% if user.company.state == 'VA' %}selected="selected"{% endif %} value="US-VA">Virginia</option>
+                        <option {% if user.company.state == 'WA' %}selected="selected"{% endif %} value="US-WA">Washington</option>
+                        <option {% if user.company.state == 'WV' %}selected="selected"{% endif %} value="US-WV">West Virginia</option>
+                        <option {% if user.company.state == 'WI' %}selected="selected"{% endif %} value="US-WI">Wisconsin</option>
+                        <option {% if user.company.state == 'WY' %}selected="selected"{% endif %} value="US-WY">Wyoming</option>
                     </select>
                 </div>
                 <div>
@@ -165,14 +241,8 @@
         <ul>
             <li>
                 <div>
-                    <label for="suitcase_name">Suitcase Name</label>
-                    <input class="required" type="text" name="suitcase[name]" id="suitcase_name" value="" maxlength="30"/>
-                </div>
-            </li>
-            <li>
-                <div>
                     <label for="suitcase_event_name">Name of Event</label>
-                    <input type="text" name="suitcase[event_name]" id="suitcase_event_name" value=""/>
+                    <input type="text" name="suitcase[event_name]" id="suitcase_event_name" value="" maxlength="40"/>
                 </div>
             </li>
             <li>

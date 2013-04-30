@@ -82,14 +82,28 @@ class AccountController extends Controller
         );
         
         $form->add(
-            $formFactory->createNamed('suitcase', 'text', null,
+            $formFactory->createNamed('event_name', 'text', null,
                 array(
                     'constraints' => array(
                         new NotBlank(),
                         new Length(array('min' => 3))
                     ),
-                    'label' => 'Name Your Suitcase',
-                    'mapped' => false
+                    'label' => 'Event Name',
+                    'mapped' => false,
+                    'required' => true
+                )
+            )
+        );
+        
+        $form->add(
+            $formFactory->createNamed('event_date', 'text', null,
+                array(
+                    'constraints' => array(
+                        new NotBlank(),
+                    ),
+                    'label' => 'Event Date',
+                    'mapped' => false,
+                    'required' => true
                 )
             )
         );
@@ -129,6 +143,8 @@ class AccountController extends Controller
             )
         );
         
+        $form->get('account')->get('country')->setData('US');
+        
         // process the form on POST
         if ($request->isMethod('POST')) {
             // TODO has to be a better technique for working with form elements and validation/constraints
@@ -138,6 +154,7 @@ class AccountController extends Controller
             $request->request->add($original);
             
             $form->bind($request);
+            
             if ($form->isValid()) {
                 // TODO create logic to check for existing Accounts before
                 // allowing a new account creation.
@@ -148,15 +165,21 @@ class AccountController extends Controller
                 // TODO configure cascade persist to avoid the extra calls to the EM
                 $account->setSalesperson($salesperson);
                 $account->setReferred($form->get('referred')->getData());
+                $account->setState(substr($form->get('account')->get('state')->getData(), -2));
+                $account->setDirty(true);
                 $em->persist($account);
                 $em->flush();
                 
                 $user->setCompany($account);
+                $user->setDirty(true);
                 $userManager->updateUser($user);
                 
                 $suitcase = new Suitcase();
                 $suitcase->setPacked(false);
-                $suitcase->setName($form->get('suitcase')->getData());
+                $suitcase->setName($form->get('event_name')->getData());
+                $suitcase->setEventName($form->get('event_name')->getData());
+                $suitcase->setEventDate(new \DateTime($form->get('event_date')->getData()));
+                $suitcase->setDirty(true);
                 $suitcase->setUser($user);
                 
                 if($form->get('package')->getData() != '') {
@@ -231,7 +254,7 @@ class AccountController extends Controller
                 $name = $form->get('account')->get('name');
                 $state = $form->get('account')->get('state');
                 $zip = $form->get('account')->get('zip');
-                $suitcase = $form->get('suitcase');
+                $event_name = $form->get('event_name');
                 $firstName = $form->get('firstName');
                 $lastName = $form->get('lastName');
                 $phone = $form->get('phone');
@@ -290,7 +313,7 @@ class AccountController extends Controller
                     $errors['fos_user_registration_form_account_state'] = $temp;
                 }
                 
-                if($blahs = $suitcase->getErrors()) {
+                if($blahs = $event_name->getErrors()) {
                     $temp = array();
                     foreach($blahs as $blah) {
                         $temp[] = $blah->getMessage();
@@ -375,7 +398,9 @@ class AccountController extends Controller
                     $company->setAddress2($contact['address2']);
                     $company->setCity($contact['city']);
                     $company->setZip($contact['zip']);
-                    $company->setState($contact['state']);
+                    $company->setState(substr($contact['state'], -2));
+                    $company->setCountry($contact['country']);
+                    $company->setDirty(true);
                     
                     $em->persist($company);
                 }
@@ -390,6 +415,7 @@ class AccountController extends Controller
                             'address2' => '',
                             'city' => '',
                             'state' => '',
+                            'country' => '',
                             'zip' => '',
                             'phone' => $user->getPhone()
                         )
@@ -403,6 +429,7 @@ class AccountController extends Controller
                             'address2' => $company->getAddress2(),
                             'city' => $company->getCity(),
                             'state' => $company->getState(),
+                            'country' => $company->getCountry() == 'CA' ? 'Canada' : 'United States',
                             'zip' => $company->getZip(),
                             'phone' => $user->getPhone()
                         )

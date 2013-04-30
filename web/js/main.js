@@ -1572,13 +1572,50 @@ $(document).ready(function() {
     });
     
     
-    $('#account_date').datepicker({
+    var provinceOptions;
+    var stateOptions;
+    if ($('#more-modal form select#account_country').val() == 'US') {
+        provinceOptions = $('#account_state option[value|="CA"]').detach();
+        stateOptions = $('#account_state option[value|="US"]').clone();
+    }
+    else {
+        provinceOptions = $('#account_state option[value|="CA"]').clone();
+        stateOptions = $('#account_state option[value|="US"]').detach();
+    }
+    
+    $('#more-modal form select').selectBoxIt({
+        autoWidth: false,
+        nostyle: false,
+        downArrowIcon: 'icon-arrow-down',
+        viewport: $('#more-modal')
+    });
+    
+    var stateSelectBox = $('select#account_state').data('selectBox-selectBoxIt');
+    
+    $('select#account_country').on('changed', function() {
+        if ($(this).val() == 'CA') {
+            $('#account_state option[value|="US"]').remove();
+            $(provinceOptions).appendTo('#account_state');
+            stateSelectBox.refresh();
+        }
+        else {
+            $('#account_state option[value|="CA"]').remove();
+            $(stateOptions).appendTo('#account_state');
+            stateSelectBox.refresh();
+        }
+    });
+    
+    
+    $('#account_event_date').datepicker({
         buttonImage: '/img/calendar.png',
         buttonImageOnly: true,
         constrainInput: true,
         dateFormat: 'mm/dd/y',
         minDate: '+1',
         maxDate: '+1y',
+        onSelect: function(date, dp) {
+            $('#account-modal form').validate().element('#account_event_date');
+        },
         showOn: 'both'
     });
     
@@ -1590,8 +1627,8 @@ $(document).ready(function() {
             case 'account[loa]':
                 error.insertAfter('label[for="account_loa"]');
                 break;
-            case 'account[date]':
-                error.insertAfter('#account_date + img');
+            case 'account[event_date]':
+                error.insertAfter('#account_event_date + img');
                 break;
             default:
                 error.insertAfter(element);
@@ -1607,10 +1644,13 @@ $(document).ready(function() {
             'account[state]': {
                 required: true
             },
+            'account[country]': {
+                required: true
+            },
             'account[zip]': {
                 required: true
             },
-            'account[name]': {
+            'account[event_name]': {
                 required: true
             },
             'account[loa]': {
@@ -1621,8 +1661,9 @@ $(document).ready(function() {
             'account[address]': 'Address required',
             'account[city]': 'City name required',
             'account[state]': 'Required',
+            'account[country]': 'Required',
             'account[zip]': 'Zip code required',
-            'account[name]': 'Event name required',
+            'account[event_name]': 'Event name required',
             'account[loa]': 'Must agree to the terms in our Letter of Agreement'
         },
         onfocusout: false,
@@ -1767,6 +1808,18 @@ $(document).ready(function() {
         position: 'right'
     });
     
+    $('#fos_user_registration_form_event_date').datepicker({
+        buttonImage: '/img/calendar.png',
+        buttonImageOnly: true,
+        constrainInput: true,
+        dateFormat: 'mm/dd/y',
+        minDate: '+1',
+        maxDate: '+1y',
+        onSelect: function(date, dp) {
+            $('#account-modal form').validate().element('#fos_user_registration_form_event_date');
+        },
+        showOn: 'both'
+    });
     
     $('#account-modal').on($.modal.OPEN, function(event, modal) {
         // For viewports that are narrower than our page,
@@ -1792,13 +1845,43 @@ $(document).ready(function() {
     });
     
     
+    var provinceOptions = $('#fos_user_registration_form_account_state option[value|="CA"]').detach();
+    var stateOptions = $('#fos_user_registration_form_account_state option[value|="US"]').clone();
+    
+    $('#account-modal form select').selectBoxIt({
+        autoWidth: false,
+        nostyle: false,
+        downArrowIcon: 'icon-arrow-down',
+        viewport: $('#account-modal')
+    });
+    
+    var stateSelectBox = $('select#fos_user_registration_form_account_state').data('selectBox-selectBoxIt');
+    
+    $('select#fos_user_registration_form_account_country').on('changed', function() {
+        if ($(this).val() == 'CA') {
+            $('#fos_user_registration_form_account_state option[value|="US"]').remove();
+            $(provinceOptions).appendTo('#fos_user_registration_form_account_state');
+            stateSelectBox.refresh();
+        }
+        else {
+            $('#fos_user_registration_form_account_state option[value|="CA"]').remove();
+            $(stateOptions).appendTo('#fos_user_registration_form_account_state');
+            stateSelectBox.refresh();
+        }
+    });
+    
+    
     $('#account-modal form').validate({
         errorElement: 'em',
         errorPlacement: function(error, element) {
-            if (element.attr('name') == 'fos_user_registration_form[terms]') {
+            switch(element.attr('name')) {
+            case 'fos_user_registration_form[event_date]':
+                error.insertAfter('#fos_user_registration_form_event_date + img');
+                break;
+            case 'fos_user_registration_form[terms]':
                 error.insertAfter('label[for="fos_user_registration_form_terms"]');
-            }
-            else {
+                break;
+            default:
                 error.insertAfter(element);
             }
         },
@@ -1906,12 +1989,46 @@ $(document).ready(function() {
 
 /* Account Edit Modal */
 $(function() {
+    var provinceOptions;
+    var stateOptions;
+    if ($('#edit-contact-modal form select#contact_country').val() == 'US') {
+        provinceOptions = $('#contact_state option[value|="CA"]').detach();
+        stateOptions = $('#contact_state option[value|="US"]').clone();
+    }
+    else {
+        provinceOptions = $('#contact_state option[value|="CA"]').clone();
+        stateOptions = $('#contact_state option[value|="US"]').detach();
+    }
+    
+    $('#edit-contact-modal form select').selectBoxIt({
+        autoWidth: false,
+        nostyle: false,
+        downArrowIcon: 'icon-arrow-down',
+        viewport: $('#edit-contact-modal')
+    });
+    
+    var stateSelectBox = $('select#contact_state').data('selectBox-selectBoxIt');
+    
+    $('select#contact_country').on('changed', function() {
+        if ($(this).val() == 'CA') {
+            $('#contact_state option[value|="US"]').remove();
+            $(provinceOptions).appendTo('#contact_state');
+            stateSelectBox.refresh();
+        }
+        else {
+            $('#contact_state option[value|="CA"]').remove();
+            $(stateOptions).appendTo('#contact_state');
+            stateSelectBox.refresh();
+        }
+    });
+    
+    
+    
     $('#edit-contact-modal form').validate({
         submitHandler: function(form) {
             var data = $(form).serialize();
             $.ajax({
-                beforeSend: function() {
-                },
+                beforeSend: function() {},
                 data: data,
                 dataType: 'json',
                 url: $(form).attr('action'),
@@ -1935,12 +2052,17 @@ $(function() {
                         $(holder).find('#contact-info-address2').text(data.contact['address2']);
                         
                         // City + State + Zip
-                        if($('#contact-info-city').length == 0 && data.contact.city != '') {
-                            $('<span id="contact-info-city"></span>, <span id="contact-info-state"></span> <span id="contact-info-zip"></span><br/>').insertBefore('#contact-info-email');
+                        if (data.contact.city != '') {
+                            $(holder).find('#contact-info-city').text(data.contact['city'] + ', ');
                         }
-                        $(holder).find('#contact-info-city').text(data.contact['city']);
+                        else {
+                            $(holder).find('#contact-info-city').text('');
+                        }
                         $(holder).find('#contact-info-state').text(data.contact['state']);
                         $(holder).find('#contact-info-zip').text(data.contact['zip']);
+                        
+                        // Country
+                        $(holder).find('#contact-info-country').text(data.contact['country']);
                         
                         // Phone
                         $(holder).find('#contact-info-phone').text(data.contact['phone']);
