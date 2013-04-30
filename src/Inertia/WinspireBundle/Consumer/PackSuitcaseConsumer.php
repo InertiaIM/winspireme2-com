@@ -53,7 +53,7 @@ class PackSuitcaseConsumer implements ConsumerInterface
         if ($account->getSfId() != 'TEST' && $account->getSfId() != 'CANADA' && $account->getSfId() != 'PARTNER') {
         // Salesforce Updates
         $sfOpportunity = new \stdClass();
-        $sfOpportunity->Name = $suitcase->getName();
+        $sfOpportunity->Name = substr($suitcase->getEventName(), 0, 40);
         $sfOpportunity->Website_suitcase_status__c = 'Packed';
         $sfOpportunity->LOA_Received__c = 1;
         $sfOpportunity->Event_Name__c = substr($suitcase->getEventName(), 0, 40);
@@ -112,6 +112,7 @@ class PackSuitcaseConsumer implements ConsumerInterface
             if($saveResult[0]->success) {
                 $timestamp = new \DateTime();
                 $account->setDirty(false);
+                $account->setSfId($saveResult[0]->id);
                 $account->setSfUpdated($timestamp);
                 $account->setUpdated($timestamp);
                 $this->em->persist($account);

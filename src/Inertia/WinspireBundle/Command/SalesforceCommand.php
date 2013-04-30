@@ -843,6 +843,7 @@ if(($sfAccount->SystemModstamp > $account->getSfUpdated()) && !$account->getDirt
                             //TODO Assign Account
                             
                             $timestamp = new \DateTime();
+                            $contacts[$key]->setSfId($value->Id);
                             $contacts[$key]->setDirty(false);
                             $contacts[$key]->setSfUpdated($timestamp);
                             $contacts[$key]->setUpdated($timestamp);
