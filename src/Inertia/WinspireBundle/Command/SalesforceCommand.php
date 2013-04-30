@@ -542,7 +542,7 @@ class SalesforceCommand extends ContainerAwareCommand
                                     $em->flush();
                                 }
                                 else {
-                                    $output->writeln('<error>Can\'t delete: ' . $ids[$key] . '</info>');
+                                    $output->writeln('<error>Can\'t delete: ' . $ids[$key] . '</error>');
                                 }
                             }
                         }
@@ -562,7 +562,7 @@ class SalesforceCommand extends ContainerAwareCommand
                             $em->flush();
                         }
                         else {
-                            $output->writeln('<error>Can\'t delete: ' . $ids[$key] . '</info>');
+                            $output->writeln('<error>Can\'t delete: ' . $ids[$key] . '</error>');
                         }
                     }
                 }
@@ -741,7 +741,7 @@ if(($sfAccount->SystemModstamp > $account->getSfUpdated()) && !$account->getDirt
                         $saveResult = $client->create(array($sfContact), 'Contact');
                     }
                     else {
-                        $sfAccount->Id = $contact->getSfId();
+                        $sfContact->Id = $contact->getSfId();
                         $saveResult = $client->update(array($sfContact), 'Contact');
                     }
                     
