@@ -66,6 +66,7 @@ class CreateAccountConsumer implements ConsumerInterface
             $sfAccount->BillingCity = $account->getCity();
             $sfAccount->BillingState = $account->getState();
             $sfAccount->BillingPostalCode = $account->getZip();
+            $sfAccount->BillingCountryCode = $account->getCountry();
             $sfAccount->Phone = $account->getPhone();
             $sfAccount->Referred_by__c = $account->getReferred();
             $sfAccount->RecordTypeId = $this->recordTypeId;
