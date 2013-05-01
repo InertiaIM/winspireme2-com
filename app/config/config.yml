@@ -85,7 +85,7 @@ sphinxsearch:
         host:   localhost
         port:   9312
     indexer:
-        bin:    /opt/local/bin/indexer
+        bin:    /usr/bin/indexer
 
 
 fos_user:
@@ -136,7 +136,7 @@ services:
         
     package_soap_service:
         class: Inertia\WinspireBundle\Services\PackageSoapService
-        arguments: [@ddeboer_salesforce_client, @doctrine.orm.entity_manager, @logger]
+        arguments: [@ddeboer_salesforce_client, @doctrine.orm.entity_manager, @logger, @search.sphinxsearch.indexer]
         
     suitcase_soap_service:
         class: Inertia\WinspireBundle\Services\SuitcaseSoapService

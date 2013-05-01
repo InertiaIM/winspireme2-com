@@ -445,6 +445,11 @@ class SalesforceCommand extends ContainerAwareCommand
                     $output->writeln('<info>' . $count . '</info>');
                     $output->writeln('<info>Package saved...</info>');
                 }
+                
+                $output->writeln('<info>Now we\'ll generate our search index...</info>');
+                $indexer = $this->getContainer()->get('search.sphinxsearch.indexer');
+                $indexer->rotate('Packages');
+                
                 break;
                 
                 

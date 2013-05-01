@@ -4,6 +4,7 @@ namespace Inertia\WinspireBundle\Services;
 use Ddeboer\Salesforce\ClientBundle\Client;
 use Doctrine\ORM\EntityManager;
 use Inertia\WinspireBundle\Entity\Package;
+use Search\SphinxsearchBundle\Services\Indexer;
 use Symfony\Bridge\Monolog\Logger;
 
 class PackageSoapService
@@ -11,14 +12,16 @@ class PackageSoapService
     protected $em;
     protected $sf;
     protected $logger;
+    protected $indexer;
     
     private $pricebookId = '01s700000006IU7AAM';
     
-    public function __construct(Client $salesforce, EntityManager $entityManager, Logger $logger)
+    public function __construct(Client $salesforce, EntityManager $entityManager, Logger $logger, Indexer $indexer)
     {
         $this->sf = $salesforce;
         $this->em = $entityManager;
         $this->logger = $logger;
+        $this->indexer = $indexer;
     }
     
     public function notifications($notifications)
@@ -283,6 +286,8 @@ fwrite($dump, print_r($notifications, true));
             
             $this->logger->info('Package saved...');
         }
+        
+        $this->indexer->rotate('Packages');
         
         return array('Ack' => true);
     }
