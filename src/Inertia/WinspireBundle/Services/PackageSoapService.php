@@ -4,7 +4,7 @@ namespace Inertia\WinspireBundle\Services;
 use Ddeboer\Salesforce\ClientBundle\Client;
 use Doctrine\ORM\EntityManager;
 use Inertia\WinspireBundle\Entity\Package;
-use Search\SphinxsearchBundle\Services\Indexer;
+use Search\SphinxsearchBundle\Services\Indexer\Indexer;
 use Symfony\Bridge\Monolog\Logger;
 
 class PackageSoapService
