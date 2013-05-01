@@ -100,6 +100,8 @@ fwrite($dump, print_r($notifications, true));
             }
             
             
+            $p = $packageResult->first();
+            
             // Test whether this package is already in our database
             $package = $this->em->getRepository('InertiaWinspireBundle:Package')->findOneBySfId($id);
             
@@ -117,9 +119,6 @@ fwrite($dump, print_r($notifications, true));
                 // Package already exists, just update
                 $this->logger->info('Existing package (' . $id . ') to be updated');
             }
-            
-            
-            $p = $packageResult->first();
             
             if (isset($p->WEB_package_subtitle__c)) {
                 $package->setName($p->WEB_package_subtitle__c);
