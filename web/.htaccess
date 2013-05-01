@@ -1,3 +1,16 @@
+redirect 301 /packages/entertainment http://www.winspireme.com/packages/Entertainment-Tickets-for-Charity-Fundraisers
+redirect 301 /packages/detail/01t70000004OCGwAAO http://www.winspireme.com/packages/Nonprofit-Fundraiser-Sports-Experience-Packages
+redirect 301 /package_pdfs/download/1087 http://www.winspireme.com/packages/Napa-Valley-Wine-Experience-Ideas-for-Charity-Auctions
+redirect 301 /package_pdfs/download/939 http://www.winspireme.com/package/the-cosmopolitan-las-vegas-vip
+redirect 301 /package_pdfs/download/1015 http://www.winspireme.com/packages/Unique-Golf-Charity-Auction-Items
+redirect 301 /package_pdfs/download/120 http://www.winspireme.com/package/cancun-paradise-vacation
+redirect 301 /package_pdfs/download/1119 http://www.winspireme.com/package/galapagos-islands-expedition
+redirect 301 /package_pdfs/download/641 http://www.winspireme.com/packages/Awards-Shows-Auction-Packages
+redirect 301 /package_pdfs/download/501 http://www.winspireme.com/packages/Awards-Shows-Auction-Packages
+redirect 301 /package_pdfs/download/61 http://www.winspireme.com/packages/Family-Friendly-Vacation-Nonprofit-Charity
+redirect 301 /package/televisions-primetime-awards-show http://www.winspireme.com/packages/Awards-Shows-Auction-Packages
+redirect 301 /package/napa-wine-country-vip-insiders-tour http://www.winspireme.com/packages/Napa-Valley-Wine-Experience-Ideas-for-Charity-Auctions
+
 Header set X-UA-Compatible "IE=Edge,chrome=1"
 
 <IfModule mod_rewrite.c>
