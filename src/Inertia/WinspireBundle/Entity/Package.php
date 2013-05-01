@@ -63,7 +63,7 @@ class Package
     private $pictureTitle;
     
     /**
-     * @ORM\Column(name="yearVersion", type="string", length=256)
+     * @ORM\Column(name="yearVersion", type="string", length=256, nullable=true)
      */
     private $year_version;
     
@@ -82,10 +82,10 @@ class Package
      */
     private $cost;
     
-    /**
-     * @ORM\Column(name="recommendations", type="string", length=256, nullable=true)
-     */
-    private $recommendations;
+//    /**
+//     * @ORM\Column(name="recommendations", type="string", length=256, nullable=true)
+//     */
+//    private $recommendations;
     
     /**
      * @ORM\Column(name="isOnHome", type="boolean")
@@ -204,11 +204,25 @@ class Package
     */
     private $categories;
     
-    
     /**
      * @ORM\OneToMany(targetEntity="SuitcaseItem", mappedBy="package")
      */
     protected $suitcaseItems;
+    
+    /**
+     * @ORM\ManyToMany(targetEntity="Package", mappedBy="recommendations")
+     **/
+    private $recommendedBy;
+    
+    /**
+     * @ORM\ManyToMany(targetEntity="Package", inversedBy="recommendedBy")
+     * @ORM\JoinTable(name="package_recommendations",
+     *     joinColumns={@ORM\JoinColumn(name="package_id", referencedColumnName="id")},
+     *     inverseJoinColumns={@ORM\JoinColumn(name="recommended_package_id", referencedColumnName="id")}
+     * )
+     **/
+    private $recommendations;
+    
     
     /**
      * Get id
@@ -731,6 +745,8 @@ class Package
     public function __construct()
     {
         $this->categories = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->recommendedBy = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->recommendations = new \Doctrine\Common\Collections\ArrayCollection();
     }
     
     /**
@@ -1030,29 +1046,6 @@ class Package
     }
 
     /**
-     * Set recommendations
-     *
-     * @param string $recommendations
-     * @return Package
-     */
-    public function setRecommendations($recommendations)
-    {
-        $this->recommendations = $recommendations;
-    
-        return $this;
-    }
-
-    /**
-     * Get recommendations
-     *
-     * @return string 
-     */
-    public function getRecommendations()
-    {
-        return $this->recommendations;
-    }
-
-    /**
      * Set sfContentPackId
      *
      * @param string $sfContentPackId
@@ -1142,5 +1135,71 @@ class Package
     public function getUpdated()
     {
         return $this->updated;
+    }
+
+    /**
+     * Add recommendedBy
+     *
+     * @param \Inertia\WinspireBundle\Entity\Package $recommendedBy
+     * @return Package
+     */
+    public function addRecommendedBy(\Inertia\WinspireBundle\Entity\Package $recommendedBy)
+    {
+        $this->recommendedBy[] = $recommendedBy;
+    
+        return $this;
+    }
+
+    /**
+     * Remove recommendedBy
+     *
+     * @param \Inertia\WinspireBundle\Entity\Package $recommendedBy
+     */
+    public function removeRecommendedBy(\Inertia\WinspireBundle\Entity\Package $recommendedBy)
+    {
+        $this->recommendedBy->removeElement($recommendedBy);
+    }
+
+    /**
+     * Get recommendedBy
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getRecommendedBy()
+    {
+        return $this->recommendedBy;
+    }
+
+    /**
+     * Add recommendations
+     *
+     * @param \Inertia\WinspireBundle\Entity\Package $recommendations
+     * @return Package
+     */
+    public function addRecommendation(\Inertia\WinspireBundle\Entity\Package $recommendations)
+    {
+        $this->recommendations[] = $recommendations;
+    
+        return $this;
+    }
+
+    /**
+     * Remove recommendations
+     *
+     * @param \Inertia\WinspireBundle\Entity\Package $recommendations
+     */
+    public function removeRecommendation(\Inertia\WinspireBundle\Entity\Package $recommendations)
+    {
+        $this->recommendations->removeElement($recommendations);
+    }
+
+    /**
+     * Get recommendations
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getRecommendations()
+    {
+        return $this->recommendations;
     }
 }

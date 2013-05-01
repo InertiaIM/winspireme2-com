@@ -232,6 +232,7 @@ class SalesforceCommand extends ContainerAwareCommand
                     'Best_Seller__c, ' .
                     'WEB_Default_version__c, ' .
                     'Parent_Header__c, ' .
+                    'IsActive, ' .
                     'WEB_picture__c, ' .
                     'WEB_thumbnail__c, ' .
                     'WEB_picture_title__c, ' .
@@ -245,11 +246,10 @@ class SalesforceCommand extends ContainerAwareCommand
                     'WEB_Participants__c, ' .
                     'WEB_Recommendations__c, ' .
                     'OMIT_from_Winspire__c, ' .
-                    '(SELECT Id, Name, UnitPrice FROM PricebookEntries WHERE Pricebook2Id = \'' . $this->pricebookId . '\') ' .
+                    'SystemModstamp ' .
                     'FROM Product2 ' .
                     'WHERE ' .
                     'family = \'No-Risk Auction Package\' ' .
-                    'AND IsActive = true ' .
                     'AND IsDeleted = false ' .
                     'AND WEB_package_subtitle__c != \'\' ' .
                     'AND Parent_Header__c != \'\''
@@ -258,152 +258,192 @@ class SalesforceCommand extends ContainerAwareCommand
                 
                 $count = 0;
                 foreach ($packageResult as $p) {
-                    // For now, only sync if there is a description available
-                    if(isset($p->WEB_package_description__c) && $p->WEB_package_description__c != '') {
-                        $output->writeln('<info>' . $p->Parent_Header__c . '</info>');
+                    $output->writeln('<info>' . $p->Parent_Header__c . '</info>');
+                    
+                    $package = $em->getRepository('InertiaWinspireBundle:Package')->findOneBySfId($p->Id);
+                    
+                    if(!$package) {
+                        // New package, not in our database yet
+                        $output->writeln('<info>New package (' . $p->Id . ') to be added</info>');
                         
-                        $package = new Package();
-                        $package->setName($p->WEB_package_subtitle__c);
-                        $package->setParentHeader($p->Parent_Header__c);
-                        $package->setCode($p->ProductCode);
-                        $package->setSfId($p->Id);
-                        $package->setIsOnHome($p->Home_Page_view__c);
-                        $package->setIsBestSeller($p->Best_Seller__c);
-                        $package->setIsNew($p->New_Item__c);
-                        $package->setSeasonal($p->WEB_seasonal_pkg__c);
-                        $package->setIsDefault($p->WEB_Default_version__c);
-                        $package->setSuggestedRetailValue($p->Suggested_Retail_Value__c);
-                        $package->setYearVersion($p->Year_Version__c);
-                        
-                        if(isset($p->OMIT_from_Winspire__c)) {
-                            $package->setIsPrivate($p->OMIT_from_Winspire__c == '1' ? true : false);
-                        }
-                        
-                        if(isset($p->WEB_package_description__c)) {
-                            // Split the description into two based on the "more" tag
-                            $details = preg_split ('/\<\!--.*more.* --\>/i', $p->WEB_package_description__c);
-                            
-                            $package->setDetails(trim($details[0]));
-                            if(isset($details[1])) {
-                                $package->setMoreDetails(trim($details[1]));
-                            }
-                        }
-                        
-                        if(isset($p->Web_URL_slug__c)) {
-                            $package->setSlug($p->Web_URL_slug__c);
-                        }
-                        else {
-                            $package->setSlug($this->slugify($package->getParentHeader()));
-                        }
-                        
-                        if(isset($p->WEB_Airfare_pax__c)) {
-                            $package->setAirfares($p->WEB_Airfare_pax__c);
-                        }
-                        
-                        if(isset($p->WEB_Nights__c)) {
-                            $package->setAccommodations($p->WEB_Nights__c);
-                        }
-                        
-                        if(isset($p->WEB_Participants__c)) {
-                            $package->setPersons($p->WEB_Participants__c);
-                        }
-                        
-                        if(isset($p->WEB_picture__c)) {
-                            $package->setPicture($p->WEB_picture__c);
-                        }
-                        else {
-                            $package->setPicture('0000_Winspire-Oops-Twins-MAIN.jpg');
-                        }
-                        
-                        if(isset($p->WEB_thumbnail__c)) {
-                            $package->setThumbnail($p->WEB_thumbnail__c);
-                        }
-                        else {
-                            $package->setThumbnail('0000_Winspire-Oops-Twins-THUMB.jpg');
-                        }
-                        
-                        if(isset($p->WEB_picture_title__c)) {
-                            $package->setPictureTitle($p->WEB_picture_title__c);
-                        }
-                        
-                        if(isset($p->WEB_meta_title__c)) {
-                            $package->setMetaTitle($p->WEB_meta_title__c);
-                        }
-                        
-                        if(isset($p->WEB_meta_description__c)) {
-                            $package->setMetaDescription($p->WEB_meta_description__c);
-                        }
-                        
-                        if(isset($p->WEB_meta_keywords__c)) {
-                            $package->setMetaKeywords($p->WEB_meta_keywords__c);
-                        }
-                        
-                        if(isset($p->Content_PACK__c)) {
-                            $package->setContentPack($p->Content_PACK__c);
-                        }
-                        
-                        if(isset($p->Keyword_search__c)) {
-                            $keywords = explode(';', $p->Keyword_search__c);
-                            
-                            foreach($keywords as $i => $k) {
-                                $keywords[$i] = trim($k);
-                            }
-                            
-                            $package->setKeywords(serialize($keywords));
-                        }
-                        
-                        if(isset($p->WEB_Recommendations__c)) {
-                            $recommendations = explode(';', $p->WEB_Recommendations__c);
-                            
-                            foreach($recommendations as $i => $r) {
-                                $recommendations[$i] = trim($r);
-                            }
-                            
-                            $package->setRecommendations(serialize($recommendations));
-                        }
-                        
-                        
-                        
-                        $categories = array();
-                        if(isset($p->Package_Category_Pairings__c)) {
-                            $categories = explode(';', $p->Package_Category_Pairings__c);
-                        }
-                        
-                        foreach($categories as $category) {
-                            $package->addCategory($this->findCategoryByCode(trim($category)));
-                        }
-                        
-                        
-                        
-                        
-                        
-                        
-                        
-                        $priceCounter = 0;
-                        if(isset($p->PricebookEntries)) {
-                            foreach ($p->PricebookEntries as $price) {
-                                $package->setCost($price->UnitPrice);
-                                $package->setSfPricebookEntryId($price->Id);
-                                $priceCounter++;
-                            }
-                        }
-                        else {
-                            $output->writeln('<error>No prices available...</error>');
+                        // If new package and inactive, there's no need to add it
+                        if ($p->IsActive != '1') {
                             continue;
                         }
                         
-                        if($priceCounter > 1) {
-                            $output->writeln('<error>Too many prices available...</error>');
+                        $package = new Package();
+                    }
+                    else {
+                        // Package already exists, just update
+                        $output->writeln('<info>Existing package (' . $p->Id . ') to be updated</info>');
+                    }
+                    
+                    if (isset($p->WEB_package_subtitle__c)) {
+                        $package->setName($p->WEB_package_subtitle__c);
+                    }
+                    $package->setParentHeader($p->Parent_Header__c);
+                    $package->setCode($p->ProductCode);
+                    $package->setSfId($p->Id);
+                    $package->setIsOnHome($p->Home_Page_view__c);
+                    $package->setIsBestSeller($p->Best_Seller__c);
+                    $package->setIsNew($p->New_Item__c);
+                    $package->setSeasonal($p->WEB_seasonal_pkg__c);
+                    $package->setIsDefault($p->WEB_Default_version__c);
+                    $package->setSuggestedRetailValue($p->Suggested_Retail_Value__c);
+                    
+                    if (isset($p->Year_Version__c)) {
+                        $package->setYearVersion($p->Year_Version__c);
+                    }
+                    
+                    if(isset($p->OMIT_from_Winspire__c)) {
+                        $package->setIsPrivate($p->OMIT_from_Winspire__c == '1' ? true : false);
+                    }
+                    
+                    // TODO IF CHANGE FROM Active -> Inactive???
+                    if(isset($p->IsActive)) {
+                        $package->setActive($p->IsActive == '1' ? true : false);
+                        if (!$package->getActive()) {
+                            $output->writeln('<error>INACTIVE package (' . $p->Id . ')</error>');
+                        }
+                    }
+                    
+                    if(isset($p->WEB_package_description__c)) {
+                        // Split the description into two based on the "more" tag
+                        $details = preg_split ('/\<\!--.*more.* --\>/i', $p->WEB_package_description__c);
+                        
+                        $package->setDetails(trim($details[0]));
+                        if(isset($details[1])) {
+                            $package->setMoreDetails(trim($details[1]));
+                        }
+                    }
+                    
+                    if(isset($p->Web_URL_slug__c)) {
+                        $package->setSlug($p->Web_URL_slug__c);
+                    }
+                    else {
+                        $package->setSlug($this->slugify($package->getParentHeader()));
+                    }
+                    
+                    if(isset($p->WEB_Airfare_pax__c)) {
+                        $package->setAirfares($p->WEB_Airfare_pax__c);
+                    }
+                    
+                    if(isset($p->WEB_Nights__c)) {
+                        $package->setAccommodations($p->WEB_Nights__c);
+                    }
+                    
+                    if(isset($p->WEB_Participants__c)) {
+                        $package->setPersons($p->WEB_Participants__c);
+                    }
+                    
+                    if(isset($p->WEB_picture__c)) {
+                        $package->setPicture($p->WEB_picture__c);
+                    }
+                    else {
+                        $package->setPicture('0000_Winspire-Oops-Twins-MAIN.jpg');
+                    }
+                    
+                    if(isset($p->WEB_thumbnail__c)) {
+                        $package->setThumbnail($p->WEB_thumbnail__c);
+                    }
+                    else {
+                        $package->setThumbnail('0000_Winspire-Oops-Twins-THUMB.jpg');
+                    }
+                    
+                    if(isset($p->WEB_picture_title__c)) {
+                        $package->setPictureTitle($p->WEB_picture_title__c);
+                    }
+                    
+                    if(isset($p->WEB_meta_title__c)) {
+                        $package->setMetaTitle($p->WEB_meta_title__c);
+                    }
+                    
+                    if(isset($p->WEB_meta_description__c)) {
+                        $package->setMetaDescription($p->WEB_meta_description__c);
+                    }
+                    
+                    if(isset($p->WEB_meta_keywords__c)) {
+                        $package->setMetaKeywords($p->WEB_meta_keywords__c);
+                    }
+                    
+                    if(isset($p->Content_PACK__c)) {
+                        $package->setContentPack($p->Content_PACK__c);
+                    }
+                    
+                    if(isset($p->Keyword_search__c)) {
+                        $keywords = explode(';', $p->Keyword_search__c);
+                        
+                        foreach($keywords as $i => $k) {
+                            $keywords[$i] = trim($k);
                         }
                         
-                        
-                        
-                        $em->persist($package);
-                        $em->flush();
-                        
-                        $count++;
-                        $output->writeln('<info>' . $count . '</info>');
+                        $package->setKeywords(implode(' ', $keywords));
                     }
+                    
+                    // TODO do we have to remove each recommendation manually?
+                    // TODO create "merge" recommendation method?
+                    foreach($package->getRecommendations() as $r) {
+                        $package->removeRecommendation($r);
+                    }
+                    if(isset($p->WEB_Recommendations__c)) {
+                        $recommendations = explode(';', $p->WEB_Recommendations__c);
+                        
+                        foreach($recommendations as $r) {
+                            $recommended = $this->findPackageByCode(trim($r));
+                            if ($recommended) {
+                                $package->addRecommendation($recommended);
+                            }
+                        }
+                    }
+                    
+                    
+                    $categories = array();
+                    if(isset($p->Package_Category_Pairings__c)) {
+                        $categories = explode(';', $p->Package_Category_Pairings__c);
+                    }
+                    
+                    // TODO do we have to remove each category manually
+                    // TODO create "merge" category method
+                    foreach($package->getCategories() as $c) {
+                        $package->removeCategory($c);
+                    }
+                    
+                    foreach($categories as $category) {
+                        $cat = $this->findCategoryByCode(trim($category));
+                        if ($cat) {
+                            $package->addCategory($cat);
+                        }
+                    }
+                    
+                    $output->writeln('<info>Starting pricebook lookup...</info>');
+                    
+                    $pricebookResult = $client->query('SELECT ' .
+                        'Id, ' .
+                        'Name, ' .
+                        'UnitPrice ' .
+                        'FROM PricebookEntry ' .
+                        'WHERE Pricebook2Id = \'' . $this->pricebookId . '\' ' .
+                        'AND Product2Id = \'' . $p->Id . '\''
+                    );
+                    
+                    if(count($pricebookResult) < 1) {
+                        $output->writeln('<error>No prices available, so we\'re not saving this Package</error>');
+                        continue;
+                    }
+                    
+                    $pricebookEntry = $pricebookResult->first();
+                    $package->setSfPricebookEntryId($pricebookEntry->Id);
+                    $package->setCost($pricebookEntry->UnitPrice);
+                    $package->setUpdated($p->SystemModstamp);
+                    
+                    
+                    
+                    $em->persist($package);
+                    $em->flush();
+                    
+                    $count++;
+                    $output->writeln('<info>' . $count . '</info>');
+                    $output->writeln('<info>Package saved...</info>');
                 }
                 break;
                 
@@ -493,6 +533,8 @@ class SalesforceCommand extends ContainerAwareCommand
                     $sfAccount->BillingCity = $account->getCity();
                     $sfAccount->BillingState = $account->getState();
                     $sfAccount->BillingPostalCode = $account->getZip();
+                    $sfAccount->BillingCountryCode = $account->getCountry();
+                    $sfAccount->BillingCountry = ($account->getCountry() == 'CA' ? 'Canada' : 'United States');
                     $sfAccount->Phone = $account->getPhone();
                     $sfAccount->Referred_by__c = $account->getReferred();
                     $sfAccount->RecordTypeId = $this->recordTypeId;
@@ -649,6 +691,17 @@ if(($sfAccount->SystemModstamp > $account->getSfUpdated()) && !$account->getDirt
                         // ACCOUNT ZIP
                         if(isset($sfAccount->BillingPostalCode)) {
                             $account->setZip($sfAccount->BillingPostalCode);
+                        }
+                        
+                        // ACCOUNT ZIP
+                        if(isset($sfAccount->BillingCountry)) {
+                            if (strtoupper($sfAccount->BillingCountry) == 'CANADA' ||
+                                strtoupper($sfAccount->BillingCountry) == 'CA') {
+                                $account->setCountry('CA');
+                            }
+                            else {
+                                $account->setCountry('US');
+                            }
                         }
                         
                         // ACCOUNT PHONE
@@ -1015,9 +1068,32 @@ if(($sfAccount->SystemModstamp > $account->getSfUpdated()) && !$account->getDirt
         }
     }
     
+    
+    protected function findPackageByCode($code)
+    {
+echo '      Lookup package: ' . $code . "\n";
+        $em = $this->getContainer()->get('doctrine')->getManager();
+        $query = $em->createQuery(
+            'SELECT p FROM InertiaWinspireBundle:Package p WHERE p.code = :code AND p.active = 1 ORDER BY p.created DESC'
+        )
+            ->setParameter('code', $code)
+            ->setMaxResults(1);
+        ;
+        
+        try {
+            $package = $query->getSingleResult();
+        }
+        catch (\Doctrine\Orm\NoResultException $e) {
+echo 'problem with package lookup' . "\n";
+            $package = false;
+        }
+        
+        return $package;
+    }
+    
     protected function findCategoryByCode($code)
     {
-echo '      Lookup: ' . $code . "\n";
+echo '      Lookup category: ' . $code . "\n";
         
         $em = $this->getContainer()->get('doctrine')->getManager();
         
@@ -1031,7 +1107,8 @@ echo '      Lookup: ' . $code . "\n";
             $category = $query->getSingleResult();
         }
         catch (\Doctrine\Orm\NoResultException $e) {
-            echo 'problem with category lookup';
+echo 'problem with category lookup' . "\n";
+            $category = false;
         }
         
         return $category;
