@@ -1,0 +1,46 @@
+                    <div class="shadow-wrapper">
+                        <div id="recommended" class="drop-shadow lifted">
+                            <h4>You Might Also Like...</h4>
+                            
+                            <!-- Recommended Suitcase Slides -->
+                            <ul id="featured-slides" class="cycle-slideshow"
+                                data-allow-wrap="false"
+                                data-cycle-fx="carousel"
+                                data-cycle-timeout="0"
+                                data-cycle-swipe="true"
+                                data-cycle-log="false"
+                                data-cycle-carousel-visible="1"
+                                data-cycle-slides="> div"
+                                data-cycle-prev="#recommend-prev"
+                                data-cycle-next="#recommend-next"
+                                >
+                                <div>
+{% for package in packages %}
+                                    <li>
+                                        <a href="{{ path('packageDetail', {'slug': package.slug}) }}"><img src="/uploads/packages/{{ package.thumbnail }}" width="144" height="94" alt=""/></a>
+                                        <p>{{ package.parentHeader }}</p>
+                                        <a href="#" class="pd-s-add{% if package.id in packageIds %} disabled{% endif %}" data-id="{{ package.id }}"><span aria-hidden="true" class="icon icon-suitcase"></span><em>Add to </em>Suitcase</a>
+                                        <a href="{{ path('packageDetail', {'slug': package.slug}) }}" class="more">More Options <span aria-hidden="true" class="icon icon-arrow-right"></span></a>
+                                    </li>
+{%     if (loop.index is divisibleby(2)) and (loop.index < packages | length) %}
+                                </div>
+                                <div>
+{%     endif %}
+{% endfor %}
+                                </div>
+                            </ul>
+                            <div class="reset">&nbsp;</div>
+                            
+                            <!-- Next/Prev -->
+                            <div id="recommend-next" class="recommend-np forward">
+                                <span aria-hidden="true" class="icon icon-arrow-right"></span>
+                                <div class="tab-behind"></div>
+                            </div>
+                            <div id="recommend-prev" class="recommend-np backward">
+                                <span aria-hidden="true" class="icon icon-arrow-left"></span>
+                                <div class="tab-behind"></div>
+                            </div>
+                            <!-- Next/Prev -->
+                        </div>
+                    </div>
+                    <div class="reset">&nbsp;</div>

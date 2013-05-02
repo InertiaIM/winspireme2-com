@@ -430,11 +430,18 @@ class DefaultController extends Controller
         }
         
         
+        $packageIds = array();
+        foreach ($suitcase->getItems() as $item) {
+            $packageIds[] = $item->getPackage()->getId();
+        }
+        
+        
         return $this->render(
             'InertiaWinspireBundle:Default:packageDetail.html.twig',
             array(
                 'available' => $defaultPackages[$index]['available'],
                 'package' => $defaultPackages[$index]['package'],
+                'packageIds' => $packageIds,
                 'packagePath' => $packagePath,
                 'slug' => $slug,
                 'variants' => $defaultPackages[$index]['variants']

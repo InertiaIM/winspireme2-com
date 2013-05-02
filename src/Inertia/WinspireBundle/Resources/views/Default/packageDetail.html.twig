@@ -57,6 +57,13 @@
                     </ul>
 {% endif %}
                 </div>
+                
+                
+{% if package.recommendations | length > 1 %}
+{{     include('InertiaWinspireBundle:Default:recommendedPackages.html.twig', {'packages': package.recommendations, 'packageIds': packageIds}) }}
+{% endif %}
+                
+                
             </div><!-- pd-actions end -->
             
             <div class="pd-details">

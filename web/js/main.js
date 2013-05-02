@@ -607,7 +607,7 @@ var footerCtx = $('footer')[0];
                         
                         $(item).remove();
                         
-                        $('.pd-a-add[data-id="' + id + '"], .f-add[data-id="' + id + '"]').removeClass('disabled');
+                        $('.pd-a-add[data-id="' + id + '"], .f-add[data-id="' + id + '"], .pd-s-add[data-id="' + id + '"]').removeClass('disabled');
                         
                         $('#suitcase-preview-count').text(' (' + data.count + ')');
                         $('#core-suitcase-button').find('.count').text(' (' + data.count + ')');
@@ -679,7 +679,7 @@ var footerCtx = $('footer')[0];
         
         
         
-        $('.pd-a-add, .f-add').on('click', function(e) {
+        $('.pd-a-add, .f-add, .pd-s-add').on('click', function(e) {
             e.preventDefault();
             var id = $(this).attr('data-id');
             var self = this;
