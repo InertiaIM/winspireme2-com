@@ -1970,7 +1970,7 @@ $(document).ready(function() {
                             else {
                                 $('#core-suitcase').replaceWith('<a href="/suitcase" id="core-suitcase-button"><span class="icon icon-suitcase"></span><em>I\'m</em> Packed<span class="count"></span></a>');
                             }
-                            $('.pd-a-add[data-id="' + id + '"], .f-add[data-id="' + id + '"]').addClass('disabled');
+                            $('.pd-a-add[data-id="' + id + '"], .f-add[data-id="' + id + '"], .pd-s-add[data-id="' + id + '"]').addClass('disabled');
                             $('button[data-id="' + id + '"]').attr('disabled', 'disabled');
                             $.modal.close();
                             $.get(previewUrl, function(data) {
