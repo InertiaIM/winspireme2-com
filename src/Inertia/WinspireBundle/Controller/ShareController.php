@@ -32,7 +32,7 @@ class ShareController extends Controller
         
         if($token != 'none') {
             $query = $em->createQuery(
-                'SELECT s, h FROM InertiaWinspireBundle:share h JOIN h.suitcase s WHERE h.token = :token AND s.id = :id'
+                'SELECT s, h FROM InertiaWinspireBundle:Share h JOIN h.suitcase s WHERE h.token = :token AND s.id = :id'
             )
                 ->setParameter('token', $token)
                 ->setParameter('id', $id)
