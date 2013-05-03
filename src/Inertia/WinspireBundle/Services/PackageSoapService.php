@@ -295,7 +295,7 @@ fwrite($dump, print_r($notifications, true));
     protected function findPackageByCode($code)
     {
         $query = $this->em->createQuery(
-            'SELECT p FROM InertiaWinspireBundle:Package p WHERE p.code = :code AND p.active ORDER BY p.created DESC'
+            'SELECT p FROM InertiaWinspireBundle:Package p WHERE p.code = :code AND p.active = 1 ORDER BY p.created DESC'
         )
             ->setParameter('code', $code)
             ->setMaxResults(1);
