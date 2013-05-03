@@ -497,7 +497,6 @@ class SuitcaseController extends Controller
         if ($request->isMethod('POST')) {
             $suitcase = $request->request->get('suitcase');
             $id = $suitcase['id'];
-            $name = $suitcase['name'];
             $eventName = $suitcase['event_name'];
             $eventDate = $suitcase['event_date'];
             
@@ -510,7 +509,7 @@ class SuitcaseController extends Controller
             
             try {
                 $suitcase = $query->getSingleResult();
-                $suitcase->setName($name);
+                $suitcase->setName($eventName);
                 $suitcase->setEventName($eventName);
                 if($eventDate != '') {
                     $suitcase->setEventDate(new \DateTime($eventDate));
