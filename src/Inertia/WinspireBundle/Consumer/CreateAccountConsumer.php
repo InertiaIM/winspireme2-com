@@ -142,7 +142,7 @@ class CreateAccountConsumer implements ConsumerInterface
                                 if (strtoupper($sfAccount->BillingState) == $account->getState()) {
 //echo 'We\'ve found a matched Account that\'s not already in our Account table' . "\n";
                                     $account->setSfId($sfAccount->Id);
-                                    $account->setCreated($a->CreatedDate);
+                                    $account->setCreated($sfAccount->CreatedDate);
                                     
                                     // ACCOUNT ADDRESS
                                     if(isset($sfAccount->BillingStreet)) {
