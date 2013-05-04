@@ -57,7 +57,8 @@ class AccountSoapService
                 'Phone, ' .
                 'Referred_by__c,  ' .
                 'RecordTypeId, ' .
-                'SystemModstamp ' .
+                'SystemModstamp, ' .
+                'CreatedDate ' .
                 'FROM Account ' .
                 'WHERE ' .
                 'RecordTypeId = \'' . $this->recordTypeId . '\'' .
@@ -78,6 +79,7 @@ class AccountSoapService
                 // New account, not in our database yet
                 $this->logger->info('New account (' . $id . ') to be added');
                 $account = new Account();
+                $account->setCreated($a->CreatedDate);
                 $new = true;
             }
             else {
@@ -113,6 +115,22 @@ class AccountSoapService
                 // ACCOUNT STATE
                 if(isset($a->BillingState)) {
                     $account->setState($a->BillingState);
+                }
+                
+                // ACCOUNT COUNTRY
+                if(isset($a->BillingCountry)) {
+                    if (strtoupper($a->BillingCountry) == 'CA' || strtoupper($a->BillingCountry) == 'CANADA') {
+                        $account->setCountry('CA');
+                    }
+                    elseif (strtoupper($a->BillingCountry) == 'US' || strtoupper($a->BillingCountry) == 'UNITED STATES') {
+                        $account->setCountry('US');
+                    }
+                    else {
+//                        $account->setCountry($a->BillingCountry);
+                    }
+                }
+                else {
+                    $account->setCountry('US');
                 }
                 
                 // ACCOUNT ZIP
@@ -161,9 +179,8 @@ class AccountSoapService
                 $account->setSfId($id);
                 $account->setDirty(false);
                 
-                $timestamp = new \DateTime();
-                $account->setSfUpdated($timestamp);
-                $account->setUpdated($timestamp);
+                $account->setSfUpdated($a->SystemModstamp);
+                $account->setUpdated($a->SystemModstamp);
                 
                 $this->em->persist($account);
                 $this->em->flush();

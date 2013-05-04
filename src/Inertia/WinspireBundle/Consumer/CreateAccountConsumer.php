@@ -55,35 +55,219 @@ class CreateAccountConsumer implements ConsumerInterface
         // Salesforce Updates
         $account = $user->getCompany();
         if ($account->getSfId() == '') {
-            $address = $account->getAddress();
-            if ($account->getAddress2() != '') {
-                $address .= chr(10) . $account->getAddress2();
+            $createNew = true;
+//echo $this->slugify($account->getName()) . "\n";
+            $account->setNameCanonical($this->slugify($account->getName()));
+            
+            // Attempt a match with an existing SF account/contact pair
+            $contactResult = $this->sf->query('SELECT ' .
+                'Id, ' .
+                'Email, ' .
+                'SystemModstamp, ' .
+                'AccountId ' .
+                'FROM Contact ' .
+                'WHERE Email = \'' . $user->getEmailCanonical() . '\' ' .
+                'ORDER BY CreatedDate ASC'
+            );
+            
+            // If a contact record is found, check with the existing Account records
+            if (count($contactResult) > 0) {
+//echo 'We\'re matched on email' . "\n";
+                foreach ($contactResult as $sfContact) {
+                    // Check our Account table for an existing match
+                    $existingAccount = $this->em->getRepository('InertiaWinspireBundle:Account')->findOneBySfId($sfContact->AccountId);
+                    if ($existingAccount) {
+//echo 'We\'ve found an existing account, let\'s see if the names match...' . "\n";
+                        if ($account->getNameCanonical() == $existingAccount->getNameCanonical()) {
+//echo 'We\'re matched on email + account' . "\n";
+                            if (strtoupper($account->getState()) == $existingAccount->getState()) {
+//echo 'We\'re matched on email + account + state' . "\n";
+//echo 'Reassigning to existing Account' . "\n";
+                                $user->setCompany($existingAccount);
+                                $user->setSfId($sfContact->Id);
+                                $user->setDirty(false);
+                                unset($sfContact->SystemModstamp);
+                                unset($sfContact->Email);
+                                unset($sfContact->AccountId);
+                                $sfContact->FirstName = $user->getFirstName();
+                                $sfContact->LastName = $user->getLastName();
+                                $sfContact->Phone = $user->getPhone();
+                                $this->sf->update(array($sfContact), 'Contact');
+                                $timestamp = new \DateTime();
+                                $user->setSfUpdated($timestamp);
+                                $user->setUpdated($timestamp);
+                                $this->em->persist($user);
+                                $this->em->remove($account);
+                                $this->em->flush();
+                                
+                                $account = $user->getCompany();
+                                $createNew = false;
+                                break;
+                            }
+                            else {
+//echo 'No match on email + account + state' . "\n";
+                            }
+                        }
+                        else {
+//echo 'No match on email + account' . "\n";
+                        }
+                    }
+                    else {
+                        // Attempt a match with an existing SF account
+                        // (not sure why we'd find an account not in our db, but just in case...)
+                        $accountResult = $this->sf->query('SELECT ' .
+                            'Id, ' .
+                            'Name, ' .
+                            'OwnerId, ' .
+                            'BillingStreet, ' .
+                            'BillingCity, ' .
+                            'BillingState, ' .
+                            'BillingPostalCode, ' .
+                            'BillingCountry, ' .
+                            'Phone, ' .
+                            'Referred_by__c,  ' .
+                            'RecordTypeId, ' .
+                            'SystemModstamp, ' .
+                            'CreatedDate ' .
+                            'FROM Account ' .
+                            'WHERE ' .
+                            'RecordTypeId = \'' . $this->recordTypeId . '\'' .
+                            'AND Id =\'' . $sfContact->AccountId . '\''
+                        );
+                        
+                        if (count($accountResult) > 0) {
+//echo 'An account was found in SF that\'s not already in our Account table' . "\n";
+                            $sfAccount = $accountResult->first();
+                            if ($this->slugify($sfAccount->Name) == $account->getNameCanonical()) {
+                                if (strtoupper($sfAccount->BillingState) == $account->getState()) {
+//echo 'We\'ve found a matched Account that\'s not already in our Account table' . "\n";
+                                    $account->setSfId($sfAccount->Id);
+                                    $account->setCreated($a->CreatedDate);
+                                    
+                                    // ACCOUNT ADDRESS
+                                    if(isset($sfAccount->BillingStreet)) {
+                                        $address = explode(chr(10), $sfAccount->BillingStreet);
+                                        $account->setAddress($address[0]);
+                                        if (isset($address[1])) {
+                                            $account->setAddress2($address[1]);
+                                        }
+                                    }
+                                    
+                                    // ACCOUNT CITY
+                                    if(isset($sfAccount->BillingCity)) {
+                                        $account->setCity($sfAccount->BillingCity);
+                                    }
+                                    
+                                    // ACCOUNT ZIP
+                                    if(isset($sfAccount->BillingPostalCode)) {
+                                        $account->setZip($sfAccount->BillingPostalCode);
+                                    }
+                                    
+                                    // ACCOUNT PHONE
+                                    if(isset($sfAccount->Phone)) {
+                                        $account->setPhone($sfAccount->Phone);
+                                    }
+                                    
+                                    // ACCOUNT COUNTRY
+                                    if(isset($sfAccount->BillingCountry)) {
+                                        if (strtoupper($sfAccount->BillingCountry) == 'CA' || strtoupper($sfAccount->BillingCountry) == 'CANADA') {
+                                            $account->setCountry('CA');
+                                        }
+                                        elseif (strtoupper($sfAccount->BillingCountry) == 'US' || strtoupper($sfAccount->BillingCountry) == 'UNITED STATES') {
+                                            $account->setCountry('US');
+                                        }
+                                        else {
+//                                            $account->setCountry($sfAccount->BillingCountry);
+                                        }
+                                    }
+                                    else {
+                                        $account->setCountry('US');
+                                    }
+                                    
+                                    // ACCOUNT OWNER
+                                    if(isset($sfAccount->OwnerId)) {
+                                        $query = $this->em->createQuery(
+                                            'SELECT u FROM InertiaWinspireBundle:User u WHERE u.sfId = :sfid'
+                                        )
+                                        ->setParameter('sfid', $sfAccount->OwnerId)
+                                        ;
+                                        
+                                        try {
+                                            $owner = $query->getSingleResult();
+                                            $account->setSalesperson($owner);
+                                        }
+                                        catch (\Exception $e) {
+                                            $query = $this->em->createQuery(
+                                                'SELECT u FROM InertiaWinspireBundle:User u WHERE u.id = :id'
+                                            )
+                                            ->setParameter('id', 1)
+                                            ;
+                                            $owner = $query->getSingleResult();
+                                            $account->setSalesperson($owner);
+                                        }
+                                    }
+                                    
+                                    $account->setSfUpdated($sfAccount->SystemModstamp);
+                                    $account->setUpdated($sfAccount->SystemModstamp);
+                                    unset($sfContact->SystemModstamp);
+                                    unset($sfContact->Email);
+                                    unset($sfContact->AccountId);
+                                    $sfContact->FirstName = $user->getFirstName();
+                                    $sfContact->LastName = $user->getLastName();
+                                    $sfContact->Phone = $user->getPhone();
+                                    $this->sf->update(array($sfContact), 'Contact');
+                                    $timestamp = new \DateTime();
+                                    $user->setSfId($sfContact->Id);
+                                    $user->setDirty(false);
+                                    $user->setSfUpdated($timestamp);
+                                    $user->setUpdated($timestamp);
+                                    $this->em->persist($user);
+                                    $createNew = false;
+                                    break;
+                                }
+                            }
+                        }
+                        else {
+//echo 'Bad place to be... we have a Contact in SF with a bogus Account Id? OR a match to a PARTNER account' . "\n";
+                        }
+                    }
+                }
             }
             
-            $sfAccount = new \stdClass();
-            $sfAccount->Name = $account->getName();
-            $sfAccount->BillingStreet = $address;
-            $sfAccount->BillingCity = $account->getCity();
-            $sfAccount->BillingState = $account->getState();
-            $sfAccount->BillingPostalCode = $account->getZip();
-            $sfAccount->BillingCountryCode = $account->getCountry();
-            $sfAccount->BillingCountry = ($account->getCountry() == 'CA' ? 'Canada' : 'United States');
-            $sfAccount->Phone = $account->getPhone();
-            $sfAccount->Referred_by__c = $account->getReferred();
-            $sfAccount->RecordTypeId = $this->recordTypeId;
-            $sfAccount->OwnerId = $account->getSalesperson()->getSfId();
-            
-            $saveResult = $this->sf->create(array($sfAccount), 'Account');
-            
-            if($saveResult[0]->success) {
-                $timestamp = new \DateTime();
-                $account->setSfId($saveResult[0]->id);
-                $account->setDirty(false);
-                $account->setSfUpdated($timestamp);
-                $account->setUpdated($timestamp);
-                $this->em->persist($account);
-                $this->em->flush();
+            if ($createNew) {
+//echo 'No matching Account found, so we\'re creating a new one...' . "\n";
+                $address = $account->getAddress();
+                if ($account->getAddress2() != '') {
+                    $address .= chr(10) . $account->getAddress2();
+                }
+                
+                $sfAccount = new \stdClass();
+                $sfAccount->Name = $account->getName();
+                $sfAccount->BillingStreet = $address;
+                $sfAccount->BillingCity = $account->getCity();
+                $sfAccount->BillingState = $account->getState();
+                $sfAccount->BillingPostalCode = $account->getZip();
+                $sfAccount->BillingCountryCode = $account->getCountry();
+                $sfAccount->BillingCountry = ($account->getCountry() == 'CA' ? 'Canada' : 'United States');
+                $sfAccount->Phone = $account->getPhone();
+                $sfAccount->Referred_by__c = $account->getReferred();
+                $sfAccount->RecordTypeId = $this->recordTypeId;
+                $sfAccount->OwnerId = $account->getSalesperson()->getSfId();
+                
+                $saveResult = $this->sf->create(array($sfAccount), 'Account');
+                
+                if($saveResult[0]->success) {
+                    $timestamp = new \DateTime();
+                    $account->setSfId($saveResult[0]->id);
+                    $account->setSfUpdated($timestamp);
+                    $account->setUpdated($timestamp);
+                    $account->setCreated($timestamp);
+                }
             }
+            
+            $account->setDirty(false);
+            $this->em->persist($account);
+            $this->em->flush();
         }
         
         if ($user->getSfId() == '' && $account->getSfId() != '') {
@@ -109,7 +293,7 @@ class CreateAccountConsumer implements ConsumerInterface
             }
         }
         
-        if ($suitcase->getSfId() == '' && $account->getSfId() != '') {
+        if ($suitcase->getSfId() == '' && $user->getSfId() != '') {
             $sfOpportunity = new \stdClass();
             $sfOpportunity->CloseDate = new \DateTime('+60 days');
             $sfOpportunity->Name = $suitcase->getName();
@@ -193,5 +377,18 @@ class CreateAccountConsumer implements ConsumerInterface
         
         
         return true;
+    }
+    
+    protected function remove_accent($str)
+    {
+        $a = array('À', 'Á', 'Â', 'Ã', 'Ä', 'Å', 'Æ', 'Ç', 'È', 'É', 'Ê', 'Ë', 'Ì', 'Í', 'Î', 'Ï', 'Ð', 'Ñ', 'Ò', 'Ó', 'Ô', 'Õ', 'Ö', 'Ø', 'Ù', 'Ú', 'Û', 'Ü', 'Ý', 'ß', 'à', 'á', 'â', 'ã', 'ä', 'å', 'æ', 'ç', 'è', 'é', 'ê', 'ë', 'ì', 'í', 'î', 'ï', 'ñ', 'ò', 'ó', 'ô', 'õ', 'ö', 'ø', 'ù', 'ú', 'û', 'ü', 'ý', 'ÿ', 'Ā', 'ā', 'Ă', 'ă', 'Ą', 'ą', 'Ć', 'ć', 'Ĉ', 'ĉ', 'Ċ', 'ċ', 'Č', 'č', 'Ď', 'ď', 'Đ', 'đ', 'Ē', 'ē', 'Ĕ', 'ĕ', 'Ė', 'ė', 'Ę', 'ę', 'Ě', 'ě', 'Ĝ', 'ĝ', 'Ğ', 'ğ', 'Ġ', 'ġ', 'Ģ', 'ģ', 'Ĥ', 'ĥ', 'Ħ', 'ħ', 'Ĩ', 'ĩ', 'Ī', 'ī', 'Ĭ', 'ĭ', 'Į', 'į', 'İ', 'ı', 'Ĳ', 'ĳ', 'Ĵ', 'ĵ', 'Ķ', 'ķ', 'Ĺ', 'ĺ', 'Ļ', 'ļ', 'Ľ', 'ľ', 'Ŀ', 'ŀ', 'Ł', 'ł', 'Ń', 'ń', 'Ņ', 'ņ', 'Ň', 'ň', 'ŉ', 'Ō', 'ō', 'Ŏ', 'ŏ', 'Ő', 'ő', 'Œ', 'œ', 'Ŕ', 'ŕ', 'Ŗ', 'ŗ', 'Ř', 'ř', 'Ś', 'ś', 'Ŝ', 'ŝ', 'Ş', 'ş', 'Š', 'š', 'Ţ', 'ţ', 'Ť', 'ť', 'Ŧ', 'ŧ', 'Ũ', 'ũ', 'Ū', 'ū', 'Ŭ', 'ŭ', 'Ů', 'ů', 'Ű', 'ű', 'Ų', 'ų', 'Ŵ', 'ŵ', 'Ŷ', 'ŷ', 'Ÿ', 'Ź', 'ź', 'Ż', 'ż', 'Ž', 'ž', 'ſ', 'ƒ', 'Ơ', 'ơ', 'Ư', 'ư', 'Ǎ', 'ǎ', 'Ǐ', 'ǐ', 'Ǒ', 'ǒ', 'Ǔ', 'ǔ', 'Ǖ', 'ǖ', 'Ǘ', 'ǘ', 'Ǚ', 'ǚ', 'Ǜ', 'ǜ', 'Ǻ', 'ǻ', 'Ǽ', 'ǽ', 'Ǿ', 'ǿ');
+        $b = array('A', 'A', 'A', 'A', 'A', 'A', 'AE', 'C', 'E', 'E', 'E', 'E', 'I', 'I', 'I', 'I', 'D', 'N', 'O', 'O', 'O', 'O', 'O', 'O', 'U', 'U', 'U', 'U', 'Y', 's', 'a', 'a', 'a', 'a', 'a', 'a', 'ae', 'c', 'e', 'e', 'e', 'e', 'i', 'i', 'i', 'i', 'n', 'o', 'o', 'o', 'o', 'o', 'o', 'u', 'u', 'u', 'u', 'y', 'y', 'A', 'a', 'A', 'a', 'A', 'a', 'C', 'c', 'C', 'c', 'C', 'c', 'C', 'c', 'D', 'd', 'D', 'd', 'E', 'e', 'E', 'e', 'E', 'e', 'E', 'e', 'E', 'e', 'G', 'g', 'G', 'g', 'G', 'g', 'G', 'g', 'H', 'h', 'H', 'h', 'I', 'i', 'I', 'i', 'I', 'i', 'I', 'i', 'I', 'i', 'IJ', 'ij', 'J', 'j', 'K', 'k', 'L', 'l', 'L', 'l', 'L', 'l', 'L', 'l', 'l', 'l', 'N', 'n', 'N', 'n', 'N', 'n', 'n', 'O', 'o', 'O', 'o', 'O', 'o', 'OE', 'oe', 'R', 'r', 'R', 'r', 'R', 'r', 'S', 's', 'S', 's', 'S', 's', 'S', 's', 'T', 't', 'T', 't', 'T', 't', 'U', 'u', 'U', 'u', 'U', 'u', 'U', 'u', 'U', 'u', 'U', 'u', 'W', 'w', 'Y', 'y', 'Y', 'Z', 'z', 'Z', 'z', 'Z', 'z', 's', 'f', 'O', 'o', 'U', 'u', 'A', 'a', 'I', 'i', 'O', 'o', 'U', 'u', 'U', 'u', 'U', 'u', 'U', 'u', 'U', 'u', 'A', 'a', 'AE', 'ae', 'O', 'o');
+        return str_replace($a, $b, $str);
+    }
+    
+    protected function slugify($input)
+    {
+        return strtolower(preg_replace(array('/[^a-zA-Z0-9 -]/', '/[ -]+/', '/^-|-$/'),
+            array('', '-', ''), $this->remove_accent($input)));
     }
 }
