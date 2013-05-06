@@ -22,6 +22,11 @@ class SuitcaseController extends Controller
         $em = $this->getDoctrine()->getManager();
         
         $suitcase = $this->getSuitcase();
+        if(!$suitcase) {
+            return $response->setData(array(
+                'count' => 0
+            ));
+        }
         
         $query = $em->createQuery(
             'SELECT i FROM InertiaWinspireBundle:SuitcaseItem i WHERE i.suitcase = :suitcase_id AND i.package = :package_id AND i.status != \'X\''
@@ -346,6 +351,12 @@ class SuitcaseController extends Controller
         $em = $this->getDoctrine()->getManager();
         
         $suitcase = $this->getSuitcase();
+        if(!$suitcase) {
+            return $response->setData(array(
+                'count' => 0
+            ));
+        }
+        
         $items = $suitcase->getItems();
         $deleted = false;
         foreach($items as $item) {
