@@ -772,6 +772,7 @@ if(($sfAccount->SystemModstamp > $account->getSfUpdated()) && !$account->getDirt
                 
             case 'contacts':
                 // Phase 1:  Push all "dirty" records in our Contact table
+                $output->writeln('<info>Phase 1: Push all "dirty" records in our Contact table</info>');
                 $query = $em->createQuery(
                     'SELECT u, a FROM InertiaWinspireBundle:User u JOIN u.company a WITH a.sfId IS NOT NULL AND a.sfId NOT IN (:blah) WHERE u.dirty = 1'
                 );
@@ -795,6 +796,8 @@ if(($sfAccount->SystemModstamp > $account->getSfUpdated()) && !$account->getDirt
                     $sfContact->OwnerId = $contact->getCompany()->getSalesperson()->getSfId();
                     $sfContact->Default_contact__c = 1;
                     
+                    $output->writeln('<info>Pushing ' . $contact->getSfId() == '' ? $contact->getId() : $contact->getSfId() . ' to SF</info>');
+                    
                     if ($new) {
                         $saveResult = $client->create(array($sfContact), 'Contact');
                     }
@@ -817,6 +820,7 @@ if(($sfAccount->SystemModstamp > $account->getSfUpdated()) && !$account->getDirt
                 
                 
                 // Phase 2:  Attempt to locate deleted (and changed) Contacts
+                $output->writeln('<info>Phase 2: Attempt to locate deleted (and changed) Contacts</info>');
                 $query = $em->createQuery(
                     'SELECT u FROM InertiaWinspireBundle:User u WHERE u.sfId IS NOT NULL AND u.sfId NOT IN (:blah) AND u.type = \'C\''
                 );
