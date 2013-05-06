@@ -72,6 +72,8 @@ class AccountSoapService
             }
             
             
+            $a = $accountResult->first();
+            
             // Test whether this package is already in our database
             $account = $this->em->getRepository('InertiaWinspireBundle:Account')->findOneBySfId($id);
             
@@ -87,9 +89,6 @@ class AccountSoapService
                 $this->logger->info('Existing account (' . $id . ') to be updated');
                 $new = false;
             }
-            
-            
-            $a = $accountResult->first();
             
             if ($new || (($a->SystemModstamp > $account->getSfUpdated())) && !$account->getDirty()) {
                 // ACCOUNT NAME
