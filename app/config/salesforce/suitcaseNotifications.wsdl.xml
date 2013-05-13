@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- 
 Salesforce.com Outbound Notification Web Services API Version 1.0 
-Generated on 2013-04-18 02:47:44 +0000.
+Generated on 2013-05-13 23:21:07 +0000.
 
 Copyright 2005-2013 Salesforce.com, Inc.
 All Rights Reserved
@@ -130,7 +130,7 @@ All Rights Reserved
     <service name="NotificationService">
         <documentation>Notification Service Implementation</documentation>
         <port binding="tns:NotificationBinding" name="Notification">
-            <soap:address location="http://winspire.inertia.im/soap/suitcase"/>
+            <soap:address location="http://winspireme.com/soap/suitcase"/>
         </port>
     </service>
     
