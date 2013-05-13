@@ -16,7 +16,7 @@ framework:
     default_locale:  "%locale%"
     trust_proxy_headers: false # Whether or not the Request object should trust proxy headers (X_FORWARDED_FOR/HTTP_CLIENT_IP)
     session:
-        name: winspire
+        name: "%session_name%"
 
 # Twig Configuration
 twig:
@@ -64,17 +64,17 @@ doctrine:
 
 # Swiftmailer Configuration
 swiftmailer:
-    transport:  sendmail
+    transport:  "%mailer_transport%"
     host:       "%mailer_host%"
     username:   "%mailer_user%"
     password:   "%mailer_password%"
-#    spool:      { type: memory }
+    encryption: "%mailer_encryption%"
     logging:    true
 
 
 mz_mail_chimp:
-    api_key: ba4f761b3989ac0aac392d54430fa307-us2
-    default_list: '52e0574410'
+    api_key: "%mailchimp_key%"
+    default_list: "%mailchimp_list%"
     ssl: true
 
 
@@ -85,7 +85,7 @@ sphinxsearch:
         host:   localhost
         port:   9312
     indexer:
-        bin:    /usr/bin/indexer
+        bin:    "%sphinx_indexer%"
 
 
 fos_user:
@@ -108,11 +108,11 @@ stof_doctrine_extensions:
             tree: true
 
 ddeboer_salesforce_client:
-    username: confirmation@winspireme.com
-    password: bx1DN
-    token: JiUNxFoGa9kTQCuinAwd3OM6a
-    wsdl: "%kernel.root_dir%/config/enterprise.wsdl.xml"
-    logging: false
+    username: "%sf_username%"
+    password: "%sf_password%"
+    token:    "%sf_token%"
+    wsdl:     "%kernel.root_dir%/config/salesforce/enterprise.wsdl.xml"
+    logging:  false
 
 # not sure why this is necessary
 be_simple_soap:
@@ -183,9 +183,9 @@ old_sound_rabbit_mq:
         default:
             host:      localhost
             port:      5672
-            user:      winspire
-            password:  qubaouew1024
-            vhost:     /
+            user:      "%rabbitmq_username%"
+            password:  "%rabbitmq_password%"
+            vhost:     "%rabbitmq_vhost%"
     producers:
         winspire:
             connection: default
