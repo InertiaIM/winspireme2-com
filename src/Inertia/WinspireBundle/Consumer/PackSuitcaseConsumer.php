@@ -25,10 +25,13 @@ class PackSuitcaseConsumer implements ConsumerInterface
         $this->sf = $salesforce;
         
         $this->mailer->getTransport()->stop();
+        $this->em->getConnection()->close();
     }
     
     public function execute(AMQPMessage $msg)
     {
+        $this->em->getConnection()->connect();
+        
         $body = unserialize($msg->body);
         $suitcaseId = $body['suitcase_id'];
         $first = $body['first'];
@@ -301,6 +304,7 @@ class PackSuitcaseConsumer implements ConsumerInterface
         }
         
         $this->mailer->getTransport()->stop();
+        $this->em->getConnection()->close();
         
         return true;
     }
