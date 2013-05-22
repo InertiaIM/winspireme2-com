@@ -965,6 +965,7 @@ if(($sfAccount->SystemModstamp > $account->getSfUpdated()) && !$account->getDirt
                     $sfOpportunity->Type = 'Web Suitcase';
                     $sfOpportunity->Partner_Class__c = $this->partnerRecordId;
                     $sfOpportunity->Item_Use__c = 'Silent Auction';
+                    $sfOpportunity->OwnerId = $suitcase->getUser()->getCompany()->getSalesperson()->getSfId();
                     
                     if ($new) {
                         $output->writeln('<info>Gonna create: ' . $suitcase->getId() . '</info>');

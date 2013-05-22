@@ -317,6 +317,7 @@ class CreateAccountConsumer implements ConsumerInterface
             $sfOpportunity->Type = 'Web Suitcase';
             $sfOpportunity->Partner_Class__c = $this->partnerRecordId;
             $sfOpportunity->Item_Use__c = 'Silent Auction';
+            $sfOpportunity->OwnerId = $account->getSalesperson()->getSfId();
             
             $saveResult = $this->sf->create(array($sfOpportunity), 'Opportunity');
             
