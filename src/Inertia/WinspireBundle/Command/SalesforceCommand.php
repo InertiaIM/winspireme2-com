@@ -570,7 +570,7 @@ class SalesforceCommand extends ContainerAwareCommand
                 $query = $em->createQuery(
                     'SELECT a FROM InertiaWinspireBundle:Account a WHERE a.sfId IS NOT NULL AND a.sfId NOT IN (:blah)'
                 );
-                $query->setParameter('blah', array('TEST', 'PARTNER', 'CANADA'));
+                $query->setParameter('blah', array('TEST', 'PARTNER'));
                 $accounts = $query->getResult();
                 $count = 0;
                 $ids = array();
@@ -776,7 +776,7 @@ if(($sfAccount->SystemModstamp > $account->getSfUpdated()) && !$account->getDirt
                 $query = $em->createQuery(
                     'SELECT u, a FROM InertiaWinspireBundle:User u JOIN u.company a WITH a.sfId IS NOT NULL AND a.sfId NOT IN (:blah) WHERE u.dirty = 1'
                 );
-                $query->setParameter('blah', array('TEST', 'CANADA', 'PARTNER'));
+                $query->setParameter('blah', array('TEST', 'PARTNER'));
                 $contacts = $query->getResult();
                 
                 foreach ($contacts as $contact) {
@@ -824,7 +824,7 @@ if(($sfAccount->SystemModstamp > $account->getSfUpdated()) && !$account->getDirt
                 $query = $em->createQuery(
                     'SELECT u FROM InertiaWinspireBundle:User u WHERE u.sfId IS NOT NULL AND u.sfId NOT IN (:blah) AND u.type = \'C\''
                 );
-                $query->setParameter('blah', array('TEST', 'PARTNER', 'CANADA'));
+                $query->setParameter('blah', array('TEST', 'PARTNER'));
                 $contacts = $query->getResult();
                 $count = 0;
                 $ids = array();
@@ -924,7 +924,7 @@ if(($sfAccount->SystemModstamp > $account->getSfUpdated()) && !$account->getDirt
                 $query = $em->createQuery(
                     'SELECT a, u, s FROM InertiaWinspireBundle:Suitcase s JOIN s.user u WITH u.sfId IS NOT NULL JOIN u.company a WITH a.sfId NOT IN (:blah) WHERE s.dirty = 1'
                 );
-                $query->setParameter('blah', array('TEST', 'CANADA', 'PARTNER'));
+                $query->setParameter('blah', array('TEST', 'PARTNER'));
                 $suitcases = $query->getResult();
                 
                 foreach ($suitcases as $suitcase) {
@@ -993,7 +993,7 @@ if(($sfAccount->SystemModstamp > $account->getSfUpdated()) && !$account->getDirt
                 $query = $em->createQuery(
                     'SELECT a, u, s FROM InertiaWinspireBundle:Suitcase s JOIN s.user u WITH u.sfId IS NOT NULL JOIN u.company a WITH a.sfId NOT IN (:blah) AND a.sfId IS NOT NULL WHERE s.dirty = 0'
                 );
-                $query->setParameter('blah', array('TEST', 'PARTNER', 'CANADA'));
+                $query->setParameter('blah', array('TEST', 'PARTNER'));
                 $suitcases = $query->getResult();
                 $count = 0;
                 $ids = array();
