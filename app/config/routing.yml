@@ -127,6 +127,10 @@ soap_account:
     pattern:  /soap/account
     defaults: { _controller: InertiaWinspireBundle:Soap:account }
     
+soap_booking:
+    pattern:  /soap/booking
+    defaults: { _controller: InertiaWinspireBundle:Soap:booking }
+    
 soap_contact:
     pattern:  /soap/contact
     defaults: { _controller: InertiaWinspireBundle:Soap:contact }

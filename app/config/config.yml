@@ -177,6 +177,10 @@ services:
     share_suitcase_service:
         class: Inertia\WinspireBundle\Consumer\ShareSuitcaseConsumer
         arguments: [@doctrine.orm.entity_manager, @mailer, @templating]
+        
+    winspire.soap.booking_service:
+        class: Inertia\WinspireBundle\Services\BookingSoapService
+        arguments: [@ddeboer_salesforce_client, @doctrine.orm.entity_manager, @logger]
 
 old_sound_rabbit_mq:
     connections:
