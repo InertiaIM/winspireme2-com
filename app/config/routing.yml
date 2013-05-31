@@ -135,6 +135,10 @@ soap_contact:
     pattern:  /soap/contact
     defaults: { _controller: InertiaWinspireBundle:Soap:contact }
     
+soap_invoice:
+    pattern:  /soap/invoice
+    defaults: { _controller: InertiaWinspireBundle:Soap:invoice }
+    
 soap_package:
     pattern:  /soap/package
     defaults: { _controller: InertiaWinspireBundle:Soap:package }

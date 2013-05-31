@@ -111,7 +111,7 @@ ddeboer_salesforce_client:
     username: "%sf_username%"
     password: "%sf_password%"
     token:    "%sf_token%"
-    wsdl:     "%kernel.root_dir%/config/salesforce/enterprise.wsdl.xml"
+    wsdl:     "%kernel.root_dir%/config/salesforce/%sf_wsdl%"
     logging:  false
 
 # not sure why this is necessary
@@ -181,6 +181,10 @@ services:
     winspire.soap.booking_service:
         class: Inertia\WinspireBundle\Services\BookingSoapService
         arguments: [@ddeboer_salesforce_client, @doctrine.orm.entity_manager, @logger]
+        
+    winspire.rest.invoice_service:
+        class: Inertia\WinspireBundle\Services\InvoiceRestService
+        arguments: [@ddeboer_salesforce_client, @doctrine.orm.entity_manager, @logger,  @mailer, @templating]
 
 old_sound_rabbit_mq:
     connections:

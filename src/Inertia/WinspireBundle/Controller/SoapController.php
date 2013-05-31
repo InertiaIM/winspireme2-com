@@ -51,6 +51,21 @@ class SoapController extends Controller
         return $response;
     }
     
+    public function invoiceAction()
+    {
+        // Not an actual SOAP service, but this seems like the best place to keep
+        // another action for a SF web service callout.
+        
+        $server = $this->get('winspire.rest.invoice_service');
+        
+        $response = new Response();
+//        $response->headers->set('Content-Type', 'text/xml; charset=ISO-8859-1');
+        
+        $result = $server->handle($this->getRequest());
+        
+        return $response;
+    }
+    
     public function packageAction()
     {
         $server = new \SoapServer(__DIR__ . '/../../../../app/config/packageNotifications.wsdl.xml');
