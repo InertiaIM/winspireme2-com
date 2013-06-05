@@ -126,7 +126,7 @@ class SuitcaseManager
                 $item->setStatus('X');
                 $suitcase->setUpdated(new \DateTime());
                 
-                if($suitcase->getPacked()) {
+                if($suitcase->getStatus() == 'P') {
                     // reopen suitcase and trigger reminder message
                     $suitcase->setStatus('U');
                     $suitcase->setDirty(true);

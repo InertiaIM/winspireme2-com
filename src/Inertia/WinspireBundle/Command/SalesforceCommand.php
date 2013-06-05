@@ -938,7 +938,7 @@ if(($sfAccount->SystemModstamp > $account->getSfUpdated()) && !$account->getDirt
                         $new = false;
                     }
                     
-                    if ($suitcase->getPacked()) {
+                    if ($suitcase->getStatus() != 'U') {
                         $sfOpportunity->Website_suitcase_status__c = 'Packed';
                     }
                     else {
@@ -1019,7 +1019,7 @@ if(($sfAccount->SystemModstamp > $account->getSfUpdated()) && !$account->getDirt
                                         $output->writeln('<info>    Event Name: ' . $value->Event_Name__c . '</info>');
                                         $suitcases[$key]->setEventName($value->Event_Name__c);
                                     }
-                                    if(isset($value->Event_Date__c) && $suitcases[$key]->getPacked()) {
+                                    if(isset($value->Event_Date__c)) {
                                         $output->writeln('<info>    Event Date: ' . $value->Event_Date__c->format('Ymd') . '</info>');
                                         $suitcases[$key]->setEventDate($value->Event_Date__c);
                                     }
@@ -1057,7 +1057,7 @@ if(($sfAccount->SystemModstamp > $account->getSfUpdated()) && !$account->getDirt
                                 $output->writeln('<info>    Event Name: ' . $value->Event_Name__c . '</info>');
                                 $suitcases[$key]->setEventName($value->Event_Name__c);
                             }
-                            if(isset($value->Event_Date__c) && $suitcases[$key]->getPacked()) {
+                            if(isset($value->Event_Date__c)) {
                                 $output->writeln('<info>    Event Date: ' . $value->Event_Date__c->format('Ymd') . '</info>');
                                 $suitcases[$key]->setEventDate($value->Event_Date__c);
                             }

@@ -89,7 +89,7 @@ class SuitcaseSoapService
                     $suitcase->setEventName($sfOpp->Event_Name__c);
                 }
                 
-                if(isset($sfOpp->Event_Date__c) && $suitcase->getPacked()) {
+                if(isset($sfOpp->Event_Date__c)) {
                     $suitcase->setEventDate($sfOpp->Event_Date__c);
                 }
                 

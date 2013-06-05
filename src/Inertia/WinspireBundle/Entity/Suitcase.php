@@ -28,11 +28,6 @@ class Suitcase
     private $status;
     
     /**
-     * @ORM\Column(name="packed", type="boolean")
-     */
-    private $packed;
-    
-    /**
      * @ORM\Column(name="event_name", type="string", length=255, nullable=true)
      */
     private $eventName;
@@ -360,29 +355,6 @@ class Suitcase
     public function getItems()
     {
         return $this->items;
-    }
-
-    /**
-     * Set packed
-     *
-     * @param boolean $packed
-     * @return Suitcase
-     */
-    public function setPacked($packed)
-    {
-        $this->packed = $packed;
-    
-        return $this;
-    }
-
-    /**
-     * Get packed
-     *
-     * @return boolean 
-     */
-    public function getPacked()
-    {
-        return $this->packed;
     }
 
     /**

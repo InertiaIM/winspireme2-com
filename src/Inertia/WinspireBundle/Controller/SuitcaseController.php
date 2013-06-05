@@ -178,7 +178,6 @@ class SuitcaseController extends Controller
                 
                 $suitcase = new Suitcase();
                 $suitcase->setStatus('U');
-                $suitcase->setPacked(false);
                 $suitcase->setDirty(true);
                 $suitcase->setName($form->get('name')->getData());
                 $suitcase->setEventName(substr($form->get('name')->getData(), 0, 40));
@@ -650,7 +649,6 @@ class SuitcaseController extends Controller
                 $eventDate = new \DateTime($form->get('event_date')->getData());
                 $suitcase->setEventName($form->get('event_name')->getData());
                 $suitcase->setEventDate($eventDate);
-//                $suitcase->setPacked(true);
                 $suitcase->setStatus('P');
                 $suitcase->setPackedAt(new \DateTime());
                 $suitcase->setDirty(true);
@@ -1147,7 +1145,7 @@ class SuitcaseController extends Controller
             return $response->setData(array(
                 'count' => count($suitcase->getItems()),
                 'items' => $items,
-                'locked' => $suitcase->getPacked(),
+                'locked' => $suitcase->getStatus() != 'U',
                 'suitcase' => array(
                     'id' => $suitcase->getId(),
                     'name' => $suitcase->getName()

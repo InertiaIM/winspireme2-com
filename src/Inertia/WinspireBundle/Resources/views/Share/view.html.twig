@@ -9,7 +9,7 @@
     <div id="sc-header">
         <div class="c-wrap">
             <div>
-                <h1><span class="icon-suitcase-{% if suitcase.packed %}locked{% else %}2{% endif %}"></span> <em>my</em> Suitcase</h1>
+                <h1><span class="icon-suitcase-{% if suitcase.status != 'U' %}locked{% else %}2{% endif %}"></span> <em>my</em> Suitcase</h1>
                 <p>Welcome to the <strong>{{ suitcase.eventName }}</strong> Suitcase created by <strong>{{ user.firstName }} {{ user.lastName }}</strong>! Please review my choices and provide comments below.
                 <p>Note: You won’t be able to make any changes to <strong><em>my</em>Suitcase</strong>.</p>
             </div>
@@ -18,12 +18,12 @@
     <div id="sc-area" class="suitcase">
         <div class="c-wrap shadow-wrapper">
             <div class="header drop-shadow curved curved-hz-1">
-                <ul class="key unpacked"{% if suitcase.packed %} style="display:none;"{% endif %}>
+                <ul class="key unpacked"{% if suitcase.status != 'U' %} style="display:none;"{% endif %}>
                     <li><span class="definitely">{{ counts['D'] + counts['E'] }}</span> Definitely</li>
                     <li><span class="maybe">{{ counts['M'] }}</span> Maybe</li>
                     <li><span class="recommended">{{ counts['R'] }}</span> Blah Recommends</li>
                 </ul>
-                <ul class="key packed"{% if not suitcase.packed %} style="display:none;"{% endif %}>
+                <ul class="key packed"{% if suitcase.status == 'U' %} style="display:none;"{% endif %}>
                     <li>There are <strong><span class="suitcase-count">{{ suitcase.items | length }} items</span></strong> in the Suitcase.</li>
                 </ul>
                 <ul class="social">
@@ -74,7 +74,7 @@
                                         <div class="item-close"><span class="icon-minus"></span></div>
                                     </div>
                                 </div>
-                                <a data-id="{{ item.package.id }}" data-status="{{ item.status }}" class="flag{% if is_granted('ROLE_USER') and not suitcase.packed %} active{% endif %} {% if item.status == 'M' %}maybe{% endif %}{% if item.status == 'D' or item.status == 'E' %}definitely{% endif %}{% if item.status == 'R' %}recommended{% endif %}" href="#"></a>
+                                <a data-id="{{ item.package.id }}" data-status="{{ item.status }}" class="flag{% if is_granted('ROLE_USER') and suitcase.status != 'U' %} active{% endif %} {% if item.status == 'M' %}maybe{% endif %}{% if item.status == 'D' or item.status == 'E' %}definitely{% endif %}{% if item.status == 'R' %}recommended{% endif %}" href="#"></a>
                             </li>
 {%     if (total < suitcase.items | length) and (count % 6 == 0) %}
                         </ul>
