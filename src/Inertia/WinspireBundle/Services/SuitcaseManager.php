@@ -277,6 +277,59 @@ class SuitcaseManager
     }
     
     
+    public function requestInvoice($qtys)
+    {
+        $ids = array_keys($qtys);
+        
+        $qb = $this->em->createQueryBuilder();
+        $qb->select(array('s', 'i', 'p'));
+        $qb->from('InertiaWinspireBundle:SuitcaseItem', 'i');
+        $qb->join('i.suitcase', 's');
+        $qb->join('i.package', 'p');
+        $qb->where('i.status != \'X\'');
+        $qb->andWhere($qb->expr()->in('i.id', ':ids'));
+        $qb->setParameter('ids', $ids);
+        
+        if (!$this->sc->isGranted('ROLE_ADMIN')) {
+            $qb->andWhere('s.user = :user');
+            $qb->setParameter('user', $this->suitcaseUser);
+        }
+        
+        $items = $qb->getQuery()->getResult();
+        foreach ($items as $item) {
+            if (isset($qtys[$item->getId()])) {
+                $item->setQuantity($qtys[$item->getId()]);
+                $item->setCost($item->getPackage()->getCost());
+                $item->setSubtotal($item->getQuantity() * $item->getCost());
+                $this->em->persist($item);
+                
+                for ($i=0; $i<$item->getQuantity(); $i++) {
+                    $booking = new Booking();
+                    $item->addBooking($booking);
+                    $this->em->persist($booking);
+                }
+            }
+        }
+        
+        if (count($items) > 0) {
+            $suitcase = $items[0]->getSuitcase();
+            $suitcase->setStatus('R');
+            $suitcase->setDirty(true);
+            $suitcase->setInvoiceRequestedAt(new \DateTime());
+            $this->em->persist($suitcase);
+            $this->em->flush();
+            
+            $msg = array('suitcase_id' => $suitcase->getId());
+            $this->producer->publish(serialize($msg), 'invoice-request');
+            
+            return $suitcase;
+        }
+        else {
+            return false;
+        }
+    }
+    
+    
     public function updateSuitcaseQty($id, $qty)
     {
         $qb = $this->em->createQueryBuilder();

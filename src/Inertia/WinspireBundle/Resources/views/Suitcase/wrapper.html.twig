@@ -1,0 +1,90 @@
+{% extends "InertiaWinspireBundle::layout.html.twig" %}
+
+{% block title %}Winspire | My Suitcase{% endblock %}
+
+{% block content_header '' %}
+
+{% block content %}
+<div id="con-sc">
+    <div id="sc-header">
+        <div class="c-wrap">
+            <div class="col">
+                <div class="packed">
+                    <h1><span class="icon-suitcase-locked"></span> <em>my</em> Suitcase</h1>
+                    <form data-style="html" data-id="{{ suitcase.id }}" method="get" action="{{ path('suitcaseSwitch') }}" class="suitcase-switcher">
+                        <select name="sid">
+                            <option value="new">Create New Suitcase</option>
+{% for s in suitcaseList %}
+                            <option{% if s.id == suitcase.id %} selected="selected"{% endif %} value="{{ s.id }}">{{ s.name | truncate(30) }}</option>
+{% endfor %}
+                        </select>
+                    </form>
+                    <div class="top">
+{{ include('InertiaWinspireBundle:Suitcase:/' ~ templatePath ~ '/top.html.twig', {'suitcase': suitcase}) }}
+                    </div>
+                </div>
+            </div>
+            <div class="help">
+                <h2>Need Help?</h2>
+                <p>Contact Your Experience Expert<br/>
+                {{ suitcase.user.company.salesperson.firstName }} {{ suitcase.user.company.salesperson.lastName }}<br/>
+                {{ suitcase.user.company.salesperson.phone }}<br/>
+                <a href="mailto:{{ suitcase.user.company.salesperson.email }}" target="_blank">{{ suitcase.user.company.salesperson.email }}</a></p>
+            </div>
+        </div>
+    </div>
+    <div id="sc-area" class="request-invoice">
+        <div class="c-wrap shadow-wrapper">
+            <div class="header drop-shadow curved curved-hz-1">
+{{ include('InertiaWinspireBundle:Suitcase:/' ~ templatePath ~ '/header.html.twig', {'suitcase': suitcase}) }}
+            </div>
+            <div class="content">
+{{ include('InertiaWinspireBundle:Suitcase:/' ~ templatePath ~ '/content.html.twig', {'suitcase': suitcase}) }}
+            </div>
+            <div class="footer drop-shadow curved curved-hz-bottom">
+{{ include('InertiaWinspireBundle:Suitcase:/' ~ templatePath ~ '/footer.html.twig', {'suitcase': suitcase}) }}
+            </div>
+        </div>
+    </div>
+    
+    <div id="comment-area">
+        <div class="c-wrap shadow-wrapper">
+            <div class="header drop-shadow curved curved-hz-1">
+                <h3>Comments</h3>
+                <ul class="social">
+                    <li class="comments"><a href="#"><span class="icon icon-comment"></span><span class="comment-count">{{ suitcase.comments | length }}</span> Comments</a></li>
+                </ul>
+            </div>
+            <div class="content">
+                <div class="commentary">
+{% for comment in suitcase.comments %}
+                    <div class="comment">
+                        <p><strong>{{ comment.name }}</strong> <span class="timestamp">{{ comment.created | date('M j, Y, g:i a') }}</span></p>
+                        <p>{{ comment.message | nl2br }}</p>
+                        <hr/>
+                    </div>
+{% endfor %}
+                </div>
+                <form id="comment-form" action={{ path('shareComment', {'id': suitcase.id}) }} method="post">
+                    <textarea name="message" placeholder="Share your comments with everyone that is invited to this Suitcase."></textarea>
+                    <button type="submit">Add Comment</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div id="error-modal" style="display:none;">
+    <h3><span class="icon icon-warning"></span>Please update all quantities.</h3>
+    <h4>Tip: If you did not sell any of a particular item, please enter “0” for the quantity.</h4>
+</div>
+
+<div id="thanks-modal" style="display:none;">
+    <h3>Thank you for requesting your invoice!</h3>
+    <h4>You’re final invoice will be emailed to you within one business day.</h4>
+    <p>If you have any questions, please do not hesitate to <a href="mailto:sales@winspireme.com" target="_blank">email us</a> or<br/>
+    contact us by phone at (877) 544-8555.</p>
+    <button>Add Your Winning Bidder Info</button>
+</div>
+{% endblock %}

@@ -87,6 +87,10 @@ suitcasePreview:
     pattern:  /suitcase/preview
     defaults: { _controller: InertiaWinspireBundle:Suitcase:preview }
     
+suitcaseRequestInvoice:
+    pattern:  /suitcase/request-invoice
+    defaults: { _controller: InertiaWinspireBundle:Suitcase:requestInvoice }
+    
 suitcaseShare:
     pattern:  /suitcase/share
     defaults: { _controller: InertiaWinspireBundle:Suitcase:share }
@@ -98,6 +102,10 @@ suitcaseShareAgain:
 suitcaseSwitch:
     pattern:  /suitcase/switch
     defaults: { _controller: InertiaWinspireBundle:Suitcase:switch }
+    
+suitcaseUpdateQty:
+    pattern:  /suitcase/update-qty/{id}
+    defaults: { _controller: InertiaWinspireBundle:Suitcase:updateQty }
     
 shareComment:
     pattern:  /comment/{id}/{token}

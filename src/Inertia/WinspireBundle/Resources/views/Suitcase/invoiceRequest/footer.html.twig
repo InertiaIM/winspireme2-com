@@ -1,0 +1,16 @@
+                <div class="packed">
+                    <div class="message1">
+                        <span class="icon icon-warning"></span>
+                        <h4 class="warning">Clicking this button will generate your final invoice.
+                        <br/>Make sure all quantities are correct!</h4>
+                        <h5>Sell an item not in this list?</h5>
+                        <p>Simply <a href="{{ path('packageList') }}">add the items</a> to your cart and they will appear here.</p>
+                    </div>
+                    <div class="message2">
+                        <p>Total Amount Due</p>
+                        <p class="total" id="invoice-total">$<span>{{ total | number_format }}</span></p>
+                        <form action="{{ path('suitcaseRequestInvoice') }}" method="post">
+                            <button id="invoice">Send Invoice</button>
+                        </form>
+                    </div>
+                </div>

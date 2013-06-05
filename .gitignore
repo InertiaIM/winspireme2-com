@@ -8,6 +8,7 @@ app/cache/*
 app/config/parameters.yml
 app/logs/*
 app/documents/*
+app/invoices/*
 build/
 /vendor
 composer.phar

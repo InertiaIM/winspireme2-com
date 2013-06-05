@@ -1815,6 +1815,118 @@ $(document).ready(function() {
 });
 
 
+
+
+/* Invoice Request */
+$(document).ready(function() {
+    var sc = $('#sc-area.request-invoice');
+    
+    $('input.stepper').stepper();
+    
+    $('input.stepper').on('keydown', function(e) {
+        if (e.keyCode == 38) {
+            var stepUp = $(this).siblings('.up');
+            $(stepUp).trigger('click');
+            e.preventDefault();
+            e.stopPropagation();
+        }
+        
+        if (e.keyCode == 40) {
+            var stepDown = $(this).siblings('.down');
+            $(stepDown).trigger('click');
+            e.preventDefault();
+            e.stopPropagation();
+        }
+    });
+    
+    $('input.stepper').on('change', function(e) {
+        var wrapper = $(this).closest('.package');
+        var subtotal = $(wrapper).find('.total span');
+        var cost = $(wrapper).attr('data-cost');
+        var qty = $(this).val();
+        
+        $(wrapper).addClass('active');
+        $(wrapper).attr('data-extended', (qty * cost));
+        
+        $(subtotal).text(addCommas(parseInt(qty * cost)));
+        
+        var url = '/suitcase/update-qty/' + $(wrapper).attr('data-id')
+        if (typeof env !== 'undefined') {
+            url = env + url;
+        }
+        $.ajax({
+            data: {qty: qty},
+            dataType: 'json',
+            url: url,
+            success: function(data, textStatus, jqXHR) {
+                if (!$.isEmptyObject(data)) {
+//console.log(data);
+                }
+            },
+            type: 'GET'
+        });
+        
+        
+        var total = 0;
+        $('.package').each(function(i, e) {
+            total += parseInt($(e).attr('data-extended'));
+        });
+        
+        $('#invoice-total > span').text(addCommas(total));
+    });
+    
+    $('button#invoice').on('click', function(e) {
+        e.preventDefault();
+        
+        var missingCount = $('.package input[value=""]').length;
+        
+        if(missingCount > 0) {
+            $('#error-modal').modal({
+                closeText: 'X',
+                overlay: '#fff',
+                opacity: 0.73,
+                zIndex: 2002
+            });
+        }
+        else {
+            var url = $(this).parent('form').attr('action');
+            var data = $('.package input').serialize();
+            
+            $.ajax({
+                data: data,
+                dataType: 'json',
+                url: url,
+                success: function(data, textStatus, jqXHR) {
+                    $('#sc-header .top').html(data.top);
+                    $('#sc-area .content').html(data.content);
+                    $('#sc-area .header').html(data.header);
+                    $('#sc-area .footer').html(data.footer);
+                },
+                type: 'POST'
+            });
+            
+            $('#thanks-modal').modal({
+                closeText: 'X',
+                overlay: '#fff',
+                opacity: 0.73,
+                zIndex: 2002
+            });
+        }
+    });
+    function addCommas(nStr) {
+        nStr += '';
+        x = nStr.split('.');
+        x1 = x[0];
+        x2 = x.length > 1 ? '.' + x[1] : '';
+        var rgx = /(\d+)(\d{3})/;
+        while (rgx.test(x1)) {
+            x1 = x1.replace(rgx, '$1' + ',' + '$2');
+        }
+        return x1 + x2;
+    }
+    
+    
+    
 /* Account Creation Modal */
 $(document).ready(function() {
     var previewUrl = '/suitcase/preview';

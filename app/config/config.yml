@@ -178,13 +178,17 @@ services:
         class: Inertia\WinspireBundle\Consumer\ShareSuitcaseConsumer
         arguments: [@doctrine.orm.entity_manager, @mailer, @templating]
         
+    winspire.consumer.invoice_request:
+        class: Inertia\WinspireBundle\Consumer\InvoiceRequestConsumer
+        arguments: [@doctrine.orm.entity_manager, @mailer, @templating, @ddeboer_salesforce_client, "%accounting_email%"]
+        
     winspire.soap.booking_service:
         class: Inertia\WinspireBundle\Services\BookingSoapService
         arguments: [@ddeboer_salesforce_client, @doctrine.orm.entity_manager, @logger]
         
     winspire.rest.invoice_service:
         class: Inertia\WinspireBundle\Services\InvoiceRestService
-        arguments: [@ddeboer_salesforce_client, @doctrine.orm.entity_manager, @logger,  @mailer, @templating]
+        arguments: [@ddeboer_salesforce_client, @doctrine.orm.entity_manager, @logger,  @mailer, @templating, "%invoice_dir%"]
         
     winspire.suitcase.manager:
         class: Inertia\WinspireBundle\Services\SuitcaseManager
@@ -233,6 +237,11 @@ old_sound_rabbit_mq:
             exchange_options: { name: 'winspire', type: direct }
             queue_options:    { name: 'winspire-unpack-suitcase' }
             callback:         unpack_suitcase_service
+        invoice_request:
+            connection: default
+            exchange_options: { name: 'winspire', type: direct }
+            queue_options:    { name: 'winspire-invoice-request' }
+            callback:         winspire.consumer.invoice_request
         share_suitcase:
             connection: default
             exchange_options: { name: 'winspire', type: direct }

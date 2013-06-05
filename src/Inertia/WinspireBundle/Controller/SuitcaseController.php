@@ -786,6 +786,51 @@ class SuitcaseController extends Controller
         ));
     }
     
+    
+    public function requestInvoiceAction()
+    {
+        $request = $this->getRequest();
+        $response = new JsonResponse();
+        
+        if ($request->isMethod('POST')) {
+            $qtys = $request->get('qty');
+            
+            $suitcaseManager = $this->get('winspire.suitcase.manager');
+            $suitcase = $suitcaseManager->requestInvoice($qtys);
+            
+            if ($suitcase) {
+                $templating = $this->get('templating');
+                
+                $top = $templating->render('InertiaWinspireBundle:Suitcase:/winningBidders/top.html.twig', array(
+                    'suitcase' => $suitcase
+                ));
+                
+                $header = $templating->render('InertiaWinspireBundle:Suitcase:/winningBidders/header.html.twig', array(
+                    'suitcase' => $suitcase
+                ));
+                
+                $content = $templating->render('InertiaWinspireBundle:Suitcase:/winningBidders/content.html.twig', array(
+                    'suitcase' => $suitcase
+                ));
+                
+                $footer = $templating->render('InertiaWinspireBundle:Suitcase:/winningBidders/footer.html.twig', array(
+                    'suitcase' => $suitcase
+                ));
+                
+                
+                $response->setData(array(
+                    'top' => $top,
+                    'header' => $header,
+                    'content' => $content,
+                    'footer' => $footer
+                ));
+                
+                return $response;
+            }
+        }
+    }
+    
+    
     public function shareAction()
     {
         $request = $this->getRequest();
@@ -1096,6 +1141,22 @@ class SuitcaseController extends Controller
         else {
             return $this->redirect($this->generateUrl('suitcaseView'));
         }
+    }
+    
+    
+    public function updateQtyAction($id)
+    {
+        $response = new JsonResponse();
+        $request = $this->getRequest();
+        
+        // TODO throw exception for request parameter 'qty' not a number
+        
+        $suitcaseManager = $this->get('winspire.suitcase.manager');
+        $count = $suitcaseManager->updateSuitcaseQty($id, $request->query->get('qty'));
+        
+        return $response->setData(array(
+            'count' => $count
+        ));
     }
     
     
