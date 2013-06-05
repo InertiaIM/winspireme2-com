@@ -74,7 +74,12 @@ class SuitcaseItem
      * @ORM\JoinColumn(name="package_id", referencedColumnName="id")
      */
     protected $package;
-
+    
+    /**
+     * @ORM\OneToMany(targetEntity="Booking", mappedBy="suitcaseItem")
+     */
+    protected $bookings;
+    
     /**
      * Get id
      *
@@ -313,5 +318,46 @@ class SuitcaseItem
     public function getCost()
     {
         return $this->cost;
+    }
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->bookings = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+    
+    /**
+     * Add bookings
+     *
+     * @param \Inertia\WinspireBundle\Entity\Booking $bookings
+     * @return SuitcaseItem
+     */
+    public function addBooking(\Inertia\WinspireBundle\Entity\Booking $bookings)
+    {
+        $bookings->setSuitcaseItem($this);
+        $this->bookings[] = $bookings;
+    
+        return $this;
+    }
+
+    /**
+     * Remove bookings
+     *
+     * @param \Inertia\WinspireBundle\Entity\Booking $bookings
+     */
+    public function removeBooking(\Inertia\WinspireBundle\Entity\Booking $bookings)
+    {
+        $this->bookings->removeElement($bookings);
+    }
+
+    /**
+     * Get bookings
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getBookings()
+    {
+        return $this->bookings;
     }
 }

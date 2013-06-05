@@ -1913,6 +1913,72 @@ $(document).ready(function() {
             });
         }
     });
+    
+    
+    /* Winning Bidders */
+    $(sc).find('.content').on('click', 'button.add', function(e) {
+        var container = $(this).parent().parent('tr');
+        var id = $(this).attr('data-id');
+        var data = $(container).find('input').serialize();
+        var url = '/suitcase/update-booking/' + id;
+        if (typeof env !== 'undefined') {
+            url = env + url;
+        }
+        
+        $.ajax({
+            beforeSend: function() {
+                var first = $(container).find('td.first-name input').val();
+                var last = $(container).find('td.last-name input').val();
+                var email = $(container).find('td.email input').val();
+                var phone = $(container).find('td.phone input').val();
+                
+                $(container).find('td.first-name > span').text(first).show();
+                $(container).find('td.last-name > span').text(last).show();
+                $(container).find('td.email > span').text(email).show();
+                $(container).find('td.phone > span').text(phone).show();
+                
+                $(container).find('td.first-name > input').hide();
+                $(container).find('td.last-name > input').hide();
+                $(container).find('td.email > input').hide();
+                $(container).find('td.phone > input').hide();
+                
+                $(container).find('td.actions > button.add').hide();
+                $(container).find('td.actions > button.edit').show();
+            },
+            data: data,
+            dataType: 'json',
+            url: url,
+            success: function(data, textStatus, jqXHR) {
+                if (!$.isEmptyObject(data)) {
+console.log(data);
+                }
+            },
+            type: 'POST'
+        });
+    });
+    
+    $(sc).find('.content').on('click', 'button.edit', function(e) {
+        var container = $(this).parent().parent('tr');
+        var first = $(container).find('td.first-name');
+        var last = $(container).find('td.last-name');
+        var email = $(container).find('td.email');
+        var phone = $(container).find('td.phone');
+        
+        $(first).find('input').show();
+        $(first).find('span').hide();
+        $(last).find('input').show();
+        $(last).find('span').hide();
+        $(email).find('input').show();
+        $(email).find('span').hide();
+        $(phone).find('input').show();
+        $(phone).find('span').hide();
+        
+        $(container).find('td.actions > button.add').show();
+        $(container).find('td.actions > button.edit').hide();
+    });
+    
+    
+    
     function addCommas(nStr) {
         nStr += '';
         x = nStr.split('.');
@@ -1924,9 +1990,10 @@ $(document).ready(function() {
         }
         return x1 + x2;
     }
-    
-    
-    
+});
+
+
+
 /* Account Creation Modal */
 $(document).ready(function() {
     var previewUrl = '/suitcase/preview';

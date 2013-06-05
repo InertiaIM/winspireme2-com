@@ -1,0 +1,66 @@
+                <ul>
+{% for item in suitcase.items %}
+{%     if item.quantity > 0 %}
+                    <li class="clearfix">
+                        <div class="package drop-shadow expanded lifted4" data-id="{{ item.id }}">
+                            <div class="clearfix">
+                                <img class="thumbnail" src="/uploads/packages/{{ item.package.thumbnail }}" width="129" height="85" alt=""/>
+                                <div class="expanded">
+                                    <h4>{{ item.package.parentHeader }}</h4>
+                                    <h5>{{ item.package.name }} ({{ item.package.code }})</h5>
+                                </div>
+                            </div>
+                            <div class="item-price">
+                                <p>Enter Winning Bid Amount</p>
+                                <div class="amount">
+                                    <input type="text" name="price[{{ item.id }}]" id="price_{{ item.id }}"/>
+                                    <button>Add</button>
+                                </div>
+                            </div>
+                            <div class="winning-bidders">
+                                <h4><em>my</em> Winning Bidder Info</h4>
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th>&nbsp;</th>
+                                            <th>First Name *</th>
+                                            <th>Last Name *</th>
+                                            <th>Email *</th>
+                                            <th>Phone *</th>
+                                            <th>&nbsp;</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+{%         for booking in item.bookings  %}
+                                        <tr>
+                                            <td class="number"><span>{{ loop.index }}</span></td>
+                                            <td class="first-name">
+                                                <input {% if booking.email != '' %}style="display:none;" {% endif %}type="text" name="booking[first]" value="{{ booking.firstName }}"/>
+                                                <span{% if booking.email == '' %} style="display:none;"{% endif %}>{{ booking.firstName }}</span>
+                                            </td>
+                                            <td class="last-name">
+                                                <input {% if booking.email != '' %}style="display:none;" {% endif %}type="text" name="booking[last]" value="{{ booking.lastName }}"/>
+                                                <span{% if booking.email == '' %} style="display:none;"{% endif %}>{{ booking.lastName }}</span>
+                                            </td>
+                                            <td class="email">
+                                                <input {% if booking.email != '' %}style="display:none;" {% endif %}type="text" name="booking[email]" value="{{ booking.email }}"/>
+                                                <span{% if booking.email == '' %} style="display:none;"{% endif %}>{{ booking.email }}</span>
+                                            </td>
+                                            <td class="phone">
+                                                <input {% if booking.email != '' %}style="display:none;" {% endif %}type="text" name="booking[phone]" value="{{ booking.phone }}"/>
+                                                <span{% if booking.email == '' %} style="display:none;"{% endif %}>{{ booking.phone }}</span>
+                                            </td>
+                                            <td class="actions">
+                                                <button{% if booking.email != '' %} style="display:none;"{% endif %} class="add" data-id="{{ booking.id }}">Add</button>
+                                                <button{% if booking.email == '' %} style="display:none;"{% endif %} class="edit" data-id="{{ booking.id }}">Edit</button>
+                                            </td>
+                                        </tr>
+{%         endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </li>
+{%     endif %}
+{% endfor %}
+                </ul>

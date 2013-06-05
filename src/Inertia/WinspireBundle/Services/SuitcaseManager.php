@@ -330,6 +330,49 @@ class SuitcaseManager
     }
     
     
+    public function updateSuitcaseBooking($id, $request)
+    {
+        $qb = $this->em->createQueryBuilder();
+        $qb->select(array('i', 'b'));
+        $qb->from('InertiaWinspireBundle:Booking', 'b');
+        $qb->join('b.suitcaseItem', 'i');
+        $qb->join('i.suitcase', 's');
+        $qb->where('i.status != \'X\'');
+        $qb->andWhere('b.id = :id');
+        $qb->setParameter('id', $id);
+        
+        if (!$this->sc->isGranted('ROLE_ADMIN')) {
+            $qb->andWhere('s.user = :user');
+            $qb->setParameter('user', $this->suitcaseUser);
+        }
+        
+        try { 
+            $booking = $qb->getQuery()->getSingleResult();
+            $booking->setFirstName($request['first']);
+            $booking->setLastName($request['last']);
+            $booking->setPhone($request['phone']);
+            $booking->setEmail($request['email']);
+            $booking->setDirty(true);
+            $preUpdateAt = $booking->getUpdated();
+            
+            $this->em->persist($booking);
+            $this->em->flush();
+            
+            if ($preUpdateAt != $booking->getUpdated()) {
+                $msg = array('booking_id' => $booking->getId());
+                $this->producer->publish(serialize($msg), 'booking-update');
+            }
+            
+            $count = 1;
+        }
+        catch (\Doctrine\Orm\NoResultException $e) {
+            $count = 0;
+        }
+        
+        return $count;
+    }
+    
+    
     public function updateSuitcaseQty($id, $qty)
     {
         $qb = $this->em->createQueryBuilder();

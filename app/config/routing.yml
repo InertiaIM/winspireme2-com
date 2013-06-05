@@ -103,6 +103,10 @@ suitcaseSwitch:
     pattern:  /suitcase/switch
     defaults: { _controller: InertiaWinspireBundle:Suitcase:switch }
     
+suitcaseUpdateBooking:
+    pattern:  /suitcase/update-booking/{id}
+    defaults: { _controller: InertiaWinspireBundle:Suitcase:updateBooking }
+    
 suitcaseUpdateQty:
     pattern:  /suitcase/update-qty/{id}
     defaults: { _controller: InertiaWinspireBundle:Suitcase:updateQty }
