@@ -453,6 +453,10 @@ class SuitcaseManager
     
     protected function querySuitcase($user, $active = true, $order = null, $sid = null)
     {
+        if (!$this->sc->isGranted('ROLE_USER')) {
+            return "new";
+        }
+        
         $qb = $this->em->createQueryBuilder();
         $qb->select(array('s', 'i', 'p'));
         $qb->from('InertiaWinspireBundle:Suitcase', 's');
