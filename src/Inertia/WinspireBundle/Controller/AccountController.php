@@ -200,7 +200,7 @@ class AccountController extends Controller
                         $suitcaseItem->setQuantity(1);
                         $suitcaseItem->setPrice(0);
                         $suitcaseItem->setSubtotal(0);
-                        $suitcaseItem->setTotal(0);
+                        $suitcaseItem->setCost(0);
                         $suitcaseItem->setStatus('M');
                         
                         $suitcase->addItem($suitcaseItem);
