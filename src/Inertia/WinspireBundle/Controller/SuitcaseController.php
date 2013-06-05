@@ -831,6 +831,22 @@ class SuitcaseController extends Controller
     }
     
     
+    public function sendVoucherAction()
+    {
+        $response = new JsonResponse();
+        $request = $this->getRequest();
+        
+        $voucher = $request->request->get('voucher');
+        
+        $suitcaseManager = $this->get('winspire.suitcase.manager');
+        $count = $suitcaseManager->sendVoucher($voucher);
+        
+        return $response->setData(array(
+            'count' => $count
+        ));
+    }
+    
+    
     public function shareAction()
     {
         $request = $this->getRequest();

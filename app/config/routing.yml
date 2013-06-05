@@ -91,6 +91,10 @@ suitcaseRequestInvoice:
     pattern:  /suitcase/request-invoice
     defaults: { _controller: InertiaWinspireBundle:Suitcase:requestInvoice }
     
+suitcaseSendVoucher:
+    pattern:  /suitcase/send-voucher
+    defaults: { _controller: InertiaWinspireBundle:Suitcase:sendVoucher }
+    
 suitcaseShare:
     pattern:  /suitcase/share
     defaults: { _controller: InertiaWinspireBundle:Suitcase:share }

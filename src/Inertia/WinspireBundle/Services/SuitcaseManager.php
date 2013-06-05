@@ -305,6 +305,8 @@ class SuitcaseManager
                 
                 for ($i=0; $i<$item->getQuantity(); $i++) {
                     $booking = new Booking();
+                    $booking->setVoucherSent(false);
+                    $booking->setDirty(false);
                     $item->addBooking($booking);
                     $this->em->persist($booking);
                 }
@@ -330,6 +332,46 @@ class SuitcaseManager
     }
     
     
+    public function sendVoucher($voucher)
+    {
+        if (!isset($voucher['id'])) {
+            return 0;
+        }
+        
+        $id = $voucher['id'];
+        
+        $qb = $this->em->createQueryBuilder();
+        $qb->select(array('b', 'i', 's'));
+        $qb->from('InertiaWinspireBundle:Booking', 'b');
+        $qb->join('b.suitcaseItem', 'i');
+        $qb->join('i.suitcase', 's');
+        $qb->where('i.status != \'X\'');
+        $qb->andWhere('b.id = :id');
+        $qb->setParameter('id', $id);
+        
+        if (!$this->sc->isGranted('ROLE_ADMIN')) {
+            $qb->andWhere('s.user = :user');
+            $qb->setParameter('user', $this->suitcaseUser);
+        }
+        
+        try {
+            $booking = $qb->getQuery()->getSingleResult();
+            $booking->setVoucherSent(true);
+            $this->em->persist($booking);
+            $this->em->flush();
+            $count = 1;
+            
+            $msg = array('booking_id' => $booking->getId(), 'cc' => isset($voucher['cc']) ? true : false, 'message' => $voucher['message']);
+            $this->producer->publish(serialize($msg), 'send-voucher');
+        }
+        catch (\Doctrine\Orm\NoResultException $e) {
+            $count = 0;
+        }
+        
+        return $count;
+    }
+    
+    
     public function updateSuitcaseBooking($id, $request)
     {
         $qb = $this->em->createQueryBuilder();
@@ -339,6 +381,7 @@ class SuitcaseManager
         $qb->join('i.suitcase', 's');
         $qb->where('i.status != \'X\'');
         $qb->andWhere('b.id = :id');
+        $qb->andWhere('b.voucherSent != true');
         $qb->setParameter('id', $id);
         
         if (!$this->sc->isGranted('ROLE_ADMIN')) {
@@ -352,13 +395,15 @@ class SuitcaseManager
             $booking->setLastName($request['last']);
             $booking->setPhone($request['phone']);
             $booking->setEmail($request['email']);
-            $booking->setDirty(true);
             $preUpdateAt = $booking->getUpdated();
             
             $this->em->persist($booking);
             $this->em->flush();
             
             if ($preUpdateAt != $booking->getUpdated()) {
+                $booking->setDirty(true);
+                $this->em->persist($booking);
+                $this->em->flush();
                 $msg = array('booking_id' => $booking->getId());
                 $this->producer->publish(serialize($msg), 'booking-update');
             }

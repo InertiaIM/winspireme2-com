@@ -1845,6 +1845,11 @@ $(document).ready(function() {
         var cost = $(wrapper).attr('data-cost');
         var qty = $(this).val();
         
+        if (qty.search(/^\d*$/) < 0) {
+            $(this).val('0');
+            qty = '0';
+        }
+        
         $(wrapper).addClass('active');
         $(wrapper).attr('data-extended', (qty * cost));
         
@@ -1859,9 +1864,7 @@ $(document).ready(function() {
             dataType: 'json',
             url: url,
             success: function(data, textStatus, jqXHR) {
-                if (!$.isEmptyObject(data)) {
-//console.log(data);
-                }
+                if (!$.isEmptyObject(data)) {}
             },
             type: 'GET'
         });
@@ -1879,7 +1882,6 @@ $(document).ready(function() {
         e.preventDefault();
         
         var missingCount = $('.package input[value=""]').length;
-        
         if(missingCount > 0) {
             $('#error-modal').modal({
                 closeText: 'X',
@@ -1942,16 +1944,15 @@ $(document).ready(function() {
                 $(container).find('td.email > input').hide();
                 $(container).find('td.phone > input').hide();
                 
-                $(container).find('td.actions > button.add').hide();
+                $(container).find('td.actions > button.add').remove();
                 $(container).find('td.actions > button.edit').show();
+                $(container).find('td.actions > button.mail').show();
             },
             data: data,
             dataType: 'json',
             url: url,
             success: function(data, textStatus, jqXHR) {
-                if (!$.isEmptyObject(data)) {
-console.log(data);
-                }
+                if (!$.isEmptyObject(data)) {}
             },
             type: 'POST'
         });
@@ -1959,24 +1960,180 @@ console.log(data);
     
     $(sc).find('.content').on('click', 'button.edit', function(e) {
         var container = $(this).parent().parent('tr');
+        var id = $(this).attr('data-id');
+        var data = $(container).find('input').serialize();
+        var url = '/suitcase/update-booking/' + id;
+        if (typeof env !== 'undefined') {
+            url = env + url;
+        }
+        
         var first = $(container).find('td.first-name');
         var last = $(container).find('td.last-name');
         var email = $(container).find('td.email');
         var phone = $(container).find('td.phone');
+        var self = $(this);
         
-        $(first).find('input').show();
-        $(first).find('span').hide();
-        $(last).find('input').show();
-        $(last).find('span').hide();
-        $(email).find('input').show();
-        $(email).find('span').hide();
-        $(phone).find('input').show();
-        $(phone).find('span').hide();
-        
-        $(container).find('td.actions > button.add').show();
-        $(container).find('td.actions > button.edit').hide();
+        if ($(this).hasClass('neutral')) {
+            $(first).find('input').show();
+            $(first).find('span').hide();
+            $(last).find('input').show();
+            $(last).find('span').hide();
+            $(email).find('input').show();
+            $(email).find('span').hide();
+            $(phone).find('input').show();
+            $(phone).find('span').hide();
+            
+            $(self).removeClass('neutral');
+        }
+        else {
+            $.ajax({
+                beforeSend: function() {
+                    var first = $(container).find('td.first-name input').val();
+                    var last = $(container).find('td.last-name input').val();
+                    var email = $(container).find('td.email input').val();
+                    var phone = $(container).find('td.phone input').val();
+                    
+                    $(container).find('td.first-name > span').text(first).show();
+                    $(container).find('td.last-name > span').text(last).show();
+                    $(container).find('td.email > span').text(email).show();
+                    $(container).find('td.phone > span').text(phone).show();
+                    
+                    $(container).find('td.first-name > input').hide();
+                    $(container).find('td.last-name > input').hide();
+                    $(container).find('td.email > input').hide();
+                    $(container).find('td.phone > input').hide();
+                    
+                    $(self).addClass('neutral');
+                },
+                data: data,
+                dataType: 'json',
+                url: url,
+                success: function(data, textStatus, jqXHR) {
+                    if (!$.isEmptyObject(data)) {}
+                },
+                type: 'POST'
+            });
+        }
     });
     
+    $(sc).find('.content').on('click', 'button.mail', function(e) {
+        var container = $(this).parent().parent('tr');
+        var id = $(this).attr('data-id');
+        var first = $(container).find('td.first-name input').val();
+        var last = $(container).find('td.last-name input').val();
+        var email = $(container).find('td.email input').val();
+        var phone = $(container).find('td.phone input').val();
+        var code = $(container).attr('data-code');
+        var np = $('#test').attr('data-np');
+        var npFirst = $('#test').attr('data-first');
+        var npLast = $('#test').attr('data-last');
+        var npPhone = $('#test').attr('data-phone');
+        var npEmail = $('#test').attr('data-email');
+        var eventName = $('#test').attr('data-event');
+        var eventDate = $('#test').attr('data-date');
+        
+        var packageContainer = $(container).parent().parent().parent().parent().parent('li');
+        var packageHeader = $(packageContainer).attr('data-header');
+        var packageName = $(packageContainer).attr('data-name');
+        var packageCode = $(packageContainer).attr('data-code');
+        
+        var message = 'Dear ' + first + ',\n\n';
+        message += 'Congratulations on your winning bid and thank you so much for your contribution! We appreciate you coming out and supporting our organization, and hope you had a wonderful time at our fundraising event. From all of us here at ';
+        message += np + ', we hope you have a wonderful time on your trip and we look forward to seeing you at our next event!\n\n';
+        message += 'Sincerely,\n';
+        message += npFirst + ' ' + npLast + '\n';
+        message += np;
+        
+        
+        $('#mail-modal #message').val(message);
+        $('#mail-modal #mail-fullname').text(first + ' ' + last);
+        $('#mail-modal #mail-package-header').text(packageHeader);
+        $('#mail-modal #mail-package-name').text(packageName);
+        $('#mail-modal #mail-voucher-code').text(code);
+        $('#mail-modal #mail-package-code').text(packageCode);
+        $('#mail-modal #mail-fullname2').text(first + ' ' + last);
+        $('#mail-modal #mail-np').text(np);
+        $('#mail-modal #mail-np-name').text(npFirst + ' ' + npLast);
+        $('#mail-modal #mail-np-phone').text(npPhone);
+        $('#mail-modal #mail-np-email').text(npEmail);
+        $('#mail-modal #mail-event-name').text(eventName);
+        $('#mail-modal #mail-event-date').text(eventDate);
+        $('#mail-modal #mail-from').text(np);
+        $('#mail-modal #mail-to').text(email);
+        $('#mail-modal #voucher_id').val(id);
+        
+        
+        $('#mail-modal').modal({
+            closeText: 'X',
+            overlay: '#fff',
+            opacity: 0.73,
+            zIndex: 2002
+        });
+    });
+    
+    
+    $('#mail-modal').find('button.send').on('click', function(e) {
+        e.preventDefault();
+        
+        var url = $('#mail-modal form').attr('action');
+        var data = $('#mail-modal form').serialize();
+        
+        $.ajax({
+            beforeSend: function() {
+                var id = $('#mail-modal #voucher_id').val();
+                $('button.edit[data-id="' + id + '"]').removeClass('neutral').addClass('disabled').attr('disabled', 'disabled');
+                
+                $.modal.close();
+                
+                $('#mail-thanks-modal').find('.number span').text('1');
+                $('#mail-thanks-modal').find('.name').text($('#mail-modal #mail-fullname').text());
+                $('#mail-thanks-modal').find('.email').text($('#mail-modal #mail-to').text());
+                
+                $('#mail-thanks-modal').modal({
+                    closeText: 'X',
+                    overlay: '#fff',
+                    opacity: 0.73,
+                    zIndex: 2002
+                });
+            },
+            data: data,
+            dataType: 'json',
+            url: url,
+            success: function(data, textStatus, jqXHR) {
+                if (!$.isEmptyObject(data)) {}
+            },
+            type: 'POST'
+        });
+    });
+    
+    $('#mail-thanks-modal').find('button').on('click', function(e) {
+        e.preventDefault();
+        $.modal.close();
+    });
+    
+    
+    $('#mail-modal').on($.modal.OPEN, function(event, modal) {
+        // For viewports that are narrower than our page,
+        // change the modal box to position with an appropriate margin.
+        if($(window).width() < $(document).width()) {
+            $(modal.elm).css({
+                marginLeft: Math.floor(($(document).width() - $(modal.elm).outerWidth()) / 2) + 'px',
+                left: '0'
+            });
+        }
+        
+        // For viewports that are smaller than our modal,
+        // change the modal box to position absolute for scrolling.
+        if(($(window).height() - $(modal.elm).outerHeight()) < 94) {
+            $(modal.elm).css({
+                position: 'absolute',
+                marginTop: '120px',
+                top: '0'
+            });
+            
+            $(window).scrollTop(100);
+        }
+    });
     
     
     function addCommas(nStr) {
