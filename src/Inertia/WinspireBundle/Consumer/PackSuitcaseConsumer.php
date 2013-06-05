@@ -52,8 +52,28 @@ class PackSuitcaseConsumer implements ConsumerInterface
         $user = $suitcase->getUser();
         $account = $user->getCompany();
         
+        // Make sure we have our user setup as an OpportunityContactRole
+        if ($user->getSfId() != '' && $suitcase->getSfId() != '' && $suitcase->getSfContactRoleId() == '') {
+            $sfOpportunityContactRole = new \stdClass();
+            $sfOpportunityContactRole->ContactId = $user->getSfId();
+            $sfOpportunityContactRole->IsPrimary = true;
+            $sfOpportunityContactRole->OpportunityId = $suitcase->getSfId();
+            $sfOpportunityContactRole->Role = 'Website user';
+            
+            $saveResult = $this->sf->create(array($sfOpportunityContactRole), 'OpportunityContactRole');
+            
+            if($saveResult[0]->success) {
+                $timestamp = new \DateTime();
+                $suitcase->setSfContactRoleId($saveResult[0]->id);
+                $this->em->persist($suitcase);
+                $this->em->flush();
+            }
+        }
+        
+        
+        
         // TODO temp fix for abnormal account/suitcases flagged
-        if ($account->getSfId() != 'TEST' && $account->getSfId() != 'CANADA' && $account->getSfId() != 'PARTNER') {
+        if ($account->getSfId() != 'TEST' && $account->getSfId() != 'PARTNER') {
         // Salesforce Updates
         $sfOpportunity = new \stdClass();
         $sfOpportunity->Name = substr($suitcase->getEventName(), 0, 40);
@@ -122,7 +142,6 @@ class PackSuitcaseConsumer implements ConsumerInterface
                 $this->em->flush();
             }
         }
-        
         
         foreach ($suitcase->getItems() as $item) {
             // Item has been deleted

@@ -635,6 +635,17 @@ var footerCtx = $('footer')[0];
                         zIndex: 2002
                     });
             }
+            else if ($('#suitcase-preview').find('form').attr('data-id') == 'new') {
+                $('#suitcase-modal').
+                    modal({
+                        closeText: 'X',
+                        overlay: '#fff',
+                        opacity: 0.73,
+                        zIndex: 2002
+                    });
+                $('input#suitcase_package').val(id).attr('value', id);
+                $('input#suitcase_name').focus();
+            }
             else {
                 var url = '/suitcase/add/' + id;
                 if (typeof env !== 'undefined') {
@@ -706,6 +717,18 @@ var footerCtx = $('footer')[0];
                         opacity: 0.73,
                         zIndex: 2002
                     });
+            }
+            else if ($('#suitcase-preview').find('form').attr('data-id') == 'new') {
+                $('#suitcase-modal')
+                    .modal({
+                        closeText: 'X',
+                        overlay: '#fff',
+                        opacity: 0.73,
+                        zIndex: 2002
+                    })
+                ;
+                $('input#suitcase_package').val(id).attr('value', id);
+                $('input#suitcase_name').focus();
             }
             else {
                 var url = '/suitcase/add/' + id;
@@ -1032,7 +1055,7 @@ var footerCtx = $('footer')[0];
     
 /* Suitcase */
 $(document).ready(function() {
-    var sc = $('#sc-area');
+    var sc = $('#sc-area.suitcase');
     
     $(sc).find('.content').on('mouseenter', '.package', function(e) {
         var item = $(this);
@@ -1764,7 +1787,7 @@ $(document).ready(function() {
     setupSuitcaseCycle();
     
     function setupSuitcaseCycle() {
-        if($('#sc-area .content > ul > li').length > 1) {
+        if($('#sc-area.suitcase .content > ul > li').length > 1) {
             $('#suitcase-prev').show();
             $('#suitcase-next').show();
             $('#sc-area .content > ul').cycle({

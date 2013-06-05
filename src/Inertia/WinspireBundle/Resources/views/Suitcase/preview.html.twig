@@ -6,7 +6,7 @@
         <div id="suitcase-preview-header">
             <div class="c-wrap">
                 <div class="suitcase"><span class="icon-suitcase"></span><em>my</em> Suitcase</div>
-                <form data-style="ajax" data-id="{{ suitcase.id }}" method="get" action="{{ path('suitcaseSwitch') }}" class="suitcase-switcher">
+                <form data-style="ajax" data-id="{% if suitcase != 'new' %}{{ suitcase.id }}{% else %}new{% endif %}" method="get" action="{{ path('suitcaseSwitch') }}" class="suitcase-switcher">
                     <select name="sid">
                         <option value="new">Create New Suitcase</option>
                         
@@ -17,19 +17,21 @@
                 </form>
                 <ul class="header-nav">
                     <li class="share"><a href="{{ path('suitcaseView') }}"><span class="icon-bubble"></span> Share</a></li>
-                    <li class="comments"><a href="{{ path('suitcaseView') }}"><span class="icon-comment"></span><span class="comment-count">{{ suitcase.comments | length }}</span> Comments</a></li>
-                    <li class="button"><a{% if suitcase.packed %} class="locked"{% endif %} href="{{ path('suitcaseView') }}"><span class="{% if suitcase.packed %}icon-suitcase-locked{% else %}icon-suitcase{% endif %} icon"></span> <em>I'm</em> Packed<span id="suitcase-preview-count">{% if suitcase.items | length > 0 %} ({{ suitcase.items | length }}){% endif %}</span></a></li>
+                    <li class="comments"><a href="{{ path('suitcaseView') }}"><span class="icon-comment"></span><span class="comment-count">{% if suitcase != 'new' %}{{ suitcase.comments | length }}{% else %}0{% endif %}</span> Comments</a></li>
+                    <li class="button"><a{% if suitcase != 'new' and suitcase.status != 'U' %} class="locked"{% endif %} href="{{ path('suitcaseView') }}"><span class="{% if suitcase != 'new' and suitcase.status != 'U' %}icon-suitcase-locked{% else %}icon-suitcase{% endif %} icon"></span> <em>I'm</em> Packed<span id="suitcase-preview-count">{% if suitcase != 'new' and (suitcase.items | length > 0) %} ({{ suitcase.items | length }}){% endif %}</span></a></li>
                     <li class="toggle"><a href="#"><span class="icon-double-up"></span></a>
                 </ul>
             </div>
         </div>
         <div class="c-wrap">
             <div id="suitcase-preview-items">
+{% if suitcase != 'new' %}
 {% for item in suitcase.items %}
     {% include 'InertiaWinspireBundle:Suitcase:previewItem.html.twig'
         with {'item': item.package}
     %}
 {% endfor %}
+{% endif %}
             </div>
             <div id="suitcase-preview-prev" class="disabled"><span class="icon-arrow-left"></span></div>
             <div id="suitcase-preview-next" class="disabled"><span class="icon-arrow-right"></span></div>

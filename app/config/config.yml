@@ -185,6 +185,10 @@ services:
     winspire.rest.invoice_service:
         class: Inertia\WinspireBundle\Services\InvoiceRestService
         arguments: [@ddeboer_salesforce_client, @doctrine.orm.entity_manager, @logger,  @mailer, @templating]
+        
+    winspire.suitcase.manager:
+        class: Inertia\WinspireBundle\Services\SuitcaseManager
+        arguments: [@doctrine.orm.entity_manager, @session, @security.context, @old_sound_rabbit_mq.winspire_producer]
 
 old_sound_rabbit_mq:
     connections:

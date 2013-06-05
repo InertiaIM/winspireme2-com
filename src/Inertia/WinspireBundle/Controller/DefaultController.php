@@ -11,7 +11,7 @@ class DefaultController extends Controller
 {
     public function featuredPackagesAction()
     {
-        $suitcase = $this->getSuitcase();
+        $suitcase = $this->get('winspire.suitcase.manager')->getSuitcase();
         
         $em = $this->getDoctrine()->getManager();
         $query = $em->createQuery(
@@ -34,7 +34,7 @@ class DefaultController extends Controller
                 // on the Packages already contained in the session.
                 // TODO refactor for a more efficient algorithm
                 $available = true;
-                if($suitcase) {
+                if ($suitcase && $suitcase != 'new') {
                     foreach($suitcase->getItems() as $i) {
                         // We already have this item in our cart;
                         // so we can stop here...
@@ -107,7 +107,7 @@ class DefaultController extends Controller
     public function packageListAction($slug)
     {
         $session = $this->getRequest()->getSession();
-        $suitcase = $this->getSuitcase();
+        $suitcase = $this->get('winspire.suitcase.manager')->getSuitcase();
         
         $repo = $this->getDoctrine()->getRepository('InertiaWinspireBundle:Category');
         $filterTree = $repo->childrenHierarchy();
@@ -159,7 +159,7 @@ class DefaultController extends Controller
                 // on the Packages already contained in the session.
                 // TODO refactor for a more efficient algorithm
                 $available = true;
-                if($suitcase) {
+                if ($suitcase && $suitcase != 'new') {
                     foreach($suitcase->getItems() as $i) {
                         // We already have this item in our cart;
                         // so we can stop here...
@@ -199,7 +199,7 @@ class DefaultController extends Controller
     public function packageListJsonAction(Request $request)
     {
         $session = $this->getRequest()->getSession();
-        $suitcase = $this->getSuitcase();
+        $suitcase = $this->get('winspire.suitcase.manager')->getSuitcase();
         
         if ($categories = $request->query->get('category')) {
             $repo = $this->getDoctrine()->getRepository('InertiaWinspireBundle:Category');
@@ -290,7 +290,7 @@ class DefaultController extends Controller
                 // TODO refactor for a more efficient algorithm
                 $available = true;
                 
-                if($suitcase) {
+                if ($suitcase && $suitcase != 'new') {
                     foreach($suitcase->getItems() as $i) {
                         // We already have this item in our cart;
                         // so we can stop here...
@@ -350,7 +350,7 @@ class DefaultController extends Controller
     
     public function packageDetailAction($slug)
     {
-        $suitcase = $this->getSuitcase();
+        $suitcase = $this->get('winspire.suitcase.manager')->getSuitcase();
         
         $session = $this->getRequest()->getSession();
         $packagePath = $session->get('packagePath');
@@ -400,7 +400,7 @@ class DefaultController extends Controller
             // on the Packages already contained in the session.
             // TODO refactor for a more efficient algorithm
             $available = true;
-            if($suitcase) {
+            if ($suitcase && $suitcase != 'new') {
                 foreach($suitcase->getItems() as $i) {
                     // We already have this item in our cart;
                     // so we can stop here...
@@ -515,7 +515,7 @@ class DefaultController extends Controller
         
         
         $session = $this->getRequest()->getSession();
-        $suitcase = $this->getSuitcase();
+        $suitcase = $this->get('winspire.suitcase.manager')->getSuitcase();
         
         if(!empty($matches)) {
             $em = $this->getDoctrine()->getManager();
@@ -558,7 +558,7 @@ class DefaultController extends Controller
                 // TODO refactor for a more efficient algorithm
                 $available = true;
                 
-                if($suitcase) {
+                if ($suitcase && $suitcase != 'new') {
                     foreach($suitcase->getItems() as $i) {
                         // We already have this item in our cart;
                         // so we can stop here...
@@ -871,119 +871,5 @@ class DefaultController extends Controller
                 'posts' => $posts
             )
         );
-    }
-    
-    
-    protected function getSuitcase()
-    {
-        $em = $this->getDoctrine()->getManager();
-        
-        $session = $this->getRequest()->getSession();
-        $sid = $session->get('sid');
-        
-        if($this->get('security.context')->isGranted('ROLE_ADMIN')) {
-            if($sid) {
-                $query = $em->createQuery(
-                    'SELECT s, i FROM InertiaWinspireBundle:Suitcase s LEFT JOIN s.items i WITH i.status != \'X\' WHERE s.id = :id ORDER BY i.updated DESC'
-                )
-                ->setParameter('id', $sid)
-                ;
-                
-                try {
-                    $suitcase = $query->getSingleResult();
-                }
-                catch (\Doctrine\Orm\NoResultException $e) {
-                    //                    throw $this->createNotFoundException();
-                    $suitcase = new Suitcase();
-                }
-                
-                return $suitcase;
-            }
-            else {
-                return false;
-            }
-        }
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        // Establish which suitcase to use for current user
-        $user = $this->getUser();
-        
-        if(!$user) {
-            return new Suitcase();
-        }
-        
-//        $session = $this->getRequest()->getSession();
-//        $em = $this->getDoctrine()->getManager();
-        
-        // First, check the current session for a suitcase id
-//        $sid = $session->get('sid');
-        if($sid) {
-            //echo 'Found SID, step 1: ' . $sid . "<br/>\n";
-            $query = $em->createQuery(
-                'SELECT s, i, p FROM InertiaWinspireBundle:Suitcase s LEFT JOIN s.items i WITH i.status != \'X\' LEFT JOIN i.package p WHERE s.user = :user_id AND s.id = :id ORDER BY i.updated DESC'
-            )
-            ->setParameter('user_id', $user->getId())
-            ->setParameter('id', $sid);
-            
-            try {
-                $suitcase = $query->getSingleResult();
-            }
-            catch (\Doctrine\Orm\NoResultException $e) {
-                // If the suitcase we were expecting doesn't exist, we'll create a new one
-                //                throw $this->createNotFoundException();
-                $suitcase = new Suitcase();
-                $suitcase->setUser($user);
-                $suitcase->setPacked(false);
-                $em->persist($suitcase);
-                $em->flush();
-                
-                $session->set('sid', $suitcase->getId());
-                
-                return $suitcase;
-            }
-            
-            return $suitcase;
-        }
-        // Second, query for the most recent suitcase (used as default)
-        else {
-            $query = $em->createQuery(
-                'SELECT s, i FROM InertiaWinspireBundle:Suitcase s LEFT JOIN s.items i WITH i.status != \'X\' LEFT JOIN i.package p WHERE s.user = :user_id ORDER BY s.updated DESC, i.updated DESC'
-            )->setParameter('user_id', $user->getId());
-            
-            try {
-                $suitcase = $query->getResult();
-            }
-            catch (\Doctrine\Orm\NoResultException $e) {
-                throw $this->createNotFoundException();
-            }
-            
-            if(count($suitcase) > 0) {
-                $suitcase = $suitcase[0];
-                
-                $session->set('sid', $suitcase->getId());
-                
-                return $suitcase;
-            }
-            else {
-                // Third, no existing suitcases found for this account... create a new one
-                $suitcase = new Suitcase();
-                $suitcase->setUser($user);
-                $suitcase->setPacked(false);
-                
-                $em->persist($suitcase);
-                $em->flush();
-                
-                $session->set('sid', $suitcase->getId());
-                
-                return $suitcase;
-            }
-        }
     }
 }

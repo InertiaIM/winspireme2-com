@@ -23,9 +23,9 @@ class SuitcaseItem
     private $quantity;
     
     /**
-     * @ORM\Column(name="price", type="decimal", scale=2)
+     * @ORM\Column(name="cost", type="decimal", scale=2)
      */
-    private $price;
+    private $cost;
     
     /**
      * @ORM\Column(name="subtotal", type="decimal", scale=2)
@@ -33,9 +33,9 @@ class SuitcaseItem
     private $subtotal;
     
     /**
-     * @ORM\Column(name="total", type="decimal", scale=2)
+     * @ORM\Column(name="price", type="decimal", scale=2)
      */
-    private $total;
+    private $price;
     
     /**
      * @ORM\Column(name="status", type="string", length=128)
@@ -152,29 +152,6 @@ class SuitcaseItem
     public function getSubtotal()
     {
         return $this->subtotal;
-    }
-
-    /**
-     * Set total
-     *
-     * @param float $total
-     * @return SuitcaseItem
-     */
-    public function setTotal($total)
-    {
-        $this->total = $total;
-    
-        return $this;
-    }
-
-    /**
-     * Get total
-     *
-     * @return float 
-     */
-    public function getTotal()
-    {
-        return $this->total;
     }
 
     /**
@@ -313,5 +290,28 @@ class SuitcaseItem
     public function getPackage()
     {
         return $this->package;
+    }
+
+    /**
+     * Set cost
+     *
+     * @param float $cost
+     * @return SuitcaseItem
+     */
+    public function setCost($cost)
+    {
+        $this->cost = $cost;
+    
+        return $this;
+    }
+
+    /**
+     * Get cost
+     *
+     * @return float 
+     */
+    public function getCost()
+    {
+        return $this->cost;
     }
 }

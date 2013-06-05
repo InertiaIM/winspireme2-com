@@ -175,7 +175,7 @@ class AccountController extends Controller
                 $userManager->updateUser($user);
                 
                 $suitcase = new Suitcase();
-                $suitcase->setPacked(false);
+                $suitcase->setStatus('U');
                 $suitcase->setName($form->get('event_name')->getData());
                 $suitcase->setEventName($form->get('event_name')->getData());
                 $suitcase->setEventDate(new \DateTime($form->get('event_date')->getData()));
