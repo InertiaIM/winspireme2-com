@@ -1916,9 +1916,20 @@ $(document).ready(function() {
         }
     });
     
+    $('#thanks-modal button').on('click', function(e) {
+        $.modal.close();
+        $(window).scrollTop(100);
+    });
+    
+    
     
     /* Winning Bidders */
     $(sc).find('.content').on('click', 'button.add', function(e) {
+    $(sc).find('.tooltip.disabled').tooltipster({
+        position: 'top-right'
+    });
+    
+    
         var container = $(this).parent().parent('tr');
         var id = $(this).attr('data-id');
         var data = $(container).find('input').serialize();
@@ -2081,7 +2092,12 @@ $(document).ready(function() {
         $.ajax({
             beforeSend: function() {
                 var id = $('#mail-modal #voucher_id').val();
-                $('button.edit[data-id="' + id + '"]').removeClass('neutral').addClass('disabled').attr('disabled', 'disabled');
+                $('button.edit[data-id="' + id + '"]')
+                    .removeClass('neutral')
+                    .addClass('disabled')
+                    .attr('title', 'You’ve already sent this voucher.<br/>Contact your EC to change')
+                    .tooltipster({position: 'top-right'})
+                ;
                 
                 $.modal.close();
                 
