@@ -1350,7 +1350,7 @@ class SuitcaseController extends Controller
         if ($suitcase->getStatus() == 'P' && $suitcase->getEventDate() < new \DateTime()) {
             $total = 0;
             foreach ($suitcase->getItems() as $item) {
-                if ($item->getPrice() != 0) {
+                if ($item->getCost() != 0) {
                     $total += ($item->getQuantity() * $item->getPackage()->getCost());
                 }
             }

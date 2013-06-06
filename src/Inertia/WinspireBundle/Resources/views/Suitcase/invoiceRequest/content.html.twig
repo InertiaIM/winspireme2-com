@@ -1,7 +1,7 @@
                 <ul>
 {% for item in suitcase.items %}
                     <li class="clearfix">
-                        <div class="package drop-shadow expanded lifted4{% if item.price != 0 %} active{% endif %}" data-id="{{ item.id }}" data-cost="{{ item.package.cost }}" data-extended="{% if item.price != 0 %}{{ (item.quantity * item.package.cost) }}{% else %}0{% endif %}">
+                        <div class="package drop-shadow expanded lifted4{% if item.cost != 0 %} active{% endif %}" data-id="{{ item.id }}" data-cost="{{ item.package.cost }}" data-extended="{% if item.cost != 0 %}{{ (item.quantity * item.package.cost) }}{% else %}0{% endif %}">
                             <div class="clearfix">
                                 <img class="thumbnail" src="/uploads/packages/{{ item.package.thumbnail }}" width="129" height="85" alt=""/>
                                 <div class="expanded">
@@ -14,7 +14,7 @@
                             <div class="item-amount">
                                 <div class="qty">
                                     <p>Qty</p>
-                                    <input min="0" max="99" type="text" maxlength="2" name="qty[{{ item.id }}]" id="qty_{{ item.id }}" class="stepper" value="{% if item.price != 0 %}{{ item.quantity }}{% endif %}"/>
+                                    <input min="0" max="99" type="text" maxlength="2" name="qty[{{ item.id }}]" id="qty_{{ item.id }}" class="stepper" value="{% if item.cost != 0 %}{{ item.quantity }}{% endif %}"/>
                                 </div>
                                 <div class="amount">
                                     <p>Item Amount</p>
@@ -23,7 +23,7 @@
                             </div>
                             <div class="item-total">
                                 <p>Item Subtotal</p>
-                                <p class="total">$<span>{% if item.price != 0 %}{{ (item.package.cost * item.quantity) | number_format }}{% else %}0{% endif %}</span></p>
+                                <p class="total">$<span>{% if item.cost != 0 %}{{ (item.package.cost * item.quantity) | number_format }}{% else %}0{% endif %}</span></p>
                             </div>
                         </div>
                     </li>
