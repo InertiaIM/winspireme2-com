@@ -9,6 +9,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 use Symfony\Component\Validator\Constraints\Email;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
@@ -497,6 +498,23 @@ class SuitcaseController extends Controller
         return $response->setData(array(
             'counts' => $counts
         ));
+    }
+    
+    
+    public function invoiceAction($suitcaseId)
+    {
+        $suitcaseManager = $this->get('winspire.suitcase.manager');
+        $pdf = $suitcaseManager->getInvoiceFile($suitcaseId);
+        
+        if (!$pdf) {
+            throw $this->createNotFoundException();
+        }
+        
+        $response = new Response($pdf['contents']);
+        $response->headers->set('Content-Disposition', $response->headers->makeDisposition(ResponseHeaderBag::DISPOSITION_INLINE, $pdf['filename']));
+        $response->headers->set('Content-Type', 'application/pdf');
+        
+        return $response;
     }
     
     

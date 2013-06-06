@@ -201,7 +201,7 @@ services:
         
     winspire.suitcase.manager:
         class: Inertia\WinspireBundle\Services\SuitcaseManager
-        arguments: [@doctrine.orm.entity_manager, @session, @security.context, @old_sound_rabbit_mq.winspire_producer]
+        arguments: [@doctrine.orm.entity_manager, @session, @security.context, @old_sound_rabbit_mq.winspire_producer, "%invoice_dir%"]
 
 old_sound_rabbit_mq:
     connections:

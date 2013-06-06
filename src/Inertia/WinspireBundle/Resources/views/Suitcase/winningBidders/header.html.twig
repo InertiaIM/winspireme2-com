@@ -2,8 +2,8 @@
                 <h4><span class="icon icon-pin"></span>Your invoice is being generated.</h4>
 {% endif %}
 {% if suitcase.status == 'I' %}
-                <h4><span class="icon icon-pin"></span>Your payment is due.</h4>
-                <a class="button" href="#"><span class="icon-pdf"></span>Download Invoice</a>
+                <h4 style="float:left;"><span class="icon icon-pin"></span>Your payment is due.</h4>
+                <a style="margin:10px 30px 0 0;" class="button neutral pdf" target="_blank" href="{{ path('suitcaseInvoice', {'suitcaseId': suitcase.id}) }}"><span class="icon-pdf"></span>Download Invoice</a>
 {% endif %}
 {% if suitcase.status == 'A' %}
                 <h4><span class="icon icon-truck"></span>Your Travel Vouchers are ready to deliver!</h4>

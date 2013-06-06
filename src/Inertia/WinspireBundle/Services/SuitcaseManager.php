@@ -11,14 +11,16 @@ use Symfony\Component\Security\Core\SecurityContext;
 class SuitcaseManager
 {
     protected $em;
+    protected $invoiceDir;
     protected $producer;
     protected $sc;
     protected $session;
     protected $suitcaseUser;
     
-    public function __construct(EntityManager $em, Session $session, SecurityContext $sc, Producer $producer)
+    public function __construct(EntityManager $em, Session $session, SecurityContext $sc, Producer $producer, $dir)
     {
         $this->em = $em;
+        $this->invoiceDir = $dir;
         $this->producer = $producer;
         $this->sc = $sc;
         $this->session = $session;
@@ -268,6 +270,42 @@ class SuitcaseManager
         }
         
         return $suitcaseList;
+    }
+    
+    
+    public function getInvoiceFile($id)
+    {
+        $qb = $this->em->createQueryBuilder();
+        $qb->select(array('s'));
+        $qb->from('InertiaWinspireBundle:Suitcase', 's');
+        $qb->where('s.id = :id');
+        $qb->setParameter('id', $id);
+        $qb->andWhere('s.invoiceFileName != \'\'');
+        
+        if (!$this->sc->isGranted('ROLE_ADMIN')) {
+            $qb->andWhere('s.user = :user');
+            $qb->setParameter('user', $this->suitcaseUser);
+        }
+        
+        try {
+            $suitcase = $qb->getQuery()->getSingleResult();
+            $filename = $this->invoiceDir . $suitcase->getSfId() . '/' . $suitcase->getInvoiceFileName();
+            if (is_file($filename)) {
+                $fp = fopen($filename, 'r');
+                $contents = fread($fp, filesize($filename));
+                fclose($fp);
+                return array(
+                    'filename' => $suitcase->getInvoiceFileName(),
+                    'contents' => $contents
+                );
+            }
+            else {
+                return false;
+            }
+        }
+        catch (\Doctrine\Orm\NoResultException $e) {
+            return false;
+        }
     }
     
     

@@ -3430,8 +3430,9 @@ footer, #footer { height:220px;border-top:1px solid rgb(195,213,224);
                 
                 .message1 {
                     float:left;
-                    width:662px;
+                    width:622px;
                     padding-left:56px;
+                    padding-right:40px;
                     position:relative;
                     
                     p {
@@ -3692,6 +3693,53 @@ footer, #footer { height:220px;border-top:1px solid rgb(195,213,224);
         }
     }
 }
+
+
+/* Acrobat Button */
+.button.neutral.pdf {
+    float:right;
+    .btn-blue(3px);
+    display:inline-block;
+    height:39px;
+    line-height:39px;
+    cursor:pointer;
+    margin:0;
+    position:relative;
+    text-align:center;
+    text-decoration:none;
+    
+    color:@ws-orange;
+    font-size:14px;
+    font-weight:bold;
+    text-shadow:none;
+    
+    padding:0 28px 0 44px;
+    
+    border:1px solid #c0bcbc;
+    
+    background: rgb(255,255,255);
+    background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIwJSIgeTI9IjEwMCUiPgogICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iI2ZmZmZmZiIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiNlYmU4ZTgiIHN0b3Atb3BhY2l0eT0iMSIvPgogIDwvbGluZWFyR3JhZGllbnQ+CiAgPHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjEiIGhlaWdodD0iMSIgZmlsbD0idXJsKCNncmFkLXVjZ2ctZ2VuZXJhdGVkKSIgLz4KPC9zdmc+);
+    background: -moz-linear-gradient(top,  rgba(255,255,255,1) 0%, rgba(235,232,232,1) 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(255,255,255,1)), color-stop(100%,rgba(235,232,232,1)));
+    background: -webkit-linear-gradient(top,  rgba(255,255,255,1) 0%,rgba(235,232,232,1) 100%);
+    background: -o-linear-gradient(top,  rgba(255,255,255,1) 0%,rgba(235,232,232,1) 100%);
+    background: -ms-linear-gradient(top,  rgba(255,255,255,1) 0%,rgba(235,232,232,1) 100%);
+    background: linear-gradient(to bottom,  rgba(255,255,255,1) 0%,rgba(235,232,232,1) 100%);
+    
+    -webkit-box-shadow:  0px 2px 6px 0px rgba(0, 0, 0, 0.2);
+    box-shadow:  0px 2px 6px 0px rgba(0, 0, 0, 0.2);
+    
+    .icon-pdf {
+        position:absolute;
+        background: url(/img/icon-pdf.png) no-repeat;
+        display:block;
+        width:36px;
+        height:30px;
+        left:6px;
+        top:4px;
+    }
+}
+
 
 /* Stepper Input */
 .stepper {

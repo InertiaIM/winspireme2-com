@@ -38,6 +38,7 @@ security:
         - { path: ^/suitcase/delete, role: ROLE_USER }
         - { path: ^/suitcase/flag, role: ROLE_USER }
         - { path: ^/suitcase/flags, role: ROLE_USER }
+        - { path: ^/suitcase/invoice, role: ROLE_USER }
         - { path: ^/suitcase/kill, role: ROLE_USER }
         - { path: ^/suitcase/pack, role: ROLE_USER }
         - { path: ^/suitcase/preview, role: ROLE_USER }

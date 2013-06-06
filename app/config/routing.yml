@@ -79,6 +79,10 @@ suitcaseFlags:
     pattern:  /suitcase/flags
     defaults: { _controller: InertiaWinspireBundle:Suitcase:flags }
     
+suitcaseInvoice:
+    pattern:  /suitcase/invoice/{suitcaseId}
+    defaults: { _controller: InertiaWinspireBundle:Suitcase:invoice }
+    
 suitcasePack:
     pattern:  /suitcase/pack
     defaults: { _controller: InertiaWinspireBundle:Suitcase:pack }
