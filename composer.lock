@@ -3,7 +3,7 @@
         "This file locks the dependencies of your project to a known state",
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
     ],
-    "hash": "cb5582127eed2a617b6ab6333e2cde3e",
+    "hash": "56be3ab21cd096d0dcd20effbe0c7494",
     "packages": [
         {
             "name": "ass/xmlsecurity",
@@ -2242,21 +2242,21 @@
         },
         {
             "name": "symfony/assetic-bundle",
-            "version": "2.1.x-dev",
+            "version": "2.3.x-dev",
             "target-dir": "Symfony/Bundle/AsseticBundle",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/AsseticBundle.git",
-                "reference": "v2.1.3"
+                "reference": "65bd076341ac54ebfcd845d8471044fc4afa73d2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/AsseticBundle/zipball/v2.1.3",
-                "reference": "v2.1.3",
+                "url": "https://api.github.com/repos/symfony/AsseticBundle/zipball/65bd076341ac54ebfcd845d8471044fc4afa73d2",
+                "reference": "65bd076341ac54ebfcd845d8471044fc4afa73d2",
                 "shasum": ""
             },
             "require": {
-                "kriswallsmith/assetic": ">=1.1.0-alpha4,<1.2-dev",
+                "kriswallsmith/assetic": "1.1.x",
                 "php": ">=5.3.0",
                 "symfony/framework-bundle": ">=2.1,<3.0"
             },
@@ -2275,7 +2275,7 @@
             "type": "symfony-bundle",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "2.1.x-dev"
+                    "dev-master": "2.3-dev"
                 }
             },
             "autoload": {
@@ -2301,7 +2301,7 @@
                 "compression",
                 "minification"
             ],
-            "time": "2013-03-25 20:16:21"
+            "time": "2013-06-04 14:18:43"
         },
         {
             "name": "symfony/monolog-bundle",
