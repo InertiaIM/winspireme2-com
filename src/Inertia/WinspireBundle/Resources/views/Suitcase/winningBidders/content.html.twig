@@ -11,10 +11,12 @@
                                 </div>
                             </div>
                             <div class="item-price">
-                                <p>Enter Winning Bid Amount</p>
+                                <p>{% if item.price != 0 %}Item Winning Bid Amount{% else %}Enter Winning Bid Amount{% endif %}</p>
                                 <div class="amount">
-                                    <input type="text" name="price[{{ item.id }}]" id="price_{{ item.id }}"/>
-                                    <button>Add</button>
+                                    <input{% if item.price != 0 %} style="display:none;"{% endif %} type="text" name="price[{{ item.id }}]" id="price_{{ item.id }}" value="{% if item.price != 0 %}{{ item.price }}{% endif %}"/>
+                                    <span class="amount"{% if item.price == 0 %} style="display:none;"{% endif %}>{% if item.price != 0 %}$ {{ item.price | number_format(2) }}{% endif %}</span>
+                                    <button data-id="{{ item.id }}"{% if item.price != 0 %} style="display:none;"{% endif %} class="add">Add</button>
+                                    <button data-id="{{ item.id }}"{% if item.price == 0 %} style="display:none;"{% endif %} class="neutral edit"><span class="icon icon-pencil"></span></button>
                                 </div>
                             </div>
                             <div class="winning-bidders">
@@ -52,8 +54,8 @@
                                             </td>
                                             <td class="actions">
                                                 {% if booking.email == '' %}<button class="add" data-id="{{ booking.id }}">Add</button>{% endif %}
-                                                <button{% if booking.email == '' %} style="display:none;"{% endif %} class="edit {% if booking.voucherSent %}disabled{% else %}neutral{% endif %}" {% if booking.voucherSent %}disabled="disabled" {% endif %}data-id="{{ booking.id }}"><span class="icon icon-pencil"></span></button>
-                                                <button{% if booking.email == '' %} style="display:none;"{% endif %}{% if suitcase.status != 'A' %} disabled="disabled"{% endif %} class="mail {% if suitcase.status == 'A' %}neutral{% else %}disabled{% endif %}" data-id="{{ booking.id }}"><span class="icon icon-envelope"></span></button>
+                                                <button{% if booking.email == '' %} style="display:none;"{% endif %} class="edit {% if booking.voucherSent %}disabled tooltip{% else %}neutral{% endif %}" data-id="{{ booking.id }}" {% if booking.voucherSent %}title="You’ve already sent this voucher.<br/>Contact your EC to change"{% endif %}><span class="icon icon-pencil"></span></button>
+                                                <button{% if booking.email == '' %} style="display:none;"{% endif %} class="mail {% if suitcase.status == 'A' %}neutral{% else %}disabled tooltip{% endif %}" data-id="{{ booking.id }}" {% if suitcase.status != 'A' %}title="Upon payment the email tool will<br/>become active."{% endif %}><span class="icon icon-envelope"></span></button>
                                             </td>
                                         </tr>
 {%         endfor %}

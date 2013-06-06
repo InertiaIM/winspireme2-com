@@ -1924,12 +1924,60 @@ $(document).ready(function() {
     
     
     /* Winning Bidders */
-    $(sc).find('.content').on('click', 'button.add', function(e) {
     $(sc).find('.tooltip.disabled').tooltipster({
         position: 'top-right'
     });
     
     
+    $(sc).find('.content .item-price').on('click', 'button.add:not(.disabled)', function(e) {
+        var input = $(this).siblings('input');
+        var span = $(this).siblings('span');
+        var edit = $(this).siblings('button.edit');
+        var id = $(this).attr('data-id');
+        var data = $(input).serialize();
+        var self = $(this);
+        var url = '/suitcase/update-price/' + id;
+        if (typeof env !== 'undefined') {
+            url = env + url;
+        }
+        
+        $.ajax({
+            beforeSend: function() {
+                if ($(input).val() != '') {
+                    $(span).text($(input).val()).show();
+                    $(input).hide();
+                    $(self).hide();
+                    $(edit).show();
+                }
+                else {
+                    return false;
+                }
+            },
+            data: data,
+            dataType: 'json',
+            url: url,
+            success: function(data, textStatus, jqXHR) {
+                if (!$.isEmptyObject(data)) {}
+            },
+            type: 'POST'
+        });
+    });
+    
+    
+    $(sc).find('.content .item-price').on('click', 'button.edit:not(.disabled)', function(e) {
+        var input = $(this).siblings('input');
+        var span = $(this).siblings('span');
+        var add = $(this).siblings('button.add');
+        var self = $(this);
+        
+        $(span).hide();
+        $(input).show();
+        $(self).hide();
+        $(add).show();
+    });
+    
+    
+    $(sc).find('.content .winning-bidders').on('click', 'button.add:not(.disabled)', function(e) {
         var container = $(this).parent().parent('tr');
         var id = $(this).attr('data-id');
         var data = $(container).find('input').serialize();
@@ -1969,7 +2017,7 @@ $(document).ready(function() {
         });
     });
     
-    $(sc).find('.content').on('click', 'button.edit', function(e) {
+    $(sc).find('.content .winning-bidders').on('click', 'button.edit:not(.disabled)', function(e) {
         var container = $(this).parent().parent('tr');
         var id = $(this).attr('data-id');
         var data = $(container).find('input').serialize();
@@ -2027,7 +2075,7 @@ $(document).ready(function() {
         }
     });
     
-    $(sc).find('.content').on('click', 'button.mail', function(e) {
+    $(sc).find('.content .winning-bidders').on('click', 'button.mail:not(.disabled)', function(e) {
         var container = $(this).parent().parent('tr');
         var id = $(this).attr('data-id');
         var first = $(container).find('td.first-name input').val();
