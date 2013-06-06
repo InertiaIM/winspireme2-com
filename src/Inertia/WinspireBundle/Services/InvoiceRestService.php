@@ -183,7 +183,7 @@ $this->logger->info('Why aren\'t we retrieving this invoice?');
             )
         ;
         
-        $attachment = \Swift_Attachment::fromPath($this->directory . $suitcase->getSfId() . '/' . $suitcase->getInvoiceFileName(), 'application/pdf');
+        $attachment = \Swift_Attachment::fromPath($this->directory . '/' . $suitcase->getInvoiceFileName(), 'application/pdf');
         $attachment->setFilename($suitcase->getInvoiceFileName());
         $message->attach($attachment);
         
