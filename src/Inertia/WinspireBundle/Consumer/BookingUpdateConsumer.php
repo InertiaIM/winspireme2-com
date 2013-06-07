@@ -79,6 +79,7 @@ class BookingUpdateConsumer implements ConsumerInterface
                     'Traveler_last_name__c, ' .
                     'Phone_1__c, ' .
                     'Email__c, ' .
+                    'TB_Booking_type__c, ' .
                     'SystemModstamp ' .
                     'FROM Trip_Booking__c ' .
                     'WHERE ' .
@@ -95,6 +96,7 @@ class BookingUpdateConsumer implements ConsumerInterface
                     'Traveler_last_name__c, ' .
                     'Phone_1__c, ' .
                     'Email__c, ' .
+                    'TB_Booking_type__c, ' .
                     'SystemModstamp ' .
                     'FROM Trip_Booking__c ' .
                     'WHERE ' .
@@ -118,7 +120,7 @@ class BookingUpdateConsumer implements ConsumerInterface
                 
                 if($saveResult[0]->success) {
                     $timestamp = new \DateTime();
-                    $booking->setCertificateId($sfBooking->Name);
+                    $booking->setCertificateId($sfBooking->TB_Booking_type__c);
                     $booking->setSfId($saveResult[0]->id);
                     $booking->setDirty(false);
                     $booking->setSfUpdated($timestamp);
