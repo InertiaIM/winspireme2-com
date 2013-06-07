@@ -186,9 +186,9 @@ class AccountSoapService
                 
                 $this->logger->info('Account saved...');
             }
-            
-            return array('Ack' => true);
         }
+        
+        return array('Ack' => true);
     }
     
     protected function remove_accent($str)
