@@ -801,18 +801,23 @@ var footerCtx = $('footer')[0];
         $('form.suitcase-switcher').find('.selectboxit.selectboxit-btn').css('width', width);
         
         $('#suitcase-modal').on($.modal.BEFORE_CLOSE, function(event, modal) {
-            $.each(selectBoxSuitcases, function(i, el) {
-                selectBoxSuitcases[i].selectOption($('.suitcase-switcher').attr('data-id'));
-            });
+            if ($('form.suitcase-switcher select[name="sid"] option').length > 1) {
+                $.each(selectBoxSuitcases, function(i, el) {
+                    selectBoxSuitcases[i].selectOption($('.suitcase-switcher').attr('data-id'));
+                });
+            }
         });
         
         $('#suitcase-modal').on($.modal.CLOSE, function(event, modal) {
-            openNew = true;
+            if ($('form.suitcase-switcher select[name="sid"] option').length > 1) {
+                openNew = true;
+            }
         });
         
         $('.suitcase-switcher select').on('change', function(e) {
             if ($(this).val() == 'new' && openNew) {
                 $('#suitcase-modal form').attr('data-style', $(this).parent('form').attr('data-style'));
+                $('#suitcase-modal form input#suitcase_package').val('').removeAttr('value');
                 openNew = false;
                 
                 $('#suitcase-modal').modal({
