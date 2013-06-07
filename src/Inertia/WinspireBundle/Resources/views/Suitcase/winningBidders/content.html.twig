@@ -37,19 +37,19 @@
                                         <tr data-code="{% if suitcase.status == 'A' %}{{ booking.certificateId }}{% endif %}">
                                             <td class="number"><span>{{ loop.index }}</span></td>
                                             <td class="first-name">
-                                                <input {% if booking.email != '' %}style="display:none;" {% endif %}type="text" name="booking[first]" value="{{ booking.firstName }}"/>
+                                                <form><input {% if booking.email != '' %}style="display:none;" {% endif %}type="text" name="booking[first]" value="{{ booking.firstName }}"/></form>
                                                 <span{% if booking.email == '' %} style="display:none;"{% endif %}>{{ booking.firstName }}</span>
                                             </td>
                                             <td class="last-name">
-                                                <input {% if booking.email != '' %}style="display:none;" {% endif %}type="text" name="booking[last]" value="{{ booking.lastName }}"/>
+                                                <form><input {% if booking.email != '' %}style="display:none;" {% endif %}type="text" name="booking[last]" value="{{ booking.lastName }}"/></form>
                                                 <span{% if booking.email == '' %} style="display:none;"{% endif %}>{{ booking.lastName }}</span>
                                             </td>
                                             <td class="email">
-                                                <input {% if booking.email != '' %}style="display:none;" {% endif %}type="text" name="booking[email]" value="{{ booking.email }}"/>
+                                                <form><input {% if booking.email != '' %}style="display:none;" {% endif %}type="text" name="booking[email]" value="{{ booking.email }}"/></form>
                                                 <span{% if booking.email == '' %} style="display:none;"{% endif %}>{{ booking.email }}</span>
                                             </td>
                                             <td class="phone">
-                                                <input {% if booking.email != '' %}style="display:none;" {% endif %}type="text" name="booking[phone]" value="{{ booking.phone }}"/>
+                                                <form><input {% if booking.email != '' %}style="display:none;" {% endif %}type="text" name="booking[phone]" value="{{ booking.phone }}"/></form>
                                                 <span{% if booking.email == '' %} style="display:none;"{% endif %}>{{ booking.phone }}</span>
                                             </td>
                                             <td class="actions">

@@ -2005,6 +2005,50 @@ $(document).ready(function() {
             url = env + url;
         }
         
+        $(container).find('td.first-name form').validate({
+            errorPlacement: function(error, element) {},
+            rules: {
+                'booking[first]': {
+                    required: true
+                }
+            }
+        });
+        $(container).find('td.last-name form').validate({
+            errorPlacement: function(error, element) {},
+            rules: {
+                'booking[last]': {
+                    required: true
+                }
+            }
+        });
+        $(container).find('td.email form').validate({
+            errorPlacement: function(error, element) {},
+            rules: {
+                'booking[email]': {
+                    required: true,
+                    email: true
+                }
+            }
+        });
+        $(container).find('td.phone form').validate({
+            errorPlacement: function(error, element) {},
+            rules: {
+                'booking[phone]': {
+                    required: true
+                }
+            }
+        });
+        
+        var firstv = $(container).find('td.first-name input').valid();
+        var lastv = $(container).find('td.last-name input').valid();
+        var emailv = $(container).find('td.email input').valid();
+        var phonev = $(container).find('td.phone input').valid();
+        
+        if (!firstv || !lastv || !emailv || !phonev) {
+            return false;
+        }
+        
+        
         $.ajax({
             beforeSend: function() {
                 var first = $(container).find('td.first-name input').val();
@@ -2012,15 +2056,15 @@ $(document).ready(function() {
                 var email = $(container).find('td.email input').val();
                 var phone = $(container).find('td.phone input').val();
                 
-                $(container).find('td.first-name > span').text(first).show();
-                $(container).find('td.last-name > span').text(last).show();
-                $(container).find('td.email > span').text(email).show();
-                $(container).find('td.phone > span').text(phone).show();
+                $(container).find('td.first-name span').text(first).show();
+                $(container).find('td.last-name span').text(last).show();
+                $(container).find('td.email span').text(email).show();
+                $(container).find('td.phone span').text(phone).show();
                 
-                $(container).find('td.first-name > input').hide();
-                $(container).find('td.last-name > input').hide();
-                $(container).find('td.email > input').hide();
-                $(container).find('td.phone > input').hide();
+                $(container).find('td.first-name input').hide();
+                $(container).find('td.last-name input').hide();
+                $(container).find('td.email input').hide();
+                $(container).find('td.phone input').hide();
                 
                 $(container).find('td.actions > button.add').remove();
                 $(container).find('td.actions > button.edit').show();
@@ -2035,6 +2079,7 @@ $(document).ready(function() {
             type: 'POST'
         });
     });
+    
     
     $(sc).find('.content').on('click', '.winning-bidders button.edit:not(.disabled)', function(e) {
         var container = $(this).parent().parent('tr');
@@ -2064,6 +2109,50 @@ $(document).ready(function() {
             $(self).removeClass('neutral');
         }
         else {
+            $(container).find('td.first-name form').validate({
+                errorPlacement: function(error, element) {},
+                rules: {
+                    'booking[first]': {
+                        required: true
+                    }
+                }
+            });
+            $(container).find('td.last-name form').validate({
+                errorPlacement: function(error, element) {},
+                rules: {
+                    'booking[last]': {
+                        required: true
+                    }
+                }
+            });
+            $(container).find('td.email form').validate({
+                errorPlacement: function(error, element) {},
+                rules: {
+                    'booking[email]': {
+                        required: true,
+                        email: true
+                    }
+                }
+            });
+            $(container).find('td.phone form').validate({
+                errorPlacement: function(error, element) {},
+                rules: {
+                    'booking[phone]': {
+                        required: true
+                    }
+                }
+            });
+            
+            var firstv = $(container).find('td.first-name input').valid();
+            var lastv = $(container).find('td.last-name input').valid();
+            var emailv = $(container).find('td.email input').valid();
+            var phonev = $(container).find('td.phone input').valid();
+            
+            if (!firstv || !lastv || !emailv || !phonev) {
+                return false;
+            }
+            
+            
             $.ajax({
                 beforeSend: function() {
                     var first = $(container).find('td.first-name input').val();
@@ -2071,15 +2160,15 @@ $(document).ready(function() {
                     var email = $(container).find('td.email input').val();
                     var phone = $(container).find('td.phone input').val();
                     
-                    $(container).find('td.first-name > span').text(first).show();
-                    $(container).find('td.last-name > span').text(last).show();
-                    $(container).find('td.email > span').text(email).show();
-                    $(container).find('td.phone > span').text(phone).show();
+                    $(container).find('td.first-name span').text(first).show();
+                    $(container).find('td.last-name span').text(last).show();
+                    $(container).find('td.email span').text(email).show();
+                    $(container).find('td.phone span').text(phone).show();
                     
-                    $(container).find('td.first-name > input').hide();
-                    $(container).find('td.last-name > input').hide();
-                    $(container).find('td.email > input').hide();
-                    $(container).find('td.phone > input').hide();
+                    $(container).find('td.first-name input').hide();
+                    $(container).find('td.last-name input').hide();
+                    $(container).find('td.email input').hide();
+                    $(container).find('td.phone input').hide();
                     
                     $(self).addClass('neutral');
                 },
