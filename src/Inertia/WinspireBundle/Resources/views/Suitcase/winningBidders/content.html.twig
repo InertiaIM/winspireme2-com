@@ -13,8 +13,8 @@
                             <div class="item-price">
                                 <p>{% if item.price != 0 %}Item Winning Bid Amount{% else %}Enter Winning Bid Amount{% endif %}</p>
                                 <div class="amount">
-                                    <input{% if item.price != 0 %} style="display:none;"{% endif %} type="text" name="price[{{ item.id }}]" id="price_{{ item.id }}" value="{% if item.price != 0 %}{{ item.price }}{% endif %}"/>
-                                    <span class="amount"{% if item.price == 0 %} style="display:none;"{% endif %}>{% if item.price != 0 %}$ {{ item.price | number_format(2) }}{% endif %}</span>
+                                    <input{% if item.price != 0 %} style="display:none;"{% endif %} type="text" name="price" value="{% if item.price != 0 %}{{ item.price | number_format(0, '', '') }}{% endif %}" maxlength="8"/>
+                                    <span class="amount"{% if item.price == 0 %} style="display:none;"{% endif %}>{% if item.price != 0 %}$ {{ item.price | number_format(0) }}{% endif %}</span>
                                     <button data-id="{{ item.id }}"{% if item.price != 0 %} style="display:none;"{% endif %} class="add">Add</button>
                                     <button data-id="{{ item.id }}"{% if item.price == 0 %} style="display:none;"{% endif %} class="neutral edit"><span class="icon icon-pencil"></span></button>
                                 </div>

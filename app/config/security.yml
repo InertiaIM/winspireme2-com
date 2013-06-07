@@ -47,7 +47,8 @@ security:
         - { path: ^/suitcase/request-invoice, role: ROLE_USER }
         - { path: ^/suitcase/send-voucher, role: ROLE_USER }
         - { path: ^/suitcase/switch, role: ROLE_USER }
-        - { path: ^/suitcase/update-qty, role: ROLE_USER }
         - { path: ^/suitcase/update-booking, role: ROLE_USER }
+        - { path: ^/suitcase/update-qty, role: ROLE_USER }
+        - { path: ^/suitcase/update-price, role: ROLE_USER }
         #- { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY, requires_channel: https }
         #- { path: ^/_internal/secure, roles: IS_AUTHENTICATED_ANONYMOUSLY, ip: 127.0.0.1 }

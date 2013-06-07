@@ -410,6 +410,48 @@ class SuitcaseManager
     }
     
     
+    public function updatePrice($id, $price)
+    {
+        $qb = $this->em->createQueryBuilder();
+        $qb->select(array('i'));
+        $qb->from('InertiaWinspireBundle:SuitcaseItem', 'i');
+        $qb->join('i.suitcase', 's');
+        $qb->where('i.status != \'X\'');
+        $qb->andWhere('i.id = :id');
+        $qb->setParameter('id', $id);
+        
+        if (!$this->sc->isGranted('ROLE_ADMIN')) {
+            $qb->andWhere('s.user = :user');
+            $qb->setParameter('user', $this->suitcaseUser);
+        }
+        
+        try {
+            $item = $qb->getQuery()->getSingleResult();
+            $item->setPrice($price);
+            $preUpdateAt = $item->getUpdated();
+            
+            $this->em->persist($item);
+            $this->em->flush();
+            
+            if ($preUpdateAt != $item->getUpdated()) {
+                $this->em->persist($item);
+                $this->em->flush();
+                
+                // TODO which queue to use for winning bidder price update?
+//                $msg = array('item_id' => $item->getId());
+//                $this->producer->publish(serialize($msg), 'booking-update');
+            }
+            
+            $count = 1;
+        }
+        catch (\Doctrine\Orm\NoResultException $e) {
+            $count = 0;
+        }
+        
+        return $count;
+    }
+    
+    
     public function updateSuitcaseBooking($id, $request)
     {
         $qb = $this->em->createQueryBuilder();

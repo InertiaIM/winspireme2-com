@@ -119,6 +119,10 @@ suitcaseUpdateQty:
     pattern:  /suitcase/update-qty/{id}
     defaults: { _controller: InertiaWinspireBundle:Suitcase:updateQty }
     
+suitcaseUpdatePrice:
+    pattern:  /suitcase/update-price/{id}
+    defaults: { _controller: InertiaWinspireBundle:Suitcase:updatePrice }
+    
 shareComment:
     pattern:  /comment/{id}/{token}
     defaults: { _controller: InertiaWinspireBundle:Share:comment, token: none }

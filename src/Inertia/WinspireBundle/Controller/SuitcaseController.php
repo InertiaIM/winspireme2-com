@@ -1192,6 +1192,22 @@ class SuitcaseController extends Controller
     }
     
     
+    public function updatePriceAction($id)
+    {
+        $response = new JsonResponse();
+        $request = $this->getRequest();
+        
+        // TODO throw exception for request missing 'booking' parameter
+        
+        $suitcaseManager = $this->get('winspire.suitcase.manager');
+        $count = $suitcaseManager->updatePrice($id, $request->query->get('price'));
+        
+        return $response->setData(array(
+            'count' => $count
+        ));
+    }
+    
+    
     public function updateQtyAction($id)
     {
         $response = new JsonResponse();

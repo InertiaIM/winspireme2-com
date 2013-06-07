@@ -1943,6 +1943,11 @@ $(document).ready(function() {
     });
     
     
+    $(sc).find('.content').on('keypress', '.item-price input', function(e) {
+        if (String.fromCharCode(e.keyCode).match(/[^0-9]/g)) return false;
+    });
+    
+    
     $(sc).find('.content').on('click', '.item-price button.add:not(.disabled)', function(e) {
         var input = $(this).siblings('input');
         var span = $(this).siblings('span');
@@ -1958,7 +1963,7 @@ $(document).ready(function() {
         $.ajax({
             beforeSend: function() {
                 if ($(input).val() != '') {
-                    $(span).text($(input).val()).show();
+                    $(span).text('$ ' + addCommas($(input).val())).show();
                     $(input).hide();
                     $(self).hide();
                     $(edit).show();
@@ -1973,7 +1978,7 @@ $(document).ready(function() {
             success: function(data, textStatus, jqXHR) {
                 if (!$.isEmptyObject(data)) {}
             },
-            type: 'POST'
+            type: 'GET'
         });
     });
     
