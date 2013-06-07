@@ -171,28 +171,27 @@ class BookingUpdateConsumer implements ConsumerInterface
             }
         }
         
-        $message = \Swift_Message::newInstance()
-            ->setSubject('An update has posted to a Trip Booking')
-            ->setFrom(array('info@winspireme.com' => 'Winspire'))
+//        $message = \Swift_Message::newInstance()
+//            ->setSubject('An update has posted to a Trip Booking')
+//            ->setFrom(array('info@winspireme.com' => 'Winspire'))
 //            ->setTo($account->getSalesperson()->getEmail())
-            ->setTo('doug@inertiaim.com')
-            ->setBody('Opportunity: ' . $suitcase->getName() . "\n" . 
-                'Trip Booking: ' . $booking->getCertificateId() . "\n\n" .
-                'https://na5.salesforce.com/' . $booking->getSfId(),
-                'text/plain'
-            )
-        ;
+//            ->setBody('Opportunity: ' . $suitcase->getName() . "\n" . 
+//                'Trip Booking: ' . $booking->getCertificateId() . "\n\n" .
+//                'https://na5.salesforce.com/' . $booking->getSfId(),
+//                'text/plain'
+//            )
+//        ;
         
         $this->em->clear();
         
-        $this->mailer->getTransport()->start();
-        if (!$this->mailer->send($message)) {
-            // Any other value not equal to false will acknowledge the message and remove it
-            // from the queue
-            return false;
-        }
-        
-        $this->mailer->getTransport()->stop();
+//        $this->mailer->getTransport()->start();
+//        if (!$this->mailer->send($message)) {
+//            // Any other value not equal to false will acknowledge the message and remove it
+//            // from the queue
+//            return false;
+//        }
+//        
+//        $this->mailer->getTransport()->stop();
         $this->em->getConnection()->close();
         
         return true;
