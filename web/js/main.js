@@ -1851,8 +1851,14 @@ $(document).ready(function() {
         var qty = $(this).val();
         
         if (qty.search(/^\d*$/) < 0) {
-            $(this).val('0');
+            $(this).val('0').attr('value', '0');
             qty = '0';
+        }
+        else {
+            // Not sure why this is necessary, but otherwise the
+            // "value" attribute isn't updated for our test 
+            // on whether all values have been filled.
+            $(this).attr('value', qty);
         }
         
         $(wrapper).addClass('active');
@@ -1908,6 +1914,9 @@ $(document).ready(function() {
                     $('#sc-area .content').html(data.content);
                     $('#sc-area .header').html(data.header);
                     $('#sc-area .footer').html(data.footer);
+                    $('#sc-area .content').find('.tooltip.disabled').tooltipster({
+                        position: 'top-right'
+                    });
                 },
                 type: 'POST'
             });
@@ -1934,7 +1943,7 @@ $(document).ready(function() {
     });
     
     
-    $(sc).find('.content .item-price').on('click', 'button.add:not(.disabled)', function(e) {
+    $(sc).find('.content').on('click', '.item-price button.add:not(.disabled)', function(e) {
         var input = $(this).siblings('input');
         var span = $(this).siblings('span');
         var edit = $(this).siblings('button.edit');
@@ -1969,7 +1978,7 @@ $(document).ready(function() {
     });
     
     
-    $(sc).find('.content .item-price').on('click', 'button.edit:not(.disabled)', function(e) {
+    $(sc).find('.content').on('click', '.item-price button.edit:not(.disabled)', function(e) {
         var input = $(this).siblings('input');
         var span = $(this).siblings('span');
         var add = $(this).siblings('button.add');
@@ -1982,7 +1991,7 @@ $(document).ready(function() {
     });
     
     
-    $(sc).find('.content .winning-bidders').on('click', 'button.add:not(.disabled)', function(e) {
+    $(sc).find('.content').on('click', '.winning-bidders button.add:not(.disabled)', function(e) {
         var container = $(this).parent().parent('tr');
         var id = $(this).attr('data-id');
         var data = $(container).find('input').serialize();
@@ -2022,7 +2031,7 @@ $(document).ready(function() {
         });
     });
     
-    $(sc).find('.content .winning-bidders').on('click', 'button.edit:not(.disabled)', function(e) {
+    $(sc).find('.content').on('click', '.winning-bidders button.edit:not(.disabled)', function(e) {
         var container = $(this).parent().parent('tr');
         var id = $(this).attr('data-id');
         var data = $(container).find('input').serialize();
@@ -2080,7 +2089,7 @@ $(document).ready(function() {
         }
     });
     
-    $(sc).find('.content .winning-bidders').on('click', 'button.mail:not(.disabled)', function(e) {
+    $(sc).find('.content').on('click', '.winning-bidders button.mail:not(.disabled)', function(e) {
         var container = $(this).parent().parent('tr');
         var id = $(this).attr('data-id');
         var first = $(container).find('td.first-name input').val();
