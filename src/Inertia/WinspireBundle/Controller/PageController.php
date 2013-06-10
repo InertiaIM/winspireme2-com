@@ -23,8 +23,15 @@ class PageController extends Controller
             throw $this->createNotFoundException();
         }
         
-        return $this->render('InertiaWinspireBundle:Page:display.html.twig', array(
-            'page' => $page
-        ));
+        if ($slug == 'redeem' || $slug == 'redeem-luxe' || $slug == 'redeem-winspire' || $slug == 'redeem-thanks') {
+            return $this->render('InertiaWinspireBundle:Page:display2.html.twig', array(
+                'page' => $page
+            ));
+        }
+        else {
+            return $this->render('InertiaWinspireBundle:Page:display.html.twig', array(
+                'page' => $page
+            ));
+        }
     }
 }

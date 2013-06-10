@@ -1,0 +1,18 @@
+{% extends 'InertiaWinspireBundle::layout.html.twig' %}
+
+{% block title %}{{ page.title }}{% endblock %}
+
+{% block description %}{{ page.description }}{% endblock %}
+
+{% block content_header '' %}
+
+{% block content %}
+{% if page.css != '' %}
+<style>
+{{ page.css | raw }}
+</style>
+{% endif %}
+    <div class="standard-page">
+        {{ page.html | replace({'{{ date }}': 'now' | date('F jS, Y')}) | raw }}
+    </div>
+{% endblock %}
