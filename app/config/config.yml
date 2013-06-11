@@ -187,6 +187,10 @@ services:
         class: Inertia\WinspireBundle\Consumer\InvoiceRequestConsumer
         arguments: [@doctrine.orm.entity_manager, @mailer, @templating, @ddeboer_salesforce_client, "%accounting_email%"]
         
+    winspire.consumer.price_update:
+        class: Inertia\WinspireBundle\Consumer\PriceUpdateConsumer
+        arguments: [@doctrine.orm.entity_manager, @ddeboer_salesforce_client]
+        
     winspire.consumer.send_voucher:
         class: Inertia\WinspireBundle\Consumer\SendVoucherConsumer
         arguments: [@doctrine.orm.entity_manager, @mailer, @templating, @ddeboer_salesforce_client]
@@ -246,6 +250,11 @@ old_sound_rabbit_mq:
             exchange_options: { name: 'winspire', type: direct }
             queue_options:    { name: 'winspire-create-suitcase' }
             callback:         create_suitcase_service
+        price_update:
+            connection: default
+            exchange_options: { name: 'winspire', type: direct }
+            queue_options:    { name: 'winspire-price-update' }
+            callback:         winspire.consumer.price_update
         unpack_suitcase:
             connection: default
             exchange_options: { name: 'winspire', type: direct }

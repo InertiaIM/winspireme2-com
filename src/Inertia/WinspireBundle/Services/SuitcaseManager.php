@@ -437,9 +437,8 @@ class SuitcaseManager
                 $this->em->persist($item);
                 $this->em->flush();
                 
-                // TODO which queue to use for winning bidder price update?
-//                $msg = array('item_id' => $item->getId());
-//                $this->producer->publish(serialize($msg), 'booking-update');
+                $msg = array('item_id' => $item->getId());
+                $this->producer->publish(serialize($msg), 'price-update');
             }
             
             $count = 1;
