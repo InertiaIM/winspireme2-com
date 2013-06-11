@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
 Salesforce.com Enterprise Web Services API Version 27.0
-Generated on 2013-04-25 06:16:12 +0000.
+Generated on 2013-06-11 21:46:24 +0000.
 
 Package Versions:
 Salesforce for Google AdWords (Version: 1.2, Namespace: sfga)
@@ -123,6 +123,7 @@ All Rights Reserved
                         <element name="Notes" nillable="true" minOccurs="0" type="tns:QueryResult"/>
                         <element name="NotesAndAttachments" nillable="true" minOccurs="0" type="tns:QueryResult"/>
                         <element name="Notes_or_Comments__pc" nillable="true" minOccurs="0" type="xsd:string"/>
+                        <element name="Num_of_accounts__c" nillable="true" minOccurs="0" type="xsd:double"/>
                         <element name="NumberOfEmployees" nillable="true" minOccurs="0" type="xsd:int"/>
                         <element name="Number_of_Days__c" nillable="true" minOccurs="0" type="xsd:double"/>
                         <element name="OpenActivities" nillable="true" minOccurs="0" type="tns:QueryResult"/>
@@ -248,6 +249,7 @@ All Rights Reserved
                         <element name="btydev__Picture_Id__pc" nillable="true" minOccurs="0" type="xsd:string"/>
                         <element name="btydev__Picture__pc" nillable="true" minOccurs="0" type="xsd:string"/>
                         <element name="reservations_phone__c" nillable="true" minOccurs="0" type="xsd:string"/>
+                        <element name="unique_Acct_Record_ID__c" nillable="true" minOccurs="0" type="xsd:string"/>
                         </sequence>
                     </extension>
                 </complexContent>
@@ -3579,6 +3581,7 @@ All Rights Reserved
                         <element name="What_company_is_hosting_online_auction__c" nillable="true" minOccurs="0" type="xsd:string"/>
                         <element name="Wireless_data_recorder_provider__c" nillable="true" minOccurs="0" type="xsd:string"/>
                         <element name="consignment_items_supplier__c" nillable="true" minOccurs="0" type="xsd:string"/>
+                        <element name="unique_Record_ID__c" nillable="true" minOccurs="0" type="xsd:string"/>
                         </sequence>
                     </extension>
                 </complexContent>
@@ -4277,6 +4280,7 @@ All Rights Reserved
                         <element name="Notes" nillable="true" minOccurs="0" type="tns:QueryResult"/>
                         <element name="NotesAndAttachments" nillable="true" minOccurs="0" type="tns:QueryResult"/>
                         <element name="Notes_Specifics__c" nillable="true" minOccurs="0" type="xsd:string"/>
+                        <element name="Num_of_items_pkgs__c" nillable="true" minOccurs="0" type="xsd:double"/>
                         <element name="OMIT_from_Winspire__c" nillable="true" minOccurs="0" type="xsd:boolean"/>
                         <element name="OpenActivities" nillable="true" minOccurs="0" type="tns:QueryResult"/>
                         <element name="Opportunities1__r" nillable="true" minOccurs="0" type="tns:QueryResult"/>
@@ -5714,6 +5718,7 @@ All Rights Reserved
                         <element name="ZIP__c" nillable="true" minOccurs="0" type="xsd:string"/>
                         <element name="header_completed__c" nillable="true" minOccurs="0" type="xsd:boolean"/>
                         <element name="referred_out__c" nillable="true" minOccurs="0" type="xsd:boolean"/>
+                        <element name="voucher_emailed__c" nillable="true" minOccurs="0" type="xsd:boolean"/>
                         </sequence>
                     </extension>
                 </complexContent>

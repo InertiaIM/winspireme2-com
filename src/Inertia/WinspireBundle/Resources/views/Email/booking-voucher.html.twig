@@ -512,7 +512,11 @@
 																			<img src="http://winspireme.com/uploads/packages/{{ booking.suitcaseItem.package.thumbnail }}" style="display:block;padding:0px;margin:0px;" width="150" height="98"/>
 																		</td>
 																		<td align="left" style="padding:5px 15px;" bgcolor="fff0bd">
-																			<a href="http://winspireme.com/package/{{ booking.suitcaseItem.package.slug }}" style="text-decoration:none;"><span style="font-size:18px;color:#005695;font-weight:bold;">{{ booking.suitcaseItem.package.parentHeader }}</span></a><br />
+{% if content_pack_version_id %}
+																			<a href="http://winspireme.com/package/download/{{ content_pack_version_id }}" target="_blank" style="text-decoration:none;"><span style="font-size:18px;color:#005695;font-weight:bold;">{{ booking.suitcaseItem.package.parentHeader }}</span></a><br />
+{% else %}
+																			<span style="font-size:18px;color:#005695;font-weight:bold;">{{ booking.suitcaseItem.package.parentHeader }}</span><br />
+{% endif %}
 																			<span style="font-size:13px;line-height:15px;">{{ booking.suitcaseItem.package.name }}</span>
 																		</td>
 																	</tr>
@@ -526,10 +530,31 @@
 																					<td valign="top" align="left" style="padding:15px 10px 0px;">
 																						<table border="0" cellpadding="10" cellspacing="0" width="100%" bgcolor="f1f1f1">
 																							<tr>
+																								<td valign="middle" align="right" width="400" style="padding-top:10px;padding-bottom:10px;">
+{% if content_pack_version_id %}
+																									<a href="http://winspireme.com/package/download/{{ content_pack_version_id }}" target="_blank" title="Download Package Details" alt="Link to Package Details Document" style="text-decoration:none;"><img style="border:none;" src="https://s3.amazonaws.com/winspire-transactional-emails/download-package-details-icon.gif"/></a>
+{% else %}
+																									<img style="border:none;" src="https://s3.amazonaws.com/winspire-transactional-emails/download-package-details-icon.gif"/>
+{% endif %}
+																								</td>
+																								<td valign="middle" align="left" width="200" colspan="2" style="font-size:14px;line-height:16px;padding-left:0px;">
+{% if content_pack_version_id %}
+																									<a href="http://winspireme.com/package/download/{{ content_pack_version_id }}" target="_blank" title="Download Package Details" alt="Link to Package Details Document" style="text-decoration:none;"><b>Download Full<br/>Package Details</b></a>
+{% else %}
+																									<b>Download Full<br/>Package Details</b>
+{% endif %}
+																								</td>
+																							</tr>
+																							<tr>
+																								<td align="left" class="hideme" colspan="3" style="padding:5px;">
+																									<img src="https://s3.amazonaws.com/winspire-transactional-emails/spacer1px.gif" />
+																								</td>
+																							</tr>
+																							<tr>
 																								<td valign="top" align="right" width="320" >
 																									<span style="color: #505050;font-size:16px;"><b>Certificate Identification &#35;:</b></span>
 																								</td>
-																								<td valign="top" align="left" bgcolor="ffffff" width="120" style="border:1px solid #ccc;">
+																								<td valign="top" align="left" bgcolor="ffffff" width="200" style="border:1px solid #ccc;">
 																									<span style="color: #444;font-size:20px;">{{ booking.certificateId }}</span>
 																								</td>
 																								<td align="left" class="hideme" width="15" style="padding:0px;">
@@ -545,7 +570,7 @@
 																								<td valign="top" align="right">
 																									<span style="color: #505050;font-size:16px;"><b>Package &#35;:</b></span>
 																								</td>
-																								<td valign="top" align="left" bgcolor="ffffff" width="100" style="border:1px solid #ccc;">
+																								<td valign="top" align="left" bgcolor="ffffff" width="200" style="border:1px solid #ccc;">
 																									<span style="color: #444;font-size:20px;">{{ booking.suitcaseItem.package.code }}</span>
 																								</td>
 																								<td align="left" class="hideme">
@@ -557,27 +582,40 @@
 																									<img src="https://s3.amazonaws.com/winspire-transactional-emails/spacer1px.gif" />
 																								</td>
 																							</tr>
-																							<tr>
-																								<td align="left" colspan="2">
-																									<table border="0" cellpadding="0" cellspacing="0" width="100%">
-																										<tr>
-																											<td valign="bottom" align="right" style="padding:0px;margin:0px;">
-																												<a href="https://www.redeemwinspire.com" title="Redeem Experience"><img src="https://s3.amazonaws.com/winspire-transactional-emails/Redeem-button.jpg" alt="Redeem" style="text-align:center;font-size:18px;background:#006bb6;color:#ffffff;" width="200" height="50"/></a>
-																											</td>
-																										</tr>
-																										<tr>
-																											<td align="right" class="hideme" colspan="3" style="padding:10px 0px 0px;font-size:11px;">
-																												or visit <a href="https://www.redeemwinspire.com">redeemwinspire.com</a>
-																											</td>
-																										</tr>
-																									</table>
-																								</td>																								
-																							</tr>
 																						</table>
 																					</td>
 																				</tr>
+																			</table>
+																			<table border="0" cellpadding="0" cellspacing="0" width="100%">
 																				<tr>
-																					<td valign="top" align="center" colspan="2" style="padding:10px;font-size:11px;line-height:13px;font-style:italic;" bgcolor="ffffff"> 
+																				<tr>
+																					<td valign="top" align="left">
+																						<table border="0" cellpadding="0" cellspacing="0" width="100%" bgcolor="f1f1f1">
+																							<tr>
+																								<td valign="top" align="left" colspan="3" style="padding:5px;">
+																									<img src="https://s3.amazonaws.com/winspire-transactional-emails/spacer1px.gif" />
+																								</td>
+																							</tr>
+																							<tr>
+																								<td valign="top" align="left" width="200">
+																									<img src="https://s3.amazonaws.com/winspire-transactional-emails/redeem-button-spacer.gif" />
+																								</td>
+																								<td valign="top" align="left" >
+																									<a href="http://winspireme.com/redeem" alt="Winning Bidder Remption Page"><img src="https://s3.amazonaws.com/winspire-transactional-emails/big-redeem-button.gif" alt="Redeem Your Experience" style="background:#005695;color:#ffffff;font-size:30px;" width="200"/></a>
+																								</td>
+																								<td valign="top" align="left" width="200">
+																									<img src="https://s3.amazonaws.com/winspire-transactional-emails/redeem-button-spacer.gif" />
+																								</td>
+																							</tr>
+																							<tr>
+																								<td valign="top" align="left" colspan="3" style="padding:10px;">
+																									<img src="https://s3.amazonaws.com/winspire-transactional-emails/spacer1px.gif" />
+																								</td>
+																							</tr>
+																						</table>
+																					</td>
+																				<tr>
+																					<td valign="top" align="center" colspan="2" style="padding:10px;font-size:11px;line-height:13px;font-style:italic" bgcolor="ffffff"> 
 																						Once your request has been submitted, you will receive a confirmation email within 24 hours. We will begin the booking process and you will be contacted personally within 7 business days.
 																					</td>
 																				</tr>

@@ -35,7 +35,7 @@ class SendVoucherConsumer implements ConsumerInterface
         $body = unserialize($msg->body);
         $bookingId = $body['booking_id'];
         $cc = $body['cc'];
-        $message = $body['message'];
+        $customMessage = $body['message'];
         
         $query = $this->em->createQuery(
             'SELECT b, i, p, s FROM InertiaWinspireBundle:Booking b JOIN b.suitcaseItem i JOIN i.package p JOIN i.suitcase s WHERE b.id = :id AND s.status = \'A\''
@@ -59,6 +59,31 @@ class SendVoucherConsumer implements ConsumerInterface
         
         $email = $booking->getEmail();
         
+        
+        // Query for appropriate Content Pack Version
+        $query = $this->em->createQuery(
+            'SELECT c, v FROM InertiaWinspireBundle:ContentPack c JOIN c.versions v WHERE c.sfId = :id AND v.created <= :date ORDER BY v.created DESC'
+        )
+            ->setParameter('id', $booking->getSuitcaseItem()->getPackage()->getSfContentPackId())
+            ->setParameter('date', $suitcase->getEventDate())
+        ;
+        
+        $query->setMaxResults(1);
+        
+        try {
+            $contentPack = $query->getSingleResult();
+            $contentPackVersions = $contentPack->getVersions();
+            $contentPackVersion = $contentPackVersions[0];
+            $contentPackVersionId = $contentPackVersion->getId();
+        }
+        catch (\Doctrine\Orm\NoResultException $e) {
+            $contentPackVersionId = false;
+        }
+        
+        
+        
+        
+        
         $message = \Swift_Message::newInstance()
             ->setSubject('Use this Booking Voucher to redeem your Experience!')
             ->setFrom(array('info@winspireme.com' => 'Winspire'))
@@ -69,7 +94,8 @@ class SendVoucherConsumer implements ConsumerInterface
                     array(
                         'booking' => $booking,
                         'suitcase' => $suitcase,
-                        'message' => $message
+                        'message' => $customMessage,
+                        'content_pack_version_id' => $contentPackVersionId
                     )
                 ),
                 'text/html'
@@ -80,7 +106,8 @@ class SendVoucherConsumer implements ConsumerInterface
                     array(
                         'booking' => $booking,
                         'suitcase' => $suitcase,
-                        'message' => $message
+                        'message' => $customMessage,
+                        'content_pack_version_id' => $contentPackVersionId
                     )
                 ),
                 'text/plain'
@@ -106,8 +133,34 @@ class SendVoucherConsumer implements ConsumerInterface
             // from the queue
             return false;
         }
-        
         $this->mailer->getTransport()->stop();
+        
+        
+        // Update the Trip Booking record in SF after the Voucher is sent
+        $sfBooking = new \stdClass();
+        $sfBooking->Id = $booking->getSfId();
+        $sfBooking->voucher_emailed__c = true;
+        $saveResult = $this->sf->update(array($sfBooking), 'Trip_Booking__c');
+        
+        
+        $html = $this->templating->render(
+            'InertiaWinspireBundle:Email:booking-voucher.html.twig',
+            array(
+                'booking' => $booking,
+                'suitcase' => $suitcase,
+                'message' => $customMessage,
+                'content_pack_version_id' => $contentPackVersionId
+            )
+        );
+        
+        // Send HTML to Salesforce
+        $sfAttachment = new \stdClass();
+        $sfAttachment->Body = $html;
+        $sfAttachment->Name = 'Voucher - ' . $booking->getVoucherSentAt()->format('Ymd') . '.html';
+        $sfAttachment->ParentId = $booking->getSfId();
+        $saveResult = $this->sf->create(array($sfAttachment), 'Attachment');
+        
+        
         $this->em->getConnection()->close();
         
         return true;
