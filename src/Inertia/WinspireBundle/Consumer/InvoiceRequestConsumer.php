@@ -181,7 +181,10 @@ class InvoiceRequestConsumer implements ConsumerInterface
             $this->mailer->send($message);
         }
         
-        
+        $grandTotal = 0;
+        foreach ($suitcase->getItems() as $item) {
+            $grandTotal += $item->getSubtotal();
+        }
         
         $name = $suitcase->getUser()->getFirstName() . ' ' .
             $suitcase->getUser()->getLastName();
@@ -196,7 +199,8 @@ class InvoiceRequestConsumer implements ConsumerInterface
                 $this->templating->render(
                     'InertiaWinspireBundle:Email:invoice-requested.html.twig',
                     array(
-                        'suitcase' => $suitcase
+                        'suitcase' => $suitcase,
+                        'grand_total' => $grandTotal
                     )
                 ),
                 'text/html'
@@ -205,14 +209,15 @@ class InvoiceRequestConsumer implements ConsumerInterface
                 $this->templating->render(
                     'InertiaWinspireBundle:Email:invoice-requested.txt.twig',
                     array(
-                        'suitcase' => $suitcase
+                        'suitcase' => $suitcase,
+                        'grand_total' => $grandTotal
                     )
                 ),
                 'text/plain'
             )
         ;
 //        $message->setBcc($account->getSalesperson()->getEmail());
-        $message->setBcc($this->accountingEmail);
+        $message->setBcc('doug@inertiaim.com');
         
         
         $this->em->clear();
@@ -225,6 +230,23 @@ class InvoiceRequestConsumer implements ConsumerInterface
         }
         
         $this->mailer->getTransport()->stop();
+        
+        
+        // Send HTML to Salesforce
+        $html = $this->templating->render(
+            'InertiaWinspireBundle:Email:invoice-requested.html.twig',
+            array(
+                'suitcase' => $suitcase,
+                'grand_total' => $grandTotal
+            )
+        );
+        $sfAttachment = new \stdClass();
+        $sfAttachment->Body = $html;
+        $sfAttachment->Name = 'Invoice Request - ' . $suitcase->getInvoiceRequestedAt()->format('Ymd') . '.html';
+        $sfAttachment->ParentId = $suitcase->getSfId();
+        $saveResult = $this->sf->create(array($sfAttachment), 'Attachment');
+        
+        
         $this->em->getConnection()->close();
         
         return true;
