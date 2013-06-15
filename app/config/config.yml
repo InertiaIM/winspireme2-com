@@ -141,7 +141,7 @@ services:
         
     suitcase_soap_service:
         class: Inertia\WinspireBundle\Services\SuitcaseSoapService
-        arguments: [@ddeboer_salesforce_client, @doctrine.orm.entity_manager, @logger, @templating, @mailer]
+        arguments: [@ddeboer_salesforce_client, @doctrine.orm.entity_manager, @logger, @mailer, @templating]
     
     # Doctrine Extension listeners to handle behaviors
     gedmo.listener.timestampable:
