@@ -431,7 +431,7 @@ class DefaultController extends Controller
         
         
         $packageIds = array();
-        if ($suitcase) {
+        if ($suitcase && $suitcase != 'new') {
             foreach ($suitcase->getItems() as $item) {
                 $packageIds[] = $item->getPackage()->getId();
             }
