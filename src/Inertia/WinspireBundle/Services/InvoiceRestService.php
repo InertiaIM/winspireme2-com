@@ -35,7 +35,9 @@ class InvoiceRestService
     
     public function handle(Request $request)
     {
-        $sfId = $request->query->get('id');
+        $sfIds = $request->request->get('id');
+        
+        foreach($sfIds as $sfId) {
         
         $this->logger->info('Here comes an Invoice...');
         $this->logger->info($sfId);
@@ -147,6 +149,7 @@ $this->logger->info('This invoice is not for us; but we\'ll save (or delete) it 
         }
         else {
 $this->logger->info('Why aren\'t we retrieving this invoice?');
+        }
         }
         
         return true;
