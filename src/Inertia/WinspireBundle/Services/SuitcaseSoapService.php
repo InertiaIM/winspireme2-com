@@ -163,7 +163,7 @@ class SuitcaseSoapService
             ->setFrom(array('info@winspireme.com' => 'Winspire'))
             ->setTo(array($email => $name))
             ->setBody(
-                $templating->render(
+                $this->templating->render(
                     'InertiaWinspireBundle:Email:travel-vouchers-ready.html.twig',
                     array(
                         'suitcase' => $suitcase
@@ -171,7 +171,7 @@ class SuitcaseSoapService
                 ), 'text/html'
             )
             ->addPart(
-                $templating->render(
+                $this->templating->render(
                     'InertiaWinspireBundle:Email:travel-vouchers-ready.txt.twig',
                     array(
                         'suitcase' => $suitcase
