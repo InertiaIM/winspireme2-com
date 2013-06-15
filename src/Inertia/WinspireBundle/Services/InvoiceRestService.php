@@ -21,7 +21,8 @@ class InvoiceRestService
     public function __construct(
         Client $salesforce,
         EntityManager $entityManager,
-        Logger $logger, \Swift_Mailer $mailer,
+        Logger $logger,
+        \Swift_Mailer $mailer,
         EngineInterface $templating,
         $directory)
     {
