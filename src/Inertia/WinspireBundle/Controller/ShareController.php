@@ -28,8 +28,6 @@ class ShareController extends Controller
             ));
         }
         
-        $send = false;
-        
         if($token != 'none') {
             $query = $em->createQuery(
                 'SELECT s, h FROM InertiaWinspireBundle:Share h JOIN h.suitcase s WHERE h.token = :token AND s.id = :id AND s.status IN (\'U\',\'P\')'
@@ -49,8 +47,6 @@ class ShareController extends Controller
             $name = $share->getName();
             $email = $share->getEmail();
             $suitcase = $share->getSuitcase();
-            
-            $send = true;
         }
         else {
             $user = $this->getUser();
@@ -100,10 +96,8 @@ class ShareController extends Controller
         $em->persist($comment);
         $em->flush();
         
-        if($send) {
-            $msg = array('comment_id' => $comment->getId());
-            $this->get('old_sound_rabbit_mq.winspire_producer')->publish(serialize($msg), 'comment');
-        }
+        $msg = array('comment_id' => $comment->getId());
+        $this->get('old_sound_rabbit_mq.winspire_producer')->publish(serialize($msg), 'comment');
         
         
         $timestamp = date_format($comment->getCreated(), 'M j, Y, g:i a');
