@@ -54,7 +54,7 @@ class SoapController extends Controller
     public function invoiceAction()
     {
         // Not an actual SOAP service, but this seems like the best place to keep
-        // another action for a SF web service callout.
+        // another action required for a SF web service callout.
         
         $server = $this->get('winspire.rest.invoice_service');
         
