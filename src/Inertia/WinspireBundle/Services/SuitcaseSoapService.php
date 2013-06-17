@@ -91,19 +91,24 @@ class SuitcaseSoapService
             
             if ($sfOpp->SystemModstamp > $suitcase->getSfUpdated()) {
                 $suitcase->setName($sfOpp->Name);
-                if(isset($sfOpp->Event_Name__c)) {
-                    $suitcase->setEventName($sfOpp->Event_Name__c);
-                }
+                $suitcase->setEventName($sfOpp->Name);
                 
                 if(isset($sfOpp->Event_Date__c)) {
                     $suitcase->setEventDate($sfOpp->Event_Date__c);
                 }
                 
-                if(isset($sfOpp->PDS__Paid__c) && $sfOpp->PDS__Paid__c == '1') {
+                // If the Suitcase isn't already marked as "paid" (status = A)
+                if (isset($sfOpp->PDS__Paid__c) && $sfOpp->PDS__Paid__c == '1' && $suitcase->getStatus() != 'A') {
                     $timestamp = new \DateTime();
                     $suitcase->setStatus('A');
                     $suitcase->setInvoicePaidAt($timestamp);
                     $this->sendEmail($suitcase);
+                }
+                
+                // If the Suitcase _is_ already marked as "paid", but the Opportunity has been changed to unpaid
+                if ((!isset($sfOpp->PDS__Paid__c) || $sfOpp->PDS__Paid__c == '0') && $suitcase->getStatus() == 'A') {
+                    $suitcase->setStatus('I');
+                    $suitcase->setInvoicePaidAt(null);
                 }
                 
                 // CHANGE SUITCASE USER ACCOUNT
