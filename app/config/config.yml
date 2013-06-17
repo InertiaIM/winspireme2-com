@@ -195,6 +195,10 @@ services:
         class: Inertia\WinspireBundle\Consumer\SendVoucherConsumer
         arguments: [@doctrine.orm.entity_manager, @mailer, @templating, @ddeboer_salesforce_client]
         
+    winspire.consumer.update_sf:
+        class: Inertia\WinspireBundle\Consumer\UpdateSfConsumer
+        arguments: [@doctrine.orm.entity_manager, @mailer, @ddeboer_salesforce_client]
+        
     winspire.soap.booking_service:
         class: Inertia\WinspireBundle\Services\BookingSoapService
         arguments: [@ddeboer_salesforce_client, @doctrine.orm.entity_manager, @logger]
@@ -275,3 +279,8 @@ old_sound_rabbit_mq:
             exchange_options: { name: 'winspire', type: direct }
             queue_options:    { name: 'winspire-send-voucher' }
             callback:         winspire.consumer.send_voucher
+        update_sf:
+            connection: default
+            exchange_options: { name: 'winspire', type: direct }
+            queue_options:    { name: 'winspire-update-sf' }
+            callback:         winspire.consumer.update_sf

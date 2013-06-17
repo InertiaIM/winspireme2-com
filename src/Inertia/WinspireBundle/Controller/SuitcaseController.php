@@ -446,6 +446,9 @@ class SuitcaseController extends Controller
                 $em->persist($suitcase);
                 $em->flush();
                 
+                $msg = array('id' => $suitcase->getId(), 'type' => 'suitcase');
+                $this->get('old_sound_rabbit_mq.winspire_producer')->publish(serialize($msg), 'update-sf');
+                
                 return $response->setData(array(
                     'success' => true,
                     'suitcase' => array(

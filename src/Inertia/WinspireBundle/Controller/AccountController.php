@@ -407,6 +407,9 @@ class AccountController extends Controller
                 $em->persist($user);
                 $em->flush();
                 
+                $msg = array('id' => $user->getId(), 'type' => 'account');
+                $this->get('old_sound_rabbit_mq.winspire_producer')->publish(serialize($msg), 'update-sf');
+                
                 if($this->get('security.context')->isGranted('ROLE_ADMIN')) {
                     return $response->setData(array(
                         'success' => true,
