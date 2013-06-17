@@ -115,11 +115,11 @@ class SendVoucherConsumer implements ConsumerInterface
                 'text/plain'
             )
         ;
-//        $message->setBcc($account->getSalesperson()->getEmail());
+        $message->setBcc($account->getSalesperson()->getEmail());
         $message->setBcc('doug@inertiaim.com');
         
         if ($cc) {
-            $message->setBcc('doug@dfector.com');
+            $message->setBcc($suitcase->getUser()->getEmail());
         }
         
         

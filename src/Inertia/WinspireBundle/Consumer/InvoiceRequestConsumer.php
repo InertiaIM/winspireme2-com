@@ -216,7 +216,7 @@ class InvoiceRequestConsumer implements ConsumerInterface
                 'text/plain'
             )
         ;
-//        $message->setBcc($account->getSalesperson()->getEmail());
+        $message->setBcc($account->getSalesperson()->getEmail());
         $message->setBcc('doug@inertiaim.com');
         
         

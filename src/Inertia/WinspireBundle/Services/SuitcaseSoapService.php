@@ -179,7 +179,7 @@ class SuitcaseSoapService
                 ), 'text/plain'
             )
         ;
-//        $message->setBcc($account->getSalesperson()->getEmail());
+        $message->setBcc($account->getSalesperson()->getEmail());
         $message->setBcc('doug@inertiaim.com');
         
         $this->mailer->send($message);
