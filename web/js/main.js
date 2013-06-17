@@ -2689,8 +2689,7 @@ $(function() {
                 url: $(form).attr('action'),
                 success: function(data, textStatus, jqXHR) {
                     if (!$.isEmptyObject(data) && data.success) {
-                        $('#name-' + data.suitcase.id).find('strong').text(data.suitcase.name);
-                        $('#event-name-' + data.suitcase.id).text(data.suitcase.event_name);
+                        $('#event-name-' + data.suitcase.id + ' strong').text(data.suitcase.event_name);
                         $('#event-date-' + data.suitcase.id).text(data.suitcase.event_date);
                         
                         $.modal.close();
@@ -2706,12 +2705,10 @@ $(function() {
         e.preventDefault();
         
         var id = $(this).attr('data-id');
-        var name = $('#name-' + id).text();
-        var eventName = $('#event-name-' + id).text();
+        var eventName = $('#event-name-' + id + ' strong').text();
         var eventDate = $('#event-date-' + id).text();
         
         var form = $('#edit-suitcase-modal form');
-        $(form).find('#suitcase_name').val(name);
         $(form).find('#suitcase_event_name').val(eventName);
         $(form).find('#suitcase_event_date').val(eventDate);
         $(form).find('#suitcase_id').val(id);
@@ -2723,7 +2720,7 @@ $(function() {
             zIndex: 2002
         });
         
-        $('#edit-suitcase-modal form input#suitcase_name').focus();
+        $('#edit-suitcase-modal form input#suitcase_event_name').focus();
     });
     
     

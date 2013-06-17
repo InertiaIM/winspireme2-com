@@ -450,7 +450,6 @@ class SuitcaseController extends Controller
                     'success' => true,
                     'suitcase' => array(
                         'id' => $suitcase->getId(),
-                        'name' => $suitcase->getName(),
                         'event_name' => $suitcase->getEventName(),
                         'event_date' => $suitcase->getEventDate() != '' ? $suitcase->getEventDate()->format('m/d/y') : ''
                     )
