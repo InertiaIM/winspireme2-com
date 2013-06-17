@@ -197,7 +197,7 @@ class AccountController extends Controller
                         
                         $suitcaseItem = new SuitcaseItem();
                         $suitcaseItem->setPackage($package);
-                        $suitcaseItem->setQuantity(1);
+                        $suitcaseItem->setQuantity(0);
                         $suitcaseItem->setPrice(0);
                         $suitcaseItem->setSubtotal(0);
                         $suitcaseItem->setCost(0);
