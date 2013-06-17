@@ -191,8 +191,7 @@ $this->logger->info('Why aren\'t we retrieving this invoice?');
         $attachment->setFilename($suitcase->getInvoiceFileName());
         $message->attach($attachment);
         
-        $message->setBcc($suitcase->getUser()->getCompany()->getSalesperson()->getEmail());
-        $message->setBcc('doug@inertiaim.com');
+        $message->setBcc($suitcase->getUser()->getCompany()->getSalesperson()->getEmail(), 'doug@inertiaim.com');
         
         
         $this->mailer->send($message);
