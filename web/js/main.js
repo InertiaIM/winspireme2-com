@@ -2492,7 +2492,7 @@ $(document).ready(function() {
                             });
                         }
                         else {
-                            $('#core-nav').find('.inline-nav').append('<li><a href="#">My Account</a></li>');
+                            $('#core-nav').find('.inline-nav').append('<li><a href="/account">My Account</a></li>');
                             $('#core-nav').find('.inline-nav').append('<li><a href="/logout">Logout</a></li>');
                             
                             if(id != 'none') {
