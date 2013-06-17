@@ -49,12 +49,11 @@
                     <h2>Your Suitcases</h2>
                     <table>
 {% for suitcase in user.suitcases %}
-{%     if suitcase.eventDate == '' or date(suitcase.eventDate) > date() %}
                         <tr data-id="{{ suitcase.id }}">
                             <td class="name" id="name-{{ suitcase.id }}"><strong>{{ suitcase.name }}</strong></td>
                             <td class="date">&nbsp;</td>
-                            <td class="action"><a href="#" data-id="{{ suitcase.id }}" class="button edit">Edit</a></td>
-                            <td class="action"><a href="#" data-id="{{ suitcase.id }}" class="button delete">Delete</a></td>
+                            <td class="action">{% if suitcase.status in ['U', 'P'] %}<a href="#" data-id="{{ suitcase.id }}" class="button edit">Edit</a>{% endif %}</td>
+                            <td class="action">{% if suitcase.status in ['U', 'P'] %}<a href="#" data-id="{{ suitcase.id }}" class="button delete">Delete</a>{% endif %}</td>
                         </tr>
                         <tr data-id="{{ suitcase.id }}">
                             <td id="event-name-{{ suitcase.id }}">{% if suitcase.eventName != '' %}{{ suitcase.eventName }}{% endif %}</td>
@@ -68,7 +67,6 @@
                             <td>&nbsp;</td>
                             <td>&nbsp;</td>
                         </tr>
-{%     endif %}
 {% endfor %}
                     </table>
                 </div>

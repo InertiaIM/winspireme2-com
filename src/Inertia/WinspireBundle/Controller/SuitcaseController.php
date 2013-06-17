@@ -425,7 +425,7 @@ class SuitcaseController extends Controller
             $eventDate = $suitcase['event_date'];
             
             $query = $em->createQuery(
-                'SELECT s FROM InertiaWinspireBundle:Suitcase s WHERE s.user = :user_id AND s.id = :id'
+                'SELECT s FROM InertiaWinspireBundle:Suitcase s WHERE s.user = :user_id AND s.id = :id AND s.status IN (\'U\', \'P\')'
             )
                 ->setParameter('user_id', $user->getId())
                 ->setParameter('id', $id)
