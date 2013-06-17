@@ -17,6 +17,7 @@ framework:
     trust_proxy_headers: false # Whether or not the Request object should trust proxy headers (X_FORWARDED_FOR/HTTP_CLIENT_IP)
     session:
         name: "%session_name%"
+        cookie_domain: "%session_domain%"
 
 # Twig Configuration
 twig:
@@ -111,7 +112,7 @@ ddeboer_salesforce_client:
     username: "%sf_username%"
     password: "%sf_password%"
     token:    "%sf_token%"
-    wsdl:     "%kernel.root_dir%/config/salesforce/enterprise.wsdl.xml"
+    wsdl:     "%kernel.root_dir%/config/salesforce/%sf_wsdl%"
     logging:  false
 
 # not sure why this is necessary
@@ -140,7 +141,7 @@ services:
         
     suitcase_soap_service:
         class: Inertia\WinspireBundle\Services\SuitcaseSoapService
-        arguments: [@ddeboer_salesforce_client, @doctrine.orm.entity_manager, @logger]
+        arguments: [@ddeboer_salesforce_client, @doctrine.orm.entity_manager, @logger, @mailer, @templating]
     
     # Doctrine Extension listeners to handle behaviors
     gedmo.listener.timestampable:
@@ -177,6 +178,34 @@ services:
     share_suitcase_service:
         class: Inertia\WinspireBundle\Consumer\ShareSuitcaseConsumer
         arguments: [@doctrine.orm.entity_manager, @mailer, @templating]
+        
+    winspire.consumer.booking_update:
+        class: Inertia\WinspireBundle\Consumer\BookingUpdateConsumer
+        arguments: [@doctrine.orm.entity_manager, @mailer, @templating, @ddeboer_salesforce_client]
+        
+    winspire.consumer.invoice_request:
+        class: Inertia\WinspireBundle\Consumer\InvoiceRequestConsumer
+        arguments: [@doctrine.orm.entity_manager, @mailer, @templating, @ddeboer_salesforce_client, "%accounting_email%"]
+        
+    winspire.consumer.price_update:
+        class: Inertia\WinspireBundle\Consumer\PriceUpdateConsumer
+        arguments: [@doctrine.orm.entity_manager, @ddeboer_salesforce_client]
+        
+    winspire.consumer.send_voucher:
+        class: Inertia\WinspireBundle\Consumer\SendVoucherConsumer
+        arguments: [@doctrine.orm.entity_manager, @mailer, @templating, @ddeboer_salesforce_client]
+        
+    winspire.soap.booking_service:
+        class: Inertia\WinspireBundle\Services\BookingSoapService
+        arguments: [@ddeboer_salesforce_client, @doctrine.orm.entity_manager, @logger]
+        
+    winspire.rest.invoice_service:
+        class: Inertia\WinspireBundle\Services\InvoiceRestService
+        arguments: [@ddeboer_salesforce_client, @doctrine.orm.entity_manager, @logger,  @mailer, @templating, "%invoice_dir%"]
+        
+    winspire.suitcase.manager:
+        class: Inertia\WinspireBundle\Services\SuitcaseManager
+        arguments: [@doctrine.orm.entity_manager, @session, @security.context, @old_sound_rabbit_mq.winspire_producer, "%invoice_dir%"]
 
 old_sound_rabbit_mq:
     connections:
@@ -191,6 +220,11 @@ old_sound_rabbit_mq:
             connection: default
             exchange_options: { name: 'winspire', type: direct }
     consumers:
+        booking_update:
+            connection: default
+            exchange_options: { name: 'winspire', type: direct }
+            queue_options:    { name: 'winspire-booking-update' }
+            callback:         winspire.consumer.booking_update
         comment:
             connection: default
             exchange_options: { name: 'winspire', type: direct }
@@ -216,13 +250,28 @@ old_sound_rabbit_mq:
             exchange_options: { name: 'winspire', type: direct }
             queue_options:    { name: 'winspire-create-suitcase' }
             callback:         create_suitcase_service
+        price_update:
+            connection: default
+            exchange_options: { name: 'winspire', type: direct }
+            queue_options:    { name: 'winspire-price-update' }
+            callback:         winspire.consumer.price_update
         unpack_suitcase:
             connection: default
             exchange_options: { name: 'winspire', type: direct }
             queue_options:    { name: 'winspire-unpack-suitcase' }
             callback:         unpack_suitcase_service
+        invoice_request:
+            connection: default
+            exchange_options: { name: 'winspire', type: direct }
+            queue_options:    { name: 'winspire-invoice-request' }
+            callback:         winspire.consumer.invoice_request
         share_suitcase:
             connection: default
             exchange_options: { name: 'winspire', type: direct }
             queue_options:    { name: 'winspire-share-suitcase' }
             callback:         share_suitcase_service
+        send_voucher:
+            connection: default
+            exchange_options: { name: 'winspire', type: direct }
+            queue_options:    { name: 'winspire-send-voucher' }
+            callback:         winspire.consumer.send_voucher

@@ -23,9 +23,9 @@ class SuitcaseItem
     private $quantity;
     
     /**
-     * @ORM\Column(name="price", type="decimal", scale=2)
+     * @ORM\Column(name="cost", type="decimal", scale=2)
      */
-    private $price;
+    private $cost;
     
     /**
      * @ORM\Column(name="subtotal", type="decimal", scale=2)
@@ -33,9 +33,9 @@ class SuitcaseItem
     private $subtotal;
     
     /**
-     * @ORM\Column(name="total", type="decimal", scale=2)
+     * @ORM\Column(name="price", type="decimal", scale=2)
      */
-    private $total;
+    private $price;
     
     /**
      * @ORM\Column(name="status", type="string", length=128)
@@ -74,7 +74,12 @@ class SuitcaseItem
      * @ORM\JoinColumn(name="package_id", referencedColumnName="id")
      */
     protected $package;
-
+    
+    /**
+     * @ORM\OneToMany(targetEntity="Booking", mappedBy="suitcaseItem")
+     */
+    protected $bookings;
+    
     /**
      * Get id
      *
@@ -152,29 +157,6 @@ class SuitcaseItem
     public function getSubtotal()
     {
         return $this->subtotal;
-    }
-
-    /**
-     * Set total
-     *
-     * @param float $total
-     * @return SuitcaseItem
-     */
-    public function setTotal($total)
-    {
-        $this->total = $total;
-    
-        return $this;
-    }
-
-    /**
-     * Get total
-     *
-     * @return float 
-     */
-    public function getTotal()
-    {
-        return $this->total;
     }
 
     /**
@@ -313,5 +295,69 @@ class SuitcaseItem
     public function getPackage()
     {
         return $this->package;
+    }
+
+    /**
+     * Set cost
+     *
+     * @param float $cost
+     * @return SuitcaseItem
+     */
+    public function setCost($cost)
+    {
+        $this->cost = $cost;
+    
+        return $this;
+    }
+
+    /**
+     * Get cost
+     *
+     * @return float 
+     */
+    public function getCost()
+    {
+        return $this->cost;
+    }
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->bookings = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+    
+    /**
+     * Add bookings
+     *
+     * @param \Inertia\WinspireBundle\Entity\Booking $bookings
+     * @return SuitcaseItem
+     */
+    public function addBooking(\Inertia\WinspireBundle\Entity\Booking $bookings)
+    {
+        $bookings->setSuitcaseItem($this);
+        $this->bookings[] = $bookings;
+    
+        return $this;
+    }
+
+    /**
+     * Remove bookings
+     *
+     * @param \Inertia\WinspireBundle\Entity\Booking $bookings
+     */
+    public function removeBooking(\Inertia\WinspireBundle\Entity\Booking $bookings)
+    {
+        $this->bookings->removeElement($bookings);
+    }
+
+    /**
+     * Get bookings
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getBookings()
+    {
+        return $this->bookings;
     }
 }

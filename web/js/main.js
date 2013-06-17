@@ -635,6 +635,17 @@ var footerCtx = $('footer')[0];
                         zIndex: 2002
                     });
             }
+            else if ($('#suitcase-preview').find('form').attr('data-id') == 'new') {
+                $('#suitcase-modal').
+                    modal({
+                        closeText: 'X',
+                        overlay: '#fff',
+                        opacity: 0.73,
+                        zIndex: 2002
+                    });
+                $('input#suitcase_package').val(id).attr('value', id);
+                $('input#suitcase_name').focus();
+            }
             else {
                 var url = '/suitcase/add/' + id;
                 if (typeof env !== 'undefined') {
@@ -707,6 +718,18 @@ var footerCtx = $('footer')[0];
                         zIndex: 2002
                     });
             }
+            else if ($('#suitcase-preview').find('form').attr('data-id') == 'new') {
+                $('#suitcase-modal')
+                    .modal({
+                        closeText: 'X',
+                        overlay: '#fff',
+                        opacity: 0.73,
+                        zIndex: 2002
+                    })
+                ;
+                $('input#suitcase_package').val(id).attr('value', id);
+                $('input#suitcase_name').focus();
+            }
             else {
                 var url = '/suitcase/add/' + id;
                 if (typeof env !== 'undefined') {
@@ -778,18 +801,23 @@ var footerCtx = $('footer')[0];
         $('form.suitcase-switcher').find('.selectboxit.selectboxit-btn').css('width', width);
         
         $('#suitcase-modal').on($.modal.BEFORE_CLOSE, function(event, modal) {
-            $.each(selectBoxSuitcases, function(i, el) {
-                selectBoxSuitcases[i].selectOption($('.suitcase-switcher').attr('data-id'));
-            });
+            if ($('form.suitcase-switcher select[name="sid"] option').length > 1) {
+                $.each(selectBoxSuitcases, function(i, el) {
+                    selectBoxSuitcases[i].selectOption($('.suitcase-switcher').attr('data-id'));
+                });
+            }
         });
         
         $('#suitcase-modal').on($.modal.CLOSE, function(event, modal) {
-            openNew = true;
+            if ($('form.suitcase-switcher select[name="sid"] option').length > 1) {
+                openNew = true;
+            }
         });
         
         $('.suitcase-switcher select').on('change', function(e) {
             if ($(this).val() == 'new' && openNew) {
                 $('#suitcase-modal form').attr('data-style', $(this).parent('form').attr('data-style'));
+                $('#suitcase-modal form input#suitcase_package').val('').removeAttr('value');
                 openNew = false;
                 
                 $('#suitcase-modal').modal({
@@ -1032,7 +1060,7 @@ var footerCtx = $('footer')[0];
     
 /* Suitcase */
 $(document).ready(function() {
-    var sc = $('#sc-area');
+    var sc = $('#sc-area.suitcase');
     
     $(sc).find('.content').on('mouseenter', '.package', function(e) {
         var item = $(this);
@@ -1764,7 +1792,7 @@ $(document).ready(function() {
     setupSuitcaseCycle();
     
     function setupSuitcaseCycle() {
-        if($('#sc-area .content > ul > li').length > 1) {
+        if($('#sc-area.suitcase .content > ul > li').length > 1) {
             $('#suitcase-prev').show();
             $('#suitcase-next').show();
             $('#sc-area .content > ul').cycle({
@@ -1790,6 +1818,509 @@ $(document).ready(function() {
         }
     }
 });
+
+
+
+
+/* Invoice Request */
+$(document).ready(function() {
+    var sc = $('#sc-area.request-invoice');
+    
+    $('input.stepper').stepper();
+    
+    $('input.stepper').on('keydown', function(e) {
+        if (e.keyCode == 38) {
+            var stepUp = $(this).siblings('.up');
+            $(stepUp).trigger('click');
+            e.preventDefault();
+            e.stopPropagation();
+        }
+        
+        if (e.keyCode == 40) {
+            var stepDown = $(this).siblings('.down');
+            $(stepDown).trigger('click');
+            e.preventDefault();
+            e.stopPropagation();
+        }
+    });
+    
+    $('input.stepper').on('change', function(e) {
+        var wrapper = $(this).closest('.package');
+        var subtotal = $(wrapper).find('.total span');
+        var cost = $(wrapper).attr('data-cost');
+        var qty = $(this).val();
+        
+        if (qty.search(/^\d*$/) < 0) {
+            $(this).val('0').attr('value', '0');
+            qty = '0';
+        }
+        else {
+            // Not sure why this is necessary, but otherwise the
+            // "value" attribute isn't updated for our test 
+            // on whether all values have been filled.
+            $(this).attr('value', qty);
+        }
+        
+        $(wrapper).addClass('active');
+        $(wrapper).attr('data-extended', (qty * cost));
+        
+        $(subtotal).text(addCommas(parseInt(qty * cost)));
+        
+        var url = '/suitcase/update-qty/' + $(wrapper).attr('data-id')
+        if (typeof env !== 'undefined') {
+            url = env + url;
+        }
+        $.ajax({
+            data: {qty: qty},
+            dataType: 'json',
+            url: url,
+            success: function(data, textStatus, jqXHR) {
+                if (!$.isEmptyObject(data)) {}
+            },
+            type: 'GET'
+        });
+        
+        
+        var total = 0;
+        $('.package').each(function(i, e) {
+            total += parseInt($(e).attr('data-extended'));
+        });
+        
+        $('#invoice-total > span').text(addCommas(total));
+    });
+    
+    $('button#invoice').on('click', function(e) {
+        e.preventDefault();
+        
+        var missingCount = $('.package input[value=""]').length;
+        if(missingCount > 0) {
+            $('#error-modal').modal({
+                closeText: 'X',
+                overlay: '#fff',
+                opacity: 0.73,
+                zIndex: 2002
+            });
+        }
+        else {
+            var url = $(this).parent('form').attr('action');
+            var data = $('.package input').serialize();
+            
+            $.ajax({
+                data: data,
+                dataType: 'json',
+                url: url,
+                success: function(data, textStatus, jqXHR) {
+                    $('#sc-header .top').html(data.top);
+                    $('#sc-area .content').html(data.content);
+                    $('#sc-area .header').html(data.header);
+                    $('#sc-area .footer').html(data.footer);
+                    $('#sc-area .content').find('.tooltip.disabled').tooltipster({
+                        position: 'top-right'
+                    });
+                },
+                type: 'POST'
+            });
+            
+            $('#thanks-modal').modal({
+                closeText: 'X',
+                overlay: '#fff',
+                opacity: 0.73,
+                zIndex: 2002
+            });
+        }
+    });
+    
+    $('#thanks-modal button').on('click', function(e) {
+        $.modal.close();
+        $(window).scrollTop(100);
+    });
+    
+    
+    
+    /* Winning Bidders */
+    $(sc).find('.tooltip.disabled').tooltipster({
+        position: 'top-right'
+    });
+    
+    
+    $(sc).find('.content').on('keypress', '.item-price input', function(e) {
+        if (String.fromCharCode(e.keyCode).match(/[^0-9]/g)) return false;
+    });
+    
+    
+    $(sc).find('.content').on('click', '.item-price button.add:not(.disabled)', function(e) {
+        var input = $(this).siblings('input');
+        var span = $(this).siblings('span');
+        var edit = $(this).siblings('button.edit');
+        var id = $(this).attr('data-id');
+        var data = $(input).serialize();
+        var self = $(this);
+        var url = '/suitcase/update-price/' + id;
+        if (typeof env !== 'undefined') {
+            url = env + url;
+        }
+        
+        $.ajax({
+            beforeSend: function() {
+                if ($(input).val() != '') {
+                    $(span).text('$ ' + addCommas($(input).val())).show();
+                    $(input).hide();
+                    $(self).hide();
+                    $(edit).show();
+                }
+                else {
+                    return false;
+                }
+            },
+            data: data,
+            dataType: 'json',
+            url: url,
+            success: function(data, textStatus, jqXHR) {
+                if (!$.isEmptyObject(data)) {}
+            },
+            type: 'GET'
+        });
+    });
+    
+    
+    $(sc).find('.content').on('click', '.item-price button.edit:not(.disabled)', function(e) {
+        var input = $(this).siblings('input');
+        var span = $(this).siblings('span');
+        var add = $(this).siblings('button.add');
+        var self = $(this);
+        
+        $(span).hide();
+        $(input).show();
+        $(self).hide();
+        $(add).show();
+    });
+    
+    
+    $(sc).find('.content').on('click', '.winning-bidders button.add:not(.disabled)', function(e) {
+        var container = $(this).parent().parent('tr');
+        var id = $(this).attr('data-id');
+        var data = $(container).find('input').serialize();
+        var url = '/suitcase/update-booking/' + id;
+        if (typeof env !== 'undefined') {
+            url = env + url;
+        }
+        
+        $(container).find('td.first-name form').validate({
+            errorPlacement: function(error, element) {},
+            rules: {
+                'booking[first]': {
+                    required: true
+                }
+            }
+        });
+        $(container).find('td.last-name form').validate({
+            errorPlacement: function(error, element) {},
+            rules: {
+                'booking[last]': {
+                    required: true
+                }
+            }
+        });
+        $(container).find('td.email form').validate({
+            errorPlacement: function(error, element) {},
+            rules: {
+                'booking[email]': {
+                    required: true,
+                    email: true
+                }
+            }
+        });
+        $(container).find('td.phone form').validate({
+            errorPlacement: function(error, element) {},
+            rules: {
+                'booking[phone]': {
+                    required: true
+                }
+            }
+        });
+        
+        var firstv = $(container).find('td.first-name input').valid();
+        var lastv = $(container).find('td.last-name input').valid();
+        var emailv = $(container).find('td.email input').valid();
+        var phonev = $(container).find('td.phone input').valid();
+        
+        if (!firstv || !lastv || !emailv || !phonev) {
+            return false;
+        }
+        
+        
+        $.ajax({
+            beforeSend: function() {
+                var first = $(container).find('td.first-name input').val();
+                var last = $(container).find('td.last-name input').val();
+                var email = $(container).find('td.email input').val();
+                var phone = $(container).find('td.phone input').val();
+                
+                $(container).find('td.first-name span').text(first).show();
+                $(container).find('td.last-name span').text(last).show();
+                $(container).find('td.email span').text(email).show();
+                $(container).find('td.phone span').text(phone).show();
+                
+                $(container).find('td.first-name input').hide();
+                $(container).find('td.last-name input').hide();
+                $(container).find('td.email input').hide();
+                $(container).find('td.phone input').hide();
+                
+                $(container).find('td.actions > button.add').remove();
+                $(container).find('td.actions > button.edit').show();
+                $(container).find('td.actions > button.mail').show();
+            },
+            data: data,
+            dataType: 'json',
+            url: url,
+            success: function(data, textStatus, jqXHR) {
+                if (!$.isEmptyObject(data)) {}
+            },
+            type: 'POST'
+        });
+    });
+    
+    
+    $(sc).find('.content').on('click', '.winning-bidders button.edit:not(.disabled)', function(e) {
+        var container = $(this).parent().parent('tr');
+        var id = $(this).attr('data-id');
+        var data = $(container).find('input').serialize();
+        var url = '/suitcase/update-booking/' + id;
+        if (typeof env !== 'undefined') {
+            url = env + url;
+        }
+        
+        var first = $(container).find('td.first-name');
+        var last = $(container).find('td.last-name');
+        var email = $(container).find('td.email');
+        var phone = $(container).find('td.phone');
+        var self = $(this);
+        
+        if ($(this).hasClass('neutral')) {
+            $(first).find('input').show();
+            $(first).find('span').hide();
+            $(last).find('input').show();
+            $(last).find('span').hide();
+            $(email).find('input').show();
+            $(email).find('span').hide();
+            $(phone).find('input').show();
+            $(phone).find('span').hide();
+            
+            $(self).removeClass('neutral');
+        }
+        else {
+            $(container).find('td.first-name form').validate({
+                errorPlacement: function(error, element) {},
+                rules: {
+                    'booking[first]': {
+                        required: true
+                    }
+                }
+            });
+            $(container).find('td.last-name form').validate({
+                errorPlacement: function(error, element) {},
+                rules: {
+                    'booking[last]': {
+                        required: true
+                    }
+                }
+            });
+            $(container).find('td.email form').validate({
+                errorPlacement: function(error, element) {},
+                rules: {
+                    'booking[email]': {
+                        required: true,
+                        email: true
+                    }
+                }
+            });
+            $(container).find('td.phone form').validate({
+                errorPlacement: function(error, element) {},
+                rules: {
+                    'booking[phone]': {
+                        required: true
+                    }
+                }
+            });
+            
+            var firstv = $(container).find('td.first-name input').valid();
+            var lastv = $(container).find('td.last-name input').valid();
+            var emailv = $(container).find('td.email input').valid();
+            var phonev = $(container).find('td.phone input').valid();
+            
+            if (!firstv || !lastv || !emailv || !phonev) {
+                return false;
+            }
+            
+            
+            $.ajax({
+                beforeSend: function() {
+                    var first = $(container).find('td.first-name input').val();
+                    var last = $(container).find('td.last-name input').val();
+                    var email = $(container).find('td.email input').val();
+                    var phone = $(container).find('td.phone input').val();
+                    
+                    $(container).find('td.first-name span').text(first).show();
+                    $(container).find('td.last-name span').text(last).show();
+                    $(container).find('td.email span').text(email).show();
+                    $(container).find('td.phone span').text(phone).show();
+                    
+                    $(container).find('td.first-name input').hide();
+                    $(container).find('td.last-name input').hide();
+                    $(container).find('td.email input').hide();
+                    $(container).find('td.phone input').hide();
+                    
+                    $(self).addClass('neutral');
+                },
+                data: data,
+                dataType: 'json',
+                url: url,
+                success: function(data, textStatus, jqXHR) {
+                    if (!$.isEmptyObject(data)) {}
+                },
+                type: 'POST'
+            });
+        }
+    });
+    
+    $(sc).find('.content').on('click', '.winning-bidders button.mail:not(.disabled)', function(e) {
+        var container = $(this).parent().parent('tr');
+        var id = $(this).attr('data-id');
+        var first = $(container).find('td.first-name input').val();
+        var last = $(container).find('td.last-name input').val();
+        var email = $(container).find('td.email input').val();
+        var phone = $(container).find('td.phone input').val();
+        var code = $(container).attr('data-code');
+        var np = $('#test').attr('data-np');
+        var npFirst = $('#test').attr('data-first');
+        var npLast = $('#test').attr('data-last');
+        var npPhone = $('#test').attr('data-phone');
+        var npEmail = $('#test').attr('data-email');
+        var eventName = $('#test').attr('data-event');
+        var eventDate = $('#test').attr('data-date');
+        
+        var packageContainer = $(container).parent().parent().parent().parent().parent('li');
+        var packageHeader = $(packageContainer).attr('data-header');
+        var packageName = $(packageContainer).attr('data-name');
+        var packageCode = $(packageContainer).attr('data-code');
+        
+        var message = 'Dear ' + first + ',\n\n';
+        message += 'Congratulations on your winning bid and thank you so much for your contribution! We appreciate you coming out and supporting our organization, and hope you had a wonderful time at our fundraising event. From all of us here at ';
+        message += np + ', we hope you have a wonderful time on your trip and we look forward to seeing you at our next event!\n\n';
+        message += 'Sincerely,\n';
+        message += npFirst + ' ' + npLast + '\n';
+        message += np;
+        
+        
+        $('#mail-modal #message').val(message);
+        $('#mail-modal #mail-fullname').text(first + ' ' + last);
+        $('#mail-modal #mail-package-header').text(packageHeader);
+        $('#mail-modal #mail-package-name').text(packageName);
+        $('#mail-modal #mail-voucher-code').text(code);
+        $('#mail-modal #mail-package-code').text(packageCode);
+        $('#mail-modal #mail-fullname2').text(first + ' ' + last);
+        $('#mail-modal #mail-np').text(np);
+        $('#mail-modal #mail-np-name').text(npFirst + ' ' + npLast);
+        $('#mail-modal #mail-np-phone').text(npPhone);
+        $('#mail-modal #mail-np-email').text(npEmail);
+        $('#mail-modal #mail-event-name').text(eventName);
+        $('#mail-modal #mail-event-date').text(eventDate);
+        $('#mail-modal #mail-from').text(np);
+        $('#mail-modal #mail-to').text(email);
+        $('#mail-modal #voucher_id').val(id);
+        
+        
+        $('#mail-modal').modal({
+            closeText: 'X',
+            overlay: '#fff',
+            opacity: 0.73,
+            zIndex: 2002
+        });
+    });
+    
+    
+    $('#mail-modal').find('button.send').on('click', function(e) {
+        e.preventDefault();
+        
+        var url = $('#mail-modal form').attr('action');
+        var data = $('#mail-modal form').serialize();
+        
+        $.ajax({
+            beforeSend: function() {
+                var id = $('#mail-modal #voucher_id').val();
+                $('button.edit[data-id="' + id + '"]')
+                    .removeClass('neutral')
+                    .addClass('disabled')
+                    .attr('title', 'You’ve already sent this voucher.<br/>Contact your EC to change')
+                    .tooltipster({position: 'top-right'})
+                ;
+                
+                $.modal.close();
+                
+                $('#mail-thanks-modal').find('.number span').text('1');
+                $('#mail-thanks-modal').find('.name').text($('#mail-modal #mail-fullname').text());
+                $('#mail-thanks-modal').find('.email').text($('#mail-modal #mail-to').text());
+                
+                $('#mail-thanks-modal').modal({
+                    closeText: 'X',
+                    overlay: '#fff',
+                    opacity: 0.73,
+                    zIndex: 2002
+                });
+            },
+            data: data,
+            dataType: 'json',
+            url: url,
+            success: function(data, textStatus, jqXHR) {
+                if (!$.isEmptyObject(data)) {}
+            },
+            type: 'POST'
+        });
+    });
+    
+    $('#mail-thanks-modal').find('button').on('click', function(e) {
+        e.preventDefault();
+        $.modal.close();
+    });
+    
+    
+    $('#mail-modal').on($.modal.OPEN, function(event, modal) {
+        // For viewports that are narrower than our page,
+        // change the modal box to position with an appropriate margin.
+        if($(window).width() < $(document).width()) {
+            $(modal.elm).css({
+                marginLeft: Math.floor(($(document).width() - $(modal.elm).outerWidth()) / 2) + 'px',
+                left: '0'
+            });
+        }
+        
+        // For viewports that are smaller than our modal,
+        // change the modal box to position absolute for scrolling.
+        if(($(window).height() - $(modal.elm).outerHeight()) < 94) {
+            $(modal.elm).css({
+                position: 'absolute',
+                marginTop: '120px',
+                top: '0'
+            });
+            
+            $(window).scrollTop(100);
+        }
+    });
+    
+    
+    function addCommas(nStr) {
+        nStr += '';
+        x = nStr.split('.');
+        x1 = x[0];
+        x2 = x.length > 1 ? '.' + x[1] : '';
+        var rgx = /(\d+)(\d{3})/;
+        while (rgx.test(x1)) {
+            x1 = x1.replace(rgx, '$1' + ',' + '$2');
+        }
+        return x1 + x2;
+    }
+});
+
 
 
 /* Account Creation Modal */
@@ -1961,7 +2492,7 @@ $(document).ready(function() {
                             });
                         }
                         else {
-                            $('#core-nav').find('.inline-nav').append('<li><a href="#">My Account</a></li>');
+                            $('#core-nav').find('.inline-nav').append('<li><a href="/account">My Account</a></li>');
                             $('#core-nav').find('.inline-nav').append('<li><a href="/logout">Logout</a></li>');
                             
                             if(id != 'none') {

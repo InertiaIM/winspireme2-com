@@ -79,6 +79,10 @@ suitcaseFlags:
     pattern:  /suitcase/flags
     defaults: { _controller: InertiaWinspireBundle:Suitcase:flags }
     
+suitcaseInvoice:
+    pattern:  /suitcase/invoice/{suitcaseId}
+    defaults: { _controller: InertiaWinspireBundle:Suitcase:invoice }
+    
 suitcasePack:
     pattern:  /suitcase/pack
     defaults: { _controller: InertiaWinspireBundle:Suitcase:pack }
@@ -86,6 +90,14 @@ suitcasePack:
 suitcasePreview:
     pattern:  /suitcase/preview
     defaults: { _controller: InertiaWinspireBundle:Suitcase:preview }
+    
+suitcaseRequestInvoice:
+    pattern:  /suitcase/request-invoice
+    defaults: { _controller: InertiaWinspireBundle:Suitcase:requestInvoice }
+    
+suitcaseSendVoucher:
+    pattern:  /suitcase/send-voucher
+    defaults: { _controller: InertiaWinspireBundle:Suitcase:sendVoucher }
     
 suitcaseShare:
     pattern:  /suitcase/share
@@ -98,6 +110,18 @@ suitcaseShareAgain:
 suitcaseSwitch:
     pattern:  /suitcase/switch
     defaults: { _controller: InertiaWinspireBundle:Suitcase:switch }
+    
+suitcaseUpdateBooking:
+    pattern:  /suitcase/update-booking/{id}
+    defaults: { _controller: InertiaWinspireBundle:Suitcase:updateBooking }
+    
+suitcaseUpdateQty:
+    pattern:  /suitcase/update-qty/{id}
+    defaults: { _controller: InertiaWinspireBundle:Suitcase:updateQty }
+    
+suitcaseUpdatePrice:
+    pattern:  /suitcase/update-price/{id}
+    defaults: { _controller: InertiaWinspireBundle:Suitcase:updatePrice }
     
 shareComment:
     pattern:  /comment/{id}/{token}
@@ -127,9 +151,17 @@ soap_account:
     pattern:  /soap/account
     defaults: { _controller: InertiaWinspireBundle:Soap:account }
     
+soap_booking:
+    pattern:  /soap/booking
+    defaults: { _controller: InertiaWinspireBundle:Soap:booking }
+    
 soap_contact:
     pattern:  /soap/contact
     defaults: { _controller: InertiaWinspireBundle:Soap:contact }
+    
+soap_invoice:
+    pattern:  /soap/invoice
+    defaults: { _controller: InertiaWinspireBundle:Soap:invoice }
     
 soap_package:
     pattern:  /soap/package

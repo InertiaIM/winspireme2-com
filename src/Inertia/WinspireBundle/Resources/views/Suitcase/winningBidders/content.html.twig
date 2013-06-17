@@ -1,0 +1,69 @@
+                <ul id="test" data-event="{{ suitcase.name }}" data-date="{{ suitcase.eventDate | date('m/d/Y') }}" data-np="{{ suitcase.user.company.name }}" data-first="{{ suitcase.user.firstName }}" data-last="{{ suitcase.user.lastName }}">
+{% for item in suitcase.items %}
+{%     if item.quantity > 0 %}
+                    <li class="clearfix" data-header="{{ item.package.parentHeader }}" data-code="{{ item.package.code }}" data-name="{{ item.package.name }}">
+                        <div class="package drop-shadow expanded lifted4" data-id="{{ item.id }}">
+                            <div class="clearfix">
+                                <img class="thumbnail" src="/uploads/packages/{{ item.package.thumbnail }}" width="129" height="85" alt=""/>
+                                <div class="expanded">
+                                    <h4>{{ item.package.parentHeader }}</h4>
+                                    <h5>{{ item.package.name }} ({{ item.package.code }})</h5>
+                                </div>
+                            </div>
+                            <div class="item-price">
+                                <p>{% if item.price != 0 %}Item Winning Bid Amount{% else %}Enter Winning Bid Amount{% endif %}</p>
+                                <div class="amount">
+                                    <input{% if item.price != 0 %} style="display:none;"{% endif %} type="text" name="price" value="{% if item.price != 0 %}{{ item.price | number_format(0, '', '') }}{% endif %}" maxlength="8"/>
+                                    <span class="amount"{% if item.price == 0 %} style="display:none;"{% endif %}>{% if item.price != 0 %}$ {{ item.price | number_format(0) }}{% endif %}</span>
+                                    <button data-id="{{ item.id }}"{% if item.price != 0 %} style="display:none;"{% endif %} class="add">Add</button>
+                                    <button data-id="{{ item.id }}"{% if item.price == 0 %} style="display:none;"{% endif %} class="neutral edit"><span class="icon icon-pencil"></span></button>
+                                </div>
+                            </div>
+                            <div class="winning-bidders">
+                                <h4><em>my</em> Winning Bidder Info</h4>
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th>&nbsp;</th>
+                                            <th>First Name *</th>
+                                            <th>Last Name *</th>
+                                            <th>Email *</th>
+                                            <th>Phone *</th>
+                                            <th>&nbsp;</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+{%         for booking in item.bookings  %}
+                                        <tr data-code="{% if suitcase.status == 'A' %}{{ booking.certificateId }}{% endif %}">
+                                            <td class="number"><span>{{ loop.index }}</span></td>
+                                            <td class="first-name">
+                                                <form><input {% if booking.email != '' %}style="display:none;" {% endif %}type="text" name="booking[first]" value="{{ booking.firstName }}"/></form>
+                                                <span{% if booking.email == '' %} style="display:none;"{% endif %}>{{ booking.firstName }}</span>
+                                            </td>
+                                            <td class="last-name">
+                                                <form><input {% if booking.email != '' %}style="display:none;" {% endif %}type="text" name="booking[last]" value="{{ booking.lastName }}"/></form>
+                                                <span{% if booking.email == '' %} style="display:none;"{% endif %}>{{ booking.lastName }}</span>
+                                            </td>
+                                            <td class="email">
+                                                <form><input {% if booking.email != '' %}style="display:none;" {% endif %}type="text" name="booking[email]" value="{{ booking.email }}"/></form>
+                                                <span{% if booking.email == '' %} style="display:none;"{% endif %}>{{ booking.email }}</span>
+                                            </td>
+                                            <td class="phone">
+                                                <form><input {% if booking.email != '' %}style="display:none;" {% endif %}type="text" name="booking[phone]" value="{{ booking.phone }}"/></form>
+                                                <span{% if booking.email == '' %} style="display:none;"{% endif %}>{{ booking.phone }}</span>
+                                            </td>
+                                            <td class="actions">
+                                                {% if booking.email == '' %}<button class="add" data-id="{{ booking.id }}">Add</button>{% endif %}
+                                                <button{% if booking.email == '' %} style="display:none;"{% endif %} class="edit {% if booking.voucherSent %}disabled tooltip{% else %}neutral{% endif %}" data-id="{{ booking.id }}" {% if booking.voucherSent %}title="You’ve already sent this voucher.<br/>Contact your EC to change"{% endif %}><span class="icon icon-pencil"></span></button>
+                                                <button{% if booking.email == '' %} style="display:none;"{% endif %} class="mail {% if suitcase.status == 'A' %}neutral{% else %}disabled tooltip{% endif %}" data-id="{{ booking.id }}" {% if suitcase.status != 'A' %}title="Upon payment the email tool will<br/>become active."{% endif %}><span class="icon icon-envelope"></span></button>
+                                            </td>
+                                        </tr>
+{%         endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </li>
+{%     endif %}
+{% endfor %}
+                </ul>

@@ -23,9 +23,9 @@ class Suitcase
     private $name;
     
     /**
-     * @ORM\Column(name="packed", type="boolean")
+     * @ORM\Column(name="status", type="string", length=1, nullable=true)
      */
-    private $packed;
+    private $status;
     
     /**
      * @ORM\Column(name="event_name", type="string", length=255, nullable=true)
@@ -43,9 +43,34 @@ class Suitcase
     private $packedAt;
     
     /**
+     * @ORM\Column(name="invoice_requested_at", type="datetime", nullable=true)
+     */
+    private $invoiceRequestedAt;
+    
+    /**
+     * @ORM\Column(name="invoice_provided_at", type="datetime", nullable=true)
+     */
+    private $invoiceProvidedAt;
+    
+    /**
+     * @ORM\Column(name="invoice_paid_at", type="datetime", nullable=true)
+     */
+    private $invoicePaidAt;
+    
+    /**
+     * @ORM\Column(name="invoice_file_name", type="string", length=256, nullable=true)
+     */
+    private $invoiceFileName;
+    
+    /**
      * @ORM\Column(name="sf_id", type="string", length=128, nullable=true)
      */
     private $sfId;
+    
+    /**
+     * @ORM\Column(name="sf_role_id", type="string", length=128, nullable=true)
+     */
+    private $sfContactRoleId;
     
     /**
      * @var datetime $created
@@ -72,12 +97,6 @@ class Suitcase
      * @ORM\Column(name="sf_updated", type="datetime", nullable=true)
      */
     private $sfUpdated;
-    
-    /**
-     * @ORM\ManyToOne(targetEntity="User", inversedBy="suitcases")
-     * @ORM\JoinColumn(name="salesperson_id", referencedColumnName="id")
-     */
-    protected $salesperson;
     
     /**
      * @ORM\ManyToOne(targetEntity="User", inversedBy="suitcases")
@@ -339,29 +358,6 @@ class Suitcase
     }
 
     /**
-     * Set packed
-     *
-     * @param boolean $packed
-     * @return Suitcase
-     */
-    public function setPacked($packed)
-    {
-        $this->packed = $packed;
-    
-        return $this;
-    }
-
-    /**
-     * Get packed
-     *
-     * @return boolean 
-     */
-    public function getPacked()
-    {
-        return $this->packed;
-    }
-
-    /**
      * Set packedAt
      *
      * @param \DateTime $packedAt
@@ -495,5 +491,189 @@ class Suitcase
     public function getDirty()
     {
         return $this->dirty;
+    }
+
+    /**
+     * Set invoiceRequested
+     *
+     * @param boolean $invoiceRequested
+     * @return Suitcase
+     */
+    public function setInvoiceRequested($invoiceRequested)
+    {
+        $this->invoiceRequested = $invoiceRequested;
+    
+        return $this;
+    }
+
+    /**
+     * Get invoiceRequested
+     *
+     * @return boolean 
+     */
+    public function getInvoiceRequested()
+    {
+        return $this->invoiceRequested;
+    }
+
+    /**
+     * Set invoicePaid
+     *
+     * @param boolean $invoicePaid
+     * @return Suitcase
+     */
+    public function setInvoicePaid($invoicePaid)
+    {
+        $this->invoicePaid = $invoicePaid;
+    
+        return $this;
+    }
+
+    /**
+     * Get invoicePaid
+     *
+     * @return boolean 
+     */
+    public function getInvoicePaid()
+    {
+        return $this->invoicePaid;
+    }
+
+    /**
+     * Set invoiceRequestedAt
+     *
+     * @param \DateTime $invoiceRequestedAt
+     * @return Suitcase
+     */
+    public function setInvoiceRequestedAt($invoiceRequestedAt)
+    {
+        $this->invoiceRequestedAt = $invoiceRequestedAt;
+    
+        return $this;
+    }
+
+    /**
+     * Get invoiceRequestedAt
+     *
+     * @return \DateTime 
+     */
+    public function getInvoiceRequestedAt()
+    {
+        return $this->invoiceRequestedAt;
+    }
+
+    /**
+     * Set invoicePaidAt
+     *
+     * @param \DateTime $invoicePaidAt
+     * @return Suitcase
+     */
+    public function setInvoicePaidAt($invoicePaidAt)
+    {
+        $this->invoicePaidAt = $invoicePaidAt;
+    
+        return $this;
+    }
+
+    /**
+     * Get invoicePaidAt
+     *
+     * @return \DateTime 
+     */
+    public function getInvoicePaidAt()
+    {
+        return $this->invoicePaidAt;
+    }
+
+    /**
+     * Set status
+     *
+     * @param string $status
+     * @return Suitcase
+     */
+    public function setStatus($status)
+    {
+        $this->status = $status;
+    
+        return $this;
+    }
+
+    /**
+     * Get status
+     *
+     * @return string 
+     */
+    public function getStatus()
+    {
+        return $this->status;
+    }
+
+    /**
+     * Set sfContactRoleId
+     *
+     * @param string $sfContactRoleId
+     * @return Suitcase
+     */
+    public function setSfContactRoleId($sfContactRoleId)
+    {
+        $this->sfContactRoleId = $sfContactRoleId;
+    
+        return $this;
+    }
+
+    /**
+     * Get sfContactRoleId
+     *
+     * @return string 
+     */
+    public function getSfContactRoleId()
+    {
+        return $this->sfContactRoleId;
+    }
+
+    /**
+     * Set invoiceProvidedAt
+     *
+     * @param \DateTime $invoiceProvidedAt
+     * @return Suitcase
+     */
+    public function setInvoiceProvidedAt($invoiceProvidedAt)
+    {
+        $this->invoiceProvidedAt = $invoiceProvidedAt;
+    
+        return $this;
+    }
+
+    /**
+     * Get invoiceProvidedAt
+     *
+     * @return \DateTime 
+     */
+    public function getInvoiceProvidedAt()
+    {
+        return $this->invoiceProvidedAt;
+    }
+
+    /**
+     * Set invoiceFileName
+     *
+     * @param string $invoiceFileName
+     * @return Suitcase
+     */
+    public function setInvoiceFileName($invoiceFileName)
+    {
+        $this->invoiceFileName = $invoiceFileName;
+    
+        return $this;
+    }
+
+    /**
+     * Get invoiceFileName
+     *
+     * @return string 
+     */
+    public function getInvoiceFileName()
+    {
+        return $this->invoiceFileName;
     }
 }

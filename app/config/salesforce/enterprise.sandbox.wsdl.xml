@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
 Salesforce.com Enterprise Web Services API Version 27.0
-Generated on 2013-04-25 06:16:12 +0000.
+Generated on 2013-05-31 22:47:49 +0000.
 
 Package Versions:
-Salesforce for Google AdWords (Version: 1.2, Namespace: sfga)
 Picture Uploader (Version: 1.2, Namespace: btydev)
+Salesforce for Google AdWords (Version: 1.2, Namespace: sfga)
 Pervasive DataSynch For use with QuickBooks and Salesforce (Version: 1.1, Namespace: pds)
 
 Copyright 1999-2013 salesforce.com, inc.
@@ -9277,7 +9277,7 @@ All Rights Reserved
     <service name="SforceService">
         <documentation>Sforce SOAP API</documentation>
         <port binding="tns:SoapBinding" name="Soap">
-            <soap:address location="https://login.salesforce.com/services/Soap/c/27.0/0DF70000000TWrr"/>
+            <soap:address location="https://test.salesforce.com/services/Soap/c/27.0/0DF70000000TWrr"/>
         </port>
     </service>
 </definitions>

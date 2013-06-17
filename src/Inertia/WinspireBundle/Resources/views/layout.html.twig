@@ -40,6 +40,7 @@
 <script src="/js/vendor/jquery.modal.min.js"></script>
 <script src="/js/vendor/jquery.tooltipster.min.js"></script>
 <script src="/js/vendor/jquery.easytabs.min.js"></script>
+<script src="/js/vendor/jquery.fs.stepper.js"></script>
 
 <script src="/js/vendor/jquery.validate.min.js"></script>
 
@@ -69,7 +70,9 @@ var env = '/app_dev.php';
 {% if not is_granted('ROLE_USER') %}
 {%     render "InertiaWinspireBundle:Default:loginWidget" %}
 {% else %}
-{%     render "InertiaWinspireBundle:Suitcase:buttonWidget" %}
+{%     if app.request.get('_route') != 'suitcaseView' %}
+{%         render "InertiaWinspireBundle:Suitcase:buttonWidget" %}
+{%     endif %}
 {% endif %}
                     <nav id="core-nav">
                         <ul class="inline-nav">

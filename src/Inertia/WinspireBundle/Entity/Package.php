@@ -783,29 +783,6 @@ class Package
     }
 
     /**
-     * Add categories
-     *
-     * @param \Inertia\WinspireBundle\Entity\Category $categories
-     * @return Package
-     */
-    public function addCategorie(\Inertia\WinspireBundle\Entity\Category $categories)
-    {
-        $this->categories[] = $categories;
-    
-        return $this;
-    }
-
-    /**
-     * Remove categories
-     *
-     * @param \Inertia\WinspireBundle\Entity\Category $categories
-     */
-    public function removeCategorie(\Inertia\WinspireBundle\Entity\Category $categories)
-    {
-        $this->categories->removeElement($categories);
-    }
-
-    /**
      * Set thumbnail
      *
      * @param string $thumbnail

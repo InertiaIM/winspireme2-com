@@ -9,6 +9,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 use Symfony\Component\Validator\Constraints\Email;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
@@ -19,93 +20,36 @@ class SuitcaseController extends Controller
     public function addAction($id)
     {
         $response = new JsonResponse();
-        $em = $this->getDoctrine()->getManager();
         
-        $suitcase = $this->getSuitcase();
+        $suitcaseManager = $this->get('winspire.suitcase.manager');
+        $suitcase = $suitcaseManager->getSuitcase(true, 'update');
+        
         if(!$suitcase) {
             return $response->setData(array(
                 'count' => 0
             ));
         }
         
-        $query = $em->createQuery(
-            'SELECT i FROM InertiaWinspireBundle:SuitcaseItem i WHERE i.suitcase = :suitcase_id AND i.package = :package_id AND i.status != \'X\''
-        )
-        ->setParameter('suitcase_id', $suitcase->getId())
-        ->setParameter('package_id', $id);
-        
-        try {
-            // If found, we already have this item in our cart
-            // and we can just return an empty data object
-            $item = $query->getSingleResult();
+        $package = $suitcaseManager->addToSuitcase($suitcase, $id);
+        if (!$package) {
             return $response->setData(array(
+                'count' => 0
             ));
         }
-        catch (\Doctrine\Orm\NoResultException $e) {
-        }
-        
-        if ($this->get('security.context')->isGranted('ROLE_ADMIN')) {
-            $query = $em->createQuery(
-                'SELECT p FROM InertiaWinspireBundle:Package p WHERE p.picture IS NOT NULL AND p.id = :id'
-            )
-                ->setParameter('id', $id)
-            ;
-        }
         else {
-            $query = $em->createQuery(
-                'SELECT p FROM InertiaWinspireBundle:Package p WHERE p.is_private != 1 AND p.picture IS NOT NULL AND p.id = :id'
-            )
-                ->setParameter('id', $id)
-            ;
+            return $response->setData(array(
+                'count' => count($suitcase->getItems()),
+                'item' => array(
+                    'id' => $package->getId(),
+                    'slug' => $package->getSlug(),
+                    'thumbnail' => $package->getThumbnail(),
+                    'parentHeader' => $package->getParentHeader(),
+                    'persons' => $package->getPersons(),
+                    'accommodations' => $package->getAccommodations(),
+                    'airfares' => $package->getAirfares()
+                )
+            ));
         }
-        
-        try {
-            $package = $query->getSingleResult();
-        }
-        catch (\Doctrine\Orm\NoResultException $e) {
-            throw $this->createNotFoundException();
-        }
-        
-        $suitcaseItem = new SuitcaseItem();
-        $suitcaseItem->setPackage($package);
-        $suitcaseItem->setQuantity(1);
-        $suitcaseItem->setPrice(0);
-        $suitcaseItem->setSubtotal(0);
-        $suitcaseItem->setTotal(0);
-        if ($this->get('security.context')->isGranted('ROLE_ADMIN')) {
-            $suitcaseItem->setStatus('R');
-        }
-        else {
-            $suitcaseItem->setStatus('M');
-        }
-        $em->persist($suitcaseItem);
-        
-        $suitcase->addItem($suitcaseItem);
-        if($suitcase->getPacked()) {
-            // reopen suitcase and trigger reminder message
-            $suitcase->setPacked(false);
-            $suitcase->setDirty(true);
-            $this->retrigger($suitcase);
-        }
-        $suitcase->setUpdated($suitcaseItem->getUpdated());
-        
-        $em->persist($suitcase);
-        $em->flush();
-        
-        $response->setData(array(
-            'count' => count($suitcase->getItems()),
-            'item' => array(
-                'id' => $package->getId(),
-                'slug' => $package->getSlug(),
-                'thumbnail' => $package->getThumbnail(),
-                'parentHeader' => $package->getParentHeader(),
-                'persons' => $package->getPersons(),
-                'accommodations' => $package->getAccommodations(),
-                'airfares' => $package->getAirfares()
-            )
-        ));
-        
-        return $response;
     }
     
     public function adminAction($id)
@@ -136,13 +80,22 @@ class SuitcaseController extends Controller
         else {
             $session->set('sid', $id);
             
+            $query = $em->createQuery(
+                'SELECT s, u FROM InertiaWinspireBundle:Suitcase s LEFT JOIN s.user u WHERE s.id = :id'
+            )
+            ->setParameter('id', $id)
+            ;
+            $suitcase = $query->getSingleResult();
+            $session->set('uid', $suitcase->getUser()->getId());
+            
             return $this->redirect($this->generateUrl('suitcaseView'));
         }
     }
     
     public function buttonWidgetAction()
     {
-        $suitcase = $this->getSuitcase();
+        $suitcaseManager = $this->get('winspire.suitcase.manager');
+        $suitcase = $suitcaseManager->getSuitcase(true, 'alpha');
         
         return $this->render('InertiaWinspireBundle:Suitcase:buttonWidget.html.twig',
             array(
@@ -205,16 +158,16 @@ class SuitcaseController extends Controller
             $form->bind($request);
             if ($form->isValid()) {
                 if($this->get('security.context')->isGranted('ROLE_ADMIN')) {
-                    $sid = $session->get('sid');
+                    $uid = $session->get('uid');
                     
-                    if ($sid) {
+                    if ($uid) {
                         $query = $em->createQuery(
-                            'SELECT s, u FROM InertiaWinspireBundle:Suitcase s JOIN s.user u WHERE s.id = :sid'
+                            'SELECT u FROM InertiaWinspireBundle:User u WHERE u.id = :uid'
                         )
-                            ->setParameter('sid', $sid)
+                            ->setParameter('uid', $uid)
                         ;
                         
-                        $user = $query->getSingleResult()->getUser();
+                        $user = $query->getSingleResult();
                     }
                     else {
                         return $this->redirect($this->generateUrl('suitcaseAdmin'));
@@ -225,7 +178,7 @@ class SuitcaseController extends Controller
                 }
                 
                 $suitcase = new Suitcase();
-                $suitcase->setPacked(false);
+                $suitcase->setStatus('U');
                 $suitcase->setDirty(true);
                 $suitcase->setName($form->get('name')->getData());
                 $suitcase->setEventName(substr($form->get('name')->getData(), 0, 40));
@@ -233,43 +186,22 @@ class SuitcaseController extends Controller
                 $suitcase->setUser($user);
                 
                 if($form->get('package')->getData() != '') {
-                    // TODO Can I call the SuitcaseController::addAction directly
-                    // rather than repeating the logic here?
-                    
                     $id = $form->get('package')->getData();
-                    $query = $em->createQuery(
-                        'SELECT p FROM InertiaWinspireBundle:Package p WHERE p.is_private != 1 AND p.picture IS NOT NULL AND p.id = :id'
-                    )
-                    ->setParameter('id', $id);
                     
-                    try {
-                        $package = $query->getSingleResult();
-                        
-                        $suitcaseItem = new SuitcaseItem();
-                        $suitcaseItem->setPackage($package);
-                        $suitcaseItem->setQuantity(1);
-                        $suitcaseItem->setPrice(0);
-                        $suitcaseItem->setSubtotal(0);
-                        $suitcaseItem->setTotal(0);
-                        $suitcaseItem->setStatus('M');
-                        
-                        $suitcase->addItem($suitcaseItem);
-                        $em->persist($suitcaseItem);
-                        
-                        if ($json) {
-                            $items = array(array(
-                                'id' => $package->getId(),
-                                'slug' => $package->getSlug(),
-                                'thumbnail' => $package->getThumbnail(),
-                                'parentHeader' => $package->getParentHeader(),
-                                'persons' => $package->getPersons(),
-                                'accommodations' => $package->getAccommodations(),
-                                'airfares' => $package->getAirfares()
-                            ));
-                            $count = 1;
-                        }
-                    }
-                    catch (\Doctrine\Orm\NoResultException $e) {
+                    $suitcaseManager = $this->get('winspire.suitcase.manager');
+                    $package = $suitcaseManager->addToSuitcase($suitcase, $id);
+                    
+                    if ($json) {
+                        $items = array(array(
+                            'id' => $package->getId(),
+                            'slug' => $package->getSlug(),
+                            'thumbnail' => $package->getThumbnail(),
+                            'parentHeader' => $package->getParentHeader(),
+                            'persons' => $package->getPersons(),
+                            'accommodations' => $package->getAccommodations(),
+                            'airfares' => $package->getAirfares()
+                        ));
+                        $count = 1;
                     }
                 }
                 else {
@@ -298,7 +230,7 @@ class SuitcaseController extends Controller
                     return $response->setData(array(
                         'count' => $count,
                         'items' => $items,
-                        'locked' => $suitcase->getPacked(),
+                        'locked' => false,
                         'suitcase' => array(
                             'id' => $suitcase->getId(),
                             'name' => $suitcase->getName()
@@ -348,41 +280,22 @@ class SuitcaseController extends Controller
     public function deleteAction($id)
     {
         $response = new JsonResponse();
-        $em = $this->getDoctrine()->getManager();
         
-        $suitcase = $this->getSuitcase();
+        $suitcaseManager = $this->get('winspire.suitcase.manager');
+        $suitcase = $suitcaseManager->getSuitcase(true);
+        
         if(!$suitcase) {
             return $response->setData(array(
                 'count' => 0
             ));
         }
         
-        $items = $suitcase->getItems();
-        $deleted = false;
-        foreach($items as $item) {
-            if($id == $item->getPackage()->getId()) {
-                $item->setStatus('X');
-                $suitcase->setUpdated(new \DateTime());
-                
-                if($suitcase->getPacked()) {
-                    // reopen suitcase and trigger reminder message
-                    $suitcase->setPacked(false);
-                    $suitcase->setDirty(true);
-                    $this->retrigger($suitcase);
-                }
-                
-                $em->persist($item);
-                $em->persist($suitcase);
-                $em->flush();
-                
-                $deleted = true;
-            } 
-        }
+        $deleted = $suitcaseManager->deleteFromSuitcase($suitcase, $id);
         
         $response->setData(array(
             'deleted' => $deleted,
             'count' => $deleted ? count($suitcase->getItems()) - 1 : count($suitcase->getItems()),
-            'counts' => $this->getCounts($suitcase)
+            'counts' => $suitcaseManager->getCounts($suitcase)
         ));
         
         return $response;
@@ -551,57 +464,20 @@ class SuitcaseController extends Controller
         return $response->setData(false);
     }
     
+    
     public function flagAction($id)
     {
         $response = new JsonResponse();
-        $em = $this->getDoctrine()->getManager();
         
-        $suitcase = $this->getSuitcase();
-        $items = $suitcase->getItems();
-        $newStatus = false;
-        $counts = array('M' => 0, 'D' => 0, 'R' => 0, 'E' => 0);
-        foreach($items as $item) {
-            $counts[$item->getStatus()]++;
-            
-            if($id == $item->getPackage()->getId()) {
-                switch($item->getStatus()) {
-                    case 'M':
-                        $item->setStatus('D');
-                        $newStatus = 'D';
-                        $counts['M']--;
-                        $counts['D']++;
-                        break;
-                    case 'D':
-                        $item->setStatus('M');
-                        $newStatus = 'M';
-                        $counts['D']--;
-                        $counts['M']++;
-                        break;
-                    case 'R':
-                        $item->setStatus('E');
-                        $newStatus = 'E';
-                        $counts['R']--;
-                        $counts['E']++;
-                        break;
-                    case 'E':
-                        $item->setStatus('R');
-                        $newStatus = 'R';
-                        $counts['E']--;
-                        $counts['R']++;
-                        break;
-                }
-                
-                $em->persist($item);
-                $em->flush();
-            }
-        }
+        $suitcaseManager = $this->get('winspire.suitcase.manager');
+        $suitcase = $suitcaseManager->getSuitcase(true);
         
-        $response->setData(array(
-            'status' => $newStatus,
-            'counts' => $counts
+        $result = $suitcaseManager->flagSuitcaseItem($suitcase, $id);
+        
+        return $response->setData(array(
+            'status' => $result['status'],
+            'counts' => $result['counts']
         ));
-        
-        return $response;
     }
     
     
@@ -614,31 +490,29 @@ class SuitcaseController extends Controller
             $ids = array();
         }
         
-        $em = $this->getDoctrine()->getManager();
+        $suitcaseManager = $this->get('winspire.suitcase.manager');
+        $suitcase = $suitcaseManager->getSuitcase(true);
         
-        $suitcase = $this->getSuitcase();
-        $items = $suitcase->getItems();
-        $newStatus = false;
-        $counts = array('M' => 0, 'D' => 0, 'R' => 0, 'E' => 0);
+        $counts = $suitcaseManager->flagSuitcaseItems($suitcase, $ids);
         
-        foreach($ids as $element) {
-            foreach($items as $item) {
-                if($element['id'] == $item->getPackage()->getId()) {
-                    $item->setStatus($element['status']);
-                    $em->persist($item);
-                    $em->flush();
-                }
-            }
-        }
-        
-        foreach($items as $item) {
-            $counts[$item->getStatus()]++;
-        }
-        
-        
-        $response->setData(array(
+        return $response->setData(array(
             'counts' => $counts
         ));
+    }
+    
+    
+    public function invoiceAction($suitcaseId)
+    {
+        $suitcaseManager = $this->get('winspire.suitcase.manager');
+        $pdf = $suitcaseManager->getInvoiceFile($suitcaseId);
+        
+        if (!$pdf) {
+            throw $this->createNotFoundException();
+        }
+        
+        $response = new Response($pdf['contents']);
+        $response->headers->set('Content-Disposition', $response->headers->makeDisposition(ResponseHeaderBag::DISPOSITION_INLINE, $pdf['filename']));
+        $response->headers->set('Content-Type', 'application/pdf');
         
         return $response;
     }
@@ -647,6 +521,8 @@ class SuitcaseController extends Controller
     public function killAction($id)
     {
         // TODO What to do with orphaned Opportunity in SF?
+        
+        // TODO refactor into SuitcaseManager service
         $response = new JsonResponse();
         $em = $this->getDoctrine()->getManager();
         $user = $this->getUser();
@@ -678,182 +554,17 @@ class SuitcaseController extends Controller
     }
     
     
-    public function viewAction(Request $request)
-    {
-        $suitcase = $this->getSuitcase('alpha');
-        
-        if(!$suitcase) {
-            if($this->get('security.context')->isGranted('ROLE_ADMIN')) {
-                return $this->redirect($this->generateUrl('suitcaseAdmin'));
-            }
-            throw $this->createNotFoundException();
-        }
-        
-        
-        
-        $user = $suitcase->getUser();
-        
-        // Get full list of Suitcases owned by this user
-        $em = $this->getDoctrine()->getManager();
-        $query = $em->createQuery(
-            'SELECT s FROM InertiaWinspireBundle:Suitcase s WHERE s.user = :user ORDER BY s.name ASC'
-        )
-            ->setParameter('user', $user)
-        ;
-        $suitcases = $query->getResult();
-        
-        $suitcaseList = array();
-        foreach($suitcases as $s) {
-            $suitcaseList[] = array('id' => $s->getId(), 'name' => $s->getName());
-        }
-        
-        $form = $this->createForm(new AccountType(), $user->getCompany());
-        $formFactory = $this->get('form.factory');
-        
-        $form->add(
-            $formFactory->createNamed('address', 'text', null,
-                array(
-                    'constraints' => array(
-                        new NotBlank(),
-                    ),
-                    'label' => 'Address Line 1'
-                )
-            )
-        );
-        
-        $form->add(
-            $formFactory->createNamed('address2', 'text', null,
-                array(
-                    'constraints' => array(),
-                    'label' => 'Address Line 2  (Apt., Suite, etc.)',
-                    'required' => false
-                )
-            )
-        );
-        
-        $form->add(
-            $formFactory->createNamed('city', 'text', null,
-                array(
-                    'constraints' => array(
-                        new NotBlank(),
-                    )
-                )
-            )
-        );
-        
-        $form->add(
-            $formFactory->createNamed('phone', 'text', null,
-                array(
-                    'constraints' => array(),
-                    'required' => false
-                )
-            )
-        );
-        
-        $form->add(
-            $formFactory->createNamed('event_name', 'text', null,
-                array(
-                    'constraints' => array(
-                        new NotBlank(),
-                    ),
-                    'label' => 'Name of Event',
-                    'mapped' => false
-                )
-            )
-        );
-        
-        $form->add(
-            $formFactory->createNamed('event_date', 'text', null,
-                array(
-                    'constraints' => array(
-                        new NotBlank(),
-                    ),
-                    'label' => 'Date of Event',
-                    'mapped' => false,
-                    'required' => true
-                )
-            )
-        );
-        
-        $form->add(
-            $formFactory->createNamed('loa', 'checkbox', null,
-                array(
-                    'constraints' => array(
-                        new True(array(
-                            'message' => 'You must agree to the Letter of Agreement before proceeding.'
-                        )),
-                    ),
-                    'mapped' => false,
-                    'required' => true
-                )
-            )
-        );
-        
-        $form->remove('name');
-        
-        $form->get('phone')->setData($user->getPhone());
-        $form->get('event_name')->setData($suitcase->getEventName());
-        $form->get('state')->setData($user->getCompany()->getCountry() . '-' . $user->getCompany()->getState());
-        
-        
-        $share = $this->shareAction();
-        $share->get('suitcase')->setData($suitcase->getId());
-        
-        if($suitcase->getEventDate() != '') {
-            $form->get('event_date')->setData($suitcase->getEventDate()->format('m/d/Y'));
-        }
-        
-        $downloadLinks = array();
-        $counts = array('M' => 0, 'D' => 0, 'R' => 0, 'E' => 0);
-        foreach($suitcase->getItems() as $item) {
-            $counts[$item->getStatus()]++;
-            
-            if ($item->getPackage()->getSfContentPackId() != '' || $item->getPackage()->getIsDefault()) {
-                $downloadLinks[$item->getPackage()->getId()] = $this->getDownloadLink($item->getPackage()->getSfContentPackId());
-            }
-            else {
-                // If the Package variant doesn't have its own SF Content Pack, then we'll try to find
-                // the content pack associated with the default Package with the same parent header.
-                // TODO this really should be pushed into the model... too much logic in our controller.
-                
-                $em = $this->getDoctrine()->getManager();
-                $query = $em->createQuery(
-                    'SELECT p FROM InertiaWinspireBundle:Package p WHERE p.parent_header = :ph AND p.is_default = 1 ORDER BY p.active ASC, p.created DESC'
-                )
-                    ->setParameter('ph', $item->getPackage()->getParentHeader())
-                    ->setMaxResults(1)
-                ;
-                
-                try {
-                    $p = $query->getSingleResult();
-                    $contentPackId = $p->getSfContentPackId();
-                }
-                catch (\Exception $e) {
-                    $contentPackId = '';
-                }
-                
-                $downloadLinks[$item->getPackage()->getId()] = $this->getDownloadLink($contentPackId);
-            }
-        }
-        
-        return $this->render('InertiaWinspireBundle:Suitcase:view.html.twig', array(
-            'creator' => $suitcase->getUser(),
-            'form' => $form->createView(),
-            'share' => $share->createView(),
-            'suitcase' => $suitcase,
-            'counts' => $counts,
-            'pages' => ceil(count($suitcase->getItems()) / 6),
-            'downloadLinks' => $downloadLinks,
-            'suitcaseList' => $suitcaseList
-        ));
-    }
+
+    
     
     public function packAction(Request $request)
     {
         $response = new JsonResponse();
         $em = $this->getDoctrine()->getManager();
         
-        $suitcase = $this->getSuitcase();
+        $suitcaseManager = $this->get('winspire.suitcase.manager');
+        $suitcase = $suitcaseManager->getSuitcase(true);
+        
         if(!$suitcase) {
             throw $this->createNotFoundException();
         }
@@ -956,11 +667,10 @@ class SuitcaseController extends Controller
                 $eventDate = new \DateTime($form->get('event_date')->getData());
                 $suitcase->setEventName($form->get('event_name')->getData());
                 $suitcase->setEventDate($eventDate);
-                $suitcase->setPacked(true);
+                $suitcase->setStatus('P');
                 $suitcase->setPackedAt(new \DateTime());
                 $suitcase->setDirty(true);
                 $account->setState(substr($form->get('state')->getData(), -2));
-                $account->setDirty(true);
                 
                 $em->persist($suitcase);
                 $em->persist($account);
@@ -1080,30 +790,78 @@ class SuitcaseController extends Controller
         ));
     }
     
+    
     public function previewAction()
     {
-        $suitcase = $this->getSuitcase();
-        $user = $suitcase->getUser();
-        
-        // Get full list of Suitcases owned by this user
-        $em = $this->getDoctrine()->getManager();
-        $query = $em->createQuery(
-            'SELECT s FROM InertiaWinspireBundle:Suitcase s WHERE s.user = :user ORDER BY s.name ASC'
-        )
-        ->setParameter('user', $user)
-        ;
-        $suitcases = $query->getResult();
-        
-        $suitcaseList = array();
-        foreach($suitcases as $s) {
-            $suitcaseList[] = array('id' => $s->getId(), 'name' => $s->getName());
-        }
+        $suitcaseManager = $this->get('winspire.suitcase.manager');
+        $suitcase = $suitcaseManager->getSuitcase(true, 'updated');
         
         return $this->render('InertiaWinspireBundle:Suitcase:preview.html.twig', array(
             'suitcase' => $suitcase,
-            'suitcaseList' => $suitcaseList
+            'suitcaseList' => $suitcaseManager->getSuitcaseList(true)
         ));
     }
+    
+    
+    public function requestInvoiceAction()
+    {
+        $request = $this->getRequest();
+        $response = new JsonResponse();
+        
+        if ($request->isMethod('POST')) {
+            $qtys = $request->get('qty');
+            
+            $suitcaseManager = $this->get('winspire.suitcase.manager');
+            $suitcase = $suitcaseManager->requestInvoice($qtys);
+            
+            if ($suitcase) {
+                $templating = $this->get('templating');
+                
+                $top = $templating->render('InertiaWinspireBundle:Suitcase:/winningBidders/top.html.twig', array(
+                    'suitcase' => $suitcase
+                ));
+                
+                $header = $templating->render('InertiaWinspireBundle:Suitcase:/winningBidders/header.html.twig', array(
+                    'suitcase' => $suitcase
+                ));
+                
+                $content = $templating->render('InertiaWinspireBundle:Suitcase:/winningBidders/content.html.twig', array(
+                    'suitcase' => $suitcase
+                ));
+                
+                $footer = $templating->render('InertiaWinspireBundle:Suitcase:/winningBidders/footer.html.twig', array(
+                    'suitcase' => $suitcase
+                ));
+                
+                
+                $response->setData(array(
+                    'top' => $top,
+                    'header' => $header,
+                    'content' => $content,
+                    'footer' => $footer
+                ));
+                
+                return $response;
+            }
+        }
+    }
+    
+    
+    public function sendVoucherAction()
+    {
+        $response = new JsonResponse();
+        $request = $this->getRequest();
+        
+        $voucher = $request->request->get('voucher');
+        
+        $suitcaseManager = $this->get('winspire.suitcase.manager');
+        $count = $suitcaseManager->sendVoucher($voucher);
+        
+        return $response->setData(array(
+            'count' => $count
+        ));
+    }
+    
     
     public function shareAction()
     {
@@ -1376,6 +1134,10 @@ class SuitcaseController extends Controller
         try {
             $suitcase = $query->getSingleResult();
             $session->set('sid', $suitcase->getId());
+            
+            if($this->get('security.context')->isGranted('ROLE_ADMIN')) {
+                $session->set('uid', $suitcase->getUser()->getId());
+            }
         }
         catch (\Doctrine\Orm\NoResultException $e) {
             // Do nothing, leave the session alone
@@ -1398,11 +1160,10 @@ class SuitcaseController extends Controller
                 );
             }
             
-            
             return $response->setData(array(
                 'count' => count($suitcase->getItems()),
                 'items' => $items,
-                'locked' => $suitcase->getPacked(),
+                'locked' => $suitcase->getStatus() != 'U',
                 'suitcase' => array(
                     'id' => $suitcase->getId(),
                     'name' => $suitcase->getName()
@@ -1411,6 +1172,237 @@ class SuitcaseController extends Controller
         }
         else {
             return $this->redirect($this->generateUrl('suitcaseView'));
+        }
+    }
+    
+    
+    public function updateBookingAction($id)
+    {
+        $response = new JsonResponse();
+        $request = $this->getRequest();
+        
+        // TODO throw exception for request missing 'booking' parameter
+        
+        $suitcaseManager = $this->get('winspire.suitcase.manager');
+        $count = $suitcaseManager->updateSuitcaseBooking($id, $request->request->get('booking'));
+        
+        return $response->setData(array(
+            'count' => $count
+        ));
+    }
+    
+    
+    public function updatePriceAction($id)
+    {
+        $response = new JsonResponse();
+        $request = $this->getRequest();
+        
+        // TODO throw exception for request missing 'booking' parameter
+        
+        $suitcaseManager = $this->get('winspire.suitcase.manager');
+        $count = $suitcaseManager->updatePrice($id, $request->query->get('price'));
+        
+        return $response->setData(array(
+            'count' => $count
+        ));
+    }
+    
+    
+    public function updateQtyAction($id)
+    {
+        $response = new JsonResponse();
+        $request = $this->getRequest();
+        
+        // TODO throw exception for request parameter 'qty' not a number
+        
+        $suitcaseManager = $this->get('winspire.suitcase.manager');
+        $count = $suitcaseManager->updateSuitcaseQty($id, $request->query->get('qty'));
+        
+        return $response->setData(array(
+            'count' => $count
+        ));
+    }
+    
+    
+    public function viewAction(Request $request)
+    {
+        $suitcaseManager = $this->get('winspire.suitcase.manager');
+        $suitcase = $suitcaseManager->getSuitcase(false, 'alpha');
+        
+        if(!$suitcase) {
+            if($this->get('security.context')->isGranted('ROLE_ADMIN')) {
+                return $this->redirect($this->generateUrl('suitcaseAdmin'));
+            }
+            throw $this->createNotFoundException();
+        }
+        
+        $suitcaseList = $suitcaseManager->getSuitcaseList(false);
+        $user = $suitcase->getUser();
+        
+        if ($suitcase->getEventDate() >= new \DateTime() || $suitcase->getStatus() == 'U') {
+            $form = $this->createForm(new AccountType(), $user->getCompany());
+            $formFactory = $this->get('form.factory');
+            
+            $form->add(
+                $formFactory->createNamed('address', 'text', null,
+                    array(
+                        'constraints' => array(
+                            new NotBlank(),
+                        ),
+                        'label' => 'Address Line 1'
+                    )
+                )
+            );
+            
+            $form->add(
+                $formFactory->createNamed('address2', 'text', null,
+                    array(
+                        'constraints' => array(),
+                        'label' => 'Address Line 2  (Apt., Suite, etc.)',
+                        'required' => false
+                    )
+                )
+            );
+            
+            $form->add(
+                $formFactory->createNamed('city', 'text', null,
+                    array(
+                        'constraints' => array(
+                            new NotBlank(),
+                        )
+                    )
+                )
+            );
+            
+            $form->add(
+                $formFactory->createNamed('phone', 'text', null,
+                    array(
+                        'constraints' => array(),
+                        'required' => false
+                    )
+                )
+            );
+            
+            $form->add(
+                $formFactory->createNamed('event_name', 'text', null,
+                    array(
+                        'constraints' => array(
+                            new NotBlank(),
+                        ),
+                        'label' => 'Name of Event',
+                        'mapped' => false
+                    )
+                )
+            );
+            
+            $form->add(
+                $formFactory->createNamed('event_date', 'text', null,
+                    array(
+                        'constraints' => array(
+                            new NotBlank(),
+                        ),
+                        'label' => 'Date of Event',
+                        'mapped' => false,
+                        'required' => true
+                    )
+                )
+            );
+            
+            $form->add(
+                $formFactory->createNamed('loa', 'checkbox', null,
+                    array(
+                        'constraints' => array(
+                            new True(array(
+                                'message' => 'You must agree to the Letter of Agreement before proceeding.'
+                            )),
+                        ),
+                        'mapped' => false,
+                        'required' => true
+                    )
+                )
+            );
+            
+            $form->remove('name');
+            
+            $form->get('phone')->setData($user->getPhone());
+            $form->get('event_name')->setData($suitcase->getEventName());
+            $form->get('state')->setData($user->getCompany()->getCountry() . '-' . $user->getCompany()->getState());
+            
+            
+            $share = $this->shareAction();
+            $share->get('suitcase')->setData($suitcase->getId());
+            
+            if($suitcase->getEventDate() != '') {
+                $form->get('event_date')->setData($suitcase->getEventDate()->format('m/d/Y'));
+            }
+            
+            $downloadLinks = array();
+            $counts = array('M' => 0, 'D' => 0, 'R' => 0, 'E' => 0);
+            foreach($suitcase->getItems() as $item) {
+                $counts[$item->getStatus()]++;
+                
+                if ($item->getPackage()->getSfContentPackId() != '' || $item->getPackage()->getIsDefault()) {
+                    $downloadLinks[$item->getPackage()->getId()] = $this->getDownloadLink($item->getPackage()->getSfContentPackId());
+                }
+                else {
+                    // If the Package variant doesn't have its own SF Content Pack, then we'll try to find
+                    // the content pack associated with the default Package with the same parent header.
+                    // TODO this really should be pushed into the model... too much logic in our controller.
+                    
+                    $em = $this->getDoctrine()->getManager();
+                    $query = $em->createQuery(
+                        'SELECT p FROM InertiaWinspireBundle:Package p WHERE p.parent_header = :ph AND p.is_default = 1 ORDER BY p.active ASC, p.created DESC'
+                    )
+                    ->setParameter('ph', $item->getPackage()->getParentHeader())
+                    ->setMaxResults(1)
+                    ;
+                    
+                    try {
+                        $p = $query->getSingleResult();
+                        $contentPackId = $p->getSfContentPackId();
+                    }
+                    catch (\Exception $e) {
+                        $contentPackId = '';
+                    }
+                    
+                    $downloadLinks[$item->getPackage()->getId()] = $this->getDownloadLink($contentPackId);
+                }
+            }
+            
+            return $this->render('InertiaWinspireBundle:Suitcase:view.html.twig', array(
+                'creator' => $suitcase->getUser(),
+                'form' => $form->createView(),
+                'share' => $share->createView(),
+                'suitcase' => $suitcase,
+                'counts' => $counts,
+                'pages' => ceil(count($suitcase->getItems()) / 6),
+                'downloadLinks' => $downloadLinks,
+                'suitcaseList' => $suitcaseList
+            ));
+        }
+        
+        if ($suitcase->getStatus() == 'P' && $suitcase->getEventDate() < new \DateTime()) {
+            $total = 0;
+            foreach ($suitcase->getItems() as $item) {
+                if ($item->getCost() != 0) {
+                    $total += ($item->getQuantity() * $item->getPackage()->getCost());
+                }
+            }
+            
+            return $this->render('InertiaWinspireBundle:Suitcase:wrapper.html.twig', array(
+                'templatePath' => 'invoiceRequest',
+                'suitcase' => $suitcase,
+                'suitcaseList' => $suitcaseList,
+                'total' => $total
+            ));
+        }
+        
+        if ($suitcase->getStatus() == 'R' || $suitcase->getStatus() == 'I' || $suitcase->getStatus() == 'A') {
+            return $this->render('InertiaWinspireBundle:Suitcase:wrapper.html.twig', array(
+                'templatePath' => 'winningBidders',
+                'suitcase' => $suitcase,
+                'suitcaseList' => $suitcaseList
+            ));
         }
     }
     
@@ -1443,18 +1435,6 @@ class SuitcaseController extends Controller
         return $token;
     }
     
-    protected function getCounts($suitcase)
-    {
-        $counts = array('M' => 0, 'D' => 0, 'R' => 0, 'E' => 0);
-        foreach($suitcase->getItems() as $item) {
-            if ($item->getStatus() != 'X') {
-                $counts[$item->getStatus()]++;
-            }
-        }
-        
-        return $counts;
-    }
-    
     protected function getDownloadLink($id)
     {
         $em = $this->getDoctrine()->getManager();
@@ -1477,140 +1457,5 @@ class SuitcaseController extends Controller
         }
         
         return $version;
-    }
-    
-    protected function getSuitcase($order = 'update')
-    {
-        $em = $this->getDoctrine()->getManager();
-        
-        $session = $this->getRequest()->getSession();
-        $sid = $session->get('sid');
-        
-        if($this->get('security.context')->isGranted('ROLE_ADMIN')) {
-            if($sid) {
-                
-                if($order == 'update') {
-                    $query = $em->createQuery(
-                        'SELECT s, i, p FROM InertiaWinspireBundle:Suitcase s LEFT JOIN s.items i WITH i.status != \'X\' LEFT JOIN i.package p WHERE s.id = :id ORDER BY i.updated DESC'
-                    )
-                        ->setParameter('id', $sid)
-                    ;
-                }
-                else {
-                    $query = $em->createQuery(
-                        'SELECT s, i, p FROM InertiaWinspireBundle:Suitcase s LEFT JOIN s.items i WITH i.status != \'X\' LEFT JOIN i.package p WHERE s.id = :id ORDER BY p.parent_header ASC'
-                    )
-                        ->setParameter('id', $sid)
-                    ;
-                }
-                
-                try {
-                    $suitcase = $query->getSingleResult();
-                }
-                catch (\Doctrine\Orm\NoResultException $e) {
-                    throw $this->createNotFoundException();
-//                    $suitcase = new Suitcase();
-                }
-                
-                return $suitcase;
-            }
-            else {
-                return false;
-            }
-        }
-        
-        
-        
-        
-        
-        // Establish which suitcase to use for current user
-        $user = $this->getUser();
-        
-        if(!$user) {
-            return false;
-        }
-        
-        
-        
-        
-        // First, check the current session for a suitcase id
-//        $sid = $session->get('sid');
-        if($sid) {
-//echo 'Found SID, step 1: ' . $sid . "<br/>\n";
-            if($order == 'update') {
-                $query = $em->createQuery(
-                    'SELECT s, i FROM InertiaWinspireBundle:Suitcase s LEFT JOIN s.items i WITH i.status != \'X\' WHERE s.user = :user_id AND s.id = :id ORDER BY i.updated DESC'
-                )
-                ->setParameter('user_id', $user->getId())
-                ->setParameter('id', $sid);
-            }
-            else {
-                $query = $em->createQuery(
-                    'SELECT s, i, p FROM InertiaWinspireBundle:Suitcase s LEFT JOIN s.items i WITH i.status != \'X\' LEFT JOIN i.package p WHERE s.user = :user_id AND s.id = :id ORDER BY p.parent_header ASC'
-                )
-                ->setParameter('user_id', $user->getId())
-                ->setParameter('id', $sid);
-            }
-            
-            try {
-                 $suitcase = $query->getSingleResult();
-            }
-            catch (\Doctrine\Orm\NoResultException $e) {
-                
-                // If the suitcase we were expecting doesn't exist, we'll create a new one
-//                throw $this->createNotFoundException();
-                $suitcase = new Suitcase();
-//                $suitcase->setUser($user);
-//                $suitcase->setPacked(false);
-//                $em->persist($suitcase);
-//                $em->flush();
-//                
-//                $session->set('sid', $suitcase->getId());
-//                
-//                return $suitcase;
-            }
-            
-            return $suitcase;
-        }
-        // Second, query for the most recent suitcase (used as default)
-        else {
-            $query = $em->createQuery(
-                'SELECT s, i FROM InertiaWinspireBundle:Suitcase s LEFT JOIN s.items i WITH i.status != \'X\' WHERE s.user = :user_id ORDER BY s.updated DESC, i.updated DESC'
-            )->setParameter('user_id', $user->getId());
-            
-            try {
-                $suitcase = $query->getResult();
-            }
-            catch (\Doctrine\Orm\NoResultException $e) {
-                throw $this->createNotFoundException();
-            }
-            
-            if(count($suitcase) > 0) {
-                $suitcase = $suitcase[0];
-                
-                $session->set('sid', $suitcase->getId());
-                
-                return $suitcase;
-            }
-            else {
-                // Third, no existing suitcases found for this account... create a new one
-                $suitcase = new Suitcase();
-                $suitcase->setUser($user);
-                $suitcase->setPacked(false);
-                
-                $em->persist($suitcase);
-                $em->flush();
-                
-                $session->set('sid', $suitcase->getId());
-                
-                return $suitcase;
-            }
-        }
-    }
-    
-    protected function retrigger($s)
-    {
-        $msg = array('suitcase_id' => $s->getId());
-        $this->get('old_sound_rabbit_mq.winspire_producer')->publish(serialize($msg), 'unpack-suitcase');
     }
 }

@@ -1,0 +1,17 @@
+{% if suitcase.status == 'R' or suitcase.status == 'I' %}
+                    <h4>Now let’s add your Winning Bidder Info.</h4>
+                    <p>We will use this information to create your Winning Bidder’s Booking Vouchers.</p>
+                    <ul class="packed">
+                        <li><span>1</span>Enter the amount of the Winning Bid for each item.</li>
+                        <li><span>2</span>Enter the Winning Bidder’s information and click the “Add” button.  Fields have been provided for each of the items you sold.  If you do not have all the information at this moment, provide what you have and come back later to complete the rest.</li>
+                        <li><span>3</span>Your Booking Vouchers will be released as soon as payment from your organization is received.</li>
+                    </ul>
+{% endif %}
+{% if suitcase.status == 'A' %}
+                    <h4>Thank you for your payment! Your Travel Vouchers are ready to deliver!</h4>
+                    <p>Your vouchers have also been emailed to you, but we have some handy tools for you to use here.</p>
+                    <ul class="packed">
+                        <li><span>1</span>Please complete any missing Winner Bidder information so we can produce the remaining Travel Vouchers.</li>
+                        <li><span>2</span>Use our Email Tool <span class="button-sample"><span class="icon icon-envelope"></span></span> to deliver your Travel Vouchers with a personal touch!</li>
+                    </ul>
+{% endif %}

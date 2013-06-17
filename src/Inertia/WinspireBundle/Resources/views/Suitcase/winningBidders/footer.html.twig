@@ -1,0 +1,19 @@
+                <div class="packed">
+{% if suitcase.status == 'R' %}
+                    <div class="message1">
+                        <span class="icon icon-pin"></span>
+                        <h4>Your invoice is being generated</h4>
+                    </div>
+{% endif %}
+{% if suitcase.status == 'I' %}
+                    <div class="message1">
+                        <span class="icon icon-pin"></span>
+                        <h4>Your travel vouchers will be released upon receipt of payment. Thank you.</h4>
+                        <h5>Need a copy of your invoice?</h5>
+                        <p>If you did not receive a copy of your invoice by email or need another copy, you can download a copy here.</p>
+                    </div>
+                    <div class="message2">
+                        <a class="button pdf neutral" target="_blank" href="{{ path('suitcaseInvoice', {'suitcaseId': suitcase.id}) }}"><span class="icon-pdf"></span>Download Invoice</a>
+                    </div>
+{% endif %}
+                </div>

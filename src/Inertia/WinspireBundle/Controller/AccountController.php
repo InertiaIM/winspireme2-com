@@ -175,7 +175,7 @@ class AccountController extends Controller
                 $userManager->updateUser($user);
                 
                 $suitcase = new Suitcase();
-                $suitcase->setPacked(false);
+                $suitcase->setStatus('U');
                 $suitcase->setName($form->get('event_name')->getData());
                 $suitcase->setEventName($form->get('event_name')->getData());
                 $suitcase->setEventDate(new \DateTime($form->get('event_date')->getData()));
@@ -197,10 +197,10 @@ class AccountController extends Controller
                         
                         $suitcaseItem = new SuitcaseItem();
                         $suitcaseItem->setPackage($package);
-                        $suitcaseItem->setQuantity(1);
+                        $suitcaseItem->setQuantity(0);
                         $suitcaseItem->setPrice(0);
                         $suitcaseItem->setSubtotal(0);
-                        $suitcaseItem->setTotal(0);
+                        $suitcaseItem->setCost(0);
                         $suitcaseItem->setStatus('M');
                         
                         $suitcase->addItem($suitcaseItem);

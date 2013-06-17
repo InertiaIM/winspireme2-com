@@ -34,7 +34,9 @@ class CommentConsumer implements ConsumerInterface
             $comment = $query->getSingleResult();
         }
         catch (\Doctrine\Orm\NoResultException $e) {
-//            throw $this->createNotFoundException();
+            // Problem occurred getting the comment, 
+            // so we're throwing it out of the message queue.
+            return true;
         }
         
         $name = $comment->getSuitcase()->getUser()->getFirstName() . ' ' .
@@ -45,7 +47,6 @@ class CommentConsumer implements ConsumerInterface
         $message = \Swift_Message::newInstance()
             ->setSubject('New Comment in your Suitcase')
             ->setFrom(array('notice@winspireme.com' => 'Winspire'))
-            ->setTo(array($email => $name))
             ->setBody(
                 $this->templating->render(
                     'InertiaWinspireBundle:Email:comment-notification.html.twig',
@@ -54,7 +55,17 @@ class CommentConsumer implements ConsumerInterface
                 'text/html'
             )
         ;
-        $message->setBcc($comment->getSuitcase()->getUser()->getCompany()->getSalesperson()->getEmail());
+        
+        // No need to send the user their own Comments
+        // If the commentor's email is the same as the user,
+        // then end to the Salesperson only.
+        if ($email == $comment->getEmail()) {
+            $message->setTo($comment->getSuitcase()->getUser()->getCompany()->getSalesperson()->getEmail());
+        }
+        else {
+            $message->setTo(array($email => $name));
+            $message->setBcc($comment->getSuitcase()->getUser()->getCompany()->getSalesperson()->getEmail());
+        }
         
         $this->em->clear();
         

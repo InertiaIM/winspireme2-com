@@ -1,0 +1,200 @@
+{% extends "InertiaWinspireBundle::layout.html.twig" %}
+
+{% block title %}Winspire | My Suitcase{% endblock %}
+
+{% block content_header '' %}
+
+{% block content %}
+<div id="con-sc">
+    <div id="sc-header">
+        <div class="c-wrap">
+            <div class="col">
+                <div class="packed">
+                    <h1><span class="icon-suitcase-locked"></span> <em>my</em> Suitcase</h1>
+                    <form data-style="html" data-id="{{ suitcase.id }}" method="get" action="{{ path('suitcaseSwitch') }}" class="suitcase-switcher">
+                        <select name="sid">
+                            <option value="new">Create New Suitcase</option>
+{% for s in suitcaseList %}
+                            <option{% if s.id == suitcase.id %} selected="selected"{% endif %} value="{{ s.id }}">{{ s.name | truncate(30) }}</option>
+{% endfor %}
+                        </select>
+                    </form>
+                    <div class="top">
+{{ include('InertiaWinspireBundle:Suitcase:/' ~ templatePath ~ '/top.html.twig', {'suitcase': suitcase}) }}
+                    </div>
+                </div>
+            </div>
+            <div class="help">
+                <h2>Need Help?</h2>
+                <p>Contact Your Experience Expert<br/>
+                {{ suitcase.user.company.salesperson.firstName }} {{ suitcase.user.company.salesperson.lastName }}<br/>
+                {{ suitcase.user.company.salesperson.phone }}<br/>
+                <a href="mailto:{{ suitcase.user.company.salesperson.email }}" target="_blank">{{ suitcase.user.company.salesperson.email }}</a></p>
+            </div>
+        </div>
+    </div>
+    <div id="sc-area" class="request-invoice">
+        <div class="c-wrap shadow-wrapper">
+            <div class="header drop-shadow curved curved-hz-1">
+{{ include('InertiaWinspireBundle:Suitcase:/' ~ templatePath ~ '/header.html.twig', {'suitcase': suitcase}) }}
+            </div>
+            <div class="content">
+{{ include('InertiaWinspireBundle:Suitcase:/' ~ templatePath ~ '/content.html.twig', {'suitcase': suitcase}) }}
+            </div>
+            <div class="footer drop-shadow curved curved-hz-bottom">
+{{ include('InertiaWinspireBundle:Suitcase:/' ~ templatePath ~ '/footer.html.twig', {'suitcase': suitcase}) }}
+            </div>
+        </div>
+    </div>
+    
+    <div id="comment-area">
+        <div class="c-wrap shadow-wrapper">
+            <div class="header drop-shadow curved curved-hz-1">
+                <h3>Comments</h3>
+                <ul class="social">
+                    <li class="comments"><a href="#"><span class="icon icon-comment"></span><span class="comment-count">{{ suitcase.comments | length }}</span> Comments</a></li>
+                </ul>
+            </div>
+            <div class="content">
+                <div class="commentary">
+{% for comment in suitcase.comments %}
+                    <div class="comment">
+                        <p><strong>{{ comment.name }}</strong> <span class="timestamp">{{ comment.created | date('M j, Y, g:i a') }}</span></p>
+                        <p>{{ comment.message | nl2br }}</p>
+                        <hr/>
+                    </div>
+{% endfor %}
+                </div>
+                <form id="comment-form" action={{ path('shareComment', {'id': suitcase.id}) }} method="post">
+                    <textarea name="message" placeholder="Share your comments with everyone that is invited to this Suitcase."></textarea>
+                    <button type="submit">Add Comment</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div id="error-modal" style="display:none;">
+    <h3><span class="icon icon-warning"></span>Please update all quantities.</h3>
+    <h4>Tip: If you did not sell any of a particular item, please enter “0” for the quantity.</h4>
+</div>
+
+<div id="thanks-modal" style="display:none;">
+    <h3>Thank you for requesting your invoice!</h3>
+    <h4>You’re final invoice will be emailed to you within one business day.</h4>
+    <p>If you have any questions, please do not hesitate to <a href="mailto:sales@winspireme.com" target="_blank">email us</a> or<br/>
+    contact us by phone at (877) 544-8555.</p>
+    <button>Add Your Winning Bidder Info</button>
+</div>
+
+<div id="mail-thanks-modal" style="display:none;">
+    <h3>Voucher Sent!</h3>
+    <p>A Winning Bidder Voucher has been successfully sent to the following person:</p>
+    <table>
+        <tr>
+            <td class="number"><span>&nbsp;</span></td>
+            <td class="name">&nbsp;</td>
+            <td class="email">&nbsp;</td>
+        </tr>
+    </table>
+    <div class="wrapper">
+        <button>Send More Vouchers!</button>
+    </div>
+</div>
+
+<div id="mail-modal" style="display:none;">
+    <h3><span class="icon icon-envelope"></span>Send Voucher to <span id="mail-fullname"></span></h3>
+    <table>
+        <tr>
+            <td class="col1">From:</td>
+            <td id="mail-from"></td>
+        </tr>
+        <tr>
+            <td class="col1">To:</td>
+            <td id="mail-to"></td>
+        </tr>
+    </table>
+    <form action="{{ path('suitcaseSendVoucher') }}" method="post">
+        <textarea rows="5" name="voucher[message]" id="message">
+        </textarea>
+        
+        <p class="instruct">The following instructions will also be included in your email.</p>
+        <div class="preview">
+            <p>To redeem this Experience, find your Certificate Identification # and 
+            Package # below and click "Redeem," or you can visit winspireme.com/redeem 
+            If you purchased more than one package, you will receive each 
+            Booking Voucher separately.</p>
+            <p>Book as early as possible. The earlier you book your Experience, the 
+            more likely it will be that you get your dates of preference. If you 
+            would like to upgrade your package by adding additional nights or tours, 
+            email travelinfo@winspireme.com.</p>
+            <p>============================================================<br/>
+            --------------------- Booking Voucher ----------------------<br/>
+            ============================================================</p>
+            
+            <p><span id="mail-package-header"></span><br/>
+            <span id="mail-package-name"></span></p>
+            
+            <p>CERTIFICATE IDENTIFICATION #: <span id="mail-voucher-code"></span><br/>
+            PACKAGE #: <span id="mail-package-code"></span></p>
+            <p>&nbsp;</p>
+            
+            <p>****************** REDEEM THIS EXPERIENCE ******************</p>
+            
+            <p>Visit: http://winspireme.com/redeem</p>
+            
+            <p>************************************************************</p>
+            <p>&nbsp;</p>
+            
+            <p>Once your request has been submitted, you will receive a confirmation 
+            email within 24 hours. We will begin the booking process and you will 
+            be contacted personally within 7 business days.</p>
+            
+            <p>Winning Bidder: <span id="mail-fullname2"></span><br/>
+            Event Name: <span id="mail-event-name"></span><br/>
+            Event Date: <span id="mail-event-date"></span><br/>
+            Organization: <span id="mail-np"></span><br/>
+            Contact: <span id="mail-np-name"></span><br/>
+            <span id="mail-np-phone"></span><br/>
+            <span id="mail-np-email"></span></p>
+            
+            <p>Important information about redeeming this voucher:<br/>
+            * Packages must be redeemed at least 60 days prior to start of travel.<br/>
+            * Please prepare three preferred dates of travel. The dates should be at least one week apart from each other.<br/>
+            * All reservations are subject to availability.<br/>
+            * Packages including airfare must be booked within 1-year of original purchase date.<br/>
+            * Air taxes and fees are the responsibility of each traveler.<br/>
+            * See full package description for additional details and restrictions.</p>
+            
+            <p>Questions about your Experience?<br/>
+            Email Winspire at travelinfo@winspireme.com or call (949) 468-0689.</p>
+            
+            <p>Winspire Home (http://winspireme.com)<br/>
+            About Us (http://winspireme.com/about-us)<br/>
+            FAQs (http://winspireme.com/faqs)<br/>
+            How Winspire Works (http://www.winspireme.com/how-winspire-works)<br/>
+            Contact Us (http://www.winspireme.com/contact-us)</p>
+            
+            <p>FIND US<br/>
+            Winspire Facebook Page (https://www.facebook.com/Winspire)<br/>
+            Winspire Twitter Page (https://twitter.com/WinspireMe)<br/>
+            Winspire Pintrist Page (http://pinterest.com/winspireme/)</p>
+            
+            <p>============================================================<br/>
+            Cross our hearts, we promise not to share your information!<br/>
+            Copyright © {{ 'now' | date('Y') }} Winspire, Inc, All rights reserved.<br/>
+            23091 Mill Creek Rd, Laguna Hills, CA 92653</p>
+            
+            <p>** Read our updated Privacy Policy (http://www.winspireme.com/privacy)</p>
+        </div>
+        <div class="field-wrapper">
+            <input type="checkbox" name="voucher[cc]" id="voucher_cc"/>
+            <label for="voucher_cc">Send me a copy of this email</label>
+        </div>
+        
+        <button class="send">Send Email</button>
+        <input type="hidden" name="voucher[id]" id="voucher_id"/>
+    </form>
+</div>
+{% endblock %}
