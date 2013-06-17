@@ -23,6 +23,7 @@ class Version20130605135758 extends AbstractMigration
         $this->addSql("ALTER TABLE suitcase ADD invoice_file_name VARCHAR(256) DEFAULT NULL AFTER invoice_paid_at, ADD sf_role_id VARCHAR(128) DEFAULT NULL AFTER sf_id, DROP salesperson_id");
         $this->addSql("UPDATE suitcase set status = 'U'");
         $this->addSql("UPDATE suitcase set status = 'P' WHERE packed");
+        $this->addSql("UPDATE suitcase_item set quantity = 0");
         $this->addSql("ALTER TABLE suitcase_item CHANGE total cost NUMERIC(10, 2) NOT NULL");
     }
 
