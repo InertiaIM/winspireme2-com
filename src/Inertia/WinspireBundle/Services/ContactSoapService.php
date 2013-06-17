@@ -3,6 +3,7 @@ namespace Inertia\WinspireBundle\Services;
 
 use Ddeboer\Salesforce\ClientBundle\Client;
 use Doctrine\ORM\EntityManager;
+use FOS\UserBundle\Util\Canonicalizer;
 use Inertia\WinspireBundle\Entity\Account;
 use Inertia\WinspireBundle\Entity\Suitcase;
 use Inertia\WinspireBundle\Entity\User;
@@ -122,8 +123,15 @@ class ContactSoapService
                 }
                 
                 // CONTACT EMAIL
-                // TODO must update email and username (canonical, etc)
-                // using FOS USER MANAGER
+                if (isset($sfContact->Email)) {
+                    $c = new Canonicalizer();
+                    $user->setEmail($sfContact->Email);
+                    $user->setUsername($sfContact->Email);
+                    $user->setEmailCanonical($c->canonicalize($sfContact->Email));
+                    $user->setUsernameCanonical($c->canonicalize($sfContact->Email));
+                }
+                
+                $this->em->persist($user);
             }
             
             $account->setDirty(false);
