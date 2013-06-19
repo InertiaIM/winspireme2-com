@@ -248,25 +248,28 @@ class SuitcaseManager
     
     public function getSuitcaseList($active = true)
     {
-        $qb = $this->em->createQueryBuilder();
-        $qb->select(array('s'));
-        $qb->from('InertiaWinspireBundle:Suitcase', 's');
-        
-        // If "active", we only want packed or unpacked Suitcases
-        if ($active) {
-            $qb->where($qb->expr()->in('s.status', array('U', 'P')));
-        }
-        
-        $qb->andWhere('s.user = :user_id');
-        $qb->setParameter('user_id', $this->suitcaseUser->getId());
-        
-        $qb->orderBy('s.name', 'ASC');
-        
-        $suitcases = $qb->getQuery()->getResult();
-        
         $suitcaseList = array();
-        foreach($suitcases as $s) {
-            $suitcaseList[] = array('id' => $s->getId(), 'name' => $s->getName());
+        
+        if ($this->suitcaseUser) {
+            $qb = $this->em->createQueryBuilder();
+            $qb->select(array('s'));
+            $qb->from('InertiaWinspireBundle:Suitcase', 's');
+            
+            // If "active", we only want packed or unpacked Suitcases
+            if ($active) {
+                $qb->where($qb->expr()->in('s.status', array('U', 'P')));
+            }
+            
+            $qb->andWhere('s.user = :user_id');
+            $qb->setParameter('user_id', $this->suitcaseUser->getId());
+            
+            $qb->orderBy('s.name', 'ASC');
+            
+            $suitcases = $qb->getQuery()->getResult();
+            
+            foreach($suitcases as $s) {
+                $suitcaseList[] = array('id' => $s->getId(), 'name' => $s->getName());
+            }
         }
         
         return $suitcaseList;
