@@ -944,21 +944,29 @@ if(($sfAccount->SystemModstamp > $account->getSfUpdated()) && !$account->getDirt
                     else {
                         $sfOpportunity->Website_suitcase_status__c = 'Unpacked';
                     }
-                    $sfOpportunity->CloseDate = new \DateTime('+60 days');
+                    
                     $sfOpportunity->Name = $suitcase->getName();
                     
-                    if ($suitcase->getEventName() != '' && $suitcase->getEventName() != 'false') {
-                        $sfOpportunity->Event_Name__c = substr($suitcase->getEventName(), 0, 40);
-                    }
-                    else {
-                        $sfOpportunity->Event_Name__c = '';
-                    }
+//                    if ($suitcase->getEventName() != '' && $suitcase->getEventName() != 'false') {
+//                        $sfOpportunity->Event_Name__c = substr($suitcase->getEventName(), 0, 40);
+//                    }
+//                    else {
+//                        $sfOpportunity->Event_Name__c = '';
+//                    }
                     if ($suitcase->getEventDate() != '') {
                         $sfOpportunity->Event_Date__c = $suitcase->getEventDate();
                     }
                     else {
                         $sfOpportunity->Event_Date__c = new \DateTime('+30 days');
                     }
+                    
+                    if ($suitcase->getInvoiceRequestedAt() != '' && $suitcase->getStatus() != 'U' && $suitcase->getStatus() != 'P') {
+                        $sfOpportunity->CloseDate = $suitcase->getInvoiceRequestedAt();
+                    }
+                    else {
+                        $sfOpportunity->CloseDate = new \DateTime('+60 days');
+                    }
+                    
                     $sfOpportunity->AccountId = $suitcase->getUser()->getCompany()->getSfId();
                     $sfOpportunity->RecordTypeId = $this->opportunityTypeId;
                     $sfOpportunity->Lead_Souce_by_Client__c = 'Online User';
@@ -979,17 +987,17 @@ if(($sfAccount->SystemModstamp > $account->getSfUpdated()) && !$account->getDirt
                     
                     if($saveResult[0]->success) {
                         $suitcase->setSfId($saveResult[0]->id);
-                        $timestamp = new \DateTime();
+//                        $timestamp = new \DateTime();
                         $suitcase->setDirty(false);
-                        $suitcase->setSfUpdated($timestamp);
-                        $suitcase->setUpdated($timestamp);
+//                        $suitcase->setSfUpdated($timestamp);
+//                        $suitcase->setUpdated($timestamp);
                         $em->persist($suitcase);
                         $em->flush();
                     }
                 }
                 
                 
-                
+/*                
                 // Phase 2:  Attempt to locate deleted (and changed) Opportunities
                 $query = $em->createQuery(
                     'SELECT a, u, s FROM InertiaWinspireBundle:Suitcase s JOIN s.user u WITH u.sfId IS NOT NULL JOIN u.company a WITH a.sfId NOT IN (:blah) AND a.sfId IS NOT NULL WHERE s.dirty = 0'
@@ -1073,7 +1081,7 @@ if(($sfAccount->SystemModstamp > $account->getSfUpdated()) && !$account->getDirt
                         }
                     }
                 }
-                
+*/
                 break;
         }
     }
