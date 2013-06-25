@@ -964,7 +964,8 @@ if(($sfAccount->SystemModstamp > $account->getSfUpdated()) && !$account->getDirt
                         $sfOpportunity->CloseDate = $suitcase->getInvoiceRequestedAt();
                     }
                     else {
-                        $sfOpportunity->CloseDate = new \DateTime('+60 days');
+                        // TODO what to user here?
+//                        $sfOpportunity->CloseDate = new \DateTime('+60 days');
                     }
                     
                     $sfOpportunity->AccountId = $suitcase->getUser()->getCompany()->getSfId();
