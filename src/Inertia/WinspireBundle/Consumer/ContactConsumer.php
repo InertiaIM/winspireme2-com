@@ -72,10 +72,6 @@ class ContactConsumer implements ConsumerInterface
                 $recipient = 'info@winspireme.com';
                 $subject = 'Learn More About Winspire';
                 break;
-            case 'learn-more':
-                $recipient = 'info@winspireme.com';
-                $subject = 'Learn More About Winspire';
-                break;
             case 'partners':
                 $recipient = 'info@winspireme.com';
                 $subject = 'Partners';
@@ -88,6 +84,9 @@ class ContactConsumer implements ConsumerInterface
                 $recipient = 'info@winspireme.com';
                 $subject = 'Other';
                 break;
+            default:
+                $recipient = 'info@winspireme.com';
+                $subject = 'Other';
         }
         
         $name = $first . ' ' . $last;
