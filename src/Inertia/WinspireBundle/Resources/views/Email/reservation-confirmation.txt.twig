@@ -1,0 +1,75 @@
+Thank you for reserving Winspire Experiences for your event.
+Questions? Email info@winspireme.com
+------------------------------------------------------------
+
+YOUR SUITCASE IS PACKED!
+
+Thank you for reserving Winspire Experiences for your event.
+Please verify that the information below is correct. This will be important for when you deliver the Experiences to the Winning Bidders after the event is over.
+
+============================================================
+
+Event Name: {{ suitcase.eventName }}
+Event Date: {{ suitcase.eventDate | date('m/d/Y') }}
+Organization: {{ suitcase.user.company.name }}
+Contact:
+{{ suitcase.user.firstName }} {{ suitcase.user.lastName }}
+{{ suitcase.user.phone }}
+{{ suitcase.user.email }} 
+
+============================================================
+
+Below you will find a reservation confirmation{% if first %} and an attached copy of your Letter of Agreement{% endif %}. Please review these before your event.
+
+
+************************************************************
+================ RESERVATION CONFIRMATION ==================
+************************************************************
+
+Thank you for your Reservation. Following are a few things to keep in mind between now and your event:
+
+1. DISPLAY MATERIALS - Display Materials for each Experience are available for download here and in your Suitcase (http://winspireme.com/suitcase). These include a display PDF, Package Details document and extra images for you to use in your own presentation materials.
+2. ADDING MORE EXPERIENCES - It is never too late to add another Experience to your event. Contact your Event Consultant or simply find the item (http://winspireme.com/packages) , add it your Suitcase and checkout again. You will get another email confirmation just like this one.
+3. SELL EXPERIENCES MULTIPLE TIMES - All of our Experiences can be sold multiple times, most with no limit. Even after your event, you can still sell Experiences to donors who neglected to bid or were unable to attend.
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+{% for item in suitcase.items %}
+{{ item.package.parentHeader }}
+Package URL: http://winspireme.com/package/{{ item.package.slug }}
+{{ item.package.name }}
+{{ item.package.suggestedRetailValue }} - Suggested Retail Value
+
+${{ item.package.cost | number_format(0) }} - Nonprofit Cost
+Package Code: ( {{ item.package.code }} )
+{% endfor %}
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+
+Winspire experiences are offered on a no-risk basis, meaning that the Nonprofit purchases these item(s) only after knowing what is sold at the event. If an experience does not successfully sell, the Nonprofit is not required to purchase the item(s). Prior to placing an order, the Nonprofit will be asked to confirm the receipt of payment from the winning bidder. All experiences that are confirmed by the Nonprofit organization and invoiced by Winspire are non-refundable.{% if first %} See the attached Letter of Agreement (http://winspireme.com/loa) for full details.{% endif %}
+
+============================================================
+************************************************************
+
+
+We're here to help.
+If you have any questions or would like to make a change to your order, please give us a call at 1.877.544.8555 or contact your Winspire Event Consultant:
+
+{{ suitcase.user.company.salesperson.firstName }} {{ suitcase.user.company.salesperson.lastName }}  |  Event Consultant
+{{ suitcase.user.company.salesperson.phone }} (tel:{{ suitcase.user.company.salesperson.phone }})
+{{ suitcase.user.company.salesperson.email }} (mailto:{{ suitcase.user.company.salesperson.email }})
+
+Thank You,
+Your Winspire Team
+
+Call Us at 1.877.544.8555 
+
+FIND US
+Winspire Facebook Page (https://www.facebook.com/Winspire) 
+Winspire Twitter Page (https://twitter.com/WinspireMe) 
+Winspire Pintrist Page (http://pinterest.com/winspireme/)
+
+============================================================
+Cross our hearts, we promise not to share your information! .
+Copyright © {{ 'now' | date('Y') }} Winspire, Inc, All rights reserved.
+23091 Mill Creek Rd, Laguna Hills, CA 92653
+
+** Read our updated Privacy Policy (http://www.winspireme.com/privacy) 

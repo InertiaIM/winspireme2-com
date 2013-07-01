@@ -202,12 +202,12 @@ class PackSuitcaseConsumer implements ConsumerInterface
         $email = $suitcase->getUser()->getEmail();
         
         $message = \Swift_Message::newInstance()
-            ->setSubject('Order Confirmation')
-            ->setFrom(array('notice@winspireme.com' => 'Winspire'))
+            ->setSubject('Winspire Reservation Confirmation')
+            ->setFrom(array('info@winspireme.com' => 'Winspire'))
             ->setTo(array($email => $name))
             ->setBody(
                 $this->templating->render(
-                    'InertiaWinspireBundle:Email:order-confirmation.html.twig',
+                    'InertiaWinspireBundle:Email:reservation-confirmation.html.twig',
                     array(
                         'suitcase' => $suitcase,
                         'first' => $first
@@ -215,8 +215,18 @@ class PackSuitcaseConsumer implements ConsumerInterface
                 ),
                 'text/html'
             )
+            ->addPart(
+                $this->templating->render(
+                    'InertiaWinspireBundle:Email:reservation-confirmation.txt.twig',
+                    array(
+                        'suitcase' => $suitcase,
+                        'first' => $first
+                    )
+                ),
+                'text/plain'
+            )
         ;
-        $message->setBcc($account->getSalesperson()->getEmail());
+        $message->setBcc($account->getSalesperson()->getEmail(), 'doug@inertiaim.com');
         
         if($first) {
             $pdf = new \WinspirePDF('P', 'mm', 'LETTER');
