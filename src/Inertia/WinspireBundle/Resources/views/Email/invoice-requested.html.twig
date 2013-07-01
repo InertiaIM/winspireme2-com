@@ -516,103 +516,162 @@
 											
 											<!-- // Begin RESERVATION CONFIRM \\ -->
 												<table cellpadding="0" cellspacing="0" width="100%">
-                                                    <tr>
-                                                        <td valign="top">
-                                                        	<!-- // RESERVATION CONFIRM HEADER \\ -->
+													<tr>
+														<td valign="top">
+															<!-- // RESERVATION CONFIRM HEADER \\ -->
 															<table border="0" cellpadding="0" cellspacing="0" width="100%" style="line-height:20px;font-size:12px;font-family:Arial;color:#505050;" bgcolor="f1f1f1">
 																<tr>
-																	<td valign="top" align="center" colspan="2" style="padding:5px 10px;" bgcolor="005695"> 
-																		<span style="color: #fff;"><b>Reservation Receipt</b></span>
+																	<td valign="top" align="center" height="10" bgcolor="005695"> 
+																		<img src="https://s3.amazonaws.com/winspire-transactional-emails/spacer1px.gif" />
 																	</td>
 																</tr>
 															</table>
 														</td>
 													</tr>
 												</table>
-												<table style="border: 1PX SOLID #CECECE;" cellpadding="10" cellspacing="0" width="100%" >
-													<tr>
-														<td valign="top" style="line-height:18px;font-size:12px;font-family:Arial;color:#505050;">
-															<span style="font-size:16px;font-weight:bold;">Keep this for your records.</span><br /> 
-															Following is a list of the Experiences you sold at your event.
-															<br/>
-														</td>
-													</tr>
-													
-													<!-- // *****************SPACER***************** \\ -->
-													<tr><td align="middle" style="padding:10px;"><img src="https://s3.amazonaws.com/winspire-transactional-emails/line-split.gif" /></td></tr>
-													<!-- // Begin PACKAGE \\ -->
-{% for item in suitcase.items %}
-													<tr>
-														<td valign="top">
-															<table border="0" cellpadding="15" cellspacing="0" width="100%" style="line-height:20px;font-size:12px;font-family:Arial;color:#505050;" >
+												<table style="border: 1PX SOLID #CECECE;" cellpadding="0" cellspacing="0" width="100%">
+                                                    <tr>
+                                                        <td valign="top">
+															<!-- // Begin Module: Suitcase Info \\ -->
+															<table border="0" cellpadding="0" cellspacing="0" width="100%" style="color: #505050;font-family: Arial;font-size: 12px;line-height: 150%;text-align: left;" bgcolor="f1f1f1">
 																<tr>
-																	<td valign="top" align="left" style="margin:0px;" width="150">
-																		<img src="http://winspireme.com/uploads/packages/{{ item.package.thumbnail }}" style="display:block;padding:0px;margin:0px;border:1px solid #ccc;" width="150" height="98"/>
-																	</td>
-																	<td align="left" valign="top" style="padding-left:0px;">
-																		<table border="0" cellpadding="0" cellspacing="0" width="100%">
+																	<td valign="top" align="left" style="padding:0px;"> 
+																		<table border="0" cellpadding="0" cellspacing="10" width="100%">
 																			<tr>
-																				<td align="left" valign="top">
-																					<a href="http://winspireme.com/package/{{ item.package.slug }}" style="text-decoration:none;"><span style="font-size:16px;color:#005695;font-weight:bold;">{{ item.package.parentHeader }}</span></a><br />
-																					<span style="font-size:12px;line-height:15px;">{{ item.package.name }}</span>
+																				<td>
+																					<table border="0" cellpadding="0" cellspacing="0" width="100%">
+																						<tr>
+																							<td valign="bottom" align="left" style="font-size:9px;line-height:9px;padding-bottom:2px;color:#005695;"> 
+																								<span style="font-family:serif;font-style:italic;">my</span><b>Suitcase</b>
+																							</td>
+																						</tr>
+																						<tr>
+																							<td valign="middle" align="left" style="padding:3px 10px;font-size:11px;font-weight:bold;line-height:15px;" bgcolor="ffffff"> 
+																								{{ suitcase.name }}
+																							</td>
+																						</tr>
+																					</table>
 																				</td>
-																			</tr>
-																			<tr>
-																				<td align="left" colspan="2" style="font-size:11px;color:#999;line-height:16px;">
-																					<em>Package Code:</em> ( {{ item.package.code }} )
+																				<td>
+																					<table border="0" cellpadding="0" cellspacing="0" width="100%">
+																						<tr>
+																							<td valign="bottom" align="left" style="font-size:9px;line-height:9px;padding-bottom:2px;color:#777;"> 
+																								Organization
+																							</td>
+																						</tr>
+																						<tr>
+																							<td valign="middle" align="left" style="padding:3px 10px;font-size:11px;font-style:italic;line-height:15px;" bgcolor="ffffff"> 
+																								{{ suitcase.user.company.name }}
+																							</td>
+																						</tr>
+																					</table>
+																				</td>
+																				<td>
+																					<table border="0" cellpadding="0" cellspacing="0" width="100%">
+																						<tr>
+																							<td valign="bottom" align="left" style="font-size:9px;line-height:9px;padding-bottom:2px;color:#777;"> 
+																								Event Date
+																							</td>
+																						</tr>
+																						<tr>
+																							<td valign="middle" align="left" style="padding:3px 10px;font-size:11px;line-height:15px;" bgcolor="ffffff"> 
+																								{{ suitcase.eventDate | date('m/d/Y') }}
+																							</td>
+																						</tr>
+																					</table>
 																				</td>
 																			</tr>
 																		</table>
-																		<table border="0" cellpadding="0" cellspacing="0" width="100%">
+																	</td>
+																</tr>
+															</table>
+															<!-- // End Module: Suitcase Info \\ -->
+															<table cellpadding="10" cellspacing="0" width="100%" >
+																<tr>
+																	<td valign="top" align="left" style="line-height:18px;font-size:12px;font-family:Arial;color:#505050;padding-top:20px;">
+																		<span style="font-size:16px;font-weight:bold;">Please review your order.</span><br /> 
+																		Please review the following list of Experiences you sold at your event. All Experiences that are confirmed by the Nonprofit organization and invoiced by Winspire are non-refundable.
+																		<br/>
+																	</td>
+																</tr>
+																<!-- // *****************SPACER***************** \\ -->
+																<tr><td align="middle" style="padding:10px;"><img src="https://s3.amazonaws.com/winspire-transactional-emails/line-split.gif" /></td></tr>
+																<!-- // Begin PACKAGE \\ -->
+{% for item in suitcase.items %}
+																<tr>
+																	<td valign="top">
+																		<table border="0" cellpadding="15" cellspacing="0" width="100%" style="line-height:20px;font-size:12px;font-family:Arial;color:#505050;" >
 																			<tr>
-																				<td align="left" height="10" colspan="2" style="font-size:11px;">
-																					<img src="https://s3.amazonaws.com/winspire-transactional-emails/spacer1px.gif" />
+																				<td valign="top" align="left" style="margin:0px;" width="150">
+																					<img src="http://winspireme.com/uploads/packages/{{ item.package.thumbnail }}" style="display:block;padding:0px;margin:0px;border:1px solid #ccc;" width="150" height="98"/>
 																				</td>
-																			</tr>
-																			<tr>
-																				<td align="left" height="25" colspan="2" style="font-size:11px;">
-																					<img src="https://s3.amazonaws.com/winspire-transactional-emails/spacer1px.gif" />
-																				</td>
+																				<td align="left" valign="top" style="padding-left:0px;">
+																					<table border="0" cellpadding="0" cellspacing="0" width="100%">
+																						<tr>
+																							<td align="left" valign="top">
+																								<a href="http://winspireme.com/package/{{ item.package.slug }}" style="text-decoration:none;"><span style="font-size:16px;color:#005695;font-weight:bold;">{{ item.package.parentHeader }}</span></a><br />
+																								<span style="font-size:12px;line-height:15px;">{{ item.package.name }}</span>
+																							</td>
+																						</tr>
+																						<tr>
+																							<td align="left" colspan="2" style="font-size:11px;color:#999;line-height:16px;">
+																								<em>Package Code:</em> ( {{ item.package.code }} )
+																							</td>
+																						</tr>
+																					</table>
+																					<table border="0" cellpadding="0" cellspacing="0" width="100%">
+																						<tr>
+																							<td align="left" height="10" colspan="2" style="font-size:11px;">
+																								<img src="https://s3.amazonaws.com/winspire-transactional-emails/spacer1px.gif" />
+																							</td>
+																						</tr>
+																						<tr>
+																							<td align="left" height="25" colspan="2" style="font-size:11px;">
+																								<img src="https://s3.amazonaws.com/winspire-transactional-emails/spacer1px.gif" />
+																							</td>
 																						
 																				
-																				<td>
-																					<table border="0" cellpadding="0" cellspacing="0" width="100%">
-																						<tr>
-																							<td align="right" valign="middle" style="font-size:11px;">
-																								<strong>ITEM AMOUNT</strong>
-																							</td>
-																							<td width="15">
-																								<img src="https://s3.amazonaws.com/winspire-transactional-emails/spacer1px.gif" />
-																							</td>
-																							<td align="right" width="70"  bgcolor="ffffff" style="font-size:14px;padding-right:10px;">
-																								${{ item.package.cost | number_format(0) }} 
-																							</td>
-																						</tr>
-																						<tr>
-																							<td align="right" valign="middle" style="font-size:11px;">
-																								<strong>QUANTITY SOLD</strong>
-																							</td>
-																							<td width="15">
-																								<img src="https://s3.amazonaws.com/winspire-transactional-emails/spacer1px.gif" />
-																							</td>
-																							<td align="right" width="70"  bgcolor="ffffff" style="font-size:14px;border-bottom:1px solid #ccc;padding-right:10px;">
-																								{{ item.quantity }} 
-																							</td>
-																						</tr>
-																						<tr>
-																							<td height="10">
-																								<img src="https://s3.amazonaws.com/winspire-transactional-emails/spacer1px.gif" />
-																							</td>
-																						</tr>
-																						<tr>
-																							<td align="right" valign="middle" style="font-size:11px;color:#d18000;">
-																								<strong>ITEM SUBTOTAL</strong>
-																							</td>
 																							<td>
-																								<img src="https://s3.amazonaws.com/winspire-transactional-emails/spacer1px.gif" />
-																							</td>
-																							<td align="right" bgcolor="f3f3f3" width="70" style="font-size:14px;padding:3px;padding-right:10px;font-weight:bold;">
-																								${{ item.subtotal | number_format(0) }}
+																								<table border="0" cellpadding="0" cellspacing="0" width="100%">
+																									<tr>
+																										<td align="right" valign="middle" style="font-size:11px;">
+																											<strong>ITEM AMOUNT</strong>
+																										</td>
+																										<td width="15">
+																											<img src="https://s3.amazonaws.com/winspire-transactional-emails/spacer1px.gif" />
+																										</td>
+																										<td align="right" width="70"  bgcolor="ffffff" style="font-size:14px;padding-right:10px;">
+																											${{ item.package.cost | number_format(0) }} 
+																										</td>
+																									</tr>
+																									<tr>
+																										<td align="right" valign="middle" style="font-size:11px;">
+																											<strong>QUANTITY SOLD</strong>
+																										</td>
+																										<td width="15">
+																											<img src="https://s3.amazonaws.com/winspire-transactional-emails/spacer1px.gif" />
+																										</td>
+																										<td align="right" width="70"  bgcolor="ffffff" style="font-size:14px;border-bottom:1px solid #ccc;padding-right:10px;">
+																											{{ item.quantity }} 
+																										</td>
+																									</tr>
+																									<tr>
+																										<td height="10">
+																											<img src="https://s3.amazonaws.com/winspire-transactional-emails/spacer1px.gif" />
+																										</td>
+																									</tr>
+																									<tr>
+																										<td align="right" valign="middle" style="font-size:11px;color:#d18000;">
+																											<strong>ITEM SUBTOTAL</strong>
+																										</td>
+																										<td>
+																											<img src="https://s3.amazonaws.com/winspire-transactional-emails/spacer1px.gif" />
+																										</td>
+																										<td align="right" bgcolor="f3f3f3" width="70" style="font-size:14px;padding:3px;padding-right:10px;font-weight:bold;">
+																											${{ item.subtotal | number_format(0) }}
+																										</td>
+																									</tr>
+																								</table>
 																							</td>
 																						</tr>
 																					</table>
@@ -621,41 +680,60 @@
 																		</table>
 																	</td>
 																</tr>
-															</table>
-														</td>
-													</tr>
-													<!-- // End PACKAGE \\ -->
+																<!-- // End PACKAGE \\ -->
 													
-													<!-- // *****************SPACER***************** \\ -->
-													<tr><td align="middle" style="padding:10px;"><img src="https://s3.amazonaws.com/winspire-transactional-emails/line-split.gif" /></td></tr>
-													<!-- // *****************SPACER***************** \\ -->
+																<!-- // *****************SPACER***************** \\ -->
+																<tr><td align="middle" style="padding:10px;"><img src="https://s3.amazonaws.com/winspire-transactional-emails/line-split.gif" /></td></tr>
+																<!-- // *****************SPACER***************** \\ -->
 {% endfor %}
 													
-													<!-- // Begin PACKAGE \\ -->
-													<tr>
-														<td valign="top">
-															<table border="0" cellpadding="15" cellspacing="0" width="100%" style="line-height:20px;font-size:12px;font-family:Arial;color:#505050;" >
+																<!-- // Begin TOTAL \\ -->
 																<tr>
-																	
-																	<td align="left" valign="top" style="padding-left:0px;">
-																		
-																		<table border="0" cellpadding="0" cellspacing="0" width="100%">
+																	<td valign="top">
+																		<table border="0" cellpadding="15" cellspacing="0" width="100%" style="font-family:Arial;color:#505050;" >
 																			<tr>
-																				<td align="left" height="25" colspan="2" style="font-size:11px;">
-																					<img src="https://s3.amazonaws.com/winspire-transactional-emails/spacer1px.gif" />
-																				</td>
-																				<td>
+																				<td align="left" valign="top" style="padding-left:0px;padding-top:0px;">
 																					<table border="0" cellpadding="0" cellspacing="0" width="100%">
-																						
 																						<tr>
-																							<td align="right" valign="middle" style="font-size:16px;color:#d18000;">
-																								<strong>GRAND TOTAL</strong>
-																							</td>
-																							<td width="15">
+																							<td align="left" height="25" colspan="2" style="font-size:11px;">
 																								<img src="https://s3.amazonaws.com/winspire-transactional-emails/spacer1px.gif" />
 																							</td>
-																							<td align="right" bgcolor="f3f3f3" width="100" style="font-size:16px;padding:10px;border:1px solid #ccc;font-weight:bold;">
-																								${{ grand_total | number_format(0) }}
+																							<td>
+																								<table border="0" cellpadding="0" cellspacing="10" width="100%">
+																									<tr>
+																										<td align="right" valign="top" style="font-size:13px;color:#777;font-weight:bold;">
+																											SUBTOTAL
+																										</td>
+																										<td width="15">
+																											<img src="https://s3.amazonaws.com/winspire-transactional-emails/spacer1px.gif" />
+																										</td>
+																										<td align="right" width="100" style="font-size:14px;padding-right:10px;font-weight:bold;">
+																											${{ subtotal | number_format(2) }}
+																										</td>
+																									</tr>
+																									<tr>
+																										<td align="right" valign="top" style="font-size:11px;color:#777;">
+																											Processing Fee
+																										</td>
+																										<td width="15">
+																											<img src="https://s3.amazonaws.com/winspire-transactional-emails/spacer1px.gif" />
+																										</td>
+																										<td align="right" valign="top" width="100" style="font-size:11px;padding-right:10px;">
+																											${{ fee | number_format(2) }}
+																										</td>
+																									</tr>
+																									<tr>
+																										<td align="right" valign="middle" style="font-size:16px;color:#d18000;">
+																											<strong>GRAND TOTAL</strong>
+																										</td>
+																										<td width="15">
+																											<img src="https://s3.amazonaws.com/winspire-transactional-emails/spacer1px.gif" />
+																										</td>
+																										<td align="right" bgcolor="f3f3f3" width="100" style="font-size:16px;padding:10px;border:1px solid #ccc;font-weight:bold;">
+																											${{ grand_total | number_format(2) }}
+																										</td>
+																									</tr>
+																								</table>
 																							</td>
 																						</tr>
 																					</table>
@@ -664,17 +742,17 @@
 																		</table>
 																	</td>
 																</tr>
-															</table>
-														</td>
-													</tr>
-													<!-- // End PACKAGE \\ -->
+																<!-- // End Total \\ -->
 													
-													<tr>
-														<td align="middle">
-															<table border="0" cellpadding="0" cellspacing="0" width="100%">
 																<tr>
-																	<td align="top" style="font-size:9px;color:#999999;font-family:arial, sans-serif;">
-																			Winspire experiences are offered on a no-risk basis, meaning that the Nonprofit purchases these item(s) only after knowing what is sold at the event.  If an experience does not successfully sell, the Nonprofit is not required to purchase the item(s).  Prior to placing an order, the Nonprofit will be asked to confirm the receipt of payment from the winning bidder.  <b>All experiences that are confirmed by the Nonprofit organization and invoiced by Winspire are non-refundable.</b>
+																	<td align="middle">
+																		<table border="0" cellpadding="0" cellspacing="0" width="100%">
+																			<tr>
+																				<td align="top" style="font-size:9px;color:#999999;font-family:arial, sans-serif;">
+																						Winspire experiences are offered on a no-risk basis, meaning that the Nonprofit purchases these item(s) only after knowing what is sold at the event.  If an experience does not successfully sell, the Nonprofit is not required to purchase the item(s).  Prior to placing an order, the Nonprofit will be asked to confirm the receipt of payment from the winning bidder.  <b>All experiences that are confirmed by the Nonprofit organization and invoiced by Winspire are non-refundable.</b>
+																				</td>
+																			</tr>
+																		</table>
 																	</td>
 																</tr>
 															</table>
@@ -737,8 +815,6 @@
 									<table class="width300" border="0" cellspacing="0" cellpadding="0" width="600" align="center">
 										<tbody>
 											<tr class="blockme">
-												<td valign="middle" width="200" align="left">
-												</td>
 												<td class="width150 height30 blockme float_left align_left" valign="middle" width="157" align="right">
 													<table cellspacing="0" cellpadding="0">
 														<tbody>
@@ -800,4 +876,4 @@
             </table>
         </center>
     </body>
-</html>
+</html> 

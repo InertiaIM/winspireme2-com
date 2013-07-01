@@ -13,18 +13,19 @@ class InvoiceRequestConsumer implements ConsumerInterface
     protected $em;
     protected $mailer;
     protected $templating;
+    protected $fee;
     
     private $recordTypeId = '01270000000DVD5AAO';
     private $opportunityTypeId = '01270000000DVGnAAO';
     private $partnerRecordId = '0017000000PKyUfAAL';
     
-    public function __construct(EntityManager $entityManager, \Swift_Mailer $mailer, EngineInterface $templating, Client $salesforce, $email)
+    public function __construct(EntityManager $entityManager, \Swift_Mailer $mailer, EngineInterface $templating, Client $salesforce, $fee)
     {
-        $this->accountingEmail = $email;
         $this->em = $entityManager;
         $this->mailer = $mailer;
         $this->templating = $templating;
         $this->sf = $salesforce;
+        $this->fee = $fee;
         
         $this->mailer->getTransport()->stop();
         $this->em->getConnection()->close();
@@ -181,10 +182,18 @@ class InvoiceRequestConsumer implements ConsumerInterface
             $this->mailer->send($message);
         }
         
-        $grandTotal = 0;
+        $subtotal = 0;
         foreach ($suitcase->getItems() as $item) {
-            $grandTotal += $item->getSubtotal();
+            $subtotal += $item->getSubtotal();
         }
+        
+        if ($subtotal > 0) {
+            $fee = $this->fee;
+        }
+        else {
+            $fee = 0;
+        }
+        $grandTotal = $fee + $subtotal;
         
         $name = $suitcase->getUser()->getFirstName() . ' ' .
             $suitcase->getUser()->getLastName();
@@ -200,6 +209,8 @@ class InvoiceRequestConsumer implements ConsumerInterface
                     'InertiaWinspireBundle:Email:invoice-requested.html.twig',
                     array(
                         'suitcase' => $suitcase,
+                        'subtotal' => $subtotal,
+                        'fee' => $fee,
                         'grand_total' => $grandTotal
                     )
                 ),
@@ -210,6 +221,8 @@ class InvoiceRequestConsumer implements ConsumerInterface
                     'InertiaWinspireBundle:Email:invoice-requested.txt.twig',
                     array(
                         'suitcase' => $suitcase,
+                        'subtotal' => $subtotal,
+                        'fee' => $fee,
                         'grand_total' => $grandTotal
                     )
                 ),
@@ -236,6 +249,8 @@ class InvoiceRequestConsumer implements ConsumerInterface
             'InertiaWinspireBundle:Email:invoice-requested.html.twig',
             array(
                 'suitcase' => $suitcase,
+                'subtotal' => $subtotal,
+                'fee' => $fee,
                 'grand_total' => $grandTotal
             )
         );

@@ -185,7 +185,7 @@ services:
         
     winspire.consumer.invoice_request:
         class: Inertia\WinspireBundle\Consumer\InvoiceRequestConsumer
-        arguments: [@doctrine.orm.entity_manager, @mailer, @templating, @ddeboer_salesforce_client, "%accounting_email%"]
+        arguments: [@doctrine.orm.entity_manager, @mailer, @templating, @ddeboer_salesforce_client, "%invoice_fee%"]
         
     winspire.consumer.price_update:
         class: Inertia\WinspireBundle\Consumer\PriceUpdateConsumer
@@ -209,7 +209,7 @@ services:
         
     winspire.suitcase.manager:
         class: Inertia\WinspireBundle\Services\SuitcaseManager
-        arguments: [@doctrine.orm.entity_manager, @session, @security.context, @old_sound_rabbit_mq.winspire_producer, "%invoice_dir%"]
+        arguments: [@doctrine.orm.entity_manager, @session, @security.context, @old_sound_rabbit_mq.winspire_producer, "%invoice_dir%", "%invoice_fee%"]
 
 old_sound_rabbit_mq:
     connections:

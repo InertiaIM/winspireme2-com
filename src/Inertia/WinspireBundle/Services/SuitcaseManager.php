@@ -12,15 +12,17 @@ class SuitcaseManager
 {
     protected $em;
     protected $invoiceDir;
+    protected $invoiceFee;
     protected $producer;
     protected $sc;
     protected $session;
     protected $suitcaseUser;
     
-    public function __construct(EntityManager $em, Session $session, SecurityContext $sc, Producer $producer, $dir)
+    public function __construct(EntityManager $em, Session $session, SecurityContext $sc, Producer $producer, $dir, $fee)
     {
         $this->em = $em;
         $this->invoiceDir = $dir;
+        $this->invoiceFee = $fee;
         $this->producer = $producer;
         $this->sc = $sc;
         $this->session = $session;
@@ -276,6 +278,12 @@ class SuitcaseManager
     }
     
     
+    public function getInvoiceFee()
+    {
+        return $this->invoiceFee;
+    }
+    
+    
     public function getInvoiceFile($id)
     {
         $qb = $this->em->createQueryBuilder();
@@ -337,11 +345,13 @@ class SuitcaseManager
         }
         
         $items = $qb->getQuery()->getResult();
+        $invoiceSubtotal = 0;
         foreach ($items as $item) {
             if (isset($qtys[$item->getId()])) {
                 $item->setQuantity($qtys[$item->getId()]);
                 $item->setCost($item->getPackage()->getCost());
                 $item->setSubtotal($item->getQuantity() * $item->getCost());
+                $invoiceSubtotal += $item->getSubtotal();
                 $this->em->persist($item);
                 
                 for ($i=0; $i<$item->getQuantity(); $i++) {
@@ -356,6 +366,14 @@ class SuitcaseManager
         
         if (count($items) > 0) {
             $suitcase = $items[0]->getSuitcase();
+            
+            if ($invoiceSubtotal > 0) {
+                $suitcase->setFee($this->invoiceFee);
+            }
+            else {
+                $suitcase->setFee(0);
+            }
+            
             $suitcase->setStatus('R');
             $suitcase->setDirty(true);
             $suitcase->setInvoiceRequestedAt(new \DateTime());

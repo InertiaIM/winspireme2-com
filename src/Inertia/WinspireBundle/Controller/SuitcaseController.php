@@ -1384,10 +1384,11 @@ class SuitcaseController extends Controller
         }
         
         if ($suitcase->getStatus() == 'P' && $suitcase->getEventDate() < new \DateTime()) {
-            $total = 0;
+            $subtotal = 0;
+            $fee = $suitcaseManager->getInvoiceFee();
             foreach ($suitcase->getItems() as $item) {
                 if ($item->getCost() != 0) {
-                    $total += ($item->getQuantity() * $item->getPackage()->getCost());
+                    $subtotal += ($item->getQuantity() * $item->getPackage()->getCost());
                 }
             }
             
@@ -1395,7 +1396,8 @@ class SuitcaseController extends Controller
                 'templatePath' => 'invoiceRequest',
                 'suitcase' => $suitcase,
                 'suitcaseList' => $suitcaseList,
-                'total' => $total
+                'subtotal' => $subtotal,
+                'fee' => $fee
             ));
         }
         

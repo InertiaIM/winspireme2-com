@@ -2370,7 +2370,7 @@ footer, #footer { height:220px;border-top:1px solid rgb(195,213,224);
                 
                 h4 {
                     color:@ws-darkblue;
-                    font-size:24px;
+                    font-size:21px;
                     line-height:60px;
                     margin-left:30px;
                     
@@ -3574,7 +3574,7 @@ footer, #footer { height:220px;border-top:1px solid rgb(195,213,224);
                 
                 .message1 {
                     float:left;
-                    width:622px;
+                    width:506px;
                     padding-left:56px;
                     padding-right:40px;
                     position:relative;
@@ -3589,7 +3589,59 @@ footer, #footer { height:220px;border-top:1px solid rgb(195,213,224);
                 .message2 {
                     float:left;
                     position:relative;
-                    width:204px;
+                    width:320px;
+                    
+                    table {
+                        text-transform:uppercase;
+                        font-size:16px;
+                        line-height:24px;
+                        color:@ws-gray85;
+                        text-align: right;
+                        margin-bottom: 17px;
+                        width: 100%;
+                        white-space: nowrap;
+                        
+                        td.total {
+                            font-weight: bold;
+                            padding-top: 20px;
+                        }
+                        
+                        td.subtotal.label {
+                            padding-right: 25px;
+                        }
+                        
+                        td.subtotal.value {
+                            font-size: 20px;
+                        }
+                        
+                        td.fee.label {
+                            float: right;
+                        }
+                        
+                        td.fee.value {
+                            font-size: 20px;
+                        }
+                        
+                        td.total.label {
+                            font-size: 18px;
+                            padding-right: 25px;
+                        }
+                        
+                        td.total.value {
+                            font-size: 23px;
+                        }
+                        
+                        td.value {
+                            width: 147px;
+                        }
+                        
+                        .tip {
+                            top: auto;
+                            float: right;
+                            margin-left: 7px;
+                        }
+                    }
+                    
                     
                     p {
                         text-transform:uppercase;
@@ -3676,8 +3728,8 @@ footer, #footer { height:220px;border-top:1px solid rgb(195,213,224);
                 h4 {
                     color:@ws-darkblue;
                     float:none;
-                    font-size:24px;
-                    line-height:29px;
+                    font-size:20px;
+                    line-height:25px;
                     margin:0 0 34px 0;
                     
                     &.warning {

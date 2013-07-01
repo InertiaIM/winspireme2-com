@@ -63,6 +63,11 @@ class Suitcase
     private $invoiceFileName;
     
     /**
+     * @ORM\Column(name="fee", type="float", nullable=true)
+     */
+    private $fee;
+    
+    /**
      * @ORM\Column(name="sf_id", type="string", length=128, nullable=true)
      */
     private $sfId;
@@ -675,5 +680,28 @@ class Suitcase
     public function getInvoiceFileName()
     {
         return $this->invoiceFileName;
+    }
+
+    /**
+     * Set fee
+     *
+     * @param float $fee
+     * @return Suitcase
+     */
+    public function setFee($fee)
+    {
+        $this->fee = $fee;
+    
+        return $this;
+    }
+
+    /**
+     * Get fee
+     *
+     * @return float 
+     */
+    public function getFee()
+    {
+        return $this->fee;
     }
 }

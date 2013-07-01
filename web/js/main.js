@@ -1886,7 +1886,22 @@ $(document).ready(function() {
             total += parseInt($(e).attr('data-extended'));
         });
         
-        $('#invoice-total > span').text(addCommas(total));
+        var fee = '';
+        if (total > 0) {
+            fee = $('#invoice-total .fee.value').attr('data-fee');
+        }
+        else {
+            fee = '0.00';
+        }
+        
+        $('#invoice-total .fee.value').text(fee);
+        $('#invoice-total .subtotal.value').text(addCommas(total + '.00'));
+        if ((parseFloat(total) + parseFloat(fee)) == 0) {
+            $('#invoice-total .total.value').text('$0.00');
+        }
+        else {
+            $('#invoice-total .total.value').text('$' + addCommas((parseFloat(total) + parseFloat(fee))));
+        }
     });
     
     $('button#invoice').on('click', function(e) {
@@ -1929,6 +1944,8 @@ $(document).ready(function() {
             });
         }
     });
+    
+    $('.footer .tooltip').tooltipster({position: 'top-right'})
     
     $('#thanks-modal button').on('click', function(e) {
         $.modal.close();

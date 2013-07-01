@@ -8,10 +8,38 @@ An invoice should arrive in your inbox within 1 business day. In the meantime, p
 Visit mySuitcase: http://winspireme.com/suitcase
 
 The following steps will ensure that Winning Bidders get their Booking Vouchers (http://winspireme.com/faqs#what-is-a-booking-voucher) in a timely manner:
+
 1. Tell Us How Much You Sold - DONE
 2. Generate Invoice - DONE
 3. Enter Winning Bidder Info - After requesting the invoice, you will be taken to a screen where you can fill out the Winning Bidder information. This information is important to ensure the delivery of Booking Vouchers so Winning Bidders can redeem their Experience.
 4. Send Booking Vouchers - Once we receive payment for the invoice from your organization, Booking Vouchers will become available in your Suitcase for you to send directly to your Winning Bidders.
+
+{% for item in suitcase.items %} {% endfor %}
+PLEASE REVIEW YOUR ORDER
+Please review the following list of Experiences you sold at your event. All Experiences that are confirmed by the Nonprofit organization and invoiced by Winspire are non-refundable. 
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+{% for item in suitcase.items %}
+{{ item.package.parentHeader }}
+Package URL: http://winspireme.com/package/{{ item.package.slug }}
+{{ item.package.name }}
+Package Code: ( {{ item.package.code }} )
+
+${{ item.package.cost | number_format(0) }}		ITEM AMOUNT
+{{ item.quantity }}		QUANTITY SOLD
+
+${{ item.subtotal | number_format(0) }}		ITEM SUBTOTAL
+
+{% endfor %}
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+
+${{ subtotal | number_format(2) }}	SUBTOTAL
+${{ fee | number_format(2) }}		Processing Fee
+
+============================================================
+${{ grand_total | number_format(2) }}	GRAND TOTAL
+============================================================
+
 
 Questions? Give us a call at 1.877.544.8555 or contact your Winspire Event Consultant:
 
@@ -23,11 +51,11 @@ Thank You,
 Your Winspire Team
 
 Refer Friends and Get $150 Off Your Next Order!
-Call Us at 1.877.544.8555
+Call Us at 1.877.544.8555 
 
 FIND US
-Winspire Facebook Page (https://www.facebook.com/Winspire)
-Winspire Twitter Page (https://twitter.com/WinspireMe)
+Winspire Facebook Page (https://www.facebook.com/Winspire) 
+Winspire Twitter Page (https://twitter.com/WinspireMe) 
 Winspire Pintrist Page (http://pinterest.com/winspireme/)
 
 ============================================================

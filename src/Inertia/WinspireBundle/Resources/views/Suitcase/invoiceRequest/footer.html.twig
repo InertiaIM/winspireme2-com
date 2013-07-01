@@ -7,8 +7,20 @@
                         <p>Simply <a href="{{ path('packageList') }}">add the items</a> to your cart and they will appear here.</p>
                     </div>
                     <div class="message2">
-                        <p>Total Amount Due</p>
-                        <p class="total" id="invoice-total">$<span>{{ total | number_format }}</span></p>
+                        <table id="invoice-total">
+                            <tr>
+                                <td class="subtotal label">Subtotal</td>
+                                <td class="subtotal value">{{ subtotal | number_format(2) }}</td>
+                            </tr>
+                            <tr>
+                                <td class="fee label"><span class="tooltip tip" title="A $19.95 processing fee is applied to <br/>every invoice that is generated. <br/>Thank you!">?</span><span>Processing Fee</span></td>
+                                <td class="fee value" data-fee="{{ fee | number_format(2) }}">{% if subtotal > 0 %}{{ fee | number_format(2) }}{% else %}{{ 0 | number_format(2) }}{% endif %}</td>
+                            </tr>
+                            <tr>
+                                <td class="total label">Grand Total</td>
+                                <td class="total value">${%if subtotal > 0 %}{{ (fee + subtotal) | number_format(2) }}{% else %}{{ 0 | number_format(2) }}{% endif %}</td>
+                            </tr>
+                        </table>
                         <form action="{{ path('suitcaseRequestInvoice') }}" method="post">
                             <button id="invoice">Send Invoice</button>
                         </form>
