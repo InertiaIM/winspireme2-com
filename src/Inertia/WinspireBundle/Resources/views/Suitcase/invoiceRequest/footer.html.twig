@@ -1,10 +1,13 @@
                 <div class="packed">
-                    <div class="message1">
+                    <div class="message1 icon">
                         <span class="icon icon-warning"></span>
                         <h4 class="warning">Clicking this button will generate your final invoice.
                         <br/>Make sure all quantities are correct!</h4>
-                        <h5>Sell an item not in this list?</h5>
-                        <p>Simply <a href="{{ path('packageList') }}">add the items</a> to your cart and they will appear here.</p>
+                        <div class="nosells">
+                            <label for="check-nosells">None of your items sold?</label>
+                            <input type="checkbox" id="check-nosells"/>
+                        </div>
+                        <p>Please check the box above and click the big blue button to the right.</p>
                     </div>
                     <div class="message2">
                         <table id="invoice-total">
@@ -22,7 +25,7 @@
                             </tr>
                         </table>
                         <form action="{{ path('suitcaseRequestInvoice') }}" method="post">
-                            <button id="invoice">Send Invoice</button>
+                            <button id="invoice">Request Invoice</button>
                         </form>
                     </div>
                 </div>

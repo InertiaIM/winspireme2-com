@@ -10,7 +10,8 @@
         <div class="c-wrap">
             <div class="col">
                 <div class="packed">
-                    <h1><span class="icon-suitcase-locked"></span> <em>my</em> Suitcase</h1>
+                    <h1><span class="icon icon-suitcase-locked"></span> <em>my</em> <span class="text">{% if suitcase.status != 'M' %}Suitcase{% else %}Order History{% endif %}</span></h1>
+{% if suitcase.status != 'M' %}
                     <form data-style="html" data-id="{{ suitcase.id }}" method="get" action="{{ path('suitcaseSwitch') }}" class="suitcase-switcher">
                         <select name="sid">
                             <option value="new">Create New Suitcase</option>
@@ -19,6 +20,7 @@
 {% endfor %}
                         </select>
                     </form>
+{% endif %}
                     <div class="top">
 {{ include('InertiaWinspireBundle:Suitcase:/' ~ templatePath ~ '/top.html.twig', {'suitcase': suitcase}) }}
                     </div>
@@ -47,6 +49,7 @@
         </div>
     </div>
     
+{% if suitcase.status != 'M' %}
     <div id="comment-area">
         <div class="c-wrap shadow-wrapper">
             <div class="header drop-shadow curved curved-hz-1">
@@ -72,6 +75,7 @@
             </div>
         </div>
     </div>
+{% endif %}
 </div>
 
 

@@ -1,0 +1,27 @@
+{% set subtotal = 0 %}
+{% for item in suitcase.items %}
+{% set subtotal = subtotal + item.subtotal %}
+{% endfor %}
+                <div class="packed" style="padding-bottom:62px;">
+                    <div class="message1">
+                        <h4 >Thank you for using Winspire!</h4>
+                        <h5>No-Risk Auction Items!</h5>
+                        <p>You offer the best experiences to your donors and only buy what you sell.</p>
+                    </div>
+                    <div class="message2">
+                        <table id="invoice-total">
+                            <tr>
+                                <td class="subtotal label">Subtotal</td>
+                                <td class="subtotal value">{{ subtotal | number_format(2) }}</td>
+                            </tr>
+                            <tr>
+                                <td class="fee label"><span class="tooltip tip" title="A $19.95 processing fee is applied to <br/>every invoice that is generated. <br/>Thank you!">?</span><span>Processing Fee</span></td>
+                                <td class="fee value">{% if subtotal > 0 %}{{ suitcase.fee | number_format(2) }}{% else %}{{ 0 | number_format(2) }}{% endif %}</td>
+                            </tr>
+                            <tr>
+                                <td class="total label">Grand Total</td>
+                                <td class="total value">${% if subtotal > 0 %}{{ (suitcase.fee + subtotal) | number_format(2) }}{% else %}{{ 0 | number_format(2) }}{% endif %}</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>

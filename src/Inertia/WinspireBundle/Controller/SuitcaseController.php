@@ -819,28 +819,36 @@ class SuitcaseController extends Controller
             if ($suitcase) {
                 $templating = $this->get('templating');
                 
-                $top = $templating->render('InertiaWinspireBundle:Suitcase:/winningBidders/top.html.twig', array(
+                if ($suitcase->getStatus() == 'R') {
+                    $templateState = 'winningBidders';
+                }
+                
+                if ($suitcase->getStatus() == 'M') {
+                    $templateState = 'orderHistory';
+                }
+                
+                $top = $templating->render('InertiaWinspireBundle:Suitcase:/' . $templateState . '/top.html.twig', array(
                     'suitcase' => $suitcase
                 ));
                 
-                $header = $templating->render('InertiaWinspireBundle:Suitcase:/winningBidders/header.html.twig', array(
+                $header = $templating->render('InertiaWinspireBundle:Suitcase:/' . $templateState . '/header.html.twig', array(
                     'suitcase' => $suitcase
                 ));
                 
-                $content = $templating->render('InertiaWinspireBundle:Suitcase:/winningBidders/content.html.twig', array(
+                $content = $templating->render('InertiaWinspireBundle:Suitcase:/' . $templateState . '/content.html.twig', array(
                     'suitcase' => $suitcase
                 ));
                 
-                $footer = $templating->render('InertiaWinspireBundle:Suitcase:/winningBidders/footer.html.twig', array(
+                $footer = $templating->render('InertiaWinspireBundle:Suitcase:/' . $templateState . '/footer.html.twig', array(
                     'suitcase' => $suitcase
                 ));
-                
                 
                 $response->setData(array(
                     'top' => $top,
                     'header' => $header,
                     'content' => $content,
-                    'footer' => $footer
+                    'footer' => $footer,
+                    'status' => $suitcase->getStatus()
                 ));
                 
                 return $response;
@@ -1398,6 +1406,13 @@ class SuitcaseController extends Controller
                 'suitcaseList' => $suitcaseList,
                 'subtotal' => $subtotal,
                 'fee' => $fee
+            ));
+        }
+        
+        if ($suitcase->getStatus() == 'M') {
+            return $this->render('InertiaWinspireBundle:Suitcase:wrapper.html.twig', array(
+                'templatePath' => 'orderHistory',
+                'suitcase' => $suitcase
             ));
         }
         
