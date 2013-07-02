@@ -78,7 +78,7 @@ class BookingSoapService
                     continue;
                 }
                 
-                $sfBooking = $bookingResult->first;
+                $sfBooking = $bookingResult->first();
                 $booking->setFirstName($sfBooking->Traveler_first_name__c);
                 $booking->setLastName($sfBooking->Traveler_last_name__c);
                 $booking->setPhone($sfBooking->Phone_1__c);
