@@ -62,12 +62,19 @@ class InvoiceRequestConsumer implements ConsumerInterface
             $sfOpportunityContactRole->OpportunityId = $suitcase->getSfId();
             $sfOpportunityContactRole->Role = 'Website user';
             
-            $saveResult = $this->sf->create(array($sfOpportunityContactRole), 'OpportunityContactRole');
-            
-            if($saveResult[0]->success) {
-                $suitcase->setSfContactRoleId($saveResult[0]->id);
-                $this->em->persist($suitcase);
-                $this->em->flush();
+            try {
+                $saveResult = $this->sf->create(array($sfOpportunityContactRole), 'OpportunityContactRole');
+                
+                if($saveResult[0]->success) {
+                    $suitcase->setSfContactRoleId($saveResult[0]->id);
+                    $this->em->persist($suitcase);
+                    $this->em->flush();
+                }
+            }
+            catch(\Exception $e) {
+                $this->sendForHelp($e, $suitcase);
+                
+                return true;
             }
         }
         
@@ -92,7 +99,7 @@ class InvoiceRequestConsumer implements ConsumerInterface
             // If item didn't sell, we can't keep it in the Opportunity (due to field constraints)
             if ($item->getQuantity() == 0) {
                 // If it's already in SF, we have to remove it.
-                if ($item->getSfId() != '') {
+                if ($item->getSfId() != '' && $suitcase->getStatus() != 'M') {
                     $deleteResult = $this->sf->delete(array($item->getSfId()));
                     if ($deleteResult[0]->success) {
                         $item->setSfId(null);
@@ -100,7 +107,10 @@ class InvoiceRequestConsumer implements ConsumerInterface
                         $this->em->flush();
                     }
                 }
-                continue;
+                
+                if ($suitcase->getStatus() != 'M') {
+                    continue;
+                }
             }
             
             $sfOpportunityLineItem = new \stdClass();
@@ -114,23 +124,40 @@ class InvoiceRequestConsumer implements ConsumerInterface
                 $new = true;
             }
             
-            $sfOpportunityLineItem->Quantity = $item->getQuantity();
-            $sfOpportunityLineItem->UnitPrice = $item->getCost();
-            $sfOpportunityLineItem->Package_Status__c = 'Sold';
-            
-            if ($new) {
-                $sfOpportunityLineItem->OpportunityId = $suitcase->getSfId();
-                $sfOpportunityLineItem->PricebookEntryId = $item->getPackage()->getSfPricebookEntryId();
-                $saveResult = $this->sf->create(array($sfOpportunityLineItem), 'OpportunityLineItem');
+            if ($suitcase->getStatus() == 'M') {
+                $sfOpportunityLineItem->Quantity = 1;
+                $sfOpportunityLineItem->Package_Status__c = 'Reserved';
             }
             else {
-                $saveResult = $this->sf->update(array($sfOpportunityLineItem), 'OpportunityLineItem');
+                $sfOpportunityLineItem->Quantity = $item->getQuantity();
+                $sfOpportunityLineItem->Package_Status__c = 'Sold';
             }
             
-            if($saveResult[0]->success) {
-                $item->setSfId($saveResult[0]->id);
-                $this->em->persist($item);
-                $this->em->flush();
+            $sfOpportunityLineItem->UnitPrice = $item->getCost();
+            
+            try {
+                if ($new) {
+                    $sfOpportunityLineItem->OpportunityId = $suitcase->getSfId();
+                    $sfOpportunityLineItem->PricebookEntryId = $item->getPackage()->getSfPricebookEntryId();
+                    $saveResult = $this->sf->create(array($sfOpportunityLineItem), 'OpportunityLineItem');
+                }
+                else {
+                    $saveResult = $this->sf->update(array($sfOpportunityLineItem), 'OpportunityLineItem');
+                }
+                
+                if($saveResult[0]->success) {
+                    $item->setSfId($saveResult[0]->id);
+                    $this->em->persist($item);
+                    $this->em->flush();
+                }
+                else {
+                    throw new Exception('SF didn\'t save an Opportunity Line Item');
+                }
+            }
+            catch(\Exception $e) {
+                $this->sendForHelp($e, $suitcase);
+                
+                return true;
             }
         }
         
@@ -139,7 +166,13 @@ class InvoiceRequestConsumer implements ConsumerInterface
         $sfOpportunity = new \stdClass();
         $sfOpportunity->Name = substr($suitcase->getEventName(), 0, 40);
         $sfOpportunity->Website_suitcase_status__c = 'Packed';
-        $sfOpportunity->StageName = 'Sold Items';
+        
+        if ($suitcase->getStatus() == 'M') {
+            $sfOpportunity->StageName = 'Missed (No Sells)';
+        }
+        else {
+            $sfOpportunity->StageName = 'Sold Items';
+        }
         $sfOpportunity->LOA_Received__c = 1;
         $sfOpportunity->Event_Name__c = substr($suitcase->getEventName(), 0, 40);
         $sfOpportunity->Event_Date__c = $suitcase->getEventDate();
@@ -151,62 +184,75 @@ class InvoiceRequestConsumer implements ConsumerInterface
         $sfOpportunity->Partner_Class__c = $this->partnerRecordId;
         $sfOpportunity->Item_Use__c = 'Silent Auction';
         
-        if ($suitcase->getSfId() == '') {
-            // We haven't done an initial sync of the Suitcase? Is this even possible at this stage?
-            $saveResult = $this->sf->create(array($sfOpportunity), 'Opportunity');
-        }
-        else {
-            $sfOpportunity->Id = $suitcase->getSfId();
-            $saveResult = $this->sf->update(array($sfOpportunity), 'Opportunity');
-        }
-        if($saveResult[0]->success) {
-            $timestamp = new \DateTime();
-            $suitcase->setSfId($saveResult[0]->id);
-            $suitcase->setDirty(false);
-            $suitcase->setSfUpdated($timestamp);
-            $suitcase->setUpdated($timestamp);
-            $this->em->persist($suitcase);
-            $this->em->flush();
-        }
-        else {
-            $message = \Swift_Message::newInstance()
-            ->setSubject('Winspire::Problem during Invoice Request')
-            ->setFrom(array('notice@winspireme.com' => 'Winspire'))
-            ->setTo(array('doug@inertiaim.com' => 'Douglas Choma'))
-            ->setBody('Suitcase ID: ' . $suitcase->getId() . "\n" .
-                'SF ID: ' . $suitcase->getSfId(),
-                'text/plain'
-            );
+        try {
+            if ($suitcase->getSfId() == '') {
+                // We haven't done an initial sync of the Suitcase? Is this even possible at this stage?
+                $saveResult = $this->sf->create(array($sfOpportunity), 'Opportunity');
+            }
+            else {
+                $sfOpportunity->Id = $suitcase->getSfId();
+                $saveResult = $this->sf->update(array($sfOpportunity), 'Opportunity');
+            }
             
-            $this->mailer->getTransport()->start();
-            $this->mailer->send($message);
+            if($saveResult[0]->success) {
+                $timestamp = new \DateTime();
+                $suitcase->setSfId($saveResult[0]->id);
+                $suitcase->setDirty(false);
+                $suitcase->setSfUpdated($timestamp);
+                $suitcase->setUpdated($timestamp);
+                $this->em->persist($suitcase);
+                $this->em->flush();
+            }
+            else {
+                throw new Exception('SF didn\'t save the Opportunity');
+            }
         }
+        catch(\Exception $e) {
+            $this->sendForHelp($e, $suitcase);
+            
+            return true;
+        }
+        
         
         $subtotal = 0;
         foreach ($suitcase->getItems() as $item) {
             $subtotal += $item->getSubtotal();
         }
         
+        $fee = $this->fee;
+        
         if ($subtotal > 0) {
-            $fee = $this->fee;
+            $grandTotal = $fee + $subtotal;
         }
         else {
-            $fee = 0;
+            $grandTotal = 0;
         }
-        $grandTotal = $fee + $subtotal;
+        
         
         $name = $suitcase->getUser()->getFirstName() . ' ' .
             $suitcase->getUser()->getLastName();
         
         $email = $suitcase->getUser()->getEmail();
         
+        
+        if ($suitcase->getStatus() == 'M') {
+            $name = 'No Sells';
+            $subject = 'Thank you for confirming your results.';
+            $template = 'no-items-sold-invoice.html.twig';
+        }
+        else {
+            $name = 'Invoice Request';
+            $subject = 'Thank you for requesting an invoice';
+            $template = 'invoice-requested.html.twig';
+        }
+        
         $message = \Swift_Message::newInstance()
-            ->setSubject('Thank you for requesting an invoice')
+            ->setSubject($subject)
             ->setFrom(array('info@winspireme.com' => 'Winspire'))
             ->setTo(array($email => $name))
             ->setBody(
                 $this->templating->render(
-                    'InertiaWinspireBundle:Email:invoice-requested.html.twig',
+                    'InertiaWinspireBundle:Email:' . $template,
                     array(
                         'suitcase' => $suitcase,
                         'subtotal' => $subtotal,
@@ -215,18 +261,6 @@ class InvoiceRequestConsumer implements ConsumerInterface
                     )
                 ),
                 'text/html'
-            )
-            ->addPart(
-                $this->templating->render(
-                    'InertiaWinspireBundle:Email:invoice-requested.txt.twig',
-                    array(
-                        'suitcase' => $suitcase,
-                        'subtotal' => $subtotal,
-                        'fee' => $fee,
-                        'grand_total' => $grandTotal
-                    )
-                ),
-                'text/plain'
             )
         ;
         $message->setBcc($account->getSalesperson()->getEmail(), 'doug@inertiaim.com');
@@ -246,7 +280,7 @@ class InvoiceRequestConsumer implements ConsumerInterface
         
         // Send HTML to Salesforce
         $html = $this->templating->render(
-            'InertiaWinspireBundle:Email:invoice-requested.html.twig',
+            'InertiaWinspireBundle:Email:' . $template,
             array(
                 'suitcase' => $suitcase,
                 'subtotal' => $subtotal,
@@ -256,7 +290,7 @@ class InvoiceRequestConsumer implements ConsumerInterface
         );
         $sfAttachment = new \stdClass();
         $sfAttachment->Body = $html;
-        $sfAttachment->Name = 'Invoice Request - ' . $suitcase->getInvoiceRequestedAt()->format('Ymd') . '.html';
+        $sfAttachment->Name = $name . ' - ' . $suitcase->getInvoiceRequestedAt()->format('Ymd') . '.html';
         $sfAttachment->ParentId = $suitcase->getSfId();
         $saveResult = $this->sf->create(array($sfAttachment), 'Attachment');
         
@@ -264,5 +298,26 @@ class InvoiceRequestConsumer implements ConsumerInterface
         $this->em->getConnection()->close();
         
         return true;
+    }
+    
+    protected function sendForHelp(\Exception $e, $suitcase)
+    {
+        $message = \Swift_Message::newInstance()
+            ->setSubject('Winspire::Problem during Invoice Request')
+            ->setFrom(array('notice@winspireme.com' => 'Winspire'))
+            ->setTo(array('doug@inertiaim.com' => 'Douglas Choma'))
+            ->setBody('Suitcase ID: ' . $suitcase->getId() . "\n" .
+                'SF ID: ' . $suitcase->getSfId() . "\n" .
+                'Exception: ' . $e->getMessage(),
+                'text/plain'
+            )
+        ;
+        
+        $this->mailer->getTransport()->start();
+        $this->mailer->send($message);
+        $this->mailer->getTransport()->stop();
+        
+        $this->em->clear();
+        $this->em->getConnection()->close();
     }
 }

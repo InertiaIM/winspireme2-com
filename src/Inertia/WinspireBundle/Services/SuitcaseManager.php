@@ -369,12 +369,13 @@ class SuitcaseManager
             
             if ($invoiceSubtotal > 0) {
                 $suitcase->setFee($this->invoiceFee);
+                $suitcase->setStatus('R');
             }
             else {
                 $suitcase->setFee(0);
+                $suitcase->setStatus('M');
             }
             
-            $suitcase->setStatus('R');
             $suitcase->setDirty(true);
             $suitcase->setInvoiceRequestedAt(new \DateTime());
             $this->em->persist($suitcase);

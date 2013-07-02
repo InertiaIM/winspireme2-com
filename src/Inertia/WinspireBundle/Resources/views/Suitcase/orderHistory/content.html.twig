@@ -1,0 +1,31 @@
+                <ul>
+{% for item in suitcase.items %}
+                    <li class="clearfix">
+                        <div class="package drop-shadow expanded lifted4">
+                            <div class="clearfix">
+                                <img class="thumbnail" src="/uploads/packages/{{ item.package.thumbnail }}" width="129" height="85" alt=""/>
+                                <div class="expanded">
+                                    <h4>{{ item.package.parentHeader }}</h4>
+                                    <h5>{{ item.package.name }} ({{ item.package.code }})</h5>
+                                    <p class="srv">{{ item.package.suggestedRetailValue }} <span>Suggested Retail Value</span></p>
+                                    <p>${{ item.package.cost | number_format }} Nonprofit Cost</p>
+                                </div>
+                            </div>
+                            <div class="item-amount">
+                                <div class="qty">
+                                    <p style="margin-bottom:18px;">Qty</p>
+                                    <p class="qty">{{ item.quantity }}</p>
+                                </div>
+                                <div class="amount">
+                                    <p>Item Amount</p>
+                                    <p class="amount">$<span>{{ item.package.cost | number_format }}</span></p>
+                                </div>
+                            </div>
+                            <div class="item-total">
+                                <p>Item Subtotal</p>
+                                <p class="total">$<span>{% if item.cost != 0 %}{{ (item.package.cost * item.quantity) | number_format }}{% else %}0{% endif %}</span></p>
+                            </div>
+                        </div>
+                    </li>
+{% endfor %}
+                </ul>

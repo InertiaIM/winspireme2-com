@@ -1850,6 +1850,16 @@ $(document).ready(function() {
         var cost = $(wrapper).attr('data-cost');
         var qty = $(this).val();
         
+        // If the value is updated from 0 (or blank)
+        // we see whether the "nosell" checkbox is checked
+        // and uncheck it (back to "Request Invoice" state)
+        if (qty != 0 && qty != '') {
+            if ($('#check-nosells').is(':checked')) {
+                $('#check-nosells').removeAttr('checked');
+                $('button#invoice').text('Request Invoice');
+            }
+        }
+        
         if (qty.search(/^\d*$/) < 0) {
             $(this).val('0').attr('value', '0');
             qty = '0';
@@ -1932,16 +1942,30 @@ $(document).ready(function() {
                     $('#sc-area .content').find('.tooltip.disabled').tooltipster({
                         position: 'top-right'
                     });
+                    
+                    if (data.status == 'M') {
+                        $('#sc-area .footer').find('.tooltip').tooltipster({
+                            position: 'top-right'
+                        });
+                        $('h1 .text').text('Order History');
+                        $('#comment-area').remove();
+                        $('form.suitcase-switcher').remove();
+                    }
                 },
                 type: 'POST'
             });
             
-            $('#thanks-modal').modal({
-                closeText: 'X',
-                overlay: '#fff',
-                opacity: 0.73,
-                zIndex: 2002
-            });
+            if ($('#invoice-total .total.value').text() != '$0.00') {
+                $('#thanks-modal').modal({
+                    closeText: 'X',
+                    overlay: '#fff',
+                    opacity: 0.73,
+                    zIndex: 2002
+                });
+            }
+            else {
+                $(window).scrollTop(100);
+            }
         }
     });
     
@@ -1950,6 +1974,24 @@ $(document).ready(function() {
     $('#thanks-modal button').on('click', function(e) {
         $.modal.close();
         $(window).scrollTop(100);
+    });
+    
+    $('#check-nosells').change(function(e) {
+        var checked = $(this).is(':checked');
+        var steppers = $('input.stepper');
+        
+        if (checked) {
+            $('button#invoice').text('Close Suitcase');
+            $(steppers).each(function(i, e) {
+                $(e).val('0').trigger('change');
+            });
+        }
+        else {
+            $('button#invoice').text('Request Invoice');
+            $(steppers).each(function(i, e) {
+                $(e).val('').trigger('change');
+            });
+        }
     });
     
     
