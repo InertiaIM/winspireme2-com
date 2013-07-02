@@ -55,12 +55,48 @@ class BookingSoapService
             
             // Test whether this suitcase (opportunity) is already in our database
             $suitcase = $this->em->getRepository('InertiaWinspireBundle:Suitcase')->findOneBySfId($id['suitcase']);
+            $booking = $this->em->getRepository('InertiaWinspireBundle:Booking')->findOneBySfId($id['id']);
             
-            if(!$suitcase) {
-                $this->logger->info('Unknown Suitcase - dropped');
+            if ($booking) {
+                $this->logger->info('This is a known booking; so we\'ll update');
+                $bookingResult = $this->sf->query('SELECT ' .
+                    'Id, ' .
+                    'Name, ' .
+                    'Traveler_first_name__c, ' .
+                    'Traveler_last_name__c, ' .
+                    'Phone_1__c, ' .
+                    'Email__c, ' .
+                    'SystemModstamp ' .
+                    'FROM Trip_Booking__c ' .
+                    'WHERE ' .
+                    'Id =\'' . $booking->getSfId() . '\''
+                );
+                
+                // If we don't receive a Contact, then it doesn't meet the criteria
+                if(count($bookingResult) == 0) {
+                    $this->logger->info('Booking (' . $booking->getSfId() . ') not found in SF');
+                    continue;
+                }
+                
+                $sfBooking = $bookingResult->first;
+                $booking->setFirstName($sfBooking->Traveler_first_name__c);
+                $booking->setLastName($sfBooking->Traveler_last_name__c);
+                $booking->setPhone($sfBooking->Phone_1__c);
+                $booking->setEmail($sfBooking->Email__c);
+                $booking->setSfUpdated($sfBooking->SystemModstamp);
+                $booking->setSfId($sfBooking->Id);
+                $this->em->persist($booking);
+                $this->em->flush();
             }
             else {
-                $this->logger->info('Suitcase Matched!');
+                $this->logger->info('Haven\'t seen this booking before; so we have some work to do');
+                if(!$suitcase) {
+                    $this->logger->info('Unknown Suitcase - dropped');
+                }
+                else {
+                    $this->logger->info('Suitcase Matched!');
+                    
+                }
             }
         }
         
