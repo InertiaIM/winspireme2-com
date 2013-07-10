@@ -277,8 +277,8 @@ class PackSuitcaseConsumer implements ConsumerInterface
 <hr/>
 <p>&nbsp;</p>
 <h4>RESERVED EXPERIENCES:</h4>
-<p><span style="text-decoration:underline;">' . $suitcase->getUser()->getCompany()->getName() . '</span> plans to use the following experiences in its <span style="text-decoration:underline;">' . date_format($suitcase->getEventDate(), 'F jS, Y') . '</span> event.<br/>
-(Click on the "Content files link" for each experience to view and download detailed descriptions as well as promotional pieces. Please note, experience description details are subject to change and should be downloaded or reviewed again just prior to usage in your event.)</p>
+<p><span style="text-decoration:underline;">' . $suitcase->getUser()->getCompany()->getName() . '</span> plans to use the experiences listed in the Reservation Confirmation Email in its <span style="text-decoration:underline;">' . date_format($suitcase->getEventDate(), 'F jS, Y') . '</span> event.<br/>
+(The Reservation Confirmation Email contains links to download promotional pieces for each experience, including detailed package description, a display PDF and additional images. Please note, experience description details are subject to change and should be downloaded or reviewed again just prior to usage in the event.)</p>
 <p><strong>In order to increase your fundraising revenue potential;</strong></p>
 <h4>ALL WINSPIRE EXPERIENCES CAN BE SOLD MULTIPLE TIMES.
 <br/>FEEL FREE TO SELL THEM AS MANY TIMES AS POSSIBLE.</h4>
