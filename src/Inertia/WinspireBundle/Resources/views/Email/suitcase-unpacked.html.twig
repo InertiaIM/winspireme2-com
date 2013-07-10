@@ -426,9 +426,9 @@
                                     <table border="0" cellpadding="10" cellspacing="0" width="100%">
                                     	<tr>
                                         	<td valign="top" align="center">
-                                            	<div style="color:#777777;font-family:Arial;font-size:10px;line-height:100%;">
+                                            	<div style="color: #777777;font-family: Arial;font-size: 10px;line-height: 100%;" >
                                                 	 We noticed you made some changes to your Suitcase. Please confirm these changes are correct.<br/>
-                                                	 Don't miss a thing - add <a style="color: color:#336699; text-decoration: none;font-weight:bold;" href="mailto:notice@winspireme.com">notice@winspireme.com</a> to your contacts list!
+                                                	 Questions? Email <a style="color: color:#336699; text-decoration: none;font-weight:bold;" href="mailto:info@winspireme.com">info@winspireme.com</a>
                                                 </div>
                                             </td>
                                         </tr>
@@ -459,7 +459,6 @@
 												<td align="center" bgcolor="#ffffff" width="40"><a href="http://winspireme.com/faqs" style="text-decoration: none; display: block;"><span style="font-family:Arial, Helvetica, sans-serif; font-size:11px; color:#777777">FAQs</span></a></td>
 												<td align="center" bgcolor="#ffffff" width="50"><a href="http://winspireme.com/contact-us" style="text-decoration: none; display: block;"><span style="font-family:Arial, Helvetica, sans-serif; font-size:11px; color:#777777">Contact Us</span></a></td>
 												<td align="right" bgcolor="#ffffff" width="100"><a href="http://winspireme.com/packages" style="text-decoration: none; display: block;"><span style="font-family:Arial, Helvetica, sans-serif; font-size:11px; color:#dc8100;font-weight:bold;">BROWSE EXPERIENCES ></span></a></td>
-												
 											</tr>
 										</tbody>
 									</table>
@@ -479,7 +478,7 @@
                                                 <table border="0" cellpadding="20" cellspacing="0" width="100%">
                                                     <tr>
                                                         <td valign="top">
-                                                            <div style="color:#505050;font-family:Arial;font-size:12px;line-height:150%;text-align:left;">
+                                                            <div style="color: #505050;font-family: Arial;font-size: 12px;line-height: 150%;text-align: left;" >
                                                                 <table border="0" cellpadding="0" cellspacing="0" width="100%">
 																	<tr>
 																		<td width="50" height="35">
@@ -511,13 +510,14 @@
                                                                 <a title="Visit Suitcase" href="http://winspireme.com/suitcase"><img src="https://s3.amazonaws.com/winspire-transactional-emails/Visit-Suitcase-Button.gif" width="117" height="28" alt="View Suitcase" /></a>
                                                                 <br />
                                                                 <br />
-                                                                Questions? Give us a call at <a href="tel:1-877-544-8555">1.877.544.8555</a> or contact your Winspire Event Consultant: 
+                                                                <span style="font-size:16px;color:#005695;font-weight:bold;">Questions?</span><br />
+                                                                Give us a call at <a href="tel:1-877-544-8555">1.877.544.8555</a> or contact your Winspire Event Consultant: 
                                                                 <br />
                                                                 <br />
                                                                 <table border="0" cellpadding="0" cellspacing="0" width="100%">
 																	<tr>
 																		<td>
-																			<table border="0" cellpadding="15" cellspacing="0" width="240" bgcolor="e6f9ff" style="border: 1px solid #ececec;line-height:14px;font-size:11px;" >
+																			<table border="0" cellpadding="15" cellspacing="0" width="275" bgcolor="e6f9ff" style="border: 1px solid #ececec;line-height:16px;font-size:12px;">
 																				<tr>
 																					<td valign="top">
 																						<strong>{{ suitcase.user.company.salesperson.firstName }} {{ suitcase.user.company.salesperson.lastName }}</strong>&nbsp;&nbsp;|&nbsp;&nbsp;<em>Event Consultant</em><br />
@@ -537,10 +537,62 @@
 													</tr>
                                                 </table>
                                                 <!-- // End Module: Standard Content \\ -->
-                                            
+                                                <!-- // Begin Module: Suitcase Info \\ -->
+												<table border="0" cellpadding="0" cellspacing="0" width="100%" style="color: #505050;font-family: Arial;font-size: 12px;line-height: 150%;text-align: left;margin-top:10px;" bgcolor="f1f1f1">
+													<tr>
+														<td valign="top" align="left" style="padding:0px;"> 
+															<table border="0" cellpadding="0" cellspacing="10" width="100%">
+																<tr>
+																	<td>
+																		<table border="0" cellpadding="0" cellspacing="0" width="100%">
+																			<tr>
+																				<td valign="bottom" align="left" style="font-size:9px;line-height:9px;padding-bottom:2px;color:#005695;"> 
+																					<span style="font-family:serif;font-style:italic;">my</span><b>Suitcase</b>
+																				</td>
+																			</tr>
+																			<tr>
+																				<td valign="middle" align="left" style="padding:3px 10px;font-size:11px;font-weight:bold;line-height:15px;" bgcolor="ffffff"> 
+																					{{ suitcase.eventName }}
+																				</td>
+																			</tr>
+																		</table>
+																	</td>
+																	<td>
+																		<table border="0" cellpadding="0" cellspacing="0" width="100%">
+																			<tr>
+																				<td valign="bottom" align="left" style="font-size:9px;line-height:9px;padding-bottom:2px;color:#777;"> 
+																					Organization
+																				</td>
+																			</tr>
+																			<tr>
+																				<td valign="middle" align="left" style="padding:3px 10px;font-size:11px;font-style:italic;line-height:15px;" bgcolor="ffffff"> 
+																					{{ suitcase.user.company.name }}
+																				</td>
+																			</tr>
+																		</table>
+																	</td>
+																	<td>
+																		<table border="0" cellpadding="0" cellspacing="0" width="100%">
+																			<tr>
+																				<td valign="bottom" align="left" style="font-size:9px;line-height:9px;padding-bottom:2px;color:#777;"> 
+																					Event Date
+																				</td>
+																			</tr>
+																			<tr>
+																				<td valign="middle" align="left" style="padding:3px 10px;font-size:11px;line-height:15px;" bgcolor="ffffff"> 
+																					{{ suitcase.eventDate | date('m/d/Y') }}
+																				</td>
+																			</tr>
+																		</table>
+																	</td>
+																</tr>
+															</table>
+														</td>
+													</tr>
+												</table>
+												<!-- // End Module: Suitcase Info \\ -->
                                             </td>
                                         </tr>
-                                    	
                                     </table>
                                     <!-- // End Template Body \\ -->
                                 </td>
@@ -561,16 +613,6 @@
 										<tbody>
 											<tr class="blockme">
 												<td valign="middle" width="200" align="left">
-													<table cellspacing="0" cellpadding="0">
-														<tbody><tr>
-															<td align="left">
-																<img alt="" width="21" height="21" style="display: block" src="https://s3.amazonaws.com/winspire-transactional-emails/referral-icon.gif">
-															</td>
-															<td align="left">
-																<div style="margin-left: 9px"><a style="color: #74a2fb; text-decoration: none" href="###"><span style="line-height: 14px; font-family: arial, sans-serif; color: #777777; font-size: 11px">Refer Friends and Get<br/><b>$150 Off Your Next Order</b></span></a></div>
-															</td>
-												   		</tr></tbody>
-												   	</table>
 												</td>
 												<td class="width150 height30 blockme float_left align_left" valign="middle" width="157" align="right">
 													<table cellspacing="0" cellpadding="0">
@@ -589,8 +631,9 @@
 														<tbody>
 															<tr>
 																<td class="height30" valign="middle" align="left"><span style="line-height: 14px; font-family: arial, sans-serif; color: #777777; font-size: 11px">Find Us&nbsp;</span></td>
-																<td width="22" align="center"><a href="https://facebook.com/winspire"><img border="0" alt="Facebook" width="19" height="18" style="display: block" src="https://s3.amazonaws.com/winspire-transactional-emails/facebook.gif"></a></td>
-																<td width="22" align="center"><a href="https://twitter.com/winspireme"><img border="0" alt="Twitter" width="18" height="18" style="display: block" src="https://s3.amazonaws.com/winspire-transactional-emails/twitter.gif"></a></td>
+																<td width="22" align="center"><a href="https://www.facebook.com/Winspire" alt="Winspire Facebook Page"><img border="0" alt="Facebook" width="19" height="18" style="display: block" src="https://s3.amazonaws.com/winspire-transactional-emails/facebook.gif"></a></td>
+																<td width="22" align="center"><a href="https://twitter.com/WinspireMe" alt="Winspire Twitter Page"><img border="0" alt="Twitter" width="18" height="18" style="display: block" src="https://s3.amazonaws.com/winspire-transactional-emails/twitter.gif"></a></td>
+																<td width="22" align="center"><a href="http://pinterest.com/winspireme/" alt="Winspire Pintrist Page"><img border="0" alt="Pintrist" width="19" height="18" style="display: block" src="https://s3.amazonaws.com/winspire-transactional-emails/pintrist.gif"></a></td>
 															</tr>
 														</tbody>
 													</table>
@@ -606,11 +649,11 @@
                                                 <!-- // Begin Module: Standard Footer \\ -->
                                                 <table border="0" cellpadding="10" cellspacing="0" width="100%">
                                                     <tr>
-                                                        <td valign="top" width="400" align="center">
+                                                       <td valign="top" width="400" align="center">
                                                             <div mc:edit="std_footer" style="line-height: 14px; font-family: arial, sans-serif; color: #777777; font-size: 11px">
-																Cross our hearts, we promise not to share your information! <a style="color:#0578c8" href="http://winspireme.com/privacy">Read our updated Privacy Policy</a>.
+																Cross our hearts, we promise not to share your information! <a style="color:#0578c8" href="http://www.winspireme.com/privacy" alt="Winspire Privacy Policy">Read our updated Privacy Policy</a>.
 																<br>
-																Copyright &copy; 2013 Winspire, Inc, All rights reserved.
+																Copyright &copy; {{ 'now' | date('Y') }} Winspire, Inc, All rights reserved.
 																<br>
 																23091 Mill Creek Rd, Laguna Hills, CA 92653
                                                             </div>
