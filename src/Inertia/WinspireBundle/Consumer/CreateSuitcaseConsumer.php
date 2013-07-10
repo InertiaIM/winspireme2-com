@@ -134,34 +134,46 @@ class CreateSuitcaseConsumer implements ConsumerInterface
         
         
         // Send Mail Messages
-//        $name = $suitcase->getUser()->getFirstName() . ' ' .
-//            $suitcase->getUser()->getLastName();
-//        
-//        $email = $suitcase->getUser()->getEmail();
-//        
-//        $message = \Swift_Message::newInstance()
-//            ->setSubject('Welcome to Winspire!')
-//            ->setFrom(array('notice@winspireme.com' => 'Winspire'))
-//            ->setTo(array($email => $name))
-//            ->setBody(
-//                $this->templating->render(
-//                    'InertiaWinspireBundle:Email:create-suitcase-welcome.html.twig',
-//                    array('user' => $suitcase->getUser())
-//                ),
-//                'text/html'
-//            )
-//        ;
-//        
-//        $this->em->clear();
-//        
-//        $this->mailer->getTransport()->start();
-//        if (!$this->mailer->send($message)) {
-//            // Any other value not equal to false will acknowledge the message and remove it
-//            // from the queue
-//            return false;
-//        }
-//        
-//        $this->mailer->getTransport()->stop();
+        $name = $suitcase->getUser()->getFirstName() . ' ' .
+            $suitcase->getUser()->getLastName();
+        
+        $email = $suitcase->getUser()->getEmail();
+        
+        $message = \Swift_Message::newInstance()
+            ->setSubject('New Comment in your Suitcase')
+            ->setFrom(array('notice@winspireme.com' => 'Winspire'))
+            ->setTo(array($email => $name))
+            ->setBcc($suitcase->getUser()->getCompany()->getSalesperson()->getEmail())
+            ->setBody(
+                $this->templating->render(
+                    'InertiaWinspireBundle:Email:new-suitcase-confirm.html.twig',
+                    array('suitcase' => $suitcase)
+                ),
+                'text/html'
+            )
+            ->addPart(
+                $this->templating->render(
+                    'InertiaWinspireBundle:Email:new-suitcase-confirm.txt.twig',
+                    array('suitcase' => $suitcase)
+                ),
+                'text/plain'
+            )
+        ;
+        
+        $this->em->clear();
+        
+        $this->mailer->getTransport()->start();
+        if (!$this->mailer->send($message)) {
+            // Any other value not equal to false will acknowledge the message and remove it
+            // from the queue
+            $this->sf->logout();
+            
+            return false;
+        }
+        
+        $this->mailer->getTransport()->stop();
+        
+        $this->sf->logout();
         
         return true;
     }
