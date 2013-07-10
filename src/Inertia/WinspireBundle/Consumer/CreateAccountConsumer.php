@@ -343,14 +343,54 @@ class CreateAccountConsumer implements ConsumerInterface
             ->setSubject('Welcome to Winspire!')
             ->setFrom(array('notice@winspireme.com' => 'Winspire'))
             ->setTo(array($email => $name))
+            ->setBcc(array($suitcase->getUser()->getCompany()->getSalesperson()->getEmail(), 'doug@inertiaim.com'))
             ->setBody(
                 $this->templating->render(
                     'InertiaWinspireBundle:Email:create-suitcase-welcome.html.twig',
-                    array('user' => $suitcase->getUser())
+                    array(
+                        'user' => $suitcase->getUser(),
+                        'suitcase' => $suitcase
+                    )
                 ),
                 'text/html'
             )
+            ->addPart(
+                $this->templating->render(
+                    'InertiaWinspireBundle:Email:create-suitcase-welcome.txt.twig',
+                    array(
+                        'user' => $suitcase->getUser(),
+                        'suitcase' => $suitcase
+                    )
+                ),
+                'text/plain'
+            )
         ;
+        
+        // If the new user is assigned to a real EC, we'll send the intro email now
+        $message2 = false;
+        if ($user->getCompany()->getSalesperson()->getUsername() != 'confirmation@winspireme.com') {
+            $message2 = \Swift_Message::newInstance()
+                ->setSubject('Introducing your Winspire Event Consultant')
+                ->setFrom(array('notice@winspireme.com' => 'Winspire'))
+                ->setTo(array($email => $name))
+                ->setBcc(array($suitcase->getUser()->getCompany()->getSalesperson()->getEmail(), 'doug@inertiaim.com'))
+                ->setBody(
+                    $this->templating->render(
+                        'InertiaWinspireBundle:Email:event-consultant-intro.html.twig',
+                        array('user' => $suitcase->getUser())
+                    ),
+                    'text/html'
+                )
+                ->addPart(
+                    $this->templating->render(
+                        'InertiaWinspireBundle:Email:event-consultant-intro.txt.twig',
+                        array('user' => $suitcase->getUser())
+                    ),
+                    'text/plain'
+                )
+            ;
+        }
+        
         
         $this->em->clear();
         
@@ -358,7 +398,13 @@ class CreateAccountConsumer implements ConsumerInterface
         if (!$this->mailer->send($message)) {
             // Any other value not equal to false will acknowledge the message and remove it
             // from the queue
+            $this->sf->logout();
+            
             return false;
+        }
+        
+        if ($message2) {
+            $this->mailer->send($message2);
         }
         
         $this->mailer->getTransport()->stop();
@@ -376,6 +422,7 @@ class CreateAccountConsumer implements ConsumerInterface
             $result = $list->Subscribe($user->getEmail());
         }
         
+        $this->sf->logout();
         
         return true;
     }
