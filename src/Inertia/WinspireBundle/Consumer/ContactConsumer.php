@@ -104,6 +104,13 @@ class ContactConsumer implements ConsumerInterface
                 ),
                 'text/html'
             )
+            ->addPart(
+                $this->templating->render(
+                    'InertiaWinspireBundle:Email:contact-response.txt.twig',
+                    array()
+                ),
+                'text/plain'
+            )
         ;
         
         $this->mailer->getTransport()->start();
@@ -113,10 +120,13 @@ class ContactConsumer implements ConsumerInterface
             return false;
         }
         
+        
         // Email to the Winspire staff
         $message = \Swift_Message::newInstance()
             ->setSubject('Winspire Contact Form Submission')
+            ->setSender(array('notice@winspireme.com' => 'Winspire'))
             ->setFrom(array($email => $name))
+            ->setReplyTo(array($email => $name))
             ->setTo($recipient)
             ->setBody(
                 $this->templating->render(
