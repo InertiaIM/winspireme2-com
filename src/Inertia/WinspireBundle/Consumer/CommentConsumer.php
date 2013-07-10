@@ -54,11 +54,18 @@ class CommentConsumer implements ConsumerInterface
                 ),
                 'text/html'
             )
+            ->addPart(
+                $this->templating->render(
+                    'InertiaWinspireBundle:Email:comment-notification.txt.twig',
+                    array('comment' => $comment)
+                ),
+                'text/plain'
+            )
         ;
         
         // No need to send the user their own Comments
         // If the commentor's email is the same as the user,
-        // then end to the Salesperson only.
+        // then send to the Salesperson only.
         if ($email == $comment->getEmail()) {
             $message->setTo($comment->getSuitcase()->getUser()->getCompany()->getSalesperson()->getEmail());
         }
