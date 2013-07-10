@@ -2223,7 +2223,7 @@ footer, #footer { height:220px;border-top:1px solid rgb(195,213,224);
         
         form {
             float:left;
-            margin:17px 0 0 20px;
+            margin:10px 0 0 20px;
             select {
                 display: none;
             }
@@ -5683,6 +5683,12 @@ footer, #footer { height:220px;border-top:1px solid rgb(195,213,224);
         line-height:25px;
     }
     
+    .button.view:before {
+        content:'\e030';
+        font-size:22px;
+        line-height:25px;
+    }
+    
     #contact-info {
         margin-bottom:36px;
         position:relative;
@@ -5708,8 +5714,14 @@ footer, #footer { height:220px;border-top:1px solid rgb(195,213,224);
         }
     }
     
-    #suitcase-info {
+    #suitcase-info,
+    #order-history {
+        margin-bottom:36px;
         position:relative;
+        
+        p {
+            font-style:italic;
+        }
         
         table {
             width:468px;
@@ -5728,6 +5740,10 @@ footer, #footer { height:220px;border-top:1px solid rgb(195,213,224);
             
             .date {
                 width:116px;
+            }
+            
+            a {
+                text-decoration: none;
             }
         }
     }

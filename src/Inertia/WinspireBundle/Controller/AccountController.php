@@ -449,8 +449,22 @@ class AccountController extends Controller
     {
         $user = $this->container->get('security.context')->getToken()->getUser();
         
+        // TODO move this into the Suitcase Manager service?
+        $activeCount = 0;
+        $historyCount = 0;
+        foreach ($user->getSuitcases() as $suitcase) {
+            if ($suitcase->getStatus() == 'M') {
+                $historyCount++;
+            }
+            else {
+                $activeCount++;
+            }
+        }
+        
         return $this->render('InertiaWinspireBundle:Account:index.html.twig', array(
-            'user' => $user
+            'user' => $user,
+            'historyCount' => $historyCount,
+            'activeCount' => $activeCount
         ));
     }
     

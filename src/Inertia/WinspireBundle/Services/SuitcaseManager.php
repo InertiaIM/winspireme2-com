@@ -261,6 +261,9 @@ class SuitcaseManager
             if ($active) {
                 $qb->where($qb->expr()->in('s.status', array('U', 'P')));
             }
+            else {
+                $qb->where($qb->expr()->notIn('s.status', array('M')));
+            }
             
             $qb->andWhere('s.user = :user_id');
             $qb->setParameter('user_id', $this->suitcaseUser->getId());

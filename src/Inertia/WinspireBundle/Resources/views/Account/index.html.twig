@@ -45,25 +45,56 @@
                 </div>
                 
                 <div class="" style="float:left; width:468px;">
-                <div id="suitcase-info">
-                    <h2>Your Suitcases</h2>
-                    <table>
-{% for suitcase in user.suitcases %}
-                        <tr data-id="{{ suitcase.id }}">
-                            <td id="event-name-{{ suitcase.id }}">{% if suitcase.eventName != '' %}<strong>{{ suitcase.eventName }}</strong>{% endif %}</td>
-                            <td id="event-date-{{ suitcase.id }}">{% if suitcase.eventDate != '' %}{{ suitcase.eventDate | date('m/d/y') }}{% endif %}</td>
-                            <td class="action">{% if suitcase.status in ['U', 'P'] %}<a href="#" data-id="{{ suitcase.id }}" class="button edit">Edit</a>{% endif %}</td>
-                            <td class="action">{% if suitcase.status in ['U', 'P'] %}<a href="#" data-id="{{ suitcase.id }}" class="button delete">Delete</a>{% endif %}</td>
-                        </tr>
-                        <tr data-id="{{ suitcase.id }}">
-                            <td>&nbsp;</td>
-                            <td>&nbsp;</td>
-                            <td>&nbsp;</td>
-                            <td>&nbsp;</td>
-                        </tr>
-{% endfor %}
-                    </table>
-                </div>
+                    <div id="suitcase-info">
+                        <h2>Your (Active) Suitcases</h2>
+{% if activeCount > 0 %}
+                        <table>
+{%     for suitcase in user.suitcases %}
+{%       if suitcase.status != 'M' %}
+                            <tr data-id="{{ suitcase.id }}">
+                                <td class="name" id="event-name-{{ suitcase.id }}">{% if suitcase.eventName != '' %}<strong>{{ suitcase.eventName }}</strong>{% endif %}</td>
+                                <td class="date" id="event-date-{{ suitcase.id }}">{% if suitcase.eventDate != '' %}{{ suitcase.eventDate | date('n/j/y') }}{% endif %}</td>
+                                <td class="action">{% if suitcase.status in ['U', 'P'] %}<a href="#" data-id="{{ suitcase.id }}" class="button edit">Edit</a>{% endif %}</td>
+                                <td class="action">{% if suitcase.status in ['U', 'P'] %}<a href="#" data-id="{{ suitcase.id }}" class="button delete">Delete</a>{% endif %}</td>
+                            </tr>
+                            <tr data-id="{{ suitcase.id }}">
+                                <td>&nbsp;</td>
+                                <td>&nbsp;</td>
+                                <td>&nbsp;</td>
+                                <td>&nbsp;</td>
+                            </tr>
+{%         endif %}
+{%     endfor %}
+                        </table>
+{% else %}
+                        <p>None available</p>
+{% endif %}
+                    </div>
+                    <div id="order-history">
+                        <h2>Your Order History</h2>
+{% if historyCount > 0 %}
+                        <table>
+{%     for suitcase in user.suitcases %}
+{%         if suitcase.status == 'M' %}
+                            <tr>
+                                <td class="name" id="event-name-{{ suitcase.id }}">{% if suitcase.eventName != '' %}<strong><a href="{{ path('suitcaseHistory', {'suitcaseId': suitcase.id}) }}">{{ suitcase.eventName }}</a></strong>{% endif %}</td>
+                                <td class="date" id="event-date-{{ suitcase.id }}">{% if suitcase.eventDate != '' %}{{ suitcase.eventDate | date('n/j/y') }}{% endif %}</td>
+                                <td class="action"><a href="{{ path('suitcaseHistory', {'suitcaseId': suitcase.id}) }}" class="button view">View</a></td>
+                                <td class="action">&nbsp;</td>
+                            </tr>
+                            <tr>
+                                <td>&nbsp;</td>
+                                <td>&nbsp;</td>
+                                <td>&nbsp;</td>
+                                <td>&nbsp;</td>
+                            </tr>
+{%         endif %}
+{%     endfor %}
+                        </table>
+{% else %}
+                        <p>None available</p>
+{% endif %}
+                    </div>
                 </div>
             </div>
         </div>

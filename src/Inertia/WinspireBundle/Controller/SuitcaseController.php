@@ -503,6 +503,39 @@ class SuitcaseController extends Controller
     }
     
     
+    public function historyAction($suitcaseId)
+    {
+        $user = $this->getUser();
+        
+        $qb = $this->getDoctrine()->getEntityManager()->createQueryBuilder();
+        $qb->select(array('s', 'i', 'p'));
+        $qb->from('InertiaWinspireBundle:Suitcase', 's');
+        $qb->leftJoin('s.items', 'i', 'WITH', 'i.status != \'X\'');
+        $qb->leftJoin('i.package', 'p');
+        $qb->where($qb->expr()->in('s.status', array('M')));
+        
+        if (!$this->get('security.context')->isGranted('ROLE_ADMIN')) {
+            $qb->andWhere('s.user = :user_id');
+            $qb->setParameter('user_id', $user->getId());
+        }
+        
+        $qb->andWhere('s.id = :id');
+        $qb->setParameter('id', $suitcaseId);
+        
+        try {
+            $suitcase = $qb->getQuery()->getSingleResult();
+        }
+        catch(\Exception $e) {
+            throw $this->createNotFoundException();
+        }
+        
+        return $this->render('InertiaWinspireBundle:Suitcase:wrapper.html.twig', array(
+            'templatePath' => 'orderHistory',
+            'suitcase' => $suitcase
+        ));
+    }
+    
+    
     public function invoiceAction($suitcaseId)
     {
         $suitcaseManager = $this->get('winspire.suitcase.manager');
