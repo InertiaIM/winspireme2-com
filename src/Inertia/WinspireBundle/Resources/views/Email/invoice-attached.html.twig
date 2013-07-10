@@ -508,10 +508,11 @@
                                                                 While you're waiting for the check to get to us, please <b>finish filling out the Winning Bidder information</b> in your Suitcase to ensure the Booking Vouchers will be ready to go once we receive payment.
                                                                 <br />
                                                                 <br />
-                                                                <a title="Visit Suitcase" href="http://winspireme.com/suitcase"><img src="https://s3.amazonaws.com/winspire-transactional-emails/Visit-Suitcase-Button.gif" width="117" height="28" alt="View Suitcase" /></a>
+                                                                <a title="Visit Suitcase" href="http://winspireme.com/suitcase"><img src="https://s3.amazonaws.com/winspire-transactional-emails/enter-winning-bidder-info.gif" width="187" height="28" alt="View Suitcase" /></a>
                                                                 <br />
                                                                 <br />
-                                                                Questions? Give us a call at <a href="tel:1-877-544-8555">1.877.544.8555</a> or contact your Winspire Event Consultant: 
+                                                                <img src="https://s3.amazonaws.com/winspire-transactional-emails/plane-icon.gif" style="display:inline;margin-right:10px;" width="35" height="40"/><span style="font-size:16px;color:#005695;font-weight:bold;line-height:26px;">We're here to help.</span><br />
+																Questions? Give us a call at <a href="tel:1-877-544-8555">1.877.544.8555</a> or contact your Winspire Event Consultant directly: 
                                                                 <br />
                                                                 <br />
                                                                 <table border="0" cellpadding="0" cellspacing="0" width="100%">
@@ -537,7 +538,61 @@
 													</tr>
                                                 </table>
                                                 <!-- // End Module: Standard Content \\ -->
-                                            
+                                            	<!-- // Begin Module: Suitcase Info \\ -->
+												<table border="0" cellpadding="0" cellspacing="0" width="100%" style="color: #505050;font-family: Arial;font-size: 12px;line-height: 150%;text-align: left;margin-top:10px;" bgcolor="f1f1f1">
+													<tr>
+														<td valign="top" align="left" style="padding:0px;"> 
+															<table border="0" cellpadding="0" cellspacing="10" width="100%">
+																<tr>
+																	<td>
+																		<table border="0" cellpadding="0" cellspacing="0" width="100%">
+																			<tr>
+																				<td valign="bottom" align="left" style="font-size:9px;line-height:9px;padding-bottom:2px;color:#005695;"> 
+																					<span style="font-family:serif;font-style:italic;">my</span><b>Suitcase</b>
+																				</td>
+																			</tr>
+																			<tr>
+																				<td valign="middle" align="left" style="padding:3px 10px;font-size:11px;font-weight:bold;line-height:15px;" bgcolor="ffffff"> 
+																					{{ suitcase.eventName }}
+																				</td>
+																			</tr>
+																		</table>
+																	</td>
+																	<td>
+																		<table border="0" cellpadding="0" cellspacing="0" width="100%">
+																			<tr>
+																				<td valign="bottom" align="left" style="font-size:9px;line-height:9px;padding-bottom:2px;color:#777;"> 
+																					Organization
+																				</td>
+																			</tr>
+																			<tr>
+																				<td valign="middle" align="left" style="padding:3px 10px;font-size:11px;font-style:italic;line-height:15px;" bgcolor="ffffff"> 
+																					{{ suitcase.user.company.name }}
+																				</td>
+																			</tr>
+																		</table>
+																	</td>
+																	<td>
+																		<table border="0" cellpadding="0" cellspacing="0" width="100%">
+																			<tr>
+																				<td valign="bottom" align="left" style="font-size:9px;line-height:9px;padding-bottom:2px;color:#777;"> 
+																					Event Date
+																				</td>
+																			</tr>
+																			<tr>
+																				<td valign="middle" align="left" style="padding:3px 10px;font-size:11px;line-height:15px;" bgcolor="ffffff"> 
+																					{{ suitcase.eventDate | date('m/d/Y') }}
+																				</td>
+																			</tr>
+																		</table>
+																	</td>
+																</tr>
+															</table>
+														</td>
+													</tr>
+												</table>
+												<!-- // End Module: Suitcase Info \\ -->
+
                                             </td>
                                         </tr>
                                     	
