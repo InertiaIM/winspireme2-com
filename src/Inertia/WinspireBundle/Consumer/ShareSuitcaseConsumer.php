@@ -48,6 +48,13 @@ class ShareSuitcaseConsumer implements ConsumerInterface
                 ),
                 'text/html'
             )
+            ->addPart(
+                $this->templating->render(
+                    'InertiaWinspireBundle:Email:guest-invitation.txt.twig',
+                    array('share' => $share)
+                ),
+                'text/plain'
+            )
         ;
         
         $this->em->clear();
