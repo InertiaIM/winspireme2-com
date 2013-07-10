@@ -472,11 +472,10 @@
                                 	<table border="0" cellpadding="0" cellspacing="0" width="600" id="templateBody">
                                     	<tr>
                                         	<td colspan="3" valign="top" class="bodyContent">
-                                            
                                                 <!-- // Begin Module: Standard Content \\ -->
                                                 <table border="0" cellpadding="20" cellspacing="0" width="100%">
                                                     <tr>
-                                                        <td valign="top">
+                                                        <td valign="top" align="left">
                                                             <div style="color:#505050;font-family:Arial;font-size:12px;line-height:150%;text-align:left;">
                                                                 <table border="0" cellpadding="0" cellspacing="0" width="100%">
 																	<tr>
@@ -495,10 +494,11 @@
                                                                 Booking Vouchers are available for each Winning Bidder to use to redeem their Experience. You can send the vouchers directly from your Suitcase with a custom message thanking them for their donation.
                                                                 <br />
                                                                 <br />
-                                                                <a title="Visit Suitcase" href="http://winspireme.com/suitcase"><img src="https://s3.amazonaws.com/winspire-transactional-emails/Visit-Suitcase-Button.gif" width="117" height="28" alt="View Suitcase" /></a>
+                                                                <a title="Visit Suitcase" href="http://winspireme.com/suitcase"><img src="https://s3.amazonaws.com/winspire-transactional-emails/send-vouchers.gif" width="128" height="28" alt="Send Vouchers" /></a>
                                                                 <br />
                                                                 <br />
-                                                                Questions? Give us a call at <a href="tel:1-877-544-8555">1.877.544.8555</a> or contact your Winspire Event Consultant: 
+                                                                <img src="https://s3.amazonaws.com/winspire-transactional-emails/plane-icon.gif" style="display:inline;margin-right:10px;" width="35" height="40"/><span style="font-size:16px;color:#005695;font-weight:bold;line-height:26px;">Questions? </span><br />
+																Give us a call at <a href="tel:1-877-544-8555">1.877.544.8555</a> or contact your Winspire Event Consultant directly: 
                                                                 <br />
                                                                 <br />
                                                                 <table border="0" cellpadding="0" cellspacing="0" width="100%">
@@ -524,7 +524,61 @@
 													</tr>
                                                 </table>
                                                 <!-- // End Module: Standard Content \\ -->
-                                            
+                                            	<!-- // Begin Module: Suitcase Info \\ -->
+												<table border="0" cellpadding="0" cellspacing="0" width="100%" style="color: #505050;font-family: Arial;font-size: 12px;line-height: 150%;text-align: left;margin-top:10px;" bgcolor="f1f1f1">
+													<tr>
+														<td valign="top" align="left" style="padding:0px;"> 
+															<table border="0" cellpadding="0" cellspacing="10" width="100%">
+																<tr>
+																	<td>
+																		<table border="0" cellpadding="0" cellspacing="0" width="100%">
+																			<tr>
+																				<td valign="bottom" align="left" style="font-size:9px;line-height:9px;padding-bottom:2px;color:#005695;"> 
+																					<span style="font-family:serif;font-style:italic;">my</span><b>Suitcase</b>
+																				</td>
+																			</tr>
+																			<tr>
+																				<td valign="middle" align="left" style="padding:3px 10px;font-size:11px;font-weight:bold;line-height:15px;" bgcolor="ffffff"> 
+																					{{ suitcase.eventName }}
+																				</td>
+																			</tr>
+																		</table>
+																	</td>
+																	<td>
+																		<table border="0" cellpadding="0" cellspacing="0" width="100%">
+																			<tr>
+																				<td valign="bottom" align="left" style="font-size:9px;line-height:9px;padding-bottom:2px;color:#777;"> 
+																					Organization
+																				</td>
+																			</tr>
+																			<tr>
+																				<td valign="middle" align="left" style="padding:3px 10px;font-size:11px;font-style:italic;line-height:15px;" bgcolor="ffffff"> 
+																					{{ suitcase.user.company.name }}
+																				</td>
+																			</tr>
+																		</table>
+																	</td>
+																	<td>
+																		<table border="0" cellpadding="0" cellspacing="0" width="100%">
+																			<tr>
+																				<td valign="bottom" align="left" style="font-size:9px;line-height:9px;padding-bottom:2px;color:#777;"> 
+																					Event Date
+																				</td>
+																			</tr>
+																			<tr>
+																				<td valign="middle" align="left" style="padding:3px 10px;font-size:11px;line-height:15px;" bgcolor="ffffff"> 
+																					{{ suitcase.eventDate | date('m/d/Y') }}
+																				</td>
+																			</tr>
+																		</table>
+																	</td>
+																</tr>
+															</table>
+														</td>
+													</tr>
+												</table>
+												<!-- // End Module: Suitcase Info \\ -->
+
                                             </td>
                                         </tr>
                                     	
@@ -547,6 +601,8 @@
 									<table class="width300" border="0" cellspacing="0" cellpadding="0" width="600" align="center">
 										<tbody>
 											<tr class="blockme">
+												<td valign="middle" width="200" align="left">
+												</td>
 												<td class="width150 height30 blockme float_left align_left" valign="middle" width="157" align="right">
 													<table cellspacing="0" cellpadding="0">
 														<tbody>
@@ -582,10 +638,10 @@
                                                 <!-- // Begin Module: Standard Footer \\ -->
                                                 <table border="0" cellpadding="10" cellspacing="0" width="100%">
                                                     <tr>
-                                                        <td valign="top" width="400" align="center">
+                                                       <td valign="top" width="400" align="center">
                                                             <div mc:edit="std_footer" style="line-height: 14px; font-family: arial, sans-serif; color: #777777; font-size: 11px">
 																Cross our hearts, we promise not to share your information! <a style="color:#0578c8" href="http://www.winspireme.com/privacy" alt="Winspire Privacy Policy">Read our updated Privacy Policy</a>.
-																<br> 
+																<br>
 																Copyright &copy; {{ 'now' | date('Y') }} Winspire, Inc, All rights reserved.
 																<br>
 																23091 Mill Creek Rd, Laguna Hills, CA 92653
