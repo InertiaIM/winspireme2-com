@@ -48,6 +48,8 @@ class InvoiceRequestConsumer implements ConsumerInterface
         catch (\Doctrine\Orm\NoResultException $e) {
             // If we can't get the Suitcase record we'll 
             // throw out the message from the queue (ack)
+            $this->sf->logout();
+            
             return true;
         }
         
@@ -73,6 +75,7 @@ class InvoiceRequestConsumer implements ConsumerInterface
             }
             catch(\Exception $e) {
                 $this->sendForHelp($e, $suitcase);
+                $this->sf->logout();
                 
                 return true;
             }
@@ -156,6 +159,7 @@ class InvoiceRequestConsumer implements ConsumerInterface
             }
             catch(\Exception $e) {
                 $this->sendForHelp($e, $suitcase);
+                $this->sf->logout();
                 
                 return true;
             }
@@ -209,6 +213,7 @@ class InvoiceRequestConsumer implements ConsumerInterface
         }
         catch(\Exception $e) {
             $this->sendForHelp($e, $suitcase);
+            $this->sf->logout();
             
             return true;
         }
@@ -272,6 +277,8 @@ class InvoiceRequestConsumer implements ConsumerInterface
         if (!$this->mailer->send($message)) {
             // Any other value not equal to false will acknowledge the message and remove it
             // from the queue
+            $this->sf->logout();
+            
             return false;
         }
         
@@ -296,6 +303,7 @@ class InvoiceRequestConsumer implements ConsumerInterface
         
         
         $this->em->getConnection()->close();
+        $this->sf->logout();
         
         return true;
     }
