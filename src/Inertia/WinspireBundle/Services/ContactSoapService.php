@@ -8,6 +8,7 @@ use Inertia\WinspireBundle\Entity\Account;
 use Inertia\WinspireBundle\Entity\Suitcase;
 use Inertia\WinspireBundle\Entity\User;
 use Symfony\Bridge\Monolog\Logger;
+use Symfony\Component\Templating\EngineInterface;
 
 class ContactSoapService
 {
