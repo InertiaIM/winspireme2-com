@@ -14,16 +14,20 @@ class ContactSoapService
     protected $em;
     protected $sf;
     protected $logger;
+    protected $templating;
+    protected $mailer;
     
     private $recordTypeId = '01270000000DVD5AAO';
     private $opportunityTypeId = '01270000000DVGnAAO';
     private $partnerRecordId = '0017000000PKyUfAAL';
     
-    public function __construct(Client $salesforce, EntityManager $entityManager, Logger $logger)
+    public function __construct(Client $salesforce, EntityManager $entityManager, Logger $logger, \Swift_Mailer $mailer, EngineInterface $templating)
     {
         $this->sf = $salesforce;
         $this->em = $entityManager;
         $this->logger = $logger;
+        $this->templating = $templating;
+        $this->mailer = $mailer;
     }
     
     public function notifications($notifications)
@@ -96,7 +100,41 @@ class ContactSoapService
                 try {
                     $account = $query->getSingleResult();
                     $this->logger->info('    Account: ' . $account->getName());
+                    
+                    $previousOwner = $user->getCompany()->getSalesperson();
                     $user->setCompany($account);
+                    
+                    if ($account->getSalesperson()->getUsername() != 'confirmation@winspireme.com' &&
+                        $previousOwner->getId() != $account->getSalesperson()->getId()) {
+                        // The user was moved to a new Account with a different EC
+                        // Send the user an email introduction to their new EC
+                        $name = $user->getFirstName() . ' ' .
+                            $user->getLastName();
+                        
+                        $email = $user->getEmail();
+                        
+                        $message = \Swift_Message::newInstance()
+                            ->setSubject('Introducing your Winspire Event Consultant')
+                            ->setFrom(array('notice@winspireme.com' => 'Winspire'))
+                            ->setTo(array($email => $name))
+                            ->setBody(
+                                $this->templating->render(
+                                    'InertiaWinspireBundle:Email:event-consultant-intro.html.twig',
+                                    array('user' => $user)
+                                ),
+                                'text/html'
+                            )
+                            ->addPart(
+                                $this->templating->render(
+                                    'InertiaWinspireBundle:Email:event-consultant-intro.txt.twig',
+                                    array('user' => $user)
+                                ),
+                                'text/plain'
+                            )
+                        ;
+                        $message->setBcc($user->getCompany()->getSalesperson()->getEmail(), 'doug@inertiaim.com');
+                        $this->mailer->send($message);
+                    }
                 }
                 catch (\Exception $e) {
                     $this->logger->err('    Account ID es no bueno: ' . $sfContact->AccountId);

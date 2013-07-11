@@ -408,7 +408,7 @@ class CreateAccountConsumer implements ConsumerInterface
         }
         
         $this->mailer->getTransport()->stop();
-        
+        $this->sf->logout();
         
         // MailChimp sync
         if($user->getNewsletter()) {
@@ -421,8 +421,6 @@ class CreateAccountConsumer implements ConsumerInterface
             
             $result = $list->Subscribe($user->getEmail());
         }
-        
-        $this->sf->logout();
         
         return true;
     }
