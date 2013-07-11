@@ -167,7 +167,7 @@ class AccountSoapService
                         $previousOwner = $account->getSalesperson();
                         $account->setSalesperson($owner);
                         
-                        if ($owner->getUsername() != 'confirmation@winspireme.com' && $previousOwner->getId() != $owner->getId()) {
+                        if ($owner->getUsername() != 'confirmation@winspireme.com' && $previousOwner && ($previousOwner->getId() != $owner->getId())) {
                             // Send the users an email introduction to their new EC
                             foreach ($account->getUsers() as $user) {
                                 $name = $user->getFirstName() . ' ' .
