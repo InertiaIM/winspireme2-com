@@ -98,13 +98,13 @@ class PackSuitcaseConsumer implements ConsumerInterface
         $sfOpportunity->AccountId = $account->getSfId();
         $sfOpportunity->RecordTypeId = $this->opportunityTypeId;
         $sfOpportunity->Lead_Souce_by_Client__c = 'Online User';
-        $sfOpportunity->Type = 'Web Suitcase';
         $sfOpportunity->Partner_Class__c = $this->partnerRecordId;
         $sfOpportunity->Item_Use__c = 'Silent Auction';
         
         try {
             if ($suitcase->getSfId() == '') {
                 // We haven't done an initial sync of the Suitcase?
+                $sfOpportunity->Type = 'Web Suitcase';
                 $saveResult = $this->sf->create(array($sfOpportunity), 'Opportunity');
             }
             else {
