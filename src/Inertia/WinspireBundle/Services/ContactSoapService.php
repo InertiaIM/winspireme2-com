@@ -173,11 +173,13 @@ class ContactSoapService
                 $this->em->persist($user);
             }
             
-            $account->setDirty(false);
-            
-            $timestamp = new \DateTime();
-            $account->setSfUpdated($timestamp);
-            $account->setUpdated($timestamp);
+            if ($account) {
+                $account->setDirty(false);
+                
+                $timestamp = new \DateTime();
+                $account->setSfUpdated($timestamp);
+                $account->setUpdated($timestamp);
+            }
             
             $this->em->persist($user);
             $this->em->flush();
