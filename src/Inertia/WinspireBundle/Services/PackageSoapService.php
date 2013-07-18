@@ -109,10 +109,6 @@ fwrite($dump, print_r($notifications, true));
                 // New package, not in our database yet
                 $this->logger->info('New package (' . $id . ') to be added');
                 
-                // If new package and inactive, there's no need to add it
-                if ($p->IsActive != '1') {
-                    continue;
-                }
                 $package = new Package();
             }
             else {
