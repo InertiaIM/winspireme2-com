@@ -8,7 +8,7 @@ redirect 301 /package_pdfs/download/1119 http://www.winspireme.com/package/galap
 redirect 301 /package_pdfs/download/641 http://www.winspireme.com/packages/Awards-Shows-Auction-Packages
 redirect 301 /package_pdfs/download/501 http://www.winspireme.com/packages/Awards-Shows-Auction-Packages
 redirect 301 /package_pdfs/download/61 http://www.winspireme.com/packages/Family-Friendly-Vacation-Nonprofit-Charity
-redirect 301 /package/televisions-primetime-awards-show http://www.winspireme.com/packages/Awards-Shows-Auction-Packages
+#redirect 301 /package/televisions-primetime-awards-show http://www.winspireme.com/packages/Awards-Shows-Auction-Packages
 redirect 301 /package/napa-wine-country-vip-insiders-tour http://www.winspireme.com/packages/Napa-Valley-Wine-Experience-Ideas-for-Charity-Auctions
 redirect 301 /newsletter http://winspireme.us2.list-manage.com/subscribe?u=45b53f5503b4a99de18ce5206&id=52e0574410
 

@@ -1581,6 +1581,7 @@ footer, #footer { height:220px;border-top:1px solid rgb(195,213,224);
               font-size:13px;
               position:relative;
               text-align:right;
+              white-space: nowrap;
               em { font-family: @ws-garamond; word-spacing:-1px; margin:0 -2px 0 0; }
               span { font-size:1.4em;margin:0 4px 0 0; position:relative; top:2px;}
               &:disabled {
@@ -1795,6 +1796,37 @@ footer, #footer { height:220px;border-top:1px solid rgb(195,213,224);
     .pd-action {
         margin:0 0 25px 0;
       h2 { font-size:1.417em;margin:0 0 10px 10px; }
+      
+        .seasonal-message {
+            padding-top: 23px;
+            
+            hr {
+                margin-bottom: 22px;
+            }
+            
+            h3 {
+                font-size: 16px;
+                line-height: 130%;
+                margin: 0 14px 20px 14px;
+                
+                em {
+                    color: #005695;
+                    font-style: normal;
+                    white-space: nowrap;
+                }
+            }
+            
+            p {
+                font-size: 12px;
+                line-height: 130%;
+                margin: 0 14px 14px 14px;
+                
+                &last-child {
+                    margin-bottom: 7px;
+                }
+            }
+        }
+      
       .pd-a-srv { margin:0 13px; }
       .srv-value {
           font-size:1.417em;

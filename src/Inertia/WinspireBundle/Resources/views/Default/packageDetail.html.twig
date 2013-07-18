@@ -27,8 +27,17 @@
             <div class="pd-actions">
                 <div class="pd-action">
                     <div class="pd-a-srv"><span class="srv-value">{% autoescape false %}{{ package.suggestedRetailValue | replace({'Up to': '<span class="up-to">Up to</span>'}) }}{% endautoescape %}</span> <span class="srv-label">Suggested Retail Value</span></div>
+{% if not package.seasonal and package.active %}
                     <span class="pd-a-npcost"><span class="npc-value">${{ package.cost | number_format(0) }}</span> Nonprofit Cost</span>
                     <a href="#" class="pd-a-add{% if not available %} disabled{% endif %}" data-id="{{ package.id }}"><span aria-hidden="true" class="icon-suitcase icon"></span><em>Add to</em> Suitcase</a>
+{% else %}
+                    <div class="seasonal-message">
+                        <hr/>
+                        <h3>This Experience is currently unavailable. Please call us at <em>(877) 544-8555</em> for more information.</h3>
+                        <p>Some of our Experiences are seasonal. Once event dates and other details are established, this package will become available.</p>
+                        <p>Call us for future availability or check back soon to reserve next year’s Experiance</p>
+                    </div>
+{% endif %}
                     
 {% if variants | length > 1 %}
                     <hr/>

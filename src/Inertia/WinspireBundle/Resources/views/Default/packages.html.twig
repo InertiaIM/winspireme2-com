@@ -6,9 +6,13 @@
                             <div class="i-inner">
                                 <div class="i-image"><img src="/uploads/packages/{{ package.thumbnail }}" alt="" width="129" height="85"/></div>
                                 <div class="i-actions">
+{%     if package.active and not package.seasonal %}
                                     <button class="i-a-add" data-id="{{ package.id }}"{% if not available %} disabled="disabled"{% endif %}><span aria-hidden="true" class="icon-suitcase"></span><em>Add to</em> Suitcase</button>
+{%     else %}
+                                    <button class="i-a-add" disabled="disabled"><span aria-hidden="true" class="icon-suitcase"></span>Currently Unavailable</button>
+{%     endif %}
                                     <div class="i-a-options">
-{%     if count > 1 %}
+{%     if count > 1 and (package.active and not package.seasonal) %}
                                         <a href="{{ path('packageDetail', {'slug': package.slug}) }}">View (<span class="i-o-count">{{ count }}</span>) Options <span aria-hidden="true" class="icon-arrow-right"></span></a>
 {%     else %}
                                         <a href="{{ path('packageDetail', {'slug': package.slug}) }}">View Details <span aria-hidden="true" class="icon-arrow-right"></span></a>
@@ -21,7 +25,9 @@
                                     <div class="i-srv">
                                         <span class="i-sv">{{ package.suggestedRetailValue }}</span> <span class="srv-n">Suggested Retail Value</span>
                                     </div>
+{%     if package.active and not package.seasonal %}
                                     <div class="i-npc"><span class="i-cost">${{ package.cost | number_format(0) }}</span> Nonprofit Cost</div>
+{%     endif %}
                                 </div>
                             </div>
                         </li>
