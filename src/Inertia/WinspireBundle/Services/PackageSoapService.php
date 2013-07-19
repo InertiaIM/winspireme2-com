@@ -6,6 +6,7 @@ use Doctrine\ORM\EntityManager;
 use Inertia\WinspireBundle\Entity\Package;
 use Search\SphinxsearchBundle\Services\Indexer\Indexer;
 use Symfony\Bridge\Monolog\Logger;
+use Symfony\Component\Templating\EngineInterface;
 
 class PackageSoapService
 {
@@ -13,15 +14,19 @@ class PackageSoapService
     protected $sf;
     protected $logger;
     protected $indexer;
+    protected $mailer;
+    protected $templating;
     
     private $pricebookId = '01s700000006IU7AAM';
     
-    public function __construct(Client $salesforce, EntityManager $entityManager, Logger $logger, Indexer $indexer)
+    public function __construct(Client $salesforce, EntityManager $entityManager, Logger $logger, Indexer $indexer, \Swift_Mailer $mailer, EngineInterface $templating)
     {
         $this->sf = $salesforce;
         $this->em = $entityManager;
         $this->logger = $logger;
         $this->indexer = $indexer;
+        $this->mailer = $mailer;
+        $this->templating = $templating;
     }
     
     public function notifications($notifications)
@@ -137,11 +142,23 @@ fwrite($dump, print_r($notifications, true));
                 $package->setIsPrivate($p->OMIT_from_Winspire__c == '1' ? true : false);
             }
             
-            // TODO IF CHANGE FROM Active -> Inactive???
             if(isset($p->IsActive)) {
+                $processRemoval = false;
+                if ($package->getActive() && ($p->IsActive == '0')) {
+                    // Changing from Active -> Inactive
+                    $processRemoval = true;
+                }
+                
                 $package->setActive($p->IsActive == '1' ? true : false);
                 if (!$package->getActive()) {
                     $this->logger->info('INACTIVE package (' . $id . ')');
+                }
+                
+                if ($processRemoval) {
+                    $this->logger->info('Process Removal of package (' . $id . ')');
+                    
+                    // TODO is it necessary to delete the package even if it's possible?
+                    $deletePackage = $this->processRemoval($package);
                 }
             }
             
@@ -325,6 +342,104 @@ fwrite($dump, print_r($notifications, true));
         }
         
         return $category;
+    }
+    
+    protected function getAssociatedSuitcases($package) {
+        $suitcases = array();
+        foreach ($package->getSuitcaseItems() as $item) {
+            $this->logger->info('Retrieving Associated Suitcase: ' . $item->getSuitcase()->getId());
+            $suitcases[] = $item->getSuitcase();
+        }
+        
+        return $suitcases;
+    }
+    
+    protected function processRemoval($package) {
+        $suitcases = $this->getAssociatedSuitcases($package);
+        
+        if (count($suitcases) == 0) {
+            $this->logger->info('No Suitcases to worry about for Package removal');
+            // No Suitcases contain this Package so it's safe
+            // to delete without further processing
+            $message = \Swift_Message::newInstance()
+                ->setSubject('Winspire::Package deactivated')
+                ->setFrom(array('info@winspireme.com' => 'Winspire'))
+                ->setTo(array('doug@inertiaim.com'))
+                ->setBody('No Suitcases were effected.' . "\n" .
+                    'Package ID: ' . $package->getId() . "\n" .
+                    'SF ID: ' . $package->getSfId() . "\n",
+                'text/plain')
+            ;
+            $this->mailer->send($message);
+            
+            return true;
+        }
+        else {
+            foreach ($suitcases as $suitcase) {
+                if ($suitcase->getStatus() == 'U') {
+                    // Unpacked Suitcase
+                    // Remove the item from the Suitcase and email NP
+                    foreach ($suitcase->getItems() as $item) {
+                        if ($item->getPackage()->getId() == $package()->getId()) {
+                            $this->em->remove($item);
+                            $this->em->flush();
+                        }
+                    }
+                    
+                    $name = $suitcase->getUser()->getFirstName() . ' ' .
+                        $suitcase->getUser()->getLastName();
+                    $email = $suitcase->getUser()->getEmail();
+                    $account = $sitcase->getUser()->getCompany();
+                    
+                    $message = \Swift_Message::newInstance()
+                        ->setSubject('Package No Longer Available')
+                        ->setFrom(array('info@winspireme.com' => 'Winspire'))
+                        ->setTo(array($email => $name))
+                        ->setBody(
+                            $this->templating->render(
+                                'InertiaWinspireBundle:Email:pulled-package-unpacked.html.twig',
+                                array(
+                                    'suitcase' => $suitcase,
+                                    'package' => $package
+                                )
+                            ),
+                            'text/html'
+                        )
+                        ->addPart(
+                            $this->templating->render(
+                                'InertiaWinspireBundle:Email:pulled-package-unpacked.txt.twig',
+                                array(
+                                    'suitcase' => $suitcase,
+                                    'package' => $package
+                                )
+                            ),
+                            'text/plain'
+                        )
+                    ;
+                    $message->setBcc($account->getSalesperson()->getEmail(), 'doug@inertiaim.com');
+                }
+                
+                if ($suitcase->getStatus() == 'P') {
+                    // Packed Suitcase
+                    // No removal, just email the EC
+                    // TODO Email template for EC notification?
+                    $this->logger->info('Packed Suitcase contains inactive package: ' . $suitcase->getId());
+                    $message = \Swift_Message::newInstance()
+                        ->setSubject('Winspire::Package deactivated')
+                        ->setFrom(array('info@winspireme.com' => 'Winspire'))
+                        ->setTo(array('doug@inertiaim.com'))
+                        ->setBody('Packed Suitcase is involved.' . "\n" .
+                            'Suitcase ID: ' . $suitcase->getId() . "\n" .
+                            'Package ID: ' . $package->getId() . "\n" .
+                            'SF ID: ' . $package->getSfId() . "\n",
+                        'text/plain')
+                    ;
+                    $this->mailer->send($message);
+                }
+            }
+            
+            return false;
+        }
     }
     
     protected function remove_accent($str)
