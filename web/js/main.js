@@ -1701,6 +1701,20 @@ $(document).ready(function() {
             $.ajax({
                 beforeSend: function() {
                     $('#more-modal .error').removeClass('error');
+                    $(form).find('button').attr('disabled', 'disabled');
+                    var spinTarget = $(form).find('.spinner-wrap').get(0);
+                    var searchSpinner = new Spinner({
+                        lines: 10,
+                        length: 5,
+                        width: 2,
+                        radius: 6,
+                        corners: 1.0,
+                        color: '#1280d6',
+                        rotate: 0,
+                        trail: 60,
+                        speed: 1.0,
+                        hwaccel: 'on'
+                    }).spin(spinTarget);
                 },
                 data: data,
                 dataType: 'json',
