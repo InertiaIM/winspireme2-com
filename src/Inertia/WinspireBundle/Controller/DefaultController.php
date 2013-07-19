@@ -53,7 +53,9 @@ class DefaultController extends Controller
                 $count++;
             }
             
-            $defaultPackages[$index]['count'] = $count;
+            if (isset($index)) {
+                $defaultPackages[$index]['count'] = $count;
+            }
         }
         
         $keys = array_rand($defaultPackages, 17);

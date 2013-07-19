@@ -2511,7 +2511,7 @@ $(document).ready(function() {
             },
             'fos_user_registration_form[plainPassword][first]': {
                 required: true,
-                minlength: 10
+                minlength: 5
             },
             'fos_user_registration_form[plainPassword][second]': {
                 equalTo: '#fos_user_registration_form_plainPassword_first'
@@ -2704,7 +2704,10 @@ $(function() {
                     url: url
                 }
             },
-            'contact[password][new]': 'required',
+            'contact[password][new]': {
+                required: true,
+                minlength: 5
+            },
             'contact[password][verify]': {
                 equalTo: '#contact_password_new'
             }
