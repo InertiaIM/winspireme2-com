@@ -6,7 +6,7 @@
 
 {% block content %}
 <div id="con-pd">
-    <div id="pd-header" data-id="{{ package.id }}">
+    <div id="pd-header" data-id="{% if match %}{{ match.id }}{% else %}{{ package.id }}{% endif %}">
         <div class="c-wrap">
 {% if packagePath %}
             <a href="{{ path('packageList', {'slug': 'all'}) }}" class="pd-b2-pl">
@@ -26,10 +26,10 @@
         <div class="c-wrap">
             <div class="pd-actions">
                 <div class="pd-action">
-                    <div class="pd-a-srv"><span class="srv-value">{% autoescape false %}{{ package.suggestedRetailValue | replace({'Up to': '<span class="up-to">Up to</span>'}) }}{% endautoescape %}</span> <span class="srv-label">Suggested Retail Value</span></div>
+                    <div class="pd-a-srv"><span class="srv-value">{% autoescape false %}{% if match %}{{ match.suggestedRetailValue | replace({'Up to': '<span class="up-to">Up to</span>'}) }}{% else %}{{ package.suggestedRetailValue | replace({'Up to': '<span class="up-to">Up to</span>'}) }}{% endif %}{% endautoescape %}</span> <span class="srv-label">Suggested Retail Value</span></div>
 {% if not package.seasonal and package.active %}
-                    <span class="pd-a-npcost"><span class="npc-value">${{ package.cost | number_format(0) }}</span> Nonprofit Cost</span>
-                    <a href="#" class="pd-a-add{% if not available %} disabled{% endif %}" data-id="{{ package.id }}"><span aria-hidden="true" class="icon-suitcase icon"></span><em>Add to</em> Suitcase</a>
+                    <span class="pd-a-npcost"><span class="npc-value">${% if match %}{{ match.cost | number_format(0) }}{% else %}{{ package.cost | number_format(0) }}{% endif %}</span> Nonprofit Cost</span>
+                    <a href="#" class="pd-a-add{% if match %} disabled{% endif %}" data-id="{% if match %}{{ match.id }}{% else %}{{ package.id }}{% endif %}"><span aria-hidden="true" class="icon-suitcase icon"></span><em>Add to</em> Suitcase</a>
 {% else %}
                     <div class="seasonal-message">
                         <hr/>
@@ -47,7 +47,7 @@
                     <ul class="pd-a-options">
 {%     for variant in variants %}
                         <li>
-                            <input id="variant{{ variant.id }}" type="radio" name="variant" value="{{ variant.id }}"{% if package.id == variant.id %} checked="checked"{% endif %}/>
+                            <input id="variant{{ variant.id }}" type="radio" name="variant" value="{{ variant.id }}"{% if match %}{% if match.id == variant.id %} checked="checked"{% endif %}{% else %}{% if package.id == variant.id %} checked="checked"{% endif %}{% endif %}/>
                             <label for="variant{{ variant.id }}">
                                 <div class="a-o-fauxradio"><div class="a-o-f-dot"><div class="f-dot-inner"><!-- Fake Dot --></div></div></div>
                                 <div class="a-o-pdetail">
@@ -78,13 +78,19 @@
             <div class="pd-details">
                 <div class="pd-detail">
                     <h1>{{ package.parentHeader }}</h1>
-                    <h3 class="name">{{ package.name }} ({{ package.code }})</h3>
+                    <h3 class="name">{% if match %}{{ match.name }} ({{ match.code }}){% else %}{{ package.name }} ({{ package.code }}){% endif %}</h3>
                     
                     <div class="pd-d-utilbar">
                         <ul class="pd-detailpanel">
+{% if match %}
+                            {% if match.persons %}<li><span aria-hidden="true" class="icon-user icon"></span> <span class="pd-c-usercount">{{ match.persons }}</span></li>{% endif %}
+                            {% if match.accommodations %}<li><span aria-hidden="true" class="icon-bed icon"></span> <span class="pd-c-nightcount">{{ match.accommodations }}</span></li>{% endif %}
+                            {% if match.airfares %}<li><span aria-hidden="true" class="icon-airplane icon"></span> <span class="pd-c-airfare">{{ match.airfares }}</span></li>{% endif %}
+{% else %}
                             {% if package.persons %}<li><span aria-hidden="true" class="icon-user icon"></span> <span class="pd-c-usercount">{{ package.persons }}</span></li>{% endif %}
                             {% if package.accommodations %}<li><span aria-hidden="true" class="icon-bed icon"></span> <span class="pd-c-nightcount">{{ package.accommodations }}</span></li>{% endif %}
                             {% if package.airfares %}<li><span aria-hidden="true" class="icon-airplane icon"></span> <span class="pd-c-airfare">{{ package.airfares }}</span></li>{% endif %}
+{% endif %}
                         </ul>
                         
                         <div class="pd-d-addthis">
@@ -100,13 +106,26 @@
                     </div>
                     
                     <div class="detail">
+{% if match %}
+                    {{ match.details | raw }}
+{% else %}
                     {{ package.details | raw }}
+{% endif %}
                     </div>
-{% if package.moreDetails %}
+{% if match %}
+{%     if match.moreDetails %}
+                    
+                    <div class="more-detail">
+                        {{ match.moreDetails | raw }}
+                    </div>
+{%     endif %}
+{% else %}
+{%     if package.moreDetails %}
                     
                     <div class="more-detail">
                         {{ package.moreDetails | raw }}
                     </div>
+{%     endif %}
 {% endif %}
                     <a class="d-i-mi" {% if not package.moreDetails %}style="display:none;"{% endif %}><span class="d-i-ml">More</span> Info +</a>
                 </div>

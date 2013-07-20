@@ -396,6 +396,8 @@ class DefaultController extends Controller
         $defaultPackages = array();
         $currentHeader = '';
         $count = 0;
+        $latest = 0;
+        $match = false;
         foreach($packages as $package) {
             
             // Determine whether to show the "Add to Suitcase" button based
@@ -403,11 +405,19 @@ class DefaultController extends Controller
             // TODO refactor for a more efficient algorithm
             $available = true;
             if ($suitcase && $suitcase != 'new') {
+                
+                // Add tweak to determine the most recently added variant
+                // from the user's Suitcase to bring them back to the
+                // specific variant when visiting the detail page again.
                 foreach($suitcase->getItems() as $i) {
                     // We already have this item in our cart;
                     // so we can stop here...
                     if($i->getPackage()->getId() == $package->getId()) {
-                        $available = false;
+                        if ($i->getCreated()->getTimestamp() > $latest) {
+                            $latest = $i->getCreated()->getTimestamp();
+                            $match = $package;
+                        }
+                        break;
                     }
                 }
             }
@@ -415,7 +425,7 @@ class DefaultController extends Controller
             if($package->getIsDefault()) {
                 $count = 1;
                 $index = $package->getId();
-                $defaultPackages[$index] = array('package' => $package, 'count' => 1, 'available' => $available);
+                $defaultPackages[$index] = array('package' => $package, 'count' => 1);
                 $defaultPackages[$index]['variants'] = array($package);
             }
             if($currentHeader != $package->getParentHeader()) {
@@ -443,12 +453,12 @@ class DefaultController extends Controller
         return $this->render(
             'InertiaWinspireBundle:Default:packageDetail.html.twig',
             array(
-                'available' => $defaultPackages[$index]['available'],
                 'package' => $defaultPackages[$index]['package'],
                 'packageIds' => $packageIds,
                 'packagePath' => $packagePath,
                 'slug' => $slug,
-                'variants' => $defaultPackages[$index]['variants']
+                'variants' => $defaultPackages[$index]['variants'],
+                'match' => $match
             )
         );
     }
