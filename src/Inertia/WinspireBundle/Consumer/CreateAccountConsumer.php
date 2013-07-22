@@ -369,9 +369,17 @@ class CreateAccountConsumer implements ConsumerInterface
         // If the new user is assigned to a real EC, we'll send the intro email now
         $message2 = false;
         if ($user->getCompany()->getSalesperson()->getUsername() != 'confirmation@winspireme.com') {
+            $salesperson = array(
+                $suitcase->getUser()->getCompany()->getSalesperson()->getEmail() =>
+                $suitcase->getUser()->getCompany()->getSalesperson()->getFirstName() . ' ' .
+                $suitcase->getUser()->getCompany()->getSalesperson()->getLastName()
+            );
+            
             $message2 = \Swift_Message::newInstance()
                 ->setSubject('Introducing your Winspire Event Consultant')
-                ->setFrom(array('notice@winspireme.com' => 'Winspire'))
+                ->setReplyTo($salesperson)
+                ->setSender(array('notice@winspireme.com' => 'Winspire'))
+                ->setFrom($salesperson)
                 ->setTo(array($email => $name))
                 ->setBcc(array($suitcase->getUser()->getCompany()->getSalesperson()->getEmail(), 'doug@inertiaim.com'))
                 ->setBody(

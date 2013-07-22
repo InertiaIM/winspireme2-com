@@ -114,9 +114,17 @@ class ContactSoapService
                         
                         $email = $user->getEmail();
                         
+                        $salesperson = array(
+                            $user->getCompany()->getSalesperson()->getEmail() =>
+                            $user->getCompany()->getSalesperson()->getFirstName() . ' ' .
+                            $user->getCompany()->getSalesperson()->getLastName()
+                        );
+                        
                         $message = \Swift_Message::newInstance()
                             ->setSubject('Introducing your Winspire Event Consultant')
-                            ->setFrom(array('notice@winspireme.com' => 'Winspire'))
+                            ->setReplyTo($salesperson)
+                            ->setSender(array('notice@winspireme.com' => 'Winspire'))
+                            ->setFrom($salesperson)
                             ->setTo(array($email => $name))
                             ->setBody(
                                 $this->templating->render(
