@@ -379,44 +379,56 @@ fwrite($dump, print_r($notifications, true));
                 if ($suitcase->getStatus() == 'U') {
                     // Unpacked Suitcase
                     // Remove the item from the Suitcase and email NP
+                    $this->logger->info('Unpacked Suitcase contains inactive package: ' . $suitcase->getId());
+                    
+                    $sendMessage = true;
                     foreach ($suitcase->getItems() as $item) {
-                        if ($item->getPackage()->getId() == $package()->getId()) {
+                        if ($item->getPackage()->getId() == $package->getId()) {
+                            // Only send a message if NP hasn't already
+                            // marked the package for deletion.
+                            if ($item->getStatus() == 'X') {
+                                $sendMessage = false;
+                            }
                             $this->em->remove($item);
                             $this->em->flush();
                         }
                     }
                     
-                    $name = $suitcase->getUser()->getFirstName() . ' ' .
-                        $suitcase->getUser()->getLastName();
-                    $email = $suitcase->getUser()->getEmail();
-                    $account = $sitcase->getUser()->getCompany();
-                    
-                    $message = \Swift_Message::newInstance()
-                        ->setSubject('Package No Longer Available')
-                        ->setFrom(array('info@winspireme.com' => 'Winspire'))
-                        ->setTo(array($email => $name))
-                        ->setBody(
-                            $this->templating->render(
-                                'InertiaWinspireBundle:Email:pulled-package-unpacked.html.twig',
-                                array(
-                                    'suitcase' => $suitcase,
-                                    'package' => $package
-                                )
-                            ),
-                            'text/html'
-                        )
-                        ->addPart(
-                            $this->templating->render(
-                                'InertiaWinspireBundle:Email:pulled-package-unpacked.txt.twig',
-                                array(
-                                    'suitcase' => $suitcase,
-                                    'package' => $package
-                                )
-                            ),
-                            'text/plain'
-                        )
-                    ;
-                    $message->setBcc($account->getSalesperson()->getEmail(), 'doug@inertiaim.com');
+                    if ($sendMessage) {
+                        $name = $suitcase->getUser()->getFirstName() . ' ' .
+                            $suitcase->getUser()->getLastName();
+                        $email = $suitcase->getUser()->getEmail();
+                        $account = $suitcase->getUser()->getCompany();
+                        
+                        $message = \Swift_Message::newInstance()
+                            ->setSubject('Package No Longer Available')
+                            ->setFrom(array('info@winspireme.com' => 'Winspire'))
+                            ->setTo(array($email => $name))
+                            ->setBody(
+                                $this->templating->render(
+                                    'InertiaWinspireBundle:Email:pulled-package-unpacked.html.twig',
+                                    array(
+                                        'suitcase' => $suitcase,
+                                        'package' => $package
+                                    )
+                                ),
+                                'text/html'
+                            )
+                            ->addPart(
+                                $this->templating->render(
+                                    'InertiaWinspireBundle:Email:pulled-package-unpacked.txt.twig',
+                                    array(
+                                        'suitcase' => $suitcase,
+                                        'package' => $package
+                                    )
+                                ),
+                                'text/plain'
+                            )
+                        ;
+                        $message->setBcc($account->getSalesperson()->getEmail(), 'doug@inertiaim.com');
+                        
+                        $this->mailer->send($message);
+                    }
                 }
                 
                 if ($suitcase->getStatus() == 'P') {
