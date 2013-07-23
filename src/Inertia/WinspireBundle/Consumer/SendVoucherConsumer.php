@@ -129,41 +129,62 @@ class SendVoucherConsumer implements ConsumerInterface
         $this->em->clear();
         
         $this->mailer->getTransport()->start();
-        if (!$this->mailer->send($message)) {
-            // Any other value not equal to false will acknowledge the message and remove it
-            // from the queue
-            return false;
-        }
+        $this->mailer->send($message);
         $this->mailer->getTransport()->stop();
         
         
         // Update the Trip Booking record in SF after the Voucher is sent
-        $sfBooking = new \stdClass();
-        $sfBooking->Id = $booking->getSfId();
-        $sfBooking->voucher_emailed__c = true;
-        $saveResult = $this->sf->update(array($sfBooking), 'Trip_Booking__c');
-        
-        
-        $html = $this->templating->render(
-            'InertiaWinspireBundle:Email:booking-voucher.html.twig',
-            array(
-                'booking' => $booking,
-                'suitcase' => $suitcase,
-                'message' => $customMessage,
-                'content_pack_version_id' => $contentPackVersionId
-            )
-        );
-        
-        // Send HTML to Salesforce
-        $sfAttachment = new \stdClass();
-        $sfAttachment->Body = $html;
-        $sfAttachment->Name = 'Voucher - ' . $booking->getVoucherSentAt()->format('Ymd') . '.html';
-        $sfAttachment->ParentId = $booking->getSfId();
-        $saveResult = $this->sf->create(array($sfAttachment), 'Attachment');
-        
+        try {
+            $sfBooking = new \stdClass();
+            $sfBooking->Id = $booking->getSfId();
+            $sfBooking->voucher_emailed__c = true;
+            $saveResult = $this->sf->update(array($sfBooking), 'Trip_Booking__c');
+            
+            
+            $html = $this->templating->render(
+                'InertiaWinspireBundle:Email:booking-voucher.html.twig',
+                array(
+                    'booking' => $booking,
+                    'suitcase' => $suitcase,
+                    'message' => $customMessage,
+                    'content_pack_version_id' => $contentPackVersionId
+                )
+            );
+            
+            // Send HTML to Salesforce
+            $sfAttachment = new \stdClass();
+            $sfAttachment->Body = $html;
+            $sfAttachment->Name = 'Voucher - ' . $booking->getVoucherSentAt()->format('Ymd') . '.html';
+            $sfAttachment->ParentId = $booking->getSfId();
+            $saveResult = $this->sf->create(array($sfAttachment), 'Attachment');
+        }
+        catch (\Exception $e) {
+            $this->sendForHelp($e, $booking);
+        }
         
         $this->em->getConnection()->close();
         
         return true;
+    }
+    
+    protected function sendForHelp(\Exception $e, $booking)
+    {
+        $message = \Swift_Message::newInstance()
+            ->setSubject('Winspire::Problem during Voucher send')
+            ->setFrom(array('notice@winspireme.com' => 'Winspire'))
+            ->setTo(array('doug@inertiaim.com' => 'Douglas Choma'))
+            ->setBody('Suitcase ID: ' . $booking->getId() . "\n" .
+                'SF ID: ' . $booking->getSfId() . "\n" .
+                'Exception: ' . $e->getMessage(),
+                'text/plain'
+            )
+        ;
+        
+        $this->mailer->getTransport()->start();
+        $this->mailer->send($message);
+        $this->mailer->getTransport()->stop();
+        
+        $this->em->clear();
+        $this->em->getConnection()->close();
     }
 }
