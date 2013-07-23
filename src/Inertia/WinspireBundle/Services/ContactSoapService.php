@@ -141,7 +141,7 @@ class ContactSoapService
                                 'text/plain'
                             )
                         ;
-                        $message->setBcc($user->getCompany()->getSalesperson()->getEmail(), 'doug@inertiaim.com');
+                        $message->setBcc(array($user->getCompany()->getSalesperson()->getEmail(), 'doug@inertiaim.com'));
                         $this->mailer->send($message);
                     }
                 }

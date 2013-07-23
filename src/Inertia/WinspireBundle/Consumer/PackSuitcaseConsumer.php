@@ -265,7 +265,7 @@ class PackSuitcaseConsumer implements ConsumerInterface
                 'text/plain'
             )
         ;
-        $message->setBcc($account->getSalesperson()->getEmail(), 'doug@inertiaim.com');
+        $message->setBcc(array($account->getSalesperson()->getEmail(), 'doug@inertiaim.com'));
         
         if($first) {
             $pdf = new \WinspirePDF('P', 'mm', 'LETTER');

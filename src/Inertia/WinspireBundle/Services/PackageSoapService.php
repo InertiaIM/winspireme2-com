@@ -425,7 +425,7 @@ fwrite($dump, print_r($notifications, true));
                                 'text/plain'
                             )
                         ;
-                        $message->setBcc($account->getSalesperson()->getEmail(), 'doug@inertiaim.com');
+                        $message->setBcc(array($account->getSalesperson()->getEmail(), 'doug@inertiaim.com'));
                         
                         $this->mailer->send($message);
                     }
