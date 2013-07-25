@@ -41,6 +41,8 @@ class BookingSoapService
         }
         else {
             foreach($notifications->Notification as $n) {
+$this->logger->info('Array Booking record...');
+$this->logger->info(print_r($n, true));
                 $ids[] = array(
                     'id' => $n->sObject->Id, 
                     'suitcase' => $n->sObject->Opportunity__c
