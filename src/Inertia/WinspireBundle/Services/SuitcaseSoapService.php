@@ -124,7 +124,49 @@ class SuitcaseSoapService
                     try {
                         $account = $query->getSingleResult();
                         $this->logger->info('    Account: ' . $account->getName());
+                        
+                        $previousOwner = $user->getCompany()->getSalesperson();
                         $user->setCompany($account);
+                        
+                        if ($account->getSalesperson()->getUsername() != 'confirmation@winspireme.com' &&
+                            $previousOwner->getId() != $account->getSalesperson()->getId()) {
+                            // The user was moved to a new Account with a different EC
+                            // Send the user an email introduction to their new EC
+                            $name = $user->getFirstName() . ' ' .
+                                $user->getLastName();
+                            
+                            $email = $user->getEmail();
+                            
+                            $salesperson = array(
+                                $user->getCompany()->getSalesperson()->getEmail() =>
+                                $user->getCompany()->getSalesperson()->getFirstName() . ' ' .
+                                $user->getCompany()->getSalesperson()->getLastName()
+                            );
+                            
+                            $message = \Swift_Message::newInstance()
+                                ->setSubject('Introducing your Winspire Event Consultant')
+                                ->setReplyTo($salesperson)
+                                ->setSender(array('notice@winspireme.com' => 'Winspire'))
+                                ->setFrom($salesperson)
+                                ->setTo(array($email => $name))
+                                ->setBody(
+                                    $this->templating->render(
+                                        'InertiaWinspireBundle:Email:event-consultant-intro.html.twig',
+                                        array('user' => $user)
+                                    ),
+                                    'text/html'
+                                )
+                                ->addPart(
+                                    $this->templating->render(
+                                        'InertiaWinspireBundle:Email:event-consultant-intro.txt.twig',
+                                        array('user' => $user)
+                                    ),
+                                    'text/plain'
+                                )
+                            ;
+                            $message->setBcc(array($user->getCompany()->getSalesperson()->getEmail(), 'doug@inertiaim.com'));
+                            $this->mailer->send($message);
+                        }
                     }
                     catch (\Exception $e) {
                         $this->logger->err('    Account ID es no bueno: ' . $sfOpp->AccountId);
