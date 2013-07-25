@@ -205,7 +205,11 @@ services:
         
     winspire.rest.invoice_service:
         class: Inertia\WinspireBundle\Services\InvoiceRestService
-        arguments: [@ddeboer_salesforce_client, @doctrine.orm.entity_manager, @logger,  @mailer, @templating, "%invoice_dir%"]
+        arguments: [@ddeboer_salesforce_client, @doctrine.orm.entity_manager, @logger, @mailer, @templating, "%invoice_dir%"]
+        
+    winspire.salesforce.manager:
+        class: Inertia\WinspireBundle\Services\SalesforceManager
+        arguments: [@doctrine.orm.entity_manager, @ddeboer_salesforce_client, @logger, @mailer]
         
     winspire.suitcase.manager:
         class: Inertia\WinspireBundle\Services\SuitcaseManager

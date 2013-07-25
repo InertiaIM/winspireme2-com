@@ -32,6 +32,7 @@ security:
         - { path: ^/account$, role: ROLE_USER }
         - { path: ^/account/edit, role: ROLE_USER }
         - { path: ^/admin, role: ROLE_ADMIN }
+        - { path: ^/admin/sf, role: ROLE_ADMIN }
         - { path: ^/suitcase, role: ROLE_USER }
         - { path: ^/suitcase/add, role: ROLE_USER }
         - { path: ^/suitcase/create, role: ROLE_USER }

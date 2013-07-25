@@ -92,6 +92,29 @@ class SuitcaseController extends Controller
         }
     }
     
+    public function adminSfAction(Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $sfManager = $this->get('winspire.salesforce.manager');
+        $response = new JsonResponse();
+        $id = $request->query->get('id');
+        
+        $query = $em->createQuery(
+            'SELECT s FROM InertiaWinspireBundle:Suitcase s WHERE s.id = :id'
+        )
+        ->setParameter('id', $id)
+        ;
+        
+        $suitcase = $query->getSingleResult();
+        
+        $result = $sfManager->moveSfOpportunity($suitcase, $request->request->get('sf_id'));
+        
+        
+        return $response->setData(array(
+            'success' => $result
+        ));
+    }
+    
     public function buttonWidgetAction()
     {
         $suitcaseManager = $this->get('winspire.suitcase.manager');
@@ -562,15 +585,19 @@ class SuitcaseController extends Controller
         $em = $this->getDoctrine()->getManager();
         $user = $this->getUser();
         
-        $query = $em->createQuery(
-            'SELECT s FROM InertiaWinspireBundle:Suitcase s WHERE s.user = :user_id AND s.id = :id'
-        )
-            ->setParameter('user_id', $user->getId())
-            ->setParameter('id', $id)
-        ;
+        $qb = $em->createQueryBuilder();
+        $qb->select(array('s'));
+        $qb->from('InertiaWinspireBundle:Suitcase', 's');
+        $qb->where('s.id = :id');
+        $qb->setParameter('id', $id);
+        
+        if (!$this->get('security.context')->isGranted('ROLE_ADMIN')) {
+            $qb->andWhere('s.user = :user');
+            $qb->setParameter('user', $user);
+        }
         
         try {
-            $suitcase = $query->getSingleResult();
+            $suitcase = $qb->getQuery()->getSingleResult();
             $em->remove($suitcase);
             $em->flush();
             

@@ -28,27 +28,54 @@
             <table class="suitcases" id="suitcases">
                 <thead>
                     <tr>
-                        <th data-sort="string" class="cname sort sorting-asc"><a href="#">Organization</a> <span class="icon icon-arrow-down"></span></td>
-                        <th data-sort="string" class="lname"><a href="#">Last Name</a></td>
-                        <th data-sort="string" class="fname"><a href="#">First Name</a></td>
+                        <th data-sort="string" class="cname sort sorting-asc"><a href="#">Organization<span class="icon icon-arrow-up"></a></span></td>
+                        <th data-sort="string" class="name"><a href="#">Suitcase</a></td>
                         <th data-sort="string" class="email"><a href="#">Email</a></td>
-                        <th data-sort="int" class="date"><a href="#">Event Date</a></td>
-                        <th data-sort="int" class="shares"><a href="#"><span class="icon icon-bubble"></span></a></td>
-                        <th data-sort="int" class="comments"><a href="#"><span class="icon icon-comment"></span></a></td>
+                        <th data-sort="int" class="date"><a href="#">Date</a></td>
+                        <th data-sort="string" class="state"><a href="#">S</a></td>
+                        <th data-sort="string" class="phone"><a href="#">Phone</a></td>
+                        <th data-sort="string" class="sfid"><a href="#">Opportunity ID</a></td>
+                        <th data-sort="string" class="status"><a href="#">Status</a></td>
+                        <th class="status-color">&nbsp;</td>
+                        <th class="delete">&nbsp;</td>
                     </tr>
                 </thead>
                 
 {% if suitcases | length > 0 %}
                 <tbody>
 {%     for suitcase in suitcases %}
-                    <tr class="suitcase{% if (loop.index % 2) == 0 %} even{% endif %}" data-name="{{ suitcase.name }}" data-id="{{ suitcase.id }}" data-user-id="{{ suitcase.user.company.salesperson.id }}">
-                        <td class="cname" data-sort-value="{{ suitcase.user.company.name | lower }}">{{ suitcase.user.company.name }}</td>
-                        <td class="lname" data-sort-value="{{ suitcase.user.lastName | lower }}">{{ suitcase.user.lastName }}</td>
-                        <td class="fname" data-sort-value="{{ suitcase.user.firstName | lower }}">{{ suitcase.user.firstName }}</td>
-                        <td class="email">{{ suitcase.user.emailCanonical }}</td>
+                    <tr class="suitcase{% if (loop.index % 2) == 0 %} even{% endif %}" data-name="{{ suitcase.eventName }}" data-id="{{ suitcase.id }}" data-user-id="{{ suitcase.user.company.salesperson.id }}">
+                        <td class="cname" data-sort-value="{{ suitcase.user.company.name | lower }}" title="{{ suitcase.user.company.name }}">{{ suitcase.user.company.name }}</td>
+                        <td class="name" data-sort-value="{{ suitcase.eventName | lower }}" title="{{ suitcase.eventName }}">{{ suitcase.eventName }}</td>
+                        <td class="email" title="{{ suitcase.user.emailCanonical }}">{{ suitcase.user.emailCanonical }}</td>
                         <td class="date" data-sort-value="{{ suitcase.eventDate != '' ? suitcase.eventDate | date('Ymd') : '99999999' }}">{{ suitcase.eventDate != '' ? suitcase.eventDate | date('m/d/y') : 'N/A' }}</td>
-                        <td class="shares">{{ suitcase.shares | length }}</td>
-                        <td class="comments">{{ suitcase.comments | length }}</td>
+                        <td class="state" data-sort-value="{{ suitcase.user.company.state | upper }}">{{ suitcase.user.company.state | upper }}</td>
+                        <td class="phone">{{ suitcase.user.company.phone }}</td>
+                        <td class="sfid" title="{{ suitcase.user.company.phone }}">
+                            <span class="value{% if (suitcase.status != 'U') %} disabled{% endif %}">{% if suitcase.sfId %}{{ suitcase.sfId }}{% else %}&nbsp;{% endif %}</span>
+{% if (suitcase.status == 'U') %}
+                            <span class="form"><input maxlength="18" size="18" type="text" name="sf_id" id="sf_id_{{ suitcase.id }}" data-id="{{ suitcase.id }}" value="{{ suitcase.sfId }}"/></span>
+{% endif %}
+                        </td>
+                        <td class="status">
+                            {% if suitcase.status == 'U' %}Open{% endif %}
+                            {% if suitcase.status == 'P' %}Packed{% endif %}
+                            {% if suitcase.status == 'R' %}Inv. Req.{% endif %}
+                            {% if suitcase.status == 'I' %}Invoiced{% endif %}
+                            {% if suitcase.status == 'A' %}Paid{% endif %}
+                            {% if suitcase.status == 'M' %}Missed{% endif %}
+                        </td>
+                        <td class="status-color">
+                            <span
+                            {% if suitcase.status == 'U' %} class="green"{% endif %}
+                            {% if suitcase.status == 'P' %} class="yellow"{% endif %}
+                            {% if suitcase.status == 'R' %} class="red"{% endif %}
+                            {% if suitcase.status == 'I' %} class="red"{% endif %}
+                            {% if suitcase.status == 'A' %} class="blue"{% endif %}
+                            {% if suitcase.status == 'M' %} class="gray"{% endif %}
+                            >&nbsp;</span>
+                        </td>
+                        <td class="delete"><a href="#" data-id="{{ suitcase.id }}" data-name="{{ suitcase.eventName }}" title="Delete this Suitcase"><span class="icon icon-trash"></span></a></td>
                     </tr>
 {%     endfor %}
                 </tbody>
@@ -81,10 +108,127 @@ $(function() {
         $('#suitcases th').eq(data.column).addClass('sort');
         
         if(data.direction == 'asc') {
-            $('#suitcases th').eq(data.column).append('<span class="icon icon-arrow-up"></span>');
+            $('#suitcases th').eq(data.column).find('a').append('<span class="icon icon-arrow-up"></span>');
         }
         else {
-            $('#suitcases th').eq(data.column).append('<span class="icon icon-arrow-down"></span>');
+            $('#suitcases th').eq(data.column).find('a').append('<span class="icon icon-arrow-down"></span>');
+        }
+    });
+    
+    $(table).find('tbody .delete a').on('click', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        
+        var id = $(this).attr('data-id');
+        var name = $(this).attr('data-name');
+        $('#delete-suitcase-modal').find('button').attr('data-id', id);
+        $('#delete-suitcase-modal').find('#suitcase-name').text(name);
+        $('#delete-suitcase-modal').modal({
+            closeText: 'X',
+            overlay: '#fff',
+            opacity: 0.73,
+            zIndex: 2002
+        });
+    });
+    
+    $('#delete-suitcase-modal button').on('click', function(e) {
+        e.preventDefault();
+        
+        var url = '/suitcase/kill';
+        if (typeof env !== 'undefined') {
+            url = env + url;
+        }
+        
+        var id = $(this).attr('data-id');
+        
+        $.ajax({
+            beforeSend: function() {},
+            dataType: 'json',
+            url: url + '/' + id,
+            success: function(data, textStatus, jqXHR) {
+                if (!$.isEmptyObject(data) && data.success) {
+                    $('#suitcases tbody tr[data-id="' + data.suitcase.id + '"]').remove();
+                    $('#suitcases tbody tr')
+                        .removeClass('even')
+                        .filter(':visible')
+                        .filter(':odd')
+                        .addClass('even')
+                    ;
+                    
+                    $.modal.close();
+                }
+            },
+            type: 'GET'
+        });
+    });
+    
+    
+    $(table).find('tbody .sfid').on('click', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+    });
+    
+    $(table).find('tbody .sfid .value').not('.disabled').on('click', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        
+        var form = $(this).next('.form');
+        $(this).hide();
+        $(form).show();
+        $(form).find('input').focus().select();
+    });
+    
+    $(table).find('tbody .sfid .form input').on('keyup', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        
+        // RETURN key submits the change
+        if (e.which == 13) {
+            var holder = $(this).parent().prev('.value');
+            var value = $(this).val();
+            
+            if (($(holder).text() != value)) {
+                if (value != '') {
+alert('coming soon...');
+                    var url = '{{ path('suitcaseAdminSf') }}?id=' + $(this).attr('data-id');
+                    $.ajax({
+                        beforeSend: function() {},
+                        data: $(this).serialize(),
+                        dataType: 'json',
+                        url: url,
+                        success: function(data, textStatus, jqXHR) {
+//console.log(data);
+                            $(holder).text(value);
+                        },
+                        type: 'POST'
+                    });
+                }
+                else {
+                    // If the value is empty, return to our previous Id
+                    if ($(holder).html() != '&nbsp;') {
+                        $(this).val($(holder).text());
+                    }
+                }
+            }
+            
+            $(this).parent().hide();
+            $(holder).show();
+        }
+        
+        // ESC key to cancel an edit
+        if (e.which == 27) {
+            var holder = $(this).parent().prev('.value');
+            var value = $(this).val();
+            
+            if ($(holder).html() != '&nbsp;') {
+                $(this).val($(holder).text());
+            }
+            else {
+                $(this).val('');
+            }
+            
+            $(this).parent().hide();
+            $(holder).show();
         }
     });
     
@@ -120,4 +264,9 @@ $(function() {
     });
 });
 </script>
+<div id="delete-suitcase-modal" style="display:none;">
+    <h3>Are you sure you want to delete this Suitcase?</h3>
+    <p>This will permanently delete this Suitcase (<span id="suitcase-name"></span>) from the Website. This action is final and irreversible.</p>
+    <button data-id="">Yes. Delete This Suitcase.</button>
+</div>
 {% endblock %}
