@@ -34,19 +34,23 @@ class BookingSoapService
         $ids = array();
         
         if(!is_array($notifications->Notification)) {
-            $ids[] = array(
-                'id' => $notifications->Notification->sObject->Id, 
-                'suitcase' => $notifications->Notification->sObject->Opportunity__c
-            );
+            // Check whether this Booking record even has an Opportunity associated
+            if (isset($notifications->Notification->sObject->Opportunity__c)) {
+                $ids[] = array(
+                    'id' => $notifications->Notification->sObject->Id, 
+                    'suitcase' => $notifications->Notification->sObject->Opportunity__c
+                );
+            }
         }
         else {
             foreach($notifications->Notification as $n) {
-$this->logger->info('Array Booking record...');
-$this->logger->info(print_r($n, true));
-                $ids[] = array(
-                    'id' => $n->sObject->Id, 
-                    'suitcase' => $n->sObject->Opportunity__c
-                );
+                // Check whether this Booking record even has an Opportunity associated
+                if (isset($n->sObject->Opportunity__c)) {
+                    $ids[] = array(
+                        'id' => $n->sObject->Id, 
+                        'suitcase' => $n->sObject->Opportunity__c
+                    );
+                }
             }
         }
         
@@ -81,10 +85,18 @@ $this->logger->info(print_r($n, true));
                 }
                 
                 $sfBooking = $bookingResult->first();
-                $booking->setFirstName($sfBooking->Traveler_first_name__c);
-                $booking->setLastName($sfBooking->Traveler_last_name__c);
-                $booking->setPhone($sfBooking->Phone_1__c);
-                $booking->setEmail($sfBooking->Email__c);
+                if (isset($sfBooking->Traveler_first_name__c)) {
+                    $booking->setFirstName($sfBooking->Traveler_first_name__c);
+                }
+                if (isset($sfBooking->Traveler_last_name__c)) {
+                    $booking->setLastName($sfBooking->Traveler_last_name__c);
+                }
+                if (isset($sfBooking->Phone_1__c)) {
+                    $booking->setPhone($sfBooking->Phone_1__c);
+                }
+                if (isset($sfBooking->Email__c)) {
+                    $booking->setEmail($sfBooking->Email__c);
+                }
                 $booking->setSfUpdated($sfBooking->SystemModstamp);
                 $booking->setSfId($sfBooking->Id);
                 $this->em->persist($booking);
