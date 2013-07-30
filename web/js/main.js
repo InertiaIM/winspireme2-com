@@ -272,7 +272,7 @@ var footerCtx = $('footer')[0];
         trail: 60,
         speed: 1.0,
         hwaccel: 'on',
-        top: '0px',
+        top: '0px'
     }).spin(target).stop();
     /* Package List Spinner */
     
