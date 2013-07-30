@@ -75,7 +75,13 @@
                             {% if suitcase.status == 'M' %} class="gray"{% endif %}
                             >&nbsp;</span>
                         </td>
-                        <td class="delete"><a href="#" data-id="{{ suitcase.id }}" data-name="{{ suitcase.eventName }}" title="Delete this Suitcase"><span class="icon icon-trash"></span></a></td>
+                        <td class="delete">
+{% if suitcase.status in ['U', 'P'] %}
+                            <a href="#" data-id="{{ suitcase.id }}" data-name="{{ suitcase.eventName }}" title="Delete this Suitcase"><span class="icon icon-trash"></span></a>
+{% else %}
+                            &nbsp;
+{% endif %}
+                        </td>
                     </tr>
 {%     endfor %}
                 </tbody>

@@ -597,6 +597,7 @@ class SuitcaseController extends Controller
         $qb->select(array('s'));
         $qb->from('InertiaWinspireBundle:Suitcase', 's');
         $qb->where('s.id = :id');
+        $qb->andWhere($qb->expr()->in('s.status', array('U', 'P')));
         $qb->setParameter('id', $id);
         
         if (!$this->get('security.context')->isGranted('ROLE_ADMIN')) {
@@ -622,9 +623,6 @@ class SuitcaseController extends Controller
         
         return $response->setData(false);
     }
-    
-    
-
     
     
     public function packAction(Request $request)
