@@ -177,8 +177,9 @@ var env = '/app_dev.php';
 {% if is_granted('ROLE_USER') %}
 {%     render "InertiaWinspireBundle:Suitcase:Create" %}
 {% endif %}
-    
-    <script src="/js/main.js"></script>
+    {% block jsBottom %}
+    <script src="/js/main.min.js"></script>
+    {% endblock %}
 {% if app.environment == 'prod' and (app.request.host == 'winspireme.com' or app.request.host == 'www.winspireme.com') %}
     <script>
         var _gaq=[['_setAccount','UA-4391760-1'],['_trackPageview']];

@@ -102,15 +102,21 @@ class SuitcaseController extends Controller
         $id = $request->query->get('id');
         
         $query = $em->createQuery(
-            'SELECT s FROM InertiaWinspireBundle:Suitcase s WHERE s.id = :id'
+            'SELECT s FROM InertiaWinspireBundle:Suitcase s WHERE s.id = :id AND s.status == \'U\''
         )
         ->setParameter('id', $id)
         ;
         
-        $suitcase = $query->getSingleResult();
+        try {
+            $suitcase = $query->getSingleResult();
+        }
+        catch (\Exception $e) {
+            return $response->setData(array(
+                'success' => false
+            ));
+        }
         
         $result = $sfManager->moveSfOpportunity($suitcase, $request->request->get('sf_id'));
-        
         
         return $response->setData(array(
             'success' => $result
