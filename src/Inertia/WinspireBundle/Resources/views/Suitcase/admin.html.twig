@@ -12,17 +12,29 @@
             <p>This is your access to your nonprofit client’s Suitcases.  You can filter your searches by Suitcase Name, Contact Name and Nonprofit.  Once you find the Suitcase you are looking for, click and you will be logged into your client’s Suitcase with equal priviledges.</p>
             
             <div class="tools">
-                <select id="select-consultant">
-                    <option value="all">Select Event Consultant</option>
+                <form>
+                    <select id="select-consultant" autocomplete="off" style="display:none;">
+                        <option value="all">All Event Consultants</option>
 {% for consultant in consultants %}
-                    <option value="{{ consultant.id }}">{{ consultant.firstName }} {{ consultant.lastName }}</option>
+                        <option {% if app.user.id == consultant.id %} selected="selected"{% endif %}value="{{ consultant.id }}">{{ consultant.firstName }} {{ consultant.lastName }}</option>
 {% endfor %}
-                </select>
-                
-                <div id="suitcase-search">
-                    <input type="text" class="search-text" placeholder="Search Suitcases" value="">
-                    <input type="button" class="search-submit" value="Search">
-                </div>
+                    </select>
+                    
+                    <select id="select-status" autocomplete="off" style="display:none;">
+                        <option selected="selected" value="all">All Suitcase Statuses</option>
+                        <option value="U">Open</option>
+                        <option value="P">Packed</option>
+                        <option value="R">Invoice Requested</option>
+                        <option value="I">Invoiced</option>
+                        <option value="A">Paid</option>
+                        <option value="M">Missed (No Sells)</option>
+                    </select>
+                    
+                    <div id="suitcase-search">
+                        <input type="text" class="search-text" placeholder="Search Suitcases..." value="">
+                        <input type="button" class="search-submit" value="Search">
+                    </div>
+                </form>
             </div>
             
             <table class="suitcases" id="suitcases">
@@ -44,7 +56,7 @@
 {% if suitcases | length > 0 %}
                 <tbody>
 {%     for suitcase in suitcases %}
-                    <tr class="suitcase{% if (loop.index % 2) == 0 %} even{% endif %}" data-name="{{ suitcase.eventName }}" data-id="{{ suitcase.id }}" data-user-id="{{ suitcase.user.company.salesperson.id }}">
+                    <tr {% if app.user.id != suitcase.user.company.salesperson.id %} style="display:none;"{% endif %}class="suitcase{% if (loop.index % 2) == 0 %} even{% endif %}" data-name="{{ suitcase.eventName }}" data-id="{{ suitcase.id }}" data-user-id="{{ suitcase.user.company.salesperson.id }}" data-status="{{ suitcase.status }}" data-search="{{ suitcase.eventName | lower }}~{{ suitcase.user.company.name | lower }}~{{ suitcase.user.emailCanonical }}">
                         <td class="cname" data-sort-value="{{ suitcase.user.company.name | lower }}" title="{{ suitcase.user.company.name }}">{{ suitcase.user.company.name }}</td>
                         <td class="name" data-sort-value="{{ suitcase.eventName | lower }}" title="{{ suitcase.eventName }}">{{ suitcase.eventName }}</td>
                         <td class="email" title="{{ suitcase.user.emailCanonical }}">{{ suitcase.user.emailCanonical }}</td>

@@ -66,7 +66,7 @@ class SuitcaseController extends Controller
             $suitcases = $query->getResult();
             
             $query = $em->createQuery(
-                'SELECT u FROM InertiaWinspireBundle:User u WHERE u.type = :type'
+                'SELECT u FROM InertiaWinspireBundle:User u WHERE u.type = :type ORDER BY u.firstName'
             )
                 ->setParameter('type', 'S')
             ;

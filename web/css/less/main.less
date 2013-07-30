@@ -6462,10 +6462,23 @@ footer, #footer { height:220px;border-top:1px solid rgb(195,213,224);
                     line-height:20px;
                     padding:6px 15px 4px 15px;
                     width:184px;
-                    color:#d8d8d8;
+                    color:#000;
                     font-style:italic;
                     float:left;
                     outline:none !important;
+                    
+                    &::-webkit-input-placeholder {
+                        color:#d8d8d8;
+                    }
+                    &::-moz-placeholder {
+                        color:#c0c0c0;
+                    }
+                    &:-moz-placeholder {
+                        color:#c0c0c0;
+                    }
+                    &:-ms-input-placeholder {
+                        color:#d8d8d8;
+                    }
                 }
                 
                 &.search-submit {
@@ -6742,6 +6755,7 @@ footer, #footer { height:220px;border-top:1px solid rgb(195,213,224);
                     width: 21px;
                     
                     a {
+                        color: #707070;
                         text-decoration: none;
                     }
                     
