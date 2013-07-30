@@ -46,7 +46,9 @@ class SuitcaseController extends Controller
                     'parentHeader' => $package->getParentHeader(),
                     'persons' => $package->getPersons(),
                     'accommodations' => $package->getAccommodations(),
-                    'airfares' => $package->getAirfares()
+                    'airfares' => $package->getAirfares(),
+                    'active' => $package->getActive(),
+                    'isPrivate' => $package->getIsPrivate()
                 )
             ));
         }
