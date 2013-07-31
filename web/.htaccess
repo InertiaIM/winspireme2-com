@@ -12,7 +12,7 @@ redirect 301 /package_pdfs/download/61 http://www.winspireme.com/packages/Family
 redirect 301 /package/napa-wine-country-vip-insiders-tour http://www.winspireme.com/packages/Napa-Valley-Wine-Experience-Ideas-for-Charity-Auctions
 redirect 301 /newsletter http://winspireme.us2.list-manage.com/subscribe?u=45b53f5503b4a99de18ce5206&id=52e0574410
 
-Header set X-UA-Compatible "IE=Edge,chrome=1"
+Header set X-UA-Compatible "IE=Edge,chrome=IE8"
 
 <IfModule mod_rewrite.c>
     RewriteEngine On
