@@ -42,6 +42,7 @@ security:
         - { path: ^/suitcase/history, role: ROLE_USER }
         - { path: ^/suitcase/invoice, role: ROLE_USER }
         - { path: ^/suitcase/kill, role: ROLE_USER }
+        - { path: ^/suitcase/loa, role: ROLE_USER }
         - { path: ^/suitcase/pack, role: ROLE_USER }
         - { path: ^/suitcase/preview, role: ROLE_USER }
         - { path: ^/suitcase/share, role: ROLE_USER }

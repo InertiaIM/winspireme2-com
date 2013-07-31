@@ -91,6 +91,10 @@ suitcaseInvoice:
     pattern:  /suitcase/invoice/{suitcaseId}
     defaults: { _controller: InertiaWinspireBundle:Suitcase:invoice }
     
+suitcaseLoa:
+    pattern:  /suitcase/loa/{suitcaseId}
+    defaults: { _controller: InertiaWinspireBundle:Suitcase:loa }
+    
 suitcasePack:
     pattern:  /suitcase/pack
     defaults: { _controller: InertiaWinspireBundle:Suitcase:pack }

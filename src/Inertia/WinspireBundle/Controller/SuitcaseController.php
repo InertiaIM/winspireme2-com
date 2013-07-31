@@ -625,6 +625,42 @@ class SuitcaseController extends Controller
     }
     
     
+    public function loaAction($suitcaseId)
+    {
+        // TODO refactor into SuitcaseManager service
+        $em = $this->getDoctrine()->getManager();
+        
+        $qb = $em->createQueryBuilder();
+        $qb->select(array('s'));
+        $qb->from('InertiaWinspireBundle:Suitcase', 's');
+        $qb->where('s.id = :id');
+        $qb->setParameter('id', $suitcaseId);
+        $qb->andWhere('s.packedAt IS NOT NULL');
+        
+        if (!$this->get('security.context')->isGranted('ROLE_ADMIN')) {
+            $user = $this->getUser();
+            $qb->andWhere('s.user = :user');
+            $qb->setParameter('user', $user);
+        }
+        
+        try {
+            $suitcase = $qb->getQuery()->getSingleResult();
+        }
+        catch (\Doctrine\Orm\NoResultException $e) {
+            throw $this->createNotFoundException();
+        }
+        
+        $suitcaseManager = $this->get('winspire.suitcase.manager');
+        $pdf = $suitcaseManager->generateLoa($suitcase);
+        
+        $response = new Response();
+        $response->headers->set('Content-Disposition', $response->headers->makeDisposition(ResponseHeaderBag::DISPOSITION_INLINE, 'LOA - ' . $suitcase->getPackedAt()->format('Ymd') . '.pdf'));
+        $response->headers->set('Content-Type', 'application/pdf');
+        
+        return $response->setContent($pdf);
+    }
+    
+    
     public function packAction(Request $request)
     {
         $response = new JsonResponse();

@@ -161,7 +161,7 @@ services:
         
     pack_suitcase_service:
         class: Inertia\WinspireBundle\Consumer\PackSuitcaseConsumer
-        arguments: [@doctrine.orm.entity_manager, @mailer, @templating, @ddeboer_salesforce_client]
+        arguments: [@doctrine.orm.entity_manager, @mailer, @templating, @ddeboer_salesforce_client, @winspire.suitcase.manager]
         
     create_account_service:
         class: Inertia\WinspireBundle\Consumer\CreateAccountConsumer
