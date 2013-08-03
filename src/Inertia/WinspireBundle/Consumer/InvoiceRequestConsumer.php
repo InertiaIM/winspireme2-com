@@ -172,7 +172,7 @@ class InvoiceRequestConsumer implements ConsumerInterface
         $sfOpportunity->Website_suitcase_status__c = 'Packed';
         
         if ($suitcase->getStatus() == 'M') {
-            $sfOpportunity->StageName = 'Missed (No Sells)';
+            $sfOpportunity->StageName = 'Lost (No Bids)';
         }
         else {
             $sfOpportunity->StageName = 'Sold Items';
