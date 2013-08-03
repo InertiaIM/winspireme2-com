@@ -384,10 +384,11 @@ fwrite($dump, print_r($notifications, true));
                     $sendMessage = true;
                     foreach ($suitcase->getItems() as $item) {
                         if ($item->getPackage()->getId() == $package->getId()) {
-                            // Only send a message if NP hasn't already
-                            // marked the package for deletion.
-                            if ($item->getStatus() == 'X') {
+                            // Only send a message if NP hasn't marked the package for deletion,
+                            // and the event date is in the future...
+                            if ($item->getStatus() == 'X' || ($suitcase->getEventDate() < new \DateTime())) {
                                 $sendMessage = false;
+                                $this->logger->info('No need to send the email message (Deleted Item or Event Date passed).');
                             }
                             $this->em->remove($item);
                             $this->em->flush();
