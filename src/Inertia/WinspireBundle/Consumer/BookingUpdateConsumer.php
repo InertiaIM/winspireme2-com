@@ -184,6 +184,7 @@ class BookingUpdateConsumer implements ConsumerInterface
 //            )
 //        ;
         
+        $this->sf->logout();
         $this->em->clear();
         
 //        $this->mailer->getTransport()->start();

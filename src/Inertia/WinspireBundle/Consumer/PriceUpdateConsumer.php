@@ -40,7 +40,7 @@ class PriceUpdateConsumer implements ConsumerInterface
             return true;
         }
         
-        // Make sure we have our user setup as an OpportunityContactRole
+        // Make sure we already have an SF ID for our item
         if ($suitcaseItem->getSfId() != '') {
             $sfItem = new \stdClass();
             $sfItem->Id = $suitcaseItem->getSfId();
@@ -50,8 +50,9 @@ class PriceUpdateConsumer implements ConsumerInterface
             
             if($saveResult[0]->success) {
             }
+            
+            $this->sf->logout();
         }
-        
         
         $this->em->clear();
         $this->em->getConnection()->close();

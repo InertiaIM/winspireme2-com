@@ -162,6 +162,7 @@ class SendVoucherConsumer implements ConsumerInterface
             $this->sendForHelp($e, $booking);
         }
         
+        $this->sf->logout();
         $this->em->getConnection()->close();
         
         return true;
@@ -173,7 +174,7 @@ class SendVoucherConsumer implements ConsumerInterface
             ->setSubject('Winspire::Problem during Voucher send')
             ->setFrom(array('notice@winspireme.com' => 'Winspire'))
             ->setTo(array('doug@inertiaim.com' => 'Douglas Choma'))
-            ->setBody('Suitcase ID: ' . $booking->getId() . "\n" .
+            ->setBody('Booking ID: ' . $booking->getId() . "\n" .
                 'SF ID: ' . $booking->getSfId() . "\n" .
                 'Exception: ' . $e->getMessage(),
                 'text/plain'

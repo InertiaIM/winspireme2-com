@@ -119,7 +119,7 @@ class UpdateSfConsumer implements ConsumerInterface
                 break;
         }
         
-        
+        $this->sf->logout();
         $this->em->clear();
         
 //        $this->mailer->getTransport()->start();
