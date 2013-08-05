@@ -43,6 +43,11 @@ class Suitcase
     private $packedAt;
     
     /**
+     * @ORM\Column(name="unpacked_at", type="datetime", nullable=true)
+     */
+    private $unPackedAt;
+    
+    /**
      * @ORM\Column(name="invoice_requested_at", type="datetime", nullable=true)
      */
     private $invoiceRequestedAt;
@@ -703,5 +708,28 @@ class Suitcase
     public function getFee()
     {
         return $this->fee;
+    }
+
+    /**
+     * Set unPackedAt
+     *
+     * @param \DateTime $unPackedAt
+     * @return Suitcase
+     */
+    public function setUnPackedAt($unPackedAt)
+    {
+        $this->unPackedAt = $unPackedAt;
+    
+        return $this;
+    }
+
+    /**
+     * Get unPackedAt
+     *
+     * @return \DateTime 
+     */
+    public function getUnPackedAt()
+    {
+        return $this->unPackedAt;
     }
 }

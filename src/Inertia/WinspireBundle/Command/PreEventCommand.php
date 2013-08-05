@@ -109,5 +109,49 @@ $output->writeln('<info>    * ' . $suitcase->getUser()->getCompany()->getName() 
             
             $mailer->send($message);
         }
+        
+        
+        // Batch of Unpacked Suitcases from yesterday
+        $yesterday = new \DateTime('yesterday');
+        
+        $output->writeln('<info>Processing Unpacked Suitcases from yesterday: ' . $yesterday->format('Y-m-d') . '</info>');
+        
+        $query = $em->createQuery(
+            'SELECT s FROM InertiaWinspireBundle:Suitcase s WHERE s.status = \'U\' AND s.unpackedAt = :date'
+        );
+        $query->setParameter('date', $yesterday->format('Y-m-d'));
+        $suitcases = $query->getResult();
+        
+        foreach($suitcases as $suitcase) {
+            $output->writeln('<info>    * ' . $suitcase->getUser()->getCompany()->getName() . ' (' . $suitcase->getName() . ')</info>');
+            
+            $name = $suitcase->getUser()->getFirstName() . ' ' .
+                $suitcase->getUser()->getLastName();
+            
+            $email = $suitcase->getUser()->getEmail();
+            
+            $message = \Swift_Message::newInstance()
+                ->setSubject('Please confirm changes to your Suitcase')
+                ->setFrom(array('info@winspireme.com' => 'Winspire'))
+                ->setTo(array($email => $name))
+                ->setBody(
+                    $this->templating->render(
+                        'InertiaWinspireBundle:Email:suitcase-unpacked.html.twig',
+                        array('suitcase' => $suitcase)
+                    ),
+                    'text/html'
+                )
+                ->addPart(
+                    $this->templating->render(
+                        'InertiaWinspireBundle:Email:suitcase-unpacked.txt.twig',
+                        array('suitcase' => $suitcase)
+                    ),
+                    'text/plain'
+                )
+            ;
+            $message->setBcc(array($account->getSalesperson()->getEmail(), 'doug@inertiaim.com'));
+            
+            $mailer->send($message);
+        }
     }
 }

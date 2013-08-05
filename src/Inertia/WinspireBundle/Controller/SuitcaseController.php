@@ -773,6 +773,7 @@ class SuitcaseController extends Controller
                 $suitcase->setEventDate($eventDate);
                 $suitcase->setStatus('P');
                 $suitcase->setPackedAt(new \DateTime());
+                $suitcase->setUnpackedAt(NULL);
                 $suitcase->setDirty(true);
                 $account->setState(substr($form->get('state')->getData(), -2));
                 

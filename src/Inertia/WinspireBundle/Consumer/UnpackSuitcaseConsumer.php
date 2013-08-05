@@ -48,8 +48,6 @@ class UnpackSuitcaseConsumer implements ConsumerInterface
         $user = $suitcase->getUser();
         $account = $user->getCompany();
         
-        // TODO temp fix for abnormal account/suitcases flagged
-        if ($account->getSfId() != 'TEST' && $account->getSfId() != 'CANADA' && $account->getSfId() != 'PARTNER') {
         // Salesforce Updates
         $sfOpportunity = new \stdClass();
         $sfOpportunity->Name = $suitcase->getName();
@@ -165,51 +163,8 @@ class UnpackSuitcaseConsumer implements ConsumerInterface
                 return true;
             }
         }
-        }
-        
-        
-        
-        
-        
-        $name = $suitcase->getUser()->getFirstName() . ' ' .
-            $suitcase->getUser()->getLastName();
-        
-        $email = $suitcase->getUser()->getEmail();
-        
-        $message = \Swift_Message::newInstance()
-            ->setSubject('Please confirm changes to your Suitcase')
-            ->setFrom(array('info@winspireme.com' => 'Winspire'))
-            ->setTo(array($email => $name))
-            ->setBody(
-                $this->templating->render(
-                    'InertiaWinspireBundle:Email:suitcase-unpacked.html.twig',
-                    array('suitcase' => $suitcase)
-                ),
-                'text/html'
-            )
-            ->addPart(
-                $this->templating->render(
-                    'InertiaWinspireBundle:Email:suitcase-unpacked.txt.twig',
-                    array('suitcase' => $suitcase)
-                ),
-                'text/plain'
-            )
-            
-        ;
-        $message->setBcc($account->getSalesperson()->getEmail());
         
         $this->em->clear();
-        
-        $this->mailer->getTransport()->start();
-        if (!$this->mailer->send($message)) {
-            // Any other value not equal to false will acknowledge the message and remove it
-            // from the queue
-            $this->sf->logout();
-            
-            return false;
-        }
-        
-        $this->mailer->getTransport()->stop();
         $this->sf->logout();
         
         return true;
@@ -227,11 +182,11 @@ class UnpackSuitcaseConsumer implements ConsumerInterface
             'text/plain'
         )
         ;
-    
+        
         $this->mailer->getTransport()->start();
         $this->mailer->send($message);
         $this->mailer->getTransport()->stop();
-    
+        
         $this->em->clear();
         $this->em->getConnection()->close();
     }

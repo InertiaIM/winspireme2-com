@@ -115,6 +115,7 @@ class SuitcaseManager
         if($suitcase->getStatus() != 'U') {
             // reopen suitcase and trigger reminder message
             $suitcase->setStatus('U');
+            $suitcase->setUnpackedAt(new \DateTime());
             $suitcase->setDirty(true);
             
             $msg = array('suitcase_id' => $suitcase->getId());
@@ -141,6 +142,7 @@ class SuitcaseManager
                 if($suitcase->getStatus() == 'P') {
                     // reopen suitcase and trigger reminder message
                     $suitcase->setStatus('U');
+                    $suitcase->setUnpackedAt(new \DateTime());
                     $suitcase->setDirty(true);
                     
                     $msg = array('suitcase_id' => $suitcase->getId());
