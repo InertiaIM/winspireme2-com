@@ -1,0 +1,188 @@
+{% extends 'InertiaWinspireBundle:Page:display2.html.twig' %}
+{% block title %}{% endblock %}
+{% block description %}{% endblock %}
+{% block style %}
+<style>
+.standard-page .page-content {
+    padding-top:0;
+}
+
+.standard-page .wrapper {
+    padding-top:38px;
+    padding-bottom:26px;
+    margin-top:0;
+    background:#f7f7f7;
+}
+
+.c-wrap {
+    z-index:0;
+}
+
+.wrapper h1 {
+    font-size:24px;
+    line-height:24px;
+    color:#28466c;
+    margin:0;
+    padding:0;
+    border-bottom:1px dashed #d3d3d3;
+}
+
+.page-header {
+    position:relative;
+}
+
+.standard-page .page-header p {
+    font-size:12px;
+    font-weight:bold;
+    line-height:100%;
+    color:#777777;
+    text-align:right;
+    position:absolute;
+    bottom:4px;
+    right:0;
+    margin:0;
+    padding:0;
+}
+
+.page-header p a {
+    text-decoration:none;
+    font-weight:normal;
+    color:#0578c8;
+}
+
+.banner {
+    position:relative;
+    width:916px;
+    height:96px;
+    border:2px solid #fff;
+    margin:34px 0 0 -52px;
+    padding:40px 50px 0 50px;
+    
+    background: rgb(106,146,196);
+    background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIwJSIgeTI9IjEwMCUiPgogICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iIzZhOTJjNCIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiMwMDVkOWYiIHN0b3Atb3BhY2l0eT0iMSIvPgogIDwvbGluZWFyR3JhZGllbnQ+CiAgPHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjEiIGhlaWdodD0iMSIgZmlsbD0idXJsKCNncmFkLXVjZ2ctZ2VuZXJhdGVkKSIgLz4KPC9zdmc+);
+    background: -moz-linear-gradient(top,  rgba(106,146,196,1) 0%, rgba(0,93,159,1) 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(106,146,196,1)), color-stop(100%,rgba(0,93,159,1)));
+    background: -webkit-linear-gradient(top,  rgba(106,146,196,1) 0%,rgba(0,93,159,1) 100%);
+    background: -o-linear-gradient(top,  rgba(106,146,196,1) 0%,rgba(0,93,159,1) 100%);
+    background: -ms-linear-gradient(top,  rgba(106,146,196,1) 0%,rgba(0,93,159,1) 100%);
+    background: linear-gradient(to bottom,  rgba(106,146,196,1) 0%,rgba(0,93,159,1) 100%);
+    
+    -webkit-box-shadow:  0px 1px 1px 0px rgba(0, 0, 0, 0.5);
+    box-shadow:  0px 1px 1px 0px rgba(0, 0, 0, 0.5);
+}
+
+.banner img {
+    display:block;
+    position:absolute;
+    width:208px;
+    height:297px;
+    bottom:-142px;
+    right:42px;
+}
+
+.banner:before,
+.banner:after {
+    display:block;
+    position:absolute;
+    content:'';
+    bottom:-12px;
+    left:-2px;
+    width:10px;
+    height:10px;
+    background:url(/uploads/pages/winning-bidders/fold.png) no-repeat;
+    background-size:20px 10px;
+}
+
+.banner:after {
+    left:auto;
+    right:-2px;
+    background-position:-10px;
+}
+
+.banner h2 {
+    font-size:48px;
+    line-height:100%;
+    color:#ffe988;
+    margin:0 0 9px 0;
+    padding:0;
+    text-align:center;
+    text-shadow: 0px -1px 0px rgba(0, 0, 0, 0.5);
+}
+
+.standard-page .banner p {
+    font-size:18px;
+    color:#fff;
+    line-height:120%;
+    margin:0;
+    padding:0;
+}
+
+.text {
+    margin:0 0 0 -40px;
+    padding:216px 0 0 462px;
+    background:url(/uploads/pages/redeem-thanks/twins.png) 0px 11px no-repeat;
+    background-size:493px 389px;
+    min-height:173px;
+}
+
+.text h3 {
+    font-size:24px;
+    line-height:123%;
+    color:#565656;
+    padding:0 0 0 0;
+    margin:0 0 13px 0;
+}
+
+.text p {
+    font-size:14px;
+    line-height:22px;
+    color:#565656;
+    padding:0;
+    margin:0 0 15px 0;
+}
+
+.text p strong {
+    color:#d18000;
+    font-weight:bold;
+}
+
+.standard-page hr {
+    margin:78px 318px 28px 318px;
+    background:none;
+    border:none;
+    border-bottom:1px dashed #d3d3d3;
+}
+</style>
+{% endblock %}
+{% block inside %}
+<div class="page-content">
+    <div class="c-wrap">
+        <div class="wrapper">
+            <div class="page-header">
+                <h1>Winning Bidders</h1>
+                <p>Questions about your Experience? <a href="/contact-us">Contact Us</a></p>
+            </div>
+            
+            <div class="banner">
+                <h2>Thank you!</h2>
+                <img src="/uploads/pages/winning-bidders/ribbon.png" width="208" height="297" alt=""/>
+            </div>
+            
+            <div class="text">
+                <h3>A member of our travel team will contact you within 15 business days to complete your travel reservations.</h3>
+                <p>If you have any questions in the meantime, don’t hesitate to <a href="/contact-us">Contact Us</a>.</p>
+            </div>
+            
+            <hr/>
+    <p>&nbsp;</p>
+    <p>&nbsp;</p>
+    <p>&nbsp;</p>
+    <p>&nbsp;</p>
+    <p>&nbsp;</p>
+    <p>&nbsp;</p>
+    <p>&nbsp;</p>
+    <p>&nbsp;</p>
+        </div>
+    </div>
+</div>
+{% endblock %}

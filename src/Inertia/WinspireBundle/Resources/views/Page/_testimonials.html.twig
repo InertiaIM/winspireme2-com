@@ -1,0 +1,778 @@
+{% extends 'InertiaWinspireBundle:Page:display.html.twig' %}
+{% block title %}Auction Items for Fundraising | Fundraiser Auction Ideas | Winspire{% endblock %}
+{% block description %}We love to hear from our Nonprofits and Winning Bidders about their interactions with Winspire.  Click to read more…{% endblock %}
+{% block style %}
+<style>
+#standard-page .page-content {
+    padding-bottom:4px;
+}
+
+
+.wrap {
+    display:none;
+}
+
+.wrap.active {
+    display:block;
+}
+
+.nav-wrapper {
+    position:relative;
+    padding-top:20px;
+}
+
+.nav-wrapper ul {
+    height:120px;
+    display:block;
+    border:2px solid #fff;
+    
+    background: rgb(106,146,196);
+    background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIwJSIgeTI9IjEwMCUiPgogICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iIzZhOTJjNCIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiMwMDVkOWYiIHN0b3Atb3BhY2l0eT0iMSIvPgogIDwvbGluZWFyR3JhZGllbnQ+CiAgPHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjEiIGhlaWdodD0iMSIgZmlsbD0idXJsKCNncmFkLXVjZ2ctZ2VuZXJhdGVkKSIgLz4KPC9zdmc+);
+    background: -moz-linear-gradient(top,  rgba(106,146,196,1) 0%, rgba(0,93,159,1) 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(106,146,196,1)), color-stop(100%,rgba(0,93,159,1)));
+    background: -webkit-linear-gradient(top,  rgba(106,146,196,1) 0%,rgba(0,93,159,1) 100%);
+    background: -o-linear-gradient(top,  rgba(106,146,196,1) 0%,rgba(0,93,159,1) 100%);
+    background: -ms-linear-gradient(top,  rgba(106,146,196,1) 0%,rgba(0,93,159,1) 100%);
+    background: linear-gradient(to bottom,  rgba(106,146,196,1) 0%,rgba(0,93,159,1) 100%);
+    
+    -webkit-box-shadow:  0px 1px 2px 0px rgba(0, 0, 0, 0.5);
+    box-shadow:  0px 1px 2px 0px rgba(0, 0, 0, 0.5);
+}
+
+.nav-wrapper li {
+    display:block;
+    list-style:none;
+    float:left;
+}
+
+.nav-wrapper li a {
+    display:block;
+    width:260px;
+    text-align:center;
+    font-size:22px;
+    line-height:120px;
+    font-weight:bold;
+    color:#fefefe;
+    text-decoration:none;
+    outline:none;
+}
+
+.nav-wrapper li a:hover {
+    color:#fff3be;
+}
+
+.nav-wrapper li a.active {
+    color:#fff3be;
+    
+    background: rgb(40,70,108);
+    background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIwJSIgeTI9IjEwMCUiPgogICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iIzI4NDY2YyIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiMwMDVkOWYiIHN0b3Atb3BhY2l0eT0iMSIvPgogIDwvbGluZWFyR3JhZGllbnQ+CiAgPHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjEiIGhlaWdodD0iMSIgZmlsbD0idXJsKCNncmFkLXVjZ2ctZ2VuZXJhdGVkKSIgLz4KPC9zdmc+);
+    background: -moz-linear-gradient(top,  rgba(40,70,108,1) 0%, rgba(0,93,159,1) 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(40,70,108,1)), color-stop(100%,rgba(0,93,159,1)));
+    background: -webkit-linear-gradient(top,  rgba(40,70,108,1) 0%,rgba(0,93,159,1) 100%);
+    background: -o-linear-gradient(top,  rgba(40,70,108,1) 0%,rgba(0,93,159,1) 100%);
+    background: -ms-linear-gradient(top,  rgba(40,70,108,1) 0%,rgba(0,93,159,1) 100%);
+    background: linear-gradient(to bottom,  rgba(40,70,108,1) 0%,rgba(0,93,159,1) 100%);
+    
+    -webkit-box-shadow: inset 0px 3px 10px 0px rgba(0, 0, 0, 0.75);    
+    box-shadow: inset 0px 3px 10px 0px rgba(0, 0, 0, 0.75);
+}
+
+.banner {
+    width:458px;
+    height:280px;
+    display:block;
+    position:absolute;
+    background:url(/uploads/pages/testimonials/banner.png) no-repeat;
+    background-size: 458px 280px;
+    bottom:2px;
+    right:0;
+}
+
+.testimonial {
+    position:relative;
+    padding:23px 18px 30px 40px;
+    margin:40px 0 0 0;
+    background:#ededed;
+    border:2px solid white;
+    z-index:1;
+    
+    -webkit-box-shadow:  0px 1px 2px 0px rgba(0, 0, 0, 0.5);
+    box-shadow:  0px 1px 2px 0px rgba(0, 0, 0, 0.5);
+}
+
+.testimonial.type2 {
+    margin:0 40px;
+    border-top: 0;
+    z-index: 0;
+    padding-right:40px;
+    padding-top:25px;
+    
+    background: rgb(251,250,234);
+    background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIwJSIgeTI9IjEwMCUiPgogICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iI2ZiZmFlYSIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiNmZmY4Y2UiIHN0b3Atb3BhY2l0eT0iMSIvPgogIDwvbGluZWFyR3JhZGllbnQ+CiAgPHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjEiIGhlaWdodD0iMSIgZmlsbD0idXJsKCNncmFkLXVjZ2ctZ2VuZXJhdGVkKSIgLz4KPC9zdmc+);
+    background: -moz-linear-gradient(top,  rgba(251,250,234,1) 0%, rgba(255,248,206,1) 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(251,250,234,1)), color-stop(100%,rgba(255,248,206,1)));
+    background: -webkit-linear-gradient(top,  rgba(251,250,234,1) 0%,rgba(255,248,206,1) 100%);
+    background: -o-linear-gradient(top,  rgba(251,250,234,1) 0%,rgba(255,248,206,1) 100%);
+    background: -ms-linear-gradient(top,  rgba(251,250,234,1) 0%,rgba(255,248,206,1) 100%);
+    background: linear-gradient(to bottom,  rgba(251,250,234,1) 0%,rgba(255,248,206,1) 100%);
+}
+
+.testimonial .text {
+    width:678px;
+    float:left;
+}
+
+.testimonial.type2 .text {
+    width:600px;
+    float:right;
+}
+
+.package {
+    position:relative;
+    width:178px;
+    height:210px;
+    float:right;
+    border:2px solid #fff;
+    padding:18px;
+    
+    background: rgb(251,250,234);
+    background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIwJSIgeTI9IjEwMCUiPgogICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iI2ZiZmFlYSIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiNmZmY4Y2UiIHN0b3Atb3BhY2l0eT0iMSIvPgogIDwvbGluZWFyR3JhZGllbnQ+CiAgPHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjEiIGhlaWdodD0iMSIgZmlsbD0idXJsKCNncmFkLXVjZ2ctZ2VuZXJhdGVkKSIgLz4KPC9zdmc+);
+    background: -moz-linear-gradient(top,  rgba(251,250,234,1) 0%, rgba(255,248,206,1) 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(251,250,234,1)), color-stop(100%,rgba(255,248,206,1)));
+    background: -webkit-linear-gradient(top,  rgba(251,250,234,1) 0%,rgba(255,248,206,1) 100%);
+    background: -o-linear-gradient(top,  rgba(251,250,234,1) 0%,rgba(255,248,206,1) 100%);
+    background: -ms-linear-gradient(top,  rgba(251,250,234,1) 0%,rgba(255,248,206,1) 100%);
+    background: linear-gradient(to bottom,  rgba(251,250,234,1) 0%,rgba(255,248,206,1) 100%);
+    
+    -webkit-box-shadow:  0px 1px 2px 0px rgba(0, 0, 0, 0.5);
+    box-shadow:  0px 1px 2px 0px rgba(0, 0, 0, 0.5);
+}
+
+.package:before,
+.package:after {
+    content:'';
+    position:absolute;
+    z-index:-2;
+    
+    -moz-border-radius:4px;
+    border-radius:4px;
+    bottom:9px;
+    left:5px;
+    width:101px;
+    height:20%;
+    max-height:100px;
+    -webkit-box-shadow:0 15px 10px rgba(0, 0, 0, 0.3);
+    -moz-box-shadow:0 15px 10px rgba(0, 0, 0, 0.3);
+    box-shadow:0 15px 10px rgba(0, 0, 0, 0.3);
+    -webkit-transform:rotate(-4deg);
+    -moz-transform:rotate(-4deg);
+    -ms-transform:rotate(-4deg);
+    -o-transform:rotate(-4deg);
+    transform:rotate(-4deg);
+}
+
+.package:after {
+    right:5px;
+    left:auto;
+    -webkit-transform:rotate(4deg);
+    -moz-transform:rotate(4deg);
+    -ms-transform:rotate(4deg);
+    -o-transform:rotate(4deg);
+    transform:rotate(4deg);
+}
+
+.package img {
+    border:3px solid #ccc;
+}
+
+.package .button-holder {
+    position:absolute;
+    bottom:18px;
+    left:0;
+    width:214px;
+    height:25px;
+}
+
+.package .button {
+    display:block;
+    position:relative;
+    color:#fff;
+    text-decoration:none;
+    font-size:11px;
+    font-weight:bold;
+    padding:0 12px;
+    margin:0 40px;
+    height:25px;
+    line-height:25px;
+    outline:none;
+    
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    
+    text-align:center;
+    text-shadow: 0px -1px 0px #808080;
+    border:1px solid rgb(16,152,245);
+    background: rgb(41,169,254);
+    background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIwJSIgeTI9IjEwMCUiPgogICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iIzI5YTlmZSIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiMwMDVmYjYiIHN0b3Atb3BhY2l0eT0iMSIvPgogIDwvbGluZWFyR3JhZGllbnQ+CiAgPHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjEiIGhlaWdodD0iMSIgZmlsbD0idXJsKCNncmFkLXVjZ2ctZ2VuZXJhdGVkKSIgLz4KPC9zdmc+);
+    background: -moz-linear-gradient(top,  rgb(41,169,254) 0%, rgb(0,95,182) 100%); /* FF3.6+ */
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgb(41,169,254)), color-stop(100%,rgb(0,95,182))); /* Chrome,Safari4+ */
+    background: -webkit-linear-gradient(top,  rgb(41,169,254) 0%,rgb(0,95,182) 100%); /* Chrome10+,Safari5.1+ */
+    background: -o-linear-gradient(top,  rgb(41,169,254) 0%,rgb(0,95,182) 100%); /* Opera 11.10+ */
+    background: -ms-linear-gradient(top,  rgb(41,169,254) 0%,rgb(0,95,182) 100%); /* IE10+ */
+    background: linear-gradient(to bottom,  rgb(41,169,254) 0%,rgb(0,95,182) 100%); /* W3C */
+    
+    -webkit-border-radius:3px;
+    -moz-border-radius:3px
+    border-radius:3px;
+}
+
+.package .button:hover {
+    color:rgb(40,70,105);
+    background: rgb(243,206,61);
+    border:1px solid  rgb(227,191,49);
+    background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIwJSIgeTI9IjEwMCUiPgogICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iI2YzY2UzZCIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiNlZDhkMDEiIHN0b3Atb3BhY2l0eT0iMSIvPgogIDwvbGluZWFyR3JhZGllbnQ+CiAgPHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjEiIGhlaWdodD0iMSIgZmlsbD0idXJsKCNncmFkLXVjZ2ctZ2VuZXJhdGVkKSIgLz4KPC9zdmc+);
+    background: -moz-linear-gradient(top,  rgb(243,206,61) 0%, rgb(237,141,1) 100%); /* FF3.6+ */
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgb(243,206,61)), color-stop(100%,rgb(237,141,1))); /* Chrome,Safari4+ */
+    background: -webkit-linear-gradient(top,  rgb(243,206,61) 0%,rgb(237,141,1) 100%); /* Chrome10+,Safari5.1+ */
+    background: -o-linear-gradient(top,  rgb(243,206,61) 0%,rgb(237,141,1) 100%); /* Opera 11.10+ */
+    background: -ms-linear-gradient(top,  rgb(243,206,61) 0%,rgb(237,141,1) 100%); /* IE10+ */
+    background: linear-gradient(to bottom,  rgb(243,206,61) 0%,rgb(237,141,1) 100%); /* W3C */
+}
+
+#standard-page .testimonial .package h4 {
+    font-size:13px;
+    color:#565656;
+    border:none;
+    margin:2px 0 5px 0;
+    line-height:120%;
+}
+
+#standard-page .testimonial .package a.option {
+    font-size:13px;
+    text-decoration:none;
+    color:#cc6600;
+}
+
+#standard-page .testimonial .package a.option .icon {
+    font-size:16px;
+    vertical-align:middle;
+    margin-left:-6px;
+}
+
+#standard-page .testimonial h4 {
+    font-size:18px;
+    color:#565656;
+    line-height:20px;
+    margin:0 75px 14px 0;
+    border-bottom:1px dashed #d9d9d9;
+}
+
+#standard-page .testimonial.type2 h4 {
+    margin-bottom:23px;
+}
+
+.testimonial h4 span {
+    font-family:"ArchitectsDaughter";
+    font-weight:normal;
+    font-style:normal;
+    color:#005695;
+    font-weight:normal;
+    font-style:normal;
+}
+
+#standard-page .testimonial p {
+    font-size:12px;
+    color:#565656;
+    font-style:italic;
+    margin:0;
+    text-indent:35px;
+    line-height:20px;
+}
+
+#standard-page .testimonial p em {
+    color:#0578c8;
+}
+
+#standard-page .testimonial p strong {
+    color:#565656;
+}
+
+#standard-page .testimonial p.author {
+    color:#565656;
+    text-align:right;
+    font-style:normal;
+    margin:10px 0 0 0;
+    line-height:120%;
+}
+
+#standard-page .testimonial p.author span {
+    font-family:"ArchitectsDaughter";
+}
+
+#standard-page .testimonial p.author em {
+    font-style:italic;
+    color:#565656;
+}
+
+
+.testimonial-footer {
+    margin-top:52px;
+}
+
+.bubble {
+    float:left;
+    width:344px;
+    height:96px;
+    background:url(/uploads/pages/testimonials/bubble.png) no-repeat;
+    background-size:404px 162px;
+    padding:33px 27px 33px 33px;
+    overflow:hidden;
+}
+
+#standard-page .bubble h5 {
+    font-size:16px;
+    color:#005695;
+    line-height:100%;
+    margin:0 0 2px 0;
+    padding:0;
+}
+
+#standard-page .bubble p {
+    font-size:13px;
+    color:#777777;
+    line-height:100%;
+    margin:0 0 10px 0;
+    padding:0;
+}
+
+#standard-page .bubble a {
+    color:#cb6700;
+    text-decoration:none;
+}
+
+#standard-page .bubble a:hover {
+    color:#005695;
+}
+
+.more {
+    float:right;
+    width:580px;
+    text-align:right;
+    padding-top:19px;
+}
+
+#standard-page .more h5 {
+    font-size:18px;
+    color:#cb6700;
+    line-height:25px;
+    margin:0 0 18px 0;
+    padding:0;
+    border-bottom:1px dashed #aaaaaa;
+}
+
+#standard-page .more h5 span {
+    font-size:22px;
+    vertical-align:middle;
+    margin-left:-6px;
+}
+
+#standard-page .more a {
+   color:#cb6700;
+   text-decoration:none;
+}
+
+#standard-page .more a:hover {
+    color:#005695;
+}
+
+#standard-page .more h6 {
+    font-family:"ArchitectsDaughter";
+    font-style:normal;
+    font-weight:normal;
+    font-size:14px;
+    color:#005695;
+    line-height:100%;
+    margin:0 0 6px 0;
+    padding:0;
+}
+
+#standard-page .more p {
+    font-size:13px;
+    color:#565656;
+    line-height:16px;
+    margin:0;
+    padding:0;
+}
+
+#nonprofits .testimonial {
+    margin-left:62px;
+    margin-right:62px;
+    padding:12px 37px 27px 27px;
+}
+
+#nonprofits .testimonial img {
+    display:block;
+    float:left;
+}
+
+#nonprofits .testimonial .text {
+    width:596px;
+    float:right;
+    padding-top:14px;
+}
+
+#nonprofits .testimonial .text .author {
+    margin-top:14px;
+}
+
+#standard-page p {
+    color:#565656;
+    font-size:17px;
+}
+
+.samples .button .icon {
+    margin-right: 10px;
+}
+</style>
+{% endblock %}
+{% block inside %}
+<div class="page-content">
+    <div class="c-wrap">
+        <h1>Testimonials</h1>
+        <p style="width:560px">We love hearing from our Nonprofits and Winning Bidders about their interaction with Winspire. Here are some of the things they had to say.</p>
+        
+        <div class="nav-wrapper">
+            <ul class="nav clearfix">
+                <li><a class="active" href="#nonprofits">Nonprofits</a></li>
+                <li><a href="#winning-bidders">Winning Bidders</a></li>
+            </ul>
+            <div class="banner">&nbsp;</div>
+        </div>
+        
+        <div id="nonprofits" class="wrap active">
+            <div class="testimonial clearfix">
+                <img src="/uploads/pages/testimonials/logo-philadelphia-center.png" width="187" height="135" alt="Philadelphia Center"/>
+                <div class="text">
+                    <p>“We’ve worked with Winspire for the past 2 years and are about to reserve trips for our auction for this year… I cannot speak highly enough about the great customer service we’ve experienced with Winspire. We’ve increased our revenues for our fundraising event each year – in large part due to our using Winspire for our trips that we auction off. It’s a no-risk situation… and they can help you with everything.”</p>
+                    
+                    <p class="author">
+                        <span>Brett Malone</span><br/>
+                        <em>Executive Director</em>, <strong>Philadelphia Center</strong>
+                    </p>
+                </div>
+            </div>
+            
+            <div class="testimonial clearfix">
+                <img src="/uploads/pages/testimonials/logo-dreamcenter.png" width="187" height="102" alt="DreamCenter"/>
+                <div class="text">
+                    <p>“We got a late start on procurement. Winspire came to our rescue with great packages for our event and turned it into a spectacular success! The auctioneer that was suggested went above and beyond, as he took the time to learn about our organization and understood the urgent need that we were attempting to meet within the community; the reason for our fundraiser.</p>
+                    
+                    <p>Winspire worked with us to select the items for our auction and was available to us by cell for last minute questions even minutes before the auctioneer took the stage. We will definitely use Winspire again and would recommend their services to any organization planning an auction. I look forward to working with Winspire again next year!!”</p>
+                    
+                    <p class="author">
+                        <strong>Dream Center of Los Angeles</strong>
+                    </p>
+                </div>
+            </div>
+            
+            <div class="testimonial clearfix">
+                <img src="/uploads/pages/testimonials/logo-make-a-wish-alberta.png" width="187" height="143" alt="Make A Wish Southern Alberta"/>
+                <div class="text">
+                    <p>“We recently used Winspire for the Make-A-Wish Foundation Southern Alberta chapter’s charity auction. The packages Winspire offered were very unique opportunities and “once in a life time” trips which attracted peoples bids at our event. The whole process was surprisingly very simplistic, organized and professional. Our representative was there to help us every step of the way and answer any questions we had. We were very impressed with the overall experience of using Winspire and the services they provided. We will recommend them to others who plan to carry out a charity fundraiser event.”</p>
+                    
+                    <p class="author">
+                        <strong>Make-A-Wish of Southern Alberta</strong>
+                    </p>
+                </div>
+            </div>
+            
+            <div class="testimonial clearfix">
+                <img src="/uploads/pages/testimonials/logo-orangewood-childrens-foundation.png" width="187" height="88" alt="Orangewood Children's Foundation"/>
+                <div class="text">
+                    <p>“We could not have met our fundraising goals without the help of Winspire. Their team helped us pick experiences that seem to fit the taste of our donors perfectly. In fact, we sold every single package, and some of them multiple times!”</p>
+                    
+                    <p class="author">
+                        <span>Bruce Fetter</span><br/>
+                        <em>C.E.O.</em>, <strong>Orangewood Children's Foundation</strong>
+                    </p>
+                </div>
+            </div>
+            
+            <div class="testimonial clearfix">
+                <img src="/uploads/pages/testimonials/logo-big-brothers-big-sisters-berrien.png" width="187" height="134" alt="Big Brothers Big Sisters of Berrien and Cass"/>
+                <div class="text">
+                    <p>“I want to thank you especially for shepherding me through the process. Once I ‘got my feet wet’ it was smooth sailing from there onward. I plan to promote Winspire at our next state meeting of Big Brothers Big Sisters organizations. We so much appreciate your great support of the work we do here with children. Many thanks and I’m quite sure we’ll get involved with Winspire again next year.”</p>
+                    
+                    <p class="author">
+                        <span>Kathryn S. Rossow</span><br/>
+                        <em>Executive Director</em>, <strong>Big Brothers Big Sisters</strong>
+                    </p>
+                </div>
+            </div>
+            
+            <div class="testimonial clearfix">
+                <img src="/uploads/pages/testimonials/logo-united-way-alberta.png" width="187" height="150" alt="United Way of Alberta Capital Region"/>
+                <div class="text">
+                    <p>“United Way of the Alberta Capital Region was thrilled with the success of our 2011 Suncor Fundraiser this year. It was our first time including Winspire packages at a fundraising event, and we successfully sold 7 different experiences a total of <span style="text-decoration:underline">14 times</span>. Overall, Winspire items accounted for 31% of the total Auction Earnings for the 2011 Suncor Fundraiser.”</p>
+                    
+                    <p class="author">
+                        <strong>United Way of Alberta Capitol Region</strong>
+                    </p>
+                </div>
+            </div>
+            
+            <div class="testimonial clearfix">
+                <img src="/uploads/pages/testimonials/logo-st-clair-shores.png" width="187" height="120" alt="St. Clair Shores Senior Activity Center"/>
+                <div class="text">
+                    <p>“In late February of this year, Saint Clair Shores Senior Activity Center in Michigan didn’t have enough money to put together a fundraising event and was getting ready to lay off yet another employee. We discussed with them the possibility of holding a raffle, a fundraiser requiring little or no money that can have big returns.</p>
+                    
+                    <p>In late April, we decided to give it a try. Choosing from Winspire’s list of inspired packages, we decided to raffle off <a href="#">The Cosmopolitan Las Vegas VIP</a>, which we thought would have wide appeal to our donor base. Saint Clair Shores started selling tickets for $10, and by June 22nd, we had sold a total of 1,810 tickets and made an unprecedented $18,100! The drawing took place with a city official pulling the winning ticket. After accounting for the cost of the package, Saint Shores Senior Center made over $15,000.  Another piece of good news- they were able to retain the employee they had planned to lay off!”</p>
+                    
+                    <p class="author">
+                        <strong>St. Clair Shores Senior Activity Center</strong>
+                    </p>
+                </div>
+            </div>
+            
+            <div class="testimonial clearfix">
+                <img src="/uploads/pages/testimonials/logo-waldorf-school-oc.png" width="187" height="88" alt="Waldorf School of Orange County"/>
+                <div class="text">
+                    <p>“We recently used a Winspire once-in-a-lifetime experience to provide our donors with a thrilling reason to benefit a cause near and dear to their heart. Through Winspire we were able to offer an attention-getting package which would ordinarily not be accessible to us.  It is the perfect example of a win-win.  They were knowledgeable, prompt, and provided excellent service and follow-up. We would recommend them to anyone looking to enliven their auction offering.”</p>
+                    
+                    <p class="author">
+                        <span>Denise Ogawa</span><br/>
+                        <em>Development Director</em>, <strong>Waldorf School of Orange County</strong>
+                    </p>
+                </div>
+            </div>
+            
+            <div class="testimonial clearfix">
+                <img src="/uploads/pages/testimonials/logo-escondido-humane-society.png" width="187" height="157" alt="Escondido Humane Society"/>
+                <div class="text">
+                    <p>“Winspire has helped us raise more money than ever before. During the process of planning our auction there are several times that we needed to refine our auction item list, Winspire has always accommodated these changes immediately and with no hassle. What is even better is that our gala attendees have been pleased with the service  they have received from Winspire. Each year, several of them make a point of asking us to include Winspire packages. It’s a win-win situation for our attendees and our organization.”</p>
+                    
+                    <p class="author">
+                        <span>Jean Loo-Russo</span><br/>
+                        <em>Development Director</em>, <strong>Escondido Humane Society</strong>
+                    </p>
+                </div>
+            </div>
+            
+            <div class="testimonial clearfix">
+                <img src="/uploads/pages/testimonials/logo-kansas-city-autism-training-center.png" width="187" height="108" alt="Kansas City Autism Training Center"/>
+                <div class="text">
+                    <p>“We don't have an event without adding Winspire Travel packages as auction items.  High quality packages that are fun to sell and increase our bottom line. Winspire staff are great to work with."</p>
+                    
+                    <p class="author">
+                        <span>Ron Johnson</span><br/>
+                        <em>Executive Director</em>, <strong>Kansas City Autism Training Center</strong>
+                    </p>
+                </div>
+            </div>
+            
+            <div class="testimonial clearfix">
+                <img src="/uploads/pages/testimonials/logo-dove-house.png" width="187" height="148" alt="Dove House Children's Advocacy Center"/>
+                <div class="text">
+                    <p>“We have used Winspire packages for several years at our annual gala.  The packages add lots of value to our live auction and each year they seem to develop a new package that our guests really enjoy.  Our guests rave about the trips.  The staff at Winspire were very professional and accommodating as we ask lots of questions each year as we develop our list of live auction items.  Thanks again for making our event so special.”</p>
+                    
+                    <p class="author">
+                        <span>Ken Wooten</span><br/>
+                        <strong>Dove House Children's Advocacy Center</strong>
+                    </p>
+                </div>
+            </div>
+            
+            <div class="testimonial clearfix">
+                <img src="/uploads/pages/testimonials/logo-every-child-inc.png" width="187" height="143" alt="Every Child, Inc."/>
+                <div class="text">
+                    <p>“We worked with Winspire for the first time this year for our annual fundraising gala.  We were impressed with the variety of unique auction experiences and were particularly attracted to the fact that the auctions are no obligation.  Winspire gives you a broad selection of prepackaged options—so the process is stress free and very simple.  We look forward to working again with Winspire!”</p>
+                    
+                    <p class="author">
+                        <span>Jada Shirriel, MS</span><br/>
+                        <em>Director of Marketing and Development</em>, <strong>Every Child, Inc.</strong>
+                    </p>
+                </div>
+            </div>
+        </div>
+        
+        <div id="winning-bidders" class="wrap">
+            <div class="testimonial clearfix">
+                <div class="text">
+                    <h4>Wrigley Field Rooftop Seats: <span>From Alaska to Chicago</span></h4>
+                    
+                    <p>“Hello! I want to thank you for all the work you did to get our trip to Chicago arranged! We had a WONDERFUL time!!! Air transportation was perfect in getting us to Chicago from Anchorage in a timely manner. The hotel! WOW! It was beautiful, the staff was attentive and we had 3 great nights in a very comfortable room! And then the baseball game!!! The staff at Beyond the Ivy did a great job.</p>
+                    
+                    <p>We had a great time, and it was topped by fantastic weather. We want to thank you for working with us to make it happen! Please pass this on to your supervisor and/or send me their contact information and I will get in touch with them!!! I am also going to pass on this info to our local PBS channel since it was their auction that I purchased this opportunity!</p>
+                    
+                    <p>Again, thank you so much – I am not sure how these trips are all put together, but it all worked out so congratulations for giving us an opportunity to use your services!”</p>
+                    
+                    <p class="author">
+                        <span>Pamela Doerner</span><br/>
+                        <em>Winning Bidder</em>
+                    </p>
+                </div>
+                
+                <div class="package">
+                    <img class="thumbnail" src="//assets.winspireme.com/packages/5402-5402_Classic-Wrigley-Field-Rooftop-Experience-THUMB.jpg" width="172" height="112" alt=""/>
+                    <h4>Chicago Classic Wrigley Field Rooftop</h4>
+                    <a href="/package/classic-wrigley-field-rooftop-experience" class="option">View Details <span class="icon icon-arrow-right"></span></a>
+                    <div class="button-holder">
+                        <a href="/package/classic-wrigley-field-rooftop-experience" class="button">More Details</a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="testimonial clearfix">
+                <div class="text">
+                    <h4>Las Vegas Showstopper VIP: <span>Dancing in public</span></h4>
+                    
+                    <p>“I wanted to touch base with you and tell you we had a wonderful time in Las Vegas. The Renaissance Hotel was lovely, the food at breakfast and dinner was excellent. We enjoyed the fact there was no casino in the hotel. The Monorail was located right across the street and we rode it into town twice to check out all the main casinos. The absolute highlight of the weekend was seeing “Le Reve”. The show was OUT OF THIS WORLD impressive. Our seats were comfy with an excellent view.</p>
+                    
+                    <p>Thank you so much for your excellent planning and arrangements for us. When we returned from dinner with friends on the last night of our visit, we even danced in the lobby to background music to celebrate our 3rd anniversary. I’m sure the people working at the desk and hanging around the lobby were amused to see two old people dancing in public.”</p>
+                    
+                    <p class="author">
+                        <span>Elsie Bailey</span><br/>
+                        <em>Winning Bidder</em>&nbsp;&nbsp;|&nbsp;&nbsp;<strong>Wildwood Park for the Arts</strong>
+                    </p>
+                </div>
+                
+                <div class="package">
+                    <img class="thumbnail" src="//assets.winspireme.com/packages/2318-2318_Las-Vegas-Showstopper-VIP-THUMB.jpg" width="172" height="112" alt=""/>
+                    <h4>Las Vegas Showstopper VIP</h4>
+                    <a href="/package/las-vegas-showstopper-vip" class="option">View Details <span class="icon icon-arrow-right"></span></a>
+                    <div class="button-holder">
+                        <a href="/package/las-vegas-showstopper-vip" class="button">More Details</a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="testimonial clearfix">
+                <div class="text">
+                    <h4>Charleston Luxury Getaway: <span>Solid groundwork</span></h4>
+                    
+                    <p>“We had a GREAT trip. We enjoyed the hotel and the special dinner. The hotel was in a very convenient location – next to shopping, good restaurants and even a church. After 3 nights we drove to Asheville, NC and enjoyed our stay there too. It was a really good trip for us that we enjoyed very much. Thanks for asking and providing the ground work for making our stay so enjoyable.”</p>
+                    
+                    <p class="author">
+                        <span>Homer Bludau</span><br/>
+                        <em>Winning Bidder</em>&nbsp;&nbsp;|&nbsp;&nbsp;<strong>Our Lady Queen of Angels</strong>
+                    </p>
+                </div>
+                
+                <div class="package">
+                    <img class="thumbnail" src="//assets.winspireme.com/packages/2555-2555_Charleston-Luxury-Getaway-THUMB.jpg" width="172" height="112" alt=""/>
+                    <h4>Charleston Luxury Getaway</h4>
+                    <a href="/package/charleston-luxury-getaway" class="option">View Details <span class="icon icon-arrow-right"></span></a>
+                    <div class="button-holder">
+                        <a href="/package/charleston-luxury-getaway" class="button">More Details</a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="testimonial clearfix">
+                <div class="text">
+                    <h4>Sip &amp; Soar Through Napa Valley: <span>The balloons were awesome</span></h4>
+                    
+                    <p>“I want to let you know that everything went beautifully on our trip to Napa last weekend. We were so glad that we got to do the Del Dotto tour because it was much more extensive than the other tours. It was wonderful. On Saturday, the limo was on time and the driver was gracious and helpful. Our favorite winery that day was Fontanella, another one of your picks!  We loved the Meritage and the balloons were awesome. Overall, it was an amazing weekend that we will always remember. Thank you for all of your help.”</p>
+                    
+                    <p class="author">
+                        <span>Chris Shea</span><br/>
+                        <em>Winning Bidder</em>&nbsp;&nbsp;|&nbsp;&nbsp;<strong>Gutter Ball Gala 2012, Summit School</strong>
+                    </p>
+                </div>
+                
+                <div class="package">
+                    <img class="thumbnail" src="//assets.winspireme.com/packages/3302-3353_Sip-and-Soar-Though-Napa-Valley-THUMB.jpg" width="172" height="112" alt=""/>
+                    <h4>Sip &amp; Soar Through Napa Valley</h4>
+                    <a href="/package/sip-soar-through-napa-valley" class="option">View Details <span class="icon icon-arrow-right"></span></a>
+                    <div class="button-holder">
+                        <a href="/package/sip-soar-through-napa-valley" class="button">More Details</a>
+                    </div>
+                </div>
+            </div>
+            <div class="testimonial type2 clearfix">
+                <h4>From the Nonprofit: <span>Exceptional customer service</span></h4>
+                <img src="/uploads/pages/testimonials/logo-the-summit-school.png" width="200" height="36" alt="The Summit School"/>
+                <div class="text">
+                    <p>“The Winspire trips that we have used for our raffles have really raised money for our school. The winners of the trips have all told us that the customer service that they received from Winspire was exceptional. Thank you!”</p>
+                    <p class="author">
+                        <span>Melanie D. Sipple</span><br/>
+                        <em>Director of Development and Marketing</em>, <strong>The Summit School</strong>
+                    </p>
+                </div>
+            </div>
+            
+            <div class="testimonial clearfix">
+                <div class="text">
+                    <h4>Trip to Machu Piccu: <span>Helpful guidance</span></h4>
+                    
+                    <p>“I wanted to let you know what an amazing trip we had to Peru!  Thank you for all your help and guidance in setting it up for us.  It could not have been any better. All the hotels were wonderful, the staff was so helpful and professional, our tours and tour guides were invaluable. And just so you know, the Hiram Bingham Train is so worth the price!! ...you were right. We enjoyed every minute of it. Thanks so Much!!”</p>
+                    
+                    <p class="author">
+                        <span>Rhonda D.</span><br/>
+                        <em>Winning Bidder</em>
+                    </p>
+                </div>
+                
+                <div class="package">
+                    <img class="thumbnail" src="//assets.winspireme.com/packages/1420-1421_Journey-to-Machu-Picchu-THUMB.jpg" width="172" height="112" alt=""/>
+                    <h4>Machu Picchu with Orient-Express Hotels</h4>
+                    <a href="/package/journey-to-machu-picchu" class="option">View Details <span class="icon icon-arrow-right"></span></a>
+                    <div class="button-holder">
+                        <a href="/package/journey-to-machu-picchu" class="button">More Details</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="testimonial-footer clearfix">
+            <div class="bubble">
+                <h5>There’s more where these came from...</h5>
+                <p>More testimonials are available upon request. Contact us:</p>
+                <p><strong>877.544.8555</strong>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="mailto:info@winspireme.com">info@winspireme.com</a></p>
+            </div>
+            
+            <div class="more">
+                <h5><a href="#winning-bidders"><span class="text">Winning Bidder Testimonials</span> <span class="icon icon-arrow-right"></span></a></h5>
+                <h6>Do you have a Testimonial?</h6>
+                <p>We’d love to hear from you! Email us your<br/>
+                feedback to <a href="mailto:info@winspireme.com">info@winspireme.com</a></p>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+$(function() {
+    $('#standard-page').on('click', 'a[href="#nonprofits"], a[href="#winning-bidders"]', function(e) {
+        e.preventDefault();
+        
+        // If using the links in the footer, we'll
+        // scroll back to the top of the page.
+        if($(this).parent().is('h5')) {
+            $(window).scrollTop(0);
+        }
+        
+        var c = $(this).attr('href').substring(1);
+        if (!$('.nav-wrapper .nav a[href="#' + c + '"]').hasClass('active')) {
+            $('.wrap').removeClass('active');
+            $('#' + c).addClass('active');
+            
+            $('.nav-wrapper .nav a').removeClass('active');
+            $('.nav-wrapper .nav a[href="#' + c + '"]').addClass('active');
+            
+            if (c == 'nonprofits') {
+                $('.testimonial-footer .more h5 a').attr('href', '#winning-bidders');
+                $('.testimonial-footer .more h5 a .text').text('Winning Bidder Testimonials');
+            }
+            else {
+                $('.testimonial-footer .more h5 a').attr('href', '#nonprofits');
+                $('.testimonial-footer .more h5 a .text').text('Nonprofit Testimonials');
+            }
+        }
+    });
+});
+</script>
+{% endblock %}

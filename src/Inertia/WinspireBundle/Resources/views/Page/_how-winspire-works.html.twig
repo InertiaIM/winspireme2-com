@@ -1,0 +1,277 @@
+{% extends 'InertiaWinspireBundle:Page:display.html.twig' %}
+{% block title %}Charity Auction Items | "No Risk" Fundraiser Auction Items | Winspire{% endblock %}
+{% block description %}Auction Items Made Easy! Winspire gives you powerful tools to find the best priceless Experiences to sell at your next fundraising auction with no risk.{% endblock %}
+{% block style %}
+<style>
+.inner-wrapper {
+    background: #fff;
+    border:1px solid #dddddd;
+    padding:260px 70px 58px 70px;
+    position:relative;
+}
+
+.banner {
+    width:914px;
+    height:299px;
+    display:block;
+    position:absolute;
+    background:url(/uploads/pages/how-winspire-works/banner.png) no-repeat;
+    background-size: 914px 299px;
+    top:-45px;
+    left:0px;
+}
+
+.clouds {
+    width:264px;
+    height:165px;
+    display:block;
+    position:absolute;
+    background:url(/uploads/pages/how-winspire-works/clouds.png) no-repeat;
+    background-size: 264px 165px;
+    top:-12px;
+    right:7px;
+}
+
+ul.blocks {
+    display:block;
+    position:absolute;
+    top:-88px;
+    left:67px;
+}
+
+ul.blocks li {
+    float:left;
+    display:block;
+    list-style:none;
+    width:158px;
+    height:198px;
+    margin-right:18px;
+    padding:16px 20px;
+
+    background: rgb(106,146,196);
+    background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIwJSIgeTI9IjEwMCUiPgogICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iIzZhOTJjNCIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiMwMDVkOWYiIHN0b3Atb3BhY2l0eT0iMSIvPgogIDwvbGluZWFyR3JhZGllbnQ+CiAgPHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjEiIGhlaWdodD0iMSIgZmlsbD0idXJsKCNncmFkLXVjZ2ctZ2VuZXJhdGVkKSIgLz4KPC9zdmc+);
+    background: -moz-linear-gradient(top,  rgba(106,146,196,1) 0%, rgba(0,93,159,1) 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(106,146,196,1)), color-stop(100%,rgba(0,93,159,1)));
+    background: -webkit-linear-gradient(top,  rgba(106,146,196,1) 0%,rgba(0,93,159,1) 100%);
+    background: -o-linear-gradient(top,  rgba(106,146,196,1) 0%,rgba(0,93,159,1) 100%);
+    background: -ms-linear-gradient(top,  rgba(106,146,196,1) 0%,rgba(0,93,159,1) 100%);
+    background: linear-gradient(to bottom,  rgba(106,146,196,1) 0%,rgba(0,93,159,1) 100%);
+
+    border:2px solid #fff;
+
+    -webkit-box-shadow:  0px 1px 2px 0px rgba(0, 0, 0, 0.5);
+    box-shadow:  0px 1px 2px 0px rgba(0, 0, 0, 0.5);
+}
+
+ul.blocks li .icon {
+    display:block;
+    text-align:center;
+    font-size:54px;
+    line-height:63px;
+    font-weight:normal;
+    color:#fff;
+    text-shadow: 0px -1px 0px rgba(0, 0, 0, 0.5);
+    margin-bottom:6px;
+}
+
+ul.blocks li .icon.icon-speech-check {
+    font-size:49px;
+    line-height:63px;
+}
+
+#standard-page ul.blocks li h4 {
+    color:#fff3be;
+    font-size:20px;
+    line-height:24px;
+    text-shadow: 0px -1px 0px rgba(0, 0, 0, 0.5);
+    margin-bottom:4px;
+}
+
+#standard-page ul.blocks li p {
+    color:#fff;
+    font-size:12px;
+    line-height:20px;
+}
+
+#standard-page .wrapper {
+    margin-top:140px;
+    padding-top:203px;
+    padding-bottom:44px;
+}
+
+#standard-page p {
+    color:#565656;
+    font-size:17px;
+}
+
+#standard-page .wrapper h2 {
+    font-size:36px;
+    color:#28466c;
+    text-align:center;
+    margin-bottom:11px;
+}
+
+#standard-page .wrapper h4 {
+    color:#565656;
+    font-size:20px;
+    margin-bottom:13px;
+}
+
+#standard-page .wrapper h4 em {
+    font-size:24px;
+    font-style:normal;
+}
+
+#standard-page .wrapper h4 .icon {
+    color:#777777;
+    font-size:28px;
+    vertical-align:-2px;
+    text-shadow: 0px -1px 0px rgba(0, 0, 0, 0.75);
+}
+
+#standard-page .wrapper h4 .icon.icon-megaphone {
+    margin-right:11px;
+}
+
+#standard-page .wrapper h4 .icon.icon-speech-check {
+    font-size:25px;
+    margin-right:6px;
+    vertical-align:-4px;
+}
+
+#standard-page .wrapper h4 .icon.icon-trophy {
+    margin-right:8px;
+}
+
+#standard-page .wrapper p {
+    font-size:14px;
+    line-height:24px;
+}
+
+#standard-page .wrapper p strong {
+    font-weight:normal;
+    color:#0578c8;
+}
+
+#standard-page .wrapper a {
+    font-size:14px;
+    font-weight:bold;
+    line-height:25px;
+    color:#cb6700;
+    text-decoration:none;
+}
+
+#standard-page .wrapper a:hover {
+    color:#0578c8;
+}
+
+#standard-page .wrapper a .icon {
+    font-size:20px;
+    margin-left:-2px;
+    vertical-align:middle;
+}
+
+.wrapper .col2 {
+    padding:24px 0;
+}
+
+.wrapper .col2 img {
+    float:left;
+}
+
+.wrapper .col2 .text {
+    padding-left:20px;
+    width:425px;
+    float:left;
+}
+
+#standard-page .wrapper hr {
+    display:block;
+    background:none;
+    border:none;
+    border-bottom:1px dashed #d9d9d9;
+    margin:0 100px;
+}
+
+#standard-page .page-footer {
+    margin:54px 101px 0 101px;
+    width:572px;
+    height:49px;
+    background:url(/uploads/pages/about-us/logo-small.png) no-repeat;
+    background-size:572px 49px;
+}
+</style>
+{% endblock %}
+{% block inside %}
+<div class="page-content">
+    <div class="c-wrap">
+        <h1>How Winspire Works</h1>
+        <p style="width:730px">Winspire gives you powerful tools to find the best priceless Experiences to sell at your next fundraising auction with no risk, and a simple redemption process for your Winning Bidders.</p>
+        <div class="clouds">&nbsp;</div>
+        <div class="wrapper">
+            <ul class="blocks clearfix">
+                <li>
+                    <span class="icon icon-suitcase"></span>
+                    <h4>1. Select Experiences</h4>
+                    <p>Choose from over 200 Experiences to find the best fit for your charity fundraiser.</p>
+                </li>
+                <li>
+                    <span class="icon icon-megaphone"></span>
+                    <h4>2. Offer Them at Your Event</h4>
+                    <p>Auction packages off at your fundraiser with no risk or cost to your Nonprofit.</p>
+                </li>
+                <li>
+                    <span class="icon icon-speech-check"></span>
+                    <h4>3. Tell Us What You Sold</h4>
+                    <p>After your event, you only pay for the Experiences you made money on.</p>
+                </li>
+                <li>
+                    <span class="icon icon-trophy"></span>
+                    <h4>4. Winners Redeem</h4>
+                    <p>We take care of your Winning Bidders so you can focus on more important things.</p>
+                </li>
+            </ul>
+            <div class="inner-wrapper">
+                <div class="banner">&nbsp;</div>
+                <h2>Auction Items Made Easy</h2>
+                <hr/>
+                
+                <div class="col2 clearfix">
+                    <img src="/uploads/pages/how-winspire-works/selecting-experiences.png" width="303" height="238" alt="Selecting Experiences for your Event" style="margin:22px 26px 0 0"/>
+                    <div class="text">
+                        <h4 style="margin-top:46px;"><span class="icon icon-suitcase"></span> <em>1.</em> Selecting Experiences for your Event</h4>
+                        <p>Browse our selection of over 200 unique Experiences and see why “<a href="/faqs#q1" title="What are No Risk Auction Items?">No Risk Auction Items</a>” are the way to go. When you’re ready to begin, start adding items to your <a href="/faqs#what-is-mysuitcase" title="What is mySuitcase?">Suitcase</a> and one of our knowledgeable Event Consultants will help you pick the right set of Experiences for your audience.</p>
+                        <p style="text-align:right;"><a href="/packages">Browse Experiences <span class="icon icon-arrow-right"></span></a></p>
+                    </div>
+                </div>
+                
+                <div class="col2 clearfix">
+                    <div class="text">
+                        <h4 style="margin-top:19px;"><span class="icon icon-megaphone"></span> <em>2.</em> Offering Experiences with No Risk</h4>
+                        <p>Your Nonprofit only purchases the packages that are actually sold, so you can auction off Winspire Experiences at your fundraising event with no cost to your organization. Every dollar you raise above the package price goes straight to your Nonprofit.  Items that are especially popular can be sold multiple times, either during or after the event.</p>
+                    </div>
+                    <img src="/uploads/pages/how-winspire-works/offering-experiences.png" width="303" height="238" alt="Offering Experiences with No Risk" style="margin:-9px 0 0 26px;"/>
+                </div>
+                
+                <div class="col2 clearfix">
+                    <img src="/uploads/pages/how-winspire-works/tell-us-what-you-sold.png" width="309" height="238" alt="Tell Us What You Sold" style="margin:-6px 20px 0 0"/>
+                    <div class="text">
+                        <h4 style="margin-top:21px;"><span class="icon icon-speech-check"></span> <em>3.</em> Tell Us What You Sold</h4>
+                        <p>After your event, let us know how many of each Experience you sold and we will send an invoice for the total cost of those packages. Once we receive payment from your Nonprofit, you will be able to send <a href="/faqs#what-is-a-booking-voucher" title="What is a Booking Voucher?">Booking Vouchers</a> directly from your Suitcase to your Winning Bidders so they can redeem their Experience.</p>
+                    </div>
+                </div>
+                
+                <div class="col2 clearfix">
+                    <div class="text">
+                        <h4 style="margin-top:45px;"><span class="icon icon-trophy"></span> <em>4.</em> Winning Bidders Redeem</h4>
+                        <p>Once they receive their Booking Voucher, your Winning Bidders have everything they need to redeem their Experience. We take care of everything, booking the entire trip down to every last detail to ensure that your important patrons are well taken care of and raving about their Experience at your next event!</p>
+                    </div>
+                    <img src="/uploads/pages/how-winspire-works/winning-bidders-redeem.png" width="303" height="238" alt="Winning Bidders Redeem" style="margin:-6px 0 0 26px;"/>
+                </div>
+                
+                <div class="page-footer">&nbsp;</div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,344 @@
+{% extends 'InertiaWinspireBundle:Page:display.html.twig' %}
+{% block title %}Charity Auction Ideas | Nonprofit Auction Items | Winspire{% endblock %}
+{% block description %}Whether it’s your first time organizing a fundraising event or you’ve just about seen it all. Start planning your next event now!{% endblock %}
+{% block style %}
+<style>
+.banner {
+    width:1030px;
+    height:501px;
+    display:block;
+    position:absolute;
+    background:url(/uploads/pages/why-winspire/banner.png) no-repeat;
+    background-size: 1030px 501px;
+    top:-269px;
+    left:-18px;
+}
+
+#standard-page .wrapper {
+    margin-top:154px;
+    padding-top:187px;
+    padding-bottom:32px;
+}
+
+#standard-page p {
+    color:#565656;
+    font-size:17px;
+}
+
+#standard-page a {
+    text-decoration:none;
+    color:#cc6600;
+    font-weight:bold;
+}
+
+#standard-page a:hover {
+    color:#284669;
+}
+
+#standard-page .wrapper h4 {
+    color:#28466c;
+    font-size:22px;
+}
+
+#standard-page .wrapper p {
+    font-size:13px;
+    line-height:20px;
+}
+
+.wrapper .col2 {
+    padding:24px 0;
+}
+
+.wrapper .col2 img {
+    float:left;
+}
+
+.wrapper .col2 .text {
+    padding-left:20px;
+    width:520px;
+    float:left;
+}
+
+#standard-page .wrapper hr {
+    display:block;
+    background:none;
+    border:none;
+    border-bottom:1px dashed #d9d9d9;
+    margin:0 174px;
+}
+
+#standard-page .page-footer {
+    margin:0 172px;
+    width:572px;
+    height:49px;
+    background:url(/uploads/pages/about-us/logo-small.png) no-repeat;
+    background-size:572px 49px;
+}
+
+.samples {
+    margin-right:-3px;
+    margin-bottom:-12px;
+    padding:193px 0 0 0;
+    position:relative;
+    float:right;
+    width:322px;
+    height:79px;
+    background:url(/uploads/pages/why-winspire/mini-pdfs.png) no-repeat;
+    background-size:322px 272px;
+    text-align:center;
+}
+
+#standard-page .samples .button {
+    display:inline-block;
+    color:#fff;
+    text-decoration:none;
+    font-size:11px;
+    font-weight:bold;
+    padding:0 12px;
+    height:32px;
+    line-height:32px;
+    
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    
+    text-align:center;
+    text-shadow: 0px -1px 0px #808080;
+    border:1px solid rgb(16,152,245);
+    background: rgb(41,169,254);
+    background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIwJSIgeTI9IjEwMCUiPgogICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iIzI5YTlmZSIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiMwMDVmYjYiIHN0b3Atb3BhY2l0eT0iMSIvPgogIDwvbGluZWFyR3JhZGllbnQ+CiAgPHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjEiIGhlaWdodD0iMSIgZmlsbD0idXJsKCNncmFkLXVjZ2ctZ2VuZXJhdGVkKSIgLz4KPC9zdmc+);
+    background: -moz-linear-gradient(top,  rgb(41,169,254) 0%, rgb(0,95,182) 100%); /* FF3.6+ */
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgb(41,169,254)), color-stop(100%,rgb(0,95,182))); /* Chrome,Safari4+ */
+    background: -webkit-linear-gradient(top,  rgb(41,169,254) 0%,rgb(0,95,182) 100%); /* Chrome10+,Safari5.1+ */
+    background: -o-linear-gradient(top,  rgb(41,169,254) 0%,rgb(0,95,182) 100%); /* Opera 11.10+ */
+    background: -ms-linear-gradient(top,  rgb(41,169,254) 0%,rgb(0,95,182) 100%); /* IE10+ */
+    background: linear-gradient(to bottom,  rgb(41,169,254) 0%,rgb(0,95,182) 100%); /* W3C */
+    
+    -webkit-border-radius:3px;
+    -moz-border-radius:3px
+    border-radius:3px;
+}
+
+#standard-page .samples .button .icon {
+    margin-right: 10px;
+}
+
+#standard-page .samples .button:hover {
+    color:rgb(40,70,105);
+    background: rgb(243,206,61);
+    border:1px solid  rgb(227,191,49);
+    background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIwJSIgeTI9IjEwMCUiPgogICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iI2YzY2UzZCIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiNlZDhkMDEiIHN0b3Atb3BhY2l0eT0iMSIvPgogIDwvbGluZWFyR3JhZGllbnQ+CiAgPHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjEiIGhlaWdodD0iMSIgZmlsbD0idXJsKCNncmFkLXVjZ2ctZ2VuZXJhdGVkKSIgLz4KPC9zdmc+);
+    background: -moz-linear-gradient(top,  rgb(243,206,61) 0%, rgb(237,141,1) 100%); /* FF3.6+ */
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgb(243,206,61)), color-stop(100%,rgb(237,141,1))); /* Chrome,Safari4+ */
+    background: -webkit-linear-gradient(top,  rgb(243,206,61) 0%,rgb(237,141,1) 100%); /* Chrome10+,Safari5.1+ */
+    background: -o-linear-gradient(top,  rgb(243,206,61) 0%,rgb(237,141,1) 100%); /* Opera 11.10+ */
+    background: -ms-linear-gradient(top,  rgb(243,206,61) 0%,rgb(237,141,1) 100%); /* IE10+ */
+    background: linear-gradient(to bottom,  rgb(243,206,61) 0%,rgb(237,141,1) 100%); /* W3C */
+}
+
+.testimonial {
+    position:relative;
+    padding:20px 33px 20px 295px;
+    margin:24px 0 20px 19px;
+    width:546px;
+    height:176px;
+    background:#eeeeee url(/uploads/pages/why-winspire/bg-testimonial.png) no-repeat;
+    background-size: 284px 216px;
+    border:2px solid white;
+    -webkit-box-shadow:  0px 1px 2px 0px rgba(0, 0, 0, 0.5);
+    box-shadow:  0px 1px 2px 0px rgba(0, 0, 0, 0.5);
+}
+
+#standard-page .testimonial h4 {
+    font-family:"ArchitectsDaughter";
+    font-size:18px;
+    font-weight:normal;
+    font-style:normal;
+    line-height:30px;
+    color:#0160b7;
+    font-weight:normal;
+    font-style:normal;
+    margin:0 0 6px 0;
+    border-bottom:1px dashed #d9d9d9;
+}
+
+#standard-page .testimonial p {
+    font-size:12px;
+    color:#565656;
+    font-style:italic;
+    margin-bottom:7px;
+    line-height:20px;
+}
+
+#standard-page .testimonial p em {
+    color:#0578c8;
+}
+
+#standard-page .testimonial p strong {
+    color:#565656;
+}
+
+#standard-page .testimonial p.author {
+    text-align:right;
+    font-style:normal;
+    margin:0;
+    font-size:11px;
+    line-height:120%;
+}
+
+#standard-page .testimonial p.author span {
+    font-family:"ArchitectsDaughter";
+}
+
+#standard-page .testimonial p.author em {
+    color:#565656;
+}
+
+#standard-page .testimonial .button {
+    display:block;
+    position:absolute;
+    left:15px;
+    bottom:14px;
+    border:2px solid white;
+    padding:0 17px 0 5px;
+    height:40px;
+    text-decoration: none;
+    font-size:11px;
+    color:#565656;
+
+    background: rgb(251,250,233);
+    background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIwJSIgeTI9IjEwMCUiPgogICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iI2ZiZmFlOSIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiNlNWRmYjUiIHN0b3Atb3BhY2l0eT0iMSIvPgogIDwvbGluZWFyR3JhZGllbnQ+CiAgPHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjEiIGhlaWdodD0iMSIgZmlsbD0idXJsKCNncmFkLXVjZ2ctZ2VuZXJhdGVkKSIgLz4KPC9zdmc+);
+    background: -moz-linear-gradient(top,  rgba(251,250,233,1) 0%, rgba(229,223,181,1) 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(251,250,233,1)), color-stop(100%,rgba(229,223,181,1)));
+    background: -webkit-linear-gradient(top,  rgba(251,250,233,1) 0%,rgba(229,223,181,1) 100%);
+    background: -o-linear-gradient(top,  rgba(251,250,233,1) 0%,rgba(229,223,181,1) 100%);
+    background: -ms-linear-gradient(top,  rgba(251,250,233,1) 0%,rgba(229,223,181,1) 100%);
+    background: linear-gradient(to bottom,  rgba(251,250,233,1) 0%,rgba(229,223,181,1) 100%);
+}
+
+#standard-page .testimonial .button .icon-suitcase {
+    display:block;
+    float:left;
+    font-size:31px;
+    color:#0160b7;
+    height:40px;
+    margin-top:4px;
+    text-shadow: 0px -1px 0px rgba(0, 0, 0, 0.40);
+}
+
+#standard-page .testimonial .button .button-text {
+    display:block;
+    float:left;
+    height:40px;
+    font-weight:bold;
+    margin-left:5px;
+    margin-top:7px;
+    line-height:130%;
+}
+
+#standard-page .testimonial .button .button-text em {
+    color:#cc6600;
+    font-weight:normal;
+    font-style:normal;
+}
+
+#standard-page .testimonial .button .button-text .icon {
+    vertical-align:middle;
+    margin-left:-3px;
+   color:#cc6600;
+}
+
+#standard-page .testimonial .button:hover .button-text em {
+    text-decoration:underline;
+}
+</style>
+{% endblock %}
+{% block inside %}
+<div class="page-content">
+    <div class="c-wrap">
+        <h1>Why Winspire</h1>
+        <p style="width:680px">Whether it’s your first time organizing a fundraising event or you’ve just about seen it all, Winspire provides resources to help you raise more money at your next charity auction.</p>
+        <div class="wrapper">
+            <div class="banner">&nbsp;</div>
+
+            <div class="col2 clearfix">
+                <div class="text">
+                    <h4 style="margin-top:64px;">Priceless Experiences</h4>
+                    <p>We build and fulfill the largest selection of unique Experiences for use in your charity auction or raffle. Our Experiences are priceless and difficult to value, so bidders will pay top dollar to win them. This not only increases your fundraising dollars, but also creates the kind of “buzz” that drives up bidding on other items, leaving a good impression on your donors.</p>
+                </div>
+                <div class="samples">
+                    <a href="/packages" class="button"><span class="icon icon-search"></span>Browse Experiences</a>
+                </div>
+            </div>
+
+            <hr/>
+
+            <div class="col2 clearfix">
+                <img src="/uploads/pages/why-winspire/no-risk-guarantee.png" width="221" height="224" alt="No-Risk Guarantee" style="margin:3px 67px -4px 70px;"/>
+                <div class="text">
+                    <h4 style="margin-top:39px;">No Risk Auction Items</h4>
+                    <p>Your Nonprofit organization only purchases an Experience after the fundraising event, and only after it has been successfully sold to a Winning Bidder. An Event Consultant will work with you to determine a minimum auction price for each package, giving you control over how much you make. If you don’t reach the minimum bid during your charity auction, no transaction with Winspire takes place. This guarantees you profit on items sold and makes all our Experiences 100% No Risk.</p>
+                </div>
+            </div>
+
+            <hr/>
+
+            <div class="col2 clearfix">
+                <div class="text">
+                    <h4 style="margin-top:39px;">Sell Experiences Multiple Times With No Limit</h4>
+                    <p>All of our Experiences can be sold multiple times, most with no limit. If you have two bidders trying to outbid each other, wait for one of the bidders to jump out, then stop the bidding and sell the Experience to both of them. You will have two happy Winning Bidders and instantly double the amount of money raised! Even after your event, you can still sell Experiences to donors who neglected to bid or were unable to attend.</p>
+                </div>
+                <img src="/uploads/pages/why-winspire/sell-multiple-times.png" width="325" height="209" alt="Sell Experiences Multiple Times With No Limit" style="margin:2px 0 0 50px;"/>
+            </div>
+
+            <div class="testimonial">
+                <h4>Dear Winspire,</h4>
+                <p>Just wanted to let you know how pleased my husband and I were with the exciting package we got at the <strong>Salinas Valley Memorial Healthcare Foundation Gala Auction</strong> last year. This was a trip to New York staying at the world famous Plaza Hotel. The package was even better than it read.  We had deluxe accommodations and we were treated like VIPs. I would recommend your company to all and if I need to make travel plans in the future, I will be contacting you.”</p>
+                <p class="author"><span>Bev &amp; Gary Ranzenberger</span><br/>
+                    <em>Winning Bidder</em></p>
+
+                <a href="/package/new-york-amazing-long-weekend" class="button clearfix">
+                    <span class="icon icon-suitcase"></span>
+                    <span class="button-text">
+                        New York Amazing Long Weekend<br/>
+                        <em>View 2 Options</em> <span class="icon icon-arrow-right"></span>
+                    </span>
+                </a>
+            </div>
+
+            <div class="col2 clearfix">
+                <img src="/uploads/pages/why-winspire/professional-event-consultation.png" width="322" height="193" alt="Professional Event Consultation" style="margin:28px 39px 6px -2px;"/>
+                <div class="text">
+                    <h4 style="margin-top:39px;">Professional Event Consultation and Advice</h4>
+                    <p>Winspire is staffed with Nonprofit fundraising and event professionals who have extensive experience in event production, auction management and support services. We know what charity auction patrons want and we know how to deliver it. Your personal Event Consultant will be able to provide you with valuable advice on how to maximize your Nonprofit fundraising revenue and run a successful event.</p>
+                </div>
+            </div>
+
+            <hr/>
+
+            <div class="col2 clearfix">
+                <div class="text">
+                    <h4 style="margin-top:56px;">When the Event is Over, You’re Done!</h4>
+                    <p>With a Winspire booking and concierge service included on all our Experiences, we take care of everything the Winning Bidder needs following your event. When they are ready to redeem their trip, Winning Bidders simply follow the steps outlined on their <a href="/faqs#what-is-a-booking-voucher" title="What is a Booking Voucher?">Booking Voucher</a> and our team of travel professionals will take it from there, handling reservations and booking the Experience down to every last detail.</p>
+                </div>
+                <img src="/uploads/pages/why-winspire/when-the-event-is-over.png" width="277" height="233" alt="When the Event is Over, You’re Done!" style="margin:11px 6px 0 55px;"/>
+            </div>
+
+            <hr/>
+
+            <div class="col2 clearfix">
+                <img src="/uploads/pages/why-winspire/dedicated-to-your-success.png" width="247" height="247" alt="Dedicated to Your Success" style="margin:19px 60px 9px 53px"/>
+                <div class="text">
+                    <h4 style="margin-top:55px;">Dedicated to Your Success</h4>
+                    <p>The success of Winspire relies on our ability to help your Nonprofit raise money. Because we have a mutually vested interest in making sure each Experience sells, we are altogether dedicated to the success of your event and maximizing your nonprofit fundraising revenue.  More succinctly put, your success is our success! </p>
+                </div>
+            </div>
+
+            <div class="page-footer">&nbsp;</div>
+        </div>
+    </div>
+</div>
+{% endblock %}

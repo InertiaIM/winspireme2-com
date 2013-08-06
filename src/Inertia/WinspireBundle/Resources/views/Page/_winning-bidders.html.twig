@@ -1,0 +1,478 @@
+{% extends 'InertiaWinspireBundle:Page:display.html.twig' %}
+{% block title %}Nonprofit Fundraising Auction Winners | Winspire{% endblock %}
+{% block description %}Find out more about how to redeem your charity auction travel package through Winspire.{% endblock %}
+{% block style %}
+<style>
+#standard-page .page-content {
+    padding-top:0;
+}
+
+#standard-page .wrapper {
+    padding-top:38px;
+    padding-bottom:88px;
+    margin-top:0;
+    background:#f7f7f7;
+}
+
+.c-wrap {
+    z-index:0;
+}
+
+#standard-page .wrapper h1 {
+    font-size:24px;
+    line-height:24px;
+    color:#28466c;
+    margin:0;
+    padding:0;
+    border-bottom:1px dashed #d3d3d3;
+}
+
+.page-header {
+    position:relative;
+}
+
+#standard-page .page-header p {
+    font-size:12px;
+    font-weight:bold;
+    line-height:100%;
+    color:#777777;
+    text-align:right;
+    position:absolute;
+    bottom:4px;
+    right:0;
+    margin:0;
+    padding:0;
+}
+
+#standard-page .page-header p a {
+    text-decoration:none;
+    font-weight:normal;
+    color:#0578c8;
+}
+
+.banner {
+    position:relative;
+    width:696px;
+    height:113px;
+    border:2px solid #fff;
+    margin:34px 0 0 -52px;
+    padding:23px 270px 0 50px;
+    
+    background: rgb(106,146,196);
+    background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIwJSIgeTI9IjEwMCUiPgogICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iIzZhOTJjNCIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiMwMDVkOWYiIHN0b3Atb3BhY2l0eT0iMSIvPgogIDwvbGluZWFyR3JhZGllbnQ+CiAgPHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjEiIGhlaWdodD0iMSIgZmlsbD0idXJsKCNncmFkLXVjZ2ctZ2VuZXJhdGVkKSIgLz4KPC9zdmc+);
+    background: -moz-linear-gradient(top,  rgba(106,146,196,1) 0%, rgba(0,93,159,1) 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(106,146,196,1)), color-stop(100%,rgba(0,93,159,1)));
+    background: -webkit-linear-gradient(top,  rgba(106,146,196,1) 0%,rgba(0,93,159,1) 100%);
+    background: -o-linear-gradient(top,  rgba(106,146,196,1) 0%,rgba(0,93,159,1) 100%);
+    background: -ms-linear-gradient(top,  rgba(106,146,196,1) 0%,rgba(0,93,159,1) 100%);
+    background: linear-gradient(to bottom,  rgba(106,146,196,1) 0%,rgba(0,93,159,1) 100%);
+    
+    -webkit-box-shadow:  0px 1px 1px 0px rgba(0, 0, 0, 0.5);
+    box-shadow:  0px 1px 1px 0px rgba(0, 0, 0, 0.5);
+}
+
+.banner img {
+    display:block;
+    position:absolute;
+    width:208px;
+    height:297px;
+    bottom:-142px;
+    right:42px;
+}
+
+.banner:before,
+.banner:after {
+    display:block;
+    position:absolute;
+    content:'';
+    bottom:-12px;
+    left:-2px;
+    width:10px;
+    height:10px;
+    background:url(/uploads/pages/winning-bidders/fold.png) no-repeat;
+    background-size:20px 10px;
+}
+
+.banner:after {
+    left:auto;
+    right:-2px;
+    background-position:-10px;
+}
+
+#standard-page .banner h2 {
+    font-size:36px;
+    line-height:100%;
+    color:#ffe988;
+    margin:0 0 9px 0;
+    padding:0;
+    text-shadow: 0px -1px 0px rgba(0, 0, 0, 0.5);
+}
+
+#standard-page .banner p {
+    font-size:18px;
+    color:#fff;
+    line-height:120%;
+    margin:0;
+    padding:0;
+}
+
+.inner-wrapper {
+    padding:42px 0;
+    margin:48px 0 0 0;
+    border:1px solid #ccc;
+    background:#fff;
+}
+
+.inner-wrapper .button-wrap {
+    margin-top:40px;
+    text-align:center;
+    position:relative;
+}
+
+.inner-wrapper .button-wrap:before,
+.inner-wrapper .button-wrap:after {
+    content:'';
+    font-size:0;
+    overflow:hidden;
+    line-height:0;
+    padding:0;
+    position:absolute;
+    border-bottom:1px solid #d6d6d6;
+    width:200px;
+    height:0;
+    left:60px;
+    top:38px;
+}
+
+.inner-wrapper .button-wrap:after {
+    left:auto;
+    right:60px;
+}
+
+
+.inner-wrapper .button.redeem {
+    display:inline-block;
+    position:relative;
+    color:#fff;
+    text-decoration:none;
+    font-size:36px;
+/*    letter-spacing:-0.03em; */
+    font-weight:bold;
+    padding:0 95px;
+    margin:0;
+    height:70px;
+    line-height:70px;
+    outline:none;
+    
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    
+    text-align:center;
+    text-shadow: 0px -1px 0px rgba(0, 0, 0, 0.5);
+    border-top:1px solid #77afe5;
+    border-left:1px solid #2c89dd;
+    border-right:1px solid #2c89dd;
+    border-bottom:1px solid #1d7ad4;
+    
+    background: rgb(139,208,251);
+    background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIwJSIgeTI9IjEwMCUiPgogICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iIzhiZDBmYiIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjIlIiBzdG9wLWNvbG9yPSIjOGJkMGZiIiBzdG9wLW9wYWNpdHk9IjEiLz4KICAgIDxzdG9wIG9mZnNldD0iOCUiIHN0b3AtY29sb3I9IiM1Y2JkZjkiIHN0b3Atb3BhY2l0eT0iMSIvPgogICAgPHN0b3Agb2Zmc2V0PSI5NCUiIHN0b3AtY29sb3I9IiMxNjkyZmYiIHN0b3Atb3BhY2l0eT0iMSIvPgogICAgPHN0b3Agb2Zmc2V0PSI5OSUiIHN0b3AtY29sb3I9IiMxOTcwYzMiIHN0b3Atb3BhY2l0eT0iMSIvPgogICAgPHN0b3Agb2Zmc2V0PSIxMDAlIiBzdG9wLWNvbG9yPSIjMGI0YTgxIiBzdG9wLW9wYWNpdHk9IjEiLz4KICA8L2xpbmVhckdyYWRpZW50PgogIDxyZWN0IHg9IjAiIHk9IjAiIHdpZHRoPSIxIiBoZWlnaHQ9IjEiIGZpbGw9InVybCgjZ3JhZC11Y2dnLWdlbmVyYXRlZCkiIC8+Cjwvc3ZnPg==);
+    background: -moz-linear-gradient(top,  rgba(139,208,251,1) 0%, rgba(139,208,251,1) 2%, rgba(92,189,249,1) 8%, rgba(22,146,255,1) 94%, rgba(25,112,195,1) 99%, rgba(11,74,129,1) 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(139,208,251,1)), color-stop(2%,rgba(139,208,251,1)), color-stop(8%,rgba(92,189,249,1)), color-stop(94%,rgba(22,146,255,1)), color-stop(99%,rgba(25,112,195,1)), color-stop(100%,rgba(11,74,129,1)));
+    background: -webkit-linear-gradient(top,  rgba(139,208,251,1) 0%,rgba(139,208,251,1) 2%,rgba(92,189,249,1) 8%,rgba(22,146,255,1) 94%,rgba(25,112,195,1) 99%,rgba(11,74,129,1) 100%);
+    background: -o-linear-gradient(top,  rgba(139,208,251,1) 0%,rgba(139,208,251,1) 2%,rgba(92,189,249,1) 8%,rgba(22,146,255,1) 94%,rgba(25,112,195,1) 99%,rgba(11,74,129,1) 100%);
+    background: -ms-linear-gradient(top,  rgba(139,208,251,1) 0%,rgba(139,208,251,1) 2%,rgba(92,189,249,1) 8%,rgba(22,146,255,1) 94%,rgba(25,112,195,1) 99%,rgba(11,74,129,1) 100%);
+    background: linear-gradient(to bottom,  rgba(139,208,251,1) 0%,rgba(139,208,251,1) 2%,rgba(92,189,249,1) 8%,rgba(22,146,255,1) 94%,rgba(25,112,195,1) 99%,rgba(11,74,129,1) 100%);
+    
+    border-radius:6px;
+}
+
+.inner-wrapper .text {
+    padding:0 36px 0 334px;
+    background:url(/uploads/pages/winning-bidders/redeem.png) no-repeat;
+    background-size:289px 241px;
+    background-position:14px -9px;
+    min-height:241px;
+}
+
+#standard-page .inner-wrapper .text h3 {
+    font-family:'ArchitectsDaughter';
+    font-size:24px;
+    line-height:100%;
+    font-weight:normal;
+    color:#006bb6;
+    padding:0;
+    margin:0 0 8px 0;
+}
+
+#standard-page .inner-wrapper .text h4 {
+    font-size:16px;
+    line-height:100%;
+    color:#565656;
+    padding:0;
+    margin:0 0 18px 0;
+}
+
+#standard-page .inner-wrapper .text p {
+    font-size:14px;
+    line-height:22px;
+    color:#565656;
+    padding:0;
+    margin:0 0 15px 0;
+}
+
+
+.inner-wrapper .text .box {
+    float:right;
+    display:inline-block;
+    border:2px solid #fff;
+    margin:-5px 0 0 0;
+    padding:14px 34px 7px 14px;
+    
+    background: rgb(255,253,241);
+    background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIwJSIgeTI9IjEwMCUiPgogICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iI2ZmZmRmMSIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiNmZmY4Y2UiIHN0b3Atb3BhY2l0eT0iMSIvPgogIDwvbGluZWFyR3JhZGllbnQ+CiAgPHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjEiIGhlaWdodD0iMSIgZmlsbD0idXJsKCNncmFkLXVjZ2ctZ2VuZXJhdGVkKSIgLz4KPC9zdmc+);
+    background: -moz-linear-gradient(top,  rgba(255,253,241,1) 0%, rgba(255,248,206,1) 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(255,253,241,1)), color-stop(100%,rgba(255,248,206,1)));
+    background: -webkit-linear-gradient(top,  rgba(255,253,241,1) 0%,rgba(255,248,206,1) 100%);
+    background: -o-linear-gradient(top,  rgba(255,253,241,1) 0%,rgba(255,248,206,1) 100%);
+    background: -ms-linear-gradient(top,  rgba(255,253,241,1) 0%,rgba(255,248,206,1) 100%);
+    background: linear-gradient(to bottom,  rgba(255,253,241,1) 0%,rgba(255,248,206,1) 100%);
+    
+    -webkit-box-shadow:  0px 1px 1px 0px rgba(0, 0, 0, 0.5);
+    box-shadow:  0px 1px 1px 0px rgba(0, 0, 0, 0.5);
+}
+
+#standard-page .inner-wrapper .text .box h5 {
+    font-size:16px;
+    line-height:100%;
+    color:#006bb6;
+    margin:0 0 1px 0;
+    padding:0;
+}
+
+#standard-page .inner-wrapper .text .box p {
+    font-size:12px;
+    line-height:15px;
+    color:#777777;
+    margin:0 0 5px 0;
+    padding:0;
+}
+
+#standard-page .inner-wrapper .text .box p a {
+    color:#d18000;
+    text-decoration:none;
+}
+
+.col2 .col {
+    float:left;
+    width:420px;
+    padding:226px 0 0 20px;
+}
+
+.col2 .col .button-wrap {
+    text-align:center;
+    margin-top:50px;
+}
+
+.col2 .col .button {
+    display:inline-block;
+    position:relative;
+    color:#fff;
+    text-decoration:none;
+    font-size:18px;
+    font-weight:bold;
+    padding:0 49px;
+    margin:0;
+    height:34px;
+    line-height:34px;
+    outline:none;
+    
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    
+    text-align:center;
+    text-shadow: 0px -1px 0px #834e4e;
+    border:1px solid #680c05;
+    
+    background: rgb(219,37,24);
+    background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIwJSIgeTI9IjEwMCUiPgogICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iI2RiMjUxOCIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiM5ZDExMDYiIHN0b3Atb3BhY2l0eT0iMSIvPgogIDwvbGluZWFyR3JhZGllbnQ+CiAgPHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjEiIGhlaWdodD0iMSIgZmlsbD0idXJsKCNncmFkLXVjZ2ctZ2VuZXJhdGVkKSIgLz4KPC9zdmc+);
+    background: -moz-linear-gradient(top,  rgba(219,37,24,1) 0%, rgba(157,17,6,1) 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(219,37,24,1)), color-stop(100%,rgba(157,17,6,1)));
+    background: -webkit-linear-gradient(top,  rgba(219,37,24,1) 0%,rgba(157,17,6,1) 100%);
+    background: -o-linear-gradient(top,  rgba(219,37,24,1) 0%,rgba(157,17,6,1) 100%);
+    background: -ms-linear-gradient(top,  rgba(219,37,24,1) 0%,rgba(157,17,6,1) 100%);
+    background: linear-gradient(to bottom,  rgba(219,37,24,1) 0%,rgba(157,17,6,1) 100%);
+    
+    border-radius:3px;
+}
+
+.col2 .col .button:hover {
+    background:#bb180d;
+}
+
+#standard-page .col2 .col h3 {
+    font-size:22px;
+    line-height:100%;
+    color:#006bb6;
+    margin:0 0 3px 0;
+    padding:0;
+}
+
+#standard-page .col2 .col h4 {
+    font-size:16px;
+    line-height:100%;
+    color:#565656;
+    margin:0 0 13px 0;
+    padding:0;
+}
+
+#standard-page .col2 .col p {
+    font-size:12px;
+    line-height:20px;
+    color:#666666;
+    margin:0 0 10px 0;
+    padding:0;
+}
+
+.help {
+    padding-top:9px;
+    background:url(/uploads/pages/winning-bidders/twins.png) no-repeat;
+    background-size:123px 130px;
+    background-position:0 9px;
+    min-height:130px;
+}
+
+.help .box {
+    float:right;
+    display:inline-block;
+    padding:15px 20px;
+    margin:50px 20px 0 0;
+    border:2px solid #fff;
+    
+    background: rgb(255,253,241);
+    background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIwJSIgeTI9IjEwMCUiPgogICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iI2ZmZmRmMSIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiNmZmY4Y2UiIHN0b3Atb3BhY2l0eT0iMSIvPgogIDwvbGluZWFyR3JhZGllbnQ+CiAgPHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjEiIGhlaWdodD0iMSIgZmlsbD0idXJsKCNncmFkLXVjZ2ctZ2VuZXJhdGVkKSIgLz4KPC9zdmc+);
+    background: -moz-linear-gradient(top,  rgba(255,253,241,1) 0%, rgba(255,248,206,1) 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(255,253,241,1)), color-stop(100%,rgba(255,248,206,1)));
+    background: -webkit-linear-gradient(top,  rgba(255,253,241,1) 0%,rgba(255,248,206,1) 100%);
+    background: -o-linear-gradient(top,  rgba(255,253,241,1) 0%,rgba(255,248,206,1) 100%);
+    background: -ms-linear-gradient(top,  rgba(255,253,241,1) 0%,rgba(255,248,206,1) 100%);
+    background: linear-gradient(to bottom,  rgba(255,253,241,1) 0%,rgba(255,248,206,1) 100%);
+    
+    -webkit-box-shadow:  0px 1px 1px 0px rgba(0, 0, 0, 0.5);
+    box-shadow:  0px 1px 1px 0px rgba(0, 0, 0, 0.5);
+}
+
+#standard-page .help .box h5 {
+    font-size:16px;
+    line-height:100%;
+    color:#006bb6;
+    margin:0 0 5px 0;
+    padding:0;
+}
+
+#standard-page .help .box p {
+    font-size:13px;
+    line-height:100%;
+    color:#565656;
+    margin:0;
+    padding:0;
+}
+
+#standard-page .help .box p a {
+    color:#d18000;
+    text-decoration:none;
+}
+
+#col1 {
+    background:url(/uploads/pages/winning-bidders/bg1.png) no-repeat;
+    background-size:121px 121px;
+    background-position:170px 61px;
+}
+
+#col2 {
+    background:url(/uploads/pages/winning-bidders/bg2.png) no-repeat;
+    background-size:149px 121px;
+    background-position:136px 61px;
+    margin-left:36px;
+    padding-left:0;
+    padding-right:20px;
+}
+</style>
+{% endblock %}
+{% block inside %}
+<div class="page-content">
+    <div class="c-wrap">
+        <div class="wrapper">
+            <div class="page-header">
+                <h1>Winning Bidders</h1>
+                <p>Still waiting for a Booking Voucher? <a href="/contact-us">Contact Us</a></p>
+            </div>
+            
+            <div class="banner">
+                <h2>Congratulations on your winning bid!</h2>
+                
+                <p>Here you will find everything you need to begin booking your Experience. Make sure you have the Booking Voucher you received from your Nonprofit.</p>
+                
+                <img src="/uploads/pages/winning-bidders/ribbon.png" width="208" height="297" alt=""/>
+            </div>
+            
+            <div class="inner-wrapper">
+                <div class="text clearfix">
+                    <h3>Now Redeem Your Trip!</h3>
+                    
+                    <h4>The Winspire booking service is here to help.</h4>
+                    
+                    <p>All of our Experiences include a simple and convenient travel booking and concierge service. Begin by clicking “Redeem” below and fill in the necessary information. Our team of travel experts will take it from there, handling reservations and booking your Experience down to every last detail.</p>
+                    
+                    <p style="width:300px; float:left;">Once your request has been submitted, you will receive a confirmation email within 24 hours. We will begin the booking process and you will be contacted within 15 business days.</p>
+                    
+                    <div class="box">
+                        <h5>Questions?</h5>
+                        <p style="text-align:center"><strong>877.544.8555</strong><br/>
+                        <a href="mailto:redeem@winspireme.com" target="_blank">redeem@winspireme.com</a></p>
+                    </div>
+                </div>
+                
+                <div class="button-wrap">
+                    <a class="button redeem" href="/redeem">Redeem</a>
+                </div>
+            </div>
+            
+            <div class="col2 clearfix">
+                <div class="col" id="col1">
+                    <h3>Tell us about your Experience!</h3>
+                    <h4>Take this survey to help us improve our packages.</h4>
+                    <p>We hope you enjoyed your Experience! Here at Winspire, we constantly strive to provide Winning Bidders with the best and most unique trips possible. As such, we ask for your feedback to help us improve our travel packages and trip booking process.</p>
+                    
+                    <p>Please take a few minutes to fill out this brief 5-minute survey about your experience and interaction with Winspire. All answers are 100% anonymous.</p>
+                    <div class="button-wrap">
+                        <a class="button survey" href="https://www.surveymonkey.com/s/winspire-winning-bidder-survey" target="_blank">Take Survey</a> 
+                    </div>
+                </div>
+                
+                <div class="col" id="col2">
+                    <h3>Involved with another Nonprofit?</h3>
+                    <h4>We can help you increase your fundraising dollars!</h4>
+                    <p>Are you aware of any fundraising events coming up that could use unique auction items? Winspire provides highly sought-after, hard to find, unique Experiences for use in any charity auction, raffle or fundraiser.</p>
+                    
+                    <p>If you or someone you know is involved in raising money for a charity or Nonprofit, contact us today for more information on how we can help maximize the fundraising revenue of the organization’s next event.</p>
+                    
+                    <div class="help">
+                        <div class="box">
+                            <h5>Contact Us</h5>
+                            <p>877.544.8555&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;<a href="mailto:info@winspireme.com" target="_blank">info@winspireme.com</a></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

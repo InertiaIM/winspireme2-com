@@ -1,0 +1,597 @@
+{% extends 'InertiaWinspireBundle:Page:display.html.twig' %}
+{% block title %}Fundraising Auction Ideas | Charity Fundraiser Ideas | Winspire{% endblock %}
+{% block description %}Learn more about Winspire and how we help charity and nonprofit organizations generate more revenue from their auctions and fundraising events.{% endblock %}
+{% block style %}
+<style>
+.clouds {
+    width:646px;
+    height:192px;
+    display:block;
+    position:absolute;
+    background:url(/uploads/pages/about-us/clouds.png) no-repeat;
+    background-size: 646px 192px;
+    top:-34px;
+    right:5px;
+}
+
+#standard-page .wrapper {
+    margin-top: 98px;
+}
+
+#standard-page h4 {
+    font-size:24px;
+    font-family:"ArchitectsDaughter";
+    font-weight:normal;
+    font-style:normal;
+    color:#777777;
+}
+
+#standard-page h5 {
+    font-size:16px;
+    line-height:130%;
+    color:#005695;
+    margin-bottom:10px;
+}
+
+#standard-page p {
+    color:#565656;
+    font-size:14px;
+    line-height:20px;
+}
+
+#standard-page a {
+    color:#cb6700;
+    text-decoration:none;
+    font-weight:bold;
+}
+
+#standard-page a:hover {
+    color:#284669;
+}
+
+#standard-page .page-footer {
+    margin:0 172px;
+    width:572px;
+    height:49px;
+    background:url(/uploads/pages/about-us/logo-small.png) no-repeat;
+    background-size:572px 49px;
+}
+
+.banner {
+    width:948px;
+    height:120px;
+    background: rgb(106,146,196);
+    border:2px solid white;
+
+    position:absolute;
+    top:-38px;
+    left:22px;
+    
+    -webkit-box-shadow:  0px 1px 2px 0px rgba(0, 0, 0, 0.5);
+    box-shadow:  0px 1px 2px 0px rgba(0, 0, 0, 0.5);
+
+    background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIwJSIgeTI9IjEwMCUiPgogICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iIzZhOTJjNCIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiMwMDVkOWYiIHN0b3Atb3BhY2l0eT0iMSIvPgogIDwvbGluZWFyR3JhZGllbnQ+CiAgPHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjEiIGhlaWdodD0iMSIgZmlsbD0idXJsKCNncmFkLXVjZ2ctZ2VuZXJhdGVkKSIgLz4KPC9zdmc+);
+    background: -moz-linear-gradient(top,  rgba(106,146,196,1) 0%, rgba(0,93,159,1) 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(106,146,196,1)), color-stop(100%,rgba(0,93,159,1)));
+    background: -webkit-linear-gradient(top,  rgba(106,146,196,1) 0%,rgba(0,93,159,1) 100%);
+    background: -o-linear-gradient(top,  rgba(106,146,196,1) 0%,rgba(0,93,159,1) 100%);
+    background: -ms-linear-gradient(top,  rgba(106,146,196,1) 0%,rgba(0,93,159,1) 100%);
+    background: linear-gradient(to bottom,  rgba(106,146,196,1) 0%,rgba(0,93,159,1) 100%);
+}
+
+#standard-page .banner h3 {
+    font-family:ArchitectsDaughter;
+    font-size:22px;
+    font-weight:normal;
+    font-style:normal;
+    line-height:30px;
+    color:#fff;
+    text-shadow: 0px -1px 0px rgba(0, 0, 0, 0.75);
+    margin:31px 0 0 39px;
+}
+
+#standard-page .banner h3 span {
+    color:#fff3be;
+}
+
+.banner img {
+    display:block;
+    position:absolute;
+    right:68px;
+    top:-150px;
+}
+
+.tabs {
+    margin-top:124px;
+    display:block;
+    border-bottom:1px dashed #d9d9d9;
+}
+
+.tabs li {
+    list-style:none;
+    display:block;
+    margin:0 25px 0 0 !important;
+    float:left;
+}
+
+#standard-page .tabs li a {
+    display: block;
+    width:150px;
+    text-align:center;
+    height:50px;
+    font-size:16px;
+    font-weight:bold;
+    line-height:50px;
+    color:#777777;
+    border-top:2px solid transparent;
+    border-left:1px solid transparent;
+    border-right:1px solid transparent;
+    text-decoration: none;
+}
+
+#standard-page .tabs li a:hover {
+/*    color:#cb6700; */
+    background:#ebebeb;
+}
+
+#standard-page .tabs li a.active {
+    background:#ffffff !important;
+    color:#cb6700;
+    border-top:2px solid #dcdcdc;
+    border-left:1px solid #e7e7e7;
+    border-right:1px solid #f0f0f0;
+}
+
+#who-we-are {
+    padding:32px 0 54px 0;
+}
+
+#who-we-are .col2 img {
+    display:block;
+    float:left;
+}
+
+#who-we-are .col2 div {
+    float:left;
+    margin-left:25px;
+    width:498px;
+}
+
+#who-we-are h4 {
+    margin-top:17px;
+    margin-bottom:13px;
+}
+
+#who-we-are p strong {
+    font-weight:bold;
+    color:#005695;
+}
+
+#who-we-are .testimonial {
+    position:relative;
+    padding:20px 295px 20px 33px;
+    margin:33px 0 0 19px;
+    width:546px;
+    height:176px;
+    background:url(/uploads/pages/about-us/bg-testimonial.png);
+    background-size: 874px 216px;
+    border:2px solid white;
+    -webkit-box-shadow:  0px 1px 2px 0px rgba(0, 0, 0, 0.5);
+    box-shadow:  0px 1px 2px 0px rgba(0, 0, 0, 0.5);
+}
+
+#who-we-are .testimonial h4 {
+    font-size:18px;
+    line-height:30px;
+    color:#0160b7;
+    font-weight:normal;
+    font-style:normal;
+    margin:0 0 6px 0;
+    border-bottom:1px dashed #d9d9d9;
+}
+
+#who-we-are .testimonial p {
+    font-size:12px;
+    color:#565656;
+    font-style:italic;
+    margin-bottom:7px;
+}
+
+#who-we-are .testimonial p em {
+    color:#0578c8;
+}
+
+#who-we-are .testimonial p strong {
+    color:#565656;
+}
+
+#who-we-are .testimonial p.author {
+    text-align:right;
+    font-style:normal;
+    margin:0;
+    font-size:11px;
+    line-height:120%;
+}
+
+#who-we-are .testimonial p.author span {
+    font-family:"ArchitectsDaughter";
+}
+
+#who-we-are .testimonial p.author em {
+    color:#565656;
+}
+
+#who-we-are .testimonial .button {
+    display:block;
+    position:absolute;
+    right:15px;
+    bottom:14px;
+    border:2px solid white;
+    padding:0 17px 0 5px;
+    height:40px;
+    text-decoration: none;
+    font-size:11px;
+    color:#565656;
+
+    background: rgb(251,250,233);
+    background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIwJSIgeTI9IjEwMCUiPgogICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iI2ZiZmFlOSIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiNlNWRmYjUiIHN0b3Atb3BhY2l0eT0iMSIvPgogIDwvbGluZWFyR3JhZGllbnQ+CiAgPHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjEiIGhlaWdodD0iMSIgZmlsbD0idXJsKCNncmFkLXVjZ2ctZ2VuZXJhdGVkKSIgLz4KPC9zdmc+);
+    background: -moz-linear-gradient(top,  rgba(251,250,233,1) 0%, rgba(229,223,181,1) 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(251,250,233,1)), color-stop(100%,rgba(229,223,181,1)));
+    background: -webkit-linear-gradient(top,  rgba(251,250,233,1) 0%,rgba(229,223,181,1) 100%);
+    background: -o-linear-gradient(top,  rgba(251,250,233,1) 0%,rgba(229,223,181,1) 100%);
+    background: -ms-linear-gradient(top,  rgba(251,250,233,1) 0%,rgba(229,223,181,1) 100%);
+    background: linear-gradient(to bottom,  rgba(251,250,233,1) 0%,rgba(229,223,181,1) 100%);
+}
+
+#who-we-are .testimonial .button .icon-suitcase {
+    display:block;
+    float:left;
+    font-size:31px;
+    color:#0160b7;
+    height:40px;
+    margin-top:4px;
+    text-shadow: 0px -1px 0px rgba(0, 0, 0, 0.40);
+}
+
+#who-we-are .testimonial .button .button-text {
+    display:block;
+    float:left;
+    height:40px;
+    font-weight:bold;
+    margin-left:5px;
+    margin-top:7px;
+    line-height:130%;
+}
+
+#who-we-are .testimonial .button .button-text em {
+    color:#cc6600;
+    font-weight:normal;
+    font-style:normal;
+}
+
+#who-we-are .testimonial .button .button-text .icon {
+    vertical-align:middle;
+    margin-left:-3px;
+   color:#cc6600;
+}
+
+#who-we-are .testimonial .button:hover .button-text em {
+    text-decoration:underline;
+}
+
+
+#what-we-do {
+    padding:35px 0 40px 17px;
+}
+
+#what-we-do h4 {
+    margin-bottom:10px;
+}
+
+#what-we-do h5 {
+    line-height:140%;
+    margin-bottom:17px;
+}
+
+#what-we-do p {
+    line-height:150%;
+    margin-bottom:17px;
+}
+
+#what-we-do .button {
+    display:inline-block;
+    color:#fff;
+    text-decoration:none;
+    font-size:11px;
+    font-weight:bold;
+    padding:0 12px;
+    height:32px;
+    line-height:32px;
+
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+
+    text-align:center;
+    text-shadow: 0px -1px 0px #808080;
+    border:1px solid rgb(16,152,245);
+    background: rgb(41,169,254);
+    background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIwJSIgeTI9IjEwMCUiPgogICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iIzI5YTlmZSIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiMwMDVmYjYiIHN0b3Atb3BhY2l0eT0iMSIvPgogIDwvbGluZWFyR3JhZGllbnQ+CiAgPHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjEiIGhlaWdodD0iMSIgZmlsbD0idXJsKCNncmFkLXVjZ2ctZ2VuZXJhdGVkKSIgLz4KPC9zdmc+);
+    background: -moz-linear-gradient(top,  rgb(41,169,254) 0%, rgb(0,95,182) 100%); /* FF3.6+ */
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgb(41,169,254)), color-stop(100%,rgb(0,95,182))); /* Chrome,Safari4+ */
+    background: -webkit-linear-gradient(top,  rgb(41,169,254) 0%,rgb(0,95,182) 100%); /* Chrome10+,Safari5.1+ */
+    background: -o-linear-gradient(top,  rgb(41,169,254) 0%,rgb(0,95,182) 100%); /* Opera 11.10+ */
+    background: -ms-linear-gradient(top,  rgb(41,169,254) 0%,rgb(0,95,182) 100%); /* IE10+ */
+    background: linear-gradient(to bottom,  rgb(41,169,254) 0%,rgb(0,95,182) 100%); /* W3C */
+
+    -webkit-border-radius:3px;
+    -moz-border-radius:3px
+    border-radius:3px;
+}
+
+#what-we-do .button .icon {
+    margin-right: 10px;
+}
+
+#what-we-do .button:hover {
+    color:rgb(40,70,105);
+    background: rgb(243,206,61);
+    border:1px solid  rgb(227,191,49);
+    background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIwJSIgeTI9IjEwMCUiPgogICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iI2YzY2UzZCIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiNlZDhkMDEiIHN0b3Atb3BhY2l0eT0iMSIvPgogIDwvbGluZWFyR3JhZGllbnQ+CiAgPHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjEiIGhlaWdodD0iMSIgZmlsbD0idXJsKCNncmFkLXVjZ2ctZ2VuZXJhdGVkKSIgLz4KPC9zdmc+);
+    background: -moz-linear-gradient(top,  rgb(243,206,61) 0%, rgb(237,141,1) 100%); /* FF3.6+ */
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgb(243,206,61)), color-stop(100%,rgb(237,141,1))); /* Chrome,Safari4+ */
+    background: -webkit-linear-gradient(top,  rgb(243,206,61) 0%,rgb(237,141,1) 100%); /* Chrome10+,Safari5.1+ */
+    background: -o-linear-gradient(top,  rgb(243,206,61) 0%,rgb(237,141,1) 100%); /* Opera 11.10+ */
+    background: -ms-linear-gradient(top,  rgb(243,206,61) 0%,rgb(237,141,1) 100%); /* IE10+ */
+    background: linear-gradient(to bottom,  rgb(243,206,61) 0%,rgb(237,141,1) 100%); /* W3C */
+}
+
+#what-we-do p strong {
+    font-weight:normal;
+    color:#0578c8;
+}
+
+#what-we-do .col2 {
+    padding-bottom:19px;
+}
+
+#what-we-do .col2 .text {
+    display:block;
+    float:left;
+    width:550px;
+    margin-top:18px;
+}
+
+#what-we-do .col2 .samples {
+    padding:233px 0 0 0;
+    position:relative;
+    float:right;
+    width:325px;
+    height:79px;
+    background:url(/uploads/pages/about-us/mini-pdfs.png) no-repeat;
+    background-size:325px 312px;
+    text-align:center;
+}
+
+#core-values {
+    padding:45px 64px 79px 64px;
+}
+
+#core-values h4 {
+    margin-bottom:14px;
+}
+
+#core-values h5 {
+    margin-bottom:17px;
+}
+
+#core-values .core-values {
+    margin:94px 27px 0 27px;
+    padding:63px 34px 30px 34px;
+    position:relative;
+
+    border:1px solid #bfbfbf;
+
+    background: rgb(255,255,241);
+    background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIwJSIgeTI9IjEwMCUiPgogICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iI2ZmZmZmMSIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiNlZGVkZWQiIHN0b3Atb3BhY2l0eT0iMSIvPgogIDwvbGluZWFyR3JhZGllbnQ+CiAgPHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjEiIGhlaWdodD0iMSIgZmlsbD0idXJsKCNncmFkLXVjZ2ctZ2VuZXJhdGVkKSIgLz4KPC9zdmc+);
+    background: -moz-linear-gradient(top,  rgba(255,255,241,1) 0%, rgba(237,237,237,1) 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(255,255,241,1)), color-stop(100%,rgba(237,237,237,1)));
+    background: -webkit-linear-gradient(top,  rgba(255,255,241,1) 0%,rgba(237,237,237,1) 100%);
+    background: -o-linear-gradient(top,  rgba(255,255,241,1) 0%,rgba(237,237,237,1) 100%);
+    background: -ms-linear-gradient(top,  rgba(255,255,241,1) 0%,rgba(237,237,237,1) 100%);
+    background: linear-gradient(to bottom,  rgba(255,255,241,1) 0%,rgba(237,237,237,1) 100%);
+
+    -webkit-box-shadow:  0px 5px 20px 0px rgba(0, 0, 0, 0.5);
+    box-shadow:  0px 5px 20px 0px rgba(0, 0, 0, 0.5);
+}
+
+#core-values .core-values .header {
+    position:absolute;
+    width:852px;
+    height:151px;
+    background:url(/uploads/pages/about-us/banner.png) no-repeat;
+    background-size:852px 151px;
+    top:-30px;
+    left:-60px;
+}
+
+#core-values .core-values ul {
+    display:block;
+    background:#fff;
+    border:1px solid #c0c0c0;
+    padding:54px 46px;
+}
+
+#core-values .core-values li {
+    list-style:none;
+    display:block;
+    padding-left:28px;
+    background:url(/uploads/pages/about-us/bullet.png) no-repeat;
+    background-position:0 5px;
+    background-size:16px 16px;
+    margin-bottom:9px;
+}
+
+#core-values .core-values li h5 {
+    font-size:22px;
+    margin-bottom:0;
+}
+
+#core-values .core-values li p {
+    margin-bottom:3px;
+}
+
+#core-values .core-values li hr {
+    display:block;
+    background:none;
+    border:none;
+    border-bottom:1px dashed #d9d9d9;
+    margin:13px 63px 0 43px;
+}
+</style>
+{% endblock %}
+{% block inside %}
+<div class="page-content">
+    <div class="c-wrap">
+        <h1>About Us</h1>
+        <div class="clouds">&nbsp;</div>
+        <div class="wrapper">
+            <div class="banner">
+                <h3>We believe nothing is more important
+                    <br/><span>than people and their Experiences.</span>
+                </h3>
+                <img src="/uploads/pages/about-us/emblem.png" width="336" height="338" alt=""/>
+            </div>
+
+            <div id="tab-container">
+                <ul class="tabs clearfix">
+                    <li><a href="#who-we-are">Who we are</a></li>
+                    <li><a href="#what-we-do">What we do</a></li>
+                    <li><a href="#core-values">Core Values</a></li>
+                </ul>
+
+                <div id="who-we-are">
+                    <div class="col2 clearfix">
+                        <img src="/uploads/pages/about-us/photo1.png" width="392" height="302" alt=""/>
+                        <div>
+                            <h4>We are...</h4>
+
+                            <p><strong>We are people centered</strong>, showing genuine care and respect to our fellow team members, Nonprofits and their supporters, resellers, travel partners and the local community.</p>
+
+                            <p><strong>We are always improving</strong>, working hard to produce Winspire Experiences with creativity, passion and integrity that will benefit Nonprofit fundraisers and their supporters.</p>
+
+                            <p><strong>We strive to inspire</strong> and to leave a lasting impression in everything we do by working as a team in an engaging, cooperative and spirited environment.</p>
+
+                            <p><strong>We choose to make a difference</strong> by being actively involved in our local community.</p>
+                        </div>
+                    </div>
+                    <div class="testimonial">
+                        <h4>Dear Winspire,</h4>
+                        <p>“Last year my husband and I bid on The NASCAR Experience at the <strong>“Night of a Million Meals”</strong> event and won! My husband is a diehard NASCAR fan and driving a NASCAR was on his bucket list. Every part of the trip went like a well-oiled machine. We did not have any problems with our flights and our hotels were top notch, beautiful! The look on my husband’s face after the race, smiling from ear to ear, was priceless. Thank you Winspire for making my husband’s dream come true!!”</p>
+                        <p class="author"><span>Christina Perry</span><br/>
+                            <em>Winning Bidder</em>&nbsp;&nbsp;|&nbsp;&nbsp;<strong>Friends of the Senior Nutrition Program</strong></p>
+
+                        <a href="/package/nascar-driver-for-a-day" class="button clearfix">
+                            <span class="icon icon-suitcase"></span>
+                            <span class="button-text">
+                                NASCAR Driver For a Day<br/>
+                                <em>View 2 Options</em> <span class="icon icon-arrow-right"></span>
+                            </span>
+                        </a>
+                    </div>
+                </div>
+
+                <div id="what-we-do">
+                    <div class="col2 clearfix">
+                        <div class="text">
+                            <h4>What we do...</h4>
+                            <h5>Winspire provides highly sought after, hard to find, unique Experiences for use in charity auctions or fundraisers.</h5>
+                            <p>This increasingly popular fundraising tool allows you to place exclusive travel packages in your charity auction without any upfront cost to your organization. Since you purchase only what you sell, every one of our Experiences is <a href="/faqs#q1" title="What are No Risk Auction Items?">risk free</a>. Choose from award shows, major sporting events, VIP access, family vacations, international trips, cruises, adventure travel, golf trips and hundreds more. These packages can be included in live auctions, silent auctions, raffles or any number of fundraising events. Winspire fulfills each and every one of our packages for your Winning Bidders, booking each Experience down to every last detail.</p>
+                        </div>
+                        <div class="samples">
+                            <a href="/packages" class="button"><span class="icon icon-search"></span>Browse Experiences</a>
+                        </div>
+                    </div>
+                    <h4>Where we’re from...</h4>
+                    <h5>Winspire was established in 2008 with the focus of assisting Nonprofits maximize their fundraising revenue.</h5>
+                    <p>From the beginning, our team has been dedicated to creating and providing the Nonprofit community with the best service and most unique auction item Experiences. Winspire has worked with over 4,000 Nonprofits in all 50 states to provide auction items that help increase net revenue in events big and small.</p>
+                    <p>Winspire is staffed with a professional team of Event Consultants who are tasked with providing impeccable service and valuable insight on how to increase the net revenue of your event. A dedicated team of travel experts is also on hand throughout the booking process, whose sole job is to assist your Winning Bidders in making the most of their Experience.</p>
+                    <p>Jeff Cova, President of Winspire, Inc., has over 12 years of experience in the Nonprofit and fundraising industry. Prior to Winspire, Jeff worked for 5 years as the Director of Development for Cal State Fullerton before co-founding The Gavel Group in 2001, a company specializing in producing charity auctions for Nonprofits. Seven years later, after learning plenty of useful lessons about running successful charity events, Jeff left Gavel Group to start Winspire in early 2008.</p>
+                    <p>Dedicated to local philanthropic efforts, Jeff sits on the board for the Maddie James Foundation and is active with St Joseph Hospital, Ocean Institute, CHOC (Children’s Hospital of Orange County) and TACA (Talk About Curing Autism). He also devotes his time and resources to other Nonprofits throughout the Southern California area.</p>
+                </div>
+
+                <div id="core-values">
+                    <h4>Core Values</h4>
+                    <h5>We’ve developed a list of core values that allows us to put our best foot forward everyday.</h5>
+                    <p>At the heart of our core values is the underlying principle of being people centered, showing genuine care and respect to our fellow team members, Nonprofits and their supporters, resellers, travel partners and the local community.</p>
+
+                    <div class="core-values">
+                        <div class="header">&nbsp;</div>
+                        <ul>
+                            <li>
+                                <h5>Commitment</h5>
+                                <p>We commit to providing easy to use, unique, high quality Experiences that increase revenues raised by nonprofit fundraisers.</p>
+                                <hr/>
+                            </li>
+                            <li>
+                                <h5>Accountability</h5>
+                                <p>Individually and collectively we will be accountable, provide lateral service and ensure customer satisfaction from start to finish.</p>
+                                <hr/>
+                            </li>
+                            <li>
+                                <h5>Stand Out</h5>
+                                <p>Be somebody special everyday, do one memorable thing everyday… go the extra mile to enhance our customers’ experience.</p>
+                                <hr/>
+                            </li>
+                            <li>
+                                <h5>Problem Solve</h5>
+                                <p>Detect challenges, communicate them and suggest solutions.</p>
+                                <hr/>
+                            </li>
+                            <li>
+                                <h5>Pride</h5>
+                                <p>We will completely commit to our objective everyday, celebrate our accomplishments and enjoy our time doing it.</p>
+                                <hr/>
+                            </li>
+                            <li>
+                                <h5>Teamwork</h5>
+                                <p>We will accomplish greater things by working together.</p>
+                                <hr/>
+                            </li>
+                            <li>
+                                <h5>Efficiency &amp; Innovation</h5>
+                                <p>Be as efficient as possible to allow us to better serve and provide for our customers. Be innovative to insure continuous improvement.</p>
+                                <hr/>
+                            </li>
+                            <li>
+                                <h5>Results</h5>
+                                <p>Focus on outcomes as much as tasks.</p>
+                                <hr/>
+                            </li>
+                            <li>
+                                <h5>Strive for Improvement</h5>
+                                <p>We encourage and appreciate constructive feedback both internally and externally. Consistent feedback is vitally important to our success.</p>
+                                <hr/>
+                            </li>
+                            <li>
+                                <h5>Integrity</h5>
+                                <p>We will be truthful and act with the highest level of integrity in all that we do.</p>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="page-footer">&nbsp;</div>
+        </div>
+    </div>
+</div>
+<script>
+$(function() {
+    $('#tab-container').easytabs();
+});
+</script>
+{% endblock %}

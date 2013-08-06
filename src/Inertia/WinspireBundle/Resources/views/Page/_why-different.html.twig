@@ -1,0 +1,918 @@
+{% extends 'InertiaWinspireBundle:Page:display.html.twig' %}
+{% block title %}Fundraising Event Ideas | Nonprofit Auction Packages | Winspire{% endblock %}
+{% block description %}Find out how Winspire can help your Charity or Nonprofit increase revenue at your next fundraising event or auction. Click to read more…{% endblock %}
+{% block style %}
+<style>
+.c-wrap {
+    z-index:0;
+}
+
+.clouds {
+    display:block;
+    position:absolute;
+    width:361px;
+    height:150px;
+    background:url(/uploads/pages/why-different/clouds.png) no-repeat;
+    background-size:361px 150px;
+    right:0;
+    top:-28px;
+}
+
+.icon-nav {
+    margin-bottom:68px;
+    padding-top:30px;
+}
+
+.icon-nav li {
+    list-style:none;
+    display:block;
+    float:left;
+    margin-right:34px;
+}
+
+.icon-nav li:last-child {
+    margin-right:0;
+}
+
+.icon-nav a {
+    display:block;
+    position:relative;
+    width:138px;
+    height:138px;
+    text-decoration:none;
+
+    font-family: 'icomoon';
+    speak: none;
+    font-weight: normal;
+    font-variant: normal;
+    text-transform: none;
+    line-height: 1;
+    -webkit-font-smoothing: antialiased;
+
+    outline:none;
+}
+
+.icon-nav .text {
+    display:block;
+    white-space:nowrap;
+    text-indent:100%;
+    overflow:hidden;
+}
+
+.icon-nav li .icon {
+    display:block;
+    position:absolute;
+    top:0;
+    left:0;
+    font-size:96px;
+    opacity:0.7;
+    z-index:2;
+
+    text-shadow: 0px -1px 0px rgba(0, 0, 0, 0.3);
+
+    transition: opacity .25s ease-in-out;
+    -moz-transition: opacity .25s ease-in-out;
+    -webkit-transition: opacity .25s ease-in-out;
+}
+
+.icon-nav li.active .icon,
+.icon-nav li.active .background {
+    opacity:1;
+}
+
+.icon-nav .icon.icon-crown {
+    color:rgb(232, 202, 62);
+    top:26px;
+    left:23px;
+    font-size:93px;
+}
+
+.icon-nav .icon.icon-lock {
+    color:rgb(165, 137, 93);
+    font-size:88px;
+    top:21px;
+    left:25px;
+}
+
+.icon-nav .icon.icon-heart {
+    color:rgb(229, 110, 110);
+    font-size:92px;
+    top:28px;
+    left:23px;
+}
+
+.icon-nav .icon.icon-book {
+    color:rgb(141, 186, 115);
+    font-size:84px;
+    top:27px;
+    left:27px;
+}
+
+.icon-nav .icon.icon-clock {
+    color:rgb(91, 167, 223);
+    font-size:96px;
+    top:21px;
+    left:21px;
+}
+
+.icon-nav .icon.icon-bubble {
+    color:rgb(160, 129, 231);
+    font-size:84px;
+    top:27px;
+    left:27px;
+}
+
+.icon-nav li .background {
+    display:block;
+    position:absolute;
+    top:0;
+    left:0;
+    font-size:138px;
+    color:rgb(255, 255, 255);
+    opacity:0.7;
+    z-index:1;
+
+    transition: opacity .25s ease-in-out;
+    -moz-transition: opacity .25s ease-in-out;
+    -webkit-transition: opacity .25s ease-in-out;
+}
+
+.icon-nav li .background:before {
+    content: "\e025";
+}
+
+.icon-nav li.active .background {
+    text-shadow: 0px 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+.icon-nav li.hover .background:before,
+.icon-nav li.active .background:before {
+    content: "\e026";
+}
+
+
+.tab-wrapper {
+    width:240px;
+    float:left;
+}
+
+#standard-page .tab-wrapper h3 {
+    margin-top:10px;
+    font-size:14px;
+    line-height:17px;
+    color:#565656;
+    font-family:"ArchitectsDaughter";
+    font-weight:normal;
+    font-style:normal;
+    border-bottom:1px dashed #ababab;
+}
+
+.text-nav {
+    margin:0 0 0 14px;
+    padding:0;
+}
+
+.text-nav li {
+    list-style:none;
+    display:block;
+    margin:0;
+    padding:0;
+}
+
+.text-nav li a {
+    display:block;
+    width:202px;
+    padding:10px 12px;
+    font-size:16px;
+    color:#777;
+    text-decoration:none;
+    background-color:none;
+    overflow:hidden;
+    white-space: nowrap;
+    outline:none;
+}
+
+.text-nav li.hover a {
+    color:#005695;
+    background:rgba(255, 255, 255, 0.7);
+}
+
+.text-nav li.active a {
+    color:#fff;
+    background:rgba(0, 107, 182, 1.0);
+}
+
+.content1 {
+    position:relative;
+    width: 760px;
+    height: 362px;
+    float: left;
+}
+
+.content1:before {
+    content:'';
+    position:absolute;
+    z-index:0;
+    top:15px;
+    bottom:15px;
+    left:0;
+    right:50%;
+    -webkit-box-shadow:0 0 20px rgba(0,0,0,0.5);
+    -moz-box-shadow:0 0 20px rgba(0,0,0,0.5);
+    box-shadow:0 0 20px rgba(0,0,0,0.5);
+    -moz-border-radius:10px / 100px;
+    border-radius:10px / 100px;
+}
+
+.content1 .content-wrapper {
+    position:relative;
+    background-color:#f7f7f7;
+    width:455px;
+    height:282px;
+    float:left;
+    border-top:2px solid #fff;
+    border-left:2px solid #fff;
+    border-right:2px solid #fff;
+    padding:34px 260px 44px 41px;
+    overflow:hidden;
+
+    -webkit-box-shadow:  0px 1px 1px 0px rgba(0, 0, 0, 0.5);
+    box-shadow:  0px 1px 1px 0px rgba(0, 0, 0, 0.5);
+}
+
+.content1 .content-wrapper > div {
+    display:none;
+}
+
+.content1 .content-wrapper > div.active {
+    display:block;
+}
+
+.content1 .icon {
+    display:block;
+    position:absolute;
+    right:0;
+    top:0;
+    text-shadow: 0px -2px 0px rgba(0, 0, 0, 0.2);
+}
+
+.content1 .icon.icon-crown {
+    font-size:380px;
+    color:rgb(232, 202, 62);
+    opacity:0.5;
+    top:-63px;
+    right:-116px;
+}
+
+.content1 .icon.icon-lock {
+    font-size:280px;
+    color:rgb(174, 151, 80);
+    opacity:0.5;
+    top:-10px;
+    right:-47px;
+}
+
+.content1 .icon.icon-heart {
+    font-size:320px;
+    color:rgb(229, 110, 110);
+    opacity:0.5;
+    top:-32px;
+    right:-75px;
+}
+
+.content1 .icon.icon-book {
+    font-size:326px;
+    color:rgb(141, 186, 115);
+    opacity:0.5;
+    top:-39px;
+    right:-73px;
+}
+
+.content1 .icon.icon-clock {
+    font-size:314px;
+    color:rgb(91, 167, 223);
+    opacity:0.5;
+    top:-36px;
+    right:-63px;
+}
+
+.content1 .icon.icon-bubble {
+    font-size:300px;
+    color:rgb(160, 129, 231);
+    opacity:0.5;
+    top:0px;
+    right:-9px;
+}
+
+#standard-page .content1 h2 {
+    font-size:30px;
+    font-weight:bold;
+    margin-bottom:15px;
+}
+
+#standard-page .content1 .experience h2 {
+    color:#d9b925;
+}
+
+#standard-page .content1 .trusted h2 {
+    color:#a5895d;
+}
+
+#standard-page .content1 .giving h2 {
+    color:#e56e6e;
+}
+
+#standard-page .content1 .disclosure h2 {
+    color:#8dba73;
+}
+
+#standard-page .content1 .procurement h2 {
+    color:#006bb6;
+}
+
+#standard-page .content1 .reputation h2 {
+    color:#a081e7;
+}
+
+#standard-page .content1 h3 {
+    font-size:18px;
+    line-height:22px;
+    color:#565656;
+    margin-bottom:16px;
+}
+
+#standard-page .content1 p {
+    font-size:14px;
+    line-height:22px;
+    color:#565656;
+}
+
+#standard-page .content1 a {
+    font-weight:bold;
+    color:#cb6700;
+    text-decoration:none;
+}
+
+#standard-page .content1 a:hover {
+    color:#005695;
+}
+
+
+.content2 {
+    position:relative;
+    clear:both;
+}
+
+.content2:before {
+    content:'';
+    position:absolute;
+    z-index:0;
+    top:2px;
+    bottom:50%;
+    left:25px;
+    right:10px;
+    width:50%;
+    -moz-border-radius:100px / 10px;
+    border-radius:100px / 10px;
+    -webkit-box-shadow:0 0 20px rgba(0,0,0,0.3);
+    -moz-box-shadow:0 0 20px rgba(0,0,0,0.3);
+    box-shadow:0 0 20px rgba(0,0,0,0.3);
+}
+
+.content2 .content-wrapper {
+    position:relative;
+    background:#f7f7f7;
+    border:2px solid #fff;
+    padding:32px 36px 38px 36px;
+    overflow:hidden;
+    -webkit-box-shadow:  0px 1px 1px 0px rgba(0, 0, 0, 0.5);
+    box-shadow:  0px 1px 1px 0px rgba(0, 0, 0, 0.5);
+}
+
+.content2 .content-inner-wrapper {
+    position:relative;
+    height:200px;
+    background-color:#eeeeee;
+    border:2px solid #fff;
+    -webkit-box-shadow:  0px 1px 2px 0px rgba(0, 0, 0, 0.5);
+    box-shadow:  0px 1px 2px 0px rgba(0, 0, 0, 0.5);
+}
+
+.content2 .content-inner-wrapper > div {
+    display:none;
+}
+
+.content2 .content-inner-wrapper > div.active {
+    display:block;
+}
+
+#standard-page .content2 .experience img {
+    display:block;
+    float:left;
+    border:3px solid #ccc;
+    margin:10px;
+}
+
+#standard-page .content2 .experience .text {
+    padding:10px 20px;
+    float:left;
+    width:600px;
+}
+
+#standard-page .content2 .experience h3 {
+    font-size:18px;
+    line-height:26px;
+    color:#005695;
+    margin:5px 0 9px 0;
+    border-bottom:1px dashed #d9d9d9;
+}
+
+#standard-page .content2 .experience h4 {
+    font-size:12px;
+    font-weight:normal;
+    line-height:19px;
+    color:#565656;
+    margin:0;
+}
+
+#standard-page .content2 .experience p {
+    font-size:12px;
+    line-height:19px;
+    color:#565656;
+    margin:0;
+    text-indent:35px;
+}
+
+#standard-page .content2 .experience a {
+    text-decoration:none;
+}
+
+
+
+#standard-page .content2 .trusted {
+    width:920px;
+    height:200px;
+    background:url(/uploads/pages/why-different/image2.png) no-repeat;
+    background-size:920px 202px;
+}
+
+#standard-page .content2 .trusted .text {
+    width:600px;
+    padding:32px 0;
+    margin:0 26px;
+}
+
+#standard-page .content2 .trusted p {
+    font-size:12px;
+    color:#fff;
+    font-style:italic;
+    line-height:20px;
+}
+
+#standard-page .content2 .trusted p.author {
+    text-align:right;
+    font-style:normal;
+    line-height:14px;
+}
+
+#standard-page .content2 .trusted p.author span {
+    font-family:"ArchitectsDaughter";
+}
+
+
+
+#standard-page .content2 .giving {
+    position:relative;
+    width:920px;
+    height:200px;
+
+}
+
+#standard-page .content2 .giving img {
+    display:block;
+    position:absolute;
+    left:0;
+    bottom:0;
+}
+
+#standard-page .content2 .giving .text {
+    display:block;
+    position:absolute;
+    width:610px;
+    left:298px;
+    top:18px;
+}
+
+#standard-page .content2 .giving h3 {
+    font-size:18px;
+    line-height:20px;
+    color:#565656;
+    margin:0 0 8px 0;
+    border-bottom:1px dashed #d9d9d9;
+}
+
+#standard-page .content2 .giving h3 span {
+    font-family:"ArchitectsDaughter";
+    font-weight:normal;
+    color:#005695;
+}
+
+#standard-page .content2 .giving p {
+    font-size:11px;
+    line-height:16px;
+    color:#565656;
+    margin:0 0 5px 0;
+    text-indent:35px;
+}
+
+#standard-page .content2 .giving a {
+    text-decoration:none;
+}
+
+
+
+#standard-page .content2 .disclosure {
+    position:relative;
+    width:920px;
+    height:200px;
+
+}
+
+#standard-page .content2 .disclosure img {
+    display:block;
+    position:absolute;
+    left:0;
+    bottom:0;
+}
+
+#standard-page .content2 .disclosure .text {
+    display:block;
+    position:absolute;
+    width:604px;
+    left:298px;
+    top:18px;
+}
+
+#standard-page .content2 .disclosure h3 {
+    font-size:18px;
+    line-height:20px;
+    color:#565656;
+    margin:0 0 13px 0;
+    border-bottom:1px dashed #d9d9d9;
+}
+
+#standard-page .content2 .disclosure h3 span {
+    font-family:"ArchitectsDaughter";
+    font-weight:normal;
+    color:#005695;
+}
+
+#standard-page .content2 .disclosure p {
+    font-size:12px;
+    font-style:italic;
+    line-height:20px;
+    color:#565656;
+    margin:0 0 8px 0;
+}
+
+#standard-page .content2 .disclosure p.author {
+    font-style:normal;
+    text-align:right;
+    text-indent:0;
+    line-height:16px;
+}
+
+#standard-page .content2 .disclosure p.author span {
+    font-family:"ArchitectsDaughter";
+}
+
+#standard-page .content2 .disclosure p.author em {
+    font-style:italic;
+}
+
+#standard-page .content2 .disclosure a {
+    text-decoration:none;
+}
+
+
+
+#standard-page .content2 .procurement {
+    position:relative;
+    width:920px;
+    height:200px;
+
+}
+
+#standard-page .content2 .procurement img {
+    display:block;
+    position:absolute;
+    left:0;
+    bottom:0;
+}
+
+#standard-page .content2 .procurement .text {
+    display:block;
+    position:absolute;
+    width:604px;
+    left:298px;
+    top:18px;
+}
+
+#standard-page .content2 .procurement h3 {
+    font-size:18px;
+    line-height:20px;
+    color:#565656;
+    margin:0 0 13px 0;
+    border-bottom:1px dashed #d9d9d9;
+}
+
+#standard-page .content2 .procurement h3 span {
+    font-family:"ArchitectsDaughter";
+    font-weight:normal;
+    color:#005695;
+}
+
+#standard-page .content2 .procurement p {
+    font-size:12px;
+    font-style:italic;
+    line-height:20px;
+    color:#565656;
+    margin:0 0 8px 0;
+}
+
+#standard-page .content2 .procurement p.author {
+    font-style:normal;
+    text-align:right;
+    text-indent:0;
+    line-height:16px;
+}
+
+#standard-page .content2 .procurement p.author span {
+    font-family:"ArchitectsDaughter";
+}
+
+#standard-page .content2 .procurement p.author em {
+    font-style:italic;
+}
+
+#standard-page .content2 .procurement a {
+    text-decoration:none;
+}
+
+
+
+#standard-page .content2 .reputation {
+    position:relative;
+    width:920px;
+    height:200px;
+
+}
+
+#standard-page .content2 .reputation img {
+    display:block;
+    position:absolute;
+    left:0;
+    bottom:0;
+}
+
+#standard-page .content2 .reputation .text {
+    display:block;
+    position:absolute;
+    width:604px;
+    left:298px;
+    top:18px;
+}
+
+#standard-page .content2 .reputation h3 {
+    font-size:18px;
+    line-height:20px;
+    color:#565656;
+    margin:0 0 13px 0;
+    border-bottom:1px dashed #d9d9d9;
+}
+
+#standard-page .content2 .reputation h3 span {
+    font-family:"ArchitectsDaughter";
+    font-weight:normal;
+    color:#005695;
+}
+
+#standard-page .content2 .reputation h4 {
+    font-size:18px;
+    line-height:20px;
+    color:#565656;
+    margin:0 0 10px 0;
+}
+
+#standard-page .content2 .reputation p {
+    font-size:12px;
+    line-height:18px;
+    color:#565656;
+    margin:0 0 22px 0;
+}
+
+#standard-page .content2 .reputation a {
+    text-decoration:none;
+}
+</style>
+{% endblock %}
+{% block inside %}
+<div class="page-content">
+    <div class="c-wrap">
+        <h1>Why We’re Different</h1>
+        <p style="width:636px">We are proud to dedicate ourselves to the success of the Nonprofit community by providing honest and practical expertise to help maximize fundraising revenue.</p>
+        <div class="clouds">&nbsp;</div>
+        <ul class="icon-nav clearfix">
+            <li class="experience active">
+                <a href="#experience" title="Industry Experience"><span class="icon icon-crown"></span><span class="text">Industry Experience</span></a>
+            </li>
+            <li class="trusted">
+                <a href="#trusted" title="Trusted Partners"><span class="icon icon-lock"></span><span class="text">Trusted Partners</span></a>
+            </li>
+            <li class="giving">
+                <a href="#giving" title="Giving Back"><span class="icon icon-heart"></span><span class="text">Giving Back</span></a>
+            </li>
+            <li class="disclosure">
+                <a href="#disclosure" title="Full Disclosure"><span class="icon icon-book"></span><span class="text">Full Disclosure</span></a>
+            </li>
+            <li class="procurement">
+                <a href="#procurement" title="Last Minute Procurement"><span class="icon icon-clock"></span><span class="text">Last Minute Procurement</span></a>
+            </li>
+            <li class="reputation">
+                <a href="#reputation" title="Reputation"><span class="icon icon-bubble"></span><span class="text">Reputation</span></a>
+            </li>
+        </ul>
+        
+        <div class="tab-wrapper">
+            <h3>The Difference</h3>
+            <ul class="text-nav">
+                <li class="experience active"><a href="#experience">Industry Experience</a></li>
+                <li class="trusted"><a href="#trusted">Trusted Partners</a></li>
+                <li class="giving"><a href="#giving">Giving Back</a></li>
+                <li class="disclosure"><a href="#disclosure">Full Disclosure</a></li>
+                <li class="procurement"><a href="#procurement">Last Minute Procurement</a></li>
+                <li class="reputation"><a href="#reputation">Reputation</a></li>
+            </ul>
+        </div>
+        
+        <div class="content1">
+            <div class="content-wrapper">
+                <div class="experience active">
+                    <h2>Industry Experience</h2>
+                    <h3>We know what auction patrons want and we know how to deliver it.</h3>
+                    <p>With over 10 years of experience delivering no risk travel, sporting and entertainment packages to Nonprofits, we know what it means to host a successful fundraising event.</p>
+                    <p>We are proud to have a staff with over 100 years of combined experience who have worked with Nonprofits to fulfill Winspire Experiences for more than 30,000 satisfied travelers.</p>
+                    <p style="text-align:right;"><a href="/testimonials">Testimonials &gt;</a></p>
+                    <span class="icon icon-crown"></span>
+                </div>
+                
+                <div class="trusted">
+                    <h2>Trusted Partners</h2>
+                    <h3>Our strength comes from a solid network.</h3>
+                    <p>Winspire partners with highly respected event planning and fundraising industry experts. This enables us to recommend a wide range of valuable resources, including Auctioneers, Event Support &amp; Production, Cashiering, Memorabilia and Online Auctions.</p>
+                    <p>We also work with the best travel partners in the industry and negotiate discounted rates. Since they know our job is to help Nonprofits raise money, we receive preferred pricing and exclusive experiences, generating higher net profits for you.</p>
+                    <span class="icon icon-lock"></span>
+                </div>
+                
+                <div class="giving">
+                    <h2>Giving Back</h2>
+                    <h3>Winspire walks the walk.</h3>
+                    <p>Our company as a whole operates with a deep appreciation for the importance of giving back to the Nonprofit community. Giving back is an integral part of the Winspire company culture.</p>
+                    <p>In 2012, our Winspire team of 25 individuals volunteered more than 700 hours and raised over $100,000 for the Nonprofit community.</p>
+                    <span class="icon icon-heart"></span>
+                </div>
+                
+                <div class="disclosure">
+                    <h2>Full Disclosure</h2>
+                    <h3>What you see is what you get.</h3>
+                    <p>In order to allow Nonprofits and bidders the opportunity to make fully informed decisions, we provide all the details of each Experience we offer, listing any blackout dates or restrictions up front. If we know about it, you will know about it. </p>
+                    <p>As a matter of company policy, our <a href="/faqs#what-is-the-nonprofit-cost" title="What is the Nonprofit Cost?">package prices</a> are always available to the public.</p>
+                    <span class="icon icon-book"></span>
+                </div>
+                
+                <div class="procurement">
+                    <h2>Last Minute Procurement</h2>
+                    <h3>It is never too late to add items to your event.</h3>
+                    <p>When procurement for your event doesn’t go as planned, our No Risk Experiences can be used as a backup. Even on the day of the event, you can easily reserve one or more of our packages online and even add to those you’ve already reserved.</p>
+                    <p><a href="/contact-us">Contact us</a> to speak with an Event Consultant who will set you up with everything you need.</p>
+                    <span class="icon icon-clock"></span>
+                </div>
+                
+                <div class="reputation">
+                    <h2>Reputation</h2>
+                    <h3>Our business is built on referrals.</h3>
+                    <p>Winspire’s success relies on our ability to help Nonprofit organizations develop fundraising strategies to raise more money and turn Winning Bidders into repeat donors. We survey every one of our Nonprofit customers and Winning Bidders for feedback that we use to continuously improve our products and services.</p>
+                    <p>We are happy to provide references from other Nonprofits in your area. Winspire is registered as a commercial fundraiser with the Attorney General and as a seller of travel.</p>
+                    <span class="icon icon-bubble"></span>
+                </div>
+            </div>
+        </div>
+        
+        <div class="content2">
+            <div class="content-wrapper">
+                <div class="content-inner-wrapper">
+                    <div class="experience active">
+                        <a href="http://www.winspireme.com/blog/fundraising-tips/5-quick-tips-for-making-your-procurement-efforts-more-effective/" target="_blank"><img src="/uploads/pages/why-different/image1.png" width="252" height="175" alt=""/></a>
+                        <div class="text">
+                            <h3><a href="http://www.winspireme.com/blog/fundraising-tips/5-quick-tips-for-making-your-procurement-efforts-more-effective/" target="_blank">5 Tips for More Effective Procurement Efforts</a></h3>
+                            <h4><strong>By Kevin Spykerman</strong> | <em>Winspire Senior Event Consultant</em></h4>
+                            <p>A benefit auction is one of the most valuable fundraising tools available, not just because it provides a way to raise a lot of money in a short period of time, but also because it is the ideal vehicle for making personal and lasting connections with your supporters.</p>
+                            <p>All too often, however, the auction committee views procurement for the auction as a daunting task, which makes them wonder if it is worth the time and energy. The short answer is, ‘yes.’ Here are a few tips for making auction procurement more efficient, more effective, and easier... 
+                            <a href="http://www.winspireme.com/blog/fundraising-tips/5-quick-tips-for-making-your-procurement-efforts-more-effective/" target="_blank">Read more</a></p>
+                        </div>
+                    </div>
+                    
+                    <div class="trusted">
+                        <div class="text">
+                            <p>“The entire Winspire team is made up of true professionals who really understand the needs of the Nonprofit customer. They are creative and work closely with their select partners to ensure they deliver the best overall value for a unique travel experience, with the highest levels of customer service. It's important to Celebrity Cruises because these are the same high standards of customer service and product delivery that we are committed to as well.”</p>
+                            <p class="author">
+                                <span>Beth Lindsley Elwood</span><br/>
+                                <em>Corporate Sales Manager</em>&nbsp;&nbsp;|&nbsp;&nbsp;<strong>Celebrity Cruises</strong>
+                            </p>
+                        </div>
+                    </div>
+                    
+                    <div class="giving">
+                        <img src="/uploads/pages/why-different/image3.png" width="282" height="220" alt=""/>
+                        <div class="text">
+                            <h3>How we’ve helped: <span>Walking for Brooke</span></h3>
+                            
+                            <p>The <a href="http://www.chocwalk.net/" target="_blank">CHOC Walk in the Park</a> is an annual fundraiser presented by Disneyland® in which tens of thousands of walkers join together to help raise money for Children’s Hospital of Orange County.</p>
+                            
+                            <p>Winspire has walked in this event for the past five years to show support for Brooke Dilliplaine, a beautiful 11 year old girl who suffers from a rare form of Epilepsy. Having endured over 3,500 seizures and more than 50 hospitalizations at CHOC beginning 5 weeks after her birth, Brooke helps us understand just how important our assistance is.</p>
+                            
+                            <p>Last year was a tremendous success with more than 16,000 walkers raising over $1.7 million for Children’s Hospital of Orange County. Winspire was thrilled to contribute over $6,000 and recruit a team of almost 50 people to walk alongside Brooke. For more information on how you can help us support Brooke, join our <a href="http://eepurl.com/vuv_L" target="_blank">mailing list</a>.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="disclosure">
+                        <img src="/uploads/pages/why-different/image4.png" width="282" height="220" alt=""/>
+                        <div class="text">
+                            <h3>Working for you: <span>Accommodating your Winning Bidders</span></h3>
+                            
+                            <p>“I have nothing but praise for Winspire and the entire experience with booking the trip! The original package included flights on American and they don't offer a direct flight to San Diego from here. So Veronica, our booking agent, located a non-stop flight on jetBlue for a $50 surcharge. Everything was flawless, the hotel was gorgeous and we enjoyed five days of cloudless, 75 degree weather! Made returning last night a sad, sad experience!”</p>
+                            <p class="author">
+                                <span>Sandy Ruth</span><br/>
+                                <em>Winning Bidder</em>&nbsp;&nbsp;|&nbsp;&nbsp;<strong>Victory Programs Dinnerfest</strong>
+                            </p>
+                        </div>
+                    </div>
+                    
+                    <div class="procurement">
+                        <img src="/uploads/pages/why-different/image5.png" width="282" height="223" alt=""/>
+                        <div class="text">
+                            <h3>Here for you: <span>Only a click away</span></h3>
+                            
+                            <p>“Having two major galas a year, it’s comforting to know that Winspire is only a click away. They offer so many unique and diverse experiences, we never have to worry about auctioning off the same type of package year after year. In fact, Winspire packages have become our "drawing card" for our guests. It is so easy to match their packages with our guests and their offerings do very well in raising money. It is the easiest part of running a major gala.”</p>
+                            <p class="author">
+                                <span>Cyndy Jones</span><br/>
+                                <em>Event Chair</em>&nbsp;&nbsp;|&nbsp;&nbsp;<strong>Heroes in Transition</strong>
+                            </p>
+                        </div>
+                    </div>
+                    
+                    <div class="reputation">
+                        <img src="/uploads/pages/why-different/image6.png" width="282" height="223" alt=""/>
+                        <div class="text">
+                            <h3><span>Winspire Referral Program</span></h3>
+                            <h4>Receive $150 off your next order!</h4>
+                            <p>If you refer a friend or colleague who ends up including and selling a Winspire package at their fundraising event, you will receive $150 off your next order. On top of that, the referred organization will also get $100 off their package! It's one of those rare win-win-WIN situations.</p>
+                            <p><a href="/contact-us">Contact us</a> to learn more from a Winspire Event Consultant.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div style="clear:both;"></div>
+    </div>
+</div>
+<script>
+$(function() {
+    $('.icon-nav').find('a').append('<span class="background"></span>');
+    
+    $('.icon-nav a, .text-nav a').on('mouseenter', function(e) {
+        if(!$(this).parent().hasClass('active')) {
+            var c = $(this).attr('href').substring(1);
+            $('li.' + c).addClass('hover');
+        }
+    });
+    
+    $('.icon-nav a, .text-nav a').on('mouseleave', function(e) {
+        var c = $(this).attr('href').substring(1);
+        $('li.' + c).removeClass('hover');
+    });
+    
+    $('.icon-nav a, .text-nav a').on('click', function(e) {
+        e.preventDefault();
+        
+        if(!$(this).parent().hasClass('active')) {
+            $('.icon-nav > li, .text-nav > li, .content1 .content-wrapper > div, .content2 .content-inner-wrapper > div').removeClass('active');
+            
+            var c = $(this).attr('href').substring(1);
+            $('li.' + c + ', .content1 .content-wrapper > div.' + c + ', .content2 .content-inner-wrapper > div.' + c).addClass('active');
+        }
+    });
+});
+</script>
+{% endblock %}

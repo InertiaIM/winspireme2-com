@@ -1,0 +1,564 @@
+{% extends 'InertiaWinspireBundle:Page:display.html.twig' %}
+{% block title %}FAQs | Nonprofit Fundraiser Ideas | Charity Auction Packages{% endblock %}
+{% block description %}Learn more about Winspire and how we can help your nonprofit or charity increase fundraising revenue through our "No Risk" auction items.{% endblock %}
+{% block style %}
+<style>
+#standard-page h2 {
+    font-size:24px;
+    color:#565556;
+}
+
+#standard-page p {
+    font-size:17px;
+    line-height:20px;
+    color:#565556;
+    margin:0;
+}
+
+.banner {
+    width:612px;
+    height:309px;
+    display:block;
+    position:absolute;
+    background:url(/uploads/pages/faqs/banner.png) no-repeat;
+    background-size: 612px 309px;
+    top:-311px;
+    right:-28px;
+}
+
+.content1 {
+    float:right;
+    position:relative;
+    width:502px;
+    height:216px;
+    border-top:2px solid #fff;
+    border-right:2px solid #fff;
+    margin-top:143px;
+    margin-right:15px;
+    padding:20px 40px 0 40px;
+    z-index:0;
+    
+    background: rgb(106,146,196);
+    background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIwJSIgeTI9IjEwMCUiPgogICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iIzZhOTJjNCIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiMwMDVkOWYiIHN0b3Atb3BhY2l0eT0iMSIvPgogIDwvbGluZWFyR3JhZGllbnQ+CiAgPHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjEiIGhlaWdodD0iMSIgZmlsbD0idXJsKCNncmFkLXVjZ2ctZ2VuZXJhdGVkKSIgLz4KPC9zdmc+);
+    background: -moz-linear-gradient(top,  rgba(106,146,196,1) 0%, rgba(0,93,159,1) 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(106,146,196,1)), color-stop(100%,rgba(0,93,159,1)));
+    background: -webkit-linear-gradient(top,  rgba(106,146,196,1) 0%,rgba(0,93,159,1) 100%);
+    background: -o-linear-gradient(top,  rgba(106,146,196,1) 0%,rgba(0,93,159,1) 100%);
+    background: -ms-linear-gradient(top,  rgba(106,146,196,1) 0%,rgba(0,93,159,1) 100%);
+    background: linear-gradient(to bottom,  rgba(106,146,196,1) 0%,rgba(0,93,159,1) 100%);
+    -webkit-box-shadow:  0px 2px 1px 0px rgba(0, 0, 0, 0.4);
+    box-shadow:  0px 2px 1px 0px rgba(0, 0, 0, 0.4);
+}
+
+.content1:after {
+    content:'';
+    position:absolute;
+    width:16px;
+    height:14px;
+    bottom:0;
+    right:-18px;
+    background:url(/uploads/pages/faqs/fold.png) no-repeat;
+    background-size:16px 14px;
+}
+
+#standard-page .content1 h3 {
+    font-size:22px;
+    color:#fff3be;
+    line-height:26px;
+    border-bottom:1px dashed #fff3be;
+    margin:6px 0 10px 0;
+    padding:0 8px 0 0;
+}
+
+.content1 ul li {
+    list-style:none;
+    font-size:16px;
+    font-weight:bold;
+    line-height:100%;
+    color:#fff;
+    padding:7px 20px 6px 20px;
+}
+
+.content1 ul li a {
+    color:#c8e8ff;
+    font-weight:normal;
+    text-decoration:none;
+    margin-left:3px;
+}
+
+.content2 {
+    float:left;
+    position:relative;
+    width:321px;
+    height:269px;
+    padding:30px 38px;
+    border-top:2px solid #fff;
+    border-left:2px solid #fff;
+    border-right:2px solid #fff;
+    margin-top:50px;
+    background:#f7f7f7;
+    z-index:1;
+    -webkit-box-shadow:  0px 2px 1px 0px rgba(0, 0, 0, 0.4);
+    box-shadow:  0px 2px 1px 0px rgba(0, 0, 0, 0.4);
+}
+
+.content2:after {
+    -webkit-box-shadow: 15px 0 15px -10px rgba(0, 0, 0, 0.5);
+    -moz-box-shadow: 15px 0 15px -10px rgba(0, 0, 0, 0.5);
+    box-shadow: 15px 0 15px -10px rgba(0, 0, 0, 0.5);
+    content:'';
+    position:absolute;
+    right:-3px;
+    top:0;
+    height:336px;
+    width:50px;
+    z-index:-2;
+}
+
+#standard-page .content2 h3 {
+    font-size:22px;
+    color:#d18000;
+    line-height:26px;
+    border-bottom:1px dashed #d9d9d9;
+    margin:0 0 12px 0;
+    padding:0;
+}
+
+#standard-page .content2 h4 {
+    font-size:16px;
+    color:#005695;
+    line-height:16px;
+    margin:0;
+    padding:0;
+}
+
+#standard-page .content2 a {
+    color:#777777;
+    text-decoration:none;
+}
+
+#standard-page .content2 a:hover {
+    color:#005695;
+}
+
+.content2 ul li {
+    font-size:13px;
+    line-height:13px;
+    color:#777777;
+    list-style:none;
+    margin:0;
+    padding:5px 0 3px 0;
+}
+
+.content2 ul li ul {
+    padding-top:3px;
+}
+
+.content2 ul li ul li {
+    padding:5px 0 5px 30px;
+}
+
+.content2 ul li ul li:before {
+    content:'- ';
+}
+
+.wrap {
+    position:relative;
+    z-index:2;
+}
+
+.wrap:before {
+    content:'';
+    display:block;
+    clear:both;
+    visibility:hidden;
+    height:0;
+    font-size:0;    
+}
+
+.content3 {
+    position:relative;
+    padding:46px 37px 40px 37px;
+    border-left:2px solid #fff;
+    border-right:2px solid #fff;
+    border-bottom:2px solid #fff;
+    background:#f7f7f7;
+    -webkit-box-shadow:  0px 2px 1px 0px rgba(0, 0, 0, 0.4);
+    box-shadow:  0px 2px 1px 0px rgba(0, 0, 0, 0.4);
+}
+
+.content3:after {
+    content:'';
+    position:absolute;
+    z-index:-2;
+    -webkit-box-shadow:0 0 20px rgba(0,0,0,0.4);
+    -moz-box-shadow:0 0 20px rgba(0,0,0,0.4);
+    box-shadow:0 0 20px rgba(0,0,0,0.4);
+    top:0;
+    bottom:50%;
+    left:275px;
+    right:50px;
+    -moz-border-radius:100px / 10px;
+    border-radius:100px / 10px;
+}
+
+#standard-page .content3 h3 {
+    font-size:24px;
+    color:#d18000;
+    line-height:30px;
+    border-bottom:1px dashed #d9d9d9;
+    margin:0 0 19px 0;
+    padding:0;
+}
+
+#standard-page .content3 li h4 {
+    font-family:"ArchitectsDaughter";
+    font-size:18px;
+    line-height:100%;
+    font-weight:normal;
+    font-style:normal;
+    color:#777777;
+    padding:0;
+    margin:24px 0;
+}
+
+#standard-page .content3 ul li.q {
+    cursor:pointer;
+}
+
+#standard-page .content3 ul li.q:before {
+    font-family: 'icomoon';
+    speak: none;
+    font-style: normal;
+    font-weight: normal;
+    font-variant: normal;
+    text-transform: none;
+    line-height: 1;
+    -webkit-font-smoothing: antialiased;
+    font-size:24px;
+    line-height:20px;
+    color:#005695;
+    content: '\e006';
+    display:block;
+    position:absolute;
+    top:0;
+    left:0;
+}
+
+#standard-page .content3 ul li.q.open:before {
+    content: '\e008';
+}
+
+#standard-page .content3 ul li.q p {
+    font-size:16px;
+    line-height:20px;
+    font-weight:bold;
+    color:#005695;
+    margin:0 0 7px 0;
+    padding:0;
+}
+
+#standard-page .content3 ul li.q:hover p,
+#standard-page .content3 ul li.q:hover:before {
+    color:#0075ca;
+}
+
+#standard-page .content3 ul li.a p {
+    font-size:14px;
+    line-height:20px;
+    color:#565656;
+    margin:0 0 7px 0;
+    padding:0;
+}
+
+.content3 ul {
+    padding:0 0 26px 0;
+}
+
+.content3 ul li {
+    position:relative;
+    list-style:none;
+    padding:0;
+    margin:0;
+}
+
+.content3 ul li ul {
+    padding:0;
+}
+
+.content3 ul li ul li {
+    padding:0 0 0 30px;
+    margin:0;
+}
+
+.content3 ul li ul li.a {
+    display:none;
+    padding-bottom:15px;
+}
+
+.content3 ul li ul li a {
+    text-decoration:none;
+}
+
+#standard-page .page-footer {
+    margin:0 175px;
+    width:572px;
+    height:49px;
+    background:url(/uploads/pages/about-us/logo-small.png) no-repeat;
+    background-size:572px 49px;
+}
+</style>
+{% endblock %}
+{% block inside %}
+<div class="page-content">
+    <div class="c-wrap">
+        <h1>FAQs</h1>
+        <h2>Frequently Asked Questions</h2>
+        <p style="width:400px">Here are some of the most common questions we get about Winspire and what we do.</p>
+        
+        <div class="clearfix">
+            <div class="content1">
+                <h3>Most Frequently Viewed FAQs</h3>
+                <ul>
+                    <li>1. <a href="#q1">What are “No Risk Auction Items”?</a></li>
+                    <li>2. <a href="#q2">Which Experiences should I select for my event?</a></li>
+                    <li>3. <a href="#q3">How much should we sell the Experiences for?</a></li>
+                    <li>4. <a href="#q4">Do you offer packages with no airfare?</a></li>
+                    <li>5. <a href="#q5">How do Winning Bidders redeem their Experience?</a></li>
+                </ul>
+                <div class="banner">&nbsp;</div>
+            </div>
+            
+            <div class="content2">
+                <h3>Topics</h3>
+                <ul>
+                    <li>
+                        <h4>About Winspire Experiences</h4>
+                        <ul>
+                            <li><a href="#cost">Cost &amp; Pricing</a></li>
+                            <li><a href="#options">Experience Options</a></li>
+                        </ul>
+                    </li>
+                    <li>
+                        <h4>Offering Experiences at your Event</h4>
+                        <ul>
+                            <li><a href="#best-practices">Best Practices</a></li>
+                            <li><a href="#marketing-materials">Marketing Materials</a></li>
+                        </ul>
+                    </li>
+                    <li>
+                        <h4>Redeeming Winspire Experiences</h4>
+                        <ul>
+                            <li><a href="#winning-bidder">Winning Bidder Redemption Process</a></li>
+                            <li><a href="#booking-concierge">Winspire Booking &amp; Concierge Service</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="wrap">
+            <div class="content3">
+                <h3>About Winspire Experiences</h3>
+                <ul>
+                    <li>
+                        <h4 id="cost">Cost &amp; Pricing</h4>
+                        <ul>
+                            <li id="q1" class="q">
+                                <p>What are “No Risk Auction Items”?</p>
+                            </li>
+                            <li class="a">
+                                <p>No transaction with Winspire takes place until after your event and only for Experiences that are actually sold, so there are no upfront costs to your Nonprofit.</p>
+                                <p>Each Winspire Experience has a set price and we help you determine the minimum dollar amount you want to make on each. Your Nonprofit only purchases an Experience if bidding reaches this target price. Any bidding that occurs beyond the Nonprofit cost is your profit.</p>
+                            </li>
+                            <li id="what-is-mysuitcase" class="q">
+                                <p>What is mySuitcase?</p>
+                            </li>
+                            <li class="a">
+                                <p>Your Suitcase is sort-of like your cart, where you put the Experiences you are considering, collaborate with your peers and work with your Winspire Event Consultant to decide on the best set of packages for your charity auction. Once you have finalized your selection, simply click <strong>"I'm Packed"</strong> to reserve the Experiences for your event.</p>
+                            </li>
+                            <li id="what-is-the-nonprofit-cost" class="q">
+                                <p>What is the Nonprofit Cost?</p>
+                            </li>
+                            <li class="a">
+                                <p>Prior to the event, our Experiences cost nothing. The Nonprofit cost only matters after your bidders have surpassed the amount set by you and your Event Consultant. The cost itself, also known as the <strong>package price</strong>, includes everything that makes the Experience perfect, including the cost of the package itself, marketing materials for promoting it at your event, our cost for putting the Experience together and the team of travel professionals we have on hand for each and every Winning Bidder.</p>
+                            </li>
+                            <li class="q">
+                                <p>How do you determine the Suggested Retail Value for each Experience?</p>
+                            </li>
+                            <li class="a">
+                                <p>Because of the constantly fluctuating prices of travel, we have found the most consistent way to value our items is to use tariff rates for airfare, rack rates for hotel rooms and brochure rates for cruises. These are the highest values for which the room or airfare could be booked. Other components are valued individually and the total value is calculated. If any component of an item is not readily accessible or available to the public, the package is valued as priceless. This pricing method allows Winspire to offer the most flexible travel options to ensure the best Winning Bidder experience.</p>
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        <h4 id="options">Experience Offerings</h4>
+                        <ul>
+                            <li id="q4" class="q">
+                                <p>Do you offer Experiences with no airfare?</p>
+                            </li>
+                            <li class="a">
+                                <p>Absolutely. You can reserve almost any of our Experiences without the airfare component, though we don’t often recommend it because packages with no airfare usually garner less interest.</p>
+                            </li>
+                            <li class="q">
+                                <p>How many people can Winspire Experiences accommodate?</p>
+                            </li>
+                            <li class="a">
+                                <p>The majority of these nonprofit auction packages are for 2 people but we do have some auction travel packages for 4, 6 or 10 people. We even have larger villas and homes that accommodate more than that. In all cases, the text states the quantities of all components of the package.</p>
+                            </li>
+                            <li class="q">
+                                <p>May I suggest trips you don't have?</p>
+                            </li>
+                            <li class="a">
+                                <p>Absolutely! We are always looking to improve our selection of items and we welcome your input! Submit your recommendation on our <a href="/contact-us">Contact Us</a> page.</p>
+                            </li>
+                            <li class="q">
+                                <p>Are there "black-out" dates?</p>
+                            </li>
+                            <li class="a">
+                                <p>Very few. Our airline and/or hotel partners may on occasion have black-out dates, and we advise you of these dates in advance.</p>
+                            </li>
+                            <li class="q">
+                                <p>Any additional fees passengers must pay?</p>
+                            </li>
+                            <li class="a">
+                                <p>The only additional passenger fees are airfare related taxes and an airline ticketing fee. All other taxes and fees are included in the original cost of the trip package. As with any travel booking, incidentals during the trip will be the responsibility of the winner.</p>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+                
+                <h3>Offering Experiences at your Event</h3>
+                <ul>
+                    <li>
+                        <h4 id="best-practices">Best Practices</h4>
+                        <ul>
+                            <li id="q2" class="q">
+                                <p>Which Experiences should I select for my event?</p>
+                            </li>
+                            <li class="a">
+                                <p>Your Winspire Event Consultant will help you select Experiences that best fit your event type and the demographics of your attendees. Between your knowledge of the event, donor base, and objectives, and Winspire’s extensive experience with Nonprofit fundraisers, together we will be able to determine the best mix of auction items to maximize fundraising revenue.</p>
+                            </li>
+                            <li id="q3" class="q">
+                                <p>How much should we sell the Experiences for?</p>
+                            </li>
+                            <li class="a">
+                                <p>We recommend setting the minimum at least 20% above your cost, but most Experiences end up selling for 30-50% above the Winspire package price. Remember to start the bidding well below this target so you can build momentum and competition among bidders.</p>
+                            </li>
+                            <li class="q">
+                                <p>Can we sell Experiences more than once?</p>
+                            </li>
+                            <li class="a">
+                                <p>Absolutely! We have multiple quantities of every Experience we offer. If you have two bidders trying to out bid each other, wait for one of them to jump out, then stop the bidding and sell the Experience to both bidders. You will have two happy Winning Bidders and twice the amount of money raised! You can even sell Experiences after your event to donors who couldn’t make it or didn’t get a chance to bid.</p>
+                            </li>
+                            <li class="q">
+                                <p>How much notice do you need before the event to reserve an Experience for auction?</p>
+                            </li>
+                            <li class="a">
+                                <p>Essentially none. While it's best to give yourself some lead time, all of our packages are available on a moment’s notice. You can reserve any Experience, or add to those you’ve already selected, through the website at any time leading up to your fundraising event.</p>
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        <h4 id="marketing-materials">Marketing Materials</h4>
+                        <ul>
+                            <li class="q">
+                                <p>Do you provide marketing materials?</p>
+                            </li>
+                            <li class="a">
+                                <p>Each Winspire Experience comes with a package display PDF for you to use in your fundraising event. Each 8.5 x 11 PDF is produced using high quality photos and graphics, allowing you to enlarge them to poster sizes without losing image quality. <a href="https://s3.amazonaws.com/Winspire/Printing+Posters.pdf" target="_blank">Click here</a> for directions and pricing on printing poster-sized package display PDFs at your nearest FedEx Office.</p>
+                                
+                                <p>In addition to the package display PDF, we provide a full package description with all the Experience details as well as some additional images for you to use for your own marketing materials or presentations.</p>
+                            </li>
+                            <li class="q">
+                                <p>Do you have additional images of the Experiences?</p>
+                            </li>
+                            <li class="a">
+                                <p>Yes, we have multiple images of each Experience that come with the promotional materials we send you before your event. Depending on the Experience, we can provide additional images and even videos upon request.</p>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+                
+                <h3>Redeeming Winspire Experiences</h3>
+                <ul>
+                    <li>
+                        <h4 id="winning-bidder">Winning Bidder Redemption Process</h4>
+                        <ul>
+                            <li class="q">
+                                <p>What should we give Winning Bidders at the event?</p>
+                            </li>
+                            <li class="a">
+                                <p>We supply a sample letter for you to award your Winning Bidder congratulating them on the exciting Winspire Experience they just purchased and thanking them for their donation and support. We also recommend including your contact information as well as a copy of the full package description so they have a record of what they have won. They will receive Booking Vouchers once the Experiences have been paid for.</p>
+                            </li>
+                            <li id="what-is-a-booking-voucher" class="q">
+                                <p>What is a Booking Voucher?</p>
+                            </li>
+                            <li class="a">
+                                <p>The Booking Voucher is what the Winning Bidder needs in order to redeem their Experience. Only after Winspire has received payment for all the Experiences sold at your event will Booking Vouchers become available. Once we payment is received, the vouchers will appear in your Suitcase, where you will be able to send them directly to your Winning Bidders.</p>
+                                
+                                <p>Vouchers arrive in your Winning Bidder’s email inbox with a <strong>Trip Booking Identification #</strong> and directions on how to redeem their Experience. We provide you with a default “Thank you” message, but you can easily replace it with a message of your own before sending. <a href="https://s3.amazonaws.com/winspire-transactional-emails/browser-view/TRANSMAIL_14-Booking-Voucher-EXAMPLE.html" target="_blank">Click here</a> for a preview of the Booking Voucher.</p>
+                            </li>
+                            <li class="q">
+                                <p>How soon after the event can Winning Bidders book their Experience?</p>
+                            </li>
+                            <li class="a">
+                                <p>A Booking Voucher will become available within 1 week of receiving payment from your Nonprofit. The Winning Bidder’s name and email address is also required to be able to deliver the voucher. Once a Winning Bidder receives their Booking Voucher, they can immediately begin the redemption process.  Our experiences do need to be booked at least 60 days prior to the requested travel date.</p>
+                            </li>
+                            <li class="q">
+                                <p>How long are trips valid?</p>
+                            </li>
+                            <li class="a">
+                                <p>Most of our Experiences are valid for at least one year from the event date as stated in the full package description.</p>
+                            </li>
+                            <li id="q5" class="q">
+                                <p>How do Winning Bidders redeem their Experiences?</p>
+                            </li>
+                            <li class="a">
+                                <p>All of our Experiences include a <a href="#what-is-concierge-service">Winspire Booking &amp; Concierge Service</a>. Winning Bidders simply follow the redemption process directions outlined on the Booking Voucher and one our travel professionals will take it from there, handling reservations and booking the Experience from start to finish.</p>
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        <h4 id="booking-concierge">Winspire Booking &amp; Concierge Service</h4>
+                        <ul>
+                            <li id="what-is-concierge-service" class="q">
+                                <p>What is the Winspire Booking &amp; Concierge Service?</p>
+                            </li>
+                            <li class="a">
+                                <p>Winspire provides a team of seasoned travel professionals that will help you redeem your once-in-a-lifetime Experience. We take care of all travel related details, handling reservations for every part of your Winspire trip. We operate as a full-service travel agency, able to assist with additional hotel nights, airfare upgrades, or adding extra people to your Experience. In addition, our Concierge Service gives you an established network of onsite contacts for each Experience who can help you book additional excursions, activities and sightseeing tours.</p>
+                            </li>
+                            <li class="q">
+                                <p>Can my Winning Bidder change details of the Experience after the event?</p>
+                            </li>
+                            <li class="a">
+                                <p>Of course! Our team of travel professionals acts as a fully functional travel agency, able to accommodate requests from the Winning Bidder. We can upgrade air and rooms (depending on the property), add additional nights and flights, and even book excursions and sightseeing tours.</p>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+                <div class="page-footer">&nbsp;</div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+$(function() {
+    $('.content3 li.q').on('click', function(e) {
+        $(this).toggleClass('open');
+        $(this).next().slideToggle();
+    });
+    
+    $(window).on('hashchange', function(e) {
+        var id = $.param.fragment();
+        
+        if(!$('#' + id).hasClass('open')) {
+            $('#' + id).toggleClass('open');
+            $('#' + id).next('li').slideToggle();
+        }
+    });
+    
+    $(window).trigger('hashchange');
+});
+</script>
+{% endblock %}

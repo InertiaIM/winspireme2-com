@@ -9,29 +9,13 @@ class PageController extends Controller
 {
     public function displayAction($slug)
     {
-        $em = $this->getDoctrine()->getManager();
-        
-        $query = $em->createQuery(
-            'SELECT p FROM InertiaWinspireBundle:Page p WHERE p.slug = :slug'
-        )
-        ->setParameter('slug', $slug);
-        
-        try {
-            $page = $query->getSingleResult();
+        if ($this->get('templating')->exists('InertiaWinspireBundle:Page:_' . $slug . '.html.twig')) {
+            
         }
-        catch (\Doctrine\Orm\NoResultException $e) {
+        else {
             throw $this->createNotFoundException();
         }
         
-        if ($slug == 'redeem' || $slug == 'redeem-luxe' || $slug == 'redeem-winspire' || $slug == 'redeem-thanks') {
-            return $this->render('InertiaWinspireBundle:Page:display2.html.twig', array(
-                'page' => $page
-            ));
-        }
-        else {
-            return $this->render('InertiaWinspireBundle:Page:display.html.twig', array(
-                'page' => $page
-            ));
-        }
+        return $this->render('InertiaWinspireBundle:Page:_' . $slug . '.html.twig');
     }
 }
