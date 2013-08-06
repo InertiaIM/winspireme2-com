@@ -3173,6 +3173,19 @@ footer, #footer { height:220px;border-top:1px solid rgb(195,213,224);
                                         -ms-user-select: none;
                                         user-select: none;
                                         
+                                        &.active {
+                                            color:@ws-darkblue;
+                                            background: rgb(243,206,61);
+                                            border:1px solid @ws-yelloworange;
+                                            background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIwJSIgeTI9IjEwMCUiPgogICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iI2YzY2UzZCIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiNlZDhkMDEiIHN0b3Atb3BhY2l0eT0iMSIvPgogIDwvbGluZWFyR3JhZGllbnQ+CiAgPHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjEiIGhlaWdodD0iMSIgZmlsbD0idXJsKCNncmFkLXVjZ2ctZ2VuZXJhdGVkKSIgLz4KPC9zdmc+);
+                                            background: -moz-linear-gradient(top,  rgb(243,206,61) 0%, rgb(237,141,1) 100%); /* FF3.6+ */
+                                            background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgb(243,206,61)), color-stop(100%,rgb(237,141,1))); /* Chrome,Safari4+ */
+                                            background: -webkit-linear-gradient(top,  rgb(243,206,61) 0%,rgb(237,141,1) 100%); /* Chrome10+,Safari5.1+ */
+                                            background: -o-linear-gradient(top,  rgb(243,206,61) 0%,rgb(237,141,1) 100%); /* Opera 11.10+ */
+                                            background: -ms-linear-gradient(top,  rgb(243,206,61) 0%,rgb(237,141,1) 100%); /* IE10+ */
+                                            background: linear-gradient(to bottom,  rgb(243,206,61) 0%,rgb(237,141,1) 100%); /* W3C */
+                                        }
+                                        
                                         &.edit {
                                             font-size:16px;
                                             span {
@@ -3402,6 +3415,7 @@ footer, #footer { height:220px;border-top:1px solid rgb(195,213,224);
                                             }
                                             
                                             &.neutral {
+                                                color: #fff;
                                                 border:1px solid #8d8e8f;
                                                 background: #b6b6b7;
                                                 background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIwJSIgeTI9IjEwMCUiPgogICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iI2I2YjZiNyIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiM2ZDZjNzAiIHN0b3Atb3BhY2l0eT0iMSIvPgogIDwvbGluZWFyR3JhZGllbnQ+CiAgPHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjEiIGhlaWdodD0iMSIgZmlsbD0idXJsKCNncmFkLXVjZ2ctZ2VuZXJhdGVkKSIgLz4KPC9zdmc+);
@@ -3415,6 +3429,7 @@ footer, #footer { height:220px;border-top:1px solid rgb(195,213,224);
                                             
                                             &:disabled,
                                             &.disabled {
+                                                color: #fff;
                                                 border:1px solid #bfc2c4;
                                                 background: #e7e5eb;
                                                 background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIwJSIgeTI9IjEwMCUiPgogICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iI2U3ZTVlYiIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiNjMWJmYzQiIHN0b3Atb3BhY2l0eT0iMSIvPgogIDwvbGluZWFyR3JhZGllbnQ+CiAgPHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjEiIGhlaWdodD0iMSIgZmlsbD0idXJsKCNncmFkLXVjZ2ctZ2VuZXJhdGVkKSIgLz4KPC9zdmc+);
@@ -3426,6 +3441,19 @@ footer, #footer { height:220px;border-top:1px solid rgb(195,213,224);
                                                 background: linear-gradient(to bottom,  #e7e5eb 0%,#c1bfc4 100%);
                                                 cursor:default;
                                                 text-shadow:none;
+                                            }
+                                            
+                                            &.active {
+                                                color:@ws-darkblue;
+                                                background: rgb(243,206,61);
+                                                border:1px solid @ws-yelloworange;
+                                                background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIwJSIgeTI9IjEwMCUiPgogICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iI2YzY2UzZCIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiNlZDhkMDEiIHN0b3Atb3BhY2l0eT0iMSIvPgogIDwvbGluZWFyR3JhZGllbnQ+CiAgPHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjEiIGhlaWdodD0iMSIgZmlsbD0idXJsKCNncmFkLXVjZ2ctZ2VuZXJhdGVkKSIgLz4KPC9zdmc+);
+                                                background: -moz-linear-gradient(top,  rgb(243,206,61) 0%, rgb(237,141,1) 100%); /* FF3.6+ */
+                                                background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgb(243,206,61)), color-stop(100%,rgb(237,141,1))); /* Chrome,Safari4+ */
+                                                background: -webkit-linear-gradient(top,  rgb(243,206,61) 0%,rgb(237,141,1) 100%); /* Chrome10+,Safari5.1+ */
+                                                background: -o-linear-gradient(top,  rgb(243,206,61) 0%,rgb(237,141,1) 100%); /* Opera 11.10+ */
+                                                background: -ms-linear-gradient(top,  rgb(243,206,61) 0%,rgb(237,141,1) 100%); /* IE10+ */
+                                                background: linear-gradient(to bottom,  rgb(243,206,61) 0%,rgb(237,141,1) 100%); /* W3C */
                                             }
                                         }
                                         
@@ -3450,34 +3478,70 @@ footer, #footer { height:220px;border-top:1px solid rgb(195,213,224);
                                         }
                                         
                                         &.first-name {
+                                            overflow: hidden;
                                             width:140px;
                                             
                                             input {
                                                 width:118px;
+                                            }
+                                            
+                                            span {
+                                                display: block;
+                                                overflow: hidden;
+                                                text-overflow: ellipsis;
+                                                white-space: nowrap;
+                                                width: 140px;
                                             }
                                         }
                                         
                                         &.last-name {
+                                            overflow: hidden;
                                             width:140px;
                                             
                                             input {
                                                 width:118px;
                                             }
+                                            
+                                            span {
+                                                display: block;
+                                                overflow: hidden;
+                                                text-overflow: ellipsis;
+                                                white-space: nowrap;
+                                                width: 140px;
+                                            }
                                         }
                                         
                                         &.email {
+                                            overflow: hidden;
                                             width:200px;
                                             
                                             input {
                                                 width:178px;
                                             }
+                                            
+                                            span {
+                                                display: block;
+                                                overflow: hidden;
+                                                text-overflow: ellipsis;
+                                                white-space: nowrap;
+                                                width: 200px;
+                                            }
                                         }
                                         
                                         &.phone {
+                                            overflow: hidden;
                                             width:130px;
                                             
                                             input {
                                                 width:108px;
+                                            }
+                                            
+                                            span {
+                                                display: block;
+                                                overflow: hidden;
+                                                text-overflow: ellipsis;
+                                                white-space: nowrap;
+                                                width: 130px;
                                             }
                                         }
                                         

@@ -517,6 +517,7 @@ class SuitcaseManager
         try {
             $booking = $qb->getQuery()->getSingleResult();
             $booking->setVoucherSent(true);
+            $booking->setVoucherSentAt(new \DateTime());
             $this->em->persist($booking);
             $this->em->flush();
             $count = 1;

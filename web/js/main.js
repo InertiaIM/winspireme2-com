@@ -2011,13 +2011,19 @@ $(document).ready(function() {
     
     
     /* Winning Bidders */
-    $(sc).find('.tooltip.disabled').tooltipster({
+    $(sc).find('.tooltip').tooltipster({
         position: 'top-right'
     });
     
     
     $(sc).find('.content').on('keypress', '.item-price input', function(e) {
-        if (String.fromCharCode(e.keyCode).match(/[^0-9]/g)) return false;
+        if (String.fromCharCode(e.keyCode).match(/[^0-9]/g)) {
+            return false;
+        }
+        else {
+            $(this).parent().find('.add').addClass('active');
+            unsaved = true;
+        }
     });
     
     
@@ -2038,8 +2044,9 @@ $(document).ready(function() {
                 if ($(input).val() != '') {
                     $(span).text('$ ' + addCommas($(input).val())).show();
                     $(input).hide();
-                    $(self).hide();
+                    $(self).removeClass('active').hide();
                     $(edit).show();
+                    unsaved = false;
                 }
                 else {
                     return false;
@@ -2066,6 +2073,13 @@ $(document).ready(function() {
         $(input).show();
         $(self).hide();
         $(add).show();
+    });
+    
+    
+    $(sc).find('.content').on('keypress', '.winning-bidders input', function(e) {
+        $(this).parent().parent().parent().find('.add').addClass('active');
+        $(this).parent().parent().parent().find('.edit').addClass('active');
+        unsaved = true;
     });
     
     
@@ -2129,10 +2143,10 @@ $(document).ready(function() {
                 var email = $(container).find('td.email input').val();
                 var phone = $(container).find('td.phone input').val();
                 
-                $(container).find('td.first-name span').text(first).show();
-                $(container).find('td.last-name span').text(last).show();
-                $(container).find('td.email span').text(email).show();
-                $(container).find('td.phone span').text(phone).show();
+                $(container).find('td.first-name span').text(first).attr('title', first).show();
+                $(container).find('td.last-name span').text(last).attr('title', last).show();
+                $(container).find('td.email span').text(email).attr('title', email).show();
+                $(container).find('td.phone span').text(phone).attr('title', phone).show();
                 
                 $(container).find('td.first-name input').hide();
                 $(container).find('td.last-name input').hide();
@@ -2140,8 +2154,9 @@ $(document).ready(function() {
                 $(container).find('td.phone input').hide();
                 
                 $(container).find('td.actions > button.add').remove();
-                $(container).find('td.actions > button.edit').show();
+                $(container).find('td.actions > button.edit').removeClass('active').show();
                 $(container).find('td.actions > button.mail').show();
+                unsaved = false;
             },
             data: data,
             dataType: 'json',
@@ -2233,17 +2248,18 @@ $(document).ready(function() {
                     var email = $(container).find('td.email input').val();
                     var phone = $(container).find('td.phone input').val();
                     
-                    $(container).find('td.first-name span').text(first).show();
-                    $(container).find('td.last-name span').text(last).show();
-                    $(container).find('td.email span').text(email).show();
-                    $(container).find('td.phone span').text(phone).show();
+                    $(container).find('td.first-name span').text(first).attr('title', first).show();
+                    $(container).find('td.last-name span').text(last).attr('title', last).show();
+                    $(container).find('td.email span').text(email).attr('title', email).show();
+                    $(container).find('td.phone span').text(phone).attr('title', phone).show();
                     
                     $(container).find('td.first-name input').hide();
                     $(container).find('td.last-name input').hide();
                     $(container).find('td.email input').hide();
                     $(container).find('td.phone input').hide();
                     
-                    $(self).addClass('neutral');
+                    $(self).addClass('neutral').removeClass('active');
+                    unsaved = false;
                 },
                 data: data,
                 dataType: 'json',
@@ -2321,10 +2337,18 @@ $(document).ready(function() {
         $.ajax({
             beforeSend: function() {
                 var id = $('#mail-modal #voucher_id').val();
+                var sentDate = new Date();
+                
                 $('button.edit[data-id="' + id + '"]')
                     .removeClass('neutral')
                     .addClass('disabled')
                     .attr('title', 'You’ve already sent this voucher.<br/>Contact your EC to change')
+                    .tooltipster({position: 'top-right'})
+                ;
+                
+                $('button.mail[data-id="' + id + '"]')
+                    .addClass('neutral')
+                    .attr('title', 'Sent ' + (sentDate.getMonth() + 1) + '/' + sentDate.getDate() + '/' + sentDate.getFullYear())
                     .tooltipster({position: 'top-right'})
                 ;
                 
@@ -2838,5 +2862,16 @@ $(function() {
             opacity: 0.73,
             zIndex: 2002
         });
+    });
+});
+
+
+/* Alert for unload event */
+var unsaved = false;
+$(function() {
+    $(window).on('beforeunload', function() {
+        if (unsaved) {
+            return 'There are unsaved items on this page!';
+        }
     });
 });
