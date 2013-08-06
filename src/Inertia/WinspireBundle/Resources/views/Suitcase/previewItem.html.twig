@@ -1,7 +1,7 @@
 {% twig_js name='previewItem' %}
                 <span class="suitcase-preview-item" data-id="{{ item.id }}">
                     <a href="{% if item.active and not item.isPrivate %}/package/{{ item.slug }}{% else %}javascript:void(0){% endif %}" class="preview-item-image">
-                        <img src="/uploads/packages/{{ item.thumbnail }}" alt="" width="129" height="85"/>
+                        <img src="//assets.winspireme.com/packages/{{ item.thumbnail }}" alt="" width="129" height="85"/>
                         <div class="preview-item-delete">X</div>
                         <div class="preview-item-info">
                             <ul class="preview-item-info-list">

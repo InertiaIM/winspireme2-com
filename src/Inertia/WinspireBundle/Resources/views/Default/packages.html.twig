@@ -4,7 +4,7 @@
 {%     set package = package.package %}
                         <li class="drop-shadow lifted2">
                             <div class="i-inner">
-                                <div class="i-image"><img src="/uploads/packages/{{ package.thumbnail }}" alt="" width="129" height="85"/></div>
+                                <div class="i-image"><img src="//assets.winspireme.com/packages/{{ package.thumbnail }}" alt="" width="129" height="85"/></div>
                                 <div class="i-actions">
 {%     if package.active and not package.seasonal %}
                                     <button class="i-a-add" data-id="{{ package.id }}"{% if not available %} disabled="disabled"{% endif %}><span aria-hidden="true" class="icon-suitcase"></span><em>Add to</em> Suitcase</button>

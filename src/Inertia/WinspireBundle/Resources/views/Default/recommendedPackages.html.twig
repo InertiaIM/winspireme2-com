@@ -17,7 +17,7 @@
                                 <div>
 {% for package in packages %}
                                     <li>
-                                        <a href="{{ path('packageDetail', {'slug': package.slug}) }}"><img src="/uploads/packages/{{ package.thumbnail }}" width="144" height="94" alt=""/></a>
+                                        <a href="{{ path('packageDetail', {'slug': package.slug}) }}"><img src="//assets.winspireme.com/packages/{{ package.thumbnail }}" width="144" height="94" alt=""/></a>
                                         <p>{{ package.parentHeader }}</p>
                                         <a href="#" class="pd-s-add{% if package.id in packageIds %} disabled{% endif %}" data-id="{{ package.id }}"><span aria-hidden="true" class="icon icon-suitcase"></span><em>Add to </em>Suitcase</a>
                                         <a href="{{ path('packageDetail', {'slug': package.slug}) }}" class="more">More Options <span aria-hidden="true" class="icon icon-arrow-right"></span></a>
