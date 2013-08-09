@@ -141,6 +141,9 @@ fwrite($dump, print_r($notifications, true));
             if(isset($p->OMIT_from_Winspire__c)) {
                 $package->setIsPrivate($p->OMIT_from_Winspire__c == '1' ? true : false);
             }
+            else {
+                $package->setIsPrivate(false);
+            }
             
             if(isset($p->IsActive)) {
                 $processRemoval = false;
@@ -182,13 +185,22 @@ fwrite($dump, print_r($notifications, true));
             if(isset($p->WEB_Airfare_pax__c)) {
                 $package->setAirfares($p->WEB_Airfare_pax__c);
             }
+            else {
+                $package->setAirfares(0);
+            }
             
             if(isset($p->WEB_Nights__c)) {
                 $package->setAccommodations($p->WEB_Nights__c);
             }
+            else {
+                $package->setAccommodations(0);
+            }
             
             if(isset($p->WEB_Participants__c)) {
                 $package->setPersons($p->WEB_Participants__c);
+            }
+            else {
+                $package->setPersons(0);
             }
             
             if(isset($p->WEB_picture__c)) {
