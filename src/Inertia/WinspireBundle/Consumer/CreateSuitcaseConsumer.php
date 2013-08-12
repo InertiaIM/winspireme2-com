@@ -140,7 +140,7 @@ class CreateSuitcaseConsumer implements ConsumerInterface
         $email = $suitcase->getUser()->getEmail();
         
         $message = \Swift_Message::newInstance()
-            ->setSubject('New Comment in your Suitcase')
+            ->setSubject('Your New Suitcase is Ready!')
             ->setFrom(array('notice@winspireme.com' => 'Winspire'))
             ->setTo(array($email => $name))
             ->setBcc($suitcase->getUser()->getCompany()->getSalesperson()->getEmail())
