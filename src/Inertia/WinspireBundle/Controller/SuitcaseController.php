@@ -1352,7 +1352,7 @@ class SuitcaseController extends Controller
         $suitcaseList = $suitcaseManager->getSuitcaseList(false);
         $user = $suitcase->getUser();
         
-        if ($suitcase->getEventDate() >= new \DateTime() || $suitcase->getStatus() == 'U') {
+        if ($suitcase->getEventDate() >= new \DateTime('today') || $suitcase->getStatus() == 'U') {
             $form = $this->createForm(new AccountType(), $user->getCompany());
             $formFactory = $this->get('form.factory');
             
@@ -1494,7 +1494,7 @@ class SuitcaseController extends Controller
             ));
         }
         
-        if ($suitcase->getStatus() == 'P' && $suitcase->getEventDate() < new \DateTime()) {
+        if ($suitcase->getStatus() == 'P' && $suitcase->getEventDate() < new \DateTime('today')) {
             $subtotal = 0;
             $fee = $suitcaseManager->getInvoiceFee();
             foreach ($suitcase->getItems() as $item) {
