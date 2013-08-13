@@ -169,13 +169,14 @@ class InvoiceRequestConsumer implements ConsumerInterface
         // Update Suitcase -> Opportunity
         $sfOpportunity = new \stdClass();
         $sfOpportunity->Name = substr($suitcase->getEventName(), 0, 40);
-        $sfOpportunity->Website_suitcase_status__c = 'Packed';
         
         if ($suitcase->getStatus() == 'M') {
             $sfOpportunity->StageName = 'Lost (No Bids)';
+            $sfOpportunity->Website_suitcase_status__c = 'Missed';
         }
         else {
             $sfOpportunity->StageName = 'Sold Items';
+            $sfOpportunity->Website_suitcase_status__c = 'Inv. Req.';
         }
         $sfOpportunity->LOA_Received__c = 1;
         $sfOpportunity->Event_Name__c = substr($suitcase->getEventName(), 0, 40);

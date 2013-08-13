@@ -98,9 +98,11 @@ class SuitcaseSoapService
                 }
                 
                 // If the Suitcase isn't already marked as "paid" (status = A)
+                $newWebStatus = false;
                 if (isset($sfOpp->PDS__Paid__c) && $sfOpp->PDS__Paid__c == '1' && $suitcase->getStatus() != 'A') {
                     $timestamp = new \DateTime();
                     $suitcase->setStatus('A');
+                    $newWebStatus = 'Paid';
                     $suitcase->setInvoicePaidAt($timestamp);
                     $this->sendEmail($suitcase);
                 }
@@ -108,6 +110,7 @@ class SuitcaseSoapService
                 // If the Suitcase _is_ already marked as "paid", but the Opportunity has been changed to unpaid
                 if ((!isset($sfOpp->PDS__Paid__c) || $sfOpp->PDS__Paid__c == '0') && $suitcase->getStatus() == 'A') {
                     $suitcase->setStatus('I');
+                    $newWebStatus = 'Invoiced';
                     $suitcase->setInvoicePaidAt(null);
                 }
                 
@@ -185,6 +188,16 @@ class SuitcaseSoapService
                 $suitcase->setUpdated($timestamp);
                 $this->em->persist($suitcase);
                 
+            }
+            
+            if ($newWebStatus) {
+                unset($sfOpp->SystemModstamp);
+                $sfOpp->Website_suitcase_status__c = $newWebStatus;
+                $saveResult = $this->sf->update(array($sfOpp), 'Opportunity');
+                
+                if (!$saveResult[0]->success) {
+                    $this->logger->info('Problems updating the Opportunity to \'Paid\' or \'Invoiced\'.');
+                }
             }
             
             $this->em->flush();

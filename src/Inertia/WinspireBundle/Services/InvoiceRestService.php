@@ -104,6 +104,16 @@ $this->logger->info('This invoice is new or updated; so we\'ll save it');
 $this->logger->info('Problems saving this invoice.');
                     }
                     fclose($fp);
+                    
+                    $sfOpportunity = new \stdClass();
+                    $sfOpportunity->Website_suitcase_status__c = 'Invoiced';
+                    $sfOpportunity->Id = $existingSuitcase->getSfId();
+                    $saveResult = $this->sf->update(array($sfOpportunity), 'Opportunity');
+                    
+                    if(!$saveResult[0]->success) {
+                        // TODO LOG A MESSAGE.  SOMETHING BAD HAPPENED WITH SF
+$this->logger->info('Problems updating the Opportunity to \'Invoiced\'.');
+                    }
                 }
             }
             else {
