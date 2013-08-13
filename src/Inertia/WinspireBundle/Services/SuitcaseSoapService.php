@@ -188,15 +188,15 @@ class SuitcaseSoapService
                 $suitcase->setUpdated($timestamp);
                 $this->em->persist($suitcase);
                 
-            }
-            
-            if ($newWebStatus) {
-                unset($sfOpp->SystemModstamp);
-                $sfOpp->Website_suitcase_status__c = $newWebStatus;
-                $saveResult = $this->sf->update(array($sfOpp), 'Opportunity');
                 
-                if (!$saveResult[0]->success) {
-                    $this->logger->info('Problems updating the Opportunity to \'Paid\' or \'Invoiced\'.');
+                if ($newWebStatus) {
+                    unset($sfOpp->SystemModstamp);
+                    $sfOpp->Website_suitcase_status__c = $newWebStatus;
+                    $saveResult = $this->sf->update(array($sfOpp), 'Opportunity');
+                    
+                    if (!$saveResult[0]->success) {
+                        $this->logger->info('Problems updating the Opportunity to \'Paid\' or \'Invoiced\'.');
+                    }
                 }
             }
             
