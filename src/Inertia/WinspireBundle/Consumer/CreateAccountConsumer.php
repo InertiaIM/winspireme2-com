@@ -5,6 +5,7 @@ use Ddeboer\Salesforce\ClientBundle\Client;
 use Doctrine\ORM\EntityManager;
 use MZ\MailChimpBundle\Services\MailChimp;
 use OldSound\RabbitMqBundle\RabbitMq\ConsumerInterface;
+use OldSound\RabbitMqBundle\RabbitMq\Producer;
 use PhpAmqpLib\Message\AMQPMessage;
 use Symfony\Component\Templating\EngineInterface;
 
@@ -15,18 +16,27 @@ class CreateAccountConsumer implements ConsumerInterface
     protected $templating;
     protected $mailchimp;
     protected $sf;
+    protected $producer;
     
     private $recordTypeId = '01270000000DVD5AAO';
     private $opportunityTypeId = '01270000000DVGnAAO';
     private $partnerRecordId = '0017000000PKyUfAAL';
     
-    public function __construct(EntityManager $entityManager, \Swift_Mailer $mailer, EngineInterface $templating, MailChimp $mailchimp, Client $salesforce)
+    public function __construct(
+        EntityManager $entityManager,
+        \Swift_Mailer $mailer,
+        EngineInterface $templating,
+        MailChimp $mailchimp,
+        Client $salesforce,
+        Producer $producer
+    )
     {
         $this->em = $entityManager;
         $this->mailer = $mailer;
         $this->templating = $templating;
         $this->mailchimp = $mailchimp;
         $this->sf = $salesforce;
+        $this->producer = $producer;
         
         $this->mailer->getTransport()->stop();
     }
@@ -329,6 +339,9 @@ class CreateAccountConsumer implements ConsumerInterface
                 $suitcase->setUpdated($timestamp);
                 $this->em->persist($suitcase);
                 $this->em->flush();
+                
+                $msg = array('id' => $suitcase->getId(), 'type' => 'suitcase-items');
+                $this->producer->publish(serialize($msg), 'update-sf');
             }
         }
         

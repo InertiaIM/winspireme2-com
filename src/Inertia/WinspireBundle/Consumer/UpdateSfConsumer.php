@@ -74,6 +74,121 @@ class UpdateSfConsumer implements ConsumerInterface
                 
                 break;
                 
+            case 'suitcase-items':
+                $query = $this->em->createQuery(
+                    'SELECT s FROM InertiaWinspireBundle:Suitcase s WHERE s.id = :id'
+                )->setParameter('id', $id);
+                
+                try {
+                    $suitcase = $query->getSingleResult();
+                }
+                catch (\Doctrine\Orm\NoResultException $e) {
+                    // If we can't get the Suitcase record we'll
+                    // throw out the message from the queue (ack)
+                   return true;
+                }
+                
+                // Let's just make sure the Suitcase has already been added to SF
+                if ($suitcase->getSfId() == '') {
+                    $sfOpportunity = new \stdClass();
+                    $sfOpportunity->Name = substr($suitcase->getEventName(), 0, 40);
+                    $sfOpportunity->Website_suitcase_status__c = 'Unpacked';
+                    $sfOpportunity->StageName = 'Counsel';
+                    if ($suitcase->getEventDate() != '') {
+                        $sfOpportunity->Event_Date__c = $suitcase->getEventDate();
+                        $sfOpportunity->CloseDate = new \DateTime($suitcase->getEventDate()->format('Y-m-d') . '+30 days');
+                    }
+                    else {
+                        $sfOpportunity->Event_Date__c = new \DateTime('+30 days');
+                        $sfOpportunity->CloseDate = new \DateTime('+60 days');
+                    }
+                    $sfOpportunity->AccountId = $suitcase->getUser()->getCompany()->getSfId();
+                    $sfOpportunity->RecordTypeId = $this->opportunityTypeId;
+                    $sfOpportunity->Lead_Souce_by_Client__c = 'Online User';
+                    $sfOpportunity->Partner_Class__c = $this->partnerRecordId;
+                    $sfOpportunity->Item_Use__c = 'Silent Auction';
+                    $sfOpportunity->Type = 'Web Suitcase';
+                    
+                    $saveResult = $this->sf->create(array($sfOpportunity), 'Opportunity');
+//echo 'talking to SF' . "\n";
+                    if($saveResult[0]->success) {
+                        $timestamp = new \DateTime();
+                        $suitcase->setSfId($saveResult[0]->id);
+                        $suitcase->setDirty(false);
+                        $suitcase->setSfUpdated($timestamp);
+                        $suitcase->setUpdated($timestamp);
+                        $this->em->persist($suitcase);
+                        $this->em->flush();
+                    }
+                }
+                
+                $sfOpportunityLineItems = array();
+                $newItems = array();
+                foreach ($suitcase->getItems() as $item) {
+                    // Item has been deleted
+                    if ($item->getStatus() == 'X') {
+                        // Item is already in SF; so we need to delete it
+                        if ($item->getSfId() != '') {
+                            try {
+                                $deleteResult = $this->sf->delete(array($item->getSfId()));
+//echo 'talking to SF' . "\n";
+                                if ($deleteResult[0]->success) {
+                                    $this->em->remove($item);
+                                }
+                            }
+                            catch (\Exception $e) {
+                                $this->sendForHelp($e, $suitcase);
+                                $this->sf->logout();
+                                
+                                return true;
+                            }
+                        }
+                        else {
+                            $this->em->remove($item);
+                        }
+                        $this->em->flush();
+                        continue;
+                    }
+                    
+                    // Has the item already been sync'd
+                    if ($item->getSfId() != '') {
+                        continue;
+                    }
+                    
+                    $sfOpportunityLineItem = new \stdClass();
+                    $sfOpportunityLineItem->Quantity = 1;
+                    $sfOpportunityLineItem->UnitPrice = $item->getPackage()->getCost();
+                    $sfOpportunityLineItem->Package_Status__c = ($suitcase->getStatus() == 'P') ? 'Reserved' : 'Interested';
+                    $sfOpportunityLineItem->OpportunityId = $suitcase->getSfId();
+                    $sfOpportunityLineItem->PricebookEntryId = $item->getPackage()->getSfPricebookEntryId();
+                    $sfOpportunityLineItems[] = $sfOpportunityLineItem;
+                    $newItems[] = $item;
+                }
+                
+                if (count($sfOpportunityLineItems)) {
+                    try {
+                        $saveResult = $this->sf->create($sfOpportunityLineItems, 'OpportunityLineItem');
+//echo 'talking to SF' . "\n";
+                        
+                        foreach ($saveResult as $index => $result) {
+                            if($result->success) {
+                                $newItems[$index]->setSfId($result->id);
+                                $this->em->persist($newItems[$index]);
+                            }
+                        }
+                        
+                        $this->em->flush();
+                    }
+                    catch (\Exception $e) {
+                        $this->sendForHelp($e, $suitcase);
+                        $this->sf->logout();
+                        
+                        return true;
+                    }
+                }
+                
+                break;
+                
             case 'account':
                 $query = $this->em->createQuery(
                     'SELECT u, a FROM InertiaWinspireBundle:User u JOIN u.company a WHERE u.id = :id'
@@ -133,5 +248,26 @@ class UpdateSfConsumer implements ConsumerInterface
         $this->em->getConnection()->close();
         
         return true;
+    }
+    
+    protected function sendForHelp(\Exception $e, $suitcase)
+    {
+        $message = \Swift_Message::newInstance()
+            ->setSubject('Winspire::Problem during Sync of Suitcase Items')
+            ->setFrom(array('notice@winspireme.com' => 'Winspire'))
+            ->setTo(array('doug@inertiaim.com' => 'Douglas Choma'))
+            ->setBody('Suitcase ID: ' . $suitcase->getId() . "\n" .
+                'SF ID: ' . $suitcase->getSfId() . "\n" .
+                'Exception: ' . $e->getMessage(),
+                'text/plain'
+            )
+        ;
+        
+        $this->mailer->getTransport()->start();
+        $this->mailer->send($message);
+        $this->mailer->getTransport()->stop();
+        
+        $this->em->clear();
+        $this->em->getConnection()->close();
     }
 }

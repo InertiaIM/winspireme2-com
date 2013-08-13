@@ -126,6 +126,9 @@ class SuitcaseManager
         $this->em->persist($suitcase);
         $this->em->flush();
         
+        $msg = array('id' => $suitcase->getId(), 'type' => 'suitcase-items');
+        $this->producer->publish(serialize($msg), 'update-sf');
+        
         return $package;
     }
     
@@ -156,6 +159,9 @@ class SuitcaseManager
                 $deleted = true;
             }
         }
+        
+        $msg = array('id' => $suitcase->getId(), 'type' => 'suitcase-items');
+        $this->producer->publish(serialize($msg), 'update-sf');
         
         return $deleted;
     }

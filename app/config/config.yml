@@ -165,7 +165,7 @@ services:
         
     create_account_service:
         class: Inertia\WinspireBundle\Consumer\CreateAccountConsumer
-        arguments: [@doctrine.orm.entity_manager, @mailer, @templating, @mailchimp, @ddeboer_salesforce_client]
+        arguments: [@doctrine.orm.entity_manager, @mailer, @templating, @mailchimp, @ddeboer_salesforce_client, @old_sound_rabbit_mq.winspire_producer]
         
     create_suitcase_service:
         class: Inertia\WinspireBundle\Consumer\CreateSuitcaseConsumer
