@@ -82,8 +82,6 @@ class PackSuitcaseConsumer implements ConsumerInterface
         
         
         
-        // TODO temp fix for abnormal account/suitcases flagged
-        if ($account->getSfId() != 'TEST' && $account->getSfId() != 'PARTNER') {
         // Salesforce Updates
         $sfOpportunity = new \stdClass();
         $sfOpportunity->Name = substr($suitcase->getEventName(), 0, 40);
@@ -108,12 +106,14 @@ class PackSuitcaseConsumer implements ConsumerInterface
             if ($suitcase->getSfId() == '') {
                 // We haven't done an initial sync of the Suitcase?
                 $sfOpportunity->Type = 'Web Suitcase';
+                $sfOpportunity->StageName = 'Counsel';
                 $saveResult = $this->sf->create(array($sfOpportunity), 'Opportunity');
             }
             else {
                 $sfOpportunity->Id = $suitcase->getSfId();
                 $saveResult = $this->sf->update(array($sfOpportunity), 'Opportunity');
             }
+            
             if($saveResult[0]->success) {
                 $timestamp = new \DateTime();
                 $suitcase->setSfId($saveResult[0]->id);
@@ -233,7 +233,6 @@ class PackSuitcaseConsumer implements ConsumerInterface
                 
                 return true;
             }
-        }
         }
         
         

@@ -72,12 +72,14 @@ class UnpackSuitcaseConsumer implements ConsumerInterface
                 // We haven't done an initial sync of the Suitcase?
                 // Probably not even possible, but just in case
                 $sfOpportunity->Type = 'Web Suitcase';
+                $sfOpportunity->StageName = 'Counsel';
                 $saveResult = $this->sf->create(array($sfOpportunity), 'Opportunity');
             }
             else {
                 $sfOpportunity->Id = $suitcase->getSfId();
                 $saveResult = $this->sf->update(array($sfOpportunity), 'Opportunity');
             }
+            
             if($saveResult[0]->success) {
                 $timestamp = new \DateTime();
                 $suitcase->setSfId($saveResult[0]->id);
