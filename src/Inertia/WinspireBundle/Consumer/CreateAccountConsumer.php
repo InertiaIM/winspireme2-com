@@ -417,13 +417,7 @@ class CreateAccountConsumer implements ConsumerInterface
         $this->em->clear();
         
         $this->mailer->getTransport()->start();
-        if (!$this->mailer->send($message)) {
-            // Any other value not equal to false will acknowledge the message and remove it
-            // from the queue
-            $this->sf->logout();
-            
-            return false;
-        }
+        $this->mailer->send($message);
         
         if ($message2) {
             $this->mailer->send($message2);
