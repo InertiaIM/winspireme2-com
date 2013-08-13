@@ -29,6 +29,7 @@ class PackSuitcaseConsumer implements ConsumerInterface
         
         $this->mailer->getTransport()->stop();
         $this->em->getConnection()->close();
+        $this->sf->logout();
     }
     
     public function execute(AMQPMessage $msg)
@@ -71,7 +72,8 @@ class PackSuitcaseConsumer implements ConsumerInterface
                     $suitcase->setSfContactRoleId($saveResult[0]->id);
                     $this->em->persist($suitcase);
                     $this->em->flush();
-                }}
+                }
+            }
             catch (\Exception $e) {
                 $this->sendForHelp($e, $suitcase);
                 $this->sf->logout();
@@ -335,11 +337,11 @@ class PackSuitcaseConsumer implements ConsumerInterface
             'text/plain'
         )
         ;
-    
+        
         $this->mailer->getTransport()->start();
         $this->mailer->send($message);
         $this->mailer->getTransport()->stop();
-    
+        
         $this->em->clear();
         $this->em->getConnection()->close();
     }

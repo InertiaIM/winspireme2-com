@@ -39,6 +39,7 @@ class CreateAccountConsumer implements ConsumerInterface
         $this->producer = $producer;
         
         $this->mailer->getTransport()->stop();
+        $this->sf->logout();
     }
     
     public function execute(AMQPMessage $msg)

@@ -24,6 +24,7 @@ class UpdateSfConsumer implements ConsumerInterface
         
         $this->mailer->getTransport()->stop();
         $this->em->getConnection()->close();
+        $this->sf->logout();
     }
     
     public function execute(AMQPMessage $msg)
@@ -85,7 +86,7 @@ class UpdateSfConsumer implements ConsumerInterface
                 catch (\Doctrine\Orm\NoResultException $e) {
                     // If we can't get the Suitcase record we'll
                     // throw out the message from the queue (ack)
-                   return true;
+                    return true;
                 }
                 
                 // Let's just make sure the Suitcase has already been added to SF

@@ -29,6 +29,7 @@ class InvoiceRequestConsumer implements ConsumerInterface
         
         $this->mailer->getTransport()->stop();
         $this->em->getConnection()->close();
+        $this->sf->logout();
     }
     
     public function execute(AMQPMessage $msg)

@@ -26,6 +26,7 @@ class CreateSuitcaseConsumer implements ConsumerInterface
         $this->sf = $salesforce;
         
         $this->mailer->getTransport()->stop();
+        $this->sf->logout();
     }
     
     public function execute(AMQPMessage $msg)
