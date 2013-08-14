@@ -75,6 +75,28 @@ class UpdateSfConsumer implements ConsumerInterface
                 
                 break;
                 
+            case 'suitcase-delete':
+                try {
+                    $sfOpportunity = new \stdClass();
+                    $sfOpportunity->Id = $id;
+                    $sfOpportunity->StageName = 'Lost (pre-event)';
+                    $sfOpportunity->Website_suitcase_status__c = 'Deleted';
+                    
+                    $saveResult = $this->sf->update(array($sfOpportunity), 'Opportunity');
+                    
+                    if(!$saveResult[0]->success) {
+                        $this->sendForHelp2('No Success', $id);
+                    }
+                }
+                catch (\Exception $e) {
+                    $this->sendForHelp2($e->getMessage(), $id);
+                    $this->sf->logout();
+                    
+                    return true;
+                }
+                
+                break;
+                
             case 'suitcase-items':
                 $query = $this->em->createQuery(
                     'SELECT s FROM InertiaWinspireBundle:Suitcase s WHERE s.id = :id'
@@ -260,6 +282,27 @@ class UpdateSfConsumer implements ConsumerInterface
             ->setBody('Suitcase ID: ' . $suitcase->getId() . "\n" .
                 'SF ID: ' . $suitcase->getSfId() . "\n" .
                 'Exception: ' . $e->getMessage(),
+                'text/plain'
+            )
+        ;
+        
+        $this->mailer->getTransport()->start();
+        $this->mailer->send($message);
+        $this->mailer->getTransport()->stop();
+        
+        $this->em->clear();
+        $this->em->getConnection()->close();
+    }
+    
+    protected function sendForHelp2($text, $id)
+    {
+        $message = \Swift_Message::newInstance()
+            ->setSubject('Winspire::Problem during Update of Opportunity to LOST')
+            ->setFrom(array('notice@winspireme.com' => 'Winspire'))
+            ->setTo(array('doug@inertiaim.com' => 'Douglas Choma'))
+            ->setBody(
+                'SF ID: ' . $id . "\n" .
+                'Extra Text: ' . $text,
                 'text/plain'
             )
         ;

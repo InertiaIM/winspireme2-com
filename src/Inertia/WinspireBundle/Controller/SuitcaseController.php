@@ -607,6 +607,12 @@ class SuitcaseController extends Controller
         
         try {
             $suitcase = $qb->getQuery()->getSingleResult();
+            
+            if ($suitcase->getSfId() != '') {
+                $msg = array('id' => $suitcase->getSfId(), 'type' => 'suitcase-delete');
+                $this->get('old_sound_rabbit_mq.winspire_producer')->publish(serialize($msg), 'update-sf');
+            }
+            
             $em->remove($suitcase);
             $em->flush();
             
