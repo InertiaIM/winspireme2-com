@@ -1348,7 +1348,7 @@ class SuitcaseController extends Controller
         $suitcaseManager = $this->get('winspire.suitcase.manager');
         $suitcase = $suitcaseManager->getSuitcase(false, 'alpha');
         
-        if(!$suitcase) {
+        if(!$suitcase || $suitcase == 'new') {
             if($this->get('security.context')->isGranted('ROLE_ADMIN')) {
                 return $this->redirect($this->generateUrl('suitcaseAdmin'));
             }
