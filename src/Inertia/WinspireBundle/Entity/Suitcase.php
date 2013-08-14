@@ -45,7 +45,7 @@ class Suitcase
     /**
      * @ORM\Column(name="unpacked_at", type="datetime", nullable=true)
      */
-    private $unPackedAt;
+    private $unpackedAt;
     
     /**
      * @ORM\Column(name="invoice_requested_at", type="datetime", nullable=true)
@@ -711,25 +711,25 @@ class Suitcase
     }
 
     /**
-     * Set unPackedAt
+     * Set unpackedAt
      *
-     * @param \DateTime $unPackedAt
+     * @param \DateTime $unpackedAt
      * @return Suitcase
      */
-    public function setUnPackedAt($unPackedAt)
+    public function setUnpackedAt($unpackedAt)
     {
-        $this->unPackedAt = $unPackedAt;
+        $this->unpackedAt = $unpackedAt;
     
         return $this;
     }
 
     /**
-     * Get unPackedAt
+     * Get unpackedAt
      *
      * @return \DateTime 
      */
-    public function getUnPackedAt()
+    public function getUnpackedAt()
     {
-        return $this->unPackedAt;
+        return $this->unpackedAt;
     }
 }
