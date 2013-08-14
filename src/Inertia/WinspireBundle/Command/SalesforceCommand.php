@@ -1084,6 +1084,116 @@ if(($sfAccount->SystemModstamp > $account->getSfUpdated()) && !$account->getDirt
                 }
 */
                 break;
+                
+            case 'suitcase-items':
+                $query = $em->createQuery(
+                    'SELECT s, i FROM InertiaWinspireBundle:Suitcase s LEFT JOIN s.items i WHERE s.status = \'U\' ORDER BY s.id'
+                );
+                $suitcases = $query->getResult();
+                
+                foreach ($suitcases as $suitcase) {
+                    // Let's just make sure the Suitcase has already been added to SF
+                    if ($suitcase->getSfId() == '') {
+                        $sfOpportunity = new \stdClass();
+                        $sfOpportunity->Name = substr($suitcase->getEventName(), 0, 40);
+                        $sfOpportunity->Website_suitcase_status__c = 'Unpacked';
+                        $sfOpportunity->StageName = 'Counsel';
+                        if ($suitcase->getEventDate() != '') {
+                            $sfOpportunity->Event_Date__c = $suitcase->getEventDate();
+                            $sfOpportunity->CloseDate = new \DateTime($suitcase->getEventDate()->format('Y-m-d') . '+30 days');
+                        }
+                        else {
+                            $sfOpportunity->Event_Date__c = new \DateTime('+30 days');
+                            $sfOpportunity->CloseDate = new \DateTime('+60 days');
+                        }
+                        $sfOpportunity->AccountId = $suitcase->getUser()->getCompany()->getSfId();
+                        $sfOpportunity->RecordTypeId = $this->opportunityTypeId;
+                        $sfOpportunity->Lead_Souce_by_Client__c = 'Online User';
+                        $sfOpportunity->Partner_Class__c = $this->partnerRecordId;
+                        $sfOpportunity->Item_Use__c = 'Silent Auction';
+                        $sfOpportunity->Type = 'Web Suitcase';
+                        
+                        $output->writeln('<info>Creating Opportunity in SF: ' . $suitcase->getId() . '</info>');
+                        $saveResult = $client->create(array($sfOpportunity), 'Opportunity');
+                        
+                        if($saveResult[0]->success) {
+                            $timestamp = new \DateTime();
+                            $suitcase->setSfId($saveResult[0]->id);
+                            $suitcase->setDirty(false);
+                            $suitcase->setSfUpdated($timestamp);
+                            $suitcase->setUpdated($timestamp);
+                            $em->persist($suitcase);
+                            $em->flush();
+                        }
+                    }
+                    
+                    $sfOpportunityLineItems = array();
+                    $newItems = array();
+                    foreach ($suitcase->getItems() as $item) {
+                        // Item has been deleted
+                        if ($item->getStatus() == 'X') {
+                            // Item is already in SF; so we need to delete it
+                            if ($item->getSfId() != '') {
+                                $output->writeln('<info>Deleting Suitcase Item from SF: ' . $item->getSfId() . '</info>');
+                                
+                                try {
+                                    $deleteResult = $client->delete(array($item->getSfId()));
+                                    if ($deleteResult[0]->success) {
+                                        $em->remove($item);
+                                    }
+                                }
+                                catch (\Exception $e) {
+                                    $output->writeln('<error>Problem deleting Suitcase Item: ' . $item->getSfId() . '</error>');
+                                }
+                            }
+                            else {
+                                $em->remove($item);
+                            }
+                            $em->flush();
+                            
+                            continue;
+                        }
+                        
+                        // Has the item already been sync'd
+                        if ($item->getSfId() != '') {
+                            continue;
+                        }
+                        
+                        $sfOpportunityLineItem = new \stdClass();
+                        $sfOpportunityLineItem->Quantity = 1;
+                        $sfOpportunityLineItem->UnitPrice = $item->getPackage()->getCost();
+                        $sfOpportunityLineItem->Package_Status__c = ($suitcase->getStatus() == 'P') ? 'Reserved' : 'Interested';
+                        $sfOpportunityLineItem->OpportunityId = $suitcase->getSfId();
+                        $sfOpportunityLineItem->PricebookEntryId = $item->getPackage()->getSfPricebookEntryId();
+                        $sfOpportunityLineItems[] = $sfOpportunityLineItem;
+                        $newItems[] = $item;
+                    }
+                    
+                    if (count($sfOpportunityLineItems)) {
+                        $output->writeln('<info>Creating Suitcase Items in SF: ' . $suitcase->getSfId() . '</info>');
+                        foreach ($newItems as $i) {
+                            $output->writeln('<info>    ' . $i->getId() . '</info>');
+                        }
+                        
+                        try {
+                            $saveResult = $client->create($sfOpportunityLineItems, 'OpportunityLineItem');
+                            
+                            foreach ($saveResult as $index => $result) {
+                                if($result->success) {
+                                    $newItems[$index]->setSfId($result->id);
+                                    $em->persist($newItems[$index]);
+                                }
+                            }
+                            
+                            $em->flush();
+                        }
+                        catch (\Exception $e) {
+                            $output->writeln('<error>Problem creating Suitcase Items: ' . $suitcase->getSfId() . '</error>');
+                        }
+                    }
+                }
+                
+                break;
         }
     }
     
