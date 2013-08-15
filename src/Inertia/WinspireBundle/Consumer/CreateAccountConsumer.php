@@ -71,15 +71,23 @@ class CreateAccountConsumer implements ConsumerInterface
             $account->setNameCanonical($this->slugify($account->getName()));
             
             // Attempt a match with an existing SF account/contact pair
-            $contactResult = $this->sf->query('SELECT ' .
-                'Id, ' .
-                'Email, ' .
-                'SystemModstamp, ' .
-                'AccountId ' .
-                'FROM Contact ' .
-                'WHERE Email = \'' . $user->getEmailCanonical() . '\' ' .
-                'ORDER BY CreatedDate ASC'
-            );
+            try {
+                $contactResult = $this->sf->query('SELECT ' .
+                    'Id, ' .
+                    'Email, ' .
+                    'SystemModstamp, ' .
+                    'AccountId ' .
+                    'FROM Contact ' .
+                    'WHERE Email = \'' . $user->getEmailCanonical() . '\' ' .
+                    'ORDER BY CreatedDate ASC'
+                );
+            }
+            catch (\Exception $e) {
+                $this->sendForHelp('(5): ' . $e->getMessage());
+                $this->sf->logout();
+                
+                return false;
+            }
             
             // If a contact record is found, check with the existing Account records
             if (count($contactResult) > 0) {
@@ -103,7 +111,18 @@ class CreateAccountConsumer implements ConsumerInterface
                                 $sfContact->FirstName = $user->getFirstName();
                                 $sfContact->LastName = $user->getLastName();
                                 $sfContact->Phone = $user->getPhone();
-                                $this->sf->update(array($sfContact), 'Contact');
+                                
+                                try {
+                                    $this->sf->update(array($sfContact), 'Contact');
+                                }
+                                catch (\Exception $e) {
+                                    $this->sendForHelp('(4): ' . $e->getMessage());
+                                    $this->sf->logout();
+                                    
+                                    return false;
+                                }
+                                
+                                
                                 $timestamp = new \DateTime();
                                 $user->setSfUpdated($timestamp);
                                 $user->setUpdated($timestamp);
@@ -126,25 +145,33 @@ class CreateAccountConsumer implements ConsumerInterface
                     else {
                         // Attempt a match with an existing SF account
                         // (not sure why we'd find an account not in our db, but just in case...)
-                        $accountResult = $this->sf->query('SELECT ' .
-                            'Id, ' .
-                            'Name, ' .
-                            'OwnerId, ' .
-                            'BillingStreet, ' .
-                            'BillingCity, ' .
-                            'BillingState, ' .
-                            'BillingPostalCode, ' .
-                            'BillingCountry, ' .
-                            'Phone, ' .
-                            'Referred_by__c,  ' .
-                            'RecordTypeId, ' .
-                            'SystemModstamp, ' .
-                            'CreatedDate ' .
-                            'FROM Account ' .
-                            'WHERE ' .
-                            'RecordTypeId = \'' . $this->recordTypeId . '\'' .
-                            'AND Id =\'' . $sfContact->AccountId . '\''
-                        );
+                        try {
+                            $accountResult = $this->sf->query('SELECT ' .
+                                'Id, ' .
+                                'Name, ' .
+                                'OwnerId, ' .
+                                'BillingStreet, ' .
+                                'BillingCity, ' .
+                                'BillingState, ' .
+                                'BillingPostalCode, ' .
+                                'BillingCountry, ' .
+                                'Phone, ' .
+                                'Referred_by__c,  ' .
+                                'RecordTypeId, ' .
+                                'SystemModstamp, ' .
+                                'CreatedDate ' .
+                                'FROM Account ' .
+                                'WHERE ' .
+                                'RecordTypeId = \'' . $this->recordTypeId . '\'' .
+                                'AND Id =\'' . $sfContact->AccountId . '\''
+                            );
+                        }
+                        catch (\Exception $e) {
+                            $this->sendForHelp('(3): ' . $e->getMessage());
+                            $this->sf->logout();
+                            
+                            return false;
+                        }
                         
                         if (count($accountResult) > 0) {
 //echo 'An account was found in SF that\'s not already in our Account table' . "\n";
@@ -226,7 +253,17 @@ class CreateAccountConsumer implements ConsumerInterface
                                     $sfContact->FirstName = $user->getFirstName();
                                     $sfContact->LastName = $user->getLastName();
                                     $sfContact->Phone = $user->getPhone();
-                                    $this->sf->update(array($sfContact), 'Contact');
+                                    
+                                    try {
+                                        $this->sf->update(array($sfContact), 'Contact');
+                                    }
+                                    catch (\Exception $e) {
+                                        $this->sendForHelp('(2): ' . $e->getMessage());
+                                        $this->sf->logout();
+                                        
+                                        return false;
+                                    }
+                                    
                                     $timestamp = new \DateTime();
                                     $user->setSfId($sfContact->Id);
                                     $user->setDirty(false);
@@ -265,7 +302,15 @@ class CreateAccountConsumer implements ConsumerInterface
                 $sfAccount->RecordTypeId = $this->recordTypeId;
                 $sfAccount->OwnerId = $account->getSalesperson()->getSfId();
                 
-                $saveResult = $this->sf->create(array($sfAccount), 'Account');
+                try {
+                    $saveResult = $this->sf->create(array($sfAccount), 'Account');
+                }
+                catch (\Exception $e) {
+                    $this->sendForHelp('(1): ' . $e->getMessage());
+                    $this->sf->logout();
+                    
+                    return false;
+                }
                 
                 if($saveResult[0]->success) {
                     $timestamp = new \DateTime();
@@ -291,7 +336,15 @@ class CreateAccountConsumer implements ConsumerInterface
             $sfContact->Default_contact__c = 1;
             $sfContact->OwnerId = $account->getSalesperson()->getSfId();
             
-            $saveResult = $this->sf->create(array($sfContact), 'Contact');
+            try {
+                $saveResult = $this->sf->create(array($sfContact), 'Contact');
+            }
+            catch (\Exception $e) {
+                $this->sendForHelp('(0): ' . $e->getMessage());
+                $this->sf->logout();
+                
+                return false;
+            }
             
             if($saveResult[0]->success) {
                 $timestamp = new \DateTime();
@@ -330,7 +383,15 @@ class CreateAccountConsumer implements ConsumerInterface
             $sfOpportunity->Item_Use__c = 'Silent Auction';
             $sfOpportunity->OwnerId = $account->getSalesperson()->getSfId();
             
-            $saveResult = $this->sf->create(array($sfOpportunity), 'Opportunity');
+            try {
+                $saveResult = $this->sf->create(array($sfOpportunity), 'Opportunity');
+            }
+            catch (\Exception $e) {
+                $this->sendForHelp('(-1): ' . $e->getMessage());
+                $this->sf->logout();
+                
+                return false;
+            }
             
             if($saveResult[0]->success) {
                 $timestamp = new \DateTime();
@@ -424,7 +485,13 @@ class CreateAccountConsumer implements ConsumerInterface
         }
         
         $this->mailer->getTransport()->stop();
-        $this->sf->logout();
+        
+        try {
+            $this->sf->logout();
+        }
+        catch (\Exception $e) {
+            $this->sendForHelp('(-2): ' . $e->getCode());
+        }
         
         // MailChimp sync
         if($user->getNewsletter()) {
@@ -446,6 +513,26 @@ class CreateAccountConsumer implements ConsumerInterface
         $a = array('À', 'Á', 'Â', 'Ã', 'Ä', 'Å', 'Æ', 'Ç', 'È', 'É', 'Ê', 'Ë', 'Ì', 'Í', 'Î', 'Ï', 'Ð', 'Ñ', 'Ò', 'Ó', 'Ô', 'Õ', 'Ö', 'Ø', 'Ù', 'Ú', 'Û', 'Ü', 'Ý', 'ß', 'à', 'á', 'â', 'ã', 'ä', 'å', 'æ', 'ç', 'è', 'é', 'ê', 'ë', 'ì', 'í', 'î', 'ï', 'ñ', 'ò', 'ó', 'ô', 'õ', 'ö', 'ø', 'ù', 'ú', 'û', 'ü', 'ý', 'ÿ', 'Ā', 'ā', 'Ă', 'ă', 'Ą', 'ą', 'Ć', 'ć', 'Ĉ', 'ĉ', 'Ċ', 'ċ', 'Č', 'č', 'Ď', 'ď', 'Đ', 'đ', 'Ē', 'ē', 'Ĕ', 'ĕ', 'Ė', 'ė', 'Ę', 'ę', 'Ě', 'ě', 'Ĝ', 'ĝ', 'Ğ', 'ğ', 'Ġ', 'ġ', 'Ģ', 'ģ', 'Ĥ', 'ĥ', 'Ħ', 'ħ', 'Ĩ', 'ĩ', 'Ī', 'ī', 'Ĭ', 'ĭ', 'Į', 'į', 'İ', 'ı', 'Ĳ', 'ĳ', 'Ĵ', 'ĵ', 'Ķ', 'ķ', 'Ĺ', 'ĺ', 'Ļ', 'ļ', 'Ľ', 'ľ', 'Ŀ', 'ŀ', 'Ł', 'ł', 'Ń', 'ń', 'Ņ', 'ņ', 'Ň', 'ň', 'ŉ', 'Ō', 'ō', 'Ŏ', 'ŏ', 'Ő', 'ő', 'Œ', 'œ', 'Ŕ', 'ŕ', 'Ŗ', 'ŗ', 'Ř', 'ř', 'Ś', 'ś', 'Ŝ', 'ŝ', 'Ş', 'ş', 'Š', 'š', 'Ţ', 'ţ', 'Ť', 'ť', 'Ŧ', 'ŧ', 'Ũ', 'ũ', 'Ū', 'ū', 'Ŭ', 'ŭ', 'Ů', 'ů', 'Ű', 'ű', 'Ų', 'ų', 'Ŵ', 'ŵ', 'Ŷ', 'ŷ', 'Ÿ', 'Ź', 'ź', 'Ż', 'ż', 'Ž', 'ž', 'ſ', 'ƒ', 'Ơ', 'ơ', 'Ư', 'ư', 'Ǎ', 'ǎ', 'Ǐ', 'ǐ', 'Ǒ', 'ǒ', 'Ǔ', 'ǔ', 'Ǖ', 'ǖ', 'Ǘ', 'ǘ', 'Ǚ', 'ǚ', 'Ǜ', 'ǜ', 'Ǻ', 'ǻ', 'Ǽ', 'ǽ', 'Ǿ', 'ǿ');
         $b = array('A', 'A', 'A', 'A', 'A', 'A', 'AE', 'C', 'E', 'E', 'E', 'E', 'I', 'I', 'I', 'I', 'D', 'N', 'O', 'O', 'O', 'O', 'O', 'O', 'U', 'U', 'U', 'U', 'Y', 's', 'a', 'a', 'a', 'a', 'a', 'a', 'ae', 'c', 'e', 'e', 'e', 'e', 'i', 'i', 'i', 'i', 'n', 'o', 'o', 'o', 'o', 'o', 'o', 'u', 'u', 'u', 'u', 'y', 'y', 'A', 'a', 'A', 'a', 'A', 'a', 'C', 'c', 'C', 'c', 'C', 'c', 'C', 'c', 'D', 'd', 'D', 'd', 'E', 'e', 'E', 'e', 'E', 'e', 'E', 'e', 'E', 'e', 'G', 'g', 'G', 'g', 'G', 'g', 'G', 'g', 'H', 'h', 'H', 'h', 'I', 'i', 'I', 'i', 'I', 'i', 'I', 'i', 'I', 'i', 'IJ', 'ij', 'J', 'j', 'K', 'k', 'L', 'l', 'L', 'l', 'L', 'l', 'L', 'l', 'l', 'l', 'N', 'n', 'N', 'n', 'N', 'n', 'n', 'O', 'o', 'O', 'o', 'O', 'o', 'OE', 'oe', 'R', 'r', 'R', 'r', 'R', 'r', 'S', 's', 'S', 's', 'S', 's', 'S', 's', 'T', 't', 'T', 't', 'T', 't', 'U', 'u', 'U', 'u', 'U', 'u', 'U', 'u', 'U', 'u', 'U', 'u', 'W', 'w', 'Y', 'y', 'Y', 'Z', 'z', 'Z', 'z', 'Z', 'z', 's', 'f', 'O', 'o', 'U', 'u', 'A', 'a', 'I', 'i', 'O', 'o', 'U', 'u', 'U', 'u', 'U', 'u', 'U', 'u', 'U', 'u', 'A', 'a', 'AE', 'ae', 'O', 'o');
         return str_replace($a, $b, $str);
+    }
+    
+    protected function sendForHelp($text)
+    {
+        $message = \Swift_Message::newInstance()
+            ->setSubject('Winspire::Debug for Create Account')
+            ->setFrom(array('notice@winspireme.com' => 'Winspire'))
+            ->setTo(array('doug@inertiaim.com' => 'Douglas Choma'))
+            ->setBody(
+                $text,
+                'text/plain'
+            )
+        ;
+        
+        $this->mailer->getTransport()->start();
+        $this->mailer->send($message);
+        $this->mailer->getTransport()->stop();
+        
+        $this->em->clear();
+        $this->em->getConnection()->close();
     }
     
     protected function slugify($input)
