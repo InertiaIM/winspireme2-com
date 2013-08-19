@@ -75,6 +75,7 @@ fwrite($dump, print_r($notifications, true));
                 'WEB_Default_version__c, ' .
                 'Parent_Header__c, ' .
                 'IsActive, ' .
+                'Available__c, ' .
                 'WEB_picture__c, ' .
                 'WEB_thumbnail__c, ' .
                 'WEB_picture_title__c, ' .
@@ -158,11 +159,34 @@ fwrite($dump, print_r($notifications, true));
                 }
                 
                 if ($processRemoval) {
-                    $this->logger->info('Process Removal of package (' . $id . ')');
+                    $this->logger->info('Process Removal of package due to INACTIVE (' . $id . ')');
                     
                     // TODO is it necessary to delete the package even if it's possible?
                     $deletePackage = $this->processRemoval($package);
                 }
+            }
+            
+            if (isset($p->Available__c)) {
+                $processRemoval = false;
+                if ($package->getAvailable() && ($p->Available__c == 'NO')) {
+                    // Changing from Available -> Unavailable
+                    $processRemoval = true;
+                }
+                
+                $package->setAvailable($p->Available__c == 'NO' ? false : true);
+                if (!$package->getAvailable()) {
+                    $this->logger->info('UNAVAILABLE package (' . $id . ')');
+                }
+                
+                if ($processRemoval) {
+                    $this->logger->info('Process Removal of package due to UNAVAILABLE (' . $id . ')');
+                    
+                    // TODO is it necessary to delete the package even if it's possible?
+                    $deletePackage = $this->processRemoval($package);
+                }
+            }
+            else {
+                $package->setAvailable(true);
             }
             
             if(isset($p->WEB_package_description__c)) {
@@ -406,7 +430,8 @@ fwrite($dump, print_r($notifications, true));
                             $this->em->flush();
                         }
                     }
-                    
+// Temporarily disable sending of messages to NPs
+$sendMessage = false;
                     if ($sendMessage) {
                         $name = $suitcase->getUser()->getFirstName() . ' ' .
                             $suitcase->getUser()->getLastName();

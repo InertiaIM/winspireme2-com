@@ -133,6 +133,11 @@ class Package
     private $active;
     
     /**
+     * @ORM\Column(name="available", type="boolean", nullable=true)
+     */
+    private $available;
+    
+    /**
      * @ORM\Column(name="airfares", type="integer", nullable=true)
      */
     private $airfares;
@@ -1179,4 +1184,28 @@ class Package
     {
         return $this->recommendations;
     }
+
+    /**
+     * Set available
+     *
+     * @param boolean $available
+     * @return Package
+     */
+    public function setAvailable($available)
+    {
+        $this->available = $available;
+    
+        return $this;
+    }
+
+    /**
+     * Get available
+     *
+     * @return boolean 
+     */
+    public function getAvailable()
+    {
+        return $this->available;
+    }
+
 }

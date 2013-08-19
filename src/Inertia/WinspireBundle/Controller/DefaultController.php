@@ -15,7 +15,7 @@ class DefaultController extends Controller
         
         $em = $this->getDoctrine()->getManager();
         $query = $em->createQuery(
-            'SELECT p FROM InertiaWinspireBundle:Package p WHERE p.is_private != 1 AND p.active = 1 ORDER BY p.parent_header ASC, p.is_default DESC'
+            'SELECT p FROM InertiaWinspireBundle:Package p WHERE p.is_private != 1 AND p.active = 1 AND p.available = 1 ORDER BY p.parent_header ASC, p.is_default DESC'
         );
         
         $packages = $query->getResult();
@@ -136,12 +136,12 @@ class DefaultController extends Controller
         
         if($this->get('security.context')->isGranted('ROLE_ADMIN')) {
             $query = $em->createQuery(
-                'SELECT p, c FROM InertiaWinspireBundle:Package p JOIN p.categories c WHERE c.id IN (:ids) AND p.picture IS NOT NULL AND (p.active = 1 OR p.seasonal = 1) ORDER BY p.parent_header ASC, p.is_default DESC'
+                'SELECT p, c FROM InertiaWinspireBundle:Package p JOIN p.categories c WHERE c.id IN (:ids) AND p.picture IS NOT NULL AND (p.active = 1 OR p.seasonal = 1) AND (p.available = 1) ORDER BY p.parent_header ASC, p.is_default DESC'
             )->setParameter('ids', $catIds);
         }
         else {
             $query = $em->createQuery(
-                'SELECT p, c FROM InertiaWinspireBundle:Package p JOIN p.categories c WHERE c.id IN (:ids) AND p.is_private != 1 AND p.picture IS NOT NULL AND (p.active = 1 OR p.seasonal = 1) ORDER BY p.parent_header ASC, p.is_default DESC'
+                'SELECT p, c FROM InertiaWinspireBundle:Package p JOIN p.categories c WHERE c.id IN (:ids) AND p.is_private != 1 AND p.picture IS NOT NULL AND (p.active = 1 OR p.seasonal = 1) AND (p.available = 1) ORDER BY p.parent_header ASC, p.is_default DESC'
             )->setParameter('ids', $catIds);
         }
         
@@ -241,6 +241,7 @@ class DefaultController extends Controller
             }
             $qb->andWhere('p.picture IS NOT NULL');
             $qb->andWhere('p.active = 1 OR p.seasonal = 1');
+            $qb->andWhere('p.available = 1');
             $qb->andWhere($qb->expr()->in('c.id', $matchedCategories));
             
             if($request->query->get('sortOrder') == 'alpha-desc') {
@@ -265,6 +266,7 @@ class DefaultController extends Controller
             }
             $qb->andWhere('p.picture IS NOT NULL');
             $qb->andWhere('p.active = 1 OR p.seasonal = 1');
+            $qb->andWhere('p.available = 1');
             
             if($request->query->get('sortOrder') == 'alpha-desc') {
                 $qb->orderBy('p.parent_header', 'DESC');
@@ -361,12 +363,12 @@ class DefaultController extends Controller
         
         if($this->get('security.context')->isGranted('ROLE_ADMIN')) {
             $query = $em->createQuery(
-                'SELECT p FROM InertiaWinspireBundle:Package p WHERE p.picture IS NOT NULL AND (p.active = 1 OR p.seasonal = 1) AND p.slug = :slug'
+                'SELECT p FROM InertiaWinspireBundle:Package p WHERE p.picture IS NOT NULL AND (p.active = 1 OR p.seasonal = 1) AND (p.available = 1) AND p.slug = :slug'
             )->setParameter('slug', $slug);
         }
         else {
             $query = $em->createQuery(
-                'SELECT p FROM InertiaWinspireBundle:Package p WHERE p.is_private != 1 AND p.picture IS NOT NULL AND (p.active = 1 OR p.seasonal = 1) AND p.slug = :slug'
+                'SELECT p FROM InertiaWinspireBundle:Package p WHERE p.is_private != 1 AND p.picture IS NOT NULL AND (p.active = 1 OR p.seasonal = 1) AND (p.available = 1) AND p.slug = :slug'
             )->setParameter('slug', $slug);
         }
         
@@ -378,12 +380,12 @@ class DefaultController extends Controller
         
         if($this->get('security.context')->isGranted('ROLE_ADMIN')) {
             $query = $em->createQuery(
-                'SELECT p FROM InertiaWinspireBundle:Package p WHERE p.picture IS NOT NULL AND (p.active = 1 OR p.seasonal = 1) AND p.parent_header = :ph ORDER BY p.parent_header ASC, p.is_default DESC'
+                'SELECT p FROM InertiaWinspireBundle:Package p WHERE p.picture IS NOT NULL AND (p.active = 1 OR p.seasonal = 1) AND (p.available = 1) AND p.parent_header = :ph ORDER BY p.parent_header ASC, p.is_default DESC'
             )->setParameter('ph', $package[0]->getParentHeader());
         }
         else {
             $query = $em->createQuery(
-                'SELECT p FROM InertiaWinspireBundle:Package p WHERE p.is_private != 1 AND (p.active = 1 OR p.seasonal = 1) AND p.picture IS NOT NULL AND p.parent_header = :ph ORDER BY p.parent_header ASC, p.is_default DESC'
+                'SELECT p FROM InertiaWinspireBundle:Package p WHERE p.is_private != 1 AND (p.active = 1 OR p.seasonal = 1) AND (p.available = 1) AND p.picture IS NOT NULL AND p.parent_header = :ph ORDER BY p.parent_header ASC, p.is_default DESC'
             )->setParameter('ph', $package[0]->getParentHeader());
         }
         
@@ -537,6 +539,7 @@ class DefaultController extends Controller
             
             $qb->andWhere($qb->expr()->in('p.id', $matches));
             $qb->andWhere('p.active = 1 OR p.seasonal = 1');
+            $qb->andWhere('p.available = 1');
             
             
             if($request->query->get('sortOrder') == 'alpha-desc') {
@@ -655,6 +658,7 @@ class DefaultController extends Controller
             $qb->select('p')->from('InertiaWinspireBundle:Package', 'p');
             $qb->andWhere($qb->expr()->in('p.id', $matches));
             $qb->andWhere('p.active = 1 OR p.seasonal = 1');
+            $qb->andWhere('p.available = 1');
             $qb->addOrderBy('p.parent_header', 'ASC');
             $qb->addOrderBy('p.is_default', 'DESC');
             $packages = $qb->getQuery()->getResult();

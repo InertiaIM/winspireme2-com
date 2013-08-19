@@ -96,12 +96,12 @@
 {%     endif %}
                                     <div class="item-open"><span class="icon-play"></span></div>
                                     <div class="expanded">
-                                        <h3>{% if item.package.active and not item.package.isPrivate %}<a href="{{ path('packageDetail', { 'slug': item.package.slug }) }}">{{ item.package.parentHeader }}</a>{% else %}{{ item.package.parentHeader }}{% endif %}</h3>
+                                        <h3>{% if item.package.active and item.package.available and not item.package.isPrivate %}<a href="{{ path('packageDetail', { 'slug': item.package.slug }) }}">{{ item.package.parentHeader }}</a>{% else %}{{ item.package.parentHeader }}{% endif %}</h3>
                                         <h5>{{ item.package.name }} ({{ item.package.code }})</h5>
                                         <p class="srv">{{ item.package.suggestedRetailValue }} <span>Suggested Retail Value</span></p>
                                         <p>${{ item.package.cost | number_format }} Nonprofit Cost</p>
                                         <div class="actions" data-id="{{ item.package.id }}">
-{%     if item.package.active and not item.package.isPrivate %}
+{%     if item.package.active and item.package.available and not item.package.isPrivate %}
                                             <a href="{{ path('packageDetail', { 'slug': item.package.slug }) }}" class="more"><span class="icon-plus"></span>More Details</a>
 {%     endif %}
 {%     if downloadLinks[item.package.id] %}
