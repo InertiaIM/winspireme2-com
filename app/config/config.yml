@@ -137,7 +137,7 @@ services:
         
     package_soap_service:
         class: Inertia\WinspireBundle\Services\PackageSoapService
-        arguments: [@ddeboer_salesforce_client, @doctrine.orm.entity_manager, @logger, @search.sphinxsearch.indexer, @mailer, @templating]
+        arguments: [@ddeboer_salesforce_client, @doctrine.orm.entity_manager, @logger, @search.sphinxsearch.indexer, @mailer, @templating, @old_sound_rabbit_mq.winspire_producer]
         
     suitcase_soap_service:
         class: Inertia\WinspireBundle\Services\SuitcaseSoapService

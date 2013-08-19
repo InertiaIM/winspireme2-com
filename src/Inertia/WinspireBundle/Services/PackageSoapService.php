@@ -4,6 +4,7 @@ namespace Inertia\WinspireBundle\Services;
 use Ddeboer\Salesforce\ClientBundle\Client;
 use Doctrine\ORM\EntityManager;
 use Inertia\WinspireBundle\Entity\Package;
+use OldSound\RabbitMqBundle\RabbitMq\Producer;
 use Search\SphinxsearchBundle\Services\Indexer\Indexer;
 use Symfony\Bridge\Monolog\Logger;
 use Symfony\Component\Templating\EngineInterface;
@@ -16,10 +17,18 @@ class PackageSoapService
     protected $indexer;
     protected $mailer;
     protected $templating;
+    protected $producer;
     
     private $pricebookId = '01s700000006IU7AAM';
     
-    public function __construct(Client $salesforce, EntityManager $entityManager, Logger $logger, Indexer $indexer, \Swift_Mailer $mailer, EngineInterface $templating)
+    public function __construct(Client $salesforce,
+        EntityManager $entityManager,
+        Logger $logger,
+        Indexer $indexer,
+        \Swift_Mailer $mailer,
+        EngineInterface $templating,
+        Producer $producer
+    )
     {
         $this->sf = $salesforce;
         $this->em = $entityManager;
@@ -27,6 +36,7 @@ class PackageSoapService
         $this->indexer = $indexer;
         $this->mailer = $mailer;
         $this->templating = $templating;
+        $this->producer = $producer;
     }
     
     public function notifications($notifications)
@@ -426,10 +436,17 @@ fwrite($dump, print_r($notifications, true));
                                 $sendMessage = false;
                                 $this->logger->info('No need to send the email message (Deleted Item or Event Date passed).');
                             }
-                            $this->em->remove($item);
+                            
+                            $item->setStatus('X');
+                            $this->em->persist($item);
                             $this->em->flush();
                         }
                     }
+                    
+                    // Trigger an update of Suitcase Items to SF
+                    $msg = array('id' => $suitcase->getId(), 'type' => 'suitcase-items');
+                    $this->producer->publish(serialize($msg), 'update-sf');
+                    
 // Temporarily disable sending of messages to NPs
 $sendMessage = false;
                     if ($sendMessage) {
