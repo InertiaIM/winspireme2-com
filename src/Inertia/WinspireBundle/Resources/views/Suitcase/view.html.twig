@@ -22,7 +22,7 @@
                     <h4>Your Suitcase is packed!</h4>
                     <p>Good luck at your event and be sure to check out all of our tips for auction success.</p>
                     <ul class="packed">
-                        <li><span>1</span>A copy of your <a target="_blank" href="{{ path('suitcaseLoa', { 'suitcaseId': suitcase.id }) }}">Letter of Agreement</a> and an Order Confirmation was sent to your email.</li>
+                        <li><span>1</span>A copy of your <a target="_blank" href="{{ path('suitcaseLoa', { 'suitcaseId': suitcase.id }) }}">Letter of Agreement</a> and an Reservation Confirmation was sent to your email.</li>
                         <li><span>2</span>If you need to add another item before your event, simply <a href="{{ path('packageList') }}">find the item</a>, add it to your Suitcase and checkout again</li>
                         <li><span>3</span><a href="{{ path('suitcaseDownload', {'suitcaseId': suitcase.id}) }}">Download all of your presentation materials</a>, if you haven’t already.  We will contact you after your event to walk you through the next steps.</li>
                     </ul>
@@ -321,7 +321,7 @@
 <div id="thanks-modal" style="display:none;">
     <h3><span class="icon-suitcase-locked"></span>Thank You!</h3>
     <h4>Your Suitcase has been successfully Packed!</h4>
-    <p>An Order Confirmation and Letter of Agreement will be sent to your email address shortly.</p>
+    <p>An Reservation Confirmation and Letter of Agreement will be sent to your email address shortly.</p>
     <p>If you have any questions, please do not hesitate to <a href="mailto:sales@winspireme.com" target="_blank">email us</a> or contact us by phone at (877) 544-8555.</p>
 </div>
 {% endblock %}
