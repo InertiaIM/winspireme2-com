@@ -1,17 +1,24 @@
-<!doctype html>
-<html>
-    <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-        <title>An Error Occurred: {{ status_text }}</title>
-    </head>
-    <body>
-        <h1>Oops! An Error Occurred</h1>
-        <h2>The server returned a "{{ status_code }} {{ status_text }}".</h2>
-        
-        <div>
-            Something is broken. Please e-mail us at <a href="mailto:info@winspireme.com" target="_blank">info@winspireme.com</a> and let us know
-            what you were doing when this error occurred. We will fix it as soon
-            as possible. Sorry for any inconvenience caused.
+{% extends 'InertiaWinspireBundle::layout.html.twig' %}
+
+{% block title %}Auction Items for Non-Profits | Charity Auction Ideas | Winspire{% endblock %}
+
+{% block description %}Winspire helps Nonprofits maximize their fundraising revenue by providing highly sought after auction packages. Start planning your next event now!{% endblock %}
+
+{% block content_header '' %}
+
+{% block content %}
+<div class="standard-page">
+    <div class="page-content">
+        <div class="c-wrap">
+            <div class="wrapper" style="margin-left:60px; margin-right:60px;">
+                <div class="error-twins">
+                    <h1>{{ status_code }}</h1>
+                    <h2>Looks like something went wrong...</h2>
+                    <p>The page you are trying to reach does not exist.
+                    Please check the address or <a href="{{ path('contactUs') }}">report an error</a>.</p>
+                </div>
+            </div>
         </div>
-    </body>
-</html>
+    </div>
+</div>
+{% endblock %}

@@ -90,7 +90,7 @@ window.attachEvent("onload", function() {
 
 					<a href="{{ path('home') }}" id="core-home"> <img src="/img/ws-logo.png" alt="Winspire"/>
 					</a>
-{% if not is_granted('ROLE_USER') %}
+{% if not app.user %}
 {%     render "InertiaWinspireBundle:Default:loginWidget" %}
 {% else %}
 {%     if app.request.get('_route') != 'suitcaseView' %}
@@ -103,7 +103,7 @@ window.attachEvent("onload", function() {
                             <li><a href="http://www.winspireme.com/blog/" target="_blank">Blog</a></li>
                             <li><a href="{{ path('pageDisplay', {'slug': 'faqs'}) }}">FAQs</a></li>
                             <li><a href="{{ path('contactUs') }}">Contact Us</a></li>
-{% if is_granted('ROLE_USER') %}
+{% if app.user and is_granted('ROLE_USER') %}
                             <li><a href="{{ path('fos_user_profile_show') }}">My Account</a></li>
 {%     if is_granted('ROLE_ADMIN') %}
                             <li><a href="{{ path('suitcaseAdmin') }}">Admin</a></li>
@@ -176,7 +176,7 @@ window.attachEvent("onload", function() {
                         <ul class="inline-nav">
                             <li><a href="{{ path('pageDisplay', {'slug': 'terms'}) }}">Terms of Use</a></li>
                             <li><a href="{{ path('pageDisplay', {'slug': 'privacy'}) }}">Privacy Policy</a></li>
-{% if is_granted('ROLE_USER') %}
+{% if app.user and is_granted('ROLE_USER') %}
                             <li><a href="{{ path('pageDisplay', {'slug': 'loa'}) }}">Letter of Agreement</a></li>
 {% endif %}
                             <li>CST# 2094258-40</li>
@@ -190,14 +190,14 @@ window.attachEvent("onload", function() {
     <!-- /container -->
     
     
-{% if is_granted('ROLE_USER') and (app.session.get('sid')) and app.request.get('_route') != 'suitcaseView' and app.request.get('_route') != 'suitcaseAdmin' %}
+{% if app.user and is_granted('ROLE_USER') and (app.session.get('sid')) and app.request.get('_route') != 'suitcaseView' and app.request.get('_route') != 'suitcaseAdmin' %}
 {%     render "InertiaWinspireBundle:Suitcase:Preview" %}
 {% else %}
 {%     if not is_granted('ROLE_USER') %}
 {%         render "InertiaWinspireBundle:Account:Create" %}
 {%     endif %}
 {% endif %}
-{% if is_granted('ROLE_USER') %}
+{% if app.user and is_granted('ROLE_USER') %}
 {%     render "InertiaWinspireBundle:Suitcase:Create" %}
 {% endif %}
     {% block jsBottom %}
