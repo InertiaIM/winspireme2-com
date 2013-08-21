@@ -171,6 +171,10 @@ var footerCtx = $('footer')[0];
         $(this).find('.bw').stop(true, true).fadeOut(200);
         $(this).find('.color').stop(true, true).fadeIn(200);
     });
+    
+    $('#home-f-loved li').on('click', function(e) {
+        window.location = '/testimonials';
+    });
     /* Client Icons */
     
     
