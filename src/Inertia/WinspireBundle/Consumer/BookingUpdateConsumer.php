@@ -114,7 +114,7 @@ class BookingUpdateConsumer implements ConsumerInterface
                 $sfBookingUpdate->Id = $sfBooking->Id;
                 $sfBookingUpdate->Traveler_first_name__c = $booking->getFirstName();
                 $sfBookingUpdate->Traveler_last_name__c = $booking->getLastName();
-                $sfBookingUpdate->Phone_1__c = $booking->getPhone();
+                $sfBookingUpdate->Phone_1__c = substr($booking->getPhone(), 0, 40);
                 $sfBookingUpdate->Email__c = $booking->getEmail();
                 
                 $saveResult = $this->sf->update(array($sfBookingUpdate), 'Trip_Booking__c');
@@ -158,7 +158,7 @@ class BookingUpdateConsumer implements ConsumerInterface
             $sfBookingUpdate->Id = $booking->getSfId();
             $sfBookingUpdate->Traveler_first_name__c = $booking->getFirstName();
             $sfBookingUpdate->Traveler_last_name__c = $booking->getLastName();
-            $sfBookingUpdate->Phone_1__c = $booking->getPhone();
+            $sfBookingUpdate->Phone_1__c = substr($booking->getPhone(), 0, 40);
             $sfBookingUpdate->Email__c = $booking->getEmail();
             
             $saveResult = $this->sf->update(array($sfBookingUpdate), 'Trip_Booking__c');
