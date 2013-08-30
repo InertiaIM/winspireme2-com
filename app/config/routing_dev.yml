@@ -10,5 +10,21 @@ _configurator:
     resource: "@SensioDistributionBundle/Resources/config/routing/webconfigurator.xml"
     prefix:   /_configurator
 
+redeem_dev:
+    pattern: /redeem
+    defaults: { _controller: InertiaWinspireBundle:Page:display, slug: redeem }
+    
+redeemThanks_dev:
+    pattern: /redeem-thanks
+    defaults: { _controller: InertiaWinspireBundle:Page:display, slug: redeem-thanks }
+    
+redeemWinspire_dev:
+    pattern: /redeem-winspire
+    defaults: { _controller: InertiaWinspireBundle:Page:display, slug: redeem-winspire }
+    
+redeemLuxe_dev:
+    pattern: /redeem-luxe
+    defaults: { _controller: InertiaWinspireBundle:Page:display, slug: redeem-luxe }
+
 _main:
     resource: routing.yml

@@ -6,158 +6,236 @@
 home:
     pattern:  /
     defaults: { _controller: InertiaWinspireBundle:Default:index }
+    requirements:
+        _scheme:  http
     
 contactUs:
     pattern:  /contact-us
     defaults: { _controller: InertiaWinspireBundle:Contact:index }
+    requirements:
+        _scheme:  http
     
 contactSuccess:
     pattern:  /contact-success
     defaults: { _controller: InertiaWinspireBundle:Contact:success }
+    requirements:
+        _scheme:  http
     
 packageList:
     pattern:  /packages/{slug}
     defaults: { _controller: InertiaWinspireBundle:Default:packageList, slug: all }
+    requirements:
+        _scheme:  http
     
 packageListJson:
     pattern:  /packages.json
     defaults: { _controller: InertiaWinspireBundle:Default:packageListJson }
+    requirements:
+        _scheme:  http
     
 packageDownload:
     pattern:  /package/download/{versionId}
     defaults: { _controller: InertiaWinspireBundle:Default:packageDownload }
+    requirements:
+        _scheme:  http
     
 packageSearch:
     pattern:  /package/search
     defaults: { _controller: InertiaWinspireBundle:Default:packageSearch }
+    requirements:
+        _scheme:  http
     
 packageSearchJson:
     pattern:  /package/search.json
     defaults: { _controller: InertiaWinspireBundle:Default:packageSearchJson }
+    requirements:
+        _scheme:  http
     
 packageDetail:
     pattern:  /package/{slug}
     defaults: { _controller: InertiaWinspireBundle:Default:packageDetail }
+    requirements:
+        _scheme:  http
     
 suitcaseAdminSf:
     pattern:  /admin/sf
     defaults: { _controller: InertiaWinspireBundle:Suitcase:adminSf }
+    requirements:
+        _scheme:  http
     
 suitcaseAdmin:
     pattern:  /admin/{id}
     defaults: { _controller: InertiaWinspireBundle:Suitcase:admin, id: none }
+    requirements:
+        _scheme:  http
     
 suitcaseView:
     pattern:  /suitcase
     defaults: { _controller: InertiaWinspireBundle:Suitcase:view }
+    requirements:
+        _scheme:  http
     
 suitcaseAdd:
     pattern:  /suitcase/add/{id}
     defaults: { _controller: InertiaWinspireBundle:Suitcase:add }
+    requirements:
+        _scheme:  http
     
 suitcaseCreate:
     pattern:  /suitcase/create
     defaults: { _controller: InertiaWinspireBundle:Suitcase:create }
+    requirements:
+        _scheme:  http
     
 suitcaseDelete:
     pattern:  /suitcase/delete/{id}
     defaults: { _controller: InertiaWinspireBundle:Suitcase:delete }
+    requirements:
+        _scheme:  http
     
 suitcaseDownload:
     pattern:  /suitcase/download/{suitcaseId}
     defaults: { _controller: InertiaWinspireBundle:Suitcase:download }
+    requirements:
+        _scheme:  http
     
 suitcaseKill:
     pattern:  /suitcase/kill/{id}
     defaults: { _controller: InertiaWinspireBundle:Suitcase:kill }
+    requirements:
+        _scheme:  http
     
 suitcaseEdit:
     pattern:  /suitcase/edit
     defaults: { _controller: InertiaWinspireBundle:Suitcase:edit }
+    requirements:
+        _scheme:  http
     
 suitcaseFlag:
     pattern:  /suitcase/flag/{id}
     defaults: { _controller: InertiaWinspireBundle:Suitcase:flag }
+    requirements:
+        _scheme:  http
     
 suitcaseFlags:
     pattern:  /suitcase/flags
     defaults: { _controller: InertiaWinspireBundle:Suitcase:flags }
+    requirements:
+        _scheme:  http
     
 suitcaseHistory:
     pattern:  /suitcase/history/{suitcaseId}
     defaults: { _controller: InertiaWinspireBundle:Suitcase:history }
+    requirements:
+        _scheme:  http
     
 suitcaseInvoice:
     pattern:  /suitcase/invoice/{suitcaseId}
     defaults: { _controller: InertiaWinspireBundle:Suitcase:invoice }
+    requirements:
+        _scheme:  http
     
 suitcaseLoa:
     pattern:  /suitcase/loa/{suitcaseId}
     defaults: { _controller: InertiaWinspireBundle:Suitcase:loa }
+    requirements:
+        _scheme:  http
     
 suitcasePack:
     pattern:  /suitcase/pack
     defaults: { _controller: InertiaWinspireBundle:Suitcase:pack }
+    requirements:
+        _scheme:  http
     
 suitcasePreview:
     pattern:  /suitcase/preview
     defaults: { _controller: InertiaWinspireBundle:Suitcase:preview }
+    requirements:
+        _scheme:  http
     
 suitcaseRequestInvoice:
     pattern:  /suitcase/request-invoice
     defaults: { _controller: InertiaWinspireBundle:Suitcase:requestInvoice }
+    requirements:
+        _scheme:  http
     
 suitcaseSendVoucher:
     pattern:  /suitcase/send-voucher
     defaults: { _controller: InertiaWinspireBundle:Suitcase:sendVoucher }
+    requirements:
+        _scheme:  http
     
 suitcaseShare:
     pattern:  /suitcase/share
     defaults: { _controller: InertiaWinspireBundle:Suitcase:share }
+    requirements:
+        _scheme:  http
     
 suitcaseShareAgain:
     pattern:  /suitcase/reshare/{id}
     defaults: { _controller: InertiaWinspireBundle:Suitcase:shareAgain }
+    requirements:
+        _scheme:  http
     
 suitcaseSwitch:
     pattern:  /suitcase/switch
     defaults: { _controller: InertiaWinspireBundle:Suitcase:switch }
+    requirements:
+        _scheme:  http
     
 suitcaseUpdateBooking:
     pattern:  /suitcase/update-booking/{id}
     defaults: { _controller: InertiaWinspireBundle:Suitcase:updateBooking }
+    requirements:
+        _scheme:  http
     
 suitcaseUpdateQty:
     pattern:  /suitcase/update-qty/{id}
     defaults: { _controller: InertiaWinspireBundle:Suitcase:updateQty }
+    requirements:
+        _scheme:  http
     
 suitcaseUpdatePrice:
     pattern:  /suitcase/update-price/{id}
     defaults: { _controller: InertiaWinspireBundle:Suitcase:updatePrice }
+    requirements:
+        _scheme:  http
     
 shareComment:
     pattern:  /comment/{id}/{token}
     defaults: { _controller: InertiaWinspireBundle:Share:comment, token: none }
+    requirements:
+        _scheme:  http
     
 shareView:
     pattern:  /share/{token}
     defaults: { _controller: InertiaWinspireBundle:Share:view }
+    requirements:
+        _scheme:  http
     
 accountCreate:
     pattern:  /account/new
     defaults: { _controller: InertiaWinspireBundle:Account:create }
+    requirements:
+        _scheme:  http
     
 accountEdit:
     pattern:  /account/edit
     defaults: { _controller: InertiaWinspireBundle:Account:edit }
+    requirements:
+        _scheme:  http
     
 accountValidate:
     pattern:  /account/validate
     defaults: { _controller: InertiaWinspireBundle:Account:validate }
+    requirements:
+        _scheme:  http
     
 emailValidate:
     pattern:  /account/validate-email
     defaults: { _controller: InertiaWinspireBundle:Account:validateEmail }
+    requirements:
+        _scheme:  http
     
 soap_account:
     pattern:  /soap/account
@@ -192,7 +270,35 @@ fos_user_resetting:
 fos_user_profile_show:
     pattern:  /account
     defaults: { _controller: InertiaWinspireBundle:Account:index }
+    requirements:
+        _scheme:  http
     
+redeem:
+    pattern: /redeem
+    defaults: { _controller: InertiaWinspireBundle:Page:display, slug: redeem }
+    requirements:
+        _scheme:  https
+        
+redeemThanks:
+    pattern: /redeem-thanks
+    defaults: { _controller: InertiaWinspireBundle:Page:display, slug: redeem-thanks }
+    requirements:
+        _scheme:  https
+        
+redeemWinspire:
+    pattern: /redeem-winspire
+    defaults: { _controller: InertiaWinspireBundle:Page:display, slug: redeem-winspire }
+    requirements:
+        _scheme:  https
+        
+redeemLuxe:
+    pattern: /redeem-luxe
+    defaults: { _controller: InertiaWinspireBundle:Page:display, slug: redeem-luxe }
+    requirements:
+        _scheme:  https
+        
 pageDisplay:
     pattern:  /{slug}
     defaults: { _controller: InertiaWinspireBundle:Page:display }
+    requirements:
+        _scheme:  http
