@@ -184,15 +184,15 @@ class InvoiceRequestConsumer implements ConsumerInterface
         $sfOpportunity->Event_Date__c = $suitcase->getEventDate();
         $sfOpportunity->CloseDate = $suitcase->getInvoiceRequestedAt();
         $sfOpportunity->AccountId = $account->getSfId();
-        $sfOpportunity->RecordTypeId = $this->opportunityTypeId;
-        $sfOpportunity->Lead_Souce_by_Client__c = 'Online User';
-        $sfOpportunity->Partner_Class__c = $this->partnerRecordId;
-        $sfOpportunity->Item_Use__c = 'Silent Auction';
         
         try {
             if ($suitcase->getSfId() == '') {
                 // We haven't done an initial sync of the Suitcase? Is this even possible at this stage?
                 $sfOpportunity->Type = 'Web Suitcase';
+                $sfOpportunity->RecordTypeId = $this->opportunityTypeId;
+                $sfOpportunity->Lead_Souce_by_Client__c = 'Online User';
+                $sfOpportunity->Partner_Class__c = $this->partnerRecordId;
+                $sfOpportunity->Item_Use__c = 'Silent Auction';
                 $saveResult = $this->sf->create(array($sfOpportunity), 'Opportunity');
             }
             else {

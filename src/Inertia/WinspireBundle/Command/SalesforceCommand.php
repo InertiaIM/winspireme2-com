@@ -969,15 +969,15 @@ if(($sfAccount->SystemModstamp > $account->getSfUpdated()) && !$account->getDirt
                     }
                     
                     $sfOpportunity->AccountId = $suitcase->getUser()->getCompany()->getSfId();
-                    $sfOpportunity->RecordTypeId = $this->opportunityTypeId;
-                    $sfOpportunity->Lead_Souce_by_Client__c = 'Online User';
-                    $sfOpportunity->Partner_Class__c = $this->partnerRecordId;
-                    $sfOpportunity->Item_Use__c = 'Silent Auction';
                     $sfOpportunity->OwnerId = $suitcase->getUser()->getCompany()->getSalesperson()->getSfId();
                     
                     if ($new) {
                         $output->writeln('<info>Gonna create: ' . $suitcase->getId() . '</info>');
                         $sfOpportunity->Type = 'Web Suitcase';
+                        $sfOpportunity->RecordTypeId = $this->opportunityTypeId;
+                        $sfOpportunity->Lead_Souce_by_Client__c = 'Online User';
+                        $sfOpportunity->Partner_Class__c = $this->partnerRecordId;
+                        $sfOpportunity->Item_Use__c = 'Silent Auction';
                         $saveResult = $client->create(array($sfOpportunity), 'Opportunity');
                     }
                     else {
