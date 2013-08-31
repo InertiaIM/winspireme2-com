@@ -117,9 +117,9 @@ $output->writeln('<info>    * ' . $suitcase->getUser()->getCompany()->getName() 
         $output->writeln('<info>Processing Unpacked Suitcases from yesterday: ' . $yesterday->format('Y-m-d') . '</info>');
         
         $query = $em->createQuery(
-            'SELECT s FROM InertiaWinspireBundle:Suitcase s WHERE s.status = \'U\' AND s.unpackedAt = :date'
+            'SELECT s FROM InertiaWinspireBundle:Suitcase s WHERE s.status = \'U\' AND s.unpackedAt LIKE :date'
         );
-        $query->setParameter('date', $yesterday->format('Y-m-d'));
+        $query->setParameter('date', $yesterday->format('Y-m-d') . '%');
         $suitcases = $query->getResult();
         
         foreach($suitcases as $suitcase) {
