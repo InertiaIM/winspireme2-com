@@ -69,16 +69,24 @@ class CreateSuitcaseConsumer implements ConsumerInterface
             $sfAccount->RecordTypeId = $this->recordTypeId;
             $sfAccount->OwnerId = $account->getSalesperson()->getSfId();
             
-            $saveResult = $this->sf->create(array($sfAccount), 'Account');
-            
-            if($saveResult[0]->success) {
-                $timestamp = new \DateTime();
-                $account->setSfId($saveResult[0]->id);
-                $account->setDirty(false);
-                $account->setSfUpdated($timestamp);
-                $account->setUpdated($timestamp);
-                $this->em->persist($account);
-                $this->em->flush();
+            try {
+                $saveResult = $this->sf->create(array($sfAccount), 'Account');
+                
+                if($saveResult[0]->success) {
+                    $timestamp = new \DateTime();
+                    $account->setSfId($saveResult[0]->id);
+                    $account->setDirty(false);
+                    $account->setSfUpdated($timestamp);
+                    $account->setUpdated($timestamp);
+                    $this->em->persist($account);
+                    $this->em->flush();
+                }
+            }
+            catch (\Exception $e) {
+                $this->sendForHelp('Problem creating Account (' . $account->getId() . ')' . "\n" . $e->getMessage());
+                $this->sf->logout();
+                
+                return true;
             }
         }
         
@@ -92,16 +100,24 @@ class CreateSuitcaseConsumer implements ConsumerInterface
             $sfContact->Default_contact__c = 1;
             $sfContact->OwnerId = $account->getSalesperson()->getSfId();
             
-            $saveResult = $this->sf->create(array($sfContact), 'Contact');
-            
-            if($saveResult[0]->success) {
-                $timestamp = new \DateTime();
-                $user->setSfId($saveResult[0]->id);
-                $user->setDirty(false);
-                $user->setSfUpdated($timestamp);
-                $user->setUpdated($timestamp);
-                $this->em->persist($user);
-                $this->em->flush();
+            try {
+                $saveResult = $this->sf->create(array($sfContact), 'Contact');
+                
+                if($saveResult[0]->success) {
+                    $timestamp = new \DateTime();
+                    $user->setSfId($saveResult[0]->id);
+                    $user->setDirty(false);
+                    $user->setSfUpdated($timestamp);
+                    $user->setUpdated($timestamp);
+                    $this->em->persist($user);
+                    $this->em->flush();
+                }
+            }
+            catch (\Exception $e) {
+                $this->sendForHelp('Problem creating Contact (' . $user->getId() . ')' . "\n" . $e->getMessage());
+                $this->sf->logout();
+                
+                return true;
             }
         }
         
@@ -120,16 +136,24 @@ class CreateSuitcaseConsumer implements ConsumerInterface
             $sfOpportunity->Partner_Class__c = $this->partnerRecordId;
             $sfOpportunity->Item_Use__c = 'Silent Auction';
             
-            $saveResult = $this->sf->create(array($sfOpportunity), 'Opportunity');
-            
-            if($saveResult[0]->success) {
-                $timestamp = new \DateTime();
-                $suitcase->setSfId($saveResult[0]->id);
-                $suitcase->setDirty(false);
-                $suitcase->setSfUpdated($timestamp);
-                $suitcase->setUpdated($timestamp);
-                $this->em->persist($suitcase);
-                $this->em->flush();
+            try {
+                $saveResult = $this->sf->create(array($sfOpportunity), 'Opportunity');
+                
+                if($saveResult[0]->success) {
+                    $timestamp = new \DateTime();
+                    $suitcase->setSfId($saveResult[0]->id);
+                    $suitcase->setDirty(false);
+                    $suitcase->setSfUpdated($timestamp);
+                    $suitcase->setUpdated($timestamp);
+                    $this->em->persist($suitcase);
+                    $this->em->flush();
+                }
+            }
+            catch (\Exception $e) {
+                $this->sendForHelp('Problem creating Suitcase (' . $suitcase->getId() . ')' . "\n" . $e->getMessage());
+                $this->sf->logout();
+                
+                return true;
             }
         }
         
@@ -144,7 +168,7 @@ class CreateSuitcaseConsumer implements ConsumerInterface
             ->setSubject('Your New Suitcase is Ready!')
             ->setFrom(array('notice@winspireme.com' => 'Winspire'))
             ->setTo(array($email => $name))
-            ->setBcc($suitcase->getUser()->getCompany()->getSalesperson()->getEmail())
+            ->setBcc(array($suitcase->getUser()->getCompany()->getSalesperson()->getEmail(), 'doug@inertiaim.com'))
             ->setBody(
                 $this->templating->render(
                     'InertiaWinspireBundle:Email:new-suitcase-confirm.html.twig',
@@ -177,5 +201,25 @@ class CreateSuitcaseConsumer implements ConsumerInterface
         $this->sf->logout();
         
         return true;
+    }
+    
+    protected function sendForHelp($text)
+    {
+        $message = \Swift_Message::newInstance()
+            ->setSubject('Winspire::Debug for Create Suitcase')
+            ->setFrom(array('notice@winspireme.com' => 'Winspire'))
+            ->setTo(array('doug@inertiaim.com' => 'Douglas Choma'))
+            ->setBody(
+                $text,
+                'text/plain'
+            )
+        ;
+        
+        $this->mailer->getTransport()->start();
+        $this->mailer->send($message);
+        $this->mailer->getTransport()->stop();
+        
+        $this->em->clear();
+        $this->em->getConnection()->close();
     }
 }

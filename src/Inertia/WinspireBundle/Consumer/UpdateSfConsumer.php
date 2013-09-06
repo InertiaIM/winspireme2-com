@@ -132,16 +132,24 @@ class UpdateSfConsumer implements ConsumerInterface
                     $sfOpportunity->Item_Use__c = 'Silent Auction';
                     $sfOpportunity->Type = 'Web Suitcase';
                     
-                    $saveResult = $this->sf->create(array($sfOpportunity), 'Opportunity');
+                    try {
+                        $saveResult = $this->sf->create(array($sfOpportunity), 'Opportunity');
 //echo 'talking to SF' . "\n";
-                    if($saveResult[0]->success) {
-                        $timestamp = new \DateTime();
-                        $suitcase->setSfId($saveResult[0]->id);
-                        $suitcase->setDirty(false);
-                        $suitcase->setSfUpdated($timestamp);
-                        $suitcase->setUpdated($timestamp);
-                        $this->em->persist($suitcase);
-                        $this->em->flush();
+                        if($saveResult[0]->success) {
+                            $timestamp = new \DateTime();
+                            $suitcase->setSfId($saveResult[0]->id);
+                            $suitcase->setDirty(false);
+                            $suitcase->setSfUpdated($timestamp);
+                            $suitcase->setUpdated($timestamp);
+                            $this->em->persist($suitcase);
+                            $this->em->flush();
+                        }
+                    }
+                    catch (\Exception $e) {
+                        $this->sendForHelp3('Problem creating Suitcase (' . $suitcase->getId() . ')' . "\n" . $e->getMessage());
+                        $this->sf->logout();
+                        
+                        return true;
                     }
                 }
                 
@@ -244,12 +252,20 @@ class UpdateSfConsumer implements ConsumerInterface
                     $sfAccount->BillingCountry = ($account->getCountry() == 'CA' ? 'Canada' : 'United States');
                     $sfAccount->Phone = $account->getPhone();
                     
-                    $saveResult = $this->sf->update(array($sfAccount), 'Account');
-                    
-                    if($saveResult[0]->success) {
-                        $account->setDirty(false);
-                        $this->em->persist($account);
-                        $this->em->flush();
+                    try {
+                        $saveResult = $this->sf->update(array($sfAccount), 'Account');
+                        
+                        if($saveResult[0]->success) {
+                            $account->setDirty(false);
+                            $this->em->persist($account);
+                            $this->em->flush();
+                        }
+                    }
+                    catch (\Exception $e) {
+                        $this->sendForHelp3('Problem updating Account (' . $account->getId() . ')' . "\n" . $e->getMessage());
+                        $this->sf->logout();
+                        
+                        return true;
                     }
                 }
                 
@@ -303,6 +319,25 @@ class UpdateSfConsumer implements ConsumerInterface
             ->setBody(
                 'SF ID: ' . $id . "\n" .
                 'Extra Text: ' . $text,
+                'text/plain'
+            )
+        ;
+        
+        $this->mailer->getTransport()->start();
+        $this->mailer->send($message);
+        $this->mailer->getTransport()->stop();
+        
+        $this->em->clear();
+        $this->em->getConnection()->close();
+    }
+    
+    protected function sendForHelp3($text)
+    {
+        $message = \Swift_Message::newInstance()
+            ->setSubject('Winspire::Problem during Sync to SF')
+            ->setFrom(array('notice@winspireme.com' => 'Winspire'))
+            ->setTo(array('doug@inertiaim.com' => 'Douglas Choma'))
+            ->setBody($text,
                 'text/plain'
             )
         ;
