@@ -150,8 +150,8 @@ redirect 301 /dogoods/mindingyourmind/package_details/01t70000003jpKXAAY http://
     RewriteCond %{HTTP_HOST} ^winspireme\.com$ [NC]
     RewriteRule ^(.*)$ http://www.winspireme.com/$1 [L,R=301]
     
-    RewriteRule ^/packages/detail/(.*)$ http://www.winspireme.com/packages [L,R=301]
-    RewriteRule ^/package_pdfs/download/(.*)$ http://www.winspireme.com/packages [L,R=301]
+    RewriteRule ^packages/detail/(.*)$ http://www.winspireme.com/packages [L,R=301]
+    RewriteRule ^package_pdfs/download/(.*)$ http://www.winspireme.com/packages [L,R=301]
     
     RewriteCond %{REQUEST_FILENAME} !-f
     RewriteRule ^(.*)$ app.php [QSA,L]
