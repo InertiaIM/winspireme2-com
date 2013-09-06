@@ -18,4 +18,9 @@ class PageController extends Controller
         
         return $this->render('InertiaWinspireBundle:Page:_' . $slug . '.html.twig');
     }
+    
+    public function noneAction($url)
+    {
+        throw $this->createNotFoundException();
+    }
 }

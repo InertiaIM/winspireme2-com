@@ -302,3 +302,10 @@ pageDisplay:
     defaults: { _controller: InertiaWinspireBundle:Page:display }
     requirements:
         _scheme:  http
+        
+# if all else fails, we're throwing a 404
+default404:
+    pattern:  /{url}
+    defaults: { _controller: InertiaWinspireBundle:Page:none, url: "none" }
+    requirements:
+        url: ".+"
