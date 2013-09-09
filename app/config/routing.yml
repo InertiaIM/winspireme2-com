@@ -159,6 +159,12 @@ suitcaseRequestInvoice:
     requirements:
         _scheme:  http
     
+suitcasePreviewVoucher:
+    pattern:  /suitcase/preview-voucher
+    defaults: { _controller: InertiaWinspireBundle:Suitcase:previewVoucher }
+    requirements:
+        _scheme:  http
+    
 suitcaseSendVoucher:
     pattern:  /suitcase/send-voucher
     defaults: { _controller: InertiaWinspireBundle:Suitcase:sendVoucher }

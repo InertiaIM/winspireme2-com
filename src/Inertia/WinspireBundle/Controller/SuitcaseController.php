@@ -966,6 +966,28 @@ class SuitcaseController extends Controller
     }
     
     
+    public function previewVoucherAction()
+    {
+        $request = $this->getRequest();
+        $voucher = $request->query->get('voucher');
+        
+        $suitcaseManager = $this->get('winspire.suitcase.manager');
+        $result = $suitcaseManager->previewVoucher($voucher);
+        
+        if (is_array($result)) {
+            return $this->render('InertiaWinspireBundle:Email:booking-voucher.html.twig', array(
+                'booking' => $result['booking'],
+                'suitcase' => $result['booking']->getSuitcaseItem()->getSuitcase(),
+                'message' => $voucher['message'],
+                'content_pack_version_id' => $result['content_pack_version_id']
+            ));
+        }
+        else {
+            throw $this->createNotFoundException();
+        }
+    }
+    
+    
     public function sendVoucherAction()
     {
         $response = new JsonResponse();

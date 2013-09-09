@@ -498,13 +498,67 @@ class SuitcaseManager
     }
     
     
+    public function previewVoucher($voucher)
+    {
+        if (!isset($voucher['id'])) {
+            return false;
+        }
+//print_r($voucher['id']); exit;
+        $qb = $this->em->createQueryBuilder();
+        $qb->select(array('b', 'i', 's'));
+        $qb->from('InertiaWinspireBundle:Booking', 'b');
+        $qb->join('b.suitcaseItem', 'i');
+        $qb->join('i.suitcase', 's');
+        $qb->where('i.status != \'X\'');
+        $qb->andWhere('b.id = :id');
+        $qb->andWhere('s.status = \'A\'');
+        $qb->setParameter('id', $voucher['id']);
+        
+        if (!$this->sc->isGranted('ROLE_ADMIN')) {
+            $qb->andWhere('s.user = :user');
+            $qb->setParameter('user', $this->suitcaseUser);
+        }
+        
+        
+        
+        
+        try {
+            $booking = $qb->getQuery()->getSingleResult();
+        }
+        catch (\Doctrine\Orm\NoResultException $e) {
+            return false;
+        }
+        
+        $suitcase = $booking->getSuitcaseItem()->getSuitcase();
+        // Query for appropriate Content Pack Version
+        $query = $this->em->createQuery(
+            'SELECT c, v FROM InertiaWinspireBundle:ContentPack c JOIN c.versions v WHERE c.sfId = :id AND v.created <= :date ORDER BY v.created DESC'
+        )
+            ->setParameter('id', $booking->getSuitcaseItem()->getPackage()->getSfContentPackId())
+            ->setParameter('date', $suitcase->getEventDate())
+        ;
+        
+        $query->setMaxResults(1);
+        
+        try {
+            $contentPack = $query->getSingleResult();
+            $contentPackVersions = $contentPack->getVersions();
+            $contentPackVersion = $contentPackVersions[0];
+            $contentPackVersionId = $contentPackVersion->getId();
+        }
+        catch (\Doctrine\Orm\NoResultException $e) {
+            $contentPackVersionId = false;
+        }
+        
+        return array('booking' => $booking, 'content_pack_version_id' => $contentPackVersionId);
+    }
+    
+    
     public function sendVoucher($voucher)
     {
         if (!isset($voucher['id'])) {
             return 0;
         }
-        
-        $id = $voucher['id'];
         
         $qb = $this->em->createQueryBuilder();
         $qb->select(array('b', 'i', 's'));
@@ -513,7 +567,8 @@ class SuitcaseManager
         $qb->join('i.suitcase', 's');
         $qb->where('i.status != \'X\'');
         $qb->andWhere('b.id = :id');
-        $qb->setParameter('id', $id);
+        $qb->andWhere('s.status = \'A\'');
+        $qb->setParameter('id', $voucher['id']);
         
         if (!$this->sc->isGranted('ROLE_ADMIN')) {
             $qb->andWhere('s.user = :user');

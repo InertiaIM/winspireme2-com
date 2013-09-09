@@ -120,84 +120,37 @@
         </tr>
     </table>
     <form action="{{ path('suitcaseSendVoucher') }}" method="post">
-        <textarea rows="5" name="voucher[message]" id="message">
-        </textarea>
+        <textarea rows="4" name="voucher[message]" id="message"></textarea>
         
-        <p class="instruct">The following instructions will also be included in your email.</p>
-        <div class="preview">
-            <p>To redeem this Experience, find your Certificate Identification # and 
-            Package # below and click "Redeem," or you can visit winspireme.com/redeem 
-            If you purchased more than one package, you will receive each 
-            Booking Voucher separately.</p>
-            <p>Book as early as possible. The earlier you book your Experience, the 
-            more likely it will be that you get your dates of preference. If you 
-            would like to upgrade your package by adding additional nights or tours, 
-            email travelinfo@winspireme.com.</p>
-            <p>============================================================<br/>
-            --------------------- Booking Voucher ----------------------<br/>
-            ============================================================</p>
-            
-            <p><span id="mail-package-header"></span><br/>
-            <span id="mail-package-name"></span></p>
-            
-            <p>CERTIFICATE IDENTIFICATION #: <span id="mail-voucher-code"></span><br/>
-            PACKAGE #: <span id="mail-package-code"></span></p>
-            <p>&nbsp;</p>
-            
-            <p>****************** REDEEM THIS EXPERIENCE ******************</p>
-            
-            <p>Visit: https://winspireme.com/redeem</p>
-            
-            <p>************************************************************</p>
-            <p>&nbsp;</p>
-            
-            <p>Once your request has been submitted, you will receive a confirmation 
-            email within 24 hours. We will begin the booking process and you will 
-            be contacted personally within 7 business days.</p>
-            
-            <p>Winning Bidder: <span id="mail-fullname2"></span><br/>
-            Event Name: <span id="mail-event-name"></span><br/>
-            Event Date: <span id="mail-event-date"></span><br/>
-            Organization: <span id="mail-np"></span><br/>
-            Contact: <span id="mail-np-name"></span><br/>
-            <span id="mail-np-phone"></span><br/>
-            <span id="mail-np-email"></span></p>
-            
-            <p>Important information about redeeming this voucher:<br/>
-            * Packages must be redeemed at least 60 days prior to start of travel.<br/>
-            * Please prepare three preferred dates of travel. The dates should be at least one week apart from each other.<br/>
-            * All reservations are subject to availability.<br/>
-            * Packages including airfare must be booked within 1-year of original purchase date.<br/>
-            * Air taxes and fees are the responsibility of each traveler.<br/>
-            * See full package description for additional details and restrictions.</p>
-            
-            <p>Questions about your Experience?<br/>
-            Email Winspire at travelinfo@winspireme.com or call (949) 468-0689.</p>
-            
-            <p>Winspire Home (http://winspireme.com)<br/>
-            About Us (http://winspireme.com/about-us)<br/>
-            FAQs (http://winspireme.com/faqs)<br/>
-            How Winspire Works (http://www.winspireme.com/how-winspire-works)<br/>
-            Contact Us (http://www.winspireme.com/contact-us)</p>
-            
-            <p>FIND US<br/>
-            Winspire Facebook Page (https://www.facebook.com/Winspire)<br/>
-            Winspire Twitter Page (https://twitter.com/WinspireMe)<br/>
-            Winspire Pintrist Page (http://pinterest.com/winspireme/)</p>
-            
-            <p>============================================================<br/>
-            Cross our hearts, we promise not to share your information!<br/>
-            Copyright © {{ 'now' | date('Y') }} Winspire, Inc, All rights reserved.<br/>
-            23091 Mill Creek Rd, Laguna Hills, CA 92653</p>
-            
-            <p>** Read our updated Privacy Policy (http://www.winspireme.com/privacy)</p>
+        <p class="instruct">You are sending the following voucher:</p>
+        <div class="experience">
+            <span id="experience-image"></span>
+            <span id="experience-text">
+                <h4></h4>
+                <span></span>
+            </span>
         </div>
+        
+        <div class="certificate">
+            <div class="field">
+                <label>Certificate Identification #</label>
+                <input id="mail-voucher-code" disabled="disabled" value=""/>
+            </div>
+            <div class="field">
+                <label>Package #</label>
+                <input id="mail-package-code" disabled="disabled" value=""/>
+            </div>
+        </div>
+        
+        <div class="actions">
+            <button class="preview">Preview Email</button>
+            <button class="send">Send Email</button>
+        </div>
+        
         <div class="field-wrapper">
             <input type="checkbox" name="voucher[cc]" id="voucher_cc"/>
-            <label for="voucher_cc">Send me a copy of this email</label>
+            <label for="voucher_cc">Send me a copy.</label>
         </div>
-        
-        <button class="send">Send Email</button>
         <input type="hidden" name="voucher[id]" id="voucher_id"/>
     </form>
 </div>

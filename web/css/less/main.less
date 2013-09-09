@@ -5338,15 +5338,22 @@ footer, #footer { height:220px;border-top:1px solid rgb(195,213,224);
             margin-right:14px;
         }
         
-    span#mail-fullname {
-        font-size:24px;
-        vertical-align:inherit;
-        margin:0;
+        span#mail-fullname {
+            font-size:24px;
+            vertical-align:inherit;
+            margin:0;
+        }
     }
+    
+    h4 {
+        margin: 0 0 8px 0;
+        font-size: 18px;
+        line-height: 18px;
+        color: @ws-darkblue;
     }
     
     td {
-        color:#333;
+        color: @ws-gray85;
         font-size:16px;
         line-height:28px;
         
@@ -5358,57 +5365,118 @@ footer, #footer { height:220px;border-top:1px solid rgb(195,213,224);
     textarea {
         border:none;
         border-radius:4px;
-        font-family:"Courier New", Courier, monospace;
+        color: @ws-gray85;
         font-size:14px;
         background:#fff;
         overflow-y:scroll;
-        width:530px;
-        padding:25px;
+        width:554px;
+        padding:10px 13px;
         resize:none;
-        margin:0 0 12px 0;
+        margin:0 0 17px 0;
         
         -webkit-box-shadow: inset 0px 1px 1px 0px rgba(0, 0, 0, 0.5);
         box-shadow: inset 0px 1px 1px 0px rgba(0, 0, 0, 0.5);
     }
     
     p.instruct {
-        color:@ws-gray85;
-        font-size:14px;
-        line-height:200%;
-        margin:0;
+        color: @ws-gray85;
+        font-size: 16px;
+        font-weight: bold;
+        line-height: 200%;
+        margin: 0 0 12px 0;
     }
     
-    .preview {
-        border-radius:4px;
-        font-family:"Courier New", Courier, monospace;
-        font-size:14px;
-        background:#fff;
-        overflow-y:scroll;
-        height:450px;
-        padding:25px;
-        -webkit-box-shadow: inset 0px 1px 1px 0px rgba(0, 0, 0, 0.5);
-        box-shadow: inset 0px 1px 1px 0px rgba(0, 0, 0, 0.5);
-        margin:0 0 22px 0;
-        
-        p {
-            font-size:14px;
-            line-height:120%;
-            margin:0 0 12px 0;
-        }
+    .experience {
+        .clearfix;
+        margin-bottom: 6px;
+    }
+    
+    #experience-image {
+        float: left;
+        margin-right: 18px;
+    }
+    
+    #experience-text {
+        color: @ws-gray85;
+        float: left;
+        font-size: 14px;
+        width: 426px;
+    }
+    
+    .thumbnail {
+        display: block;
+        border: 3px solid #ccc;
     }
     
     label {
-        color:@ws-gray85;
-        font-size:14px;
+        color: @ws-gray85;
+        font-size: 14px;
+    }
+    
+    .certificate {
+        .clearfix;
+        float: right;
+        margin-right: 34px;
+        margin-bottom: 56px;
+        
+        .field {
+            padding: 10px 0 0 0;
+            text-align: right;
+        }
+        
+        label {
+            color: @ws-gray85;
+            font-size: 16px;
+            font-weight: bold;
+            margin-right: 10px;
+        }
+        
+        input {
+            color: @ws-gray85;
+            font-size: 16px;
+            font-weight: bold;
+            width: 110px;
+            
+            background: #f3f3f3;
+            -webkit-box-shadow: inset 0px 1px 2px 0px rgba(0, 0, 0, .50);
+            box-shadow: inset 0px 1px 2px 0px rgba(0, 0, 0, .50);
+            -webkit-border-radius: 4px;
+            border-radius: 4px;
+            border:1px solid #e2e2e2;
+            outline:none;
+            line-height:100%;
+            padding:6px 10px 2px 10px;
+            margin:0;
+            -webkit-font-smoothing: antialiased;
+        }
     }
     
     .field-wrapper {
-        float:left;
+        .clearfix;
+        clear: both;
+        float: right;
+        padding-top: 8px;
+    }
+    
+    .actions {
+        .clearfix;
+        float: right;
     }
     
     button {
-        float:right;
-        margin:0;
+        float: left;
+        margin: 0 0 0 15px;
+        
+        &.preview {
+            .btn-gray(3px);
+            padding-left: 12px;
+            padding-right: 12px;
+        }
+        
+        &.send {
+            padding-left: 24px;
+            padding-right: 24px;
+        }
     }
 }
 
