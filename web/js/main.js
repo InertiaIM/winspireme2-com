@@ -2287,15 +2287,12 @@ $(document).ready(function() {
         var np = $('#test').attr('data-np');
         var npFirst = $('#test').attr('data-first');
         var npLast = $('#test').attr('data-last');
-        var npPhone = $('#test').attr('data-phone');
-        var npEmail = $('#test').attr('data-email');
-        var eventName = $('#test').attr('data-event');
-        var eventDate = $('#test').attr('data-date');
         
         var packageContainer = $(container).parent().parent().parent().parent().parent('li');
         var packageHeader = $(packageContainer).attr('data-header');
         var packageName = $(packageContainer).attr('data-name');
         var packageCode = $(packageContainer).attr('data-code');
+        var packageThumbnail = $(packageContainer).find('img.thumbnail').clone();
         
         var message = 'Dear ' + first + ',\n\n';
         message += 'Congratulations on your winning bid and thank you so much for your contribution! We appreciate you coming out and supporting our organization, and hope you had a wonderful time at our fundraising event. From all of us here at ';
@@ -2307,17 +2304,11 @@ $(document).ready(function() {
         
         $('#mail-modal #message').val(message);
         $('#mail-modal #mail-fullname').text(first + ' ' + last);
-        $('#mail-modal #mail-package-header').text(packageHeader);
-        $('#mail-modal #mail-package-name').text(packageName);
-        $('#mail-modal #mail-voucher-code').text(code);
-        $('#mail-modal #mail-package-code').text(packageCode);
-        $('#mail-modal #mail-fullname2').text(first + ' ' + last);
-        $('#mail-modal #mail-np').text(np);
-        $('#mail-modal #mail-np-name').text(npFirst + ' ' + npLast);
-        $('#mail-modal #mail-np-phone').text(npPhone);
-        $('#mail-modal #mail-np-email').text(npEmail);
-        $('#mail-modal #mail-event-name').text(eventName);
-        $('#mail-modal #mail-event-date').text(eventDate);
+        $('#mail-modal #experience-image').html(packageThumbnail);
+        $('#mail-modal #experience-text h4').text(packageHeader);
+        $('#mail-modal #experience-text span').text(packageName);
+        $('#mail-modal #mail-voucher-code').val(code);
+        $('#mail-modal #mail-package-code').val(packageCode);
         $('#mail-modal #mail-from').text(np);
         $('#mail-modal #mail-to').text(email);
         $('#mail-modal #voucher_id').val(id);
@@ -2329,6 +2320,19 @@ $(document).ready(function() {
             opacity: 0.73,
             zIndex: 2002
         });
+    });
+    
+    
+    $('#mail-modal').find('button.preview').on('click', function(e) {
+        e.preventDefault();
+        
+        var url = '/suitcase/preview-voucher';
+        if (typeof env !== 'undefined') {
+            url = env + url;
+        }
+        var data = $('#mail-modal form').serialize();
+        
+        window.open(url + '?' + data, '_blank', 'location=no,height=570,width=638,scrollbars=yes,status=no');
     });
     
     
