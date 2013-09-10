@@ -1,0 +1,9 @@
+<p class="title"><em>my</em>Suitcase Owner</p>
+<ul class="suitcase-owner">
+    <li>{% if (is_granted('ROLE_USER') and app.user.emailCanonical == owner.emailCanonical) %}<a href="{{ path('fos_user_profile_show') }}">{{ owner.firstName }} {{ owner.lastName }}</a>{% else %}{{ owner.firstName }} {{ owner.lastName }}{% endif %}</li>
+    <li>{% if (is_granted('ROLE_USER') and app.user.emailCanonical == owner.emailCanonical) %}<a href="{{ path('fos_user_profile_show') }}">{{ owner.company.name }}</a>{% else %}{{ owner.company.name }}{% endif %}</li>
+{% if owner.phone != '' %}
+    <li>{% if (is_granted('ROLE_USER') and app.user.emailCanonical == owner.emailCanonical) %}<a href="{{ path('fos_user_profile_show') }}">{{ owner.phone }}</a>{% else %}{{ owner.phone }}{% endif %}</li>
+{% endif %}
+    <li><a target="_blank" href="mailto:{{ owner.emailCanonical }}">{{ owner.email }}</a></li>
+</ul>

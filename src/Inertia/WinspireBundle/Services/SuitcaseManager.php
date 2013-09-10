@@ -376,7 +376,7 @@ class SuitcaseManager
             $suitcases = $qb->getQuery()->getResult();
             
             foreach($suitcases as $s) {
-                $suitcaseList[] = array('id' => $s->getId(), 'name' => $s->getName());
+                $suitcaseList[] = array('id' => $s->getId(), 'name' => $s->getName(), 'date' => $s->getEventDate());
             }
         }
         

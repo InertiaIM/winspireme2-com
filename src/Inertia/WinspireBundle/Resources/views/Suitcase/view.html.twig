@@ -15,7 +15,7 @@
                         <select name="sid">
                             <option value="new">Create New Suitcase</option>
 {% for s in suitcaseList %}
-                            <option{% if s.id == suitcase.id %} selected="selected"{% endif %} value="{{ s.id }}">{{ s.name | truncate(30) }}</option>
+                            <option{% if s.id == suitcase.id %} selected="selected"{% endif %} value="{{ s.id }}">{{ s.name | truncate(22) }} ({{ s.date | date('m/d/y') }})</option>
 {% endfor %}
                         </select>
                     </form>
@@ -33,7 +33,7 @@
                         <select name="sid">
                             <option value="new">Create New Suitcase</option>
 {% for s in suitcaseList %}
-                            <option{% if s.id == suitcase.id %} selected="selected"{% endif %} value="{{ s.id }}">{{ s.name | truncate(30) }}</option>
+                            <option{% if s.id == suitcase.id %} selected="selected"{% endif %} value="{{ s.id }}">{{ s.name | truncate(22) }} ({{ s.date | date('m/d/y') }})</option>
 {% endfor %}
                         </select>
                     </form>
@@ -47,6 +47,7 @@
                 {{ suitcase.user.company.salesperson.phone }}<br/>
                 <a href="mailto:{{ suitcase.user.company.salesperson.email }}" target="_blank">{{ suitcase.user.company.salesperson.email }}</a></p>
             </div>
+{{ include('InertiaWinspireBundle:Suitcase:owner.html.twig', {'owner': suitcase.user}) }}
         </div>
     </div>
     <div id="sc-area" class="suitcase">

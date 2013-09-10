@@ -2089,9 +2089,9 @@ footer, #footer { height:220px;border-top:1px solid rgb(195,213,224);
     
     }
     h3 {
-        font-size:1.083em;
-        line-height:1.375em;
-        color:@ws-gray85;
+        font-size: 14px;
+        line-height: 160%;
+        color: @ws-gray85;
     }
     
     #sc-header {
@@ -2117,7 +2117,7 @@ footer, #footer { height:220px;border-top:1px solid rgb(195,213,224);
             margin-top:-20px;
             float:right;
             width:254px;
-            min-height:160px;
+            min-height:122px;
             background:url(/img/suitcase-bg-help.png) no-repeat;
             background-size:254px 160px;
             padding:54px 0 0 0;
@@ -2173,6 +2173,7 @@ footer, #footer { height:220px;border-top:1px solid rgb(195,213,224);
         
         p {
             clear:both;
+            color: @ws-gray85;
             line-height:130%;
             margin:0 0 20px 10px;
             
@@ -2302,6 +2303,65 @@ footer, #footer { height:220px;border-top:1px solid rgb(195,213,224);
             
             .selectboxit-option-first a {
                 font-style:italic;
+            }
+        }
+        
+        p.title {
+            color: @ws-darkblue;
+            font-size: 12px;
+            font-weight: bold;
+            line-height: 100%;
+            margin: 0 0 4px 10px;
+            -webkit-font-smoothing: antialiased;
+            
+            em {
+                font-size: 14px;
+            }
+        }
+        
+        .suitcase-owner {
+            .clearfix;
+            clear: both;
+            display: block;
+            list-style: none;
+            margin-left: 10px;
+            margin-bottom: 22px;
+            
+            li {
+                border-right: 1px solid @ws-gray85;
+                color: @ws-gray85;
+                display: block;
+                float: left;
+                font-size: 12px;
+                padding: 0 18px;
+                
+                a {
+                    color: @ws-gray85;
+                    text-decoration: none;
+                }
+                
+                a:hover {
+                    text-decoration: underline;
+                }
+                
+                &:first-child {
+                    font-weight: bold;
+                    padding-left: 0;
+                    -webkit-font-smoothing: antialiased;
+                }
+                
+                &:last-child {
+                    border-right: none;
+                    
+                    a {
+                        color: @ws-lightblue;
+                        text-decoration: underline;
+                    }
+                    
+                    a:hover {
+                        color: @ws-darkblue;
+                    }
+                }
             }
         }
     }
