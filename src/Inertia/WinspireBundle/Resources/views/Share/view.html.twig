@@ -9,10 +9,11 @@
     <div id="sc-header">
         <div class="c-wrap">
             <div>
-                <h1><span class="icon-suitcase-{% if suitcase.status != 'U' %}locked{% else %}2{% endif %}"></span> <em>my</em> Suitcase</h1>
+                <h1><span class="icon icon-suitcase-{% if suitcase.status != 'U' %}locked{% else %}2{% endif %}"></span> <em>my</em> Suitcase</h1>
                 <p>Welcome to the <strong>{{ suitcase.eventName }}</strong> Suitcase created by <strong>{{ user.firstName }} {{ user.lastName }}</strong>! Please review my choices and provide comments below.
                 <p>Note: You won’t be able to make any changes to <strong><em>my</em>Suitcase</strong>.</p>
             </div>
+{{ include('InertiaWinspireBundle:Suitcase:owner.html.twig', {'owner': suitcase.user}) }}
         </div>
     </div>
     <div id="sc-area" class="suitcase">

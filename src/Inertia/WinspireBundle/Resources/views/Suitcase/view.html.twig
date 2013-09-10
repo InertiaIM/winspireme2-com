@@ -10,12 +10,12 @@
         <div class="c-wrap">
             <div class="col">
                 <div class="packed"{% if suitcase.status == 'U' %} style="display:none;"{% endif %}>
-                    <h1><span class="icon-suitcase-locked"></span> <em>my</em> Suitcase</h1>
+                    <h1><span class="icon icon-suitcase-locked"></span> <em>my</em> Suitcase</h1>
                     <form data-style="html" data-id="{{ suitcase.id }}" method="get" action="{{ path('suitcaseSwitch') }}" class="suitcase-switcher">
                         <select name="sid">
                             <option value="new">Create New Suitcase</option>
 {% for s in suitcaseList %}
-                            <option{% if s.id == suitcase.id %} selected="selected"{% endif %} value="{{ s.id }}">{{ s.name | truncate(30) }}</option>
+                            <option{% if s.id == suitcase.id %} selected="selected"{% endif %} value="{{ s.id }}">{{ s.name | truncate(22) }} ({{ s.date | date('m/d/y') }})</option>
 {% endfor %}
                         </select>
                     </form>
@@ -28,12 +28,12 @@
                     </ul>
                 </div>
                 <div class="unpacked"{% if suitcase.status != 'U' %} style="display:none;"{% endif %}>
-                    <h1><span class="icon-suitcase-2"></span> <em>my</em> Suitcase</h1>
+                    <h1><span class="icon icon-suitcase-2"></span> <em>my</em> Suitcase</h1>
                     <form data-style="html" data-id="{{ suitcase.id }}" method="get" action="{{ path('suitcaseSwitch') }}" class="suitcase-switcher">
                         <select name="sid">
                             <option value="new">Create New Suitcase</option>
 {% for s in suitcaseList %}
-                            <option{% if s.id == suitcase.id %} selected="selected"{% endif %} value="{{ s.id }}">{{ s.name | truncate(30) }}</option>
+                            <option{% if s.id == suitcase.id %} selected="selected"{% endif %} value="{{ s.id }}">{{ s.name | truncate(22) }} ({{ s.date | date('m/d/y') }})</option>
 {% endfor %}
                         </select>
                     </form>
@@ -47,6 +47,7 @@
                 {{ suitcase.user.company.salesperson.phone }}<br/>
                 <a href="mailto:{{ suitcase.user.company.salesperson.email }}" target="_blank">{{ suitcase.user.company.salesperson.email }}</a></p>
             </div>
+{{ include('InertiaWinspireBundle:Suitcase:owner.html.twig', {'owner': suitcase.user}) }}
         </div>
     </div>
     <div id="sc-area" class="suitcase">
