@@ -10,7 +10,7 @@
         <div class="c-wrap">
             <div class="col">
                 <div class="packed"{% if suitcase.status == 'U' %} style="display:none;"{% endif %}>
-                    <h1><span class="icon-suitcase-locked"></span> <em>my</em> Suitcase</h1>
+                    <h1><span class="icon icon-suitcase-locked"></span> <em>my</em> Suitcase</h1>
                     <form data-style="html" data-id="{{ suitcase.id }}" method="get" action="{{ path('suitcaseSwitch') }}" class="suitcase-switcher">
                         <select name="sid">
                             <option value="new">Create New Suitcase</option>
@@ -28,7 +28,7 @@
                     </ul>
                 </div>
                 <div class="unpacked"{% if suitcase.status != 'U' %} style="display:none;"{% endif %}>
-                    <h1><span class="icon-suitcase-2"></span> <em>my</em> Suitcase</h1>
+                    <h1><span class="icon icon-suitcase-2"></span> <em>my</em> Suitcase</h1>
                     <form data-style="html" data-id="{{ suitcase.id }}" method="get" action="{{ path('suitcaseSwitch') }}" class="suitcase-switcher">
                         <select name="sid">
                             <option value="new">Create New Suitcase</option>
