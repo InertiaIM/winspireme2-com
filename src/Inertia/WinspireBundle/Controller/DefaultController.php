@@ -203,6 +203,33 @@ class DefaultController extends Controller
         $session = $this->getRequest()->getSession();
         $suitcase = $this->get('winspire.suitcase.manager')->getSuitcase();
         
+        $em = $this->getDoctrine()->getManager();
+        $qb = $em->createQueryBuilder();
+        
+        $qb->select('p')->from('InertiaWinspireBundle:Package', 'p');
+        
+        if(!$this->get('security.context')->isGranted('ROLE_ADMIN')) {
+            $qb->andWhere('p.is_private != 1');
+        }
+        $qb->andWhere('p.picture IS NOT NULL');
+        $qb->andWhere('p.active = 1 OR p.seasonal = 1');
+        $qb->andWhere('p.available = 1');
+        
+        if($request->query->get('sortOrder') == 'alpha-desc') {
+            $qb->orderBy('p.parent_header', 'DESC');
+        }
+        if($request->query->get('sortOrder') == 'alpha-asc') {
+            $qb->orderBy('p.parent_header', 'ASC');
+        }
+        if($request->query->get('sortOrder') == 'price-desc') {
+            $qb->orderBy('p.cost', 'DESC');
+        }
+        if($request->query->get('sortOrder') == 'price-asc') {
+            $qb->orderBy('p.cost', 'ASC');
+        }
+        
+        $qb->addOrderBy('p.is_default', 'DESC');
+        
         if ($categories = $request->query->get('category')) {
             $repo = $this->getDoctrine()->getRepository('InertiaWinspireBundle:Category');
             $filterTree = $repo->childrenHierarchy();
@@ -230,54 +257,11 @@ class DefaultController extends Controller
                 }
             }
             
-            $em = $this->getDoctrine()->getManager();
-            $qb = $em->createQueryBuilder();
-            
-            $qb->select('p')->from('InertiaWinspireBundle:Package', 'p');
             $qb->innerJoin('p.categories', 'c');
-            
-            if(!$this->get('security.context')->isGranted('ROLE_ADMIN')) {
-                $qb->andWhere('p.is_private != 1');
-            }
-            $qb->andWhere('p.picture IS NOT NULL');
-            $qb->andWhere('p.active = 1 OR p.seasonal = 1');
-            $qb->andWhere('p.available = 1');
             $qb->andWhere($qb->expr()->in('c.id', $matchedCategories));
-            
-            if($request->query->get('sortOrder') == 'alpha-desc') {
-                $qb->orderBy('p.parent_header', 'DESC');
-            }
-            else {
-                $qb->orderBy('p.parent_header', 'ASC');
-            }
-            
-            $qb->addOrderBy('p.is_default', 'DESC');
-            
-            $packages = $qb->getQuery()->getResult();
         }
-        else {
-            $em = $this->getDoctrine()->getManager();
-            $qb = $em->createQueryBuilder();
-            
-            $qb->select('p')->from('InertiaWinspireBundle:Package', 'p');
-            
-            if(!$this->get('security.context')->isGranted('ROLE_ADMIN')) {
-                $qb->andWhere('p.is_private != 1');
-            }
-            $qb->andWhere('p.picture IS NOT NULL');
-            $qb->andWhere('p.active = 1 OR p.seasonal = 1');
-            $qb->andWhere('p.available = 1');
-            
-            if($request->query->get('sortOrder') == 'alpha-desc') {
-                $qb->orderBy('p.parent_header', 'DESC');
-            }
-            else {
-                $qb->orderBy('p.parent_header', 'ASC');
-            }
-            $qb->addOrderBy('p.is_default', 'DESC');
-            
-            $packages = $qb->getQuery()->getResult();
-        }
+        
+        $packages = $qb->getQuery()->getResult();
         
         // TODO this is too complex.  Break the Packages and Variants into
         // separate entities to simplify the queries.
@@ -545,8 +529,14 @@ class DefaultController extends Controller
             if($request->query->get('sortOrder') == 'alpha-desc') {
                 $qb->orderBy('p.parent_header', 'DESC');
             }
-            else {
+            if($request->query->get('sortOrder') == 'alpha-asc') {
                 $qb->orderBy('p.parent_header', 'ASC');
+            }
+            if($request->query->get('sortOrder') == 'price-desc') {
+                $qb->orderBy('p.cost', 'DESC');
+            }
+            if($request->query->get('sortOrder') == 'price-asc') {
+                $qb->orderBy('p.cost', 'ASC');
             }
             $qb->addOrderBy('p.is_default', 'DESC');
             
