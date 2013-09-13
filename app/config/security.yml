@@ -27,6 +27,12 @@ security:
                 default_target_path: /suitcase
             logout: true
             anonymous: true
+            remember_me:
+                key:      '%secret%'
+                lifetime: 31536000 # 365 days in seconds
+                name:     remember
+                path:     /
+                domain:   '%session_domain%'
 
     access_control:
         - { path: ^/account$, role: ROLE_USER }

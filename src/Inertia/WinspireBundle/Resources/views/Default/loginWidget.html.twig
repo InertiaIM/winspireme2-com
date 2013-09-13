@@ -28,6 +28,11 @@
                                         <input type="button" class="pf-button" value="Forgot?" onclick="window.location='{{ path('fos_user_resetting_request') }}';" />
                                     </div>
                                     
+                                    <div class="remember">
+                                        <input type="checkbox" name="_remember_me" id="remember_me" value="on" checked="checked"/>
+                                        <label for="remember_me">Remember me</label>
+                                    </div>
+                                    
                                     <div class="panel-buttons">
                                         <input type="button" class="pa-button pa-su" value="Sign Up" />
                                         <button class="pa-button pa-li" type="submit">Log In</button>

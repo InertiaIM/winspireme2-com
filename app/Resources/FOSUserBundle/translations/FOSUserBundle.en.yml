@@ -2,3 +2,9 @@
 form:
     new_password: "Enter New password:"
     new_password_confirmation: "Re-enter New Password:"
+
+security:
+    login:
+        submit: 'Log in'
+        
+'Invalid CSRF token.': 'Problem with login, please try again'
