@@ -92,7 +92,6 @@
 			,transitionDuration: '1s'
 			,transitionDelay: '500ms'
 			,transitionTimingFunction: 'ease-in-out'
-			,transformStyle: "preserve-3d"
 		}
 		,transitionDuration: 1500
 	};
@@ -994,7 +993,6 @@ return true;
 	$.jmpress("applyStep", function( step, eventData ) {
 		$.jmpress("css", $(step), {
 			position: "absolute"
-			,transformStyle: "preserve-3d"
 		});
 		if ( eventData.parents.length > 0 ) {
 			$.jmpress("css", $(step), {
@@ -1749,19 +1747,19 @@ return true;
 		eventData.current.userZoom = 0;
 		eventData.current.userTranslateX = 0;
 		eventData.current.userTranslateY = 0;
-		if(eventData.settings.viewPort.zoomBindWheel) {
-			$(eventData.settings.fullscreen ? document : this)
-				.bind("mousewheel"+eventData.current.viewPortNamespace+" DOMMouseScroll"+eventData.current.viewPortNamespace, function( event, delta ) {
-				delta = delta || event.originalEvent.wheelDelta || -event.originalEvent.detail /* mozilla */;
-				var direction = (delta / Math.abs(delta));
-				if(direction < 0) {
-					$(eventData.jmpress).jmpress("zoomOut", event.originalEvent.x, event.originalEvent.y);
-				} else if(direction > 0) {
-					$(eventData.jmpress).jmpress("zoomIn", event.originalEvent.x, event.originalEvent.y);
-				}
-				return false;
-			});
-		}
+//		if(eventData.settings.viewPort.zoomBindWheel) {
+//			$(eventData.settings.fullscreen ? document : this)
+//				.bind("mousewheel"+eventData.current.viewPortNamespace+" DOMMouseScroll"+eventData.current.viewPortNamespace, function( event, delta ) {
+//				delta = delta || event.originalEvent.wheelDelta || -event.originalEvent.detail /* mozilla */;
+//				var direction = (delta / Math.abs(delta));
+//				if(direction < 0) {
+//					$(eventData.jmpress).jmpress("zoomOut", event.originalEvent.x, event.originalEvent.y);
+//				} else if(direction > 0) {
+//					$(eventData.jmpress).jmpress("zoomIn", event.originalEvent.x, event.originalEvent.y);
+//				}
+//				return false;
+//			});
+//		}
 		if(eventData.settings.viewPort.zoomBindMove) {
 			$(eventData.settings.fullscreen ? document : this).bind("mousedown"+eventData.current.viewPortNamespace, function (event) {
 				if(eventData.current.userZoom) {
