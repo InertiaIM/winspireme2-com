@@ -350,7 +350,7 @@ class DefaultController extends Controller
             }
             
             $sphinxSearch->setMatchMode(SPH_MATCH_ANY);
-            $searchResults = $sphinxSearch->search($q . '*', array('Packages'), array(), false);
+            $searchResults = $sphinxSearch->search($q . '*', array('Packages'), array('result_limit' => 1000, 'result_offset' => 0), false);
             
             $matches = array();
             if(isset($searchResults['matches'])) {
@@ -460,7 +460,7 @@ class DefaultController extends Controller
         }
         
         $sphinxSearch->setMatchMode(SPH_MATCH_ANY);
-        $searchResults = $sphinxSearch->search($q . '*', array('Packages'), array(), false);
+        $searchResults = $sphinxSearch->search($q . '*', array('Packages'), array('result_limit' => 1000, 'result_offset' => 0), false);
         
         $matches = array();
         if(isset($searchResults['matches'])) {
