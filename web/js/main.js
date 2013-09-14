@@ -442,8 +442,8 @@ var footerCtx = $('footer')[0];
         }
         
         if (e.keyCode == 27) {
+            $('.pl-items').empty();
             $(plSearchBox).val('');
-            submitQuery();
         }
     });
     
