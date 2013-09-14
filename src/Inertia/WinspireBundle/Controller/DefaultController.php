@@ -106,10 +106,11 @@ class DefaultController extends Controller
         );
     }
     
+    
     public function packageListAction($slug)
     {
-        $session = $this->getRequest()->getSession();
-        $suitcase = $this->get('winspire.suitcase.manager')->getSuitcase();
+        $request = $this->getRequest();
+        $q = $request->query->get('q');
         
         $repo = $this->getDoctrine()->getRepository('InertiaWinspireBundle:Category');
         $filterTree = $repo->childrenHierarchy();
@@ -131,210 +132,17 @@ class DefaultController extends Controller
             }
         }
         
-        $em = $this->getDoctrine()->getManager();
-        
-        
-        if($this->get('security.context')->isGranted('ROLE_ADMIN')) {
-            $query = $em->createQuery(
-                'SELECT p, c FROM InertiaWinspireBundle:Package p JOIN p.categories c WHERE c.id IN (:ids) AND p.picture IS NOT NULL AND (p.active = 1 OR p.seasonal = 1) AND (p.available = 1) ORDER BY p.parent_header ASC, p.is_default DESC'
-            )->setParameter('ids', $catIds);
-        }
-        else {
-            $query = $em->createQuery(
-                'SELECT p, c FROM InertiaWinspireBundle:Package p JOIN p.categories c WHERE c.id IN (:ids) AND p.is_private != 1 AND p.picture IS NOT NULL AND (p.active = 1 OR p.seasonal = 1) AND (p.available = 1) ORDER BY p.parent_header ASC, p.is_default DESC'
-            )->setParameter('ids', $catIds);
-        }
-        
-        $packages = $query->getResult();
-        
-        // TODO this is too complex.  Break the Packages and Variants into
-        // separate entities to simplify the queries.
-        $defaultPackages = array();
-        $currentHeader = '';
-        $count = 0;
-        foreach($packages as $package) {
-            if($package->getIsDefault()) {
-                $count = 1;
-                $index = $package->getId();
-                
-                // Determine whether to show the "Add to Suitcase" button based 
-                // on the Packages already contained in the session.
-                // TODO refactor for a more efficient algorithm
-                $available = true;
-                if ($suitcase && $suitcase != 'new') {
-                    foreach($suitcase->getItems() as $i) {
-                        // We already have this item in our cart;
-                        // so we can stop here...
-                        if($i->getPackage()->getId() == $index) {
-                            $available = false;
-                        }
-                    }
-                }
-                
-                $defaultPackages[$index] = array('package' => $package, 'count' => 1, 'available' => $available);
-            }
-            if($currentHeader != $package->getParentHeader()) {
-                $currentHeader = $package->getParentHeader();
-            }
-            else {
-                $count++;
-            }
-            
-            if (isset($index)) {
-                $defaultPackages[$index]['count'] = $count;
-            }
-        }
-        
-        $session->set('packagePath', $slug);
-        
         return $this->render(
             'InertiaWinspireBundle:Default:packageList.html.twig',
             array(
                 'catIds' => $catIds,
-                'packages' => $defaultPackages,
                 'filterTree' => $filterTree,
-                'rootCat' => $category->getId()
+                'rootCat' => $category->getId(),
+                'q' => $q
             )
         );
     }
     
-    public function packageListJsonAction(Request $request)
-    {
-        $session = $this->getRequest()->getSession();
-        $suitcase = $this->get('winspire.suitcase.manager')->getSuitcase();
-        
-        $em = $this->getDoctrine()->getManager();
-        $qb = $em->createQueryBuilder();
-        
-        $qb->select('p')->from('InertiaWinspireBundle:Package', 'p');
-        
-        if(!$this->get('security.context')->isGranted('ROLE_ADMIN')) {
-            $qb->andWhere('p.is_private != 1');
-        }
-        $qb->andWhere('p.picture IS NOT NULL');
-        $qb->andWhere('p.active = 1 OR p.seasonal = 1');
-        $qb->andWhere('p.available = 1');
-        
-        if($request->query->get('sortOrder') == 'alpha-desc') {
-            $qb->orderBy('p.parent_header', 'DESC');
-        }
-        if($request->query->get('sortOrder') == 'alpha-asc') {
-            $qb->orderBy('p.parent_header', 'ASC');
-        }
-        if($request->query->get('sortOrder') == 'price-desc') {
-            $qb->orderBy('p.cost', 'DESC');
-        }
-        if($request->query->get('sortOrder') == 'price-asc') {
-            $qb->orderBy('p.cost', 'ASC');
-        }
-        
-        $qb->addOrderBy('p.is_default', 'DESC');
-        
-        if ($categories = $request->query->get('category')) {
-            $repo = $this->getDoctrine()->getRepository('InertiaWinspireBundle:Category');
-            $filterTree = $repo->childrenHierarchy();
-            $filterTree = $filterTree[0]['__children'];
-            
-            $matchedCategories = array();
-            foreach($filterTree as $parent) {
-                if(array_key_exists($parent['id'], $categories)) {
-//                    $matchedCategories[$parent['id']][] = $parent['id'];
-                    $matchedCategories[] = $parent['id'];
-                    
-                    // if a parent category is chosen, then add all child categories
-                    if(array_search($parent['id'], $categories[$parent['id']]) !== FALSE) {
-                        foreach($parent['__children'] as $child) {
-//                            $matchedCategories[$parent['id']][] = $child['id'];
-                            $matchedCategories[] = $child['id'];
-                        }
-                    }
-                    else {
-                        foreach($categories[$parent['id']] as $child) {
-//                            $matchedCategories[$parent['id']][] = $child;
-                            $matchedCategories[] = $child;
-                        }
-                    }
-                }
-            }
-            
-            $qb->innerJoin('p.categories', 'c');
-            $qb->andWhere($qb->expr()->in('c.id', $matchedCategories));
-        }
-        
-        $packages = $qb->getQuery()->getResult();
-        
-        // TODO this is too complex.  Break the Packages and Variants into
-        // separate entities to simplify the queries.
-        $defaultPackages = array();
-        $currentHeader = '';
-        $count = 0;
-        foreach($packages as $package) {
-            if($package->getIsDefault()) {
-                $count = 1;
-                $index = $package->getId();
-                
-                // Determine whether to show the "Add to Suitcase" button based
-                // on the Packages already contained in the session.
-                // TODO refactor for a more efficient algorithm
-                $available = true;
-                
-                if ($suitcase && $suitcase != 'new') {
-                    foreach($suitcase->getItems() as $i) {
-                        // We already have this item in our cart;
-                        // so we can stop here...
-                        if($i->getPackage()->getId() == $package->getId()) {
-                            $available = false;
-                        }
-                    }
-                }
-                
-                $defaultPackages[$index] = array('package' => $package, 'count' => 1, 'available' => $available);
-                
-                $defaultPackages[$index]['new'] = false;
-                $defaultPackages[$index]['popular'] = false;
-            }
-            if($currentHeader != $package->getParentHeader()) {
-                $currentHeader = $package->getParentHeader();
-            }
-            else {
-                $count++;
-            }
-            
-            if (isset($index)) {
-                $defaultPackages[$index]['new'] = $defaultPackages[$index]['new'] || $package->getIsNew();
-                $defaultPackages[$index]['popular'] = $defaultPackages[$index]['popular'] || $package->getIsBestSeller();
-                $defaultPackages[$index]['count'] = $count;
-            }
-        }
-        
-        
-        if($request->query->get('filter') == 'popular') {
-            $defaultPackages = array_filter($defaultPackages, function ($item) {
-                if($item['popular']) {
-                    return true;
-                }
-                return false;
-            });
-        }
-        
-        if($request->query->get('filter') == 'newest') {
-            $defaultPackages = array_filter($defaultPackages, function ($item) {
-                if($item['new']) {
-                    return true;
-                }
-                return false;
-            });
-        }
-        
-        
-        
-        return $this->render(
-            'InertiaWinspireBundle:Default:packages.html.twig',
-             array(
-                'packages' => $defaultPackages,
-            )
-        );
-    }
     
     public function packageDetailAction($slug)
     {
@@ -495,56 +303,79 @@ class DefaultController extends Controller
     
     public function packageSearchAction(Request $request)
     {
-        $sphinxSearch = $this->get('search.sphinxsearch.search');
+        $q = $request->attributes->get('q');
         
-        if(!$this->get('security.context')->isGranted('ROLE_ADMIN')) {
-            $sphinxSearch->setFilter('isprivate', array(1), true);
+        if ($request->query->has('q')) {
+            $q = $request->query->get('q');
         }
         
-        $sphinxSearch->setMatchMode(SPH_MATCH_ANY);
-        $searchResults = $sphinxSearch->search($request->query->get('q'), array('Packages'), array(), false);
+        $em = $this->getDoctrine()->getManager();
+        $qb = $em->createQueryBuilder();
         
-        $matches = array();
-        if(isset($searchResults['matches'])) {
-            foreach($searchResults['matches'] as $key => $value) {
-                $matches[] = $key;
+        $qb->select('p')->from('InertiaWinspireBundle:Package', 'p');
+        
+        $qb->andWhere('p.active = 1 OR p.seasonal = 1');
+        $qb->andWhere('p.available = 1');
+        
+        switch ($request->query->get('sortOrder')) {
+            case 'alpha-desc':
+                $qb->orderBy('p.parent_header', 'DESC');
+                break;
+                
+            case 'alpha-asc':
+                $qb->orderBy('p.parent_header', 'ASC');
+                break;
+                
+            case 'price-desc':
+                $qb->orderBy('p.cost', 'DESC');
+                break;
+            case 'price-asc':
+                $qb->orderBy('p.cost', 'ASC');
+                break;
+            default:
+                $qb->orderBy('p.parent_header', 'ASC');
+        }
+        
+        if ($request->attributes->has('catIds')) {
+            $catIds = $request->attributes->get('catIds');
+            $qb->innerJoin('p.categories', 'c');
+            $qb->andWhere($qb->expr()->in('c.id', $catIds));
+        }
+        
+        if ($q) {
+            $sphinxSearch = $this->get('search.sphinxsearch.search');
+            
+            if(!$this->get('security.context')->isGranted('ROLE_ADMIN')) {
+                $sphinxSearch->setFilter('isprivate', array(1), true);
+            }
+            
+            $sphinxSearch->setMatchMode(SPH_MATCH_ANY);
+            $searchResults = $sphinxSearch->search($q . '*', array('Packages'), array(), false);
+            
+            $matches = array();
+            if(isset($searchResults['matches'])) {
+                foreach($searchResults['matches'] as $key => $value) {
+                    $matches[] = $key;
+                }
+            }
+            
+            if ($matches) {
+                $qb->andWhere($qb->expr()->in('p.id', $matches));
+            }
+            else {
+                return $this->render(
+                    'InertiaWinspireBundle:Default:packages.html.twig',
+                    array(
+                        'packages' => array()
+                    )
+                );
             }
         }
         
+        $packages = $qb->getQuery()->getResult();
         
         $session = $this->getRequest()->getSession();
         $suitcase = $this->get('winspire.suitcase.manager')->getSuitcase();
-        
-        if(!empty($matches)) {
-            $em = $this->getDoctrine()->getManager();
-            $qb = $em->createQueryBuilder();
-            
-            $qb->select('p')->from('InertiaWinspireBundle:Package', 'p');
-            
-            $qb->andWhere($qb->expr()->in('p.id', $matches));
-            $qb->andWhere('p.active = 1 OR p.seasonal = 1');
-            $qb->andWhere('p.available = 1');
-            
-            
-            if($request->query->get('sortOrder') == 'alpha-desc') {
-                $qb->orderBy('p.parent_header', 'DESC');
-            }
-            if($request->query->get('sortOrder') == 'alpha-asc') {
-                $qb->orderBy('p.parent_header', 'ASC');
-            }
-            if($request->query->get('sortOrder') == 'price-desc') {
-                $qb->orderBy('p.cost', 'DESC');
-            }
-            if($request->query->get('sortOrder') == 'price-asc') {
-                $qb->orderBy('p.cost', 'ASC');
-            }
-            $qb->addOrderBy('p.is_default', 'DESC');
-            
-            $packages = $qb->getQuery()->getResult();
-        }
-        else {
-            $packages = array();
-        }
         
         // TODO this is too complex.  Break the Packages and Variants into
         // separate entities to simplify the queries.
@@ -552,8 +383,6 @@ class DefaultController extends Controller
         $currentHeader = '';
         $count = 0;
         foreach($packages as $package) {
-//echo $package->getParentHeader();
-//echo "<br/>\n";
             if($package->getIsDefault()) {
                 $count = 1;
                 $index = $package->getId();
@@ -592,7 +421,6 @@ class DefaultController extends Controller
             }
         }
         
-        
         if($request->query->get('filter') == 'popular') {
             $defaultPackages = array_filter($defaultPackages, function ($item) {
                 if($item['popular']) {
@@ -611,8 +439,6 @@ class DefaultController extends Controller
             });
         }
         
-        
-        
         return $this->render(
             'InertiaWinspireBundle:Default:packages.html.twig',
             array(
@@ -624,6 +450,8 @@ class DefaultController extends Controller
     
     public function packageSearchJsonAction(Request $request)
     {
+        $q = $request->query->get('q');
+        
         $response = new JsonResponse();
         $sphinxSearch = $this->get('search.sphinxsearch.search');
         
@@ -632,7 +460,7 @@ class DefaultController extends Controller
         }
         
         $sphinxSearch->setMatchMode(SPH_MATCH_ANY);
-        $searchResults = $sphinxSearch->search($request->query->get('q'), array('Packages'), array(), false);
+        $searchResults = $sphinxSearch->search($q . '*', array('Packages'), array(), false);
         
         $matches = array();
         if(isset($searchResults['matches'])) {
@@ -693,7 +521,8 @@ class DefaultController extends Controller
         
         return $response->setData(
             array(
-                'packages' => array_slice($defaultPackages, 0, 10)
+                'packages' => array_slice($defaultPackages, 0, 10),
+                'truncated' => count($defaultPackages) > 10
             )
         );
     }

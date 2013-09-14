@@ -24,7 +24,7 @@
                 
                 <section>
                     <div class="f-search">
-                        <input type="text" class="search-text" placeholder="Search" />
+                        <input type="text" class="search-text" placeholder="Search" value="{{ q }}"/>
                         <input type="button" class="search-submit" />
                     </div>
                 </section>
@@ -98,7 +98,7 @@
                 
                 <div class="row">
                     <ul class="pl-items">
-{% include 'InertiaWinspireBundle:Default:packages.html.twig' with {'packages': packages} %}
+{% render "InertiaWinspireBundle:Default:packageSearch" with {'q': q, 'catIds': catIds} %}
                     </ul>
                 </div>
                 

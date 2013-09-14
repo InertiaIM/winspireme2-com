@@ -32,3 +32,10 @@
                             </div>
                         </li>
 {% endfor %}
+{% if packages | length == 0 %}
+                        <li class="noresult">
+                            We apologize, but we can't find any experiences that match your search.<br/>
+                            Please try a different search or call us at <strong>(877) 544-8555</strong> if you were looking 
+                            for something we might not list.
+                        </li>
+{% endif %}

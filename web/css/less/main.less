@@ -370,6 +370,23 @@ header .c-wrap { height:65px; }
                         }
                     }
                 }
+                
+                li.more {
+                    
+                    
+                    a {
+                        color: @ws-orange;
+                        font-weight: bold;
+                        min-height: 0;
+                        text-align: center;
+                        
+                        .icon {
+                            font-size: 1.125em;
+                            position: relative;
+                            top: 2px;
+                        }
+                    }
+                }
             }
         }
         
@@ -1610,6 +1627,12 @@ footer, #footer { height:220px;border-top:1px solid rgb(195,213,224);
             &:hover { color:@ws-darkblue; } .icon { font-size:1.125em;position:relative;top:2px; } } 
           }
         }
+      }
+      
+      &.noresult {
+          color: @ws-gray85;
+          font-size: 1.083em;
+          line-height: 1.375em;
       }
     }
   }

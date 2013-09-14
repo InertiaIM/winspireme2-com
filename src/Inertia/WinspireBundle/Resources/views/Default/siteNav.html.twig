@@ -83,8 +83,10 @@
                         </ul>
                     </nav>
                     <div id="site-search">
-                        <input type="text" class="search-text" placeholder="Search for Experiences..."/>
-                        <input type="button" class="search-submit" value="Search"/>
+                        <form action="{{ path('packageList') }}" method="get" autocomplete="off">
+                            <input type="text" class="search-text" name="q" placeholder="Search for Experiences..." autocomplete="off"/>
+                            <input type="submit" class="search-submit" value="Search"/>
+                        </form>
                         <div id="site-search-result">
                             <div class="panel-inner">
                                 <ul>

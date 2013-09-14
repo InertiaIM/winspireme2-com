@@ -27,12 +27,6 @@ packageList:
     requirements:
         _scheme:  http
     
-packageListJson:
-    pattern:  /packages.json
-    defaults: { _controller: InertiaWinspireBundle:Default:packageListJson }
-    requirements:
-        _scheme:  http
-    
 packageDownload:
     pattern:  /package/download/{versionId}
     defaults: { _controller: InertiaWinspireBundle:Default:packageDownload }
