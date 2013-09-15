@@ -336,8 +336,35 @@ class DefaultController extends Controller
                 $qb->orderBy('p.parent_header', 'ASC');
         }
         
-        if ($request->attributes->has('catIds')) {
+        if ($request->attributes->has('catIds') || $request->query->has('category')) {
             $catIds = $request->attributes->get('catIds');
+
+            if ($request->query->has('category')) {
+                $categories = $request->query->get('category');
+                $repo = $this->getDoctrine()->getRepository('InertiaWinspireBundle:Category');
+                $filterTree = $repo->childrenHierarchy();
+                $filterTree = $filterTree[0]['__children'];
+
+                $catIds = array();
+                foreach($filterTree as $parent) {
+                    if(array_key_exists($parent['id'], $categories)) {
+                        $catIds[] = $parent['id'];
+
+                        // if a parent category is chosen, then add all child categories
+                        if(array_search($parent['id'], $categories[$parent['id']]) !== FALSE) {
+                            foreach($parent['__children'] as $child) {
+                                $catIds[] = $child['id'];
+                            }
+                        }
+                        else {
+                            foreach($categories[$parent['id']] as $child) {
+                                $catIds[] = $child;
+                            }
+                        }
+                    }
+                }
+            }
+
             $qb->innerJoin('p.categories', 'c');
             $qb->andWhere($qb->expr()->in('c.id', $catIds));
         }
