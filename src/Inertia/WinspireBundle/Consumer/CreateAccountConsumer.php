@@ -39,7 +39,13 @@ class CreateAccountConsumer implements ConsumerInterface
         $this->producer = $producer;
         
         $this->mailer->getTransport()->stop();
-        $this->sf->logout();
+
+        try {
+            $this->sf->logout();
+        }
+        catch (\Exception $e) {
+            $this->sendForHelp('(_construct): ' . $e->getMessage());
+        }
     }
     
     public function execute(AMQPMessage $msg)
@@ -495,14 +501,19 @@ class CreateAccountConsumer implements ConsumerInterface
         
         // MailChimp sync
         if($user->getNewsletter()) {
-            $list = $this->mailchimp->getList();
-            $list->setMerge(array(
-                'FNAME' => $user->getFirstName(),
-                'LNAME' => $user->getLastName(),
-                'MMERGE3' => $user->getCompany()->getName()
-            ));
-            
-            $result = $list->Subscribe($user->getEmail());
+            try {
+                $list = $this->mailchimp->getList();
+                $list->setMerge(array(
+                    'FNAME' => $user->getFirstName(),
+                    'LNAME' => $user->getLastName(),
+                    'MMERGE3' => $user->getCompany()->getName()
+                ));
+
+                $result = $list->Subscribe($user->getEmail());
+            }
+            catch (\Exception $e) {
+                $this->sendForHelp('(MailChimp): ' . $e->getCode());
+            }
         }
         
         return true;
