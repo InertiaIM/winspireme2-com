@@ -546,22 +546,45 @@ var footerCtx = $('footer')[0];
     
     
     /* Suitcase Preview */
+    var userPreviewFlag = false;
+
     $('body').on('click', '#suitcase-preview #suitcase-preview-header', function(e) {
-        if ($(this).find('span').hasClass('icon-double-up')) {
+        togglePreviewOpen(true);
+    });
+
+    function togglePreviewOpen(user) {
+        var open = !$('#suitcase-preview-header').find('span').hasClass('icon-double-up');
+
+        if (!open) {
+            // OPEN
             $('#suitcase-preview').css('height', '226px');
             $('#suitcase-preview-content').css('top', '162px');
-            $('#suitcase-preview-content').animate({top:'0px'}, function() {
-                $('#suitcase-preview-header .toggle a').find('span').removeClass('icon-double-up').addClass('icon-double-down');
+            $('#suitcase-preview-content').animate({top:'0px'}, 400, function() {
+                $('#suitcase-preview-header .toggle a')
+                    .find('span')
+                    .removeClass('icon-double-up')
+                    .addClass('icon-double-down')
+                ;
             });
+
+            userPreviewFlag = user;
         }
-        else {
-            $('#suitcase-preview-content').animate({top:'162px'}, function() {
+
+        if ((userPreviewFlag && user && open) || (!userPreviewFlag && user && open) || (!userPreviewFlag && !user && open)) {
+            // CLOSE
+            $('#suitcase-preview-content').animate({top:'162px'}, 400, function() {
                 $('#suitcase-preview').css('height', '64px');
                 $('#suitcase-preview-content').css('top', '0px');
-                $('#suitcase-preview-header .toggle a').find('span').removeClass('icon-double-down').addClass('icon-double-up');
+                $('#suitcase-preview-header .toggle a')
+                    .find('span')
+                    .removeClass('icon-double-down')
+                    .addClass('icon-double-up')
+                ;
             });
+
+            userPreviewFlag = false;
         }
-    });
+    }
     
     $('body').on('click', '#suitcase-preview-header .header-nav li.share a, #suitcase-preview-header .header-nav li.comments a, #suitcase-preview-header .header-nav li.button a', function(e) {
         e.stopPropagation();
@@ -619,7 +642,6 @@ var footerCtx = $('footer')[0];
                         $('.pd-a-add[data-id="' + id + '"], .f-add[data-id="' + id + '"], .pd-s-add[data-id="' + id + '"]').removeClass('disabled');
                         
                         $('#suitcase-preview-count').text(' (' + data.count + ')');
-                        $('#core-suitcase-button').find('.count').text(' (' + data.count + ')');
                         
                         setupSuitcaseCycle();
                     }
@@ -627,91 +649,7 @@ var footerCtx = $('footer')[0];
             });
         });
         
-        
         function addToSuitcase(id, el) {
-            // The existence of the account modal means that
-            // the user is currently not authenticated
-            if($('#account-modal').length > 0) {
-                // Pass the desired package id into the hidden form field
-                // and open our modal form window to create a new account
-                $('#fos_user_registration_form_package').val(id);
-                $("#account-modal").
-                    attr('data-id', id).
-                    modal({
-                        closeText: 'X',
-                        overlay: '#fff',
-                        opacity: 0.73,
-                        zIndex: 2002
-                    });
-            }
-            else if ($('#suitcase-preview').find('form').attr('data-id') == 'new') {
-                $('#suitcase-modal').
-                    modal({
-                        closeText: 'X',
-                        overlay: '#fff',
-                        opacity: 0.73,
-                        zIndex: 2002
-                    });
-                $('input#suitcase_package').val(id).attr('value', id);
-                $('input#suitcase_name').focus();
-            }
-            else {
-                var url = '/suitcase/add/' + id;
-                if (typeof env !== 'undefined') {
-                    url = env + url;
-                }
-                
-                $.ajax({
-                    dataType: 'json',
-                    url: url,
-                    success: function(data, textStatus, jqXHR) {
-                        if (!$.isEmptyObject(data)) {
-                            $(el).addClass('disabled');
-                            
-                            // Check whether we have a Cycle already running
-                            if ($('.cycle-carousel-wrap')) { 
-                                $('#suitcase-preview-items').cycle('destroy');
-                            }
-                            
-                            $('#suitcase-preview-header .button a')
-                                .removeClass('locked')
-                                .find('span.icon')
-                                .removeClass('icon-suitcase-locked')
-                                .addClass('icon-suitcase');
-                            
-                            $('#core-suitcase-button')
-                                .removeClass('locked')
-                                .find('span.icon')
-                                .removeClass('icon-suitcase-locked')
-                                .addClass('icon-suitcase');
-                            
-                            $('#core-suitcase-button').find('.count').text(' (' + data.count + ')');
-                            $('#suitcase-preview-count').text(' (' + data.count + ')');
-                            
-                            $('#suitcase-preview-items').prepend(Twig.render(previewItem, {item: data.item}));
-                            
-                            setupSuitcaseCycle();
-                        }
-                    }
-                });
-            }
-        }
-        
-        
-        
-        $('.pd-a-add, .f-add, .pd-s-add').on('click', function(e) {
-            e.preventDefault();
-            var id = $(this).attr('data-id');
-            var self = this;
-            
-            addToSuitcase(id, self);
-        });
-        
-        
-        $('.pl-items').on('click', '.i-a-add', function(e) {
-            var button = $(this);
-            var id = $(this).attr('data-id');
-            
             // The existence of the account modal means that
             // the user is currently not authenticated
             if($('#account-modal').length > 0) {
@@ -744,41 +682,83 @@ var footerCtx = $('footer')[0];
                 if (typeof env !== 'undefined') {
                     url = env + url;
                 }
-                
+
+                togglePreviewOpen(false);
+
+                // Check whether we have a Cycle already running
+                if ($('.cycle-carousel-wrap')) {
+                    $('#suitcase-preview-items').cycle('destroy');
+                }
+
+                // Add placeholder item (to animate toward)
+                $('#suitcase-preview-items').prepend(
+                    '<span class="suitcase-preview-item placeholder"><span class="inside">&nbsp;</span></span>'
+                );
+
+                $(el)
+                    .parent()
+                    .parent()
+                    .delay(400)
+                    .effect('transfer',
+                    {
+                        to: '.suitcase-preview-item.placeholder:eq(0) .inside',
+                        className: 'ui-effects-transfer'
+                    }, 500, function() {
+                        $('.suitcase-preview-item.placeholder:eq(0) .inside').addClass('visible');
+                    }
+                );
+
                 $.ajax({
+                    beforeSend: function() {},
                     dataType: 'json',
                     url: url,
                     success: function(data, textStatus, jqXHR) {
                         if (!$.isEmptyObject(data)) {
-                            $(button).attr('disabled', 'disabled');
-                            
-                            // Check whether we have a Cycle already running
-                            if ($('.cycle-carousel-wrap')) { 
-                                $('#suitcase-preview-items').cycle('destroy');
+                            if ($(el).is('button')) {
+                                $(el).attr('disabled', 'disabled');
                             }
-                            
+                            else {
+                                $(el).addClass('disabled');
+                            }
+
                             $('#suitcase-preview-header .button a')
                                 .removeClass('locked')
                                 .find('span.icon')
                                 .removeClass('icon-suitcase-locked')
                                 .addClass('icon-suitcase');
-                            
-                            $('#core-suitcase-button')
-                                .removeClass('locked')
-                                .find('span.icon')
-                                .removeClass('icon-suitcase-locked')
-                                .addClass('icon-suitcase');
-                            
-                            $('#core-suitcase-button').find('.count').text(' (' + data.count + ')');
+
                             $('#suitcase-preview-count').text(' (' + data.count + ')');
-                            
-                            $('#suitcase-preview-items').prepend(Twig.render(previewItem, {item: data.item}));
-                            
-                            setupSuitcaseCycle();
+
+                            window.setTimeout(function() {
+                                $('.suitcase-preview-item.placeholder').remove();
+                                $('#suitcase-preview-items').prepend(Twig.render(previewItem, { item: data.item }));
+                                setupSuitcaseCycle();
+
+                                togglePreviewOpen(false);
+                            }, 1000);
                         }
                     }
                 });
             }
+        }
+        
+        
+        $('.pd-a-add, .f-add, .pd-s-add').on('click', function(e) {
+            e.preventDefault();
+            var id = $(this).attr('data-id');
+            var self = this;
+
+            if (!$(self).is('.disabled')) {
+                addToSuitcase(id, self);
+            }
+        });
+        
+        
+        $('.pl-items').on('click', '.i-a-add', function(e) {
+            var button = $(this);
+            var id = $(this).attr('data-id');
+
+            addToSuitcase(id, button);
         });
         
         
@@ -869,12 +849,6 @@ var footerCtx = $('footer')[0];
                                             .find('span.icon')
                                             .removeClass('icon-suitcase')
                                             .addClass('icon-suitcase-locked');
-                                        
-                                        $('#core-suitcase-button')
-                                            .addClass('locked')
-                                            .find('span.icon')
-                                            .removeClass('icon-suitcase')
-                                            .addClass('icon-suitcase-locked');
                                     }
                                     else {
                                         $('#suitcase-preview-header .button a')
@@ -882,20 +856,12 @@ var footerCtx = $('footer')[0];
                                             .find('span.icon')
                                             .removeClass('icon-suitcase-locked')
                                             .addClass('icon-suitcase');
-                                        
-                                        $('#core-suitcase-button')
-                                            .removeClass('locked')
-                                            .find('span.icon')
-                                            .removeClass('icon-suitcase-locked')
-                                            .addClass('icon-suitcase');
                                     }
                                     
                                     if (data.count > 0) {
-                                        $('#core-suitcase-button').find('.count').text(' (' + data.count + ')');
                                         $('#suitcase-preview-count').text(' (' + data.count + ')');
                                     }
                                     else {
-                                        $('#core-suitcase-button').find('.count').text('');
                                         $('#suitcase-preview-count').text('');
                                     }
                                     
@@ -979,12 +945,6 @@ var footerCtx = $('footer')[0];
                                         .find('span.icon')
                                         .removeClass('icon-suitcase')
                                         .addClass('icon-suitcase-locked');
-                                    
-                                    $('#core-suitcase-button')
-                                        .addClass('locked')
-                                        .find('span.icon')
-                                        .removeClass('icon-suitcase')
-                                        .addClass('icon-suitcase-locked');
                                 }
                                 else {
                                     $('#suitcase-preview-header .button a')
@@ -992,20 +952,12 @@ var footerCtx = $('footer')[0];
                                         .find('span.icon')
                                         .removeClass('icon-suitcase-locked')
                                         .addClass('icon-suitcase');
-                                    
-                                    $('#core-suitcase-button')
-                                        .removeClass('locked')
-                                        .find('span.icon')
-                                        .removeClass('icon-suitcase-locked')
-                                        .addClass('icon-suitcase');
                                 }
                                 
                                 if (data.count > 0) {
-                                    $('#core-suitcase-button').find('.count').text(' (' + data.count + ')');
                                     $('#suitcase-preview-count').text(' (' + data.count + ')');
                                 }
                                 else {
-                                    $('#core-suitcase-button').find('.count').text('');
                                     $('#suitcase-preview-count').text('');
                                 }
                                 
@@ -1017,8 +969,6 @@ var footerCtx = $('footer')[0];
                                 });
                                 
                                 setupSuitcaseCycle();
-                                
-                                
                                 
                                 $.modal.close();
                             }
@@ -1217,13 +1167,7 @@ $(document).ready(function() {
                     
                     $('.unpacked').show();
                     $('.packed').hide();
-                    
-                    $('#core-suitcase-button')
-                        .removeClass('locked')
-                        .find('span.icon')
-                        .removeClass('icon-suitcase-locked')
-                        .addClass('icon-suitcase');
-                    $('#core-suitcase-button').find('.count').text(' (' + data.count + ')');
+
                     $('#more-modal').find('.suitcase-count').text(data.count);
                     $('#ready').find('.suitcase-count').text(data.count);
                 }
@@ -1742,12 +1686,6 @@ $(document).ready(function() {
                                 
                                 $('.unpacked').hide();
                                 $('.packed').show();
-                                
-                                $('#core-suitcase-button')
-                                    .addClass('locked')
-                                    .find('span.icon')
-                                    .removeClass('icon-suitcase')
-                                    .addClass('icon-suitcase-locked');
                                 
                                 $('#thanks-modal').modal({
                                     closeText: 'X',
@@ -2605,12 +2543,6 @@ $(document).ready(function() {
                             $('#core-nav').find('.inline-nav').append('<li><a href="/account">My Account</a></li>');
                             $('#core-nav').find('.inline-nav').append('<li><a href="/logout">Logout</a></li>');
                             
-                            if(id != 'none') {
-                                $('#core-suitcase').replaceWith('<a href="/suitcase" id="core-suitcase-button"><span class="icon icon-suitcase"></span><em>I\'m</em> Packed<span class="count"> (1)</span></a>');
-                            }
-                            else {
-                                $('#core-suitcase').replaceWith('<a href="/suitcase" id="core-suitcase-button"><span class="icon icon-suitcase"></span><em>I\'m</em> Packed<span class="count"></span></a>');
-                            }
                             $('.pd-a-add[data-id="' + id + '"], .f-add[data-id="' + id + '"], .pd-s-add[data-id="' + id + '"]').addClass('disabled');
                             $('button[data-id="' + id + '"]').attr('disabled', 'disabled');
                             $.modal.close();

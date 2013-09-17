@@ -4701,6 +4701,11 @@ footer, #footer { height:220px;border-top:1px solid rgb(195,213,224);
 }
 
 
+.ui-effects-transfer {
+  border: 5px dashed @ws-lightblue;
+  z-index: 2002;
+}
+
 #suitcase-preview {
     height:64px;
     width:100%;
@@ -4898,13 +4903,29 @@ footer, #footer { height:220px;border-top:1px solid rgb(195,213,224);
             overflow:hidden;
             margin:9px 41px 0 41px;
             white-space:nowrap;
+
             span.suitcase-preview-item {
                 height:143px;
                 padding:10px 10px 0 10px;
                 vertical-align:top;
                 display:block;
                 float:left;
+
+                &.placeholder {
+                    .inside {
+                        display: block;
+                        height: 89px;
+                        width: 133px;
+
+                      &.visible {
+                          border: 5px dashed @ws-lightblue;
+                          height: 79px;
+                          width: 123px;
+                      }
+                    }
+                }
             }
+
             .cycle-carousel-wrap span {
                 display:inline;
                 float:none;
