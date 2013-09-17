@@ -1,4 +1,47 @@
-<a href="{{ path('suitcaseView') }}" id="core-suitcase-button"{% if suitcase and suitcase != 'new' and suitcase.status != 'U' %} class="locked"{% endif %}>
-    <span class="icon {% if suitcase and suitcase != 'new' and suitcase.status != 'U' %}icon-suitcase-locked{% else %}icon-suitcase{% endif %}"></span>
-    <em>I'm</em> Packed<span class="count">{% if suitcase and suitcase != 'new' and (suitcase.items | length > 0) %} ({{ suitcase.items | length }}){% endif %}</span>
-</a>
+<div id="core-suitcase">
+    <div id="suitcase-toggle">
+        <div class="btn-label">
+            <span aria-hidden="true" class="icon-suitcase-2"></span>
+            <em>my</em><strong>Suitcase</strong>
+        </div>
+        <div class="btn-drop">
+            <span aria-hidden="true" class="icon-arrow-down"></span>
+        </div>
+    </div>
+
+    <!-- Suitcase Drop -->
+    <div id="suitcase-panel">
+        <div class="panel-tab">
+            <div class="the-tab">
+                <div class="tab-btn">
+                    <span aria-hidden="true" class="icon-arrow-down"></span>
+                </div>
+            </div>
+            <div class="the-panel suitcase-list">
+                <ul class="suitcases">
+{% for suitcase in suitcaseList %}
+                    <li>
+                        <a href="{{ path('suitcaseSwitch') ~ '?id=' ~ suitcase.id }}">
+                            <span class="name">{{ suitcase.name }}</span>
+                            <span class="status">{{ suitcase.status }}</span>
+                        </a>
+                    </li>
+{% endfor %}
+                </ul>
+                <hr/>
+                <ul class="nav">
+                    <li>
+                        <a href="{{ path('fos_user_profile_show') }}"><em>my</em> Account</a>
+                    </li>
+                    <li>
+                        <a href="{{ path('fos_user_profile_show') }}"><em>my</em> Order History</a>
+                    </li>
+                    <li>
+                        <a href="{{ path('fos_user_security_logout') }}">Log Out</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!-- Suitcase Drop -->
+</div>

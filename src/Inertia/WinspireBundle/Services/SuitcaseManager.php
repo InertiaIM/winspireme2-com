@@ -351,7 +351,7 @@ class SuitcaseManager
         }
     }
     
-    public function getSuitcaseList($active = true)
+    public function getSuitcaseList($active = true, $order = 'name')
     {
         $suitcaseList = array();
         
@@ -370,13 +370,46 @@ class SuitcaseManager
             
             $qb->andWhere('s.user = :user_id');
             $qb->setParameter('user_id', $this->suitcaseUser->getId());
-            
-            $qb->orderBy('s.name', 'ASC');
-            
+
+            switch ($order) {
+                case 'name':
+                    $qb->orderBy('s.name', 'ASC');
+                    break;
+                case 'date':
+                    $qb->orderBy('s.eventDate', 'DESC');
+                    break;
+            }
+
             $suitcases = $qb->getQuery()->getResult();
             
             foreach($suitcases as $s) {
-                $suitcaseList[] = array('id' => $s->getId(), 'name' => $s->getName(), 'date' => $s->getEventDate());
+                switch ($s->getStatus()) {
+                    case 'U':
+                        $status = 'Unpacked';
+                        break;
+                    case 'P':
+                        $status = 'Packed';
+                        if ($s->getEventDate() < (new \DateTime())) {
+                            $status = 'Request Invoice';
+                        }
+                        break;
+                    case 'I':
+                        $status = 'Not Paid';
+                        break;
+                    case 'R':
+                        $status = 'Invoice Pending';
+                        break;
+                    case 'A':
+                        $status = 'Send Vouchers';
+                        break;
+                }
+
+                $suitcaseList[] = array(
+                    'id' => $s->getId(),
+                    'name' => $s->getEventName(),
+                    'date' => $s->getEventDate(),
+                    'status' => $status,
+                );
             }
         }
         

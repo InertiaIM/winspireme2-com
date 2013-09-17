@@ -103,12 +103,8 @@ window.attachEvent("onload", function() {
                             <li><a href="http://www.winspireme.com/blog/" target="_blank">Blog</a></li>
                             <li><a href="{{ path('pageDisplay', {'slug': 'faqs'}) }}">FAQs</a></li>
                             <li><a href="{{ path('contactUs') }}">Contact Us</a></li>
-{% if app.user and is_granted('ROLE_USER') %}
-                            <li><a href="{{ path('fos_user_profile_show') }}">My Account</a></li>
-{%     if is_granted('ROLE_ADMIN') %}
+{% if app.user and is_granted('ROLE_ADMIN') %}
                             <li><a href="{{ path('suitcaseAdmin') }}">Admin</a></li>
-{%     endif %}
-                            <li><a href="{{ path('fos_user_security_logout') }}">Logout</a></li>
 {% endif %}
 
                         </ul>

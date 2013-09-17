@@ -81,9 +81,13 @@ header .c-wrap { height:65px; }
   background: linear-gradient(to bottom,  rgb(248,249,249) 0%,rgb(212,229,240) 100%); /* W3C */
   em { font-family: @ws-garamond; }
   .btn-label {
+      color: @ws-darkblue;
+      display: block;
       height:30px;
       line-height:30px;
       float:left;
+      text-decoration: none;
+
       em {
           font-size:18px;
       }
@@ -101,7 +105,7 @@ header .c-wrap { height:65px; }
   &:hover { -webkit-box-shadow:  0px 0px 3px 1px rgba(0, 0, 0, .1);box-shadow:  0px 0px 3px 1px rgba(0, 0, 0, .1); }
   #suitcase-panel { position:absolute;top:0;right:0;z-index:2002;cursor:auto;display:none;
     .panel-tab { position:relative; }
-    .the-tab { height:30px;position:relative;z-index:52;cursor:pointer;
+    .the-tab { height:30px;width:150px;position:relative;z-index:52;cursor:pointer;
       .tab-btn { -webkit-box-shadow: 0px -1px 1px 0px rgba(0, 0, 0, .25);box-shadow: 0px -1px 1px 0px rgba(0, 0, 0, .25);
         height:30px;width:26px;position:absolute;right:0;top:0;.rc-trbl(5px,5px,0,0);
         border:2px solid @ws-white;border-bottom:none;background:@ws-notwhite;
@@ -166,6 +170,111 @@ header .c-wrap { height:65px; }
           label {
               font-size: 12px;
               line-height: 100%;
+          }
+      }
+
+      &.suitcase-list {
+          padding: 4px;
+          position: absolute;
+          right: 0;
+          width: 360px;
+
+          ul {
+            display: block;
+            line-height: 100%;
+            list-style: none;
+            margin-bottom: 3px;
+
+            li {
+              display: block;
+              font-size: 14px;
+
+              a {
+                .clearfix;
+                color: @ws-darkblue;
+                display: block;
+                padding: 7px 0;
+                text-decoration: none;
+                width: 360px;
+
+                em {
+                  font-size: 17px;
+                }
+
+                &:hover {
+                  background-color: #e5e5e5;
+                }
+
+                span {
+                  display: block;
+                  float: left;
+                  padding: 0 8px;
+                  overflow: hidden;
+                  white-space: nowrap;
+                }
+
+                .name {
+                  padding-right: 20px;
+                  text-overflow: ellipsis;
+                  width: 207px;
+                }
+
+                .status {
+                  padding-left: 0;
+                  width: 117px;
+                }
+              }
+            }
+
+            &.nav {
+              margin-top: 3px;
+
+              li {
+                .clearfix;
+              }
+
+              a {
+                color: @ws-lightblue;
+                float: left;
+                padding-left: 8px;
+                padding-right: 8px;
+                width: auto;
+
+                &:hover {
+                  background: none;
+                  text-decoration: underline;
+                }
+
+                &:after {
+                  content: '';
+                }
+              }
+
+              span {
+                color: @ws-gray;
+                display: block;
+                float: left;
+                font-size: 12px;
+                padding: 7px 0;
+              }
+            }
+          }
+
+          hr {
+            border: none;
+            border-bottom: 1px solid #999999;
+            margin: 0 7px;
+            position: relative;
+
+            &:after {
+              content: ' ';
+              background: #ffffff;
+              position: absolute;
+              bottom: -2px;
+              display: block;
+              height: 1px;
+              width: 100%;
+            }
           }
       }
     }
@@ -308,7 +417,7 @@ header .c-wrap { height:65px; }
     /* Header -> Site Nav */
     #site-search {
         position:relative;
-        margin:9px 0 0 0;
+        margin:9px 1px 0 0;
         float:right;
         width:245px;
         height:30px;

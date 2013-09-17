@@ -126,11 +126,11 @@ class SuitcaseController extends Controller
     public function buttonWidgetAction()
     {
         $suitcaseManager = $this->get('winspire.suitcase.manager');
-        $suitcase = $suitcaseManager->getSuitcase(true, 'alpha');
+        $suitcaseList = $suitcaseManager->getSuitcaseList(false, 'date');
         
         return $this->render('InertiaWinspireBundle:Suitcase:buttonWidget.html.twig',
             array(
-                'suitcase' => $suitcase
+                'suitcaseList' => $suitcaseList
             )
         );
     }

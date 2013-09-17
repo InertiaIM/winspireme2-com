@@ -379,17 +379,16 @@ var footerCtx = $('footer')[0];
         
         var filter = 'filter=' + $('.pl-sort ul li a.selected').attr('data-filter');
         var sort = $('select[name="sortOrder"]').serialize();
+
+        $('.pl-items').empty();
+        spinner.spin(target);
         $.ajax({
-            beforeSend: function() {
-                $('.pl-items').empty();
-                spinner.spin(target);
-            },
             url: url,
             data: categories + '&' + sort + '&' + filter,
             dataType: 'html',
             success: function(data, textStatus, jqXHR) {
                 spinner.stop();
-                $('.pl-items').append($(data));
+                $('.pl-items').empty().append($(data));
             }
         });
     }
