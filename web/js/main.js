@@ -732,9 +732,11 @@ var footerCtx = $('footer')[0];
                             window.setTimeout(function() {
                                 $('.suitcase-preview-item.placeholder').remove();
                                 $('#suitcase-preview-items').prepend(Twig.render(previewItem, { item: data.item }));
-                                setupSuitcaseCycle();
 
-                                togglePreviewOpen(false);
+                                window.setTimeout(function() {
+                                    setupSuitcaseCycle();
+                                    togglePreviewOpen(false);
+                                }, 1000);
                             }, 1000);
                         }
                     }
