@@ -119,8 +119,10 @@ header .c-wrap { height:65px; }
         }
       }
     }
-    .the-panel { .rc-trbl(5px,0,5px,5px);border:2px solid @ws-white;background:@ws-notwhite;position:relative;z-index:51;
+    .the-panel { .rc-trbl(5px,0,5px,5px);border:2px solid @ws-white;background:@ws-notwhite;z-index:51;
       padding:10px;-webkit-box-shadow:0px 1px 2px 0px rgba(0,0,0,.25);box-shadow:0px 1px 2px 0px rgba(0,0,0,.25);
+      position: absolute;
+      right: 0;
       .panel-field { width:184px;height:21px;margin:2px 0 12px 0;.rc-trbl(5px,5px,5px,5px);padding:3px;
         background:@ws-white;color:@ws-notblack;
         -webkit-box-shadow: inset 0px 2px 2px 1px rgba(0, 0, 0, .25);box-shadow: inset 0px 2px 2px 1px rgba(0, 0, 0, .25);
@@ -181,8 +183,6 @@ header .c-wrap { height:65px; }
 
       &.suitcase-list {
           padding: 4px;
-          position: absolute;
-          right: 0;
           width: 360px;
 
           ul {
