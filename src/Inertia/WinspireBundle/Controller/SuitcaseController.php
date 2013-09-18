@@ -127,10 +127,12 @@ class SuitcaseController extends Controller
     {
         $suitcaseManager = $this->get('winspire.suitcase.manager');
         $suitcaseList = $suitcaseManager->getSuitcaseList(false, 'date');
+        $sid = $this->getRequest()->getSession()->get('sid');
         
         return $this->render('InertiaWinspireBundle:Suitcase:buttonWidget.html.twig',
             array(
-                'suitcaseList' => $suitcaseList
+                'suitcaseList' => $suitcaseList,
+                'sid' => $sid
             )
         );
     }

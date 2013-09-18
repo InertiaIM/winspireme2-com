@@ -409,6 +409,7 @@ class SuitcaseManager
                     'name' => $s->getEventName(),
                     'date' => $s->getEventDate(),
                     'status' => $status,
+                    'raw' => strtolower($s->getStatus()),
                 );
             }
         }

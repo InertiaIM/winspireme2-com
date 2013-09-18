@@ -195,6 +195,12 @@ header .c-wrap { height:65px; }
               display: block;
               font-size: 14px;
 
+              &.current {
+                .name {
+                  font-weight: bold;
+                }
+              }
+
               a {
                 .clearfix;
                 color: @ws-darkblue;
@@ -215,19 +221,49 @@ header .c-wrap { height:65px; }
                   display: block;
                   float: left;
                   padding: 0 8px;
+                  position: relative;
                   overflow: hidden;
                   white-space: nowrap;
                 }
 
                 .name {
-                  padding-right: 20px;
+                  padding-right: 15px;
                   text-overflow: ellipsis;
-                  width: 207px;
+                  width: 195px;
                 }
 
                 .status {
                   padding-left: 0;
-                  width: 117px;
+                  padding-right: 17px;
+                  width: 125px;
+
+                  &:after {
+                    content: ' ';
+                    display: block;
+                    height: 12px;
+                    width: 12px;
+                    position: absolute;
+                    right: 17px;
+                    top: 2px;
+                  }
+
+                  &.p {
+                    &:after {
+                      background-color: #0d7402;
+                    }
+                  }
+
+                  &.u {
+                    &:after {
+                      background-color: #ff9c00;
+                    }
+                  }
+
+                  &.r, &.i, &.a {
+                    &:after {
+                      background-color: #eb0000;
+                    }
+                  }
                 }
               }
             }

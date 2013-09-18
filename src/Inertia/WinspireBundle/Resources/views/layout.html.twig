@@ -93,9 +93,7 @@ window.attachEvent("onload", function() {
 {% if not app.user %}
 {%     render "InertiaWinspireBundle:Default:loginWidget" %}
 {% else %}
-{%     if app.request.get('_route') != 'suitcaseView' %}
-{%         render "InertiaWinspireBundle:Suitcase:buttonWidget" %}
-{%     endif %}
+{%     render "InertiaWinspireBundle:Suitcase:buttonWidget" %}
 {% endif %}
                     <nav id="core-nav">
                         <ul class="inline-nav">

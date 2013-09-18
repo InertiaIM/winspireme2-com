@@ -39,6 +39,8 @@ var footerCtx = $('footer')[0];
                 $('#site-search-result ul').empty();
             });
         }
+
+        $('#suitcase-panel').hide();
     });
     
     
@@ -117,12 +119,14 @@ var footerCtx = $('footer')[0];
     var headerSuitcaseToggle = $('#suitcase-toggle', headerCtx);
     $(headerSuitcasePanel).hide();
     
-    headerSuitcaseToggle.click( function() {
+    headerSuitcaseToggle.click( function(e) {
+        e.stopPropagation();
+
         $(headerSuitcasePanel).show();
     });
-    
-    $('.the-tab', headerSuitcasePanel).click( function() {
-        $(headerSuitcasePanel).hide();
+
+    $('.the-panel', headerSuitcasePanel).click(function(e) {
+        e.stopPropagation();
     });
     /* Header Suitcase Panel */
     
@@ -823,6 +827,7 @@ var footerCtx = $('footer')[0];
             else {
                 if ($(this).val() != 'new' && $(this).val() != $('.suitcase-switcher').attr('data-id')) {
                     $('.suitcase-switcher').attr('data-id', $(this).val());
+                    var id = $(this).val();
                     
                     if ($(this).parent('form').attr('data-style') == 'html') {
                         $(this).parent('form').submit();
@@ -875,6 +880,10 @@ var footerCtx = $('footer')[0];
                                     });
                                     
                                     setupSuitcaseCycle();
+
+                                    // Update Suitcase list in header
+                                    $(headerSuitcasePanel).find('.suitcases li').removeClass('current');
+                                    $(headerSuitcasePanel).find('.suitcases li[data-id="' + id + '"]').addClass('current');
                                 }
                             },
                             type: 'GET'
@@ -971,6 +980,17 @@ var footerCtx = $('footer')[0];
                                 });
                                 
                                 setupSuitcaseCycle();
+
+                                // Add item to Suitcase list in header
+                                $(headerSuitcasePanel).find('.suitcases li').removeClass('current');
+                                $(headerSuitcasePanel).find('.suitcases').prepend(
+                                    '<li class="current" data-id="' + data.suitcase.id + '">' +
+                                        '<a href="/suitcase/switch?sid=' + data.suitcase.id + '">' +
+                                        '<span class="name">' + data.suitcase.name + '</span>' +
+                                        '<span class="status u">Unpacked</span>' +
+                                        '</a>' +
+                                    '</li>'
+                                );
                                 
                                 $.modal.close();
                             }

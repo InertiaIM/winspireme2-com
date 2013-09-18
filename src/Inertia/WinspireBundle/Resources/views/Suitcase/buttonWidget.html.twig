@@ -20,10 +20,10 @@
             <div class="the-panel suitcase-list">
                 <ul class="suitcases">
 {% for suitcase in suitcaseList %}
-                    <li>
-                        <a href="{{ path('suitcaseSwitch') ~ '?id=' ~ suitcase.id }}">
+                    <li{% if sid == suitcase.id %} class="current"{% endif %} data-id="{{ suitcase.id }}">
+                        <a href="{{ path('suitcaseSwitch') ~ '?sid=' ~ suitcase.id }}">
                             <span class="name">{{ suitcase.name }}</span>
-                            <span class="status">{{ suitcase.status }}</span>
+                            <span class="status {{ suitcase.raw }}">{{ suitcase.status }}</span>
                         </a>
                     </li>
 {% endfor %}
