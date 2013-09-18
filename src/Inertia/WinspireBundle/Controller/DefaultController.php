@@ -313,6 +313,10 @@ class DefaultController extends Controller
         $qb = $em->createQueryBuilder();
         
         $qb->select('p')->from('InertiaWinspireBundle:Package', 'p');
+
+        if(!$this->get('security.context')->isGranted('ROLE_ADMIN')) {
+            $qb->andWhere('p.is_private != 1');
+        }
         
         $qb->andWhere('p.active = 1 OR p.seasonal = 1');
         $qb->andWhere('p.available = 1');
