@@ -379,8 +379,7 @@ class DefaultController extends Controller
             if(!$this->get('security.context')->isGranted('ROLE_ADMIN')) {
                 $sphinxSearch->setFilter('isprivate', array(1), true);
             }
-            
-            $sphinxSearch->setMatchMode(SPH_MATCH_ANY);
+
             $searchResults = $sphinxSearch->search($q . '*', array('Packages'), array('result_limit' => 1000, 'result_offset' => 0), false);
             
             $matches = array();
@@ -489,14 +488,21 @@ class DefaultController extends Controller
         if(!$this->get('security.context')->isGranted('ROLE_ADMIN')) {
             $sphinxSearch->setFilter('isprivate', array(1), true);
         }
-        
-        $sphinxSearch->setMatchMode(SPH_MATCH_ANY);
-        $searchResults = $sphinxSearch->search($q . '*', array('Packages'), array('result_limit' => 1000, 'result_offset' => 0), false);
-        
+
+        $sphinxSearch->setMatchMode(SPH_MATCH_EXTENDED);
+        $searchResults = $sphinxSearch->search($q . '*', array('Packages'), array(
+            'result_limit' => 1000,
+            'result_offset' => 0,
+            'field_weights' => array(
+                'categories' => 4,
+                'parentheader' => 2
+            )
+        ), false);
+
         $matches = array();
         if(isset($searchResults['matches'])) {
             foreach($searchResults['matches'] as $key => $value) {
-                $matches[] = $key;
+                $matches[$key] = $key;
             }
         }
         
@@ -508,52 +514,33 @@ class DefaultController extends Controller
             $qb->andWhere($qb->expr()->in('p.id', $matches));
             $qb->andWhere('p.active = 1 OR p.seasonal = 1');
             $qb->andWhere('p.available = 1');
-            $qb->addOrderBy('p.parent_header', 'ASC');
-            $qb->addOrderBy('p.is_default', 'DESC');
+            $qb->andWhere('p.is_default = 1');
+
             $packages = $qb->getQuery()->getResult();
         }
         else {
             $packages = array();
         }
         
-        // TODO this is too complex.  Break the Packages and Variants into
-        // separate entities to simplify the queries.
-        $defaultPackages = array();
-        $currentHeader = '';
-        $count = 0;
         foreach($packages as $package) {
-            if($package->getIsDefault()) {
-                $count = 1;
-                $index = $package->getSlug();
-                
-                $available = true;
-                
-                $defaultPackages[$index] = array('package' =>
-                    array(
-                        'slug'    => $package->getSlug(),
-                        'title' => $package->getParentHeader(),
-                        'image' => $package->getThumbnail()
-                    ),
-                    'count' => 1
-                );
-            }
-            if($currentHeader != $package->getParentHeader()) {
-                $currentHeader = $package->getParentHeader();
-            }
-            else {
-                $count++;
-            }
-            
-            if(isset($index)) {
-                $defaultPackages[$index]['count'] = $count;
+            $matches[$package->getId()] = array(
+                'slug' => $package->getSlug(),
+                'title' => $package->getParentHeader(),
+                'image' => $package->getThumbnail()
+            );
+        }
+
+        $results = array();
+        foreach ($matches as $match) {
+            if (isset($match['slug'])) {
+                $results[] = array('package' => $match);
             }
         }
-        
-        
+
         return $response->setData(
             array(
-                'packages' => array_slice($defaultPackages, 0, 10),
-                'truncated' => count($defaultPackages) > 10
+                'packages' => array_slice($results, 0, 10),
+                'truncated' => count($results) > 10
             )
         );
     }
