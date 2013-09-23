@@ -44,20 +44,34 @@ $output->writeln('<info>    * ' . $suitcase->getUser()->getCompany()->getName() 
             
             $message = \Swift_Message::newInstance()
                 ->setSubject('Congratulations on a Successful Event')
-                ->setFrom(array('info@winspireme.com' => 'Winspire'))
+                ->setSender(array('info@winspireme.com' => 'Winspire'))
                 ->setTo(array($email => $name))
                 ->setBcc(array($suitcase->getUser()->getCompany()->getSalesperson()->getEmail(), 'doug@inertiaim.com'))
+            ;
+
+            if ($suitcase->getUser()->getCompany()->getSalesperson()->getId() != 1) {
+                $sperson = $suitcase->getUser()->getCompany()->getSalesperson();
+                $message->setReplyTo(array($sperson->getEmail() => $sperson->getFirstName() . ' ' . $sperson->getLastName()));
+                $message->setFrom(array($sperson->getEmail() => $sperson->getFirstName() . ' ' . $sperson->getLastName()));
+                $from = $sperson->getEmail();
+            }
+            else {
+                $message->setFrom(array('info@winspireme.com' => 'Winspire'));
+                $from = 'info@winspireme.com';
+            }
+
+            $message
                 ->setBody(
                     $templating->render(
                         'InertiaWinspireBundle:Email:congrats-invoice-directions.html.twig',
-                        array('suitcase' => $suitcase)
+                        array('suitcase' => $suitcase, 'from' => $from)
                     ),
                     'text/html'
                 )
                 ->addPart(
                     $templating->render(
                         'InertiaWinspireBundle:Email:congrats-invoice-directions.txt.twig',
-                        array('suitcase' => $suitcase)
+                        array('suitcase' => $suitcase, 'from' => $from)
                     ),
                     'text/plain'
                 )

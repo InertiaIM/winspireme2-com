@@ -422,7 +422,7 @@ class CreateAccountConsumer implements ConsumerInterface
         
         $message = \Swift_Message::newInstance()
             ->setSubject('Welcome to Winspire!')
-            ->setFrom(array('notice@winspireme.com' => 'Winspire'))
+            ->setFrom(array('info@winspireme.com' => 'Winspire'))
             ->setTo(array($email => $name))
             ->setBcc(array($suitcase->getUser()->getCompany()->getSalesperson()->getEmail(), 'doug@inertiaim.com'))
             ->setBody(
@@ -459,21 +459,21 @@ class CreateAccountConsumer implements ConsumerInterface
             $message2 = \Swift_Message::newInstance()
                 ->setSubject('Introducing your Winspire Event Consultant')
                 ->setReplyTo($salesperson)
-                ->setSender(array('notice@winspireme.com' => 'Winspire'))
+                ->setSender(array('info@winspireme.com' => 'Winspire'))
                 ->setFrom($salesperson)
                 ->setTo(array($email => $name))
                 ->setBcc(array($suitcase->getUser()->getCompany()->getSalesperson()->getEmail(), 'doug@inertiaim.com'))
                 ->setBody(
                     $this->templating->render(
                         'InertiaWinspireBundle:Email:event-consultant-intro.html.twig',
-                        array('user' => $suitcase->getUser())
+                        array('user' => $suitcase->getUser(), 'from' => $suitcase->getUser()->getCompany()->getSalesperson()->getEmail())
                     ),
                     'text/html'
                 )
                 ->addPart(
                     $this->templating->render(
                         'InertiaWinspireBundle:Email:event-consultant-intro.txt.twig',
-                        array('user' => $suitcase->getUser())
+                        array('user' => $suitcase->getUser(), 'from' => $suitcase->getUser()->getCompany()->getSalesperson()->getEmail())
                     ),
                     'text/plain'
                 )

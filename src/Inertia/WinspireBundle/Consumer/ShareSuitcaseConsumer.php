@@ -39,19 +39,35 @@ class ShareSuitcaseConsumer implements ConsumerInterface
         
         $message = \Swift_Message::newInstance()
             ->setSubject('You have been invited to view a Suitcase')
-            ->setFrom(array('notice@winspireme.com' => 'Winspire'))
+            ->setSender(array('info@winspireme.com' => 'Winspire'))
+            ->setReplyTo(array(
+                $share->getSuitcase()->getUser()->getEmail() =>
+                $share->getSuitcase()->getUser()->getFirstName() . ' ' .
+                $share->getSuitcase()->getUser()->getLastName()
+            ))
+            ->setFrom(array(
+                $share->getSuitcase()->getUser()->getEmail() =>
+                $share->getSuitcase()->getUser()->getFirstName() . ' ' .
+                $share->getSuitcase()->getUser()->getLastName()
+            ))
             ->setTo(array($share->getEmail() => $share->getName()))
             ->setBody(
                 $this->templating->render(
                     'InertiaWinspireBundle:Email:guest-invitation.html.twig',
-                    array('share' => $share)
+                    array(
+                        'share' => $share,
+                        'from' => $share->getSuitcase()->getUser()->getEmail()
+                    )
                 ),
                 'text/html'
             )
             ->addPart(
                 $this->templating->render(
                     'InertiaWinspireBundle:Email:guest-invitation.txt.twig',
-                    array('share' => $share)
+                    array(
+                        'share' => $share,
+                        'from' => $share->getSuitcase()->getUser()->getEmail()
+                    )
                 ),
                 'text/plain'
             )

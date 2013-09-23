@@ -89,7 +89,7 @@ class SuitcaseSoapService
             
             $sfOpp = $oppResult->first();
             
-            if ($sfOpp->SystemModstamp > $suitcase->getSfUpdated()) {
+            if ($sfOpp->SystemModstamp >= $suitcase->getSfUpdated()) {
                 $suitcase->setName($sfOpp->Name);
                 $suitcase->setEventName($sfOpp->Name);
                 
@@ -149,25 +149,25 @@ class SuitcaseSoapService
                             $message = \Swift_Message::newInstance()
                                 ->setSubject('Introducing your Winspire Event Consultant')
                                 ->setReplyTo($salesperson)
-                                ->setSender(array('notice@winspireme.com' => 'Winspire'))
+                                ->setSender(array('info@winspireme.com' => 'Winspire'))
                                 ->setFrom($salesperson)
                                 ->setTo(array($email => $name))
+                                ->setBcc(array($user->getCompany()->getSalesperson()->getEmail(), 'doug@inertiaim.com'))
                                 ->setBody(
                                     $this->templating->render(
                                         'InertiaWinspireBundle:Email:event-consultant-intro.html.twig',
-                                        array('user' => $user)
+                                        array('user' => $user, 'from' => $user->getCompany()->getSalesperson()->getEmail())
                                     ),
                                     'text/html'
                                 )
                                 ->addPart(
                                     $this->templating->render(
                                         'InertiaWinspireBundle:Email:event-consultant-intro.txt.twig',
-                                        array('user' => $user)
+                                        array('user' => $user, 'from' => $user->getCompany()->getSalesperson()->getEmail())
                                     ),
                                     'text/plain'
                                 )
                             ;
-                            $message->setBcc(array($user->getCompany()->getSalesperson()->getEmail(), 'doug@inertiaim.com'));
                             $this->mailer->send($message);
                         }
                     }
@@ -220,13 +220,29 @@ class SuitcaseSoapService
         
         $message = \Swift_Message::newInstance()
             ->setSubject('Your Booking Vouchers are ready to deliver!')
-            ->setFrom(array('info@winspireme.com' => 'Winspire'))
+            ->setSender(array('info@winspireme.com' => 'Winspire'))
             ->setTo(array($email => $name))
+            ->setBcc(array($account->getSalesperson()->getEmail(), 'doug@inertiaim.com'))
+        ;
+
+        if ($suitcase->getUser()->getCompany()->getSalesperson()->getId() != 1) {
+            $sperson = $suitcase->getUser()->getCompany()->getSalesperson();
+            $message->setReplyTo(array($sperson->getEmail() => $sperson->getFirstName() . ' ' . $sperson->getLastName()));
+            $message->setFrom(array($sperson->getEmail() => $sperson->getFirstName() . ' ' . $sperson->getLastName()));
+            $from = $sperson->getEmail();
+        }
+        else {
+            $message->setFrom(array('info@winspireme.com' => 'Winspire'));
+            $from = 'info@winspireme.com';
+        }
+
+        $message
             ->setBody(
                 $this->templating->render(
                     'InertiaWinspireBundle:Email:travel-vouchers-ready.html.twig',
                     array(
-                        'suitcase' => $suitcase
+                        'suitcase' => $suitcase,
+                        'from' => $from
                     )
                 ), 'text/html'
             )
@@ -234,12 +250,13 @@ class SuitcaseSoapService
                 $this->templating->render(
                     'InertiaWinspireBundle:Email:travel-vouchers-ready.txt.twig',
                     array(
-                        'suitcase' => $suitcase
+                        'suitcase' => $suitcase,
+                        'from' => $from
                     )
                 ), 'text/plain'
             )
         ;
-        $message->setBcc(array($account->getSalesperson()->getEmail(), 'doug@inertiaim.com'));
+
         
         $this->mailer->send($message);
     }

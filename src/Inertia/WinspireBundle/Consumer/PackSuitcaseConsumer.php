@@ -246,14 +246,30 @@ class PackSuitcaseConsumer implements ConsumerInterface
         
         $message = \Swift_Message::newInstance()
             ->setSubject('Winspire Reservation Confirmation')
-            ->setFrom(array('info@winspireme.com' => 'Winspire'))
+            ->setSender(array('info@winspireme.com' => 'Winspire'))
             ->setTo(array($email => $name))
+            ->setBcc(array($account->getSalesperson()->getEmail(), 'doug@inertiaim.com'))
+        ;
+
+        if ($suitcase->getUser()->getCompany()->getSalesperson()->getId() != 1) {
+            $sperson = $suitcase->getUser()->getCompany()->getSalesperson();
+            $message->setReplyTo(array($sperson->getEmail() => $sperson->getFirstName() . ' ' . $sperson->getLastName()));
+            $message->setFrom(array($sperson->getEmail() => $sperson->getFirstName() . ' ' . $sperson->getLastName()));
+            $from = $sperson->getEmail();
+        }
+        else {
+            $message->setFrom(array('info@winspireme.com' => 'Winspire'));
+            $from = 'info@winspireme.com';
+        }
+
+        $message
             ->setBody(
                 $this->templating->render(
                     'InertiaWinspireBundle:Email:reservation-confirmation.html.twig',
                     array(
                         'suitcase' => $suitcase,
-                        'first' => $first
+                        'first' => $first,
+                        'from' => $from
                     )
                 ),
                 'text/html'
@@ -263,13 +279,14 @@ class PackSuitcaseConsumer implements ConsumerInterface
                     'InertiaWinspireBundle:Email:reservation-confirmation.txt.twig',
                     array(
                         'suitcase' => $suitcase,
-                        'first' => $first
+                        'first' => $first,
+                        'from' => $from
                     )
                 ),
                 'text/plain'
             )
         ;
-        $message->setBcc(array($account->getSalesperson()->getEmail(), 'doug@inertiaim.com'));
+
         
         if($first) {
             $data = $this->sm->generateLoa($suitcase);

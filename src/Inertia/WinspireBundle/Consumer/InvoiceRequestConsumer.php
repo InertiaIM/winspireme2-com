@@ -255,8 +255,23 @@ class InvoiceRequestConsumer implements ConsumerInterface
         
         $message = \Swift_Message::newInstance()
             ->setSubject($subject)
-            ->setFrom(array('info@winspireme.com' => 'Winspire'))
+            ->setSender(array('info@winspireme.com' => 'Winspire'))
             ->setTo(array($email => $name))
+            ->setBcc(array($account->getSalesperson()->getEmail(), 'doug@inertiaim.com'))
+        ;
+
+        if ($suitcase->getUser()->getCompany()->getSalesperson()->getId() != 1) {
+            $sperson = $suitcase->getUser()->getCompany()->getSalesperson();
+            $message->setReplyTo(array($sperson->getEmail() => $sperson->getFirstName() . ' ' . $sperson->getLastName()));
+            $message->setFrom(array($sperson->getEmail() => $sperson->getFirstName() . ' ' . $sperson->getLastName()));
+            $from = $sperson->getEmail();
+        }
+        else {
+            $message->setFrom(array('info@winspireme.com' => 'Winspire'));
+            $from = 'info@winspireme.com';
+        }
+
+        $message
             ->setBody(
                 $this->templating->render(
                     'InertiaWinspireBundle:Email:' . $template,
@@ -264,14 +279,13 @@ class InvoiceRequestConsumer implements ConsumerInterface
                         'suitcase' => $suitcase,
                         'subtotal' => $subtotal,
                         'fee' => $fee,
-                        'grand_total' => $grandTotal
+                        'grand_total' => $grandTotal,
+                        'from' => $from
                     )
                 ),
                 'text/html'
             )
         ;
-        $message->setBcc(array($account->getSalesperson()->getEmail(), 'doug@inertiaim.com'));
-        
         
         $this->em->clear();
         

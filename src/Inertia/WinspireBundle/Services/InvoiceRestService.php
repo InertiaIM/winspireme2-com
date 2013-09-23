@@ -175,13 +175,29 @@ $this->logger->info('Why aren\'t we retrieving this invoice?');
         
         $message = \Swift_Message::newInstance()
             ->setSubject('Winspire Invoice')
-            ->setFrom(array('info@winspireme.com' => 'Winspire'))
+            ->setSender(array('info@winspireme.com' => 'Winspire'))
             ->setTo(array($email => $name))
+            ->setBcc(array($suitcase->getUser()->getCompany()->getSalesperson()->getEmail(), 'doug@inertiaim.com'))
+        ;
+
+        if ($suitcase->getUser()->getCompany()->getSalesperson()->getId() != 1) {
+            $sperson = $suitcase->getUser()->getCompany()->getSalesperson();
+            $message->setReplyTo(array($sperson->getEmail() => $sperson->getFirstName() . ' ' . $sperson->getLastName()));
+            $message->setFrom(array($sperson->getEmail() => $sperson->getFirstName() . ' ' . $sperson->getLastName()));
+            $from = $sperson->getEmail();
+        }
+        else {
+            $message->setFrom(array('info@winspireme.com' => 'Winspire'));
+            $from = 'info@winspireme.com';
+        }
+
+        $message
             ->setBody(
                 $this->templating->render(
                     'InertiaWinspireBundle:Email:invoice-attached.html.twig',
                     array(
-                        'suitcase' => $suitcase
+                        'suitcase' => $suitcase,
+                        'from' => $from
                     )
                 ),
                 'text/html'
@@ -190,7 +206,8 @@ $this->logger->info('Why aren\'t we retrieving this invoice?');
                 $this->templating->render(
                     'InertiaWinspireBundle:Email:invoice-attached.txt.twig',
                     array(
-                        'suitcase' => $suitcase
+                        'suitcase' => $suitcase,
+                        'from' => $from
                     )
                 ),
                 'text/plain'
@@ -200,8 +217,6 @@ $this->logger->info('Why aren\'t we retrieving this invoice?');
         $attachment = \Swift_Attachment::fromPath($this->directory . '/' . $suitcase->getInvoiceFileName(), 'application/pdf');
         $attachment->setFilename($suitcase->getInvoiceFileName());
         $message->attach($attachment);
-        
-        $message->setBcc(array($suitcase->getUser()->getCompany()->getSalesperson()->getEmail(), 'doug@inertiaim.com'));
         
         
         $this->mailer->send($message);

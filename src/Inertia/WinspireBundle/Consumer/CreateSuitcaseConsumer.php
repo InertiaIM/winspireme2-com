@@ -165,21 +165,35 @@ class CreateSuitcaseConsumer implements ConsumerInterface
         $email = $suitcase->getUser()->getEmail();
         
         $message = \Swift_Message::newInstance()
+            ->setSender(array('info@winspireme.com' => 'Winspire'))
             ->setSubject('Your New Suitcase is Ready!')
-            ->setFrom(array('notice@winspireme.com' => 'Winspire'))
             ->setTo(array($email => $name))
             ->setBcc(array($suitcase->getUser()->getCompany()->getSalesperson()->getEmail(), 'doug@inertiaim.com'))
+        ;
+
+        if ($suitcase->getUser()->getCompany()->getSalesperson()->getId() != 1) {
+            $sperson = $suitcase->getUser()->getCompany()->getSalesperson();
+            $message->setReplyTo(array($sperson->getEmail() => $sperson->getFirstName() . ' ' . $sperson->getLastName()));
+            $message->setFrom(array($sperson->getEmail() => $sperson->getFirstName() . ' ' . $sperson->getLastName()));
+            $from = $sperson->getEmail();
+        }
+        else {
+            $message->setFrom(array('info@winspireme.com' => 'Winspire'));
+            $from = 'info@winspireme.com';
+        }
+
+        $message
             ->setBody(
                 $this->templating->render(
                     'InertiaWinspireBundle:Email:new-suitcase-confirm.html.twig',
-                    array('suitcase' => $suitcase)
+                    array('suitcase' => $suitcase, 'from' => $from)
                 ),
                 'text/html'
             )
             ->addPart(
                 $this->templating->render(
                     'InertiaWinspireBundle:Email:new-suitcase-confirm.txt.twig',
-                    array('suitcase' => $suitcase)
+                    array('suitcase' => $suitcase, 'from' => $from)
                 ),
                 'text/plain'
             )
