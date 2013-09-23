@@ -304,7 +304,7 @@ class CreateAccountConsumer implements ConsumerInterface
                 $sfAccount->BillingCountryCode = $account->getCountry();
                 $sfAccount->BillingCountry = ($account->getCountry() == 'CA' ? 'Canada' : 'United States');
                 $sfAccount->Phone = $account->getPhone();
-                $sfAccount->Referred_by__c = $account->getReferred();
+                $sfAccount->Referred_by__c = substr($account->getReferred(), 0, 50);
                 $sfAccount->RecordTypeId = $this->recordTypeId;
                 $sfAccount->OwnerId = $account->getSalesperson()->getSfId();
                 
