@@ -986,7 +986,191 @@ footer, #footer { height:220px;border-top:1px solid rgb(195,213,224);
             }
         }
     }
-  #home-experiences { padding:40px 0 0 0;background: url('/img/home-experiences-bg.png') transparent; }
+  #home-experiences { padding:0 0 0 0;background: url('/img/home-experiences-bg.png') transparent; }
+
+  .loved-by {
+    .clearfix;
+
+    h5 {
+      font-family: 'ArchitectsDaughter';
+      font-weight: normal;
+      font-style: normal;
+      font-size: 12px;
+      line-height: 100%;
+      position: absolute;
+      color: #a0a0a0;
+    }
+
+    #home-f-loved {
+      height: 82px;
+      float: left;
+      padding-right: 20px;
+      position: relative;
+      width: 690px;
+
+      h5 {
+        top: 23px;
+        left: 11px;
+      }
+
+      ul {
+        width: 600px;
+        float: right;
+        margin: 0 0 0 0;
+      }
+
+      li {
+        position: relative;
+        width: 120px;
+        height: 82px;
+        float: left;
+        margin: 0;
+        padding: 0;
+        list-style: none;
+        cursor: pointer;
+
+        div {
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 120px;
+          height: 82px;
+          background-size: 120px 164px;
+          background-repeat: no-repeat;
+
+          &.bw {
+            background-position: 0 0;
+          }
+
+          &.color {
+            background-position: 0 -82px;
+            display: none;
+          }
+        }
+
+        img {
+          display:none;
+        }
+      }
+    }
+
+    #home-buddy {
+      background: url(/img/twins.png) no-repeat;
+      background-size: 110px 64px;
+      background-position: 7px 6px;
+      float: left;
+      height: 82px;
+      margin-left: 40px;
+      padding-left: 105px;
+      position: relative;
+      width: 185px;
+
+      h5 {
+        top: 18px;
+        left: 114px;
+      }
+
+      ul {
+        margin: 35px 0 0 0;
+      }
+
+      li {
+        display: block;
+        position: relative;
+        float: left;
+        list-style: none;
+        margin: 0 0 0 3px;
+        padding: 0;
+
+        a {
+          background: url(/img/sprite-social-icons.png) no-repeat;
+          background-position: -8px -9px;
+          background-size: 179px 80px;
+          display: block;
+          width: 34px;
+          height: 34px;
+          text-indent: 100%;
+          overflow: hidden;
+          white-space: nowrap;
+
+          &.facebook {
+            background-position: -4px -4px;
+          }
+
+          &.twitter {
+            background-position: -38px -4px;
+          }
+
+          &.pinterest {
+            background-position: -72px -4px;
+          }
+
+          &.google {
+            background-position: -106px -4px;
+          }
+
+          &.newsletter {
+            background-position: -140px -4px;
+          }
+        }
+
+        a:hover, a:active {
+          &.facebook {
+            background-position: -4px -43px;
+          }
+
+          &.twitter {
+            background-position: -38px -43px;
+          }
+
+          &.pinterest {
+            background-position: -72px -43px;
+          }
+
+          &.google {
+            background-position: -106px -43px;
+          }
+
+          &.newsletter {
+            background-position: -140px -43px;
+          }
+        }
+      }
+
+      &:after {
+        background: -moz-linear-gradient(top,  rgba(255,255,255,0) 0%, rgba(255,255,255,1) 12%, rgba(255,255,255,1) 88%, rgba(255,255,255,0) 100%);
+        background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(255,255,255,0)), color-stop(12%,rgba(255,255,255,1)), color-stop(88%,rgba(255,255,255,1)), color-stop(100%,rgba(255,255,255,0)));
+        background: -webkit-linear-gradient(top,  rgba(255,255,255,0) 0%,rgba(255,255,255,1) 12%,rgba(255,255,255,1) 88%,rgba(255,255,255,0) 100%);
+        background: -o-linear-gradient(top,  rgba(255,255,255,0) 0%,rgba(255,255,255,1) 12%,rgba(255,255,255,1) 88%,rgba(255,255,255,0) 100%);
+        background: -ms-linear-gradient(top,  rgba(255,255,255,0) 0%,rgba(255,255,255,1) 12%,rgba(255,255,255,1) 88%,rgba(255,255,255,0) 100%);
+        background: linear-gradient(to bottom,  rgba(255,255,255,0) 0%,rgba(255,255,255,1) 12%,rgba(255,255,255,1) 88%,rgba(255,255,255,0) 100%);
+        content: ' ';
+        display: block;
+        position: absolute;
+        width: 1px;
+        height: 56px;
+        top: 13px;
+        left: -20px;
+      }
+
+      &:before {
+        background: -moz-linear-gradient(top,  rgba(0,0,0,0) 0%, rgba(0,0,0,0.4) 32%, rgba(0,0,0,0.4) 68%, rgba(0,0,0,0) 100%);
+        background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(0,0,0,0)), color-stop(32%,rgba(0,0,0,0.4)), color-stop(68%,rgba(0,0,0,0.4)), color-stop(100%,rgba(0,0,0,0)));
+        background: -webkit-linear-gradient(top,  rgba(0,0,0,0) 0%,rgba(0,0,0,0.4) 32%,rgba(0,0,0,0.4) 68%,rgba(0,0,0,0) 100%);
+        background: -o-linear-gradient(top,  rgba(0,0,0,0) 0%,rgba(0,0,0,0.4) 32%,rgba(0,0,0,0.4) 68%,rgba(0,0,0,0) 100%);
+        background: -ms-linear-gradient(top,  rgba(0,0,0,0) 0%,rgba(0,0,0,0.4) 32%,rgba(0,0,0,0.4) 68%,rgba(0,0,0,0) 100%);
+        background: linear-gradient(to bottom,  rgba(0,0,0,0) 0%,rgba(0,0,0,0.4) 32%,rgba(0,0,0,0.4) 68%,rgba(0,0,0,0) 100%);
+        content: ' ';
+        display: block;
+        position: absolute;
+        width: 1px;
+        height: 50px;
+        top: 16px;
+        left: -21px;
+      }
+    }
+  }
+
   #home-featured {
     border:1px solid @ws-white;
     padding:15px;
@@ -1415,63 +1599,12 @@ footer, #footer { height:220px;border-top:1px solid rgb(195,213,224);
     background: -o-linear-gradient(top,  rgb(245,249,253) 0%,rgb(207,234,249) 100%); /* Opera 11.10+ */
     background: -ms-linear-gradient(top,  rgb(245,249,253) 0%,rgb(207,234,249) 100%); /* IE10+ */
     background: linear-gradient(to bottom,  rgb(245,249,253) 0%,rgb(207,234,249) 100%); /* W3C */
-    
-    #home-f-loved {
-        height:82px;
-        position:relative;
-        background:url('/img/home-lovedby-bbg.png') bottom center no-repeat transparent;
-        
-        h5 {
-            font-family:'ArchitectsDaughter';
-            font-weight:normal;
-            font-style:normal;
-            font-size:18px;
-            line-height:80px;
-            position:absolute;
-            top:0;
-            left:73px;
-            color:#cacaca;
-        }
-        
-        ul {
-            width:750px;
-            float:right;
-            margin:0 60px 0 0;
-        }
-        
-        li {
-            position:relative;
-            width:150px;
-            height:82px;
-            float: left;
-            margin: 0;
-            padding: 0;
-            list-style: none;
-            cursor:pointer;
-            div {
-                position:absolute;
-                top:0;
-                left:0;
-                width:150px;
-                height:82px;
-                background-size:150px 164px;
-                background-repeat:no-repeat;
-                &.bw {
-                    background-position:0 0;
-                }
-                &.color {
-                    background-position:0 -82px;
-                    display:none;
-                }
-            }
-            img {
-                display:none;
-            }
-        }
-    }
 
-    #home-f-testimonials { margin:16px 60px 0 60px;
+    #home-f-testimonials {
+      margin: 0 60px 0 60px;
+      padding-top: 30px;
       background:url('/img/home-lovedby-bbg.png') bottom center no-repeat transparent;
+
       h4 { margin:0 0 19px 0;font-size:1.417em; }
       #home-testimonial { margin:0 41px;
         cursor:pointer;

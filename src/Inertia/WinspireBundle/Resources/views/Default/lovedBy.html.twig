@@ -1,8 +1,20 @@
-            <div id="home-f-loved">
-                <h5>Loved By...</h5>
-                <ul id="loved-by">
+            <div class="loved-by">
+                <div id="home-f-loved">
+                    <h5>Loved By...</h5>
+                    <ul id="loved-by">
 {% for logo in clientLogos %}
-                    <li title="{{ logo.name }}"><img src="/uploads/client-logos/{{ logo.filename }}" alt="{{ logo.name }}" title="{{ logo.name }}" width="150" height="82"/></li>
+                        <li title="{{ logo.name }}"><img src="/uploads/client-logos/{{ logo.filename }}" alt="{{ logo.name }}" title="{{ logo.name }}" width="150" height="82"/></li>
 {% endfor %}
-                </ul>
+                    </ul>
+                </div>
+                <div id="home-buddy">
+                    <h5>Be Our Buddy!</h5>
+                    <ul>
+                        <li><a class="facebook" href="https://facebook.com/winspire" target="_blank">Facebook</a></li>
+                        <li><a class="twitter" href="https://twitter.com/winspireme" target="_blank">Twitter</a></li>
+                        <li><a class="pinterest" href="http://pinterest.com/winspireme/" target="_blank">Pinterest</a></li>
+                        <li><a class="google" href="https://plus.google.com/b/104131278881454046791/104131278881454046791" target="_blank">Google+</a></li>
+                        <li><a class="newsletter" href="http://info.winspireme.com/newsletter-subscribe" target="_blank">Our Newsletter</a></li>
+                    </ul>
+                </div>
             </div>
