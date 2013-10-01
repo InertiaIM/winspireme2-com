@@ -145,9 +145,8 @@ $output->writeln('<info>    * ' . $suitcase->getUser()->getCompany()->getName() 
         $output->writeln('<info>Processing Unpacked Suitcases from yesterday: ' . $yesterday->format('Y-m-d') . '</info>');
         
         $query = $em->createQuery(
-            'SELECT s FROM InertiaWinspireBundle:Suitcase s WHERE s.status = \'U\' AND s.unpackedAt LIKE :date'
+            'SELECT s FROM InertiaWinspireBundle:Suitcase s WHERE s.status = \'U\' AND s.unpackedAt LIKE \'' . $yesterday->format('Y-m-d') . '%\''
         );
-        $query->setParameter('date', $yesterday->format('Y-m-d') . '%');
         $suitcases = $query->getResult();
         
         foreach($suitcases as $suitcase) {
@@ -162,7 +161,7 @@ $output->writeln('<info>    * ' . $suitcase->getUser()->getCompany()->getName() 
                 ->setSubject('Please confirm changes to your Suitcase')
                 ->setSender(array('info@winspireme.com' => 'Winspire'))
                 ->setTo(array($email => $name))
-                ->setBcc(array($account->getSalesperson()->getEmail(), 'doug@inertiaim.com'))
+                ->setBcc(array('doug@inertiaim.com'))
             ;
 
             if ($suitcase->getUser()->getCompany()->getSalesperson()->getId() != 1) {
@@ -178,14 +177,14 @@ $output->writeln('<info>    * ' . $suitcase->getUser()->getCompany()->getName() 
 
             $message
                 ->setBody(
-                    $this->templating->render(
+                    $templating->render(
                         'InertiaWinspireBundle:Email:suitcase-unpacked.html.twig',
                         array('suitcase' => $suitcase, 'from' => $from)
                     ),
                     'text/html'
                 )
                 ->addPart(
-                    $this->templating->render(
+                    $templating->render(
                         'InertiaWinspireBundle:Email:suitcase-unpacked.txt.twig',
                         array('suitcase' => $suitcase, 'from' => $from)
                     ),
