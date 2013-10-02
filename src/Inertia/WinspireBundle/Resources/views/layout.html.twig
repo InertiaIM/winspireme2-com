@@ -98,7 +98,7 @@ window.attachEvent("onload", function() {
                     <nav id="core-nav">
                         <ul class="inline-nav">
                             <li><a href="{{ path('pageDisplay', {'slug': 'about-us'}) }}">About Us</a></li>
-                            <li><a href="http://www.winspireme.com/blog/" target="_blank">Blog</a></li>
+                            <li><a href="http://blog.winspireme.com" target="_blank">Blog</a></li>
                             <li><a href="{{ path('pageDisplay', {'slug': 'faqs'}) }}">FAQs</a></li>
                             <li><a href="{{ path('contactUs') }}">Contact Us</a></li>
 {% if app.user and is_granted('ROLE_ADMIN') %}
@@ -121,18 +121,18 @@ window.attachEvent("onload", function() {
 		<footer>
 			<div class="c-wrap">
 				<div id="nav-social">
-					<img src="/img/ws-ftr-socialbg.png" class="social-bg" width="403" height="149" alt=""/>
+					<img src="/img/ws-ftr-socialbg.png" style="float:left;" class="social-bg" width="403" height="149" alt=""/>
 					<h5>Be Our Buddy...</h5>
 					<nav id="social-nav">
 						<ul class="inline-nav">
 							<li><a href="https://facebook.com/winspire" target="_blank"><span aria-hidden="true"
-									class="icon-facebook"></span> </a></li>
+									class="facebook"></span> </a></li>
 							<li><a href="https://twitter.com/winspireme" target="_blank"><span aria-hidden="true"
-									class="icon-twitter"></span> </a></li>
+									class="twitter"></span> </a></li>
 							<li><a href="https://plus.google.com/b/104131278881454046791/104131278881454046791" target="_blank"><span aria-hidden="true"
-									class="icon-google-plus"></span> </a></li>
+									class="google"></span> </a></li>
 							<li><a href="http://info.winspireme.com/newsletter-subscribe" target="_blank"><span aria-hidden="true"
-									class="icon-envelope"></span> </a></li>
+									class="newsletter"></span> </a></li>
 						</ul>
 					</nav>
 				</div>
