@@ -8,3 +8,7 @@ security:
         submit: 'Log in'
         
 'Invalid CSRF token.': 'Problem with login, please try again'
+
+layout:
+    logout: Log Out
+    login: Log In

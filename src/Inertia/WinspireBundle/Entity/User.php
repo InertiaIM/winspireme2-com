@@ -34,7 +34,12 @@ class User extends BaseUser implements \Serializable
      * @ORM\Column(name="type", type="string", length=1, nullable=true)
      */
     private $type;
-    
+
+    /**
+     * @ORM\Column(name="title", type="string", length=128, nullable=true)
+     */
+    private $title;
+
     /**
      * @ORM\Column(name="phone", type="string", length=64, nullable=true)
      */
@@ -473,5 +478,28 @@ class User extends BaseUser implements \Serializable
     public function getSfUpdated()
     {
         return $this->sfUpdated;
+    }
+
+    /**
+     * Set title
+     *
+     * @param string $title
+     * @return User
+     */
+    public function setTitle($title)
+    {
+        $this->title = $title;
+    
+        return $this;
+    }
+
+    /**
+     * Get title
+     *
+     * @return string 
+     */
+    public function getTitle()
+    {
+        return $this->title;
     }
 }

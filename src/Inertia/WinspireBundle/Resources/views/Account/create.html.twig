@@ -1,78 +1,160 @@
-<div id="account-modal" data-id="none">
-    <h4>Please Create Your Suitcase</h4>
-    <p>The Suitcase is where you can collect and save Experiences while you are creating your ultimate auction package.
-    You can also invite others in your organization to review and comment on your selections.</p>
-    
-    <form action="{{ path('accountCreate') }}" method="post" {{ form_enctype(form) }} novalidate="novalidate">
-        <ul>
-            <li>
-                <div>
-                    <span style="display:block;">
-                        <label for="{{ form.event_name.vars.id }}" class="required" style="float:left;">{{ form.event_name.vars.label }}</label>
-                        <span class="tip tooltip" title="Tip: This will also be the name of your Suitcase.">?</span>
-                    </span>
-                    {{ form_widget(form.event_name, { 'attr': { 'style': 'clear:both; display:block;', 'maxlength': '40' }}) }}
+{% extends 'InertiaWinspireBundle::layout.html.twig' %}
+
+{% block title %}Winspire | New Account{% endblock %}
+
+{% block content_header '' %}
+
+{% block content %}
+<div class="standard-page create-account">
+    <div class="page-content">
+        <div class="c-wrap">
+            <h1>Let’s start packing!</h1>
+            <p>The Suitcase is where you can collect and save Experiences while you are creating your
+                ultimate auction package. You can also invite others in your organization to
+                review and comment on your selections.</p>
+
+            <form id="account-new" action="{{ path('accountCreate') }}" method="post" {{ form_enctype(form) }} novalidate="novalidate">
+                <div class="form-wrapper" id="part1">
+                    <h2><span class="icon icon-vcard"></span>Tell us about you.</h2>
+                    <div class="form-inner">
+                        <p>Please provide the following information about yourself.</p>
+                        <ul>
+                            <li class="large">
+                                <div>
+                                    {{ form_label(form.email) }}
+                                    {{ form_widget(form.email) }}
+                                </div>
+                            </li>
+                            <li>
+                                <div>
+                                    {{ form_label(form.plainPassword.first) }}
+                                    {{ form_widget(form.plainPassword.first) }}
+                                </div>
+                                <div>
+                                    {{ form_label(form.plainPassword.second, 'Verify Password') }}
+                                    {{ form_widget(form.plainPassword.second) }}
+                                </div>
+                            </li>
+                            <li>
+                                <div>
+                                    {{ form_label(form.firstName) }}
+                                    {{ form_widget(form.firstName) }}
+                                </div>
+                                <div>
+                                    {{ form_label(form.lastName) }}
+                                    {{ form_widget(form.lastName) }}
+                                </div>
+                            </li>
+                            <li>
+                                <div>
+                                    {{ form_label(form.title) }}
+                                    {{ form_widget(form.title) }}
+                                </div>
+                                <div>
+                                    {{ form_label(form.phone) }}
+                                    {{ form_widget(form.phone) }}
+                                </div>
+                            </li>
+                            <li class="large">
+                                <div>
+                                    {{ form_label(form.account.address) }}
+                                    {{ form_widget(form.account.address) }}
+                                </div>
+                            </li>
+                            <li class="large">
+                                <div>
+                                    {{ form_label(form.account.address2) }}
+                                    {{ form_widget(form.account.address2) }}
+                                </div>
+                            </li>
+                            <li class="large">
+                                <div>
+                                    {{ form_label(form.account.city) }}
+                                    {{ form_widget(form.account.city) }}
+                                </div>
+                            </li>
+                            <li>
+                                <div>
+                                    {{ form_label(form.account.country) }}
+                                    {{ form_widget(form.account.country) }}
+                                </div>
+                                <div>
+                                    {{ form_label(form.account.state) }}
+                                    {{ form_widget(form.account.state) }}
+                                </div>
+                                <div>
+                                    {{ form_label(form.account.zip) }}
+                                    {{ form_widget(form.account.zip, { 'attr': {'class': 'zip'} }) }}
+                                </div>
+                            </li>
+                            <li class="large">
+                                {{ form_row(form.referred) }}
+                            </li>
+                            <li class="large source">
+                                <div>
+                                    {{ form_widget(form.source) }}
+                                </div>
+                            </li>
+                            <li>
+                                <div>
+                                    <button>Next</button>
+                                </div>
+                            </li>
+                        </ul>
+                        <p>Already have a Winspire account?<br/>
+                        <a href="{{ path('fos_user_security_login') }}">Log In here</a>.</p>
+                    </div>
                 </div>
-                <div>
-                    {{ form_label(form.event_date) }}
-                    {{ form_widget(form.event_date, { 'attr': { 'class': 'date', 'placeholder': 'MM/DD/YY', 'readonly': 'readonly' }}) }}
+
+                <div class="form-wrapper" id="part2">
+                    <h2><span class="icon icon-suitcase-2"></span>Tell us about your event.</h2>
+                    <div class="form-inner" style="display:none;">
+                        <p>Please tell us a little about your event.</p>
+                        <ul>
+                            <li class="large">
+                                <div>
+                                    {{ form_label(form.account.name) }}
+                                    {{ form_widget(form.account.name) }}
+                                </div>
+                            </li>
+                            <li>
+                                <div>
+                                    <span style="display:block;">
+                                        <label for="{{ form.event_name.vars.id }}" class="required" style="float:left;">{{ form.event_name.vars.label }}</label>
+                                        <span class="tip tooltip" title="Tip: This will also be the name of your Suitcase.">?</span>
+                                    </span>
+                                    {{ form_widget(form.event_name, { 'attr': { 'style': 'clear:both; display:block;', 'maxlength': '40' }}) }}
+                                </div>
+                                <div>
+                                    {{ form_label(form.event_date) }}
+                                    {{ form_widget(form.event_date, { 'attr': { 'class': 'date', 'placeholder': 'MM/DD/YY', 'readonly': 'readonly' }}) }}
+                                </div>
+                            </li>
+                            <li class="break"></li>
+                            <li class="checkbox" style="padding-top:16px;">
+                                <div>
+                                    {{ form_widget(form.terms) }}
+                                    <label for="fos_user_registration_form_terms">I verify that I have read and agree to the <a href="{{ path('pageDisplay', {'slug': 'terms'}) }}" target="_blank">Terms of Use</a> and <a href="{{ path('pageDisplay', {'slug': 'privacy'}) }}" target="_blank">Privacy Policy</a>.</label>
+                                </div>
+                            </li>
+                            <li class="checkbox">
+                                <div>
+                                    {{ form_widget(form.newsletter) }}
+                                    {{ form_label(form.newsletter) }}
+                                </div>
+                            </li>
+                            <li>
+                                <div>
+                                    <button type="submit"><span class="icon-suitcase-2"></span><em>Create</em> Suitcase</button>
+                                    {{ form_widget(form._token) }}
+                                    {{ form_widget(form.package) }}
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
                 </div>
-            </li>
-            <li>
-                {{ form_row(form.firstName) }}
-                {{ form_row(form.lastName) }}
-            </li>
-            <li class="large">
-                <div>
-                    {{ form_label(form.account.name) }}
-                    {{ form_widget(form.account.name) }}
-                </div>
-            </li>
-            <li class="large">
-                {{ form_row(form.email) }}
-            </li>
-            <li>
-                {{ form_row(form.plainPassword.first) }}
-                <div>
-                    {{ form_label(form.plainPassword.second, 'Verify Password') }}
-                    {{ form_widget(form.plainPassword.second) }}
-                </div>
-            </li>
-            <li>
-                {{ form_row(form.account.country) }}
-                {{ form_row(form.account.state) }}
-                <div>
-                    {{ form_label(form.account.zip) }}
-                    {{ form_widget(form.account.zip, { 'attr': {'class': 'zip'} }) }}
-                </div>
-            </li>
-            <li>
-                {{ form_row(form.phone) }}
-            </li>
-            <li class="large">
-                {{ form_row(form.referred) }}
-            </li>
-            <li class="checkbox" style="padding-top:16px;">
-                <div>
-                    {{ form_widget(form.terms) }}
-                    <label for="fos_user_registration_form_terms">I verify that I have read and agree to the <a href="{{ path('pageDisplay', {'slug': 'terms'}) }}" target="_blank">Terms of Use</a> and <a href="{{ path('pageDisplay', {'slug': 'privacy'}) }}" target="_blank">Privacy Policy</a>.</label>
-                </div>
-            </li>
-            <li class="checkbox">
-                <div>
-                    {{ form_widget(form.newsletter) }}
-                    {{ form_label(form.newsletter) }}
-                </div>
-            </li>
-            <li>
-                <div>
-                    <button type="submit"><span class="icon-suitcase-2"></span><em>Create</em> Suitcase</button>
-                    {{ form_widget(form._token) }}
-                    {{ form_widget(form.package) }}
-                </div>
-            </li>
-        </ul>
-    </form>
-    <p>Already have a Winspire account?<br/>
-    <a href="{{ path('fos_user_security_login') }}">Sign-in here</a>.
+            </form>
+        </div>
+    </div>
 </div>
+{% endblock %}
