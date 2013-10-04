@@ -6,22 +6,48 @@ use FOS\UserBundle\Security\LoginManager;
 use Inertia\WinspireBundle\Entity\Account;
 use Inertia\WinspireBundle\Entity\Suitcase;
 use Inertia\WinspireBundle\Entity\SuitcaseItem;
-//use Inertia\WinspireBundle\Entity\User;
 use Inertia\WinspireBundle\Form\Type\AccountType;
 use Inertia\WinspireBundle\Form\Type\UserType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Bridge\Monolog\Logger;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Validator\Constraints\Choice;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Validator\Constraints\True;
 
 class AccountController extends Controller
 {
+    protected $sources = array(
+        '1' => 'Returning Client',
+        '2' => 'Bidding for Good (cM)',
+        '3' => 'Greater Giving (AP)',
+        '4' => 'Reseller',
+        '5' => 'Caldwell',
+        '6' => 'Celebrity/RCCL Lead',
+        '7' => 'House of Blues',
+        '8' => 'Live Nation',
+        '9' => 'Meritage Lead',
+        '10'=> 'Wailea Lead',
+        '11'=> 'Other Donation Mgmt. Lead',
+        '12'=> 'Internet Search',
+        '13'=> 'Winspire Blog',
+        '14'=> 'Social Media',
+        '15'=> 'Facebook',
+        '16'=> 'Twitter',
+        '17'=> 'Pinterest',
+        '18'=> 'Trade Show',
+        '19'=> 'Mail or Print Ad',
+        '20'=> 'News Article',
+        '21'=> 'Word of mouth',
+        '22'=> 'WSE',
+        '23'=> 'Winspire',
+        '24'=> 'Other'
+    );
+
     public function createAction(Request $request)
     {
-        $response = new JsonResponse();
         $session = $this->getRequest()->getSession();
         $em = $this->getDoctrine()->getManager();
         $repository = $this->getDoctrine()->getRepository('InertiaWinspireBundle:User');
@@ -29,17 +55,48 @@ class AccountController extends Controller
         $userManager = $this->get('fos_user.user_manager');
         $loginManager = $this->get('fos_user.security.login_manager');
         $formFactory = $this->get('form.factory');
-        
+
         $account = new Account();
         $user = $userManager->createUser();
         $account->addUser($user);
-        
+
         $form = $this->container->get('fos_user.registration.form.factory')->createForm();
         $form->setData($user);
-        
+
         $accountForm = $this->createForm(new AccountType(), $account);
+        $accountForm->add(
+            $formFactory->createNamed('address', 'text', null,
+                array(
+                    'constraints' => array(
+                        new NotBlank(),
+                    ),
+                    'label' => 'Address Line 1'
+                )
+            )
+        );
+
+        $accountForm->add(
+            $formFactory->createNamed('address2', 'text', null,
+                array(
+                    'constraints' => array(),
+                    'label' => 'Address Line 2  (Apt., Suite, etc.)',
+                    'required' => false
+                )
+            )
+        );
+
+        $accountForm->add(
+            $formFactory->createNamed('city', 'text', null,
+                array(
+                    'constraints' => array(
+                        new NotBlank(),
+                    ),
+                )
+            )
+        );
+
         $form->add($accountForm);
-        
+
         $form->add(
             $formFactory->createNamed('firstName', 'text', null,
                 array(
@@ -50,7 +107,7 @@ class AccountController extends Controller
                 )
             )
         );
-        
+
         $form->add(
             $formFactory->createNamed('lastName', 'text', null,
                 array(
@@ -61,7 +118,15 @@ class AccountController extends Controller
                 )
             )
         );
-        
+
+        $form->add(
+            $formFactory->createNamed('title', 'text', null,
+                array(
+                    'required' => false
+                )
+            )
+        );
+
         $form->add(
             $formFactory->createNamed('phone', 'text', null,
                 array(
@@ -88,7 +153,7 @@ class AccountController extends Controller
                         new NotBlank(),
                         new Length(array('min' => 3))
                     ),
-                    'label' => 'Event Name',
+                    'label' => 'Name of Event',
                     'mapped' => false,
                     'required' => true
                 )
@@ -101,13 +166,13 @@ class AccountController extends Controller
                     'constraints' => array(
                         new NotBlank(),
                     ),
-                    'label' => 'Event Date',
+                    'label' => 'Date of Event',
                     'mapped' => false,
                     'required' => true
                 )
             )
         );
-        
+
         $form->add(
             $formFactory->createNamed('referred', 'text', null,
                 array(
@@ -119,7 +184,25 @@ class AccountController extends Controller
                 )
             )
         );
-        
+
+        $form->add(
+            $formFactory->createNamed('source', 'choice', null,
+                array(
+                    'choices' => $this->sources,
+                    'constraints' => array(
+                        new Choice(array(
+                            'choices' => array_keys($this->sources),
+                            'message' => 'Please choose from the available options.'
+                        ))
+                    ),
+                    'empty_value' => 'How did you hear about us?',
+                    'label' => 'How did you hear about us?',
+                    'mapped' => false,
+                    'required' => false
+                )
+            )
+        );
+
         $form->add(
             $formFactory->createNamed('terms', 'checkbox', null,
                 array(
@@ -133,7 +216,7 @@ class AccountController extends Controller
                 )
             )
         );
-        
+
         $form->add(
             $formFactory->createNamed('package', 'hidden', null,
                 array(
@@ -142,9 +225,13 @@ class AccountController extends Controller
                 )
             )
         );
+
+        if ($request->query->has('package')) {
+            $form->get('package')->setData($request->query->get('package'));
+        }
         
         $form->get('account')->get('country')->setData('US');
-        
+
         // process the form on POST
         if ($request->isMethod('POST')) {
             // TODO has to be a better technique for working with form elements and validation/constraints
@@ -152,28 +239,29 @@ class AccountController extends Controller
             $original = $request->request->all();
             $original['fos_user_registration_form']['username'] = $original['fos_user_registration_form']['email'];
             $request->request->add($original);
-            
+
             $form->bind($request);
-            
+
             if ($form->isValid()) {
                 // TODO create logic to check for existing Accounts before
                 // allowing a new account creation.
                 $user->setType('C');
                 $user->setEnabled(true);
                 $userManager->updateUser($user);
-                
+
                 // TODO configure cascade persist to avoid the extra calls to the EM
                 $account->setSalesperson($salesperson);
                 $account->setReferred($form->get('referred')->getData());
+                $account->setSource($this->sources[$form->get('source')->getData()]);
                 $account->setState(substr($form->get('account')->get('state')->getData(), -2));
                 $account->setDirty(true);
                 $em->persist($account);
                 $em->flush();
-                
+
                 $user->setCompany($account);
                 $user->setDirty(true);
                 $userManager->updateUser($user);
-                
+
                 $suitcase = new Suitcase();
                 $suitcase->setStatus('U');
                 $suitcase->setName($form->get('event_name')->getData());
@@ -181,20 +269,20 @@ class AccountController extends Controller
                 $suitcase->setEventDate(new \DateTime($form->get('event_date')->getData()));
                 $suitcase->setDirty(true);
                 $suitcase->setUser($user);
-                
+
                 if($form->get('package')->getData() != '') {
                     // TODO Can I call the SuitcaseController::addAction directly
                     // rather than repeating the logic here?
-                    
+
                     $id = $form->get('package')->getData();
                     $query = $em->createQuery(
                         'SELECT p FROM InertiaWinspireBundle:Package p WHERE p.is_private != 1 AND p.picture IS NOT NULL AND p.id = :id'
                     )
                     ->setParameter('id', $id);
-                    
+
                     try {
                         $package = $query->getSingleResult();
-                        
+
                         $suitcaseItem = new SuitcaseItem();
                         $suitcaseItem->setPackage($package);
                         $suitcaseItem->setQuantity(0);
@@ -202,36 +290,17 @@ class AccountController extends Controller
                         $suitcaseItem->setSubtotal(0);
                         $suitcaseItem->setCost(0);
                         $suitcaseItem->setStatus('M');
-                        
+
                         $suitcase->addItem($suitcaseItem);
                         $em->persist($suitcaseItem);
-                        
-                        $response->setData(array(
-                            'count' => count($suitcase->getItems()),
-                            'item' => array(
-                                'id' => $package->getId(),
-                                'slug' => $package->getSlug(),
-                                'thumbnail' => $package->getThumbnail(),
-                                'parentHeader' => $package->getParentHeader(),
-                                'persons' => $package->getPersons(),
-                                'accommodations' => $package->getAccommodations(),
-                                'airfares' => $package->getAirfares()
-                            )
-                        ));
                     }
                     catch (\Doctrine\Orm\NoResultException $e) {
                     }
                 }
-                else {
-                    // No packages added to Suitcase (Sign up directly without an item)
-                    $response->setData(array(
-                        'count' => 0
-                    ));
-                }
-                
+
                 $em->persist($suitcase);
                 $em->flush();
-                
+
                 try {
                     $msg = array('suitcase_id' => $suitcase->getId());
                     $this->get('old_sound_rabbit_mq.winspire_producer')->publish(serialize($msg), 'create-account');
@@ -239,118 +308,16 @@ class AccountController extends Controller
                 catch (\Exception $e) {
                     $this->get('logger')->err('Rabbit queue (create-account) es no bueno!');
                 }
-                
-                
+
+
                 $loginManager->loginUser('main', $user);
-                
+
                 $session->set('sid', $suitcase->getId());
-                
-                return $response;
-            }
-            else {
-                // TODO there has to be a better way to iterate through the
-                // possible errors.
-                $terms = $form->get('terms');
-                $name = $form->get('account')->get('name');
-                $state = $form->get('account')->get('state');
-                $zip = $form->get('account')->get('zip');
-                $event_name = $form->get('event_name');
-                $firstName = $form->get('firstName');
-                $lastName = $form->get('lastName');
-                $phone = $form->get('phone');
-                $password = $form->get('plainPassword')->get('first');
-                $confirm = $form->get('plainPassword')->get('second');
-                $email = $form->get('email');
-                
-                $errors = array();
-                
-                if($blahs = $phone->getErrors()) {
-                    $temp = array();
-                    foreach($blahs as $blah) {
-                        $temp[] = $blah->getMessage();
-                    }
-                    $errors['fos_user_registration_form_phone'] = $temp;
-                }
-                
-                if($blahs = $email->getErrors()) {
-                    $temp = array();
-                    foreach($blahs as $blah) {
-                        $temp[] = $this->get('translator')->trans($blah->getMessage(), array(), 'validators');
-                    }
-                    $errors['fos_user_registration_form_email'] = $temp;
-                }
-                
-                if($blahs = $password->getErrors()) {
-                    $temp = array();
-                    foreach($blahs as $blah) {
-                        $temp[] = $this->get('translator')->trans($blah->getMessage(), array(), 'validators');
-                    }
-                    $errors['fos_user_registration_form_plainPassword_first'] = $temp;
-                    $errors['fos_user_registration_form_plainPassword_second'] = $temp;
-                }
-                
-                if($blahs = $firstName->getErrors()) {
-                    $temp = array();
-                    foreach($blahs as $blah) {
-                        $temp[] = $blah->getMessage();
-                    }
-                    $errors['fos_user_registration_form_firstName'] = $temp;
-                }
-                
-                if($blahs = $lastName->getErrors()) {
-                    $temp = array();
-                    foreach($blahs as $blah) {
-                        $temp[] = $blah->getMessage();
-                    }
-                    $errors['fos_user_registration_form_lastName'] = $temp;
-                }
-                
-                if($blahs = $state->getErrors()) {
-                    $temp = array();
-                    foreach($blahs as $blah) {
-                        $temp[] = $blah->getMessage();
-                    }
-                    $errors['fos_user_registration_form_account_state'] = $temp;
-                }
-                
-                if($blahs = $event_name->getErrors()) {
-                    $temp = array();
-                    foreach($blahs as $blah) {
-                        $temp[] = $blah->getMessage();
-                    }
-                    $errors['fos_user_registration_form_suitcase'] = $temp;
-                }
-                
-                if($blahs = $zip->getErrors()) {
-                    $temp = array();
-                    foreach($blahs as $blah) {
-                        $temp[] = $blah->getMessage();
-                    }
-                    $errors['fos_user_registration_form_account_zip'] = $temp;
-                }
-                
-                if($blahs = $terms->getErrors()) {
-                    $temp = array();
-                    foreach($blahs as $blah) {
-                        $temp[] = $blah->getMessage();
-                    }
-                    $errors['fos_user_registration_form_terms'] = $temp;
-                }
-                
-                if($blahs = $name->getErrors()) {
-                    $temp = array();
-                    foreach($blahs as $blah) {
-                        $temp[] = $blah->getMessage();
-                    }
-                    $errors['fos_user_registration_form_account_name'] = $temp;
-                }
-                
-                return $response->setData(array(
-                    'errors' => $errors
-                ));
+
+                return $this->redirect($this->generateUrl('suitcaseView'));
             }
         }
-        
+
         return $this->render('InertiaWinspireBundle:Account:create.html.twig', array(
             'form' => $form->createView()
         ));

@@ -61,6 +61,7 @@ class AccountSoapService
                 'BillingCountry, ' .
                 'Phone, ' .
                 'Referred_by__c,  ' .
+                'AccountSource, ' .
                 'RecordTypeId, ' .
                 'SystemModstamp, ' .
                 'CreatedDate ' .
@@ -150,6 +151,11 @@ class AccountSoapService
                 // ACCOUNT REFERRED
                 if(isset($a->Referred_by__c)) {
                     $account->setReferred($a->Referred_by__c);
+                }
+
+                // ACCOUNT SOURCE
+                if(isset($a->AccountSource)) {
+                    $account->setSource($a->AccountSource);
                 }
                 
                 // ACCOUNT OWNER

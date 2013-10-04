@@ -89,7 +89,7 @@ class AccountType extends AbstractType
             'constraints' => array(
                 new NotBlank()
             ),
-            'label' => 'Organization'
+            'label' => 'Non-Profit / Organization Name'
         ));
         $builder->add('country', 'choice', array(
             'choices' => $this->countries,

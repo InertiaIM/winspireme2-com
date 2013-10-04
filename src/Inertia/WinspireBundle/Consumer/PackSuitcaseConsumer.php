@@ -149,6 +149,8 @@ class PackSuitcaseConsumer implements ConsumerInterface
             $sfAccount->BillingState = $account->getState();
             $sfAccount->BillingPostalCode = $account->getZip();
             $sfAccount->Phone = $account->getPhone();
+            $sfAccount->AccountSource = $account->getSource();
+            $sfAccount->Referred_by__c = substr($account->getReferred(), 0, 50);
             
             try {
                 $saveResult = $this->sf->update(array($sfAccount), 'Account');
