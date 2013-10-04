@@ -647,13 +647,17 @@ class DefaultController extends Controller
             $wpPost3 = get_posts(array('cat' => 232, 'showposts' => 1));
             $wpPost4 = get_posts(array('cat' => 233, 'showposts' => 1));
             
+            $links1 = get_post_custom_values('hubspot_url', $wpPost1[0]->ID);
+            $links2 = get_post_custom_values('hubspot_url', $wpPost2[0]->ID);
+            $links3 = get_post_custom_values('hubspot_url', $wpPost3[0]->ID);
+            $links4 = get_post_custom_values('hubspot_url', $wpPost4[0]->ID);
+            
             if(count($wpPost1) > 0) {
                 $image =  wp_get_attachment_image_src(get_post_thumbnail_id($wpPost1[0]->ID), array(160, 100)); 
                 $posts[] = array(
                     'image' => $image[0],
                     'title' => $wpPost1[0]->post_title,
-                    'link2' => get_post_custom_values('hubspot_url', $wpPost1[0]->ID),
-                    'link' => get_permalink($wpPost1[0]->ID),
+                    'link' => (count($links1) > 0) ? $links1[0] : get_permalink($wpPost1[0]->ID),
                     'date' => new \DateTime($wpPost1[0]->post_date)
                 );
             }
@@ -663,8 +667,7 @@ class DefaultController extends Controller
                 $posts[] = array(
                     'image' => $image[0],
                     'title' => $wpPost2[0]->post_title,
-                    'link2' => get_post_custom_values('hubspot_url', $wpPost2[0]->ID),
-                    'link' => get_permalink($wpPost2[0]->ID),
+                    'link' => (count($links2) > 0) ? $links2[0] : get_permalink($wpPost2[0]->ID),
                     'date' => new \DateTime($wpPost2[0]->post_date)
                 );
             }
@@ -674,8 +677,7 @@ class DefaultController extends Controller
                 $posts[] = array(
                     'image' => $image[0],
                     'title' => $wpPost3[0]->post_title,
-                    'link2' => get_post_custom_values('hubspot_url', $wpPost3[0]->ID),
-                    'link' => get_permalink($wpPost3[0]->ID),
+                    'link' => (count($links3) > 0) ? $links3[0] : get_permalink($wpPost3[0]->ID),
                     'date' => new \DateTime($wpPost3[0]->post_date)
                 );
             }
@@ -685,8 +687,7 @@ class DefaultController extends Controller
                 $posts[] = array(
                     'image' => $image[0],
                     'title' => $wpPost4[0]->post_title,
-                    'link2' => get_post_custom_values('hubspot_url', $wpPost4[0]->ID),
-                    'link' => get_permalink($wpPost4[0]->ID),
+                    'link' => (count($links4) > 0) ? $links4[0] : get_permalink($wpPost4[0]->ID),
                     'date' => new \DateTime($wpPost4[0]->post_date)
                 );
             }
