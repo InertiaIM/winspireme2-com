@@ -214,33 +214,11 @@
 </div>
 
 <div id="more-modal" style="display:none;">
-    <h3>We need a little more info...</h3>
-    <p>Hi {{ suitcase.user.firstName }} {{ suitcase.user.lastName }}! Your personal Winspire Event Consultant will contact you upon 
-    submitting your “Packed Suitcase”. But, we need some additional information to complete your order.</p>
+    <h3>Please confirm your event details.</h3>
+    <p>Please confirm that your event name and your event date are accurate.  Your Event Consultant will be contacting your shortly.</p>
     
     <form action="{{ path('suitcasePack') }}" method="POST" {{ form_enctype(form) }} novalidate="novalidate">
         <ul>
-            <li class="large">
-                {{ form_row(form.address) }}
-            </li>
-            <li class="large">
-                {{ form_row(form.address2) }}
-            </li>
-            <li class="large">
-                {{ form_row(form.city) }}
-            </li>
-            <li>
-                {{ form_row(form.country) }}
-                {{ form_row(form.state) }}
-                <div>
-                    {{ form_label(form.zip) }}
-                    {{ form_widget(form.zip, { 'attr': {'class': 'zip'} }) }}
-                </div>
-            </li>
-            <li>
-                {{ form_row(form.phone) }}
-            </li>
-            <li class="break"></li>
             <li>
                 {{ form_row(form.event_name) }}
                 <div>
@@ -248,6 +226,7 @@
                     {{ form_widget(form.event_date, { 'attr': { 'class': 'date', 'placeholder': 'MM/DD/YY', 'readonly': 'readonly' }}) }}
                 </div>
             </li>
+            <li class="break"></li>
             <li class="checkbox" style="padding-top:16px;">
                 <div>
                     {{ form_widget(form.loa) }}

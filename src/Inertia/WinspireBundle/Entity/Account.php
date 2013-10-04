@@ -79,6 +79,11 @@ class Account
      * @ORM\Column(name="referred", type="string", length=256, nullable=true)
      */
     private $referred;
+
+    /**
+     * @ORM\Column(name="source", type="string", length=128, nullable=true)
+     */
+    private $source;
     
     /**
      * @ORM\Column(name="dirty", type="boolean", nullable=true)
@@ -535,5 +540,28 @@ class Account
     public function getCountry()
     {
         return $this->country;
+    }
+
+    /**
+     * Set source
+     *
+     * @param string $source
+     * @return Account
+     */
+    public function setSource($source)
+    {
+        $this->source = $source;
+    
+        return $this;
+    }
+
+    /**
+     * Get source
+     *
+     * @return string 
+     */
+    public function getSource()
+    {
+        return $this->source;
     }
 }

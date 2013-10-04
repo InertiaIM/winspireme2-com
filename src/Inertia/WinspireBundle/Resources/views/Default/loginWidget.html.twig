@@ -34,7 +34,7 @@
                                     </div>
                                     
                                     <div class="panel-buttons">
-                                        <input type="button" class="pa-button pa-su" value="Sign Up" />
+                                        <a class="pa-button pa-su" href="{{ path('accountCreate') }}">Sign Up</a>
                                         <button class="pa-button pa-li" type="submit">Log In</button>
                                         <input type="hidden" name="_csrf_token" value="{{ csrf_token }}" />
                                         <div class="reset"></div>

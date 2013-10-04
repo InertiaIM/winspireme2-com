@@ -182,17 +182,18 @@ window.attachEvent("onload", function() {
         </footer>
     </div>
     <!-- /container -->
-    
-    
+
+
+    <script>
+{% if app.user %}
+        var user = true;
+{% else %}
+        var user = false;
+{% endif %}
+    </script>
+
 {% if app.user and is_granted('ROLE_USER') and (app.session.get('sid')) and app.request.get('_route') != 'suitcaseView' and app.request.get('_route') != 'suitcaseAdmin' %}
 {%     render "InertiaWinspireBundle:Suitcase:Preview" %}
-{% else %}
-{%     if not is_granted('ROLE_USER') %}
-{%         render "InertiaWinspireBundle:Account:Create" %}
-{%     endif %}
-{% endif %}
-{% if app.user and is_granted('ROLE_USER') %}
-{%     render "InertiaWinspireBundle:Suitcase:Create" %}
 {% endif %}
     {% block jsBottom %}
     <script src="/js/main.min.js"></script>

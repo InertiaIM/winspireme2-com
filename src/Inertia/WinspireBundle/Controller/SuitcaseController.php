@@ -687,46 +687,6 @@ class SuitcaseController extends Controller
         $formFactory = $this->get('form.factory');
         
         $form->add(
-            $formFactory->createNamed('address', 'text', null,
-                array(
-                    'constraints' => array(
-                        new NotBlank(),
-                    ),
-                    'label' => 'Address Line 1'
-                )
-            )
-        );
-        
-        $form->add(
-            $formFactory->createNamed('address2', 'text', null,
-                array(
-                    'constraints' => array(),
-                    'label' => 'Address Line 2  (Apt., Suite, etc.)',
-                    'required' => false
-                )
-            )
-        );
-        
-        $form->add(
-            $formFactory->createNamed('city', 'text', null,
-                array(
-                    'constraints' => array(
-                        new NotBlank(),
-                    )
-                )
-            )
-        );
-        
-        $form->add(
-            $formFactory->createNamed('phone', 'text', null,
-                array(
-                    'constraints' => array(),
-                    'required' => false
-                )
-            )
-        );
-        
-        $form->add(
             $formFactory->createNamed('event_name', 'text', null,
                 array(
                     'constraints' => array(
@@ -766,6 +726,9 @@ class SuitcaseController extends Controller
         );
         
         $form->remove('name');
+        $form->remove('country');
+        $form->remove('state');
+        $form->remove('zip');
         
         // process the form on POST
         if ($request->isMethod('POST')) {
@@ -783,7 +746,6 @@ class SuitcaseController extends Controller
                 $suitcase->setPackedAt(new \DateTime());
                 $suitcase->setUnpackedAt(NULL);
                 $suitcase->setDirty(true);
-                $account->setState(substr($form->get('state')->getData(), -2));
                 
                 $em->persist($suitcase);
                 $em->persist($account);
@@ -799,74 +761,11 @@ class SuitcaseController extends Controller
             else {
                 // TODO there has to be a better way to iterate through the
                 // possible errors.
-                $address = $form->get('address');
-                $address2 = $form->get('address2');
-                $city = $form->get('city');
-                $state = $form->get('state');
-                $country = $form->get('country');
-                $zip = $form->get('zip');
-                $phone = $form->get('phone');
                 $name = $form->get('event_name');
                 $date = $form->get('event_date');
                 $loa = $form->get('loa');
                 
                 $errors = array();
-                
-                if($blahs = $address->getErrors()) {
-                    $temp = array();
-                    foreach($blahs as $blah) {
-                        $temp[] = $blah->getMessage();
-                    }
-                    $errors['account_address'] = $temp;
-                }
-                
-                if($blahs = $address2->getErrors()) {
-                    $temp = array();
-                    foreach($blahs as $blah) {
-                        $temp[] = $blah->getMessage();
-                    }
-                    $errors['account_address2'] = $temp;
-                }
-                
-                if($blahs = $city->getErrors()) {
-                    $temp = array();
-                    foreach($blahs as $blah) {
-                        $temp[] = $blah->getMessage();
-                    }
-                    $errors['account_city'] = $temp;
-                }
-                
-                if($blahs = $state->getErrors()) {
-                    $temp = array();
-                    foreach($blahs as $blah) {
-                        $temp[] = $blah->getMessage();
-                    }
-                    $errors['account_state'] = $temp;
-                }
-                
-                if($blahs = $country->getErrors()) {
-                    $temp = array();
-                    foreach($blahs as $blah) {
-                        $temp[] = $blah->getMessage();
-                    }
-                    $errors['account_country'] = $temp;
-                }
-                
-                if($blahs = $zip->getErrors()) {
-                    $temp = array();
-                    foreach($blahs as $blah) {
-                        $temp[] = $blah->getMessage();
-                    }
-                    $errors['account_zip'] = $temp;
-                }
-                
-                if($blahs = $phone->getErrors()) {
-                    $temp = array();
-                    foreach($blahs as $blah) {
-                        $temp[] = $blah->getMessage();
-                    }
-                    $errors['account_phone'] = $temp;
-                }
                 
                 if($blahs = $name->getErrors()) {
                     $temp = array();
@@ -1385,47 +1284,7 @@ class SuitcaseController extends Controller
         if ($suitcase->getEventDate() >= new \DateTime('today') || $suitcase->getStatus() == 'U') {
             $form = $this->createForm(new AccountType(), $user->getCompany());
             $formFactory = $this->get('form.factory');
-            
-            $form->add(
-                $formFactory->createNamed('address', 'text', null,
-                    array(
-                        'constraints' => array(
-                            new NotBlank(),
-                        ),
-                        'label' => 'Address Line 1'
-                    )
-                )
-            );
-            
-            $form->add(
-                $formFactory->createNamed('address2', 'text', null,
-                    array(
-                        'constraints' => array(),
-                        'label' => 'Address Line 2  (Apt., Suite, etc.)',
-                        'required' => false
-                    )
-                )
-            );
-            
-            $form->add(
-                $formFactory->createNamed('city', 'text', null,
-                    array(
-                        'constraints' => array(
-                            new NotBlank(),
-                        )
-                    )
-                )
-            );
-            
-            $form->add(
-                $formFactory->createNamed('phone', 'text', null,
-                    array(
-                        'constraints' => array(),
-                        'required' => false
-                    )
-                )
-            );
-            
+
             $form->add(
                 $formFactory->createNamed('event_name', 'text', null,
                     array(
@@ -1466,17 +1325,13 @@ class SuitcaseController extends Controller
             );
             
             $form->remove('name');
-            
-            $form->get('phone')->setData($user->getPhone());
             $form->get('event_name')->setData($suitcase->getEventName());
-            $form->get('state')->setData($user->getCompany()->getCountry() . '-' . $user->getCompany()->getState());
-            
             
             $share = $this->shareAction();
             $share->get('suitcase')->setData($suitcase->getId());
             
             if($suitcase->getEventDate() != '') {
-                $form->get('event_date')->setData($suitcase->getEventDate()->format('m/d/Y'));
+                $form->get('event_date')->setData($suitcase->getEventDate()->format('m/d/y'));
             }
             
             $downloadLinks = array();

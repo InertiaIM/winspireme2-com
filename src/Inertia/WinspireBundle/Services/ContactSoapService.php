@@ -58,6 +58,7 @@ class ContactSoapService
                 'Id, ' .
                 'FirstName, ' .
                 'LastName, ' .
+                'Title, ' .
                 'Phone, ' .
                 'Email, ' .
                 'AccountId, ' .
@@ -162,6 +163,11 @@ class ContactSoapService
                 // CONTACT LAST NAME
                 if (isset($sfContact->LastName)) {
                     $user->setLastName($sfContact->LastName);
+                }
+
+                // CONTACT TITLE
+                if (isset($sfContact->Title)) {
+                    $user->setTitle($sfContact->Title);
                 }
                 
                 // CONTACT PHONE

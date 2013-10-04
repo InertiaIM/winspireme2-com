@@ -131,26 +131,6 @@ var footerCtx = $('footer')[0];
     /* Header Suitcase Panel */
     
     
-    /* Global Sign Up */
-    $(headerSuitcasePanel).find('.pa-su').on('click', function(e) {
-        e.preventDefault();
-        
-        $(headerSuitcasePanel).hide();
-        
-        if($('#account-modal').length > 0) {
-            $('#account-modal')
-                .modal({
-                    closeText: 'X',
-                    overlay: '#fff',
-                    opacity: 0.73,
-                    zIndex: 2002
-                });
-        }
-        
-    });
-    /* Global Sign Up */
-    
-    
     /* Home Banner */
     $(function() {
         $('#home-banner').homeslideshow({
@@ -654,20 +634,14 @@ var footerCtx = $('footer')[0];
         });
         
         function addToSuitcase(id, el) {
-            // The existence of the account modal means that
-            // the user is currently not authenticated
-            if($('#account-modal').length > 0) {
-                // Pass the desired package id into the hidden form field
-                // and open our modal form window to create a new account
-                $('#fos_user_registration_form_package').val(id);
-                $("#account-modal").
-                    attr('data-id', id).
-                    modal({
-                        closeText: 'X',
-                        overlay: '#fff',
-                        opacity: 0.73,
-                        zIndex: 2002
-                    });
+            if(!user) {
+                // Pass the desired package to the account sign-up page
+                var url = '/account/new?package=' + id;
+                if (typeof env !== 'undefined') {
+                    url = env + url;
+                }
+                
+                window.location = url;
             }
             else if ($('#suitcase-preview').find('form').attr('data-id') == 'new') {
                 $('#suitcase-modal')
@@ -1575,41 +1549,7 @@ $(document).ready(function() {
     });
     
     
-    var provinceOptions;
-    var stateOptions;
-    if ($('#more-modal form select#account_country').val() == 'US') {
-        provinceOptions = $('#account_state option[value|="CA"]').detach();
-        stateOptions = $('#account_state option[value|="US"]').clone();
-    }
-    else {
-        provinceOptions = $('#account_state option[value|="CA"]').clone();
-        stateOptions = $('#account_state option[value|="US"]').detach();
-    }
-    
-    $('#more-modal form select').selectBoxIt({
-        autoWidth: false,
-        nostyle: false,
-        downArrowIcon: 'icon-arrow-down',
-        viewport: $('#more-modal')
-    });
-    
-    var stateSelectBox = $('select#account_state').data('selectBox-selectBoxIt');
-    
-    $('select#account_country').on('changed', function() {
-        if ($(this).val() == 'CA') {
-            $('#account_state option[value|="US"]').remove();
-            $(provinceOptions).appendTo('#account_state');
-            stateSelectBox.refresh();
-        }
-        else {
-            $('#account_state option[value|="CA"]').remove();
-            $(stateOptions).appendTo('#account_state');
-            stateSelectBox.refresh();
-        }
-    });
-    
-    
-    $('#account_event_date').datepicker({
+    $('#more-modal #account_event_date').datepicker({
         buttonImage: '/img/calendar.png',
         buttonImageOnly: true,
         constrainInput: true,
@@ -1617,7 +1557,7 @@ $(document).ready(function() {
         minDate: '+1',
         maxDate: '+1y',
         onSelect: function(date, dp) {
-            $('#account-modal form').validate().element('#account_event_date');
+            $('#more-modal form').validate().element('#account_event_date');
         },
         showOn: 'both'
     });
@@ -1638,21 +1578,6 @@ $(document).ready(function() {
             }
         },
         rules: {
-            'account[address]': {
-                required: true
-            },
-            'account[city]': {
-                required: true
-            },
-            'account[state]': {
-                required: true
-            },
-            'account[country]': {
-                required: true
-            },
-            'account[zip]': {
-                required: true
-            },
             'account[event_name]': {
                 required: true
             },
@@ -1661,11 +1586,6 @@ $(document).ready(function() {
             }
         },
         messages: {
-            'account[address]': 'Address required',
-            'account[city]': 'City name required',
-            'account[state]': 'Required',
-            'account[country]': 'Required',
-            'account[zip]': 'Zip code required',
             'account[event_name]': 'Event name required',
             'account[loa]': 'Must agree to the terms in our Letter of Agreement'
         },
@@ -2393,18 +2313,14 @@ $(document).ready(function() {
 
 
 
-/* Account Creation Modal */
+/* Account New */
 $(document).ready(function() {
-    var previewUrl = '/suitcase/preview';
-    if (typeof env !== 'undefined') {
-        previewUrl = env + previewUrl;
-    }
-    
     var validateUrl = '/account/validate-email';
+    
     if (typeof env !== 'undefined') {
         validateUrl = env + validateUrl;
     }
-    
+
     $('.tooltip').tooltipster({
         position: 'right'
     });
@@ -2417,43 +2333,18 @@ $(document).ready(function() {
         minDate: '+1',
         maxDate: '+1y',
         onSelect: function(date, dp) {
-            $('#account-modal form').validate().element('#fos_user_registration_form_event_date');
+            $('form#account-new').validate().element('#fos_user_registration_form_event_date');
         },
         showOn: 'both'
     });
     
-    $('#account-modal').on($.modal.OPEN, function(event, modal) {
-        // For viewports that are narrower than our page,
-        // change the modal box to position with an appropriate margin.
-        if($(window).width() < $(document).width()) {
-            $(modal.elm).css({
-                marginLeft: Math.floor(($(document).width() - $(modal.elm).outerWidth()) / 2) + 'px',
-                left: '0'
-            });
-        }
-        
-        // For viewports that are smaller than our modal,
-        // change the modal box to position absolute for scrolling.
-        if(($(window).height() - $(modal.elm).outerHeight()) < 94) {
-            $(modal.elm).css({
-                position: 'absolute',
-                marginTop: '120px',
-                top: '0'
-            });
-            
-            $(window).scrollTop(100);
-        }
-    });
-    
-    
     var provinceOptions = $('#fos_user_registration_form_account_state option[value|="CA"]').detach();
     var stateOptions = $('#fos_user_registration_form_account_state option[value|="US"]').clone();
     
-    $('#account-modal form select').selectBoxIt({
+    $('form#account-new select').selectBoxIt({
         autoWidth: false,
         nostyle: false,
-        downArrowIcon: 'icon-arrow-down',
-        viewport: $('#account-modal')
+        downArrowIcon: 'icon-arrow-down'
     });
     
     var stateSelectBox = $('select#fos_user_registration_form_account_state').data('selectBox-selectBoxIt');
@@ -2471,34 +2362,66 @@ $(document).ready(function() {
         }
     });
     
-    
-    $('#account-modal form').validate({
+    $('form#account-new #part1 button').on('click', function(e) {
+        e.preventDefault();
+        
+        var tests = new Array();
+        tests.push($('form#account-new').validate().element('#fos_user_registration_form_email'));
+        tests.push($('form#account-new').validate().element('#fos_user_registration_form_plainPassword_first'));
+        tests.push($('form#account-new').validate().element('#fos_user_registration_form_plainPassword_second'));
+        tests.push($('form#account-new').validate().element('#fos_user_registration_form_firstName'));
+        tests.push($('form#account-new').validate().element('#fos_user_registration_form_lastName'));
+        tests.push($('form#account-new').validate().element('#fos_user_registration_form_phone'));
+        tests.push($('form#account-new').validate().element('#fos_user_registration_form_account_address'));
+        tests.push($('form#account-new').validate().element('#fos_user_registration_form_account_city'));
+        tests.push($('form#account-new').validate().element('#fos_user_registration_form_account_state'));
+        tests.push($('form#account-new').validate().element('#fos_user_registration_form_account_zip'));
+
+        var valid = true;
+        $.each(tests, function(index, value) {
+            if (!value) {
+                valid = false;
+            }
+        });
+        
+        if (valid) {
+            if ($(window).scrollTop() > 374) {
+                $(window).scrollTop(274);
+            }
+            $('form#account-new #part1 .form-inner').slideUp('fast', function() {
+                $('form#account-new #part1 h2').addClass('clickable');
+            });
+            $('form#account-new #part2 .form-inner').slideDown('fast');
+        }
+    });
+
+    $('form#account-new #part1 h2').on('click', function(e) {
+        if ($('form#account-new #part2 .form-inner').is(':visible')) {
+            $('form#account-new #part1 .form-inner').slideDown('fast', function() {
+                $('form#account-new #part1 h2').removeClass('clickable');
+            });
+            $('form#account-new #part2 .form-inner').slideUp('fast');
+        }
+    });
+
+    $('form#account-new').validate({
         errorElement: 'em',
         errorPlacement: function(error, element) {
             switch(element.attr('name')) {
-            case 'fos_user_registration_form[event_date]':
-                error.insertAfter('#fos_user_registration_form_event_date + img');
-                break;
-            case 'fos_user_registration_form[terms]':
-                error.insertAfter('label[for="fos_user_registration_form_terms"]');
-                break;
-            default:
-                error.insertAfter(element);
+                case 'fos_user_registration_form[event_date]':
+                    error.insertAfter('#fos_user_registration_form_event_date + img');
+                    break;
+                case 'fos_user_registration_form[terms]':
+                    error.insertAfter('label[for="fos_user_registration_form_terms"]');
+                    break;
+                case 'fos_user_registration_form[account][state]':
+                    error.insertAfter('#fos_user_registration_form_account_stateSelectBoxItContainer');
+                    break;
+                default:
+                    error.insertAfter(element);
             }
         },
         rules: {
-            'fos_user_registration_form[suitcase]': {
-                required: true
-            },
-            'fos_user_registration_form[firstName]': {
-                required: true
-            },
-            'fos_user_registration_form[lastName]': {
-                required: true
-            },
-            'fos_user_registration_form[account][name]': {
-                required: true
-            },
             'fos_user_registration_form[email]': {
                 email: true,
                 required: true,
@@ -2513,7 +2436,20 @@ $(document).ready(function() {
             'fos_user_registration_form[plainPassword][second]': {
                 equalTo: '#fos_user_registration_form_plainPassword_first'
             },
+            'fos_user_registration_form[firstName]': {
+                required: true
+            },
+            'fos_user_registration_form[lastName]': {
+                required: true
+            },
             'fos_user_registration_form[phone]': {
+                required: true
+            },
+            'fos_user_registration_form[account][address]': {
+                required: true,
+                minlength: 3
+            },
+            'fos_user_registration_form[account][city]': {
                 required: true
             },
             'fos_user_registration_form[account][state]': {
@@ -2522,61 +2458,41 @@ $(document).ready(function() {
             'fos_user_registration_form[account][zip]': {
                 required: true
             },
+            'fos_user_registration_form[account][name]': {
+                required: true
+            },
+            'fos_user_registration_form[event_name]' : {
+                required: true
+            },
+            'fos_user_registration_form[event_name]' : {
+                required: true
+            },
+            'fos_user_registration_form[event_date]': {
+                required: true
+            },
             'fos_user_registration_form[terms]': {
                 required: true
             }
         },
         messages: {
-            'fos_user_registration_form[suitcase]': 'A suitcase name is required',
-            'fos_user_registration_form[firstName]': 'First name required',
-            'fos_user_registration_form[lastName]': 'Last name required',
-            'fos_user_registration_form[account][name]': 'Organization name required',
-            'fos_user_registration_form[email]': { 
+            'fos_user_registration_form[email]': {
                 required: 'Email address is required',
                 remote: 'An account with that email is already registered'
             },
             'fos_user_registration_form[plainPassword][second]': 'The chosen passwords do no match',
-            'fos_user_registration_form[account][state]': 'Required',
+            'fos_user_registration_form[firstName]': 'First name required',
+            'fos_user_registration_form[lastName]': 'Last name required',
             'fos_user_registration_form[phone]': 'Phone number required',
+            'fos_user_registration_form[account][address]': 'Address required',
+            'fos_user_registration_form[account][city]': 'City required',
+            'fos_user_registration_form[account][state]': 'State/Province required',
             'fos_user_registration_form[account][zip]': 'Zip code required',
+            'fos_user_registration_form[account][name]': 'Organization name required',
+            'fos_user_registration_form[event_name]': 'Event name required',
+            'fos_user_registration_form[event_date]': 'Required',
             'fos_user_registration_form[terms]': 'Must agree to our Terms of Service'
         },
-        onfocusout: false,
-        submitHandler: function(form) {
-            var data = $(form).serialize();
-            var id = $(form).parent().attr('data-id');
-            
-            $.ajax({
-                beforeSend: function() {
-                    $('#account-modal .error').removeClass('error');
-                },
-                data: data,
-                dataType: 'json',
-                url: $(form).attr('action'),
-                success: function(data, textStatus, jqXHR) {
-                    if (!$.isEmptyObject(data)) {
-                        if (!$.isEmptyObject(data.errors)) {
-                            $.each(data.errors, function(index, value) {
-                                $('#' + index).addClass('error');
-                                $('#account-modal label[for="' + index + '"]').addClass('error');
-                            });
-                        }
-                        else {
-                            $('#core-nav').find('.inline-nav').append('<li><a href="/account">My Account</a></li>');
-                            $('#core-nav').find('.inline-nav').append('<li><a href="/logout">Logout</a></li>');
-                            
-                            $('.pd-a-add[data-id="' + id + '"], .f-add[data-id="' + id + '"], .pd-s-add[data-id="' + id + '"]').addClass('disabled');
-                            $('button[data-id="' + id + '"]').attr('disabled', 'disabled');
-                            $.modal.close();
-                            $.get(previewUrl, function(data) {
-                                $('#account-modal').replaceWith(data);
-                            });
-                        }
-                    }
-                },
-                type: 'POST'
-            });
-        }
+        onfocusout: false
     });
 });
 
