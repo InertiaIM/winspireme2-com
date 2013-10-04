@@ -652,6 +652,7 @@ class DefaultController extends Controller
                 $posts[] = array(
                     'image' => $image[0],
                     'title' => $wpPost1[0]->post_title,
+                    'link2' => get_post_custom_values('hubspot_url', $wpPost1[0]->ID),
                     'link' => get_permalink($wpPost1[0]->ID),
                     'date' => new \DateTime($wpPost1[0]->post_date)
                 );
@@ -662,6 +663,7 @@ class DefaultController extends Controller
                 $posts[] = array(
                     'image' => $image[0],
                     'title' => $wpPost2[0]->post_title,
+                    'link2' => get_post_custom_values('hubspot_url', $wpPost2[0]->ID),
                     'link' => get_permalink($wpPost2[0]->ID),
                     'date' => new \DateTime($wpPost2[0]->post_date)
                 );
@@ -672,6 +674,7 @@ class DefaultController extends Controller
                 $posts[] = array(
                     'image' => $image[0],
                     'title' => $wpPost3[0]->post_title,
+                    'link2' => get_post_custom_values('hubspot_url', $wpPost3[0]->ID),
                     'link' => get_permalink($wpPost3[0]->ID),
                     'date' => new \DateTime($wpPost3[0]->post_date)
                 );
@@ -682,6 +685,7 @@ class DefaultController extends Controller
                 $posts[] = array(
                     'image' => $image[0],
                     'title' => $wpPost4[0]->post_title,
+                    'link2' => get_post_custom_values('hubspot_url', $wpPost4[0]->ID),
                     'link' => get_permalink($wpPost4[0]->ID),
                     'date' => new \DateTime($wpPost4[0]->post_date)
                 );
