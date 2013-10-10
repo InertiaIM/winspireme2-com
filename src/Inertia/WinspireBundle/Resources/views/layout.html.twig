@@ -188,6 +188,10 @@ window.attachEvent("onload", function() {
 {% endif %}
     </script>
 
+{% if app.user and is_granted('ROLE_USER') %}
+{%     render "InertiaWinspireBundle:Suitcase:Create" %}
+{% endif %}
+
 {% if app.user and is_granted('ROLE_USER') and (app.session.get('sid')) and app.request.get('_route') != 'suitcaseView' and app.request.get('_route') != 'suitcaseAdmin' %}
 {%     render "InertiaWinspireBundle:Suitcase:Preview" %}
 {% endif %}
