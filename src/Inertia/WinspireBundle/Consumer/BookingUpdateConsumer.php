@@ -112,8 +112,8 @@ class BookingUpdateConsumer implements ConsumerInterface
                 
                 $sfBookingUpdate = new \stdClass();
                 $sfBookingUpdate->Id = $sfBooking->Id;
-                $sfBookingUpdate->Traveler_first_name__c = $booking->getFirstName();
-                $sfBookingUpdate->Traveler_last_name__c = $booking->getLastName();
+                $sfBookingUpdate->Traveler_first_name__c = substr($booking->getFirstName(), 0, 25);
+                $sfBookingUpdate->Traveler_last_name__c = substr($booking->getLastName(), 0, 25);
                 $sfBookingUpdate->Phone_1__c = substr($booking->getPhone(), 0, 40);
                 $sfBookingUpdate->Email__c = $booking->getEmail();
                 
@@ -156,8 +156,8 @@ class BookingUpdateConsumer implements ConsumerInterface
         else {
             $sfBookingUpdate = new \stdClass();
             $sfBookingUpdate->Id = $booking->getSfId();
-            $sfBookingUpdate->Traveler_first_name__c = $booking->getFirstName();
-            $sfBookingUpdate->Traveler_last_name__c = $booking->getLastName();
+            $sfBookingUpdate->Traveler_first_name__c = substr($booking->getFirstName(), 0 25);
+            $sfBookingUpdate->Traveler_last_name__c = substr($booking->getLastName(), 0, 25);
             $sfBookingUpdate->Phone_1__c = substr($booking->getPhone(), 0, 40);
             $sfBookingUpdate->Email__c = $booking->getEmail();
             
