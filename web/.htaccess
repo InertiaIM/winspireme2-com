@@ -207,7 +207,6 @@ redirect 301 /blog/uncategorized/silent-auctions-engagement/ http://blog.winspir
 redirect 301 /blog/non-profit/event-follow-up-ohr-okeefe-museum-gala/ http://blog.winspireme.com/event-follow-up-ohr-okeefe-museum-gala
 redirect 301 /blog/industry-news/super-heroes-fighting-evil-and-fundraising/ http://blog.winspireme.com/super-heroes-fighting-evil-and-fundraising
 redirect 301 /blog/winspire-news/happy-holidays-from-winspire/ http://blog.winspireme.com/happy-holidays-from-winspire
-redirect 301 /blog/fundraising-tips/maximize-your-silent-auction-revenue-by-offering-a-%e2%80%9cbuy-it-now%e2%80%9d-feature/ http://blog.winspireme.com/maximize-your-silent-auction-revenue-by-offering-a-e2809cbuy-it-nowe2809d-feature
 redirect 301 /blog/success-story/afp-photo-contest-winner/ http://blog.winspireme.com/afp-photo-contest-winner
 redirect 301 /blog/winspire-news/winspire-wants-to-wish-you-all-%e2%80%9cbon-mardi-gras%e2%80%9d/ http://blog.winspireme.com/winspire-wants-to-wish-you-all-e2809cbon-mardi-grase2809d
 redirect 301 /blog/success-story/stuggling-senior-center-raises-18000-with-raffle/ http://blog.winspireme.com/stuggling-senior-center-raises-18000-with-raffle
@@ -248,6 +247,14 @@ redirect 301 /blog/donation-give-aways/march-donation-give-away-wrigley-field-wa
 redirect 301 /blog/winspire-news/traveling-to-europe-there%e2%80%99s-an-app-for-that/ http://blog.winspireme.com/traveling-to-europe-theree28099s-an-app-for-that
 redirect 301 /blog/winspire-latest-news-1/come-visit-us-at-afp-san-diego/ http://blog.winspireme.com/come-visit-us-at-afp-san-diego
 redirect 301 /blog/uncategorized/winning-bidder-experience-greetings-from-maccu-picchu/ http://blog.winspireme.com/winning-bidder-experience-greetings-from-maccu-picchu
+redirect 301 /blog/ http://blog.winspireme.com/
+redirect 301 /blog/fundraising-tips/maximize-your-silent-auction-revenue-by-offering-a-%E2%80%9Cbuy-it-now%E2%80%9D-feature/ http://blog.winspireme.com/maximize-your-silent-auction-revenue-by-offering-buy-it-now-feature
+redirect 301 /blog/winspire-packages/for-our-friends-who-are-currently-experiencing-winter%E2%80%99s-cruel-sting/ http://blog.winspireme.com/winspire-packages/for-our-friends-who-are-currently-experiencing-winter%E2%80%99s-cruel-sting/
+redirect 301 /blog/winspire-news/traveling-to-europe-there%E2%80%99s-an-app-for-that/ http://blog.winspireme.com/winspire-news/traveling-to-europe-there%E2%80%99s-an-app-for-that/
+redirect 301 /blog/non-profit/event-spotlight-%E2%80%9Cdiamonds-ohr-forever%E2%80%9D/ http://blog.winspireme.com/non-profit/event-spotlight-%E2%80%9Cdiamonds-ohr-forever%E2%80%9D/
+redirect 301 /blog/non-profit/convio%E2%80%99s-event-fundraising-benchmark-study-showcases-nonprofit-success/ http://blog.winspireme.com/non-profit/convio%E2%80%99s-event-fundraising-benchmark-study-showcases-nonprofit-success/
+redirect 301 /job-opening-corporate-sport-entertainment-event-manager http://blog.winspireme.com
+redirect 301 /job-opening-winspire-sales-consultant http://blog.winspireme.com
 
 <IfModule mod_rewrite.c>
     RewriteEngine On
