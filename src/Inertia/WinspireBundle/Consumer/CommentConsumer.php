@@ -46,7 +46,7 @@ class CommentConsumer implements ConsumerInterface
         
         $message = \Swift_Message::newInstance()
             ->setSubject('New Comment in your Suitcase')
-            ->setFrom(array('info@winspireme.com' => 'Winspire'))
+            ->setFrom(array('noreply@winspireme.com' => 'Winspire'))
             ->setBody(
                 $this->templating->render(
                     'InertiaWinspireBundle:Email:comment-notification.html.twig',
