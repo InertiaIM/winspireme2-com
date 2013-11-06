@@ -249,10 +249,11 @@ redirect 301 /blog/winspire-latest-news-1/come-visit-us-at-afp-san-diego/ http:/
 redirect 301 /blog/uncategorized/winning-bidder-experience-greetings-from-maccu-picchu/ http://blog.winspireme.com/winning-bidder-experience-greetings-from-maccu-picchu
 redirect 301 /blog/ http://blog.winspireme.com/
 redirect 301 /blog/fundraising-tips/maximize-your-silent-auction-revenue-by-offering-a-%E2%80%9Cbuy-it-now%E2%80%9D-feature/ http://blog.winspireme.com/maximize-your-silent-auction-revenue-by-offering-buy-it-now-feature
-redirect 301 /blog/winspire-packages/for-our-friends-who-are-currently-experiencing-winter%E2%80%99s-cruel-sting/ http://blog.winspireme.com/winspire-packages/for-our-friends-who-are-currently-experiencing-winter%E2%80%99s-cruel-sting/
-redirect 301 /blog/winspire-news/traveling-to-europe-there%E2%80%99s-an-app-for-that/ http://blog.winspireme.com/winspire-news/traveling-to-europe-there%E2%80%99s-an-app-for-that/
-redirect 301 /blog/non-profit/event-spotlight-%E2%80%9Cdiamonds-ohr-forever%E2%80%9D/ http://blog.winspireme.com/non-profit/event-spotlight-%E2%80%9Cdiamonds-ohr-forever%E2%80%9D/
-redirect 301 /blog/non-profit/convio%E2%80%99s-event-fundraising-benchmark-study-showcases-nonprofit-success/ http://blog.winspireme.com/non-profit/convio%E2%80%99s-event-fundraising-benchmark-study-showcases-nonprofit-success/
+redirect 301 /blog/winspire-packages/for-our-friends-who-are-currently-experiencing-winter%E2%80%99s-cruel-sting/ http://blog.winspireme.com/for-our-friends-who-are-currently-experiencing-wintere28099s-cruel-sting
+redirect 301 /blog/winspire-news/traveling-to-europe-there%E2%80%99s-an-app-for-that/ http://blog.winspireme.com/traveling-to-europe-theree28099s-an-app-for-that
+redirect 301 /blog/non-profit/event-spotlight-%E2%80%9Cdiamonds-ohr-forever%E2%80%9D/ http://blog.winspireme.com/event-spotlight-e2809cdiamonds-ohr-forevere2809d
+redirect 301 /blog/non-profit/convio%E2%80%99s-event-fundraising-benchmark-study-showcases-nonprofit-success/ http://blog.winspireme.com/convioe28099s-event-fundraising-benchmark-study-showcases-nonprofit-success
+redirect 301 /winspiredtraveler http://you.winspireme.com/winspired-traveler
 redirect 301 /job-opening-corporate-sport-entertainment-event-manager http://blog.winspireme.com
 redirect 301 /job-opening-winspire-sales-consultant http://blog.winspireme.com
 
