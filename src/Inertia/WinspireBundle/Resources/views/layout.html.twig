@@ -59,30 +59,6 @@ var env = '/app_dev.php';
 {% endif %}
 </head>
 <body>
-<!--[if lt IE 9]>
-<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/chrome-frame/1/CFInstall.min.js"></script>
-<style>
-.chromeFrameInstallDefaultStyle {
-    width: 100%; /* default is 800px */
-    border: 5px solid blue;
-}
-</style>
-
-<div id="prompt">
-</div>
-
-<script>
-// The conditional ensures that this code will only execute in IE,
-// Therefore we can use the IE-specific attachEvent without worry
-window.attachEvent("onload", function() {
-    CFInstall.check({
-        mode: "overlay",
-        node: "prompt"
-    });
-});
-</script>
-<![endif]-->
-
 	<div class="container">
 		<header>
 			<div id="nav-core">
@@ -218,5 +194,16 @@ window.attachEvent("onload", function() {
     </script>
     <!-- End of Async HubSpot Analytics Code --> 
 {% endif %}
+    <script>
+        var $buoop = {vs:{i:8,f:20,o:11,s:4,n:9}};
+        $buoop.ol = window.onload;
+        window.onload=function(){
+            try {if ($buoop.ol) $buoop.ol();}catch (e) {}
+            var e = document.createElement("script");
+            e.setAttribute("type", "text/javascript");
+            e.setAttribute("src", "/js/vendor/update.min.js");
+            document.body.appendChild(e);
+        }
+    </script>
 </body>
 </html>
