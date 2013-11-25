@@ -243,12 +243,12 @@ class InvoiceRequestConsumer implements ConsumerInterface
         
         
         if ($suitcase->getStatus() == 'M') {
-            $name = 'No Sells';
+            $filename = 'No Sells';
             $subject = 'Thank you for confirming your results.';
             $template = 'no-items-sold-invoice.html.twig';
         }
         else {
-            $name = 'Invoice Request';
+            $filename = 'Invoice Request';
             $subject = 'Thank you for requesting an invoice';
             $template = 'invoice-requested.html.twig';
         }
@@ -313,7 +313,7 @@ class InvoiceRequestConsumer implements ConsumerInterface
         );
         $sfAttachment = new \stdClass();
         $sfAttachment->Body = $html;
-        $sfAttachment->Name = $name . ' - ' . $suitcase->getInvoiceRequestedAt()->format('Ymd') . '.html';
+        $sfAttachment->Name = $filename . ' - ' . $suitcase->getInvoiceRequestedAt()->format('Ymd') . '.html';
         $sfAttachment->ParentId = $suitcase->getSfId();
         $saveResult = $this->sf->create(array($sfAttachment), 'Attachment');
         
