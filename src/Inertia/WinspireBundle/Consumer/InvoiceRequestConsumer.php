@@ -308,7 +308,8 @@ class InvoiceRequestConsumer implements ConsumerInterface
                 'suitcase' => $suitcase,
                 'subtotal' => $subtotal,
                 'fee' => $fee,
-                'grand_total' => $grandTotal
+                'grand_total' => $grandTotal,
+                'from' => $from
             )
         );
         $sfAttachment = new \stdClass();
