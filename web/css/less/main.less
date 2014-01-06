@@ -2193,6 +2193,26 @@ footer, #footer { height:220px;border-top:1px solid rgb(195,213,224);
             
             .pd-d-addthis {
                 float:right;
+                
+                .addthis_toolbox {
+                    width: 370px;
+                }
+                
+                .addthis_button_facebook_like > .fb_iframe_widget > span {
+                    width: 90px !important;
+                }
+                
+                .addthis_button_google_plusone > div {
+                    width: 70px !important;
+                    
+                    &> iframe {
+                        width: 70px !important;
+                    }
+                }
+                
+                iframe.twitter-tweet-button {
+                    width: 90px !important;
+                }
             }
             
             ul.strong {
