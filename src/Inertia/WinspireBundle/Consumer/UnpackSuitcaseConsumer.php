@@ -53,7 +53,7 @@ class UnpackSuitcaseConsumer implements ConsumerInterface
         $sfOpportunity = new \stdClass();
         $sfOpportunity->Name = $suitcase->getName();
         $sfOpportunity->Website_suitcase_status__c = 'Unpacked';
-        $sfOpportunity->Event_Name__c = $suitcase->getEventName();
+        $sfOpportunity->Event_Name__c = substr($suitcase->getEventName(), 0, 40);
         if ($suitcase->getEventDate() != '') {
             $sfOpportunity->Event_Date__c = $suitcase->getEventDate();
             $sfOpportunity->CloseDate = new \DateTime($suitcase->getEventDate()->format('Y-m-d') . '+30 days');
