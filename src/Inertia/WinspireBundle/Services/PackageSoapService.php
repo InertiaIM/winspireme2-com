@@ -456,9 +456,8 @@ fwrite($dump, print_r($notifications, true));
                         $message = \Swift_Message::newInstance()
                             ->setSubject('Package No Longer Available')
                             ->setSender(array('info@winspireme.com' => 'Winspire'))
-//                            ->setTo(array($email => $name))
-//                            ->setBcc(array('doug@inertiaim.com'))
-                            ->setTo(array('doug@inertiaim.com'))
+                            ->setTo(array($email => $name))
+                            ->setBcc(array('doug@inertiaim.com'))
                         ;
 
                         if ($suitcase->getUser()->getCompany()->getSalesperson()->getId() != 1) {
