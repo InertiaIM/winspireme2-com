@@ -73,12 +73,6 @@ swiftmailer:
     logging:    true
 
 
-mz_mail_chimp:
-    api_key: "%mailchimp_key%"
-    default_list: "%mailchimp_list%"
-    ssl: true
-
-
 sphinxsearch:
     indexes:
         Packages: test1
@@ -165,7 +159,7 @@ services:
         
     create_account_service:
         class: Inertia\WinspireBundle\Consumer\CreateAccountConsumer
-        arguments: [@doctrine.orm.entity_manager, @mailer, @templating, @mailchimp, @ddeboer_salesforce_client, @old_sound_rabbit_mq.winspire_producer]
+        arguments: [@doctrine.orm.entity_manager, @mailer, @templating, @ddeboer_salesforce_client, @old_sound_rabbit_mq.winspire_producer]
         
     create_suitcase_service:
         class: Inertia\WinspireBundle\Consumer\CreateSuitcaseConsumer
