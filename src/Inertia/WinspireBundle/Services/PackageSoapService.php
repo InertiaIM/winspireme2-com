@@ -270,6 +270,10 @@ fwrite($dump, print_r($notifications, true));
             if(isset($p->Content_PACK__c)) {
                 $package->setContentPack($p->Content_PACK__c);
             }
+            else {
+                $package->setContentPack(NULL);
+                $package->setSfContentPackId(NULL);
+            }
             
             if(isset($p->Keyword_search__c)) {
                 $keywords = explode(';', $p->Keyword_search__c);
