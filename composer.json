@@ -30,8 +30,7 @@
         "videlalvaro/php-amqplib": "v2.0.2",
         "oldsound/rabbitmq-bundle": "dev-master",
         "tecnick.com/tcpdf": "dev-master",
-        "search/sphinxsearch-bundle": "1.2.2",
-        "mlpz/mailchimp-bundle": "dev-master"
+        "search/sphinxsearch-bundle": "1.2.2"
     },
     "scripts": {
         "post-install-cmd": [

@@ -3,7 +3,6 @@ namespace Inertia\WinspireBundle\Consumer;
 
 use Ddeboer\Salesforce\ClientBundle\Client;
 use Doctrine\ORM\EntityManager;
-use MZ\MailChimpBundle\Services\MailChimp;
 use OldSound\RabbitMqBundle\RabbitMq\ConsumerInterface;
 use OldSound\RabbitMqBundle\RabbitMq\Producer;
 use PhpAmqpLib\Message\AMQPMessage;
@@ -14,7 +13,6 @@ class CreateAccountConsumer implements ConsumerInterface
     protected $em;
     protected $mailer;
     protected $templating;
-    protected $mailchimp;
     protected $sf;
     protected $producer;
     
@@ -26,7 +24,6 @@ class CreateAccountConsumer implements ConsumerInterface
         EntityManager $entityManager,
         \Swift_Mailer $mailer,
         EngineInterface $templating,
-        MailChimp $mailchimp,
         Client $salesforce,
         Producer $producer
     )
@@ -34,7 +31,6 @@ class CreateAccountConsumer implements ConsumerInterface
         $this->em = $entityManager;
         $this->mailer = $mailer;
         $this->templating = $templating;
-        $this->mailchimp = $mailchimp;
         $this->sf = $salesforce;
         $this->producer = $producer;
         
@@ -502,23 +498,6 @@ class CreateAccountConsumer implements ConsumerInterface
         }
         catch (\Exception $e) {
             $this->sendForHelp('(-2): ' . $e->getCode());
-        }
-        
-        // MailChimp sync
-        if($user->getNewsletter()) {
-            try {
-                $list = $this->mailchimp->getList();
-                $list->setMerge(array(
-                    'FNAME' => $user->getFirstName(),
-                    'LNAME' => $user->getLastName(),
-                    'MMERGE3' => $user->getCompany()->getName()
-                ));
-
-                $result = $list->Subscribe($user->getEmail());
-            }
-            catch (\Exception $e) {
-                $this->sendForHelp('(MailChimp): ' . $e->getCode());
-            }
         }
         
         return true;

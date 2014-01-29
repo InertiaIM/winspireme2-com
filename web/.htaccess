@@ -9,7 +9,7 @@ redirect 301 /package_pdfs/download/641 http://www.winspireme.com/packages/Award
 redirect 301 /package_pdfs/download/501 http://www.winspireme.com/packages/Awards-Shows-Auction-Packages
 redirect 301 /package_pdfs/download/61 http://www.winspireme.com/packages/Family-Friendly-Vacation-Nonprofit-Charity
 redirect 301 /package/napa-wine-country-vip-insiders-tour http://www.winspireme.com/packages/Napa-Valley-Wine-Experience-Ideas-for-Charity-Auctions
-redirect 301 /newsletter http://winspireme.us2.list-manage.com/subscribe?u=45b53f5503b4a99de18ce5206&id=52e0574410
+redirect 301 /newsletter http://you.winspireme.com/winspire-news-subscribe
 redirect 301 /auctioneers http://www.winspireme.com/packages
 redirect 301 /about_us http://www.winspireme.com/about-us
 redirect 301 /packages/no_risk http://www.winspireme.com/packages
@@ -109,7 +109,6 @@ redirect 301 /packages/search/C0027 http://www.winspireme.com/packages
 redirect 301 /dogoods/momsoc http://www.winspireme.com/
 redirect 301 /images/scaled/258 http://www.winspireme.com/
 redirect 301 /blog/industry-news/salvation-army-red-kettle-campaign-a-christmas-tradition/?preview=true&preview_id=625&preview_nonce=4d541d948a http://www.winspireme.com/blog/
-redirect 301 /newsletter http://www.winspireme.com/
 redirect 301 /auctioneers http://www.winspireme.com/
 redirect 301 /blog/donation-give-aways/january-give-away-winner-congratulations-to-becci-ruder-leadership-pikes-peak/ http://www.winspireme.com/blog/
 redirect 301 /blog/non-profit/new-package-2012-u-s-open-championship/ http://www.winspireme.com/blog/
