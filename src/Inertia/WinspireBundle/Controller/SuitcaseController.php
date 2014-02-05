@@ -371,27 +371,6 @@ class SuitcaseController extends Controller
                 $contentPackId = $item->getPackage()->getSfContentPackId();
                 $sfContentPackIds[] = $contentPackId;
             }
-            else {
-                // If the Package variant doesn't have its own SF Content Pack, then we'll try to find
-                // the content pack associated with the default Package with the same parent header.
-                // TODO this really should be pushed into the model... too much logic in our controller.
-                $query = $em->createQuery(
-                    'SELECT p FROM InertiaWinspireBundle:Package p WHERE p.parent_header = :ph AND p.is_default = 1 ORDER BY p.active ASC, p.created DESC'
-                )
-                    ->setParameter('ph', $item->getPackage()->getParentHeader())
-                    ->setMaxResults(1)
-                ;
-                
-                try {
-                    $p = $query->getSingleResult();
-                    $contentPackId = $p->getSfContentPackId();
-                }
-                catch (\Exception $e) {
-                    $contentPackId = '';
-                }
-                
-                $sfContentPackIds[] = $contentPackId;
-            }
             
             $sfContentPacks[$contentPackId] = $item->getPackage()->getSlug();
         }
@@ -1341,29 +1320,6 @@ class SuitcaseController extends Controller
                 
                 if ($item->getPackage()->getSfContentPackId() != '' || $item->getPackage()->getIsDefault()) {
                     $downloadLinks[$item->getPackage()->getId()] = $this->getDownloadLink($item->getPackage()->getSfContentPackId());
-                }
-                else {
-                    // If the Package variant doesn't have its own SF Content Pack, then we'll try to find
-                    // the content pack associated with the default Package with the same parent header.
-                    // TODO this really should be pushed into the model... too much logic in our controller.
-                    
-                    $em = $this->getDoctrine()->getManager();
-                    $query = $em->createQuery(
-                        'SELECT p FROM InertiaWinspireBundle:Package p WHERE p.parent_header = :ph AND p.is_default = 1 ORDER BY p.active ASC, p.created DESC'
-                    )
-                    ->setParameter('ph', $item->getPackage()->getParentHeader())
-                    ->setMaxResults(1)
-                    ;
-                    
-                    try {
-                        $p = $query->getSingleResult();
-                        $contentPackId = $p->getSfContentPackId();
-                    }
-                    catch (\Exception $e) {
-                        $contentPackId = '';
-                    }
-                    
-                    $downloadLinks[$item->getPackage()->getId()] = $this->getDownloadLink($contentPackId);
                 }
             }
             
