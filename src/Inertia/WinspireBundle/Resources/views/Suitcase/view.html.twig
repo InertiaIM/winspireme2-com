@@ -37,7 +37,7 @@
 {% endfor %}
                         </select>
                     </form>
-                    <h3>Here you can organize your Experiences, collaborate with your peers and work with your Winspire Event Consultant to decide on the best set of packages for your charity auction. Once you have finalized your selection, simply click "I'm Packed" to reserve the Experiences for your event.</h3>
+                    <h3>Here you can organize your Experiences, collaborate with your peers and work with your Winspire Event Consultant to decide on the best set of packages for your charity auction. Once you have finalized your selection, simply click the "Reserve Experiences" button to reserve the Experiences for your event.</h3>
                 </div>
             </div>
             <div class="help">
@@ -53,22 +53,25 @@
     <div id="sc-area" class="suitcase">
         <div class="c-wrap shadow-wrapper">
             <div class="header drop-shadow curved curved-hz-1">
-                <ul class="key unpacked"{% if suitcase.status != 'U' %} style="display:none;"{% endif %}>
-                    <li><span class="definitely">{{ counts['D'] + counts['E'] }}</span> Definitely</li>
-                    <li><span class="maybe">{{ counts['M'] }}</span> Maybe</li>
-                    <li><span class="recommended">{{ counts['R'] }}</span> {{ suitcase.user.company.salesperson.firstName }} Recommends</li>
-                </ul>
-                <ul class="key packed"{% if suitcase.status == 'U' %} style="display:none;"{% endif %}>
-                    <li>You have <strong><span class="suitcase-count">{{ suitcase.items | length }} items</span></strong> in your Suitcase.</li>
-                </ul>
                 <ul class="social">
                     <li class="share"><a href="#"><span class="icon icon-bubble"></span> Share</a></li>
                     <li class="comments"><a href="#"><span class="icon icon-comment"></span><span class="comment-count">{{ suitcase.comments | length }}</span> Comments</a></li>
                 </ul>
+{% if suitcase.status == 'U' %}
+                <button class="unpacked ready"><span class="icon-suitcase-2"></span>Reserve Experiences (<span class="suitcase-count">{{ suitcase.items | length }}</span>)</button>
+{% endif %}
             </div>
             <div class="content">
                 <div class="holder">
                     <img style="cursor:pointer; display:block; position:absolute; left:71px; top:18px" src="/img/temp-dropdown.png" alt=""/>
+                    <ul class="key unpacked"{% if suitcase.status != 'U' %} style="display:none;"{% endif %}>
+                        <li><span class="definitely">{{ counts['D'] + counts['E'] }}</span> Definitely</li>
+                        <li><span class="maybe">{{ counts['M'] }}</span> Maybe</li>
+                        <li><span class="recommended">{{ counts['R'] }}</span> {{ suitcase.user.company.salesperson.firstName }} Recommends</li>
+                    </ul>
+                    <ul class="key packed"{% if suitcase.status == 'U' %} style="display:none;"{% endif %}>
+                        <li>You have <strong><span class="suitcase-count">{{ suitcase.items | length }} items</span></strong> in your Suitcase.</li>
+                    </ul>
                     <div class="pager">
                         <a class="pager-all" href="#">View All</a>
                         <div class="pager-nav">
@@ -159,7 +162,7 @@
                 </div>
                 <div class="unpacked"{% if suitcase.status != 'U' %} style="display:none;"{% endif %}>
                     <h4>Ready to Go?</h4>
-                    <button id="ready"><span class="icon-suitcase-2"></span><em>I'm</em> Packed (<span class="suitcase-count">{{ suitcase.items | length }}</span>)</button>
+                    <button class="ready"><span class="icon-suitcase-2"></span>Reserve Experiences (<span class="suitcase-count">{{ suitcase.items | length }}</span>)</button>
                 </div>
             </div>
         </div>
@@ -208,9 +211,9 @@
     </div>
     <div class="last">
         <h4>Ready to go anyway?</h4>
-        <p>If you know you're happy with all the Experiences in your Suitcase, click “<strong>I'm Packed</strong>” below to update all the packages to “Definitely” and begin the checkout process.</p>
+        <p>If you know you're happy with all the Experiences in your Suitcase, click “<strong>Reserve Experiences</strong>” below to update all the packages to “Definitely” and begin the checkout process.</p>
     </div>
-    <button id="approve-all"><span class="icon-suitcase-2"></span><em>I'm</em> Packed (<span class="suitcase-count">{{ suitcase.items | length }}</span>)</button>
+    <button id="approve-all"><span class="icon-suitcase-2"></span>Reserve Experiences (<span class="suitcase-count">{{ suitcase.items | length }}</span>)</button>
 </div>
 
 <div id="more-modal" style="display:none;">
@@ -235,7 +238,7 @@
             </li>
             <li>
                 <div>
-                    <button><span class="icon-suitcase-2"></span><em>I'm</em> Packed (<span class="suitcase-count">{{ suitcase.items | length }}</span>)</button>
+                    <button><span class="icon-suitcase-2"></span>Reserve Experiences (<span class="suitcase-count">{{ suitcase.items | length }}</span>)</button>
                     <span class="spinner-wrap"></span>
                     {{ form_widget(form._token) }}
                 </div>
