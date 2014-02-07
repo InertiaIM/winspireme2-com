@@ -1165,7 +1165,7 @@ $(document).ready(function() {
                     $('.packed').hide();
 
                     $('#more-modal').find('.suitcase-count').text(data.count);
-                    $('#ready').find('.suitcase-count').text(data.count);
+                    $('.ready').find('.suitcase-count').text(data.count);
                 }
             }
         });
@@ -1447,7 +1447,7 @@ $(document).ready(function() {
     });
     
     
-    $('button#ready').on('click', function(e) {
+    $('button.ready').on('click', function(e) {
         var maybeCount = $('a[data-status="M"], a[data-status="R"]').length;
         
         if(maybeCount > 0) {

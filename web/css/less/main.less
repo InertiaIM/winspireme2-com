@@ -2875,56 +2875,14 @@ footer, #footer { height:220px;border-top:1px solid rgb(195,213,224);
         }
         
         .header {
-            height:50px;
-            border-bottom:2px solid #fff;
+            height: 79px;
+            border-bottom: 2px solid #fff;
             background: #f9f9f9;
             
-            .key {
-                list-style:none;
-                float:left;
-                margin:10px 0 0 33px;
-                
-                li {
-                    display:block;
-                    float:left;
-                    line-height:30px;
-                    color:#3e3e3e;
-                    font-size:16px;
-                    margin-right:20px;
-                }
-                
-                span {
-                    display:block;
-                    width:27px;
-                    height:30px;
-                    background-repeat:no-repeat;
-                    background-size:contain;
-                    float:left;
-                    margin-right:6px;
-                    text-align:center;
-                    font-size:11px;
-                    line-height:22px;
-                    color:#fff;
-                    font-weight:bold;
-                    
-                    &.suitcase-count {
-                        float:none;
-                        display:inline;
-                        width:auto;
-                        height:auto;
-                        margin:0;
-                        text-align:left;
-                        font-size:16px;
-                        color:#3e3e3e;
-                        line-height:30px;
-                    }
-                }
-            }
-            
             .social {
-                list-style:none;
-                float:right;
-                margin:4px 30px 0 0;
+                list-style: none;
+                float: left;
+                margin: 19px 0 0 0;
                 
                 li {
                     display:block;
@@ -2941,8 +2899,6 @@ footer, #footer { height:220px;border-top:1px solid rgb(195,213,224);
                         vertical-align:middle;
                     }
                     
-                    
-                    
                     &.share span {
                         font-size:40px;
                         float:left;
@@ -2951,6 +2907,7 @@ footer, #footer { height:220px;border-top:1px solid rgb(195,213,224);
                         margin-top:3px;
                         text-shadow: 0px 2px 2px #ababab;
                     }
+                    
                     &.comments {
                         position:relative;
                         .comment-count {
@@ -2979,6 +2936,35 @@ footer, #footer { height:220px;border-top:1px solid rgb(195,213,224);
                         margin-top:3px;
                         text-shadow: 0px 2px 2px #ababab;
                     }
+                }
+            }
+
+            button {
+                .btn-red(3px);
+                display: inline-block;
+                float: right;
+                height: 39px;
+                line-height: 39px;
+                cursor: pointer;
+                margin: 19px 30px 0 0;
+                padding: 0 17px;
+                font-size: 17px;
+                position: relative;
+                text-align: center;
+
+                span.icon-suitcase-2 {
+                    font-size: 20px;
+                    display: block;
+                    float: left;
+                    margin-right: 8px;
+                }
+                
+                &:disabled {
+                    background: #c6c6c6;
+                    border-color: #c6c6c6;
+                    color: #e8e8e8;
+                    cursor: default;
+                    text-shadow: none;
                 }
             }
         }
@@ -3024,11 +3010,55 @@ footer, #footer { height:220px;border-top:1px solid rgb(195,213,224);
             z-index:-3;
             
             .holder {
+                .clearfix;
                 height:65px;
                 position:relative;
+
+                .key {
+                    list-style: none;
+                    float: left;
+                    height: auto;
+                    margin: 16px 0 24px 280px;
+
+                    li {
+                        display: block;
+                        float: left;
+                        line-height: 30px;
+                        color: #565556;
+                        font-size: 14px;
+                        margin-left: 20px;
+                    }
+
+                    span {
+                        display: block;
+                        width: 27px;
+                        height: 30px;
+                        background-repeat: no-repeat;
+                        background-size: contain;
+                        float: left;
+                        margin-right: 6px;
+                        text-align: center;
+                        font-size: 11px;
+                        line-height: 22px;
+                        color: #fff;
+                        font-weight: bold;
+
+                        &.suitcase-count {
+                            float: none;
+                            display: inline;
+                            width: auto;
+                            height: auto;
+                            margin: 0;
+                            text-align: left;
+                            font-size: 16px;
+                            color: #3e3e3e;
+                            line-height: 30px;
+                        }
+                    }
+                }
                 
                 .pager {
-                    margin:20px 76px;
+                    margin:20px 76px 20px 0;
                     
                     font-size:14px;
                     color:@ws-gray85;
@@ -4174,13 +4204,13 @@ footer, #footer { height:220px;border-top:1px solid rgb(195,213,224);
             }
             
             button {
-                .btn-blue(3px);
+                .btn-red(3px);
                 display:inline-block;
                 height:39px;
                 line-height:39px;
                 cursor:pointer;
                 margin:0 0 0 24px;
-                padding:0 50px;
+                padding:0 17px;
                 font-size:17px;
                 position:relative;
                 text-align:center;
@@ -5738,6 +5768,13 @@ footer, #footer { height:220px;border-top:1px solid rgb(195,213,224);
     }
 }
 
+#more-modal {
+    button {
+        .btn-red(3);
+        padding: 0 17px !important;
+    }
+}
+
 #mail-modal {
     h3 {
         font-size:24px;
@@ -6169,8 +6206,9 @@ footer, #footer { height:220px;border-top:1px solid rgb(195,213,224);
     }
     
     button {
+        .btn-red(3);
         margin:0;
-        padding:0 50px;
+        padding:0 17px;
         span.icon-suitcase-2 {
             display:block;
             float:left;
