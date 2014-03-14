@@ -153,6 +153,8 @@ class CreateSuitcaseConsumer implements ConsumerInterface
                     
                     $msg = array('id' => $suitcase->getId(), 'type' => 'suitcase-items');
                     $this->producer->publish(serialize($msg), 'update-sf');
+                    
+                    $this->sendMessage($suitcase);
                 }
             }
             catch (\Exception $e) {
@@ -163,20 +165,27 @@ class CreateSuitcaseConsumer implements ConsumerInterface
             }
         }
         
+        $this->em->clear();
+        $this->sf->logout();
         
+        return true;
+    }
+    
+    protected function sendMessage($suitcase)
+    {
         // Send Mail Messages
         $name = $suitcase->getUser()->getFirstName() . ' ' .
             $suitcase->getUser()->getLastName();
-        
+
         $email = $suitcase->getUser()->getEmail();
-        
+
         $message = \Swift_Message::newInstance()
             ->setSender(array('info@winspireme.com' => 'Winspire'))
             ->setSubject('Your New Suitcase is Ready!')
             ->setTo(array($email => $name))
             ->setBcc(array($suitcase->getUser()->getCompany()->getSalesperson()->getEmail(), 'doug@inertiaim.com'))
         ;
-
+        
         if ($suitcase->getUser()->getCompany()->getSalesperson()->getId() != 1) {
             $sperson = $suitcase->getUser()->getCompany()->getSalesperson();
             $message->setReplyTo(array($sperson->getEmail() => $sperson->getFirstName() . ' ' . $sperson->getLastName()));
@@ -205,22 +214,9 @@ class CreateSuitcaseConsumer implements ConsumerInterface
             )
         ;
         
-        $this->em->clear();
-        
         $this->mailer->getTransport()->start();
-        if (!$this->mailer->send($message)) {
-            // Any other value not equal to false will acknowledge the message and remove it
-            // from the queue
-            $this->sf->logout();
-            
-            return false;
-        }
-        
+        $this->mailer->send($message);
         $this->mailer->getTransport()->stop();
-        
-        $this->sf->logout();
-        
-        return true;
     }
     
     protected function sendForHelp($text)
