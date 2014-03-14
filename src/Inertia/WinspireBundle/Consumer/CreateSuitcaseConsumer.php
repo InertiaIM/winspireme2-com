@@ -4,6 +4,7 @@ namespace Inertia\WinspireBundle\Consumer;
 use Ddeboer\Salesforce\ClientBundle\Client;
 use Doctrine\ORM\EntityManager;
 use OldSound\RabbitMqBundle\RabbitMq\ConsumerInterface;
+use OldSound\RabbitMqBundle\RabbitMq\Producer;
 use PhpAmqpLib\Message\AMQPMessage;
 use Symfony\Component\Templating\EngineInterface;
 
@@ -11,6 +12,7 @@ class CreateSuitcaseConsumer implements ConsumerInterface
 {
     protected $em;
     protected $mailer;
+    protected $producer;
     protected $templating;
     protected $sf;
     
@@ -18,10 +20,11 @@ class CreateSuitcaseConsumer implements ConsumerInterface
     private $opportunityTypeId = '01270000000DVGnAAO';
     private $partnerRecordId = '0017000000PKyUfAAL';
     
-    public function __construct(EntityManager $entityManager, \Swift_Mailer $mailer, EngineInterface $templating, Client $salesforce)
+    public function __construct(EntityManager $entityManager, \Swift_Mailer $mailer, EngineInterface $templating, Client $salesforce, Producer $producer)
     {
         $this->em = $entityManager;
         $this->mailer = $mailer;
+        $this->producer = $producer;
         $this->templating = $templating;
         $this->sf = $salesforce;
         
@@ -147,6 +150,9 @@ class CreateSuitcaseConsumer implements ConsumerInterface
                     $suitcase->setUpdated($timestamp);
                     $this->em->persist($suitcase);
                     $this->em->flush();
+                    
+                    $msg = array('id' => $suitcase->getId(), 'type' => 'suitcase-items');
+                    $this->producer->publish(serialize($msg), 'update-sf');
                 }
             }
             catch (\Exception $e) {

@@ -111,110 +111,112 @@ class UpdateSfConsumer implements ConsumerInterface
                     return true;
                 }
                 
-                // Let's just make sure the Suitcase has already been added to SF
-                if ($suitcase->getSfId() == '') {
-                    $sfOpportunity = new \stdClass();
-                    $sfOpportunity->Name = substr($suitcase->getEventName(), 0, 40);
-                    $sfOpportunity->Website_suitcase_status__c = 'Unpacked';
-                    $sfOpportunity->StageName = 'Counsel';
-                    if ($suitcase->getEventDate() != '') {
-                        $sfOpportunity->Event_Date__c = $suitcase->getEventDate();
-                        $sfOpportunity->CloseDate = new \DateTime($suitcase->getEventDate()->format('Y-m-d') . '+30 days');
-                    }
-                    else {
-                        $sfOpportunity->Event_Date__c = new \DateTime('+30 days');
-                        $sfOpportunity->CloseDate = new \DateTime('+60 days');
-                    }
-                    $sfOpportunity->AccountId = $suitcase->getUser()->getCompany()->getSfId();
-                    $sfOpportunity->RecordTypeId = $this->opportunityTypeId;
-                    $sfOpportunity->Lead_Souce_by_Client__c = 'Online User';
-                    $sfOpportunity->Partner_Class__c = $this->partnerRecordId;
-                    $sfOpportunity->Item_Use__c = 'Silent Auction';
-                    $sfOpportunity->Type = 'Web Suitcase';
-                    
-                    try {
-                        $saveResult = $this->sf->create(array($sfOpportunity), 'Opportunity');
-//echo 'talking to SF' . "\n";
-                        if($saveResult[0]->success) {
-                            $timestamp = new \DateTime();
-                            $suitcase->setSfId($saveResult[0]->id);
-                            $suitcase->setDirty(false);
-                            $suitcase->setSfUpdated($timestamp);
-                            $suitcase->setUpdated($timestamp);
-                            $this->em->persist($suitcase);
-                            $this->em->flush();
-                        }
-                    }
-                    catch (\Exception $e) {
-                        $this->sendForHelp3('Problem creating Suitcase (' . $suitcase->getId() . ')' . "\n" . $e->getMessage());
-                        $this->sf->logout();
-                        
-                        return true;
-                    }
-                }
                 
-                $sfOpportunityLineItems = array();
-                $newItems = array();
-                foreach ($suitcase->getItems() as $item) {
-                    // Item has been deleted
-                    if ($item->getStatus() == 'X') {
-                        // Item is already in SF; so we need to delete it
-                        if ($item->getSfId() != '') {
-                            try {
-                                $deleteResult = $this->sf->delete(array($item->getSfId()));
-//echo 'talking to SF' . "\n";
-                                if ($deleteResult[0]->success) {
-                                    $this->em->remove($item);
+/*
+//                // Let's just make sure the Suitcase has already been added to SF
+//                if ($suitcase->getSfId() == '') {
+//                    $sfOpportunity = new \stdClass();
+//                    $sfOpportunity->Name = substr($suitcase->getEventName(), 0, 40);
+//                    $sfOpportunity->Website_suitcase_status__c = 'Unpacked';
+//                    $sfOpportunity->StageName = 'Counsel';
+//                    if ($suitcase->getEventDate() != '') {
+//                        $sfOpportunity->Event_Date__c = $suitcase->getEventDate();
+//                        $sfOpportunity->CloseDate = new \DateTime($suitcase->getEventDate()->format('Y-m-d') . '+30 days');
+//                    }
+//                    else {
+//                        $sfOpportunity->Event_Date__c = new \DateTime('+30 days');
+//                        $sfOpportunity->CloseDate = new \DateTime('+60 days');
+//                    }
+//                    $sfOpportunity->AccountId = $suitcase->getUser()->getCompany()->getSfId();
+//                    $sfOpportunity->RecordTypeId = $this->opportunityTypeId;
+//                    $sfOpportunity->Lead_Souce_by_Client__c = 'Online User';
+//                    $sfOpportunity->Partner_Class__c = $this->partnerRecordId;
+//                    $sfOpportunity->Item_Use__c = 'Silent Auction';
+//                    $sfOpportunity->Type = 'Web Suitcase';
+//                    
+//                    try {
+//                        $saveResult = $this->sf->create(array($sfOpportunity), 'Opportunity');
+//                        if($saveResult[0]->success) {
+//                            $timestamp = new \DateTime();
+//                            $suitcase->setSfId($saveResult[0]->id);
+//                            $suitcase->setDirty(false);
+//                            $suitcase->setSfUpdated($timestamp);
+//                            $suitcase->setUpdated($timestamp);
+//                            $this->em->persist($suitcase);
+//                            $this->em->flush();
+//                        }
+//                    }
+//                    catch (\Exception $e) {
+//                        $this->sendForHelp3('Problem creating Suitcase (' . $suitcase->getId() . ')' . "\n" . $e->getMessage());
+//                        $this->sf->logout();
+//                        
+//                        return true;
+//                    }
+//                }
+*/
+                if ($suitcase->getSfId() != '') {
+                    $sfOpportunityLineItems = array();
+                    $newItems = array();
+                    foreach ($suitcase->getItems() as $item) {
+                        // Item has been deleted
+                        if ($item->getStatus() == 'X') {
+                            // Item is already in SF; so we need to delete it
+                            if ($item->getSfId() != '') {
+                                try {
+                                    $deleteResult = $this->sf->delete(array($item->getSfId()));
+                                    
+                                    if ($deleteResult[0]->success) {
+                                        $this->em->remove($item);
+                                    }
+                                }
+                                catch (\Exception $e) {
+                                    $this->sendForHelp($e, $suitcase);
+                                    $this->sf->logout();
+                                    
+                                    return true;
                                 }
                             }
-                            catch (\Exception $e) {
-                                $this->sendForHelp($e, $suitcase);
-                                $this->sf->logout();
-                                
-                                return true;
+                            else {
+                                $this->em->remove($item);
                             }
+                            $this->em->flush();
+                            continue;
                         }
-                        else {
-                            $this->em->remove($item);
+                        
+                        // Has the item already been sync'd
+                        if ($item->getSfId() != '') {
+                            continue;
                         }
-                        $this->em->flush();
-                        continue;
+                        
+                        $sfOpportunityLineItem = new \stdClass();
+                        $sfOpportunityLineItem->Quantity = 1;
+                        $sfOpportunityLineItem->UnitPrice = $item->getPackage()->getCost();
+                        $sfOpportunityLineItem->Package_Status__c = ($suitcase->getStatus() == 'P') ? 'Reserved' : 'Interested';
+                        $sfOpportunityLineItem->OpportunityId = $suitcase->getSfId();
+                        $sfOpportunityLineItem->PricebookEntryId = $item->getPackage()->getSfPricebookEntryId();
+                        $sfOpportunityLineItems[] = $sfOpportunityLineItem;
+                        $newItems[] = $item;
                     }
                     
-                    // Has the item already been sync'd
-                    if ($item->getSfId() != '') {
-                        continue;
-                    }
-                    
-                    $sfOpportunityLineItem = new \stdClass();
-                    $sfOpportunityLineItem->Quantity = 1;
-                    $sfOpportunityLineItem->UnitPrice = $item->getPackage()->getCost();
-                    $sfOpportunityLineItem->Package_Status__c = ($suitcase->getStatus() == 'P') ? 'Reserved' : 'Interested';
-                    $sfOpportunityLineItem->OpportunityId = $suitcase->getSfId();
-                    $sfOpportunityLineItem->PricebookEntryId = $item->getPackage()->getSfPricebookEntryId();
-                    $sfOpportunityLineItems[] = $sfOpportunityLineItem;
-                    $newItems[] = $item;
-                }
-                
-                if (count($sfOpportunityLineItems)) {
-                    try {
-                        $saveResult = $this->sf->create($sfOpportunityLineItems, 'OpportunityLineItem');
-//echo 'talking to SF' . "\n";
-                        
-                        foreach ($saveResult as $index => $result) {
-                            if($result->success) {
-                                $newItems[$index]->setSfId($result->id);
-                                $this->em->persist($newItems[$index]);
+                    if (count($sfOpportunityLineItems)) {
+                        try {
+                            $saveResult = $this->sf->create($sfOpportunityLineItems, 'OpportunityLineItem');
+                            
+                            foreach ($saveResult as $index => $result) {
+                                if($result->success) {
+                                    $newItems[$index]->setSfId($result->id);
+                                    $this->em->persist($newItems[$index]);
+                                }
                             }
+                            
+                            $this->em->flush();
                         }
-                        
-                        $this->em->flush();
-                    }
-                    catch (\Exception $e) {
-                        $this->sendForHelp($e, $suitcase);
-                        $this->sf->logout();
-                        
-                        return true;
+                        catch (\Exception $e) {
+                            $this->sendForHelp($e, $suitcase);
+                            $this->sf->logout();
+                            
+                            return true;
+                        }
                     }
                 }
                 
