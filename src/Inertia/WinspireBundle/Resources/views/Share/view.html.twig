@@ -19,14 +19,6 @@
     <div id="sc-area" class="suitcase">
         <div class="c-wrap shadow-wrapper">
             <div class="header drop-shadow curved curved-hz-1">
-                <ul class="key unpacked"{% if suitcase.status != 'U' %} style="display:none;"{% endif %}>
-                    <li><span class="definitely">{{ counts['D'] + counts['E'] }}</span> Definitely</li>
-                    <li><span class="maybe">{{ counts['M'] }}</span> Maybe</li>
-                    <li><span class="recommended">{{ counts['R'] }}</span> {{ suitcase.user.company.salesperson.firstName }} Recommends</li>
-                </ul>
-                <ul class="key packed"{% if suitcase.status == 'U' %} style="display:none;"{% endif %}>
-                    <li>There are <strong><span class="suitcase-count">{{ suitcase.items | length }} items</span></strong> in the Suitcase.</li>
-                </ul>
                 <ul class="social">
                     <li class="comments"><a href="#"><span class="icon icon-comment"></span><span class="comment-count">{{ suitcase.comments | length }}</span> Comments</a></li>
                 </ul>
@@ -34,6 +26,14 @@
             <div class="content">
                 <div class="holder">
                     <img style="cursor:pointer; display:block; position:absolute; left:71px; top:18px" src="/img/temp-dropdown.png" alt=""/>
+                    <ul class="key unpacked"{% if suitcase.status != 'U' %} style="display:none;"{% endif %}>
+                        <li><span class="definitely">{{ counts['D'] + counts['E'] }}</span> Definitely</li>
+                        <li><span class="maybe">{{ counts['M'] }}</span> Maybe</li>
+                        <li><span class="recommended">{{ counts['R'] }}</span> {{ suitcase.user.company.salesperson.firstName }} Recommends</li>
+                    </ul>
+                    <ul class="key packed"{% if suitcase.status == 'U' %} style="display:none;"{% endif %}>
+                        <li>You have <strong><span class="suitcase-count">{{ suitcase.items | length }} items</span></strong> in your Suitcase.</li>
+                    </ul>
                     <div class="pager">
                         <a class="pager-all" href="#">View All</a>
                         <div class="pager-nav">
