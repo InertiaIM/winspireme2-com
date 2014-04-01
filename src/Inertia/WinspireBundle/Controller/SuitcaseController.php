@@ -154,6 +154,7 @@ class SuitcaseController extends Controller
         $form->add(
             $formFactory->createNamed('name', 'text', null,
                 array(
+                    'auto_initialize' => false,
                     'constraints' => array(
                         new NotBlank()
                     ),
@@ -166,6 +167,7 @@ class SuitcaseController extends Controller
         $form->add(
             $formFactory->createNamed('date', 'text', null,
                 array(
+                    'auto_initialize' => false,
                     'constraints' => array(
                         new NotBlank()
                     ),
@@ -178,6 +180,7 @@ class SuitcaseController extends Controller
         $form->add(
             $formFactory->createNamed('package', 'hidden', null,
                 array(
+                    'auto_initialize' => false,
                     'mapped' => false,
                     'required' => false
                 )
@@ -668,6 +671,7 @@ class SuitcaseController extends Controller
         $form->add(
             $formFactory->createNamed('event_name', 'text', null,
                 array(
+                    'auto_initialize' => false,
                     'constraints' => array(
                         new NotBlank(),
                     ),
@@ -680,6 +684,7 @@ class SuitcaseController extends Controller
         $form->add(
             $formFactory->createNamed('event_date', 'text', null,
                 array(
+                    'auto_initialize' => false,
                     'constraints' => array(
                         new NotBlank(),
                     ),
@@ -693,6 +698,7 @@ class SuitcaseController extends Controller
         $form->add(
             $formFactory->createNamed('loa', 'checkbox', null,
                 array(
+                    'auto_initialize' => false,
                     'constraints' => array(
                         new True(array(
                             'message' => 'You must agree to the Letter of Agreement before proceeding.'
@@ -901,6 +907,7 @@ class SuitcaseController extends Controller
         
         $form->get('name')->add('1', 'text',
             array(
+                'auto_initialize' => false,
                 'constraints' => array(
                 ),
                 'label' => 'Name',
@@ -909,6 +916,7 @@ class SuitcaseController extends Controller
         );
         $form->get('email')->add('1', 'text',
             array(
+                'auto_initialize' => false,
                 'constraints' => array(
                     new Email(),
                 ),
@@ -918,6 +926,7 @@ class SuitcaseController extends Controller
         );
         $form->get('name')->add('2', 'text',
             array(
+                'auto_initialize' => false,
                 'constraints' => array(
                 ),
                 'label' => 'Name',
@@ -926,6 +935,7 @@ class SuitcaseController extends Controller
         );
         $form->get('email')->add('2', 'text',
             array(
+                'auto_initialize' => false,
                 'constraints' => array(
                     new Email(),
                 ),
@@ -935,6 +945,7 @@ class SuitcaseController extends Controller
         );
         $form->get('name')->add('3', 'text',
             array(
+                'auto_initialize' => false,
                 'constraints' => array(
                 ),
                 'label' => 'Name',
@@ -943,6 +954,7 @@ class SuitcaseController extends Controller
         );
         $form->get('email')->add('3', 'text',
             array(
+                'auto_initialize' => false,
                 'constraints' => array(
                     new Email(),
                 ),
@@ -952,6 +964,7 @@ class SuitcaseController extends Controller
         );
         $form->get('name')->add('4', 'text',
             array(
+                'auto_initialize' => false,
                 'constraints' => array(
                 ),
                 'label' => 'Name',
@@ -960,6 +973,7 @@ class SuitcaseController extends Controller
         );
         $form->get('email')->add('4', 'text',
             array(
+                'auto_initialize' => false,
                 'constraints' => array(
                 ),
                 'label' => 'Email',
@@ -968,6 +982,7 @@ class SuitcaseController extends Controller
         );
         $form->get('name')->add('5', 'text',
             array(
+                'auto_initialize' => false,
                 'constraints' => array(
                 ),
                 'label' => 'Name',
@@ -976,6 +991,7 @@ class SuitcaseController extends Controller
         );
         $form->get('email')->add('5', 'text',
             array(
+                'auto_initialize' => false,
                 'constraints' => array(
                     new Email(),
                 ),
@@ -1267,6 +1283,7 @@ class SuitcaseController extends Controller
             $form->add(
                 $formFactory->createNamed('event_name', 'text', null,
                     array(
+                        'auto_initialize' => false,
                         'constraints' => array(
                             new NotBlank(),
                         ),
@@ -1279,6 +1296,7 @@ class SuitcaseController extends Controller
             $form->add(
                 $formFactory->createNamed('event_date', 'text', null,
                     array(
+                        'auto_initialize' => false,
                         'constraints' => array(
                             new NotBlank(),
                         ),
@@ -1292,6 +1310,7 @@ class SuitcaseController extends Controller
             $form->add(
                 $formFactory->createNamed('loa', 'checkbox', null,
                     array(
+                        'auto_initialize' => false,
                         'constraints' => array(
                             new True(array(
                                 'message' => 'You must agree to the Letter of Agreement before proceeding.'

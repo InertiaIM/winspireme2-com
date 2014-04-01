@@ -63,10 +63,11 @@ class AccountController extends Controller
         $form = $this->container->get('fos_user.registration.form.factory')->createForm();
         $form->setData($user);
 
-        $accountForm = $this->createForm(new AccountType(), $account);
+        $accountForm = $this->createForm(new AccountType(), $account, array('auto_initialize' => false,));
         $accountForm->add(
             $formFactory->createNamed('address', 'text', null,
                 array(
+                    'auto_initialize' => false,
                     'constraints' => array(
                         new NotBlank(),
                     ),
@@ -78,6 +79,7 @@ class AccountController extends Controller
         $accountForm->add(
             $formFactory->createNamed('address2', 'text', null,
                 array(
+                    'auto_initialize' => false,
                     'constraints' => array(),
                     'label' => 'Address Line 2  (Apt., Suite, etc.)',
                     'required' => false
@@ -88,6 +90,7 @@ class AccountController extends Controller
         $accountForm->add(
             $formFactory->createNamed('city', 'text', null,
                 array(
+                    'auto_initialize' => false,
                     'constraints' => array(
                         new NotBlank(),
                     ),
@@ -100,6 +103,7 @@ class AccountController extends Controller
         $form->add(
             $formFactory->createNamed('firstName', 'text', null,
                 array(
+                    'auto_initialize' => false,
                     'constraints' => array(
                         new NotBlank()
                     ),
@@ -111,6 +115,7 @@ class AccountController extends Controller
         $form->add(
             $formFactory->createNamed('lastName', 'text', null,
                 array(
+                    'auto_initialize' => false,
                     'constraints' => array(
                         new NotBlank()
                     ),
@@ -122,6 +127,7 @@ class AccountController extends Controller
         $form->add(
             $formFactory->createNamed('title', 'text', null,
                 array(
+                    'auto_initialize' => false,
                     'required' => false
                 )
             )
@@ -130,6 +136,7 @@ class AccountController extends Controller
         $form->add(
             $formFactory->createNamed('phone', 'text', null,
                 array(
+                    'auto_initialize' => false,
                     'constraints' => array(
                         new NotBlank(),
                     )
@@ -140,6 +147,7 @@ class AccountController extends Controller
         $form->add(
             $formFactory->createNamed('newsletter', 'checkbox', true,
                 array(
+                    'auto_initialize' => false,
                     'label' => 'Please sign me up for the Winspire newsletter, offers and important updates.',
                     'required' => false
                 )
@@ -149,6 +157,7 @@ class AccountController extends Controller
         $form->add(
             $formFactory->createNamed('event_name', 'text', null,
                 array(
+                    'auto_initialize' => false,
                     'constraints' => array(
                         new NotBlank(),
                         new Length(array('min' => 3))
@@ -163,6 +172,7 @@ class AccountController extends Controller
         $form->add(
             $formFactory->createNamed('event_date', 'text', null,
                 array(
+                    'auto_initialize' => false,
                     'constraints' => array(
                         new NotBlank(),
                     ),
@@ -176,6 +186,7 @@ class AccountController extends Controller
         $form->add(
             $formFactory->createNamed('referred', 'text', null,
                 array(
+                    'auto_initialize' => false,
                     'constraints' => array(
                     ),
                     'label' => 'Were you referred by anyone?',
@@ -188,6 +199,7 @@ class AccountController extends Controller
         $form->add(
             $formFactory->createNamed('source', 'choice', null,
                 array(
+                    'auto_initialize' => false,
                     'choices' => $this->sources,
                     'constraints' => array(
                         new Choice(array(
@@ -206,6 +218,7 @@ class AccountController extends Controller
         $form->add(
             $formFactory->createNamed('terms', 'checkbox', null,
                 array(
+                    'auto_initialize' => false,
                     'constraints' => array(
                         new True(array(
                             'message' => 'You must agree to the Terms of Use before proceeding.'
@@ -220,6 +233,7 @@ class AccountController extends Controller
         $form->add(
             $formFactory->createNamed('package', 'hidden', null,
                 array(
+                    'auto_initialize' => false,
                     'mapped' => false,
                     'required' => false
                 )

@@ -67,9 +67,9 @@ var env = '/app_dev.php';
 					<a href="{{ path('home') }}" id="core-home"> <img src="/img/ws-logo.png" alt="Winspire"/>
 					</a>
 {% if not app.user %}
-{%     render "InertiaWinspireBundle:Default:loginWidget" %}
+{%     render controller('InertiaWinspireBundle:Default:loginWidget') %}
 {% else %}
-{%     render "InertiaWinspireBundle:Suitcase:buttonWidget" %}
+{%     render controller('InertiaWinspireBundle:Suitcase:buttonWidget') %}
 {% endif %}
                     <nav id="core-nav">
                         <ul class="inline-nav">
@@ -87,7 +87,7 @@ var env = '/app_dev.php';
 				<!-- end c-wrap -->
 			</div>
 			<!-- end nav-core -->
-{% render "InertiaWinspireBundle:Default:siteNav" %}
+{% render controller('InertiaWinspireBundle:Default:siteNav') %}
 		</header>
 
 		<div class="content">
@@ -166,14 +166,14 @@ var env = '/app_dev.php';
     </script>
 
 {% if app.user and is_granted('ROLE_USER') %}
-{%     render "InertiaWinspireBundle:Suitcase:Create" %}
+{%     render controller('InertiaWinspireBundle:Suitcase:Create') %}
 {% endif %}
 
 {% if app.user and is_granted('ROLE_USER') and (app.session.get('sid')) and app.request.get('_route') != 'suitcaseView' and app.request.get('_route') != 'suitcaseAdmin' %}
-{%     render "InertiaWinspireBundle:Suitcase:Preview" %}
+{%     render controller('InertiaWinspireBundle:Suitcase:Preview') %}
 {% endif %}
     {% block jsBottom %}
-    <script src="/js/main.min.js"></script>
+    <script src="/js/main.js"></script>
     {% endblock %}
 {% if app.environment == 'prod' and (app.request.host == 'winspireme.com' or app.request.host == 'www.winspireme.com') %}
     <script>
