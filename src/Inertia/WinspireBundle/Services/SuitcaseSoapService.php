@@ -228,7 +228,7 @@ class SuitcaseSoapService
         
         $email = $user->getEmail();
         
-        $locale = $account->getCountry();
+        $locale = strtolower($account->getCountry());
         
         $message = \Swift_Message::newInstance()
             ->setSubject('Your Booking Vouchers are ready to deliver!')
