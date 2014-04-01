@@ -5,7 +5,6 @@ use Ddeboer\Salesforce\ClientBundle\Client;
 use Doctrine\ORM\EntityManager;
 use OldSound\RabbitMqBundle\RabbitMq\ConsumerInterface;
 use PhpAmqpLib\Message\AMQPMessage;
-use Symfony\Component\Templating\EngineInterface;
 
 class PriceUpdateConsumer implements ConsumerInterface
 {

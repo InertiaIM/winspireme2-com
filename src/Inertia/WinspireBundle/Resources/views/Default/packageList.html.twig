@@ -98,7 +98,7 @@
                 
                 <div class="row">
                     <ul class="pl-items">
-{% render "InertiaWinspireBundle:Default:packageSearch" with {'q': q, 'catIds': catIds} %}
+{% render controller('InertiaWinspireBundle:Default:packageSearch', {'q': q, 'catIds': catIds}) %}
                     </ul>
                 </div>
                 

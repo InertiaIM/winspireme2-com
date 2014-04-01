@@ -53,11 +53,11 @@
     <div id="home-experiences">
         <div class="c-wrap">
 
-            {% render "InertiaWinspireBundle:Default:lovedBy" %}
+            {% render controller('InertiaWinspireBundle:Default:lovedBy') %}
 
             <!-- Experiences & Featured Suitcases -->
             <div class="shadow-wrapper">
-{% render "InertiaWinspireBundle:Default:featuredPackages" %}
+{% render controller('InertiaWinspireBundle:Default:featuredPackages') %}
             </div>
             <!-- Experiences & Featured Suitcases -->
             
@@ -118,9 +118,9 @@
     
     <div id="home-footer">
         <div class="c-wrap">
-{% render "InertiaWinspireBundle:Default:testimonial" %}
+{% render controller('InertiaWinspireBundle:Default:testimonial') %}
 
-{% render "InertiaWinspireBundle:Default:wordpress" %}
+{% render controller('InertiaWinspireBundle:Default:wordpress') %}
             
         </div>
     </div>

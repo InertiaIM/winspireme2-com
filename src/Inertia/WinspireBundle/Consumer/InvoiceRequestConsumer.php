@@ -241,6 +241,7 @@ class InvoiceRequestConsumer implements ConsumerInterface
         
         $email = $suitcase->getUser()->getEmail();
         
+        $locale = strtolower($suitcase->getUser()->getCompany()->getCountry());
         
         if ($suitcase->getStatus() == 'M') {
             $filename = 'No Sells';
@@ -280,7 +281,8 @@ class InvoiceRequestConsumer implements ConsumerInterface
                         'subtotal' => $subtotal,
                         'fee' => $fee,
                         'grand_total' => $grandTotal,
-                        'from' => $from
+                        'from' => $from,
+                        'locale' => $locale,
                     )
                 ),
                 'text/html'

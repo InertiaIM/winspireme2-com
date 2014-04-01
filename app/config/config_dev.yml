@@ -21,6 +21,12 @@ monolog:
 
 assetic:
     use_controller: true
+    
+twig:
+    globals:
+        urls:
+            ca: http://winspire.ca.localhost/app_dev.php
+            us: http://winspireme2.localhost/app_dev.php
 
 #swiftmailer:
 #    delivery_address: me@example.com

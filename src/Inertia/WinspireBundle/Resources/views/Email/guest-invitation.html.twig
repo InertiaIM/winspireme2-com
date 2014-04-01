@@ -447,18 +447,18 @@
 									<tbody>
 										<tr>
 											<td align="left" class="hideme"><img src="https://s3.amazonaws.com/winspire-transactional-emails/spacer1px.gif" /></td>
-											<td align="right"><a href="http://winspireme.com/packages" title="mySuitcase Logo" alt="Create my own Suitcase" border="0"><img src="https://s3.amazonaws.com/winspire-transactional-emails/create-own-Suitcase.gif" width="150" height="24" alt="" border="0"></a></td>
+											<td align="right"><a href="{{ urls[locale] }}/packages" title="mySuitcase Logo" alt="Create my own Suitcase" border="0"><img src="https://s3.amazonaws.com/winspire-transactional-emails/create-own-Suitcase.gif" width="150" height="24" alt="" border="0"></a></td>
 										</tr>
 									</tbody>
 								</table>
 								<table width="600" class="width300" border="0" cellpadding="0" cellspacing="0">
   										<tbody>
   											<tr>
-												<td align="left" bgcolor="#ffffff" width="150"><a href="http://winspireme.com/" title="Winspire Homepage"><img src="https://s3.amazonaws.com/winspire-transactional-emails/winspire-logo.gif" style="display:block;" width="122" height="23" border="0" alt="winspireme.com"></a></td>
-												<td align="center" bgcolor="#ffffff" width="50"><a href="http://winspireme.com/about-us" style="text-decoration: none; display: block;"><span style="font-family:Arial, Helvetica, sans-serif; font-size:11px; color:#777777">About Us</span></a></td>
-												<td align="center" bgcolor="#ffffff" width="40"><a href="http://winspireme.com/faqs" style="text-decoration: none; display: block;"><span style="font-family:Arial, Helvetica, sans-serif; font-size:11px; color:#777777">FAQs</span></a></td>
-												<td align="center" bgcolor="#ffffff" width="50"><a href="http://winspireme.com/contact-us" style="text-decoration: none; display: block;"><span style="font-family:Arial, Helvetica, sans-serif; font-size:11px; color:#777777">Contact Us</span></a></td>
-												<td align="right" bgcolor="#ffffff" width="100"><a href="http://winspireme.com/packages" style="text-decoration: none; display: block;"><span style="font-family:Arial, Helvetica, sans-serif; font-size:11px; color:#dc8100;font-weight:bold;">BROWSE EXPERIENCES ></span></a></td>
+												<td align="left" bgcolor="#ffffff" width="150"><a href="{{ urls[locale] }}/" title="Winspire Homepage"><img src="https://s3.amazonaws.com/winspire-transactional-emails/winspire-logo.gif" style="display:block;" width="122" height="23" border="0" alt="winspireme.com"></a></td>
+												<td align="center" bgcolor="#ffffff" width="50"><a href="{{ urls[locale] }}/about-us" style="text-decoration: none; display: block;"><span style="font-family:Arial, Helvetica, sans-serif; font-size:11px; color:#777777">About Us</span></a></td>
+												<td align="center" bgcolor="#ffffff" width="40"><a href="{{ urls[locale] }}/faqs" style="text-decoration: none; display: block;"><span style="font-family:Arial, Helvetica, sans-serif; font-size:11px; color:#777777">FAQs</span></a></td>
+												<td align="center" bgcolor="#ffffff" width="50"><a href="{{ urls[locale] }}/contact-us" style="text-decoration: none; display: block;"><span style="font-family:Arial, Helvetica, sans-serif; font-size:11px; color:#777777">Contact Us</span></a></td>
+												<td align="right" bgcolor="#ffffff" width="100"><a href="{{ urls[locale] }}/packages" style="text-decoration: none; display: block;"><span style="font-family:Arial, Helvetica, sans-serif; font-size:11px; color:#dc8100;font-weight:bold;">BROWSE EXPERIENCES ></span></a></td>
 												
 											</tr>
 										</tbody>
@@ -489,7 +489,7 @@
 																			<img src="https://s3.amazonaws.com/winspire-transactional-emails/spacer1px.gif" />
 																		</td>
 																		<td valign="middle" align="left">
-																			<span style="font-size:14px;"><b>{{ share.suitcase.user.firstName }} {{ share.suitcase.user.lastName }} from <em>{{ share.suitcase.user.company.name }}</em> has invited you to view their Winspire Suitcase: <a href="http://winspireme.com/share/{{ share.token }}" title="Link to Suitcase">{{ share.suitcase.eventName }}</a></b></span>
+																			<span style="font-size:14px;"><b>{{ share.suitcase.user.firstName }} {{ share.suitcase.user.lastName }} from <em>{{ share.suitcase.user.company.name }}</em> has invited you to view their Winspire Suitcase: <a href="{{ urls[locale] }}/share/{{ share.token }}" title="Link to Suitcase">{{ share.suitcase.eventName }}</a></b></span>
 																		</td>
 																	</tr>
 																</table>
@@ -502,13 +502,13 @@
 																	</tr>
 																</table>
                                                                 <br/>
-                                                                <a title="View Suitcase" href="http://winspireme.com/share/{{ share.token }}"><img src="https://s3.amazonaws.com/winspire-transactional-emails/View-Suitcase-Button.gif" width="117" height="28" alt="View Suitcase" /></a>
+                                                                <a title="View Suitcase" href="{{ urls[locale] }}/share/{{ share.token }}"><img src="https://s3.amazonaws.com/winspire-transactional-emails/View-Suitcase-Button.gif" width="117" height="28" alt="View Suitcase" /></a>
                                                                 <br />
                                                                 <br />
                                                                 This Suitcase contains a selection of Winspire Experiences that {{ share.suitcase.user.firstName }} is thinking about including as auction items in an upcoming fundraising event for <em>{{ share.suitcase.user.company.name }}</em>.
                                                                 <br />
                                                                 <br />
-                                                                <a title="Visit Suitcase" href="http://winspireme.com/share/{{ share.token }}">Visit the Suitcase</a> and collaborate with other invited guests by posting comments in the discussion thread and help {{ share.suitcase.user.firstName }} select the best set of Experiences for the event.
+                                                                <a title="Visit Suitcase" href="{{ urls[locale] }}/share/{{ share.token }}">Visit the Suitcase</a> and collaborate with other invited guests by posting comments in the discussion thread and help {{ share.suitcase.user.firstName }} select the best set of Experiences for the event.
                                                             </div>
 														</td>
 													</tr>
@@ -605,7 +605,7 @@
                                                     <tr>
                                                         <td valign="top" width="400" align="center">
                                                             <div mc:edit="std_footer" style="line-height: 14px; font-family: arial, sans-serif; color: #777777; font-size: 11px">
-																Cross our hearts, we promise not to share your information! <a style="color:#0578c8" href="http://www.winspireme.com/privacy" alt="Winspire Privacy Policy">Read our updated Privacy Policy</a>.
+																Cross our hearts, we promise not to share your information! <a style="color:#0578c8" href="{{ urls[locale] }}/privacy" alt="Winspire Privacy Policy">Read our updated Privacy Policy</a>.
 																<br>
 																Copyright &copy; {{ 'now' | date('Y') }} Winspire, Inc, All rights reserved.
 																<br>

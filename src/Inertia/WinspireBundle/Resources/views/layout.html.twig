@@ -8,6 +8,9 @@
 <head>
 <title>{% block title %}Winspire{% endblock %}</title>
 
+<link rel="alternate" href="{{ urls['ca'] }}{{ app.request.pathInfo }}" hreflang="en-ca" />
+<link rel="alternate" href="{{ urls['us'] }}{{ app.request.pathInfo }}" hreflang="en" />
+
 <!-- Meta -->
 <meta charset="utf-8">
 <meta name="description" content="{% block description %}{% endblock %}">
@@ -67,9 +70,9 @@ var env = '/app_dev.php';
 					<a href="{{ path('home') }}" id="core-home"> <img src="/img/ws-logo.png" alt="Winspire"/>
 					</a>
 {% if not app.user %}
-{%     render "InertiaWinspireBundle:Default:loginWidget" %}
+{%     render controller('InertiaWinspireBundle:Default:loginWidget') %}
 {% else %}
-{%     render "InertiaWinspireBundle:Suitcase:buttonWidget" %}
+{%     render controller('InertiaWinspireBundle:Suitcase:buttonWidget') %}
 {% endif %}
                     <nav id="core-nav">
                         <ul class="inline-nav">
@@ -87,7 +90,7 @@ var env = '/app_dev.php';
 				<!-- end c-wrap -->
 			</div>
 			<!-- end nav-core -->
-{% render "InertiaWinspireBundle:Default:siteNav" %}
+{% render controller('InertiaWinspireBundle:Default:siteNav') %}
 		</header>
 
 		<div class="content">
@@ -150,6 +153,29 @@ var env = '/app_dev.php';
                             <li><span id="legal-copyright"> <a href="{{ path('pageDisplay', {'slug': 'copyright'}) }}">&copy; {{ 'now' | date('Y') }} Winspire All Rights Reserved</a> </span></li>
                         </ul>
                     </nav>
+
+                    <div id="country-select">
+                        <dl class="dropdown">
+                            <dt>
+{% if app.request.locale == 'us' %}
+                                <a href="#"><span class="flag us"></span><em>United States</em></a>
+{% endif %}
+{% if app.request.locale == 'ca' %}
+                                <a href="#"><span class="flag ca"></span><em>Canada</em></a>
+{% endif %}
+                            </dt>
+                            <dd>
+                                <ul>
+                                    <li>
+                                        <a href="{{ urls['us'] }}?_locale=us"><span class="flag us"></span><em>United States</em></a>
+                                    </li>
+                                    <li>
+                                        <a href="{{ urls['ca'] }}?_locale=ca"><span class="flag ca"></span><em>Canada</em></a>
+                                    </li>
+                                </ul>
+                            </dd>
+                        </dl>
+                    </div>
                 </div>
             </div>
         </footer>
@@ -166,16 +192,16 @@ var env = '/app_dev.php';
     </script>
 
 {% if app.user and is_granted('ROLE_USER') %}
-{%     render "InertiaWinspireBundle:Suitcase:Create" %}
+{%     render controller('InertiaWinspireBundle:Suitcase:Create') %}
 {% endif %}
 
 {% if app.user and is_granted('ROLE_USER') and (app.session.get('sid')) and app.request.get('_route') != 'suitcaseView' and app.request.get('_route') != 'suitcaseAdmin' %}
-{%     render "InertiaWinspireBundle:Suitcase:Preview" %}
+{%     render controller('InertiaWinspireBundle:Suitcase:Preview') %}
 {% endif %}
     {% block jsBottom %}
     <script src="/js/main.min.js"></script>
     {% endblock %}
-{% if app.environment == 'prod' and (app.request.host == 'winspireme.com' or app.request.host == 'www.winspireme.com') %}
+{% if app.environment == 'prod' and (app.request.host == 'winspireme.com' or app.request.host == 'www.winspireme.com' or app.request.host == 'winspireme.ca' or app.request.host == 'www.winspireme.ca') %}
     <script>
         var _gaq=[['_setAccount','UA-4391760-1'],['_trackPageview']];
         _gaq.push(['b._setAccount', 'UA-40010128-1'], ['b._trackPageview']);

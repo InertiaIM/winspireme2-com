@@ -7,7 +7,7 @@ Don't miss a thing - add {{ from | raw }} to your contacts list!
 Message from the Suitcase owner:
 {{ share.message }}
 
-View mySuitcase: http://winspireme.com/share/{{ share.token }}
+View mySuitcase: {{ urls[locale] }}/share/{{ share.token }}
 
 This Suitcase contains a selection of Winspire Experiences that {{ share.suitcase.user.firstName }} is thinking about including as auction items in an upcoming fundraising event for {{ share.suitcase.user.company.name }}.
 
@@ -34,4 +34,4 @@ Cross our hearts, we promise not to share your information! .
 Copyright © {{ 'now' | date('Y') }} Winspire, Inc, All rights reserved.
 23091 Mill Creek Rd, Laguna Hills, CA 92653
 
-** Read our updated Privacy Policy (http://www.winspireme.com/privacy)
+** Read our updated Privacy Policy ({{ urls[locale] }}/privacy)

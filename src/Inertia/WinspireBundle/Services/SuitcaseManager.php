@@ -341,12 +341,10 @@ class SuitcaseManager
         $suitcase = $this->querySuitcase($this->suitcaseUser, $active, $order, $sid);
         if ($suitcase != 'new') {
             $this->session->set('sid', $suitcase->getId());
-            $this->session->save();
             return $suitcase;
         }
         else {
             $this->session->set('sid', 'new');
-            $this->session->save();
             return 'new';
         }
     }

@@ -173,6 +173,8 @@ $this->logger->info('Why aren\'t we retrieving this invoice?');
         
         $email = $suitcase->getUser()->getEmail();
         
+        $locale = strtolower($suitcase->getUser()->getCompany()->getCountry());
+        
         $message = \Swift_Message::newInstance()
             ->setSubject('Winspire Invoice')
             ->setSender(array('info@winspireme.com' => 'Winspire'))
@@ -197,7 +199,8 @@ $this->logger->info('Why aren\'t we retrieving this invoice?');
                     'InertiaWinspireBundle:Email:invoice-attached.html.twig',
                     array(
                         'suitcase' => $suitcase,
-                        'from' => $from
+                        'from' => $from,
+                        'locale' => $locale,
                     )
                 ),
                 'text/html'
@@ -207,7 +210,8 @@ $this->logger->info('Why aren\'t we retrieving this invoice?');
                     'InertiaWinspireBundle:Email:invoice-attached.txt.twig',
                     array(
                         'suitcase' => $suitcase,
-                        'from' => $from
+                        'from' => $from,
+                        'locale' => $locale,
                     )
                 ),
                 'text/plain'

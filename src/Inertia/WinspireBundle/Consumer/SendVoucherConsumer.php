@@ -54,6 +54,8 @@ class SendVoucherConsumer implements ConsumerInterface
         $user = $suitcase->getUser();
         $account = $user->getCompany();
         
+        $locale = strtolower($account->getCountry());
+        
         $name = $booking->getFirstName() . ' ' .
             $booking->getLastName();
         
@@ -97,7 +99,8 @@ class SendVoucherConsumer implements ConsumerInterface
                         'booking' => $booking,
                         'suitcase' => $suitcase,
                         'message' => $customMessage,
-                        'content_pack_version_id' => $contentPackVersionId
+                        'content_pack_version_id' => $contentPackVersionId,
+                        'locale' => $locale,
                     )
                 ),
                 'text/html'
@@ -109,7 +112,8 @@ class SendVoucherConsumer implements ConsumerInterface
                         'booking' => $booking,
                         'suitcase' => $suitcase,
                         'message' => $customMessage,
-                        'content_pack_version_id' => $contentPackVersionId
+                        'content_pack_version_id' => $contentPackVersionId,
+                        'locale' => $locale,
                     )
                 ),
                 'text/plain'
@@ -147,7 +151,8 @@ class SendVoucherConsumer implements ConsumerInterface
                     'booking' => $booking,
                     'suitcase' => $suitcase,
                     'message' => $customMessage,
-                    'content_pack_version_id' => $contentPackVersionId
+                    'content_pack_version_id' => $contentPackVersionId,
+                    'locale' => $locale
                 )
             );
             

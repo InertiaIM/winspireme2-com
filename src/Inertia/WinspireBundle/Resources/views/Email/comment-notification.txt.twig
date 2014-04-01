@@ -2,11 +2,11 @@ You have a new comment that was added to your Suitcase.
 Don't miss a thing - add info@winspireme.com to your contacts list!
 ------------------------------------------------------------
 
-{{ comment.name }} has added the following comment to your Suitcase {{ comment.suitcase.eventName }} (http://winspireme.com/suitcase) :
+{{ comment.name }} has added the following comment to your Suitcase {{ comment.suitcase.eventName }} ({{ urls[locale] }}/suitcase) :
 
 {{ comment.message | nl2br }}
 
-View mySuitcase: http://winspireme.com/suitcase
+View mySuitcase: {{ urls[locale] }}/suitcase
 
 Questions?
 Give us a call at 1.877.544.8555 or contact your Winspire Event Consultant:
@@ -31,4 +31,4 @@ Cross our hearts, we promise not to share your information! .
 Copyright © {{ 'now' | date('Y') }} Winspire, Inc, All rights reserved.
 23091 Mill Creek Rd, Laguna Hills, CA 92653
 
-** Read our updated Privacy Policy (http://www.winspireme.com/privacy) 
+** Read our updated Privacy Policy ({{ urls[locale] }}/privacy) 

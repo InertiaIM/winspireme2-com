@@ -453,11 +453,11 @@
 								<table width="600" class="width300" border="0" cellpadding="0" cellspacing="0">
   										<tbody>
   											<tr>
-												<td align="left" bgcolor="#ffffff" width="150"><a href="http://winspireme.com" title="Winspire Homepage"><img src="https://s3.amazonaws.com/winspire-transactional-emails/winspire-logo.gif" style="display:block;" width="122" height="23" border="0" alt="winspireme.com"></a></td>
-												<td align="center" bgcolor="#ffffff" width="50"><a href="http://winspireme.com/about-us" style="text-decoration: none; display: block;"><span style="font-family:Arial, Helvetica, sans-serif; font-size:11px; color:#777777">About Us</span></a></td>
-												<td align="center" bgcolor="#ffffff" width="40"><a href="http://winspireme.com/faqs" style="text-decoration: none; display: block;"><span style="font-family:Arial, Helvetica, sans-serif; font-size:11px; color:#777777">FAQs</span></a></td>
-												<td align="center" bgcolor="#ffffff" width="50"><a href="http://winspireme.com/contact-us" style="text-decoration: none; display: block;"><span style="font-family:Arial, Helvetica, sans-serif; font-size:11px; color:#777777">Contact Us</span></a></td>
-												<td align="right" bgcolor="#ffffff" width="100"><a href="http://winspireme.com/packages" style="text-decoration: none; display: block;"><span style="font-family:Arial, Helvetica, sans-serif; font-size:11px; color:#dc8100;font-weight:bold;">BROWSE EXPERIENCES ></span></a></td>
+												<td align="left" bgcolor="#ffffff" width="150"><a href="{{ urls[locale] }}" title="Winspire Homepage"><img src="https://s3.amazonaws.com/winspire-transactional-emails/winspire-logo.gif" style="display:block;" width="122" height="23" border="0" alt="winspireme.com"></a></td>
+												<td align="center" bgcolor="#ffffff" width="50"><a href="{{ urls[locale] }}/about-us" style="text-decoration: none; display: block;"><span style="font-family:Arial, Helvetica, sans-serif; font-size:11px; color:#777777">About Us</span></a></td>
+												<td align="center" bgcolor="#ffffff" width="40"><a href="{{ urls[locale] }}/faqs" style="text-decoration: none; display: block;"><span style="font-family:Arial, Helvetica, sans-serif; font-size:11px; color:#777777">FAQs</span></a></td>
+												<td align="center" bgcolor="#ffffff" width="50"><a href="{{ urls[locale] }}/contact-us" style="text-decoration: none; display: block;"><span style="font-family:Arial, Helvetica, sans-serif; font-size:11px; color:#777777">Contact Us</span></a></td>
+												<td align="right" bgcolor="#ffffff" width="100"><a href="{{ urls[locale] }}/packages" style="text-decoration: none; display: block;"><span style="font-family:Arial, Helvetica, sans-serif; font-size:11px; color:#dc8100;font-weight:bold;">BROWSE EXPERIENCES ></span></a></td>
 											</tr>
 										</tbody>
 									</table>
@@ -592,7 +592,7 @@
 																					<table border="0" cellpadding="0" cellspacing="0" width="100%">
 																						<tr>
 																							<td align="left" valign="top">
-																								<a href="http://winspireme.com/package/{{ item.package.slug }}" style="text-decoration:none;"><span style="font-size:16px;color:#005695;font-weight:bold;">{{ item.package.parentHeader }}</span></a><br />
+																								<a href="{{ urls[locale] }}/package/{{ item.package.slug }}" style="text-decoration:none;"><span style="font-size:16px;color:#005695;font-weight:bold;">{{ item.package.parentHeader }}</span></a><br />
 																								<span style="font-size:12px;line-height:15px;">{{ item.package.name }}</span>
 																							</td>
 																						</tr>
@@ -836,7 +836,7 @@
                                                     <tr>
                                                         <td valign="top" width="400" align="center">
                                                             <div mc:edit="std_footer" style="line-height: 14px; font-family: arial, sans-serif; color: #777777; font-size: 11px">
-																Cross our hearts, we promise not to share your information! <a style="color:#0578c8" href="http://www.winspireme.com/privacy" alt="Winspire Privacy Policy">Read our updated Privacy Policy</a>.
+																Cross our hearts, we promise not to share your information! <a style="color:#0578c8" href="{{ urls[locale] }}/privacy" alt="Winspire Privacy Policy">Read our updated Privacy Policy</a>.
 																<br>
 																Copyright &copy; {{ 'now' | date('Y') }} Winspire, Inc, All rights reserved.
 																<br>

@@ -26,7 +26,7 @@ PACKAGE #: {{ booking.suitcaseItem.package.code }}
 
 ****************** REDEEM THIS EXPERIENCE ******************
 
-Visit: http://winspireme.com/redeem
+Visit: {{ urls[locale] }}/redeem
 
 ************************************************************
 
@@ -52,11 +52,11 @@ Important information about redeeming this voucher:
 Questions about your Experience?
 Email Winspire at travelinfo@winspireme.com or call (949) 468-0689.
 
-Winspire Home (http://winspireme.com)
-About Us (http://winspireme.com/about-us)
-FAQs (http://winspireme.com/faqs)
-How Winspire Works (http://www.winspireme.com/how-winspire-works)
-Contact Us (http://www.winspireme.com/contact-us)
+Winspire Home ({{ urls[locale] }})
+About Us ({{ urls[locale] }}/about-us)
+FAQs ({{ urls[locale] }}/faqs)
+How Winspire Works ({{ urls[locale] }}/how-winspire-works)
+Contact Us ({{ urls[locale] }}/contact-us)
 
 FIND US
 Winspire Facebook Page (https://www.facebook.com/Winspire) 
@@ -68,4 +68,4 @@ Cross our hearts, we promise not to share your information!
 Copyright © {{ 'now' | date('Y') }} Winspire, Inc, All rights reserved.
 23091 Mill Creek Rd, Laguna Hills, CA 92653
 
-** Read our updated Privacy Policy (http://www.winspireme.com/privacy)
+** Read our updated Privacy Policy ({{ urls[locale] }}/privacy)

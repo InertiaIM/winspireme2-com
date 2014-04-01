@@ -37,6 +37,8 @@ class ShareSuitcaseConsumer implements ConsumerInterface
 //            throw $this->createNotFoundException();
         }
         
+        $locale = strtolower($share->getSuitcase()->getUser()->getCompany()->getCountry());
+        
         $message = \Swift_Message::newInstance()
             ->setSubject('You have been invited to view a Suitcase')
             ->setSender(array('info@winspireme.com' => 'Winspire'))
@@ -56,7 +58,8 @@ class ShareSuitcaseConsumer implements ConsumerInterface
                     'InertiaWinspireBundle:Email:guest-invitation.html.twig',
                     array(
                         'share' => $share,
-                        'from' => $share->getSuitcase()->getUser()->getEmail()
+                        'from' => $share->getSuitcase()->getUser()->getEmail(),
+                        'locale' => $locale,
                     )
                 ),
                 'text/html'
@@ -66,7 +69,8 @@ class ShareSuitcaseConsumer implements ConsumerInterface
                     'InertiaWinspireBundle:Email:guest-invitation.txt.twig',
                     array(
                         'share' => $share,
-                        'from' => $share->getSuitcase()->getUser()->getEmail()
+                        'from' => $share->getSuitcase()->getUser()->getEmail(),
+                        'locale' => $locale,
                     )
                 ),
                 'text/plain'

@@ -246,6 +246,8 @@ class PackSuitcaseConsumer implements ConsumerInterface
         
         $email = $suitcase->getUser()->getEmail();
         
+        $locale = strtolower($suitcase->getUser()->getCompany()->getCountry());
+        
         $message = \Swift_Message::newInstance()
             ->setSubject('Winspire Reservation Confirmation')
             ->setSender(array('info@winspireme.com' => 'Winspire'))
@@ -271,7 +273,8 @@ class PackSuitcaseConsumer implements ConsumerInterface
                     array(
                         'suitcase' => $suitcase,
                         'first' => $first,
-                        'from' => $from
+                        'from' => $from,
+                        'locale' => $locale,
                     )
                 ),
                 'text/html'
@@ -282,7 +285,8 @@ class PackSuitcaseConsumer implements ConsumerInterface
                     array(
                         'suitcase' => $suitcase,
                         'first' => $first,
-                        'from' => $from
+                        'from' => $from,
+                        'locale' => $locale
                     )
                 ),
                 'text/plain'

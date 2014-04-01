@@ -2338,7 +2338,7 @@ $(document).ready(function() {
         showOn: 'both'
     });
     
-    var provinceOptions = $('#fos_user_registration_form_account_state option[value|="CA"]').detach();
+    var provinceOptions = $('#fos_user_registration_form_account_state option[value|="CA"]').clone();
     var stateOptions = $('#fos_user_registration_form_account_state option[value|="US"]').clone();
     
     $('form#account-new select').selectBoxIt({
@@ -2349,18 +2349,18 @@ $(document).ready(function() {
     
     var stateSelectBox = $('select#fos_user_registration_form_account_state').data('selectBox-selectBoxIt');
     
-    $('select#fos_user_registration_form_account_country').on('changed', function() {
-        if ($(this).val() == 'CA') {
-            $('#fos_user_registration_form_account_state option[value|="US"]').remove();
-            $(provinceOptions).appendTo('#fos_user_registration_form_account_state');
-            stateSelectBox.refresh();
-        }
-        else {
+    if ($('#fos_user_registration_form_account_country').length > 0 ) {
+        if ($('#fos_user_registration_form_account_country').val() == 'US') {
             $('#fos_user_registration_form_account_state option[value|="CA"]').remove();
             $(stateOptions).appendTo('#fos_user_registration_form_account_state');
-            stateSelectBox.refresh();
         }
-    });
+        else {
+            $('#fos_user_registration_form_account_state option[value|="US"]').remove();
+            $(provinceOptions).appendTo('#fos_user_registration_form_account_state');
+        }
+
+        stateSelectBox.refresh();
+    }
     
     $('form#account-new #part1 button').on('click', function(e) {
         e.preventDefault();
@@ -2755,6 +2755,34 @@ $(function() {
     $(window).on('beforeunload', function() {
         if (unsaved) {
             return 'There are unsaved items on this page!';
+        }
+    });
+});
+
+
+/* Locale Selector */
+$(document).ready(function() {
+    var $dropTrigger = $('#country-select .dropdown dt a');
+    var $languageList = $('#country-select .dropdown dd ul');
+    
+    $dropTrigger.on('click', function(e) {
+        e.preventDefault();
+        if ($languageList.is(':hidden')) {
+            $languageList.slideDown(100);
+            $(this).addClass('active');
+        }
+        else {
+            $languageList.slideUp(100);
+            $(this).removeClass('active');
+        }
+    });
+    
+    // close list when anywhere else on the screen is clicked
+    $(document).on('click', function(e) {
+        var $clicked = $(e.target);
+        if (! $clicked.parents().hasClass('dropdown')) {
+            $languageList.slideUp(100);
+            $dropTrigger.removeClass('active');
         }
     });
 });

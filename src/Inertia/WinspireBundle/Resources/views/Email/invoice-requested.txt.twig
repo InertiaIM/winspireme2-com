@@ -5,9 +5,9 @@ Questions? Email {{ from | raw }}
 Thank you for requesting your invoice.
 An invoice should arrive in your inbox within 1 business day. In the meantime, please visit your Suitcase and begin filling out the Winning Bidder information.
 
-Visit mySuitcase: http://winspireme.com/suitcase
+Visit mySuitcase: {{ urls[locale] }}/suitcase
 
-The following steps will ensure that Winning Bidders get their Booking Vouchers (http://winspireme.com/faqs#what-is-a-booking-voucher) in a timely manner:
+The following steps will ensure that Winning Bidders get their Booking Vouchers ({{ urls[locale] }}/faqs#what-is-a-booking-voucher) in a timely manner:
 
 1. Tell Us How Much You Sold - DONE
 2. Generate Invoice - DONE
@@ -21,7 +21,7 @@ Please review the following list of Experiences you sold at your event. All Expe
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 {% for item in suitcase.items %}
 {{ item.package.parentHeader }}
-Package URL: http://winspireme.com/package/{{ item.package.slug }}
+Package URL: {{ urls[locale] }}/package/{{ item.package.slug }}
 {{ item.package.name }}
 Package Code: ( {{ item.package.code }} )
 
@@ -63,4 +63,4 @@ Cross our hearts, we promise not to share your information!
 Copyright © {{ 'now' | date('Y') }} Winspire, Inc, All rights reserved.
 23091 Mill Creek Rd, Laguna Hills, CA 92653
 
-** Read our updated Privacy Policy (http://www.winspireme.com/privacy) 
+** Read our updated Privacy Policy ({{ urls[locale] }}/privacy) 

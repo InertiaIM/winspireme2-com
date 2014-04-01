@@ -4,6 +4,7 @@ namespace Inertia\WinspireBundle\Services;
 use Ddeboer\Salesforce\ClientBundle\Client;
 use Doctrine\ORM\EntityManager;
 use Inertia\WinspireBundle\Entity\Package;
+use Inertia\WinspireBundle\Entity\PackageOrigin;
 use OldSound\RabbitMqBundle\RabbitMq\Producer;
 use Search\SphinxsearchBundle\Services\Indexer\Indexer;
 use Symfony\Bridge\Monolog\Logger;
@@ -99,6 +100,7 @@ fwrite($dump, print_r($notifications, true));
                 'WEB_Participants__c, ' .
                 'WEB_Recommendations__c, ' .
                 'OMIT_from_Winspire__c, ' .
+                'Origin__c, ' .
                 'SystemModstamp ' .
                 'FROM Product2 ' .
                 'WHERE ' .
@@ -321,6 +323,32 @@ fwrite($dump, print_r($notifications, true));
             }
             
             
+            $origins = array();
+            if(isset($p->Origin__c)) {
+                $origins = explode(';', $p->Origin__c);
+            }
+            foreach($package->getOrigins() as $o) {
+                $package->removeOrigin($o);
+                //TODO why is this necessary for origin removal?
+                $this->em->remove($o);
+            }
+            foreach($origins as $origin) {
+                switch (strtolower($origin)) {
+                    case 'canada':
+                        $locale = 'ca';
+                        break;
+                    case 'us':
+                        $locale = 'us';
+                        break;
+                    default:
+                        $locale = strtolower($origin);
+                }
+                $o = new PackageOrigin();
+                $o->setCode($locale);
+                $this->em->persist($o);
+                $package->addOrigin($o);
+            }
+            
             $this->logger->info('Starting pricebook lookup...');
             
             $pricebookResult = $this->sf->query('SELECT ' .
@@ -457,6 +485,8 @@ fwrite($dump, print_r($notifications, true));
                         $email = $suitcase->getUser()->getEmail();
                         $account = $suitcase->getUser()->getCompany();
                         
+                        $locale = strtolower($account->getCountry());
+                        
                         $message = \Swift_Message::newInstance()
                             ->setSubject('Package No Longer Available')
                             ->setSender(array('info@winspireme.com' => 'Winspire'))
@@ -482,7 +512,8 @@ fwrite($dump, print_r($notifications, true));
                                     array(
                                         'suitcase' => $suitcase,
                                         'package' => $package,
-                                        'from' => $from
+                                        'from' => $from,
+                                        'locale' => $locale,
                                     )
                                 ),
                                 'text/html'
@@ -493,7 +524,8 @@ fwrite($dump, print_r($notifications, true));
                                     array(
                                         'suitcase' => $suitcase,
                                         'package' => $package,
-                                        'from' => $from
+                                        'from' => $from,
+                                        'locale' => $locale,
                                     )
                                 ),
                                 'text/plain'

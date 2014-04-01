@@ -1,7 +1,7 @@
 {% for package in packages %}
 {%     set count = package.count %}
 {%     set available = package.available %}
-{%     set package = package.package %}
+{%     set package = package.default %}
                         <li class="drop-shadow lifted2">
                             <div class="i-inner">
                                 <div class="i-image"><img src="//assets.winspireme.com/packages/{{ package.thumbnail }}" alt="" width="129" height="85"/></div>

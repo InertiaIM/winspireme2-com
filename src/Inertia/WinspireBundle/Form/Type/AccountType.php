@@ -91,18 +91,16 @@ class AccountType extends AbstractType
             ),
             'label' => 'Non-Profit / Organization Name'
         ));
-        $builder->add('country', 'choice', array(
-            'choices' => $this->countries,
+        $builder->add('country', 'hidden', array(
             'constraints' => array(
                 new Choice(array(
                     'choices' => $this->getKeys($this->countries),
-                    'message' => 'Please choose a country.'
                 )),
                 new NotBlank(array(
-                    'message' => 'Please choose a country.'
-                ))
+                    'message' => 'Please select your country.'
+                )),
             ),
-            'empty_value' => '',
+            'label' => 'Please select your country...'
         ));
         $builder->add('state', 'choice', array(
             'choices' => $this->states,

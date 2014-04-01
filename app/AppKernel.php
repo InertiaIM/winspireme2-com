@@ -28,6 +28,7 @@ class AppKernel extends Kernel
             new Inertia\WinspireBundle\InertiaWinspireBundle(),
             new OldSound\RabbitMqBundle\OldSoundRabbitMqBundle(),
             new Search\SphinxsearchBundle\SphinxsearchBundle(),
+            new Maxmind\Bundle\GeoipBundle\MaxmindGeoipBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {

@@ -9,6 +9,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Inertia\WinspireBundle\Entity\Account;
 use Inertia\WinspireBundle\Entity\Category;
 use Inertia\WinspireBundle\Entity\Package;
+use Inertia\WinspireBundle\Entity\PackageOrigin;
 use Inertia\WinspireBundle\Entity\User;
 
 
@@ -246,6 +247,7 @@ class SalesforceCommand extends ContainerAwareCommand
                     'WEB_Participants__c, ' .
                     'WEB_Recommendations__c, ' .
                     'OMIT_from_Winspire__c, ' .
+                    'Origin__c, ' .
                     'SystemModstamp ' .
                     'FROM Product2 ' .
                     'WHERE ' .
@@ -415,6 +417,19 @@ class SalesforceCommand extends ContainerAwareCommand
                         }
                     }
                     
+                    $origins = array();
+                    if(isset($p->Origin__c)) {
+                        $origins = explode(';', $p->Origin__c);
+                    }
+                    foreach($package->getOrigins() as $o) {
+                        $package->removeOrigin($o);
+                    }
+                    foreach($origins as $origin) {
+                        $o = new PackageOrigin();
+                        $o->setCode($origin);
+                        $package->addOrigin($o);
+                    }
+                    
                     $output->writeln('<info>Starting pricebook lookup...</info>');
                     
                     $pricebookResult = $client->query('SELECT ' .
@@ -450,6 +465,107 @@ class SalesforceCommand extends ContainerAwareCommand
                 $indexer = $this->getContainer()->get('search.sphinxsearch.indexer');
                 $indexer->rotate('Packages');
                 
+                break;
+
+
+            case 'dump':
+                $packageResult = $client->query('SELECT ' .
+                    'Id, ' .
+                    'Name, ' .
+                    'ProductCode, ' .
+                    'WEB_package_subtitle__c, ' .
+                    'WEB_package_description__c, ' .
+                    'Keyword_search__c, ' .
+                    'Location__c, ' .
+                    'Content_PACK__c, ' .
+                    'Year_Version__c, ' .
+                    'Suggested_Retail_Value__c, ' .
+                    'Home_Page_view__c, ' .
+                    'Package_Category_Pairings__c, ' .
+                    'New_Item__c, ' .
+                    'Best_Seller__c, ' .
+                    'WEB_Default_version__c, ' .
+                    'Parent_Header__c, ' .
+                    'IsActive, ' .
+                    'WEB_picture__c, ' .
+                    'WEB_thumbnail__c, ' .
+                    'WEB_picture_title__c, ' .
+                    'Web_URL_slug__c, ' .
+                    'WEB_seasonal_pkg__c, ' .
+                    'WEB_meta_title__c, ' .
+                    'WEB_meta_description__c, ' .
+                    'WEB_meta_keywords__c, ' .
+                    'WEB_Airfare_pax__c, ' .
+                    'WEB_Nights__c, ' .
+                    'WEB_Participants__c, ' .
+                    'WEB_Recommendations__c, ' .
+                    'OMIT_from_Winspire__c, ' .
+                    'Origin__c, ' .
+                    'SystemModstamp ' .
+                    'FROM Product2 ' .
+                    'WHERE ' .
+                    'family = \'No-Risk Auction Package\' ' .
+                    'AND IsDeleted = false ' .
+                    'AND WEB_package_subtitle__c != \'\' ' .
+                    'AND Parent_Header__c != \'\''
+                );
+
+$output->writeln('<info>PACKAGE COUNT: ' . count($packageResult) . '</info>');
+                $count = 0;
+                foreach ($packageResult as $p) {
+                    $output->writeln('<info>' . $p->Parent_Header__c . '</info>');
+                    
+                    $package = $em->getRepository('InertiaWinspireBundle:Package')->findOneBySfId($p->Id);
+                    
+                    if(!$package) {
+                        continue;
+                    }
+                    else {
+                        // Package already exists, just update
+                        $output->writeln('<info>Existing package (' . $p->Id . ') to be updated</info>');
+                    }
+                    
+                    $origins = array();
+                    if(isset($p->Origin__c)) {
+                        $origins = explode(';', $p->Origin__c);
+                    }
+                    foreach($package->getOrigins() as $o) {
+                        $package->removeOrigin($o);
+                        $em->remove($o);
+                        $em->flush();
+$output->writeln('<error>Remove origin (' . $o->getCode() . ') </error>');
+                    }
+                    foreach($origins as $origin) {
+                        switch (strtolower($origin)) {
+                            case 'canada':
+                                $locale = 'ca';
+                                break;
+                            case 'us':
+                                $locale = 'us';
+                                break;
+                            default:
+                                $locale = strtolower($origin);
+                        }
+                        $o = new PackageOrigin();
+                        $o->setCode($locale);
+                        $em->persist($o);
+                        $package->addOrigin($o);
+                    }
+                    
+                    $package->setUpdated($p->SystemModstamp);
+                    
+                    $em->persist($package);
+                    $em->flush();
+
+                    $count++;
+                    $output->writeln('<info>' . $count . '</info>');
+                    $output->writeln('<info>Package saved...</info>');
+                }
+                
+//                $output->writeln('<info>Now we\'ll generate our search index...</info>');
+//                $indexer = $this->getContainer()->get('search.sphinxsearch.indexer');
+//                $indexer->rotate('Packages');
+
                 break;
                 
                 

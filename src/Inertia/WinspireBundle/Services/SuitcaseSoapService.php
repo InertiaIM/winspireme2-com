@@ -140,6 +140,8 @@ class SuitcaseSoapService
                             
                             $email = $user->getEmail();
                             
+                            $locale = strtolower($user->getCompany()->getCountry());
+                            
                             $salesperson = array(
                                 $user->getCompany()->getSalesperson()->getEmail() =>
                                 $user->getCompany()->getSalesperson()->getFirstName() . ' ' .
@@ -156,14 +158,22 @@ class SuitcaseSoapService
                                 ->setBody(
                                     $this->templating->render(
                                         'InertiaWinspireBundle:Email:event-consultant-intro.html.twig',
-                                        array('user' => $user, 'from' => $user->getCompany()->getSalesperson()->getEmail())
+                                        array(
+                                            'user' => $user,
+                                            'from' => $user->getCompany()->getSalesperson()->getEmail(),
+                                            'locale' => $locale,
+                                        )
                                     ),
                                     'text/html'
                                 )
                                 ->addPart(
                                     $this->templating->render(
                                         'InertiaWinspireBundle:Email:event-consultant-intro.txt.twig',
-                                        array('user' => $user, 'from' => $user->getCompany()->getSalesperson()->getEmail())
+                                        array(
+                                            'user' => $user,
+                                            'from' => $user->getCompany()->getSalesperson()->getEmail(),
+                                            'locale' => $locale,
+                                        )
                                     ),
                                     'text/plain'
                                 )
@@ -218,6 +228,8 @@ class SuitcaseSoapService
         
         $email = $user->getEmail();
         
+        $locale = $account->getCountry();
+        
         $message = \Swift_Message::newInstance()
             ->setSubject('Your Booking Vouchers are ready to deliver!')
             ->setSender(array('info@winspireme.com' => 'Winspire'))
@@ -242,7 +254,8 @@ class SuitcaseSoapService
                     'InertiaWinspireBundle:Email:travel-vouchers-ready.html.twig',
                     array(
                         'suitcase' => $suitcase,
-                        'from' => $from
+                        'from' => $from,
+                        'locale' => $locale,
                     )
                 ), 'text/html'
             )
@@ -251,7 +264,8 @@ class SuitcaseSoapService
                     'InertiaWinspireBundle:Email:travel-vouchers-ready.txt.twig',
                     array(
                         'suitcase' => $suitcase,
-                        'from' => $from
+                        'from' => $from,
+                        'locale' => $locale,
                     )
                 ), 'text/plain'
             )
