@@ -12,71 +12,115 @@ class DefaultController extends Controller
     public function featuredPackagesAction()
     {
         $locale = $this->getRequest()->getLocale();
-        
         $suitcase = $this->get('winspire.suitcase.manager')->getSuitcase();
         
+        // First we select all the packages in the pool of "on home"
+        // (filtered by locale for non-admin users)
         $em = $this->getDoctrine()->getManager();
-        $query = $em->createQuery(
-            'SELECT p FROM InertiaWinspireBundle:Package p LEFT JOIN p.origins o WHERE p.is_private != 1 AND p.active = 1 AND p.available = 1 AND (o.code = :code) ORDER BY p.parent_header ASC, p.is_default DESC'
-        );
+        if ($this->get('security.context')->isGranted('ROLE_ADMIN')) {
+            $query = $em->createQuery(
+                'SELECT p FROM InertiaWinspireBundle:Package p WHERE p.is_private != 1 AND p.active = 1 AND p.available = 1 AND p.is_on_home = 1 AND p.is_default = 1'
+            );
+        }
+        else {
+            $query = $em->createQuery(
+                'SELECT p FROM InertiaWinspireBundle:Package p LEFT JOIN p.origins o WHERE p.is_private != 1 AND p.active = 1 AND p.available = 1 AND p.is_on_home = 1 AND p.is_default = 1 AND (o.code = :code)'
+            );
+            $query->setParameter('code', $locale);
+        }
         
-        $query->setParameter('code', $locale);
+        // Next we put the parentHeaders into a regular array
+        // for running them through array_rand
+        $defaultPackages = $query->getResult();
+        $temp = array();
+        foreach ($defaultPackages as $p) {
+            $temp[] = $p->getParentHeader();
+        }
+        
+        // Limit the output to 17 packages to prevent too much load time
+        if (count($temp) > 17) {
+            $keys = array_rand($temp, 17);
+        }
+        else {
+            $keys = array_rand($temp, count($temp));
+        }
+        
+        $parentHeaders = array();
+        foreach ($keys as $key) {
+            $parentHeaders[] = $temp[$key];
+        }
+        
+        // Setup new query to get counts of variants for the
+        // randomly chosen packages (parentHeaders)
+        if ($this->get('security.context')->isGranted('ROLE_ADMIN')) {
+            $query = $em->createQuery(
+                'SELECT p FROM InertiaWinspireBundle:Package p WHERE p.active = 1 AND p.available = 1 AND p.parent_header in (:ph)'
+            );
+            $query->setParameter('ph', $parentHeaders);
+        }
+        else {
+            $query = $em->createQuery(
+                'SELECT p FROM InertiaWinspireBundle:Package p LEFT JOIN p.origins o WHERE p.is_private != 1 AND p.active = 1 AND p.available = 1 AND (o.code = :code) AND p.parent_header in (:ph)'
+            );
+            $query->setParameter('code', $locale);
+            $query->setParameter('ph', $parentHeaders);
+        }
         
         $packages = $query->getResult();
         
-        // TODO this is too complex.  Break the Packages and Variants into
-        // separate entities to simplify the queries.
-        $defaultPackages = array();
-        $currentHeader = '';
-        $count = 0;
+        
+        $featuredPackages = array();
         foreach($packages as $package) {
-            if($package->getIsDefault() && $package->getIsOnHome()) {
-                $count = 1;
-                $index = $package->getId();
+            $featuredPackages[$package->getParentHeader()]['packages'][] = $package->getCode();
+            
+            if ($package->getIsDefault()) {
+                $featuredPackages[$package->getParentHeader()]['default'] = $package;
                 
-                // Determine whether to show the "Add to Suitcase" button based 
+                // Determine whether to show the "Add to Suitcase" button based
                 // on the Packages already contained in the session.
                 // TODO refactor for a more efficient algorithm
                 $available = true;
+                
                 if ($suitcase && $suitcase != 'new') {
                     foreach($suitcase->getItems() as $i) {
                         // We already have this item in our cart;
                         // so we can stop here...
-                        if($i->getPackage()->getId() == $index) {
+                        if($i->getPackage()->getId() == $package->getId()) {
                             $available = false;
                         }
                     }
                 }
                 
-                $defaultPackages[$index] = array('package' => $package, 'count' => 1, 'available' => $available);
-            }
-            if($currentHeader != $package->getParentHeader()) {
-                $currentHeader = $package->getParentHeader();
-            }
-            else {
-                $count++;
-            }
-            
-            if (isset($index)) {
-                $defaultPackages[$index]['count'] = $count;
+                $featuredPackages[$package->getParentHeader()]['available'] = $available;
             }
         }
         
-        if (count($defaultPackages) > 17) {
-            $keys = array_rand($defaultPackages, 17);
-        }
-        else {
-            $keys = array_keys($defaultPackages);
+        // Special considerations for Admin users who will see all locales
+        // and all "default" versions.  So we want them to see the "default"
+        // as the US version (ignoring the defaults in others locales).
+        if ($this->get('security.context')->isGranted('ROLE_ADMIN')) {
+            foreach($packages as $package) {
+                if ($package->getIsDefault()) {
+                    $origins = $package->getOrigins();
+                    $localeArray = array();
+                    foreach($origins as $o) {
+                        $localeArray[] = $o->getCode();
+                    }
+                    
+                    if (in_array('us', $localeArray)) {
+                        $featuredPackages[$package->getParentHeader()]['default'] = $package;
+                    }
+                }
+            }
         }
         
-        $temp = array();
-        foreach($keys as $key) {
-            $temp[] = $defaultPackages[$key];
+        foreach ($featuredPackages as $key => $p) {
+            $featuredPackages[$key]['count'] = count($p['packages']);
         }
         
         return $this->render('InertiaWinspireBundle:Default:featuredPackages.html.twig',
             array(
-                'packages' => $temp
+                'packages' => $featuredPackages,
             )
         );
     }

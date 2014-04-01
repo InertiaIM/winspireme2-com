@@ -25,14 +25,14 @@
                                 <div>
 {% for package in packages %}
                                     <li>
-                                        <a href="{{ path('packageDetail', {'slug': package.package.slug}) }}"><img src="//assets.winspireme.com/packages/{{ package.package.thumbnail }}" width="144" height="94" alt=""/></a>
-                                        <p>{{ package.package.parentHeader }}</p>
+                                        <a href="{{ path('packageDetail', {'slug': package.default.slug}) }}"><img src="//assets.winspireme.com/packages/{{ package.default.thumbnail }}" width="144" height="94" alt=""/></a>
+                                        <p>{{ package.default.parentHeader }}</p>
 {%     if (package.count) > 1 %}
-                                        <a href="{{ path('packageDetail', {'slug': package.package.slug}) }}" class="f-options">view {{ package.count }} options <span aria-hidden="true" class="icon-arrow-right"></span></a>
+                                        <a href="{{ path('packageDetail', {'slug': package.default.slug}) }}" class="f-options">view {{ package.count }} options <span aria-hidden="true" class="icon-arrow-right"></span></a>
 {%     else %}
-                                        <a href="{{ path('packageDetail', {'slug': package.package.slug}) }}" class="f-options">view details <span aria-hidden="true" class="icon-arrow-right"></span></a>
+                                        <a href="{{ path('packageDetail', {'slug': package.default.slug}) }}" class="f-options">view details <span aria-hidden="true" class="icon-arrow-right"></span></a>
 {%     endif %}
-                                        <a href="#" class="f-add{% if not package.available %} disabled{% endif %}" data-id="{{ package.package.id }}"><span aria-hidden="true" class="icon-suitcase"></span><em>Add to </em>Suitcase</a>
+                                        <a href="#" class="f-add{% if not package.available %} disabled{% endif %}" data-id="{{ package.default.id }}"><span aria-hidden="true" class="icon-suitcase"></span><em>Add to </em>Suitcase</a>
                                     </li>
 {%     if loop.index is divisibleby(3) %}
                                 </div>
