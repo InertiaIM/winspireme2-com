@@ -43,6 +43,8 @@ $output->writeln('<info>    * ' . $suitcase->getUser()->getCompany()->getName() 
             
             $email = $suitcase->getUser()->getEmail();
             
+            $locale = strtolower($suitcase->getUser()->getCompany()->getCountry());
+            
             $message = \Swift_Message::newInstance()
                 ->setSubject('Good Luck at your Event!')
                 ->setSender(array('info@winspireme.com' => 'Winspire'))
@@ -65,14 +67,22 @@ $output->writeln('<info>    * ' . $suitcase->getUser()->getCompany()->getName() 
                 ->setBody(
                     $templating->render(
                         'InertiaWinspireBundle:Email:goodluck.html.twig',
-                        array('suitcase' => $suitcase, 'from' => $from)
+                        array(
+                            'suitcase' => $suitcase,
+                            'from' => $from,
+                            'locale' => $locale,
+                        )
                     ),
                     'text/html'
                 )
                 ->addPart(
                     $templating->render(
                         'InertiaWinspireBundle:Email:goodluck.txt.twig',
-                        array('suitcase' => $suitcase, 'from' => $from)
+                        array(
+                            'suitcase' => $suitcase,
+                            'from' => $from,
+                            'locale' => $locale,
+                        )
                     ),
                     'text/plain'
                 )
@@ -100,6 +110,8 @@ $output->writeln('<info>    * ' . $suitcase->getUser()->getCompany()->getName() 
             
             $email = $suitcase->getUser()->getEmail();
             
+            $locale = strtolower($suitcase->getUser()->getCompany()->getCountry());
+            
             $message = \Swift_Message::newInstance()
                 ->setSubject('Remember to Pack your Suitcase!')
                 ->setSender(array('info@winspireme.com' => 'Winspire'))
@@ -122,14 +134,22 @@ $output->writeln('<info>    * ' . $suitcase->getUser()->getCompany()->getName() 
                 ->setBody(
                     $templating->render(
                         'InertiaWinspireBundle:Email:get-packin-reminder.html.twig',
-                        array('suitcase' => $suitcase, 'from' => $from)
+                        array(
+                            'suitcase' => $suitcase,
+                            'from' => $from,
+                            'locale' => $locale,
+                        )
                     ),
                     'text/html'
                 )
                 ->addPart(
                     $templating->render(
                         'InertiaWinspireBundle:Email:get-packin-reminder.txt.twig',
-                        array('suitcase' => $suitcase, 'from' => $from)
+                        array(
+                            'suitcase' => $suitcase,
+                            'from' => $from,
+                            'locale' => $locale,
+                        )
                     ),
                     'text/plain'
                 )
@@ -157,6 +177,8 @@ $output->writeln('<info>    * ' . $suitcase->getUser()->getCompany()->getName() 
             
             $email = $suitcase->getUser()->getEmail();
             
+            $locale = strtolower($suitcase->getUser()->getCompany()->getCountry());
+            
             $message = \Swift_Message::newInstance()
                 ->setSubject('Please confirm changes to your Suitcase')
                 ->setSender(array('info@winspireme.com' => 'Winspire'))
@@ -179,14 +201,22 @@ $output->writeln('<info>    * ' . $suitcase->getUser()->getCompany()->getName() 
                 ->setBody(
                     $templating->render(
                         'InertiaWinspireBundle:Email:suitcase-unpacked.html.twig',
-                        array('suitcase' => $suitcase, 'from' => $from)
+                        array(
+                            'suitcase' => $suitcase,
+                            'from' => $from,
+                            'locale' => $locale,
+                        )
                     ),
                     'text/html'
                 )
                 ->addPart(
                     $templating->render(
                         'InertiaWinspireBundle:Email:suitcase-unpacked.txt.twig',
-                        array('suitcase' => $suitcase, 'from' => $from)
+                        array(
+                            'suitcase' => $suitcase,
+                            'from' => $from,
+                            'locale' => $locale,
+                        )
                     ),
                     'text/plain'
                 )

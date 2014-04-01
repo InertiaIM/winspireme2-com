@@ -420,6 +420,7 @@ class CreateAccountConsumer implements ConsumerInterface
             $suitcase->getUser()->getLastName();
         
         $email = $suitcase->getUser()->getEmail();
+        $locale = strtolower($suitcase->getUser()->getCompany()->getCountry());
         
         $message = \Swift_Message::newInstance()
             ->setSubject('Welcome to Winspire!')
@@ -431,7 +432,8 @@ class CreateAccountConsumer implements ConsumerInterface
                     'InertiaWinspireBundle:Email:create-suitcase-welcome.html.twig',
                     array(
                         'user' => $suitcase->getUser(),
-                        'suitcase' => $suitcase
+                        'suitcase' => $suitcase,
+                        'locale' => $locale,
                     )
                 ),
                 'text/html'
@@ -441,7 +443,8 @@ class CreateAccountConsumer implements ConsumerInterface
                     'InertiaWinspireBundle:Email:create-suitcase-welcome.txt.twig',
                     array(
                         'user' => $suitcase->getUser(),
-                        'suitcase' => $suitcase
+                        'suitcase' => $suitcase,
+                        'locale' => $locale
                     )
                 ),
                 'text/plain'
@@ -467,14 +470,22 @@ class CreateAccountConsumer implements ConsumerInterface
                 ->setBody(
                     $this->templating->render(
                         'InertiaWinspireBundle:Email:event-consultant-intro.html.twig',
-                        array('user' => $suitcase->getUser(), 'from' => $suitcase->getUser()->getCompany()->getSalesperson()->getEmail())
+                        array(
+                            'user' => $suitcase->getUser(),
+                            'from' => $suitcase->getUser()->getCompany()->getSalesperson()->getEmail(),
+                            'locale' => $locale,
+                        )
                     ),
                     'text/html'
                 )
                 ->addPart(
                     $this->templating->render(
                         'InertiaWinspireBundle:Email:event-consultant-intro.txt.twig',
-                        array('user' => $suitcase->getUser(), 'from' => $suitcase->getUser()->getCompany()->getSalesperson()->getEmail())
+                        array(
+                            'user' => $suitcase->getUser(),
+                            'from' => $suitcase->getUser()->getCompany()->getSalesperson()->getEmail(),
+                            'locale' => $locale,
+                        )
                     ),
                     'text/plain'
                 )

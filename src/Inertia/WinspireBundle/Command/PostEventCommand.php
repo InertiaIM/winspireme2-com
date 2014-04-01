@@ -42,6 +42,8 @@ $output->writeln('<info>    * ' . $suitcase->getUser()->getCompany()->getName() 
             
             $email = $suitcase->getUser()->getEmail();
             
+            $locale = strtolower($suitcase->getUser()->getCompany()->getCountry());
+            
             $message = \Swift_Message::newInstance()
                 ->setSubject('Congratulations on a Successful Event')
                 ->setSender(array('info@winspireme.com' => 'Winspire'))
@@ -64,14 +66,22 @@ $output->writeln('<info>    * ' . $suitcase->getUser()->getCompany()->getName() 
                 ->setBody(
                     $templating->render(
                         'InertiaWinspireBundle:Email:congrats-invoice-directions.html.twig',
-                        array('suitcase' => $suitcase, 'from' => $from)
+                        array(
+                            'suitcase' => $suitcase,
+                            'from' => $from,
+                            'locale' => $locale,
+                        )
                     ),
                     'text/html'
                 )
                 ->addPart(
                     $templating->render(
                         'InertiaWinspireBundle:Email:congrats-invoice-directions.txt.twig',
-                        array('suitcase' => $suitcase, 'from' => $from)
+                        array(
+                            'suitcase' => $suitcase,
+                            'from' => $from,
+                            'locale' => $locale,
+                        )
                     ),
                     'text/plain'
                 )

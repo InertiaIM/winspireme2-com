@@ -16,12 +16,18 @@ framework:
     default_locale:  "%locale%"
     session:
         name: "%session_name%"
-        cookie_domain: "%session_domain%"
+#        cookie_domain: "%session_domain%"
+    fragments:       ~
+    http_method_override: true
 
 # Twig Configuration
 twig:
     debug:            "%kernel.debug%"
     strict_variables: "%kernel.debug%"
+    globals:
+        urls:
+            ca: http://winspireme.ca
+            us: http://www.winspireme.com
 
 # Assetic Configuration
 assetic:
@@ -119,6 +125,18 @@ services:
         class: Twig_Extensions_Extension_Text
         tags:
             - { name: twig.extension }
+            
+    winspire.listener.locale:
+        class: Inertia\WinspireBundle\EventListener\LocaleListener
+        arguments: [@maxmind.geoip]
+        tags:
+            - { name: kernel.event_subscriber }
+            
+    winspire.listener.login:
+        class: Inertia\WinspireBundle\EventListener\LoginListener
+        arguments: [@security.context, @doctrine, @event_dispatcher]
+        tags:
+            - { name: kernel.event_listener, event: security.interactive_login }
             
     account_soap_service:
         class: Inertia\WinspireBundle\Services\AccountSoapService

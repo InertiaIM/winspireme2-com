@@ -68,7 +68,7 @@
                 </div>
                 
                 
-{% if package.recommendations | length > 1 %}
+{% if (package.recommendations | length > 1) and (app.request.locale == 'us') %}
 {{     include('InertiaWinspireBundle:Default:recommendedPackages.html.twig', {'packages': package.recommendations, 'packageIds': packageIds}) }}
 {% endif %}
                 

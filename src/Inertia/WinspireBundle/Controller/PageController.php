@@ -9,14 +9,17 @@ class PageController extends Controller
 {
     public function displayAction($slug)
     {
-        if ($this->get('templating')->exists('InertiaWinspireBundle:Page:_' . $slug . '.html.twig')) {
-            
+        $locale = strtolower($this->getRequest()->getLocale());
+        
+        if ($this->get('templating')->exists('InertiaWinspireBundle:Page:_' . $slug . '_' . $locale . '.html.twig')) {
+            return $this->render('InertiaWinspireBundle:Page:_' . $slug . '_' . $locale . '.html.twig');
+        }
+        elseif ($this->get('templating')->exists('InertiaWinspireBundle:Page:_' . $slug . '.html.twig')) {
+            return $this->render('InertiaWinspireBundle:Page:_' . $slug . '.html.twig');
         }
         else {
             throw $this->createNotFoundException();
         }
-        
-        return $this->render('InertiaWinspireBundle:Page:_' . $slug . '.html.twig');
     }
     
     public function noneAction($url)

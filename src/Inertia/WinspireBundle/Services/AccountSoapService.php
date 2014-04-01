@@ -181,6 +181,8 @@ class AccountSoapService
                                 
                                 $email = $user->getEmail();
                                 
+                                $locale = strtolower($account->getCountry());
+                                
                                 $salesperson = array(
                                     $user->getCompany()->getSalesperson()->getEmail() =>
                                     $user->getCompany()->getSalesperson()->getFirstName() . ' ' .
@@ -196,14 +198,20 @@ class AccountSoapService
                                     ->setBody(
                                         $this->templating->render(
                                             'InertiaWinspireBundle:Email:event-consultant-intro.html.twig',
-                                            array('user' => $user)
+                                            array(
+                                                'user' => $user,
+                                                'locale' => $locale,
+                                            )
                                         ),
                                         'text/html'
                                     )
                                     ->addPart(
                                         $this->templating->render(
                                             'InertiaWinspireBundle:Email:event-consultant-intro.txt.twig',
-                                            array('user' => $user)
+                                            array(
+                                                'user' => $user,
+                                                'locale' => $locale,
+                                            )
                                         ),
                                         'text/plain'
                                     )

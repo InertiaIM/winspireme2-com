@@ -82,11 +82,6 @@ class Package
      */
     private $cost;
     
-//    /**
-//     * @ORM\Column(name="recommendations", type="string", length=256, nullable=true)
-//     */
-//    private $recommendations;
-    
     /**
      * @ORM\Column(name="isOnHome", type="boolean")
      */
@@ -227,7 +222,11 @@ class Package
      * )
      **/
     private $recommendations;
-    
+
+    /**
+     * @ORM\OneToMany(targetEntity="PackageOrigin", cascade={"all"}, mappedBy="package")
+     **/
+    private $origins;
     
     /**
      * Get id
@@ -750,6 +749,7 @@ class Package
     public function __construct()
     {
         $this->categories = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->origins = new \Doctrine\Common\Collections\ArrayCollection();
         $this->recommendedBy = new \Doctrine\Common\Collections\ArrayCollection();
         $this->recommendations = new \Doctrine\Common\Collections\ArrayCollection();
     }
@@ -1208,4 +1208,61 @@ class Package
         return $this->available;
     }
 
+
+    /**
+     * Add categories
+     *
+     * @param \Inertia\WinspireBundle\Entity\Category $categories
+     * @return Package
+     */
+    public function addCategorie(\Inertia\WinspireBundle\Entity\Category $categories)
+    {
+        $this->categories[] = $categories;
+    
+        return $this;
+    }
+
+    /**
+     * Remove categories
+     *
+     * @param \Inertia\WinspireBundle\Entity\Category $categories
+     */
+    public function removeCategorie(\Inertia\WinspireBundle\Entity\Category $categories)
+    {
+        $this->categories->removeElement($categories);
+    }
+
+    /**
+     * Add origins
+     *
+     * @param \Inertia\WinspireBundle\Entity\PackageOrigin $origins
+     * @return Package
+     */
+    public function addOrigin(\Inertia\WinspireBundle\Entity\PackageOrigin $origin)
+    {
+        $origin->setPackage($this);
+        $this->origins[] = $origin;
+        
+        return $this;
+    }
+
+    /**
+     * Remove origins
+     *
+     * @param \Inertia\WinspireBundle\Entity\PackageOrigin $origins
+     */
+    public function removeOrigin(\Inertia\WinspireBundle\Entity\PackageOrigin $origin)
+    {
+        $this->origins->removeElement($origin);
+    }
+
+    /**
+     * Get origins
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getOrigins()
+    {
+        return $this->origins;
+    }
 }

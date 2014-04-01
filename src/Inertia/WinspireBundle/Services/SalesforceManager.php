@@ -70,22 +70,24 @@ $this->logger->info('Old Opp = New Opp');
         // ACCOUNT
         // Test whether this Opp is within the same Account
         $accountSfId = $sfOpp->AccountId;
+
+        $query = $this->em->createQuery(
+            'SELECT a FROM InertiaWinspireBundle:Account a WHERE a.sfId = :sf_id'
+        )->setParameter('sf_id', $accountSfId);
+        try {
+            $account = $query->getSingleResult();
+$this->logger->info('Located new web site Account (' . $account->getId() . ')');
+        }
+        catch (\Doctrine\Orm\NoResultException $e) {
+            // If we can't get an Account record,
+            // we have other problems with this move
+$this->logger->info('Unable to find local Account (' . $accountSfId . ')');
+            return false;
+        }
+        
         if ($accountSfId != $oldAccount->getSfId()) {
             // The Opp is in a different Account, see if we can locate it internally by sfId
 $this->logger->info('Opp is from a different account (' . $accountSfId . ')');
-            $query = $this->em->createQuery(
-                'SELECT a FROM InertiaWinspireBundle:Account a WHERE a.sfId = :sf_id'
-            )->setParameter('sf_id', $accountSfId);
-            try {
-                $account = $query->getSingleResult();
-$this->logger->info('Located new web site Account (' . $account->getId() . ')');
-            }
-            catch (\Doctrine\Orm\NoResultException $e) {
-                // If we can't get an Account record,
-                // we have other problems with this move
-$this->logger->info('Unable to find local Account (' . $accountSfId . ')');
-                return false;
-            }
             
             $user->setCompany($account);
 $this->logger->info('Update the Account record with data from the "old" Account');
@@ -258,6 +260,7 @@ $this->logger->info('The Opportunity is being updated now');
             $timestamp = new \DateTime();
             $suitcase->setSfId($saveResult[0]->id);
             $suitcase->setDirty(false);
+            $suitcase->setPackedAt(NULL);
             $suitcase->setSfUpdated($timestamp);
             $suitcase->setUpdated($timestamp);
         }
@@ -281,7 +284,10 @@ $this->logger->info('The Old Opp was deleted (' . $oldSfId . ')');
         
         
         $this->em->persist($suitcase);
-        
+        foreach($suitcase->getItems() as $item) {
+            $item->setSfId(NULL);
+            $this->em->persist($item);
+        }
         
         try {
             $this->em->flush();
@@ -301,15 +307,15 @@ $this->logger->info('The Old Opp was deleted (' . $oldSfId . ')');
         return $suitcase->getSfId();
     }
     
-    protected function sendForHelp($message)
+    protected function sendForHelp($text)
     {
         $message = \Swift_Message::newInstance()
-        ->setSubject('Winspire::Problem during Suitcase SF Reassignment')
-        ->setFrom(array('notice@winspireme.com' => 'Winspire'))
-        ->setTo(array('doug@inertiaim.com' => 'Douglas Choma'))
-        ->setBody($message,
-            'text/plain'
-        )
+            ->setSubject('Winspire::Problem during Suitcase SF Reassignment')
+            ->setFrom(array('notice@winspireme.com' => 'Winspire'))
+            ->setTo(array('doug@inertiaim.com' => 'Douglas Choma'))
+            ->setBody($text,
+                'text/plain'
+            )
         ;
         
         $this->mailer->send($message);

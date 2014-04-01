@@ -178,6 +178,8 @@ class CreateSuitcaseConsumer implements ConsumerInterface
             $suitcase->getUser()->getLastName();
 
         $email = $suitcase->getUser()->getEmail();
+        
+        $locale = strtolower($suitcase->getUser()->getCompany()->getCountry());
 
         $message = \Swift_Message::newInstance()
             ->setSender(array('info@winspireme.com' => 'Winspire'))
@@ -201,14 +203,22 @@ class CreateSuitcaseConsumer implements ConsumerInterface
             ->setBody(
                 $this->templating->render(
                     'InertiaWinspireBundle:Email:new-suitcase-confirm.html.twig',
-                    array('suitcase' => $suitcase, 'from' => $from)
+                    array(
+                        'suitcase' => $suitcase,
+                        'from' => $from,
+                        'locale' => $locale,
+                    )
                 ),
                 'text/html'
             )
             ->addPart(
                 $this->templating->render(
                     'InertiaWinspireBundle:Email:new-suitcase-confirm.txt.twig',
-                    array('suitcase' => $suitcase, 'from' => $from)
+                    array(
+                        'suitcase' => $suitcase,
+                        'from' => $from,
+                        'locale' => $locale,
+                    )
                 ),
                 'text/plain'
             )

@@ -11,12 +11,16 @@ class DefaultController extends Controller
 {
     public function featuredPackagesAction()
     {
+        $locale = $this->getRequest()->getLocale();
+        
         $suitcase = $this->get('winspire.suitcase.manager')->getSuitcase();
         
         $em = $this->getDoctrine()->getManager();
         $query = $em->createQuery(
-            'SELECT p FROM InertiaWinspireBundle:Package p WHERE p.is_private != 1 AND p.active = 1 AND p.available = 1 ORDER BY p.parent_header ASC, p.is_default DESC'
+            'SELECT p FROM InertiaWinspireBundle:Package p LEFT JOIN p.origins o WHERE p.is_private != 1 AND p.active = 1 AND p.available = 1 AND (o.code = :code) ORDER BY p.parent_header ASC, p.is_default DESC'
         );
+        
+        $query->setParameter('code', $locale);
         
         $packages = $query->getResult();
         
@@ -58,7 +62,13 @@ class DefaultController extends Controller
             }
         }
         
-        $keys = array_rand($defaultPackages, 17);
+        if (count($defaultPackages) > 17) {
+            $keys = array_rand($defaultPackages, 17);
+        }
+        else {
+            $keys = array_keys($defaultPackages);
+        }
+        
         $temp = array();
         foreach($keys as $key) {
             $temp[] = $defaultPackages[$key];
@@ -146,6 +156,8 @@ class DefaultController extends Controller
     
     public function packageDetailAction($slug)
     {
+        $locale = $this->getRequest()->getLocale();
+        
         $suitcase = $this->get('winspire.suitcase.manager')->getSuitcase();
         
         $session = $this->getRequest()->getSession();
@@ -155,13 +167,16 @@ class DefaultController extends Controller
         
         if($this->get('security.context')->isGranted('ROLE_ADMIN')) {
             $query = $em->createQuery(
-                'SELECT p FROM InertiaWinspireBundle:Package p WHERE p.picture IS NOT NULL AND (p.active = 1 OR p.seasonal = 1) AND (p.available = 1) AND p.slug = :slug'
-            )->setParameter('slug', $slug);
+                'SELECT p, o FROM InertiaWinspireBundle:Package p LEFT JOIN p.origins o WHERE p.picture IS NOT NULL AND (p.active = 1 OR p.seasonal = 1) AND (p.available = 1) AND p.slug = :slug'
+            )
+                ->setParameter('slug', $slug);
         }
         else {
             $query = $em->createQuery(
-                'SELECT p FROM InertiaWinspireBundle:Package p WHERE p.is_private != 1 AND p.picture IS NOT NULL AND (p.active = 1 OR p.seasonal = 1) AND (p.available = 1) AND p.slug = :slug'
-            )->setParameter('slug', $slug);
+                'SELECT p FROM InertiaWinspireBundle:Package p LEFT JOIN p.origins o WHERE p.is_private != 1 AND p.picture IS NOT NULL AND (p.active = 1 OR p.seasonal = 1) AND (p.available = 1) AND p.slug = :slug AND o.code = :code'
+            )
+                ->setParameter('slug', $slug)
+                ->setParameter('code', $locale);
         }
         
         $package = $query->getResult();
@@ -173,67 +188,73 @@ class DefaultController extends Controller
         if($this->get('security.context')->isGranted('ROLE_ADMIN')) {
             $query = $em->createQuery(
                 'SELECT p FROM InertiaWinspireBundle:Package p WHERE p.picture IS NOT NULL AND (p.active = 1 OR p.seasonal = 1) AND (p.available = 1) AND p.parent_header = :ph ORDER BY p.parent_header ASC, p.is_default DESC'
-            )->setParameter('ph', $package[0]->getParentHeader());
+            )
+                ->setParameter('ph', $package[0]->getParentHeader())
+            ;
         }
         else {
             $query = $em->createQuery(
-                'SELECT p FROM InertiaWinspireBundle:Package p WHERE p.is_private != 1 AND (p.active = 1 OR p.seasonal = 1) AND (p.available = 1) AND p.picture IS NOT NULL AND p.parent_header = :ph ORDER BY p.parent_header ASC, p.is_default DESC'
-            )->setParameter('ph', $package[0]->getParentHeader());
+                'SELECT p FROM InertiaWinspireBundle:Package p LEFT JOIN p.origins o WHERE p.is_private != 1 AND (p.active = 1 OR p.seasonal = 1) AND (p.available = 1) AND p.picture IS NOT NULL AND p.parent_header = :ph AND o.code = :code ORDER BY p.parent_header ASC, p.is_default DESC'
+            )
+                ->setParameter('ph', $package[0]->getParentHeader())
+                ->setParameter('code', $locale)
+            ;
         }
         
         $packages = $query->getResult();
         
         
-        
-        // TODO this is too complex.  Break the Packages and Variants into
-        // separate entities to simplify the queries.
-        $defaultPackages = array();
-        $currentHeader = '';
-        $count = 0;
         $latest = 0;
         $match = false;
+        $defaultPackages = array();
         foreach($packages as $package) {
+            $defaultPackages['variants'][] = $package;
             
-            // Determine whether to show the "Add to Suitcase" button based
-            // on the Packages already contained in the session.
-            // TODO refactor for a more efficient algorithm
-            $available = true;
+            if ($package->getIsDefault()) {
+                $defaultPackages['default'] = $package;
+            }
+            
             if ($suitcase && $suitcase != 'new') {
-                
                 // Add tweak to determine the most recently added variant
                 // from the user's Suitcase to bring them back to the
                 // specific variant when visiting the detail page again.
                 foreach($suitcase->getItems() as $i) {
-                    // We already have this item in our cart;
-                    // so we can stop here...
                     if($i->getPackage()->getId() == $package->getId()) {
                         if ($i->getCreated()->getTimestamp() > $latest) {
                             $latest = $i->getCreated()->getTimestamp();
                             $match = $package;
                         }
-                        break;
+//                    break;
                     }
                 }
             }
-            
-            if($package->getIsDefault()) {
-                $count = 1;
-                $index = $package->getId();
-                $defaultPackages[$index] = array('package' => $package, 'count' => 1);
-                $defaultPackages[$index]['variants'] = array($package);
-            }
-            if($currentHeader != $package->getParentHeader()) {
-                $currentHeader = $package->getParentHeader();
-            }
-            else {
-                $count++;
-                $defaultPackages[$index]['variants'][] = $package;
-            }
-            
-            if (isset($index)) {
-                $defaultPackages[$index]['count'] = $count;
+        }
+        
+        // Special considerations for Admin users who will see all locales
+        // and all "default" versions.  So we want them to see the "default"
+        // as the US version (ignoring the defaults in others locales).
+        if ($this->get('security.context')->isGranted('ROLE_ADMIN')) {
+            foreach($packages as $package) {
+                if ($package->getIsDefault()) {
+                    $origins = $package->getOrigins();
+                    $localeArray = array();
+                    foreach($origins as $o) {
+                        $localeArray[] = $o->getCode();
+                    }
+                    
+                    if (in_array('us', $localeArray)) {
+                        $defaultPackages['default'] = $package;
+                    }
+                }
             }
         }
+        
+//if($match) {
+//print_r($match->getCode());
+//    
+//echo "<br/><br/>"; exit;
+//}
+//print_r($defaultPackages); exit;
         
         
         $packageIds = array();
@@ -242,16 +263,19 @@ class DefaultController extends Controller
                 $packageIds[] = $item->getPackage()->getId();
             }
         }
-        
+
+        if (!isset($defaultPackages['default'])) {
+            throw $this->createNotFoundException();
+        }
         
         return $this->render(
             'InertiaWinspireBundle:Default:packageDetail.html.twig',
             array(
-                'package' => $defaultPackages[$index]['package'],
+                'package' => $defaultPackages['default'],
                 'packageIds' => $packageIds,
                 'packagePath' => $packagePath,
                 'slug' => $slug,
-                'variants' => $defaultPackages[$index]['variants'],
+                'variants' => $defaultPackages['variants'],
                 'match' => $match
             )
         );
@@ -303,6 +327,8 @@ class DefaultController extends Controller
     
     public function packageSearchAction(Request $request)
     {
+        $locale = $this->getRequest()->getLocale();
+        
         $q = $request->attributes->get('q');
         
         if ($request->query->has('q')) {
@@ -312,10 +338,15 @@ class DefaultController extends Controller
         $em = $this->getDoctrine()->getManager();
         $qb = $em->createQueryBuilder();
         
-        $qb->select('p')->from('InertiaWinspireBundle:Package', 'p');
-
+        $qb->select(array('p', 'o'));
+        $qb->from('InertiaWinspireBundle:Package', 'p');
+        
         if(!$this->get('security.context')->isGranted('ROLE_ADMIN')) {
             $qb->andWhere('p.is_private != 1');
+            $qb->innerJoin('p.origins', 'o', 'WITH', 'o.code = \'' . $locale . '\'');
+        }
+        else {
+            $qb->innerJoin('p.origins', 'o');
         }
         
         $qb->andWhere('p.active = 1 OR p.seasonal = 1');
@@ -325,11 +356,9 @@ class DefaultController extends Controller
             case 'alpha-desc':
                 $qb->orderBy('p.parent_header', 'DESC');
                 break;
-                
             case 'alpha-asc':
                 $qb->orderBy('p.parent_header', 'ASC');
                 break;
-                
             case 'price-desc':
                 $qb->orderBy('p.cost', 'DESC');
                 break;
@@ -404,19 +433,17 @@ class DefaultController extends Controller
         
         $packages = $qb->getQuery()->getResult();
         
-        $session = $this->getRequest()->getSession();
         $suitcase = $this->get('winspire.suitcase.manager')->getSuitcase();
         
         // TODO this is too complex.  Break the Packages and Variants into
         // separate entities to simplify the queries.
         $defaultPackages = array();
-        $currentHeader = '';
-        $count = 0;
         foreach($packages as $package) {
-            if($package->getIsDefault()) {
-                $count = 1;
-                $index = $package->getId();
-                
+            $defaultPackages[$package->getParentHeader()]['packages'][] = $package->getCode();
+            
+            if ($package->getIsDefault()) {
+                $defaultPackages[$package->getParentHeader()]['default'] = $package;
+
                 // Determine whether to show the "Add to Suitcase" button based
                 // on the Packages already contained in the session.
                 // TODO refactor for a more efficient algorithm
@@ -432,22 +459,42 @@ class DefaultController extends Controller
                     }
                 }
                 
-                $defaultPackages[$index] = array('package' => $package, 'count' => 1, 'available' => $available);
-                
-                $defaultPackages[$index]['new'] = false;
-                $defaultPackages[$index]['popular'] = false;
-            }
-            if($currentHeader != $package->getParentHeader()) {
-                $currentHeader = $package->getParentHeader();
-            }
-            else {
-                $count++;
+                $defaultPackages[$package->getParentHeader()]['available'] = $available;
             }
             
-            if(isset($index)) {
-                $defaultPackages[$index]['new'] = $defaultPackages[$index]['new'] || $package->getIsNew();
-                $defaultPackages[$index]['popular'] = $defaultPackages[$index]['popular'] || $package->getIsBestSeller();
-                $defaultPackages[$index]['count'] = $count;
+            $defaultPackages[$package->getParentHeader()]['new'] = false;
+            $defaultPackages[$package->getParentHeader()]['popular'] = false;
+            
+            $defaultPackages[$package->getParentHeader()]['new'] = $defaultPackages[$package->getParentHeader()]['new'] || $package->getIsNew();
+            $defaultPackages[$package->getParentHeader()]['popular'] = $defaultPackages[$package->getParentHeader()]['popular'] || $package->getIsBestSeller();
+        }
+        
+        // Special considerations for Admin users who will see all locales
+        // and all "default" versions.  So we want them to see the "default"
+        // as the US version (ignoring the defaults in others locales).
+        if ($this->get('security.context')->isGranted('ROLE_ADMIN')) {
+            foreach($packages as $package) {
+                if ($package->getIsDefault()) {
+                    $origins = $package->getOrigins();
+                    $localeArray = array();
+                    foreach($origins as $o) {
+                        $localeArray[] = $o->getCode();
+                    }
+                    
+                    if (in_array('us', $localeArray)) {
+                        $defaultPackages[$package->getParentHeader()]['default'] = $package;
+                    }
+                }
+            }
+        }
+        
+        foreach ($defaultPackages as $key => $item) {
+            $defaultPackages[$key]['count'] = count($item['packages']);
+            
+            // If, for some reason, we didn't set a default package we
+            // remove it from the list of packages returned to the template
+            if (!isset($defaultPackages[$key]['available'])) {
+                unset($defaultPackages[$key]);
             }
         }
         
@@ -480,6 +527,7 @@ class DefaultController extends Controller
     
     public function packageSearchJsonAction(Request $request)
     {
+        $locale = $request->getLocale();
         $q = $request->query->get('q');
         
         $response = new JsonResponse();
@@ -488,7 +536,7 @@ class DefaultController extends Controller
         if(!$this->get('security.context')->isGranted('ROLE_ADMIN')) {
             $sphinxSearch->setFilter('isprivate', array(1), true);
         }
-
+        
         $sphinxSearch->setMatchMode(SPH_MATCH_EXTENDED);
         $searchResults = $sphinxSearch->search($q . '*', array('Packages'), array(
             'result_limit' => 1000,
@@ -498,7 +546,7 @@ class DefaultController extends Controller
                 'parentheader' => 2
             )
         ), false);
-
+        
         $matches = array();
         if(isset($searchResults['matches'])) {
             foreach($searchResults['matches'] as $key => $value) {
@@ -515,7 +563,8 @@ class DefaultController extends Controller
             $qb->andWhere('p.active = 1 OR p.seasonal = 1');
             $qb->andWhere('p.available = 1');
             $qb->andWhere('p.is_default = 1');
-
+            $qb->innerJoin('p.origins', 'o', 'WITH', 'o.code = \'' . $locale . '\'');
+            
             $packages = $qb->getQuery()->getResult();
         }
         else {
@@ -529,14 +578,14 @@ class DefaultController extends Controller
                 'image' => $package->getThumbnail()
             );
         }
-
+        
         $results = array();
         foreach ($matches as $match) {
             if (isset($match['slug'])) {
                 $results[] = array('package' => $match);
             }
         }
-
+        
         return $response->setData(
             array(
                 'packages' => array_slice($results, 0, 10),
@@ -548,6 +597,22 @@ class DefaultController extends Controller
     
     public function siteNavAction()
     {
+//        $host = $this->getHost($this->getRequest());
+//        $em = $this->getDoctrine()->getManager();
+//        $query = $em->createQuery(
+//            'SELECT DISTINCT c.id, IDENTITY(c.parent) AS parent_id FROM InertiaWinspireBundle:Package p LEFT JOIN p.origins o LEFT JOIN p.categories c WHERE p.is_private != 1 AND p.active = 1 AND p.available = 1 AND (o.code = :code) ORDER BY c.id'
+//        );
+//
+//        $query->setParameter('code', $host);
+//
+//        $test = $query->getResult();
+//        $blah = array();
+//        foreach($test as $row) {
+//            $blah[$row['id']] = true;
+//            $blah[$row['parent_id']] = true;
+//        }
+        
+        
         $repo = $this->getDoctrine()->getRepository('InertiaWinspireBundle:Category');
         $categoryTree = $repo->childrenHierarchy();
         
@@ -556,6 +621,11 @@ class DefaultController extends Controller
         // Assign categories to columns for the drop-down navigation
         $temp = array();
         foreach($categoryTree as $subtree) {
+//            foreach ($subtree['__children'] as $outerkey => $child) {
+//                if (!array_key_exists($child['id'], $blah)) {
+//                    unset($subtree['__children'][$outerkey]);
+//                }
+//            }
             $temp[$subtree['col']][] = $subtree;
         }
         

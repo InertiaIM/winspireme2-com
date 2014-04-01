@@ -3,7 +3,6 @@ namespace Inertia\WinspireBundle\Controller;
 
 use Inertia\WinspireBundle\Entity\Share;
 use Inertia\WinspireBundle\Entity\Suitcase;
-use Inertia\WinspireBundle\Entity\SuitcaseItem;
 use Inertia\WinspireBundle\Form\Type\AccountType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -11,7 +10,6 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 use Symfony\Component\Validator\Constraints\Email;
-use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Validator\Constraints\True;
 
@@ -102,7 +100,7 @@ class SuitcaseController extends Controller
         $id = $request->query->get('id');
         
         $query = $em->createQuery(
-            'SELECT s FROM InertiaWinspireBundle:Suitcase s WHERE s.id = :id AND s.status == \'U\''
+            'SELECT s FROM InertiaWinspireBundle:Suitcase s WHERE s.id = :id AND s.status = \'U\''
         )
         ->setParameter('id', $id)
         ;
@@ -123,11 +121,11 @@ class SuitcaseController extends Controller
         ));
     }
     
-    public function buttonWidgetAction()
+    public function buttonWidgetAction(Request $request)
     {
         $suitcaseManager = $this->get('winspire.suitcase.manager');
         $suitcaseList = $suitcaseManager->getSuitcaseList(false, 'date');
-        $sid = $this->getRequest()->getSession()->get('sid');
+        $sid = $request->getSession()->get('sid');
         
         return $this->render('InertiaWinspireBundle:Suitcase:buttonWidget.html.twig',
             array(
@@ -146,7 +144,7 @@ class SuitcaseController extends Controller
         }
         
         
-        $session = $this->getRequest()->getSession();
+        $session = $request->getSession();
         $em = $this->getDoctrine()->getManager();
         $formFactory = $this->get('form.factory');
         

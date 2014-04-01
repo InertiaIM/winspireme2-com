@@ -44,20 +44,28 @@ class CommentConsumer implements ConsumerInterface
         
         $email = $comment->getSuitcase()->getUser()->getEmail();
         
+        $locale = strtolower($comment->getSuitcase()->getUser()->getCompany()->getCountry());
+        
         $message = \Swift_Message::newInstance()
             ->setSubject('New Comment in your Suitcase')
             ->setFrom(array('noreply@winspireme.com' => 'Winspire'))
             ->setBody(
                 $this->templating->render(
                     'InertiaWinspireBundle:Email:comment-notification.html.twig',
-                    array('comment' => $comment)
+                    array(
+                        'comment' => $comment,
+                        'locale' => $locale,
+                    )
                 ),
                 'text/html'
             )
             ->addPart(
                 $this->templating->render(
                     'InertiaWinspireBundle:Email:comment-notification.txt.twig',
-                    array('comment' => $comment)
+                    array(
+                        'comment' => $comment,
+                        'locale' => $locale,
+                    )
                 ),
                 'text/plain'
             )

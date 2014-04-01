@@ -7,7 +7,14 @@
 
 <div class="form-card">
     <h3>You must log in to access your account</h3>
-
+{% if app.request.query.all.error is defined %}
+{%     if app.request.query.all.error == 'ca' %}
+    <div class="error">Please log in to our Canadian site...</div>
+{%     endif %}
+{%     if app.request.query.all.error == 'us' %}
+    <div class="error">Please log in to our US site...</div>
+{%     endif %}
+{% endif %}
 {% if error %}
     <div class="error">{{ error|trans({}, 'FOSUserBundle') }}</div>
 {% endif %}

@@ -244,7 +244,12 @@ class AccountController extends Controller
             $form->get('package')->setData($request->query->get('package'));
         }
         
-        $form->get('account')->get('country')->setData('US');
+        if ($request->getLocale() == 'ca') {
+            $form->get('account')->get('country')->setData('CA');
+        }
+        else {
+            $form->get('account')->get('country')->setData('US');
+        }
 
         // process the form on POST
         if ($request->isMethod('POST')) {

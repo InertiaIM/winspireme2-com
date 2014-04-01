@@ -19,6 +19,28 @@
                     <div class="form-inner">
                         <p>Please provide the following information about yourself.</p>
                         <ul>
+                            <li>
+                                <div>
+                                    {{ form_label(form.account.country) }}
+{% if form.account.country.vars.value == 'CA' %}
+                                    <span class="flag ca">Canada</span>
+{%     if form.package.vars.value %}
+                                    <a href="http://www.winspireme.com/account/new?package={{ form.package.vars.value }}&_locale=us" class="flag us unselected">United States</a>
+{%     else %}
+                                    <a href="http://www.winspireme.com/account/new?_locale=us" class="flag us unselected">United States</a>
+{%     endif %}
+{% endif %}
+{% if form.account.country.vars.value == 'US' %}
+                                    <span class="flag us">United States</span>
+{%     if form.package.vars.value %}
+                                    <a href="http://winspireme.ca/account/new?package={{ form.package.vars.value }}&_locale=ca" class="flag ca unselected">Canada</a>
+{%     else %}
+                                    <a href="http://winspireme.ca/account/new?_locale=ca" class="flag ca unselected">Canada</a>
+{%     endif %}
+{% endif %}
+                                    {{ form_widget(form.account.country) }}
+                                </div>
+                            </li>
                             <li class="large">
                                 <div>
                                     {{ form_label(form.email) }}
@@ -74,10 +96,6 @@
                                 </div>
                             </li>
                             <li>
-                                <div>
-                                    {{ form_label(form.account.country) }}
-                                    {{ form_widget(form.account.country) }}
-                                </div>
                                 <div>
                                     {{ form_label(form.account.state) }}
                                     {{ form_widget(form.account.state) }}
