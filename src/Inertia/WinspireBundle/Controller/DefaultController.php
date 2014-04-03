@@ -403,12 +403,6 @@ class DefaultController extends Controller
             case 'alpha-asc':
                 $qb->orderBy('p.parent_header', 'ASC');
                 break;
-            case 'price-desc':
-                $qb->orderBy('p.cost', 'DESC');
-                break;
-            case 'price-asc':
-                $qb->orderBy('p.cost', 'ASC');
-                break;
             default:
                 $qb->orderBy('p.parent_header', 'ASC');
         }
@@ -530,6 +524,47 @@ class DefaultController extends Controller
                     }
                 }
             }
+        }
+        
+        // We now sort our arrays based on default package cost 
+        if ($request->query->get('sortOrder') == 'price-asc') {
+            uasort ($defaultPackages, 
+                function($a, $b) {
+                    if ($a['default']->getCost() < $b['default']->getCost()) {
+                        return -1;
+                    }
+                    if ($a['default']->getCost() > $b['default']->getCost()) {
+                        return 1;
+                    }
+                    if ($a['default']->getParentHeader() < $b['default']->getParentHeader()) {
+                        return -1;
+                    }
+                    if ($a['default']->getParentHeader() > $b['default']->getParentHeader()) {
+                        return 1;
+                    }
+                    return 0;
+                }
+            );
+        }
+        
+        if ($request->query->get('sortOrder') == 'price-desc') {
+            uasort ($defaultPackages, 
+                function($a, $b) {
+                    if ($a['default']->getCost() > $b['default']->getCost()) {
+                        return -1;
+                    }
+                    if ($a['default']->getCost() < $b['default']->getCost()) {
+                        return 1;
+                    }
+                    if ($a['default']->getParentHeader() < $b['default']->getParentHeader()) {
+                        return -1;
+                    }
+                    if ($a['default']->getParentHeader() > $b['default']->getParentHeader()) {
+                        return 1;
+                    }
+                    return 0;
+                }
+            );
         }
         
         foreach ($defaultPackages as $key => $item) {
