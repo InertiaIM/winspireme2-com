@@ -29,13 +29,13 @@ Below you will find a reservation confirmation{% if first %} and an attached cop
 Thank you for your Reservation. Following are a few things to keep in mind between now and your event:
 
 1. DISPLAY MATERIALS - Display Materials for each Experience are available for download here and in your Suitcase ({{ urls[locale] }}/suitcase). These include a display PDF, Package Details document and extra images for you to use in your own presentation materials.
+****Winning Bidder Letter: Download our "letter of congratulations" template to give winning bidders after the event with information on redeeming their Winspire Experience: https://s3.amazonaws.com/winspire-transactional-emails/Winspire-Winning-Bidder-Letter.doc
 2. ADDING MORE EXPERIENCES - It is never too late to add another Experience to your event. Contact your Event Consultant or simply find the item ({{ urls[locale] }}/packages) , add it your Suitcase and checkout again. You will get another email confirmation just like this one.
 3. SELL EXPERIENCES MULTIPLE TIMES - All of our Experiences can be sold multiple times, most with no limit. Even after your event, you can still sell Experiences to donors who neglected to bid or were unable to attend.
 
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 {% for item in suitcase.items %}
 {{ item.package.parentHeader }}
-Package URL: {{ urls[locale] }}/package/{{ item.package.slug }}
 {{ item.package.name }}
 {{ item.package.suggestedRetailValue }} - Suggested Retail Value
 
