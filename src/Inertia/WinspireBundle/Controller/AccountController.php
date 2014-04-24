@@ -19,33 +19,6 @@ use Symfony\Component\Validator\Constraints\True;
 
 class AccountController extends Controller
 {
-    protected $sources = array(
-        '1' => 'Returning Client',
-        '2' => 'Bidding for Good (cM)',
-        '3' => 'Greater Giving (AP)',
-        '4' => 'Reseller',
-        '5' => 'Caldwell',
-        '6' => 'Celebrity/RCCL Lead',
-        '7' => 'House of Blues',
-        '8' => 'Live Nation',
-        '9' => 'Meritage Lead',
-        '10'=> 'Wailea Lead',
-        '11'=> 'Other Donation Mgmt. Lead',
-        '12'=> 'Internet Search',
-        '13'=> 'Winspire Blog',
-        '14'=> 'Social Media',
-        '15'=> 'Facebook',
-        '16'=> 'Twitter',
-        '17'=> 'Pinterest',
-        '18'=> 'Trade Show',
-        '19'=> 'Mail or Print Ad',
-        '20'=> 'News Article',
-        '21'=> 'Word of mouth',
-        '22'=> 'WSE',
-        '23'=> 'Winspire',
-        '24'=> 'Other'
-    );
-
     public function createAction(Request $request)
     {
         $session = $this->getRequest()->getSession();
@@ -195,26 +168,7 @@ class AccountController extends Controller
                 )
             )
         );
-
-        $form->add(
-            $formFactory->createNamed('source', 'choice', null,
-                array(
-                    'auto_initialize' => false,
-                    'choices' => $this->sources,
-                    'constraints' => array(
-                        new Choice(array(
-                            'choices' => array_keys($this->sources),
-                            'message' => 'Please choose from the available options.'
-                        ))
-                    ),
-                    'empty_value' => 'How did you hear about us?',
-                    'label' => 'How did you hear about us?',
-                    'mapped' => false,
-                    'required' => false
-                )
-            )
-        );
-
+        
         $form->add(
             $formFactory->createNamed('terms', 'checkbox', null,
                 array(
@@ -271,7 +225,6 @@ class AccountController extends Controller
                 // TODO configure cascade persist to avoid the extra calls to the EM
                 $account->setSalesperson($salesperson);
                 $account->setReferred($form->get('referred')->getData());
-                $account->setSource($this->sources[$form->get('source')->getData()]);
                 $account->setState(substr($form->get('account')->get('state')->getData(), -2));
                 $account->setDirty(true);
                 $em->persist($account);
