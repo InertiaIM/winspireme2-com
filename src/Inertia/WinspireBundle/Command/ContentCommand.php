@@ -29,8 +29,8 @@ class ContentCommand extends ContainerAwareCommand
         
         $sfUsername = $this->getContainer()->parameters['ddeboer_salesforce_client.username'];
         $sfPassword = $this->getContainer()->parameters['ddeboer_salesforce_client.password'];
-        $sfToken = $this->getContainer()->parameters['ddeboer_salesforce_client.token'];
         
+        $cookiejar = $this->getContainer()->get('kernel')->getRootDir() . '/cache/cookiejar.tmp';
         
         // First, we need to login to SF to obtain all the necessary security fields
         // (sid, sid_Client, etc)
@@ -42,24 +42,13 @@ class ContentCommand extends ContainerAwareCommand
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
-        $response = curl_exec($ch);
-        
-        
-        // Scrape the data from the returned HTML.
-        // If/when things go wrong, this is where to check first.
-        $pieces = preg_filter('/.*?ClientHash\((.*?)\);.*/us', '$1', $response, 1);
-        $pieces = preg_split('/[\'\s,]+/', $pieces, -1, PREG_SPLIT_NO_EMPTY);
-        
-        $this->vars = array(
-            'sid_Client' => $pieces[1],
-            'clientSrc' => $pieces[2],
-            'sid' => str_replace(array('%2521', '%21'), array('!', '!'), preg_filter('/.*sid%3D(.*?)%26.*/', '$1', $pieces[3])),
-            'inst' => 'APP7'
-        );
+        curl_setopt($ch, CURLOPT_COOKIEJAR, $cookiejar);
+        curl_setopt($ch, CURLOPT_COOKIEFILE, $cookiejar);
+        curl_exec($ch);
         
         
         $query = $em->createQuery(
-            'SELECT p FROM InertiaWinspireBundle:Package p WHERE p.contentPack != \'\''
+            'SELECT p FROM InertiaWinspireBundle:Package p WHERE p.contentPack != \'\' AND p.active = 1'
         );
         $packages = $query->getResult();
         
@@ -143,14 +132,6 @@ class ContentCommand extends ContainerAwareCommand
         $directory = $this->getContainer()->getParameter('kernel.root_dir') . '/documents/' . $sfId;
         $filename = $directory . '/' . $sfId . '.zip';
         
-        
-        
-        $cookie = '';
-        foreach($this->vars as $key => $var) {
-            $cookie .= $key . '=' . $var . '; ';
-        }
-        
-        curl_setopt($ch, CURLOPT_COOKIE, $cookie);
         curl_setopt($ch, CURLOPT_URL, $this->sfUrl . $sfId);
         curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_7_5) AppleWebKit/537.31 (KHTML, like Gecko) Chrome/26.0.1410.43 Safari/537.31');
         curl_setopt($ch, CURLOPT_BINARYTRANSFER, true);
@@ -179,7 +160,6 @@ echo "\n";
         else {
             mkdir($directory);
         }
-        
         
         $fp = fopen($filename, 'w');
         curl_setopt($ch, CURLOPT_FILE, $fp);
