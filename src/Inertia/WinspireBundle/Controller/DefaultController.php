@@ -293,14 +293,6 @@ class DefaultController extends Controller
             }
         }
         
-//if($match) {
-//print_r($match->getCode());
-//    
-//echo "<br/><br/>"; exit;
-//}
-//print_r($defaultPackages); exit;
-        
-        
         $packageIds = array();
         if ($suitcase && $suitcase != 'new') {
             foreach ($suitcase->getItems() as $item) {
@@ -530,6 +522,11 @@ class DefaultController extends Controller
         if ($request->query->get('sortOrder') == 'price-asc') {
             uasort ($defaultPackages, 
                 function($a, $b) {
+                    // Catch odd packages that have defaults not in our current category
+                    if (!isset($a['default']) || !isset($b['default'])) {
+                        return 0;
+                    }
+                    
                     if ($a['default']->getCost() < $b['default']->getCost()) {
                         return -1;
                     }
@@ -550,6 +547,11 @@ class DefaultController extends Controller
         if ($request->query->get('sortOrder') == 'price-desc') {
             uasort ($defaultPackages, 
                 function($a, $b) {
+                    // Catch odd packages that have defaults not in our current category
+                    if (!isset($a['default']) || !isset($b['default'])) {
+                        return 0;
+                    }
+                    
                     if ($a['default']->getCost() > $b['default']->getCost()) {
                         return -1;
                     }
