@@ -1091,9 +1091,10 @@ if(($sfAccount->SystemModstamp > $account->getSfUpdated()) && !$account->getDirt
                         $output->writeln('<info>Gonna create: ' . $suitcase->getId() . '</info>');
                         $sfOpportunity->Type = 'Web Suitcase';
                         $sfOpportunity->RecordTypeId = $this->opportunityTypeId;
-                        $sfOpportunity->Lead_Souce_by_Client__c = 'Online User';
+                        $sfOpportunity->LeadSource = 'TBD';
                         $sfOpportunity->Partner_Class__c = $this->partnerRecordId;
-                        $sfOpportunity->Item_Use__c = 'Silent Auction';
+                        $sfOpportunity->Item_Use__c = 'Unknown';
+                        $sfOpportunity->Event_Type__c = 'Unknown';
                         $saveResult = $client->create(array($sfOpportunity), 'Opportunity');
                     }
                     else {
@@ -1224,9 +1225,10 @@ if(($sfAccount->SystemModstamp > $account->getSfUpdated()) && !$account->getDirt
                         }
                         $sfOpportunity->AccountId = $suitcase->getUser()->getCompany()->getSfId();
                         $sfOpportunity->RecordTypeId = $this->opportunityTypeId;
-                        $sfOpportunity->Lead_Souce_by_Client__c = 'Online User';
+                        $sfOpportunity->LeadSource = 'TBD';
                         $sfOpportunity->Partner_Class__c = $this->partnerRecordId;
-                        $sfOpportunity->Item_Use__c = 'Silent Auction';
+                        $sfOpportunity->Item_Use__c = 'Unknown';
+                        $sfOpportunity->Event_Type__c = 'Unknown';
                         $sfOpportunity->Type = 'Web Suitcase';
                         
                         $output->writeln('<info>Creating Opportunity in SF: ' . $suitcase->getId() . '</info>');

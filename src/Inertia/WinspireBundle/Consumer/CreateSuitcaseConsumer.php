@@ -71,6 +71,8 @@ class CreateSuitcaseConsumer implements ConsumerInterface
             $sfAccount->Referred_by__c = $account->getReferred();
             $sfAccount->RecordTypeId = $this->recordTypeId;
             $sfAccount->OwnerId = $account->getSalesperson()->getSfId();
+            $sfAccount->Event_Type_Unknown__c = true;
+            $sfAccount->Item_Use__c = 'Unknown';
             
             try {
                 $saveResult = $this->sf->create(array($sfAccount), 'Account');
@@ -92,6 +94,24 @@ class CreateSuitcaseConsumer implements ConsumerInterface
                 return true;
             }
         }
+        else {
+            $sfAccount = new \stdClass();
+            $sfAccount->Id = $account->getSfId();
+            $sfAccount->Event_Type_Unknown__c = true;
+            $sfAccount->Item_Use__c = 'Unknown';
+            
+            $saveResult = $this->sf->update(array($sfAccount), 'Account');
+            
+            if($saveResult[0]->success) {
+                $timestamp = new \DateTime();
+                $account->setSfId($saveResult[0]->id);
+                $account->setDirty(false);
+                $account->setSfUpdated($timestamp);
+                $account->setUpdated($timestamp);
+                $this->em->persist($account);
+                $this->em->flush();
+            }
+        }
         
         if ($user->getSfId() == '' && $account->getSfId() != '') {
             $sfContact = new \stdClass();
@@ -102,6 +122,7 @@ class CreateSuitcaseConsumer implements ConsumerInterface
             $sfContact->AccountId = $account->getSfId();
             $sfContact->Default_contact__c = 1;
             $sfContact->OwnerId = $account->getSalesperson()->getSfId();
+            $sfContact->LeadSource = 'TBD';
             
             try {
                 $saveResult = $this->sf->create(array($sfContact), 'Contact');
@@ -124,6 +145,24 @@ class CreateSuitcaseConsumer implements ConsumerInterface
             }
         }
         
+        if ($user->getSfId() != '' && $account->getSfId() != '') {
+            $sfContact = new \stdClass();
+            $sfContact->Id = $user->getSfId();
+            $sfContact->LeadSource = 'TBD';
+            
+            $saveResult = $this->sf->update(array($sfContact), 'Contact');
+            
+            if($saveResult[0]->success) {
+                $timestamp = new \DateTime();
+                $user->setSfId($saveResult[0]->id);
+                $user->setDirty(false);
+                $user->setSfUpdated($timestamp);
+                $user->setUpdated($timestamp);
+                $this->em->persist($user);
+                $this->em->flush();
+            }
+        }
+        
         if ($suitcase->getSfId() == '' && $account->getSfId() != '') {
             $sfOpportunity = new \stdClass();
             $sfOpportunity->CloseDate = new \DateTime($suitcase->getEventDate()->format('Y-m-d') . ' +30 days');
@@ -134,10 +173,11 @@ class CreateSuitcaseConsumer implements ConsumerInterface
             $sfOpportunity->Event_Date__c = $suitcase->getEventDate();
             $sfOpportunity->AccountId = $account->getSfId();
             $sfOpportunity->RecordTypeId = $this->opportunityTypeId;
-            $sfOpportunity->Lead_Souce_by_Client__c = 'Online User';
+            $sfOpportunity->LeadSource = 'TBD';
             $sfOpportunity->Type = 'Web Suitcase';
             $sfOpportunity->Partner_Class__c = $this->partnerRecordId;
-            $sfOpportunity->Item_Use__c = 'Silent Auction';
+            $sfOpportunity->Item_Use__c = 'Unknown';
+            $sfOpportunity->Event_Type__c = 'Unknown';
             
             try {
                 $saveResult = $this->sf->create(array($sfOpportunity), 'Opportunity');

@@ -71,9 +71,10 @@ class UnpackSuitcaseConsumer implements ConsumerInterface
                 $sfOpportunity->Type = 'Web Suitcase';
                 $sfOpportunity->StageName = 'Counsel';
                 $sfOpportunity->RecordTypeId = $this->opportunityTypeId;
-                $sfOpportunity->Lead_Souce_by_Client__c = 'Online User';
+                $sfOpportunity->LeadSource = 'TBD';
                 $sfOpportunity->Partner_Class__c = $this->partnerRecordId;
-                $sfOpportunity->Item_Use__c = 'Silent Auction';
+                $sfOpportunity->Item_Use__c = 'Unknown';
+                $sfOpportunity->Event_Type__c = 'Unknown';
                 $saveResult = $this->sf->create(array($sfOpportunity), 'Opportunity');
             }
             else {
