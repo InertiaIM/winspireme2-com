@@ -111,49 +111,6 @@ class UpdateSfConsumer implements ConsumerInterface
                     return true;
                 }
                 
-                
-/*
-//                // Let's just make sure the Suitcase has already been added to SF
-//                if ($suitcase->getSfId() == '') {
-//                    $sfOpportunity = new \stdClass();
-//                    $sfOpportunity->Name = substr($suitcase->getEventName(), 0, 40);
-//                    $sfOpportunity->Website_suitcase_status__c = 'Unpacked';
-//                    $sfOpportunity->StageName = 'Counsel';
-//                    if ($suitcase->getEventDate() != '') {
-//                        $sfOpportunity->Event_Date__c = $suitcase->getEventDate();
-//                        $sfOpportunity->CloseDate = new \DateTime($suitcase->getEventDate()->format('Y-m-d') . '+30 days');
-//                    }
-//                    else {
-//                        $sfOpportunity->Event_Date__c = new \DateTime('+30 days');
-//                        $sfOpportunity->CloseDate = new \DateTime('+60 days');
-//                    }
-//                    $sfOpportunity->AccountId = $suitcase->getUser()->getCompany()->getSfId();
-//                    $sfOpportunity->RecordTypeId = $this->opportunityTypeId;
-//                    $sfOpportunity->Lead_Souce_by_Client__c = 'Online User';
-//                    $sfOpportunity->Partner_Class__c = $this->partnerRecordId;
-//                    $sfOpportunity->Item_Use__c = 'Silent Auction';
-//                    $sfOpportunity->Type = 'Web Suitcase';
-//                    
-//                    try {
-//                        $saveResult = $this->sf->create(array($sfOpportunity), 'Opportunity');
-//                        if($saveResult[0]->success) {
-//                            $timestamp = new \DateTime();
-//                            $suitcase->setSfId($saveResult[0]->id);
-//                            $suitcase->setDirty(false);
-//                            $suitcase->setSfUpdated($timestamp);
-//                            $suitcase->setUpdated($timestamp);
-//                            $this->em->persist($suitcase);
-//                            $this->em->flush();
-//                        }
-//                    }
-//                    catch (\Exception $e) {
-//                        $this->sendForHelp3('Problem creating Suitcase (' . $suitcase->getId() . ')' . "\n" . $e->getMessage());
-//                        $this->sf->logout();
-//                        
-//                        return true;
-//                    }
-//                }
-*/
                 if ($suitcase->getSfId() != '') {
                     $sfOpportunityLineItems = array();
                     $newItems = array();
@@ -277,15 +234,6 @@ class UpdateSfConsumer implements ConsumerInterface
         
         $this->sf->logout();
         $this->em->clear();
-        
-//        $this->mailer->getTransport()->start();
-//        if (!$this->mailer->send($message)) {
-//            // Any other value not equal to false will acknowledge the message and remove it
-//            // from the queue
-//            return false;
-//        }
-//        
-//        $this->mailer->getTransport()->stop();
         $this->em->getConnection()->close();
         
         return true;
