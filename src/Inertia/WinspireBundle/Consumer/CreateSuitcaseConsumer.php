@@ -72,6 +72,13 @@ class CreateSuitcaseConsumer implements ConsumerInterface
             $sfAccount->RecordTypeId = $this->recordTypeId;
             $sfAccount->OwnerId = $account->getSalesperson()->getSfId();
             $sfAccount->Event_Type_Unknown__c = true;
+            if ($suitcase->getEventDate() != '') {
+                $sfAccount->Event_Month_Unknown__c = $suitcase->getEventDate()->format('F');
+            }
+            else {
+                $temp = new \DateTime('+30 days');
+                $sfAccount->Event_Month_Unknown__c = $temp->format('F');
+            }
             $sfAccount->Item_Use__c = 'Unknown';
             
             try {
@@ -98,6 +105,13 @@ class CreateSuitcaseConsumer implements ConsumerInterface
             $sfAccount = new \stdClass();
             $sfAccount->Id = $account->getSfId();
             $sfAccount->Event_Type_Unknown__c = true;
+            if ($suitcase->getEventDate() != '') {
+                $sfAccount->Event_Month_Unknown__c = $suitcase->getEventDate()->format('F');
+            }
+            else {
+                $temp = new \DateTime('+30 days');
+                $sfAccount->Event_Month_Unknown__c = $temp->format('F');
+            }
             $sfAccount->Item_Use__c = 'Unknown';
             
             $saveResult = $this->sf->update(array($sfAccount), 'Account');
