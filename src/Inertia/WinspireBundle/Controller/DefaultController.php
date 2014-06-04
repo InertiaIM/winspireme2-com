@@ -130,6 +130,16 @@ class DefaultController extends Controller
         return $this->render('InertiaWinspireBundle:Default:index.html.twig');
     }
     
+    public function learnMoreAction($subdomain)
+    {
+        return $this->render(
+            'InertiaWinspireBundle:Whitelabel/' . $subdomain . ':form.html.twig',
+            array(
+                'base_template' => $this->baseTemplate($this->getRequest()),
+            )
+        );
+    }
+    
     public function loginWidgetAction()
     {
         $csrfToken = $this->get('form.csrf_provider')->generateCsrfToken('authenticate');
@@ -192,7 +202,8 @@ class DefaultController extends Controller
                 'catIds' => $catIds,
                 'filterTree' => $filterTree,
                 'rootCat' => $category->getId(),
-                'q' => $q
+                'q' => $q,
+                'base_template' => $this->baseTemplate($request),
             )
         );
     }
@@ -312,7 +323,8 @@ class DefaultController extends Controller
                 'packagePath' => $packagePath,
                 'slug' => $slug,
                 'variants' => $defaultPackages['variants'],
-                'match' => $match
+                'match' => $match,
+                'base_template' => $this->baseTemplate($this->getRequest()),
             )
         );
     }
@@ -737,6 +749,17 @@ class DefaultController extends Controller
     }
     
     
+    public function thankYouAction($subdomain)
+    {
+        return $this->render(
+            'InertiaWinspireBundle:Whitelabel/' . $subdomain . ':thank-you.html.twig',
+            array(
+                'base_template' => $this->baseTemplate($this->getRequest()),
+            )
+        );
+    }
+    
+    
     public function wordpressAction()
     {
         $env = $this->container->getParameter('kernel.environment');
@@ -880,5 +903,17 @@ class DefaultController extends Controller
                 'posts' => $posts
             )
         );
+    }
+    
+    protected function baseTemplate(Request $request)
+    {
+        // Check whether we're dealing with a whitelabel site
+        $baseTemplate = 'InertiaWinspireBundle::layout.html.twig';
+        if ($request->attributes->has('subdomain')) {
+//            $subdomain = $request->attributes->get('subdomain');
+            $baseTemplate = 'InertiaWinspireBundle:Whitelabel:layout.whitelabel.html.twig';
+        }
+        
+        return $baseTemplate;
     }
 }

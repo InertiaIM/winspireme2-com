@@ -227,6 +227,12 @@ class Package
      * @ORM\OneToMany(targetEntity="PackageOrigin", cascade={"all"}, mappedBy="package")
      **/
     private $origins;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="Partner", inversedBy="packages")
+     * @ORM\JoinTable(name="packages_partners")
+     */
+    private $partners;
     
     /**
      * Get id
@@ -750,6 +756,7 @@ class Package
     {
         $this->categories = new \Doctrine\Common\Collections\ArrayCollection();
         $this->origins = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->partners = new \Doctrine\Common\Collections\ArrayCollection();
         $this->recommendedBy = new \Doctrine\Common\Collections\ArrayCollection();
         $this->recommendations = new \Doctrine\Common\Collections\ArrayCollection();
     }
@@ -1264,5 +1271,38 @@ class Package
     public function getOrigins()
     {
         return $this->origins;
+    }
+
+    /**
+     * Add partners
+     *
+     * @param \Inertia\WinspireBundle\Entity\Partner $partners
+     * @return Package
+     */
+    public function addPartner(\Inertia\WinspireBundle\Entity\Partner $partners)
+    {
+        $this->partners[] = $partners;
+    
+        return $this;
+    }
+
+    /**
+     * Remove partners
+     *
+     * @param \Inertia\WinspireBundle\Entity\Partner $partners
+     */
+    public function removePartner(\Inertia\WinspireBundle\Entity\Partner $partners)
+    {
+        $this->partners->removeElement($partners);
+    }
+
+    /**
+     * Get partners
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getPartners()
+    {
+        return $this->partners;
     }
 }

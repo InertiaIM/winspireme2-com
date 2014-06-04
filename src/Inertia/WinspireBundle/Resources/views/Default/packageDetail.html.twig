@@ -1,4 +1,4 @@
-{% extends 'InertiaWinspireBundle::layout.html.twig' %}
+{% extends base_template %}
 
 {% block title %}Winspire Experience | {{ package.parentHeader }}{% endblock %}
 
@@ -29,7 +29,11 @@
                     <div class="pd-a-srv"><span class="srv-value">{% autoescape false %}{% if match %}{{ match.suggestedRetailValue | replace({'Up to': '<span class="up-to">Up to</span>'}) }}{% else %}{{ package.suggestedRetailValue | replace({'Up to': '<span class="up-to">Up to</span>'}) }}{% endif %}{% endautoescape %}</span> <span class="srv-label">Suggested Retail Value</span></div>
 {% if not package.seasonal and package.active %}
                     <span class="pd-a-npcost"><span class="npc-value">${% if match %}{{ match.cost | number_format(0) }}{% else %}{{ package.cost | number_format(0) }}{% endif %}</span> Nonprofit Cost</span>
+{%     if not app.request.get('subdomain') %}
                     <a href="#" class="pd-a-add{% if match %} disabled{% endif %}" data-id="{% if match %}{{ match.id }}{% else %}{{ package.id }}{% endif %}"><span aria-hidden="true" class="icon-suitcase icon"></span><em>Add to</em> Suitcase</a>
+{%     else %}
+                    <a href="#" class="pd-a-add">Learn More</a>
+{%     endif %}
 {% else %}
                     <div class="seasonal-message">
                         <hr/>
@@ -68,7 +72,7 @@
                 </div>
                 
                 
-{% if (package.recommendations | length > 1) and (app.request.locale == 'us') %}
+{% if (package.recommendations | length > 1) and (app.request.locale == 'us') and (not app.request.get('subdomain')) %}
 {{     include('InertiaWinspireBundle:Default:recommendedPackages.html.twig', {'packages': package.recommendations, 'packageIds': packageIds}) }}
 {% endif %}
                 
@@ -92,7 +96,7 @@
                             {% if package.airfares %}<li><span aria-hidden="true" class="icon-airplane icon"></span> <span class="pd-c-airfare">{{ package.airfares }}</span></li>{% endif %}
 {% endif %}
                         </ul>
-                        
+{% if not app.request.get('subdomain') %}
                         <div class="pd-d-addthis">
                             <!-- AddThis Button BEGIN -->
                             <div class="addthis_toolbox addthis_default_style addthis_32x32_style">
@@ -106,6 +110,7 @@
                             <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=winspire"></script>
                             <!-- AddThis Button END -->
                         </div>
+{% endif %}
                     </div>
                     
                     <div class="detail">
@@ -132,7 +137,7 @@
 {% endif %}
                     <a class="d-i-mi" {% if not package.moreDetails %}style="display:none;"{% endif %}><span class="d-i-ml">More</span> Info +</a>
                 </div>
-                
+{% if not app.request.get('subdomain') %}
                 <!-- START: Livefyre Embed -->
                 <div id="livefyre-comments"></div>
                 <script type="text/javascript" src="http://zor.livefyre.com/wjs/v3.0/javascripts/livefyre.js"></script>
@@ -153,7 +158,7 @@
                 }());
                 </script>
                 <!-- END: Livefyre Embed -->
-                
+{% endif %}
             </div><!-- pd-details end -->
         </div>
     </div>

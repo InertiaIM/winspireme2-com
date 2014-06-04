@@ -1,0 +1,43 @@
+whitelabel_learn:
+    host:     "{subdomain}.whitelabel.localhost"
+    path:     /learn-more
+    defaults: { _controller: InertiaWinspireBundle:Default:learnMore }
+    requirements:
+        _scheme: http
+
+whitelabel_search:
+    host:     "{subdomain}.whitelabel.localhost"
+    path:     /search
+    defaults: { _controller: InertiaWinspireBundle:Default:packageSearch }
+    requirements:
+        _scheme: http
+
+whitelabel_thanks:
+    host:     "{subdomain}.whitelabel.localhost"
+    path:     /thank-you
+    defaults: { _controller: InertiaWinspireBundle:Default:thankYou }
+    requirements:
+        _scheme: http
+
+whitelabel_detail:
+    host:     "{subdomain}.whitelabel.localhost"
+    path:     /package/{slug}
+    defaults: { _controller: InertiaWinspireBundle:Default:packageDetail }
+    requirements:
+        _scheme:  http
+
+whitelabel_home:
+    host:     "{subdomain}.whitelabel.localhost"
+    path:     /{slug}
+    defaults: { _controller: InertiaWinspireBundle:Default:packageList, slug: all }
+    requirements:
+        _scheme: http
+
+
+# if all else fails, we're throwing a 404
+whitelabel_default404:
+    host:     "{subdomain}.whitelabel.localhost"
+    path:     /{url}
+    defaults: { _controller: InertiaWinspireBundle:Page:none, url: "none" }
+    requirements:
+        url: ".+"
