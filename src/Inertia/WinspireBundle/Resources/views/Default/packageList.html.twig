@@ -1,4 +1,4 @@
-{% extends 'InertiaWinspireBundle::layout.html.twig' %}
+{% extends base_template %}
 
 {% block title %}Winspire | Package List{% endblock %}
 
@@ -7,12 +7,16 @@
 {% block content %}
 <div id="con-pl">
     <div id="pl-header">
+{% if app.request.get('subdomain') %}
+        {% include 'InertiaWinspireBundle:Whitelabel/' ~ app.request.get('subdomain') ~':content.html.twig' ignore missing %}
+{% else %}
         <div class="c-wrap">
             <h1>Discover Your Experiences</h1>
             <h3>Browse our list of over 600 Experiences and add your favorites to <em>my</em><strong>Suitcase</strong>,
-            where you can compare, collaborate and then reserve for your fundraiser.</h3>
+                where you can compare, collaborate and then reserve for your fundraiser.</h3>
             <img src="/img/pl-cloud.png" width="499" height="192" class="pl-h-cloud" alt="">
         </div>
+{% endif %}
     </div>
     
     <div id="pl-container" class="row">
@@ -30,7 +34,11 @@
                 </section>
                 
                 <section>
+{% if not app.request.get('subdomain') %}
                     <a{% if rootCat == 1 %} class="active"{% endif %} id="pl-link-all" href="{{ path('packageList') }}">All Experiences <span aria-hidden="true" class="icon-arrow-right icon"></span></a>
+{% else %}
+                    <a{% if rootCat == 1 %} class="active"{% endif %} id="pl-link-all" href="{{ path('whitelabel_home', {subdomain: app.request.get('subdomain')}) }}">All Experiences <span aria-hidden="true" class="icon-arrow-right icon"></span></a>
+{% endif %}
                 </section>
                 
                 <section>
@@ -98,7 +106,7 @@
                 
                 <div class="row">
                     <ul class="pl-items">
-{% render controller('InertiaWinspireBundle:Default:packageSearch', {'q': q, 'catIds': catIds}) %}
+{% render controller('InertiaWinspireBundle:Default:packageSearch', {'q': q, 'catIds': catIds, 'subdomain': app.request.get('subdomain')}) %}
                     </ul>
                 </div>
                 

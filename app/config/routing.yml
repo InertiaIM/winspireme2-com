@@ -1,3 +1,6 @@
+whitelabel:
+    resource: "routing_whitelabel.yml"
+    
 home:
     pattern:  /
     defaults: { _controller: InertiaWinspireBundle:Default:index }

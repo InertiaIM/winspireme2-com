@@ -7,7 +7,11 @@
                                 <div class="i-image"><img src="//assets.winspireme.com/packages/{{ package.thumbnail }}" alt="" width="129" height="85"/></div>
                                 <div class="i-actions">
 {%     if package.active and not package.seasonal %}
+{%         if not app.request.get('subdomain') %}
                                     <button class="i-a-add" data-id="{{ package.id }}"{% if not available %} disabled="disabled"{% endif %}><span aria-hidden="true" class="icon-suitcase"></span><em>Add to</em> Suitcase</button>
+{%         else %}
+                                    <a href="{{ path('whitelabel_learn', {'subdomain': app.request.get('subdomain')}) }}" class="i-a-add">Learn More</a>
+{%         endif %}
 {%     else %}
                                     <button class="i-a-add" disabled="disabled"><span aria-hidden="true" class="icon-suitcase"></span>Currently Unavailable</button>
 {%     endif %}
