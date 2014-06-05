@@ -60,10 +60,6 @@ header .nav li a:hover {
     opacity: 1;
 }
 
-.learn-more .form-wrap {
-    height: 602px;
-}
-
 footer {
     background: url(/img/whitelabel/biddingowl/bg-footer.png) repeat-x;
     background-position: 0 20px;
