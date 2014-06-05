@@ -32,7 +32,7 @@
 {%     if not app.request.get('subdomain') %}
                     <a href="#" class="pd-a-add{% if match %} disabled{% endif %}" data-id="{% if match %}{{ match.id }}{% else %}{{ package.id }}{% endif %}"><span aria-hidden="true" class="icon-suitcase icon"></span><em>Add to</em> Suitcase</a>
 {%     else %}
-                    <a href="#" class="pd-a-add">Learn More</a>
+                    <a href="{{ path('whitelabel_learn', {'subdomain': app.request.get('subdomain')}) }}" class="pd-a-add">Learn More</a>
 {%     endif %}
 {% else %}
                     <div class="seasonal-message">
