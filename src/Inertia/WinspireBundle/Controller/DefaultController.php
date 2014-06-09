@@ -133,7 +133,7 @@ class DefaultController extends Controller
     public function learnMoreAction($subdomain)
     {
         return $this->render(
-            'InertiaWinspireBundle:Whitelabel/' . $subdomain . ':form.html.twig',
+            'InertiaWinspireBundle:Whitelabel/' . $subdomain . ':learn-more.html.twig',
             array(
                 'base_template' => $this->baseTemplate($this->getRequest()),
             )
