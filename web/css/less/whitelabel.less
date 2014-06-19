@@ -35,13 +35,24 @@ body {
 }
 a, a:active, a:visited { color:@ws-lightblue; }
 a:hover { color:@ws-darkblue; }
-ul, h1, h2, h3, h4, h5, h6, p { padding:0;margin:0; }
+
+ul, h1, h2, h3, h4, h5, h6, p { 
+	padding:0;
+	margin:0px 0px 20px 0px; 
+}
 
 h2 { color:@ws-darkblue; }
 h3 { color:@ws-gray85;font-weight:normal; }
 h4 { color:@ws-darkblue; }
 h5 { color:@ws-gray85; }
 h6 { color:@ws-gray85;font-weight:normal; }
+
+
+p {
+	font-family: Arial, Helvetica, sans-serif;
+	color: #777777;
+	font-size: 12pt;
+}
 
 header .c-wrap,
 footer .c-wrap {
@@ -68,7 +79,9 @@ footer .c-wrap {
 #con-pl {
     .c-wrap {
         width: 1000px;
-        background: url('../web/img/whitelabel/biddingowl/experience-catalog-banner.png') no-repeat center;
+        height: 250px;
+        background: url('../img/whitelabel/biddingowl/experience-catalog-banner.png') no-repeat;
+        padding:20px;
     }
     
     h1 {
