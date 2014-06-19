@@ -1,0 +1,117 @@
+@font-face {
+    font-family: 'Yanone Kaffeesatz';
+    font-style: normal;
+    font-weight: 400;
+    src: local('Yanone Kaffeesatz Regular'), local('YanoneKaffeesatz-Regular'), url(http://themes.googleusercontent.com/static/fonts/yanonekaffeesatz/v5/YDAoLskQQ5MOAgvHUQCcLQa6gm6bS00u2Qn-iPLo1Go.woff) format('woff');
+}
+@font-face {
+    font-family: 'Yanone Kaffeesatz';
+    font-style: normal;
+    font-weight: 700;
+    src: local('Yanone Kaffeesatz Bold'), local('YanoneKaffeesatz-Bold'), url(http://themes.googleusercontent.com/static/fonts/yanonekaffeesatz/v5/We_iSDqttE3etzfdfhuPRbJjSLMfVFmTspsxH0yGxjj3rGVtsTkPsbDajuO5ueQw.woff) format('woff');
+}
+
+header {
+    background: url(/img/whitelabel/biddingowl/bg-header.jpg) repeat-x;
+    height: 190px;
+}
+
+header .c-wrap {
+    background: url(/img/whitelabel/biddingowl/branch.png) no-repeat;
+    background-position: -110px top;
+    height: 159px;
+    position: relative;
+    z-index: 2;
+}
+
+header .test-left {
+    background: url(/img/whitelabel/biddingowl/branch-sliver.png) repeat-x;
+    position: absolute;
+    top: 66px;
+    width: 50%;
+    height: 46px;
+    z-index: 1;
+}
+
+header .nav {
+    font-family: 'Yanone Kaffeesatz', sans-serif;
+    -webkit-font-smoothing: auto;
+}
+
+header .nav li {
+    color: #f7f9e9;
+    list-style: none;
+    float: left;
+    margin-right: 30px;
+    margin-top: -4px;
+    font-size: 18pt;
+}
+
+header .nav li a {
+    color: #f7f9e9;
+    opacity: .70;
+    text-decoration: none;
+    -webkit-transition: opacity 0.4s linear;
+    -moz-transition: opacity 0.4s linear;
+    -o-transition: opacity 0.4s linear;
+}
+
+header .nav li a:hover {
+    opacity: 1;
+}
+
+footer {
+    background: url(/img/whitelabel/biddingowl/bg-footer.png) repeat-x;
+    background-position: 0 20px;
+    height: 306px;
+    overflow: hidden;
+    padding-top: 15px;
+    -webkit-font-smoothing: auto;
+}
+
+footer .c-wrap {
+    color: #fff;
+    padding-top: 105px;
+}
+
+footer .footerPanel {
+    float: left;
+    width: 212px;
+    padding: 5px 15px 15px 15px;
+    height: 110px;
+    line-height: 28px;
+    border-right: 1px solid #cecece;
+}
+
+footer .footerPanel strong {
+    color: #6e5f34;
+    display: block;
+    font-size: 26pt;
+    font-weight: normal;
+    margin-bottom: 28px;
+}
+
+footer a,
+footer a:hover,
+footer a:active,
+footer a:visited {
+    color: #fff;
+    text-decoration: none;
+}
+
+footer .btmtrm {
+    margin-left: 35px;
+    margin-top: 8px;
+    width: 400px;
+    float: left;
+}
+
+footer .btmtrm li {
+    list-style: none;
+    float: left;
+    margin-right: 20px;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 11px;
+    line-height: 25px;
+    font-weight: bold;
+}
