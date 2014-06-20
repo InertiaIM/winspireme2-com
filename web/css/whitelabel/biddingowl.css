@@ -70,11 +70,12 @@ header .nav li a:hover {
 
 .learn-more .c-wrap {
 	background: url(/img/whitelabel/biddingowl/experience-catalog-banner-sm-more.png) no-repeat;
-	background-position:right;
+	background-position:right top;
+	height:200px;
 }
 
 .learn-more .c-wrap p {
-	width:400px;
+	width:450px;
 }
 
 
