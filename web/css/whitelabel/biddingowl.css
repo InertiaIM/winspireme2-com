@@ -60,6 +60,15 @@ header .nav li a:hover {
     opacity: 1;
 }
 
+
+.c-wrap .main-content {        
+	height: 250px;
+	background: url('../img/whitelabel/biddingowl/experience-catalog-banner2.png') no-repeat;
+	padding:30px 30px 0px;
+}
+
+
+
 footer {
     background: url(/img/whitelabel/biddingowl/bg-footer.png) repeat-x;
     background-position: 0 20px;
