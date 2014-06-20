@@ -63,12 +63,12 @@ header .nav li a:hover {
 
 .c-wrap .main-content {        
 	height: 250px;	
-    background: url(/img/whitelabel//img/whitelabel/biddingowl/experience-catalog-banner.png) no-repeat;
+    background: url(/img/whitelabel/biddingowl/experience-catalog-banner2.png) no-repeat;
 	padding:30px 30px 0px;
 }
 
 .learn-more .c-wrap {
-	background: url(../web/img/whitelabel/biddingowl/experience-catalog-banner-sm.png) no-repeat;
+	background: url(/img/whitelabel/biddingowl/experience-catalog-banner-sm.png) no-repeat;
 	background-position:right;
 }
 
