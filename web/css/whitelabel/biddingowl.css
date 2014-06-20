@@ -67,15 +67,7 @@ header .nav li a:hover {
 	padding:30px 30px 0px;
 }
 
-.learn-more .hs-form {
-    width:520px;
-    border: 2px solid @ws-white;
-	background: rgb(239,239,239);
-	padding: 30px 15px 15px 15px;
-	-webkit-box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, .5);
-	box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, .5);
-    margin: 0 auto;
-}
+
 
 footer {
     background: url(/img/whitelabel/biddingowl/bg-footer.png) repeat-x;
