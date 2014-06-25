@@ -59,6 +59,10 @@ header .nav li a:hover {
 	padding:30px 15px 0px;
 }
 
+.c-wrap .main-content p {     
+	width:650px;
+	}
+
 .learn-more .c-wrap {
 	background: url(/img/whitelabel/biddingowl/experience-catalog-banner-sm-more.png) no-repeat;
 	background-position:right top;
