@@ -255,6 +255,7 @@ redirect 301 /blog/non-profit/convio%E2%80%99s-event-fundraising-benchmark-study
 redirect 301 /winspiredtraveler http://you.winspireme.com/winspired-traveler
 redirect 301 /job-opening-corporate-sport-entertainment-event-manager http://blog.winspireme.com
 redirect 301 /job-opening-winspire-sales-consultant http://blog.winspireme.com
+redirect 301 /subscribe http://you.winspireme.com/subscribe-to-winspire-news
 
 <IfModule mod_rewrite.c>
     RewriteEngine On
