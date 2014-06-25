@@ -21,6 +21,7 @@ header .nav {
 	background:#15548b;
 	padding:10px;
     font-family: Arial,Helvetica,sans-serif;
+    height: 15px;
 }
 
 header .nav li {
@@ -29,8 +30,11 @@ header .nav li {
     padding:5x;
     list-style: none;
     float: left;
-    margin-right: 30px;
-    font-size: 13px;
+    border-top: 2px solid #81a5b7;
+	border-right: 2px solid #353d43;
+    font-size: 12px;
+    margin-right: 2px;
+height: 20px;
 }
 
 header .nav li a {
