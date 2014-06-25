@@ -1,31 +1,19 @@
-@font-face {
-    font-family: 'Yanone Kaffeesatz';
-    font-style: normal;
-    font-weight: 400;
-    src: local('Yanone Kaffeesatz Regular'), local('YanoneKaffeesatz-Regular'), url(http://themes.googleusercontent.com/static/fonts/yanonekaffeesatz/v5/YDAoLskQQ5MOAgvHUQCcLQa6gm6bS00u2Qn-iPLo1Go.woff) format('woff');
-}
-@font-face {
-    font-family: 'Yanone Kaffeesatz';
-    font-style: normal;
-    font-weight: 700;
-    src: local('Yanone Kaffeesatz Bold'), local('YanoneKaffeesatz-Bold'), url(http://themes.googleusercontent.com/static/fonts/yanonekaffeesatz/v5/We_iSDqttE3etzfdfhuPRbJjSLMfVFmTspsxH0yGxjj3rGVtsTkPsbDajuO5ueQw.woff) format('woff');
-}
-
 header {
-    background: url(/img/whitelabel/biddingowl/bg-header.jpg) repeat-x;
     height: 190px;
 }
 
 header .c-wrap {
-    background: url(/img/whitelabel/biddingowl/branch.png) no-repeat;
     background-position: -110px top;
     height: 159px;
     position: relative;
     z-index: 2;
 }
 
+header .logo{
+    margin:10px 20px;
+}
+
 header .test-left {
-    background: url(/img/whitelabel/biddingowl/branch-sliver.png) repeat-x;
     position: absolute;
     top: 66px;
     width: 50%;
@@ -34,84 +22,119 @@ header .test-left {
 }
 
 header .nav {
-    font-family: 'Yanone Kaffeesatz', sans-serif;
-    -webkit-font-smoothing: auto;
+	background:#15548b;
+	padding:7px 0px;
+    font-family: Arial,Helvetica,sans-serif;
+    height: 27px;
 }
 
 header .nav li {
-    color: #f7f9e9;
+    color: #FFFFFF;
+    background:#6c7e9c;
+    padding:5px 15px;
     list-style: none;
     float: left;
-    margin-right: 30px;
-    margin-top: -4px;
-    font-size: 18pt;
+    border-top: 2px solid #81a5b7;
+	border-right: 2px solid #353d43;
+	border-bottom: 1px solid #3d4950;
+    font-size: 12px;
+    margin-right: 2px;
 }
 
 header .nav li a {
-    color: #f7f9e9;
-    opacity: .70;
+    color: #FFFFFF;
     text-decoration: none;
-    -webkit-transition: opacity 0.4s linear;
-    -moz-transition: opacity 0.4s linear;
-    -o-transition: opacity 0.4s linear;
 }
 
 header .nav li a:hover {
     opacity: 1;
 }
 
+/*-----DEFAULT CONTENT-----*/
+
+.c-wrap .main-content {        
+	height: 250px;	
+    background: url(/img/whitelabel/biddingowl/experience-catalog-banner-sm.png) no-repeat;
+    background-position:right;
+	padding:20px 15px 30px;
+	margin-bottom:20px;
+}
+
+.c-wrap .main-content h1 {   
+	width: 650px;
+	border-bottom: 1px dotted #ccc;
+}
+
+.c-wrap .main-content p {     
+	width:650px;
+	}
+
+.learn-more .c-wrap {
+	background: url(/img/whitelabel/biddingowl/experience-catalog-banner-sm-more.png) no-repeat;
+	background-position:right top;
+	height:200px;
+	padding-top:20px;
+}
+	
+.learn-more .c-wrap	h1 {
+		border-bottom: 1px dotted #ccc;
+		width: 450px;
+	}
+	
+.learn-more .c-wrap	p {
+		width:450px;
+	}
+
+/*-----END DEFAULT CONTENT-----*/
+
 footer {
-    background: url(/img/whitelabel/biddingowl/bg-footer.png) repeat-x;
-    background-position: 0 20px;
-    height: 306px;
-    overflow: hidden;
-    padding-top: 15px;
-    -webkit-font-smoothing: auto;
+
 }
 
 footer .c-wrap {
-    color: #fff;
-    padding-top: 105px;
+   background: #c7d5ea;
+    margin-top: 40px;
+    padding:15px;
 }
 
 footer .footerPanel {
-    float: left;
-    width: 212px;
-    padding: 5px 15px 15px 15px;
-    height: 110px;
-    line-height: 28px;
-    border-right: 1px solid #cecece;
+    width: 100%;
+    height: 70px;
 }
 
-footer .footerPanel strong {
-    color: #6e5f34;
+footer .footerPanel strong a {
+    color: #15548b;
     display: block;
-    font-size: 26pt;
-    font-weight: normal;
-    margin-bottom: 28px;
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 15px;
+    text-align:right;
 }
 
 footer a,
 footer a:hover,
 footer a:active,
 footer a:visited {
-    color: #fff;
+    color: #15548b;
     text-decoration: none;
 }
 
 footer .btmtrm {
-    margin-left: 35px;
     margin-top: 8px;
-    width: 400px;
+    width: 100%;
     float: left;
+    border-top: 1px solid #15548b;
 }
 
 footer .btmtrm li {
     list-style: none;
     float: left;
-    margin-right: 20px;
+    padding: 0px 10px;
+	margin-top: 10px;
     font-family: Arial, Helvetica, sans-serif;
-    font-size: 11px;
+    font-size: 13px;
     line-height: 25px;
-    font-weight: bold;
+    font-weight: normal;
+    color: #15548b;
+    border-right: 1px solid #15548b;
 }
