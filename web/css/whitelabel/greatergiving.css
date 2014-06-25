@@ -9,6 +9,10 @@ header .c-wrap {
     z-index: 2;
 }
 
+header .logo{
+    margin:10px 0px;
+}
+
 header .test-left {
     position: absolute;
     top: 66px;
@@ -27,14 +31,14 @@ header .nav {
 header .nav li {
     color: #FFFFFF;
     background:#6c7e9c;
-    padding:5x;
+    padding:5px 15px 0px;
     list-style: none;
     float: left;
     border-top: 2px solid #81a5b7;
 	border-right: 2px solid #353d43;
     font-size: 12px;
     margin-right: 2px;
-height: 20px;
+	height: 27px;
 }
 
 header .nav li a {
