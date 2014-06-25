@@ -260,6 +260,9 @@ redirect 301 /subscribe http://you.winspireme.com/subscribe-to-winspire-news
 <IfModule mod_rewrite.c>
     RewriteEngine On
     
+    RewriteCond %{HTTP_HOST} ^(.*)\.experiencecharity\.com$ [NC]
+    RewriteRule ^favicon\.ico$ /favicons/%1.ico [L]
+    
     RewriteCond %{HTTP_REFERER} !^$
     RewriteCond %{HTTP_REFERER} ^http://(www\.)*(biddingforgood.com|debtdeal.com|investmentarbitrationreporter.org|piriformedia.com|plantowealth.com|lifesettlementexpert.com|usashopper.com|thehealthymoms.net|structuredsettlementexpert.com|healthinsurance\-plans.info|financetranslations.com|luxuryhomejumboloan.com|goinsuranceusa.com|ttlink.com|linkarena.com|lowest\-mortgage.com|acpdirectors.org|bmwdealerships.org|mykellyf.com|abovethebeltway.com|sunkistssecret.com|soul\-awareness.eu|askives.com|index\-us.net|freeaddposting.com|idol\-pundits.com|0qq1.com|w\-business.eu|alaskaparentinvolvement.com|thelunarreport.com|aoldir.com|kieranpatel.com|seocourt.com|long\-term\-care\-costs.com|abwebdirectory.com|lemondir.com|kybff.com|ultimatemoneyblog.com|perrymanadoption.com|xoom.it|submitocean.com|salisburyareafoundation.org|opendictator.com|retirementkingstonontario.com|depression2pt0.com|eurodir.biz|linkissue.info|idearef.com|kraeuterbruederchen.de|myhealthrecovery.com|lifeunexpected.co.cc|creditdebtrepair.com|meerbezoekerskrijgen.nl|fave.net|abcnetdirectory.com|vfpost.com|ykydaw.net|youjustdontgetitdoyoudave.com|theundefeatedlife.com|partyplanning\-eventplanning.com|clarifinancial.net|hompparties.com)+/.*$ [NC]
     RewriteRule \.(gif|jpg|jpeg|bmp|zip|rar|mp3|flv|swf|xml|php|png|css|pdf)$ [F]
