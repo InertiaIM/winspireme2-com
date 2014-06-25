@@ -50,18 +50,32 @@ header .nav li a:hover {
     opacity: 1;
 }
 
+/*-----DEFAULT CONTENT-----*/
+
 .c-wrap .main-content {        
 	height: 250px;	
-    background: url(/img/whitelabel/experience-catalog-banner-sm.png) no-repeat;
+    background: url(/img/whitelabel/biddingowl/experience-catalog-banner-sm.png) no-repeat;
     background-position:right;
 	padding:30px 15px 0px;
 }
 
 .learn-more .c-wrap {
-	background: url(/img/whitelabel/experience-catalog-banner-sm-more.png) no-repeat;
+	background: url(/img/whitelabel/biddingowl/experience-catalog-banner-sm-more.png) no-repeat;
 	background-position:right top;
 	height:200px;
+	padding-top:20px;
 }
+	
+.learn-more .c-wrap	h1 {
+		border-bottom: 1px dotted #ccc;
+		width: 450px;
+	}
+	
+.learn-more .c-wrap	p {
+		width:450px;
+	}
+
+/*-----END DEFAULT CONTENT-----*/
 
 footer {
     background: url(/img/whitelabel/biddingowl/bg-footer.png) repeat-x;
