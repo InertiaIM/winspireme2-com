@@ -10,7 +10,7 @@ header .c-wrap {
 }
 
 header .logo{
-    margin:10px 0px;
+    margin:10px 20px;
 }
 
 header .test-left {
@@ -23,22 +23,22 @@ header .test-left {
 
 header .nav {
 	background:#15548b;
-	padding:10px;
+	padding:7px 0px;
     font-family: Arial,Helvetica,sans-serif;
-    height: 15px;
+    height: 27px;
 }
 
 header .nav li {
     color: #FFFFFF;
     background:#6c7e9c;
-    padding:5px 15px 0px;
+    padding:5px 15px;
     list-style: none;
     float: left;
     border-top: 2px solid #81a5b7;
 	border-right: 2px solid #353d43;
+	border-bottom: 1px solid #3d4950;
     font-size: 12px;
     margin-right: 2px;
-	height: 27px;
 }
 
 header .nav li a {
