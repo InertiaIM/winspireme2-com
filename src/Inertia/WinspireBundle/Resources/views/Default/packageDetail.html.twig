@@ -37,12 +37,21 @@
                     <a href="{{ path('whitelabel_learn', {'subdomain': app.request.get('subdomain')}) }}" class="pd-a-add">Learn More</a>
 {%     endif %}
 {% else %}
+{%     if app.request.get('subdomain') %}
+                    <div class="seasonal-message">
+                        <hr/>
+                        <h3>This Experience is currently unavailable. Please contact us for more information.</h3>
+                        <p>Some of our Experiences are seasonal. Once event dates and other details are established, this package will become available.</p>
+                        <p>Call us for future availability or check back soon to reserve next year’s Experience</p>
+                    </div>
+{%     else %}
                     <div class="seasonal-message">
                         <hr/>
                         <h3>This Experience is currently unavailable. Please call us at <em>(877) 544-8555</em> for more information.</h3>
                         <p>Some of our Experiences are seasonal. Once event dates and other details are established, this package will become available.</p>
                         <p>Call us for future availability or check back soon to reserve next year’s Experience</p>
                     </div>
+{%     endif %}
 {% endif %}
                     
 {% if variants | length > 1 %}

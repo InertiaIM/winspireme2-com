@@ -37,9 +37,17 @@
                         </li>
 {% endfor %}
 {% if packages | length == 0 %}
+{%     if subdomain %}
+                        <li class="noresult">
+                            Although we cannot find a match to your search, it is possible that we have something that
+                            meets the criteria or that we can custom develop. Feel free to continue to search or email
+                            or call us if you have a custom package request.
+                        </li>
+{%     else %}
                         <li class="noresult">
                             We apologize, but we can't find any experiences that match your search.<br/>
-                            Please try a different search or call us at <strong>(877) 544-8555</strong> if you were looking 
+                            Please try a different search or call us at <strong>(877) 544-8555</strong> if you were looking
                             for something we might not list.
                         </li>
+{%     endif %}
 {% endif %}
