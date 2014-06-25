@@ -78,16 +78,11 @@ header .nav li a:hover {
 /*-----END DEFAULT CONTENT-----*/
 
 footer {
-    background: url(/img/whitelabel/biddingowl/bg-footer.png) repeat-x;
-    background-position: 0 20px;
-    height: 306px;
-    overflow: hidden;
-    padding-top: 15px;
-    -webkit-font-smoothing: auto;
+
 }
 
 footer .c-wrap {
-    color: #fff;
+    color: #c7d5ea;
     padding-top: 105px;
 }
 
@@ -100,11 +95,11 @@ footer .footerPanel {
     border-right: 1px solid #cecece;
 }
 
-footer .footerPanel strong {
-    color: #6e5f34;
+footer .footerPanel strong a {
+    color: #15548b;
     display: block;
-    font-size: 26pt;
-    font-weight: normal;
+    font-size: 18px;
+    font-weight: bold;
     margin-bottom: 28px;
 }
 
@@ -112,7 +107,7 @@ footer a,
 footer a:hover,
 footer a:active,
 footer a:visited {
-    color: #fff;
+    color: #15548b;
     text-decoration: none;
 }
 
@@ -128,7 +123,8 @@ footer .btmtrm li {
     float: left;
     margin-right: 20px;
     font-family: Arial, Helvetica, sans-serif;
-    font-size: 11px;
+    font-size: 13px;
     line-height: 25px;
-    font-weight: bold;
+    font-weight: normal;
+    color: #15548b;
 }
