@@ -82,8 +82,9 @@ footer {
 }
 
 footer .c-wrap {
-    color: #c7d5ea;
-    padding-top: 105px;
+   background: #c7d5ea;
+    margin-top: 40px;
+    padding:15px;
 }
 
 footer .footerPanel {
