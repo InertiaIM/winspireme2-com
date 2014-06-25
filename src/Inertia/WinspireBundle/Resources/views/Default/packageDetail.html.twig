@@ -13,7 +13,9 @@
                 <span aria-hidden="true" class="icon-arrow-left icon"></span>Back To All Experiences
             </a>
 {% else %}
+{%     if not app.request.get('subdomain') %}
             <p>&nbsp;</p>
+{%     endif %}
 {% endif %}
             <div class="reset">&nbsp;</div>
             <div class="pd-banner drop-shadow lifted3">

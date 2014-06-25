@@ -117,6 +117,9 @@
         }
         
         categories = categories + '&' + categories2;
+        if (categories == '&') {
+            categories = 'category=';
+        }
         
         var filter = 'filter=' + $('.pl-sort ul li a.selected').attr('data-filter');
         var sort = $('select[name="sortOrder"]').serialize();

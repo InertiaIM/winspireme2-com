@@ -171,6 +171,22 @@ class DefaultController extends Controller
     }
     
     
+    // Need an action to break out of the session-stored search parameters
+    public function packageListAllAction(Request $request)
+    {
+        if ($request->attributes->get('subdomain')) {
+            $session = $request->getSession();
+            $session->remove('category');
+        }
+        
+        return $this->redirect($this->generateUrl('whitelabel_home',
+            array(
+                'subdomain' => $request->attributes->get('subdomain'),
+            )
+        ));
+    }
+    
+    
     public function packageListAction($slug)
     {
         $request = $this->getRequest();
@@ -375,6 +391,22 @@ class DefaultController extends Controller
     
     public function packageSearchAction(Request $request)
     {
+        if ($request->attributes->get('subdomain')) {
+            $session = $request->getSession();
+            if ($request->query->has('category')) {
+                if (is_array($request->query->get('category'))) {
+                    $session->set('category', $request->query->get('category'));
+                }
+                else {
+                    $request->query->remove('category');
+                    $session->remove('category');
+                }
+            }
+            elseif ($session->has('category')) {
+                $request->query->set('category', $session->get('category'));
+            }
+        }
+        
         $locale = $this->getRequest()->getLocale();
         
         $q = $request->attributes->get('q');
@@ -467,7 +499,8 @@ class DefaultController extends Controller
                 return $this->render(
                     'InertiaWinspireBundle:Default:packages.html.twig',
                     array(
-                        'packages' => array()
+                        'packages' => array(),
+                        'subdomain' => $request->attributes->get('subdomain'),
                     )
                 );
             }
@@ -613,6 +646,7 @@ class DefaultController extends Controller
             'InertiaWinspireBundle:Default:packages.html.twig',
             array(
                 'packages' => $defaultPackages,
+                'subdomain' => $request->attributes->get('subdomain'),
             )
         );
     }

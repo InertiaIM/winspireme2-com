@@ -37,7 +37,7 @@
 {% if not app.request.get('subdomain') %}
                     <a{% if rootCat == 1 %} class="active"{% endif %} id="pl-link-all" href="{{ path('packageList') }}">All Experiences <span aria-hidden="true" class="icon-arrow-right icon"></span></a>
 {% else %}
-                    <a{% if rootCat == 1 %} class="active"{% endif %} id="pl-link-all" href="{{ path('whitelabel_home', {subdomain: app.request.get('subdomain')}) }}">All Experiences <span aria-hidden="true" class="icon-arrow-right icon"></span></a>
+                    <a{% if rootCat == 1 %} class="active"{% endif %} id="pl-link-all" href="{{ path('whitelabel_all', {subdomain: app.request.get('subdomain')}) }}">All Experiences <span aria-hidden="true" class="icon-arrow-right icon"></span></a>
 {% endif %}
                 </section>
                 
@@ -46,11 +46,11 @@
 {%     if filter.title == 'US Travel' %}
                     <ul class="f-group">
                         <li>
-                            <input id="cat2" type="checkbox" name="category[2][]" value="2"{% if rootCat == 2 %} checked="checked"{% endif %}/>
-                            <label for="cat2">U.S. Travel</label>
+                            <input id="cat2" type="checkbox" name="category[2][]" value="2"{% if rootCat == 2 or (app.session.get('category')[2] is defined and 2 in app.session.get('category')[2]) %} checked="checked"{% endif %}/>
+                            <label for="cat2"{% if (app.session.get('category')[2] is defined and 2 in app.session.get('category')[2]) %} class="active"{% endif %}>U.S. Travel</label>
                             <select id="catState" name="category[2][]" multiple="multiple">
 {%         for child in filter.__children %}
-                                <option value="{{ child.id }}">{{ child.title }}</option>
+                                <option value="{{ child.id }}"{% if (app.session.get('category')[2] is defined and child.id in app.session.get('category')[2]) %} selected="selected"{% endif %}>{{ child.title }}</option>
 {%         endfor %}
                             </select>
                         </li>
@@ -58,8 +58,8 @@
 {%     else %}
                     <ul class="f-group">
                         <li>
-                            <input id="cat{{ filter.id }}" type="checkbox" name="category[{{ filter.id }}][]" value="{{ filter.id }}"{% if filter.id == rootCat %} checked="checked"{% endif %}/>
-                            <label for="cat{{ filter.id }}"{% if filter.id == rootCat %} class="active"{% endif %}>{{ filter.title }}</label>
+                            <input id="cat{{ filter.id }}" type="checkbox" name="category[{{ filter.id }}][]" value="{{ filter.id }}"{% if filter.id == rootCat or (app.session.get('category')[filter.id] is defined and filter.id in app.session.get('category')[filter.id]) %} checked="checked"{% endif %}/>
+                            <label for="cat{{ filter.id }}"{% if filter.id == rootCat or (app.session.get('category')[filter.id] is defined and filter.id in app.session.get('category')[filter.id]) %} class="active"{% endif %}>{{ filter.title }}</label>
 {%         if filter.__children %}
 {%             set open = false %}
 {%             set count = 0 %}
@@ -71,8 +71,8 @@
 {%             endfor %}
                             <ul{% if open %} class="more-shown"{% endif %}>
 {%             for child in filter.__children %}
-                                <li><input id="cat{{ child.id }}" type="checkbox" name="category[{{ filter.id }}][]" value="{{ child.id }}"{% if child.id == rootCat %} checked="checked"{% endif %}/>
-                                <label for="cat{{ child.id }}"{% if child.id == rootCat %} class="active"{% endif %}>{{ child.title }}</label></li>
+                                <li><input id="cat{{ child.id }}" type="checkbox" name="category[{{ filter.id }}][]" value="{{ child.id }}"{% if child.id == rootCat or (app.session.get('category')[filter.id] is defined and child.id in app.session.get('category')[filter.id]) %} checked="checked"{% endif %}/>
+                                <label for="cat{{ child.id }}"{% if child.id == rootCat or (app.session.get('category')[filter.id] is defined and child.id in app.session.get('category')[filter.id]) %} class="active"{% endif %}>{{ child.title }}</label></li>
 {%             endfor %}
                             </ul>
 {%         endif %}

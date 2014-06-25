@@ -49,6 +49,13 @@ var env = '/app_dev.php';
             {% include 'InertiaWinspireBundle:Whitelabel/' ~ app.request.get('subdomain') ~':header.html.twig' ignore missing %}
         </header>
         <div class="content">
+{% if app.request.get('_route') != 'whitelabel_home' %}
+            <div class="return-link">
+                <a href="{{ path('whitelabel_home', {subdomain: app.request.get('subdomain')}) }}">
+                    <span aria-hidden="true" class="icon-arrow-left icon"></span>Back to Experience List
+                </a>
+            </div>
+{% endif %}
             {% block content %} {% endblock %}
         </div>
         <footer>

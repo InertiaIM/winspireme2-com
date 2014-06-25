@@ -26,6 +26,13 @@ whitelabel_detail:
     requirements:
         _scheme:  http
 
+whitelabel_all:
+    host:     "{subdomain}.experiencecharity.com"
+    path:     /all
+    defaults: { _controller: InertiaWinspireBundle:Default:packageListAll}
+    requirements:
+        _scheme: http
+
 whitelabel_home:
     host:     "{subdomain}.experiencecharity.com"
     path:     /{slug}
