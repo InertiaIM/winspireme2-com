@@ -1,6 +1,6 @@
 {% extends base_template %}
 
-{% block title %}Winspire Experience | {{ package.parentHeader }}{% endblock %}
+{% block title %}{% if app.request.get('subdomain') %}{{ app.request.get('subdomain') | capitalize }}{% else %}Winspire{% endif %} Experience | {{ package.parentHeader }}{% endblock %}
 
 {% block content_header '' %}
 
