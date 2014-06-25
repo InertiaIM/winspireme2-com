@@ -56,7 +56,13 @@ header .nav li a:hover {
 	height: 250px;	
     background: url(/img/whitelabel/biddingowl/experience-catalog-banner-sm.png) no-repeat;
     background-position:right;
-	padding:30px 15px 0px;
+	padding:20px 15px 30px;
+	margin-bottom:20px;
+}
+
+.c-wrap .main-content h1 {   
+	width: 650px;
+	border-bottom: 1px dotted #ccc;
 }
 
 .c-wrap .main-content p {     
