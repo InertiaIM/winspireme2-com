@@ -1,23 +1,8 @@
-@font-face {
-    font-family: 'Yanone Kaffeesatz';
-    font-style: normal;
-    font-weight: 400;
-    src: local('Yanone Kaffeesatz Regular'), local('YanoneKaffeesatz-Regular'), url(http://themes.googleusercontent.com/static/fonts/yanonekaffeesatz/v5/YDAoLskQQ5MOAgvHUQCcLQa6gm6bS00u2Qn-iPLo1Go.woff) format('woff');
-}
-@font-face {
-    font-family: 'Yanone Kaffeesatz';
-    font-style: normal;
-    font-weight: 700;
-    src: local('Yanone Kaffeesatz Bold'), local('YanoneKaffeesatz-Bold'), url(http://themes.googleusercontent.com/static/fonts/yanonekaffeesatz/v5/We_iSDqttE3etzfdfhuPRbJjSLMfVFmTspsxH0yGxjj3rGVtsTkPsbDajuO5ueQw.woff) format('woff');
-}
-
 header {
-    background: url(/img/whitelabel/biddingowl/bg-header.jpg) repeat-x;
     height: 190px;
 }
 
 header .c-wrap {
-    background: url(/img/whitelabel/biddingowl/branch.png) no-repeat;
     background-position: -110px top;
     height: 159px;
     position: relative;
@@ -25,7 +10,6 @@ header .c-wrap {
 }
 
 header .test-left {
-    background: url(/img/whitelabel/biddingowl/branch-sliver.png) repeat-x;
     position: absolute;
     top: 66px;
     width: 50%;
@@ -34,26 +18,24 @@ header .test-left {
 }
 
 header .nav {
-    font-family: 'Yanone Kaffeesatz', sans-serif;
-    -webkit-font-smoothing: auto;
+	background:#15548b;
+	padding:10px;
+    font-family: Arial,Helvetica,sans-serif;
 }
 
 header .nav li {
-    color: #f7f9e9;
+    color: #FFFFFF;
+    background:#6c7e9c;
+    padding:5x;
     list-style: none;
     float: left;
     margin-right: 30px;
-    margin-top: -4px;
-    font-size: 18pt;
+    font-size: 13px;
 }
 
 header .nav li a {
-    color: #f7f9e9;
-    opacity: .70;
+    color: #FFFFFF;
     text-decoration: none;
-    -webkit-transition: opacity 0.4s linear;
-    -moz-transition: opacity 0.4s linear;
-    -o-transition: opacity 0.4s linear;
 }
 
 header .nav li a:hover {
