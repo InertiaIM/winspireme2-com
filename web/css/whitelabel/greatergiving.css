@@ -89,11 +89,8 @@ footer .c-wrap {
 
 footer .footerPanel {
     float: left;
-    width: 212px;
-    padding: 5px 15px 15px 15px;
+    width: 100%;
     height: 110px;
-    line-height: 28px;
-    border-right: 1px solid #cecece;
 }
 
 footer .footerPanel strong a {
@@ -113,10 +110,10 @@ footer a:visited {
 }
 
 footer .btmtrm {
-    margin-left: 35px;
     margin-top: 8px;
-    width: 400px;
+    width: 100%;
     float: left;
+    border-top: 1px solid #15548b;
 }
 
 footer .btmtrm li {
