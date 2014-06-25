@@ -79,7 +79,8 @@ class UpdateSfConsumer implements ConsumerInterface
                 try {
                     $sfOpportunity = new \stdClass();
                     $sfOpportunity->Id = $id;
-                    $sfOpportunity->StageName = 'Lost (pre-event)';
+                    $sfOpportunity->StageName = 'Lost';
+                    $sfOpportunity->Objections__c = 'To Be Confirmed';
                     $sfOpportunity->Website_suitcase_status__c = 'Deleted';
                     
                     $saveResult = $this->sf->update(array($sfOpportunity), 'Opportunity');
