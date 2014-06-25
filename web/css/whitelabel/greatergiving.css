@@ -88,9 +88,8 @@ footer .c-wrap {
 }
 
 footer .footerPanel {
-    float: left;
     width: 100%;
-    height: 110px;
+    height: 70px;
 }
 
 footer .footerPanel strong a {
@@ -98,7 +97,7 @@ footer .footerPanel strong a {
     display: block;
     font-size: 18px;
     font-weight: bold;
-    margin-bottom: 28px;
+    margin-bottom: 15px;
 }
 
 footer a,
