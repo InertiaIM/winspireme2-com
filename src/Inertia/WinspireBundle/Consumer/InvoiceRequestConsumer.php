@@ -172,7 +172,8 @@ class InvoiceRequestConsumer implements ConsumerInterface
         $sfOpportunity->Name = substr($suitcase->getEventName(), 0, 40);
         
         if ($suitcase->getStatus() == 'M') {
-            $sfOpportunity->StageName = 'Lost (No Bids)';
+            $sfOpportunity->StageName = 'Lost';
+            $sfOpportunity->Objections__c = 'Portfolio - No Bids at Event';
             $sfOpportunity->Website_suitcase_status__c = 'Missed';
         }
         else {

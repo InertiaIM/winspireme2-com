@@ -110,7 +110,8 @@ $output->writeln('<info>    * ' . $suitcase->getUser()->getCompany()->getName() 
             if ($suitcase->getSfId() != '') {
                 $sfOpportunity = new \stdClass();
                 $sfOpportunity->Id = $suitcase->getSfId();
-                $sfOpportunity->StageName = 'Lost (pre-event)';
+                $sfOpportunity->StageName = 'Lost';
+                $sfOpportunity->Objections__c = 'To Be Confirmed';
                 $sfOpportunity->Website_suitcase_status__c = 'Deleted';
                 
                 try {
