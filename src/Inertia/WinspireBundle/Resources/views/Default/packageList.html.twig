@@ -28,7 +28,11 @@
                 
                 <section>
                     <div class="f-search">
+{% if app.session.get('q') %}
+                        <input type="text" class="search-text" placeholder="Search" value="{{ app.session.get('q') }}"/>
+{% else %}
                         <input type="text" class="search-text" placeholder="Search" value="{{ q }}"/>
+{% endif %}
                         <input type="button" class="search-submit" />
                     </div>
                 </section>

@@ -179,6 +179,7 @@ class DefaultController extends Controller
             $session->remove('category');
             $session->remove('filter');
             $session->remove('sortOrder');
+            $session->remove('q');
         }
         
         return $this->redirect($this->generateUrl('whitelabel_home',
@@ -422,12 +423,27 @@ class DefaultController extends Controller
                 $request->query->set('sortOrder', $session->get('sortOrder'));
             }
             
-//            if ($request->query->has('q')) {
-//                $session->set('q', $request->query->get('q'));
-//            }
-//            elseif ($session->has('q')) {
-//                $request->query->set('q', $session->get('q'));
-//            }
+            if ($request->query->has('q')) {
+                if ($request->query->get('q') != '') {
+                    $session->set('q', $request->query->get('q'));
+                    $request->query->remove('category');
+                    $request->query->remove('filter');
+                    $request->query->remove('sortOrder');
+                    $session->remove('category');
+                    $session->remove('filter');
+                    $session->remove('sortOrder');
+                }
+                else {
+                    $request->query->remove('q');
+                    $session->remove('q');
+                }
+            }
+            elseif ($session->has('q') && $session->get('q') != '') {
+                $request->query->set('q', $session->get('q'));
+                $request->query->remove('category');
+                $request->query->remove('filter');
+                $request->query->remove('sortOrder');
+            }
         }
         
         $locale = $this->getRequest()->getLocale();

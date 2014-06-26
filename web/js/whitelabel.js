@@ -128,7 +128,7 @@
         spinner.spin(target);
         $.ajax({
             url: url,
-            data: categories + '&' + sort + '&' + filter,
+            data: categories + '&' + sort + '&' + filter + '&q=',
             dataType: 'html',
             success: function(data, textStatus, jqXHR) {
                 spinner.stop();
