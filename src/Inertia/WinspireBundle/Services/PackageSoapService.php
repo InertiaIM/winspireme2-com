@@ -99,6 +99,7 @@ fwrite($dump, print_r($notifications, true));
                 'WEB_Nights__c, ' .
                 'WEB_Participants__c, ' .
                 'WEB_Recommendations__c, ' .
+                'Partner_package__c, ' .
                 'OMIT_from_Winspire__c, ' .
                 'Origin__c, ' .
                 'SystemModstamp ' .
@@ -375,6 +376,27 @@ fwrite($dump, print_r($notifications, true));
             $this->em->flush();
             
             $this->logger->info('Package saved...');
+            
+            // Remove all existing PartnersPackages
+            foreach($package->getPartners() as $pp) {
+                $package->removePartner($pp);
+            }
+            
+            // Parse Partner_package__c list to determine whitelabel packages
+            if (isset($p->Partner_package__c)) {
+                $partnerNames = explode(';', $p->Partner_package__c);
+                
+                foreach($partnerNames as $partnerName) {
+                    if ($partner = $this->findPartnerByName($partnerName)) {
+                        $package->addPartner($partner);
+                        $this->em->persist($package);
+                    }
+                }
+            }
+            
+            $this->em->flush();
+            
+            $this->logger->info('Saved Partner/Package relationships...');
         }
         
         $this->indexer->rotate('Packages');
@@ -390,6 +412,46 @@ fwrite($dump, print_r($notifications, true));
         )
             ->setParameter('code', $code)
             ->setMaxResults(1);
+        ;
+        
+        try {
+            $package = $query->getSingleResult();
+        }
+        catch (\Doctrine\Orm\NoResultException $e) {
+            $package = false;
+        }
+        
+        return $package;
+    }
+    
+    
+    protected function findPartnerByName($name)
+    {
+        $query = $this->em->createQuery(
+            'SELECT p FROM InertiaWinspireBundle:Partner p WHERE p.name = :name'
+        )
+            ->setParameter('name', $name)
+        ;
+        
+        try {
+            $partner = $query->getSingleResult();
+        }
+        catch (\Doctrine\Orm\NoResultException $e) {
+            $partner = false;
+        }
+
+        return $partner;
+    }
+    
+    
+    protected function partnerPackageExists($name, $packageId)
+    {
+        // Query for this combination of Package / Partner
+        $query = $this->em->createQuery(
+            'SELECT p FROM InertiaWinspireBundle:Package p JOIN p.partners a WHERE p.id = :id AND a.name = :name'
+        )
+            ->setParameter('id', $packageId)
+            ->setParameter('name', $name)
         ;
         
         try {
