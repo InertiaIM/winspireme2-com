@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
 Salesforce.com Enterprise Web Services API Version 30.0
-Generated on 2014-06-04 20:24:05 +0000.
+Generated on 2014-06-26 21:17:35 +0000.
 
 Package Versions:
 Salesforce for Google AdWords (Version: 1.2, Namespace: sfga)
 Picture Uploader (Version: 1.2, Namespace: btydev)
-Dialer (Version: 5.3, Namespace: qbdialer)
 Pervasive DataSynch For use with QuickBooks and Salesforce (Version: 1.1, Namespace: pds)
 Rollup Helper (Version: 5.41, Namespace: rh2)
 HubSpot Integration (Version: 2.59, Namespace: hubspot_inc)
@@ -80,6 +79,9 @@ All Rights Reserved
                         <element name="AccountPartnersFrom" nillable="true" minOccurs="0" type="tns:QueryResult"/>
                         <element name="AccountPartnersTo" nillable="true" minOccurs="0" type="tns:QueryResult"/>
                         <element name="AccountSource" nillable="true" minOccurs="0" type="xsd:string"/>
+                        <element name="Account_Score2__c" nillable="true" minOccurs="0" type="xsd:double"/>
+                        <element name="Account_Score__c" nillable="true" minOccurs="0" type="xsd:double"/>
+                        <element name="Account_Type__c" nillable="true" minOccurs="0" type="xsd:string"/>
                         <element name="Accounts1__r" nillable="true" minOccurs="0" type="tns:QueryResult"/>
                         <element name="Accounts__pr" nillable="true" minOccurs="0" type="tns:QueryResult"/>
                         <element name="Accounts__r" nillable="true" minOccurs="0" type="tns:QueryResult"/>
@@ -91,6 +93,8 @@ All Rights Reserved
                         <element name="Age_3__c" nillable="true" minOccurs="0" type="xsd:double"/>
                         <element name="Age_4__c" nillable="true" minOccurs="0" type="xsd:double"/>
                         <element name="Air_Confirmation_Number__c" nillable="true" minOccurs="0" type="xsd:string"/>
+                        <element name="Amount_of_Lost_Opportunities__c" nillable="true" minOccurs="0" type="xsd:double"/>
+                        <element name="Amount_of_Won_Opportunities__c" nillable="true" minOccurs="0" type="xsd:double"/>
                         <element name="AnnualRevenue" nillable="true" minOccurs="0" type="xsd:double"/>
                         <element name="Assets" nillable="true" minOccurs="0" type="tns:QueryResult"/>
                         <element name="AttachedContentDocuments" nillable="true" minOccurs="0" type="tns:QueryResult"/>
@@ -122,6 +126,11 @@ All Rights Reserved
                         <element name="CreatedDate" nillable="true" minOccurs="0" type="xsd:dateTime"/>
                         <element name="Currency__c" nillable="true" minOccurs="0" type="xsd:string"/>
                         <element name="Date_Departing_the_US__c" nillable="true" minOccurs="0" type="xsd:date"/>
+                        <element name="Date_of_Last_Counsel__c" nillable="true" minOccurs="0" type="xsd:date"/>
+                        <element name="Date_of_Last_Lead_Counsel__c" nillable="true" minOccurs="0" type="xsd:date"/>
+                        <element name="Date_of_Last_Reservation__c" nillable="true" minOccurs="0" type="xsd:date"/>
+                        <element name="DateofLastWonOpp__c" nillable="true" minOccurs="0" type="xsd:date"/>
+                        <element name="Days_Since_Last_Touch__c" nillable="true" minOccurs="0" type="xsd:double"/>
                         <element name="Default_contact__pc" nillable="true" minOccurs="0" type="xsd:boolean"/>
                         <element name="Departure_Airport__c" nillable="true" minOccurs="0" type="xsd:string"/>
                         <element name="Departure_Time_Preference_Leaving__c" nillable="true" minOccurs="0" type="xsd:string"/>
@@ -134,6 +143,8 @@ All Rights Reserved
                         <element name="Event_Month_Online__c" nillable="true" minOccurs="0" type="xsd:string"/>
                         <element name="Event_Month_Other_Event__c" nillable="true" minOccurs="0" type="xsd:string"/>
                         <element name="Event_Month_Unknown__c" nillable="true" minOccurs="0" type="xsd:string"/>
+                        <element name="Event_Months_Future__c" nillable="true" minOccurs="0" type="xsd:string"/>
+                        <element name="Event_Months_Last_2_Years__c" nillable="true" minOccurs="0" type="xsd:string"/>
                         <element name="Event_Type_Gala__c" nillable="true" minOccurs="0" type="xsd:boolean"/>
                         <element name="Event_Type_Golf__c" nillable="true" minOccurs="0" type="xsd:boolean"/>
                         <element name="Event_Type_Online__c" nillable="true" minOccurs="0" type="xsd:boolean"/>
@@ -145,6 +156,7 @@ All Rights Reserved
                         <element name="FeedSubscriptionsForEntity" nillable="true" minOccurs="0" type="tns:QueryResult"/>
                         <element name="Feeds" nillable="true" minOccurs="0" type="tns:QueryResult"/>
                         <element name="FirstName" nillable="true" minOccurs="0" type="xsd:string"/>
+                        <element name="GreatestEventDate__c" nillable="true" minOccurs="0" type="xsd:date"/>
                         <element name="Histories" nillable="true" minOccurs="0" type="tns:QueryResult"/>
                         <element name="Hotel_Confirmation_Number__c" nillable="true" minOccurs="0" type="xsd:string"/>
                         <element name="HubSpot_Inc__Company_Ids__r" nillable="true" minOccurs="0" type="tns:QueryResult"/>
@@ -153,7 +165,9 @@ All Rights Reserved
                         <element name="HubSpot_Inc__SICCode__pc" nillable="true" minOccurs="0" type="xsd:string"/>
                         <element name="HubSpot_Inc__Sync_From_HubSpot__c" nillable="true" minOccurs="0" type="xsd:double"/>
                         <element name="Hubspot_type__pc" nillable="true" minOccurs="0" type="xsd:string"/>
-                        <element name="Inactive__pc" nillable="true" minOccurs="0" type="xsd:boolean"/>
+                        <element name="InactiveCt__pc" nillable="true" minOccurs="0" type="xsd:boolean"/>
+                        <element name="Inactive_Reason__c" nillable="true" minOccurs="0" type="xsd:string"/>
+                        <element name="Inactive__c" nillable="true" minOccurs="0" type="xsd:boolean"/>
                         <element name="Industry" nillable="true" minOccurs="0" type="xsd:string"/>
                         <element name="IsDeleted" nillable="true" minOccurs="0" type="xsd:boolean"/>
                         <element name="IsPartner" nillable="true" minOccurs="0" type="xsd:boolean"/>
@@ -168,12 +182,14 @@ All Rights Reserved
                         <element name="LastName" nillable="true" minOccurs="0" type="xsd:string"/>
                         <element name="LastReferencedDate" nillable="true" minOccurs="0" type="xsd:dateTime"/>
                         <element name="LastViewedDate" nillable="true" minOccurs="0" type="xsd:dateTime"/>
+                        <element name="Latest_Event_Date_Month__c" nillable="true" minOccurs="0" type="xsd:string"/>
                         <element name="Mailing_List__pc" nillable="true" minOccurs="0" type="xsd:boolean"/>
                         <element name="MasterRecord" nillable="true" minOccurs="0" type="ens:Account"/>
                         <element name="MasterRecordId" nillable="true" minOccurs="0" type="tns:ID"/>
                         <element name="Message__pc" nillable="true" minOccurs="0" type="xsd:string"/>
                         <element name="Name" nillable="true" minOccurs="0" type="xsd:string"/>
                         <element name="Nickname__pc" nillable="true" minOccurs="0" type="xsd:string"/>
+                        <element name="No_Company_Website__c" nillable="true" minOccurs="0" type="xsd:boolean"/>
                         <element name="Non_Profit_Account_Name__c" nillable="true" minOccurs="0" type="tns:ID"/>
                         <element name="Non_Profit_Account_Name__r" nillable="true" minOccurs="0" type="ens:Account"/>
                         <element name="Not_For_Profit_Area__c" nillable="true" minOccurs="0" type="xsd:string"/>
@@ -278,6 +294,7 @@ All Rights Reserved
                         <element name="PhotoUrl" nillable="true" minOccurs="0" type="xsd:string"/>
                         <element name="Preferred_Departure_Time_Returning__c" nillable="true" minOccurs="0" type="xsd:string"/>
                         <element name="Pricing_good_through__c" nillable="true" minOccurs="0" type="xsd:date"/>
+                        <element name="Primary_Business_Type__c" nillable="true" minOccurs="0" type="xsd:string"/>
                         <element name="ProcessInstances" nillable="true" minOccurs="0" type="tns:QueryResult"/>
                         <element name="ProcessSteps" nillable="true" minOccurs="0" type="tns:QueryResult"/>
                         <element name="Products__r" nillable="true" minOccurs="0" type="tns:QueryResult"/>
@@ -287,6 +304,7 @@ All Rights Reserved
                         <element name="Rating" nillable="true" minOccurs="0" type="xsd:string"/>
                         <element name="RecordType" nillable="true" minOccurs="0" type="ens:RecordType"/>
                         <element name="RecordTypeId" nillable="true" minOccurs="0" type="tns:ID"/>
+                        <element name="Reference__c" nillable="true" minOccurs="0" type="xsd:boolean"/>
                         <element name="Referred_by__c" nillable="true" minOccurs="0" type="xsd:string"/>
                         <element name="Regarding__pc" nillable="true" minOccurs="0" type="xsd:string"/>
                         <element name="Reservations_Contact__c" nillable="true" minOccurs="0" type="tns:ID"/>
@@ -332,22 +350,16 @@ All Rights Reserved
                         <element name="Upgrade_or_Extension__c" nillable="true" minOccurs="0" type="xsd:boolean"/>
                         <element name="UserRecordAccess" nillable="true" minOccurs="0" type="ens:UserRecordAccess"/>
                         <element name="Website" nillable="true" minOccurs="0" type="xsd:string"/>
+                        <element name="White_Label_domain__c" nillable="true" minOccurs="0" type="xsd:string"/>
+                        <element name="White_Label_user__c" nillable="true" minOccurs="0" type="xsd:boolean"/>
                         <element name="X1st_Choice__c" nillable="true" minOccurs="0" type="xsd:date"/>
                         <element name="X2nd_Choice__c" nillable="true" minOccurs="0" type="xsd:date"/>
                         <element name="X3rd_Choice__c" nillable="true" minOccurs="0" type="xsd:date"/>
                         <element name="btydev__Picture_Id__pc" nillable="true" minOccurs="0" type="xsd:string"/>
                         <element name="btydev__Picture__pc" nillable="true" minOccurs="0" type="xsd:string"/>
                         <element name="mark_for_deletion__pc" nillable="true" minOccurs="0" type="xsd:boolean"/>
-                        <element name="qbdialer__Dialer_Query_Items__pr" nillable="true" minOccurs="0" type="tns:QueryResult"/>
-                        <element name="qbdialer__Dialer_Query_Items__r" nillable="true" minOccurs="0" type="tns:QueryResult"/>
-                        <element name="qbdialer__Dials__c" nillable="true" minOccurs="0" type="xsd:double"/>
-                        <element name="qbdialer__Dials__pc" nillable="true" minOccurs="0" type="xsd:double"/>
-                        <element name="qbdialer__LastCallTime__c" nillable="true" minOccurs="0" type="xsd:dateTime"/>
-                        <element name="qbdialer__LastCallTime__pc" nillable="true" minOccurs="0" type="xsd:dateTime"/>
-                        <element name="qbdialer__ResponseTime__c" nillable="true" minOccurs="0" type="xsd:double"/>
-                        <element name="qbdialer__ResponseTime__pc" nillable="true" minOccurs="0" type="xsd:double"/>
-                        <element name="qbdialer__Seek_Initiative_Items__pr" nillable="true" minOccurs="0" type="tns:QueryResult"/>
-                        <element name="qbdialer__Seek_Initiative_Items__r" nillable="true" minOccurs="0" type="tns:QueryResult"/>
+                        <element name="of_Opportunities_Won__c" nillable="true" minOccurs="0" type="xsd:double"/>
+                        <element name="of_Opportunities__c" nillable="true" minOccurs="0" type="xsd:double"/>
                         <element name="reservations_phone__c" nillable="true" minOccurs="0" type="xsd:string"/>
                         <element name="rh2__Currency_Test__pc" nillable="true" minOccurs="0" type="xsd:double"/>
                         <element name="rh2__Describe__pc" nillable="true" minOccurs="0" type="tns:ID"/>
@@ -493,18 +505,24 @@ All Rights Reserved
                         <sequence>
                         <element name="Account" nillable="true" minOccurs="0" type="ens:Account"/>
                         <element name="AccountId" nillable="true" minOccurs="0" type="tns:ID"/>
+                        <element name="Activities1__c" nillable="true" minOccurs="0" type="xsd:double"/>
                         <element name="ActivityDate" nillable="true" minOccurs="0" type="xsd:date"/>
                         <element name="ActivityType" nillable="true" minOccurs="0" type="xsd:string"/>
+                        <element name="Best_Time_to_Call__c" nillable="true" minOccurs="0" type="xsd:string"/>
                         <element name="CallDisposition" nillable="true" minOccurs="0" type="xsd:string"/>
                         <element name="CallDurationInSeconds" nillable="true" minOccurs="0" type="xsd:int"/>
                         <element name="CallObject" nillable="true" minOccurs="0" type="xsd:string"/>
                         <element name="CallType" nillable="true" minOccurs="0" type="xsd:string"/>
+                        <element name="Call_Outcome__c" nillable="true" minOccurs="0" type="xsd:string"/>
+                        <element name="Contacted__c" nillable="true" minOccurs="0" type="xsd:string"/>
+                        <element name="Contacted_checkbox__c" nillable="true" minOccurs="0" type="xsd:boolean"/>
                         <element name="CreatedBy" nillable="true" minOccurs="0" type="ens:User"/>
                         <element name="CreatedById" nillable="true" minOccurs="0" type="tns:ID"/>
                         <element name="CreatedDate" nillable="true" minOccurs="0" type="xsd:dateTime"/>
                         <element name="Description" nillable="true" minOccurs="0" type="xsd:string"/>
                         <element name="DurationInMinutes" nillable="true" minOccurs="0" type="xsd:int"/>
                         <element name="EndDateTime" nillable="true" minOccurs="0" type="xsd:dateTime"/>
+                        <element name="Goal_for_This_Task__c" nillable="true" minOccurs="0" type="xsd:string"/>
                         <element name="HubSpot_Inc__Guid__c" nillable="true" minOccurs="0" type="xsd:string"/>
                         <element name="IsAllDayEvent" nillable="true" minOccurs="0" type="xsd:boolean"/>
                         <element name="IsClosed" nillable="true" minOccurs="0" type="xsd:boolean"/>
@@ -515,10 +533,12 @@ All Rights Reserved
                         <element name="LastModifiedById" nillable="true" minOccurs="0" type="tns:ID"/>
                         <element name="LastModifiedDate" nillable="true" minOccurs="0" type="xsd:dateTime"/>
                         <element name="Location" nillable="true" minOccurs="0" type="xsd:string"/>
+                        <element name="Next_Steps__c" nillable="true" minOccurs="0" type="xsd:string"/>
                         <element name="Owner" nillable="true" minOccurs="0" type="ens:Name"/>
                         <element name="OwnerId" nillable="true" minOccurs="0" type="tns:ID"/>
                         <element name="Priority" nillable="true" minOccurs="0" type="xsd:string"/>
                         <element name="ReminderDateTime" nillable="true" minOccurs="0" type="xsd:dateTime"/>
+                        <element name="See_Comments__c" nillable="true" minOccurs="0" type="xsd:boolean"/>
                         <element name="StartDateTime" nillable="true" minOccurs="0" type="xsd:dateTime"/>
                         <element name="Status" nillable="true" minOccurs="0" type="xsd:string"/>
                         <element name="Subject" nillable="true" minOccurs="0" type="xsd:string"/>
@@ -527,16 +547,6 @@ All Rights Reserved
                         <element name="WhatId" nillable="true" minOccurs="0" type="tns:ID"/>
                         <element name="Who" nillable="true" minOccurs="0" type="ens:Name"/>
                         <element name="WhoId" nillable="true" minOccurs="0" type="tns:ID"/>
-                        <element name="qbdialer__CallRecordingURL__c" nillable="true" minOccurs="0" type="xsd:string"/>
-                        <element name="qbdialer__Call_Date_Time__c" nillable="true" minOccurs="0" type="xsd:dateTime"/>
-                        <element name="qbdialer__Call_Dial_Number__c" nillable="true" minOccurs="0" type="xsd:double"/>
-                        <element name="qbdialer__Call_Hour__c" nillable="true" minOccurs="0" type="xsd:string"/>
-                        <element name="qbdialer__Call_Lead_Status__c" nillable="true" minOccurs="0" type="xsd:string"/>
-                        <element name="qbdialer__Call_Ring_Time__c" nillable="true" minOccurs="0" type="xsd:double"/>
-                        <element name="qbdialer__Call_Time_Zone__c" nillable="true" minOccurs="0" type="xsd:string"/>
-                        <element name="qbdialer__Callback_Date_Time__c" nillable="true" minOccurs="0" type="xsd:dateTime"/>
-                        <element name="qbdialer__ImpressionId__c" nillable="true" minOccurs="0" type="xsd:double"/>
-                        <element name="qbdialer__SMSReminder__c" nillable="true" minOccurs="0" type="xsd:boolean"/>
                         </sequence>
                     </extension>
                 </complexContent>
@@ -1989,7 +1999,7 @@ All Rights Reserved
                         <element name="HubSpot_Inc__HubSpot_Intelligence__r" nillable="true" minOccurs="0" type="tns:QueryResult"/>
                         <element name="HubSpot_Inc__SICCode__c" nillable="true" minOccurs="0" type="xsd:string"/>
                         <element name="Hubspot_type__c" nillable="true" minOccurs="0" type="xsd:string"/>
-                        <element name="Inactive__c" nillable="true" minOccurs="0" type="xsd:boolean"/>
+                        <element name="InactiveCt__c" nillable="true" minOccurs="0" type="xsd:boolean"/>
                         <element name="IsDeleted" nillable="true" minOccurs="0" type="xsd:boolean"/>
                         <element name="IsEmailBounced" nillable="true" minOccurs="0" type="xsd:boolean"/>
                         <element name="IsPersonAccount" nillable="true" minOccurs="0" type="xsd:boolean"/>
@@ -2058,11 +2068,6 @@ All Rights Reserved
                         <element name="btydev__Picture_Id__c" nillable="true" minOccurs="0" type="xsd:string"/>
                         <element name="btydev__Picture__c" nillable="true" minOccurs="0" type="xsd:string"/>
                         <element name="mark_for_deletion__c" nillable="true" minOccurs="0" type="xsd:boolean"/>
-                        <element name="qbdialer__Dialer_Query_Items__r" nillable="true" minOccurs="0" type="tns:QueryResult"/>
-                        <element name="qbdialer__Dials__c" nillable="true" minOccurs="0" type="xsd:double"/>
-                        <element name="qbdialer__LastCallTime__c" nillable="true" minOccurs="0" type="xsd:dateTime"/>
-                        <element name="qbdialer__ResponseTime__c" nillable="true" minOccurs="0" type="xsd:double"/>
-                        <element name="qbdialer__Seek_Initiative_Items__r" nillable="true" minOccurs="0" type="tns:QueryResult"/>
                         <element name="rh2__Currency_Test__c" nillable="true" minOccurs="0" type="xsd:double"/>
                         <element name="rh2__Describe__c" nillable="true" minOccurs="0" type="tns:ID"/>
                         <element name="rh2__Describe__r" nillable="true" minOccurs="0" type="ens:rh2__PS_Describe__c"/>
@@ -2945,11 +2950,16 @@ All Rights Reserved
                         <element name="AcceptedEventRelations" nillable="true" minOccurs="0" type="tns:QueryResult"/>
                         <element name="Account" nillable="true" minOccurs="0" type="ens:Account"/>
                         <element name="AccountId" nillable="true" minOccurs="0" type="tns:ID"/>
+                        <element name="Activities1__c" nillable="true" minOccurs="0" type="xsd:double"/>
                         <element name="ActivityDate" nillable="true" minOccurs="0" type="xsd:date"/>
                         <element name="ActivityDateTime" nillable="true" minOccurs="0" type="xsd:dateTime"/>
                         <element name="AttachedContentDocuments" nillable="true" minOccurs="0" type="tns:QueryResult"/>
                         <element name="Attachments" nillable="true" minOccurs="0" type="tns:QueryResult"/>
+                        <element name="Best_Time_to_Call__c" nillable="true" minOccurs="0" type="xsd:string"/>
+                        <element name="Call_Outcome__c" nillable="true" minOccurs="0" type="xsd:string"/>
                         <element name="CombinedAttachments" nillable="true" minOccurs="0" type="tns:QueryResult"/>
+                        <element name="Contacted__c" nillable="true" minOccurs="0" type="xsd:string"/>
+                        <element name="Contacted_checkbox__c" nillable="true" minOccurs="0" type="xsd:boolean"/>
                         <element name="CreatedBy" nillable="true" minOccurs="0" type="ens:User"/>
                         <element name="CreatedById" nillable="true" minOccurs="0" type="tns:ID"/>
                         <element name="CreatedDate" nillable="true" minOccurs="0" type="xsd:dateTime"/>
@@ -2960,6 +2970,7 @@ All Rights Reserved
                         <element name="EventRelations" nillable="true" minOccurs="0" type="tns:QueryResult"/>
                         <element name="FeedSubscriptionsForEntity" nillable="true" minOccurs="0" type="tns:QueryResult"/>
                         <element name="Feeds" nillable="true" minOccurs="0" type="tns:QueryResult"/>
+                        <element name="Goal_for_This_Task__c" nillable="true" minOccurs="0" type="xsd:string"/>
                         <element name="GroupEventType" nillable="true" minOccurs="0" type="xsd:string"/>
                         <element name="HubSpot_Inc__Guid__c" nillable="true" minOccurs="0" type="xsd:string"/>
                         <element name="IsAllDayEvent" nillable="true" minOccurs="0" type="xsd:boolean"/>
@@ -2974,6 +2985,7 @@ All Rights Reserved
                         <element name="LastModifiedById" nillable="true" minOccurs="0" type="tns:ID"/>
                         <element name="LastModifiedDate" nillable="true" minOccurs="0" type="xsd:dateTime"/>
                         <element name="Location" nillable="true" minOccurs="0" type="xsd:string"/>
+                        <element name="Next_Steps__c" nillable="true" minOccurs="0" type="xsd:string"/>
                         <element name="Owner" nillable="true" minOccurs="0" type="ens:Name"/>
                         <element name="OwnerId" nillable="true" minOccurs="0" type="tns:ID"/>
                         <element name="RecurrenceActivityId" nillable="true" minOccurs="0" type="tns:ID"/>
@@ -2988,6 +3000,7 @@ All Rights Reserved
                         <element name="RecurrenceType" nillable="true" minOccurs="0" type="xsd:string"/>
                         <element name="RecurringEvents" nillable="true" minOccurs="0" type="tns:QueryResult"/>
                         <element name="ReminderDateTime" nillable="true" minOccurs="0" type="xsd:dateTime"/>
+                        <element name="See_Comments__c" nillable="true" minOccurs="0" type="xsd:boolean"/>
                         <element name="ShowAs" nillable="true" minOccurs="0" type="xsd:string"/>
                         <element name="StartDateTime" nillable="true" minOccurs="0" type="xsd:dateTime"/>
                         <element name="Subject" nillable="true" minOccurs="0" type="xsd:string"/>
@@ -2997,16 +3010,6 @@ All Rights Reserved
                         <element name="WhatId" nillable="true" minOccurs="0" type="tns:ID"/>
                         <element name="Who" nillable="true" minOccurs="0" type="ens:Name"/>
                         <element name="WhoId" nillable="true" minOccurs="0" type="tns:ID"/>
-                        <element name="qbdialer__CallRecordingURL__c" nillable="true" minOccurs="0" type="xsd:string"/>
-                        <element name="qbdialer__Call_Date_Time__c" nillable="true" minOccurs="0" type="xsd:dateTime"/>
-                        <element name="qbdialer__Call_Dial_Number__c" nillable="true" minOccurs="0" type="xsd:double"/>
-                        <element name="qbdialer__Call_Hour__c" nillable="true" minOccurs="0" type="xsd:string"/>
-                        <element name="qbdialer__Call_Lead_Status__c" nillable="true" minOccurs="0" type="xsd:string"/>
-                        <element name="qbdialer__Call_Ring_Time__c" nillable="true" minOccurs="0" type="xsd:double"/>
-                        <element name="qbdialer__Call_Time_Zone__c" nillable="true" minOccurs="0" type="xsd:string"/>
-                        <element name="qbdialer__Callback_Date_Time__c" nillable="true" minOccurs="0" type="xsd:dateTime"/>
-                        <element name="qbdialer__ImpressionId__c" nillable="true" minOccurs="0" type="xsd:double"/>
-                        <element name="qbdialer__SMSReminder__c" nillable="true" minOccurs="0" type="xsd:boolean"/>
                         </sequence>
                     </extension>
                 </complexContent>
@@ -3824,6 +3827,7 @@ All Rights Reserved
                         <element name="AcceptedEventRelations" nillable="true" minOccurs="0" type="tns:QueryResult"/>
                         <element name="ActivityHistories" nillable="true" minOccurs="0" type="tns:QueryResult"/>
                         <element name="Address" nillable="true" minOccurs="0" type="tns:address"/>
+                        <element name="Age_Days__c" nillable="true" minOccurs="0" type="xsd:double"/>
                         <element name="AnnualRevenue" nillable="true" minOccurs="0" type="xsd:double"/>
                         <element name="AttachedContentDocuments" nillable="true" minOccurs="0" type="tns:QueryResult"/>
                         <element name="Attachments" nillable="true" minOccurs="0" type="tns:QueryResult"/>
@@ -3844,6 +3848,7 @@ All Rights Reserved
                         <element name="CreatedBy" nillable="true" minOccurs="0" type="ens:User"/>
                         <element name="CreatedById" nillable="true" minOccurs="0" type="tns:ID"/>
                         <element name="CreatedDate" nillable="true" minOccurs="0" type="xsd:dateTime"/>
+                        <element name="Days_Until_Event__c" nillable="true" minOccurs="0" type="xsd:double"/>
                         <element name="DeclinedEventRelations" nillable="true" minOccurs="0" type="tns:QueryResult"/>
                         <element name="Description" nillable="true" minOccurs="0" type="xsd:string"/>
                         <element name="Disqualified_Reason__c" nillable="true" minOccurs="0" type="xsd:string"/>
@@ -3851,6 +3856,7 @@ All Rights Reserved
                         <element name="EmailBouncedDate" nillable="true" minOccurs="0" type="xsd:dateTime"/>
                         <element name="EmailBouncedReason" nillable="true" minOccurs="0" type="xsd:string"/>
                         <element name="EmailStatuses" nillable="true" minOccurs="0" type="tns:QueryResult"/>
+                        <element name="Estimated_Event_Date__c" nillable="true" minOccurs="0" type="xsd:boolean"/>
                         <element name="EventRelations" nillable="true" minOccurs="0" type="tns:QueryResult"/>
                         <element name="Event_Date__c" nillable="true" minOccurs="0" type="xsd:date"/>
                         <element name="Event_Website_Link__c" nillable="true" minOccurs="0" type="xsd:string"/>
@@ -3881,7 +3887,12 @@ All Rights Reserved
                         <element name="Latitude" nillable="true" minOccurs="0" type="xsd:double"/>
                         <element name="LeadSource" nillable="true" minOccurs="0" type="xsd:string"/>
                         <element name="Lead_Number__c" nillable="true" minOccurs="0" type="xsd:string"/>
+                        <element name="Lead_Score__c" nillable="true" minOccurs="0" type="xsd:double"/>
                         <element name="Lead_Specific__c" nillable="true" minOccurs="0" type="xsd:string"/>
+                        <element name="Lead_Standing_Text__c" nillable="true" minOccurs="0" type="xsd:string"/>
+                        <element name="Lead_Standing__c" nillable="true" minOccurs="0" type="xsd:string"/>
+                        <element name="Lead_Sub_Standing_Text__c" nillable="true" minOccurs="0" type="xsd:string"/>
+                        <element name="Lead_Sub_Standing__c" nillable="true" minOccurs="0" type="xsd:string"/>
                         <element name="Lead_individual__c" nillable="true" minOccurs="0" type="xsd:string"/>
                         <element name="Longitude" nillable="true" minOccurs="0" type="xsd:double"/>
                         <element name="Mailing_List__c" nillable="true" minOccurs="0" type="xsd:boolean"/>
@@ -3920,11 +3931,6 @@ All Rights Reserved
                         <element name="Upcoming_Event__c" nillable="true" minOccurs="0" type="xsd:boolean"/>
                         <element name="UserRecordAccess" nillable="true" minOccurs="0" type="ens:UserRecordAccess"/>
                         <element name="Website" nillable="true" minOccurs="0" type="xsd:string"/>
-                        <element name="qbdialer__Dialer_Query_Items__r" nillable="true" minOccurs="0" type="tns:QueryResult"/>
-                        <element name="qbdialer__Dials__c" nillable="true" minOccurs="0" type="xsd:double"/>
-                        <element name="qbdialer__LastCallTime__c" nillable="true" minOccurs="0" type="xsd:dateTime"/>
-                        <element name="qbdialer__ResponseTime__c" nillable="true" minOccurs="0" type="xsd:double"/>
-                        <element name="qbdialer__Seek_Initiative_Items__r" nillable="true" minOccurs="0" type="tns:QueryResult"/>
                         </sequence>
                     </extension>
                 </complexContent>
@@ -4213,18 +4219,24 @@ All Rights Reserved
                         <sequence>
                         <element name="Account" nillable="true" minOccurs="0" type="ens:Account"/>
                         <element name="AccountId" nillable="true" minOccurs="0" type="tns:ID"/>
+                        <element name="Activities1__c" nillable="true" minOccurs="0" type="xsd:double"/>
                         <element name="ActivityDate" nillable="true" minOccurs="0" type="xsd:date"/>
                         <element name="ActivityType" nillable="true" minOccurs="0" type="xsd:string"/>
+                        <element name="Best_Time_to_Call__c" nillable="true" minOccurs="0" type="xsd:string"/>
                         <element name="CallDisposition" nillable="true" minOccurs="0" type="xsd:string"/>
                         <element name="CallDurationInSeconds" nillable="true" minOccurs="0" type="xsd:int"/>
                         <element name="CallObject" nillable="true" minOccurs="0" type="xsd:string"/>
                         <element name="CallType" nillable="true" minOccurs="0" type="xsd:string"/>
+                        <element name="Call_Outcome__c" nillable="true" minOccurs="0" type="xsd:string"/>
+                        <element name="Contacted__c" nillable="true" minOccurs="0" type="xsd:string"/>
+                        <element name="Contacted_checkbox__c" nillable="true" minOccurs="0" type="xsd:boolean"/>
                         <element name="CreatedBy" nillable="true" minOccurs="0" type="ens:User"/>
                         <element name="CreatedById" nillable="true" minOccurs="0" type="tns:ID"/>
                         <element name="CreatedDate" nillable="true" minOccurs="0" type="xsd:dateTime"/>
                         <element name="Description" nillable="true" minOccurs="0" type="xsd:string"/>
                         <element name="DurationInMinutes" nillable="true" minOccurs="0" type="xsd:int"/>
                         <element name="EndDateTime" nillable="true" minOccurs="0" type="xsd:dateTime"/>
+                        <element name="Goal_for_This_Task__c" nillable="true" minOccurs="0" type="xsd:string"/>
                         <element name="HubSpot_Inc__Guid__c" nillable="true" minOccurs="0" type="xsd:string"/>
                         <element name="IsAllDayEvent" nillable="true" minOccurs="0" type="xsd:boolean"/>
                         <element name="IsClosed" nillable="true" minOccurs="0" type="xsd:boolean"/>
@@ -4235,10 +4247,12 @@ All Rights Reserved
                         <element name="LastModifiedById" nillable="true" minOccurs="0" type="tns:ID"/>
                         <element name="LastModifiedDate" nillable="true" minOccurs="0" type="xsd:dateTime"/>
                         <element name="Location" nillable="true" minOccurs="0" type="xsd:string"/>
+                        <element name="Next_Steps__c" nillable="true" minOccurs="0" type="xsd:string"/>
                         <element name="Owner" nillable="true" minOccurs="0" type="ens:Name"/>
                         <element name="OwnerId" nillable="true" minOccurs="0" type="tns:ID"/>
                         <element name="Priority" nillable="true" minOccurs="0" type="xsd:string"/>
                         <element name="ReminderDateTime" nillable="true" minOccurs="0" type="xsd:dateTime"/>
+                        <element name="See_Comments__c" nillable="true" minOccurs="0" type="xsd:boolean"/>
                         <element name="StartDateTime" nillable="true" minOccurs="0" type="xsd:dateTime"/>
                         <element name="Status" nillable="true" minOccurs="0" type="xsd:string"/>
                         <element name="Subject" nillable="true" minOccurs="0" type="xsd:string"/>
@@ -4247,16 +4261,6 @@ All Rights Reserved
                         <element name="WhatId" nillable="true" minOccurs="0" type="tns:ID"/>
                         <element name="Who" nillable="true" minOccurs="0" type="ens:Name"/>
                         <element name="WhoId" nillable="true" minOccurs="0" type="tns:ID"/>
-                        <element name="qbdialer__CallRecordingURL__c" nillable="true" minOccurs="0" type="xsd:string"/>
-                        <element name="qbdialer__Call_Date_Time__c" nillable="true" minOccurs="0" type="xsd:dateTime"/>
-                        <element name="qbdialer__Call_Dial_Number__c" nillable="true" minOccurs="0" type="xsd:double"/>
-                        <element name="qbdialer__Call_Hour__c" nillable="true" minOccurs="0" type="xsd:string"/>
-                        <element name="qbdialer__Call_Lead_Status__c" nillable="true" minOccurs="0" type="xsd:string"/>
-                        <element name="qbdialer__Call_Ring_Time__c" nillable="true" minOccurs="0" type="xsd:double"/>
-                        <element name="qbdialer__Call_Time_Zone__c" nillable="true" minOccurs="0" type="xsd:string"/>
-                        <element name="qbdialer__Callback_Date_Time__c" nillable="true" minOccurs="0" type="xsd:dateTime"/>
-                        <element name="qbdialer__ImpressionId__c" nillable="true" minOccurs="0" type="xsd:double"/>
-                        <element name="qbdialer__SMSReminder__c" nillable="true" minOccurs="0" type="xsd:boolean"/>
                         </sequence>
                     </extension>
                 </complexContent>
@@ -4296,6 +4300,7 @@ All Rights Reserved
                         <element name="Actual_unit_cost_7__c" nillable="true" minOccurs="0" type="xsd:double"/>
                         <element name="Actual_unit_cost_8__c" nillable="true" minOccurs="0" type="xsd:double"/>
                         <element name="Actual_unit_cost_9__c" nillable="true" minOccurs="0" type="xsd:double"/>
+                        <element name="Age_Days__c" nillable="true" minOccurs="0" type="xsd:double"/>
                         <element name="Amount" nillable="true" minOccurs="0" type="xsd:double"/>
                         <element name="AttachedContentDocuments" nillable="true" minOccurs="0" type="tns:QueryResult"/>
                         <element name="Attachments" nillable="true" minOccurs="0" type="tns:QueryResult"/>
@@ -4303,7 +4308,6 @@ All Rights Reserved
                         <element name="Budgeted_Amount_of_Accrual__c" nillable="true" minOccurs="0" type="xsd:double"/>
                         <element name="Budgeted_Profit__c" nillable="true" minOccurs="0" type="xsd:double"/>
                         <element name="Budgeted_profit_margin__c" nillable="true" minOccurs="0" type="xsd:double"/>
-                        <element name="Cashiering_company_s_name__c" nillable="true" minOccurs="0" type="xsd:string"/>
                         <element name="CloseDate" nillable="true" minOccurs="0" type="xsd:date"/>
                         <element name="CombinedAttachments" nillable="true" minOccurs="0" type="tns:QueryResult"/>
                         <element name="Commission_Owed_WSE__c" nillable="true" minOccurs="0" type="xsd:double"/>
@@ -4332,10 +4336,19 @@ All Rights Reserved
                         <element name="Date_referred_1__c" nillable="true" minOccurs="0" type="xsd:date"/>
                         <element name="Date_referred_2__c" nillable="true" minOccurs="0" type="xsd:date"/>
                         <element name="Date_referred_3__c" nillable="true" minOccurs="0" type="xsd:date"/>
+                        <element name="Days_Since_Close__c" nillable="true" minOccurs="0" type="xsd:double"/>
+                        <element name="Days_Since_Last_Touch__c" nillable="true" minOccurs="0" type="xsd:double"/>
+                        <element name="Days_Until_Event__c" nillable="true" minOccurs="0" type="xsd:double"/>
                         <element name="Description" nillable="true" minOccurs="0" type="xsd:string"/>
+                        <element name="Did_you_refer_a_Partner__c" nillable="true" minOccurs="0" type="xsd:string"/>
                         <element name="Duplicate_record__c" nillable="true" minOccurs="0" type="xsd:boolean"/>
                         <element name="Email__c" nillable="true" minOccurs="0" type="xsd:string"/>
+                        <element name="Estimated_Attendees__c" nillable="true" minOccurs="0" type="xsd:string"/>
+                        <element name="Estimated_Event_Date__c" nillable="true" minOccurs="0" type="xsd:boolean"/>
+                        <element name="EventDateStatus__c" nillable="true" minOccurs="0" type="xsd:string"/>
                         <element name="Event_Date__c" nillable="true" minOccurs="0" type="xsd:date"/>
+                        <element name="Event_Frequency__c" nillable="true" minOccurs="0" type="xsd:string"/>
+                        <element name="Event_Management_Technology_Provider__c" nillable="true" minOccurs="0" type="xsd:string"/>
                         <element name="Event_Name__c" nillable="true" minOccurs="0" type="xsd:string"/>
                         <element name="Event_Type__c" nillable="true" minOccurs="0" type="xsd:string"/>
                         <element name="Event_Website_Link__c" nillable="true" minOccurs="0" type="xsd:string"/>
@@ -4352,6 +4365,7 @@ All Rights Reserved
                         <element name="FiscalYear" nillable="true" minOccurs="0" type="xsd:int"/>
                         <element name="ForecastCategory" nillable="true" minOccurs="0" type="xsd:string"/>
                         <element name="ForecastCategoryName" nillable="true" minOccurs="0" type="xsd:string"/>
+                        <element name="Goal_Current_Event__c" nillable="true" minOccurs="0" type="xsd:double"/>
                         <element name="Golf_event_company_s_name__c" nillable="true" minOccurs="0" type="xsd:string"/>
                         <element name="HasOpportunityLineItem" nillable="true" minOccurs="0" type="xsd:boolean"/>
                         <element name="Histories" nillable="true" minOccurs="0" type="tns:QueryResult"/>
@@ -4359,7 +4373,6 @@ All Rights Reserved
                         <element name="IsClosed" nillable="true" minOccurs="0" type="xsd:boolean"/>
                         <element name="IsDeleted" nillable="true" minOccurs="0" type="xsd:boolean"/>
                         <element name="IsWon" nillable="true" minOccurs="0" type="xsd:boolean"/>
-                        <element name="Is_money_being_collected_at_end_of_night__c" nillable="true" minOccurs="0" type="xsd:string"/>
                         <element name="Item_Use__c" nillable="true" minOccurs="0" type="xsd:string"/>
                         <element name="LOA_Received__c" nillable="true" minOccurs="0" type="xsd:boolean"/>
                         <element name="LastActivityDate" nillable="true" minOccurs="0" type="xsd:date"/>
@@ -4417,6 +4430,7 @@ All Rights Reserved
                         <element name="Payment_3__c" nillable="true" minOccurs="0" type="xsd:string"/>
                         <element name="Payment_4__c" nillable="true" minOccurs="0" type="xsd:string"/>
                         <element name="Payment_5__c" nillable="true" minOccurs="0" type="xsd:string"/>
+                        <element name="Per_Person_Ticket_Price__c" nillable="true" minOccurs="0" type="xsd:string"/>
                         <element name="Pmt_1_Amt__c" nillable="true" minOccurs="0" type="xsd:double"/>
                         <element name="Pmt_1_Due_date__c" nillable="true" minOccurs="0" type="xsd:date"/>
                         <element name="Pmt_1_Method__c" nillable="true" minOccurs="0" type="xsd:string"/>
@@ -4432,10 +4446,10 @@ All Rights Reserved
                         <element name="Pmt_5_Amt__c" nillable="true" minOccurs="0" type="xsd:double"/>
                         <element name="Pmt_5_Due_Date__c" nillable="true" minOccurs="0" type="xsd:date"/>
                         <element name="Pmt_5_Method__c" nillable="true" minOccurs="0" type="xsd:string"/>
+                        <element name="Predicted_Event_Date__c" nillable="true" minOccurs="0" type="xsd:date"/>
                         <element name="Pricebook2" nillable="true" minOccurs="0" type="ens:Pricebook2"/>
                         <element name="Pricebook2Id" nillable="true" minOccurs="0" type="tns:ID"/>
                         <element name="Primary_Contact_Assigned__c" nillable="true" minOccurs="0" type="xsd:boolean"/>
-                        <element name="Probability" nillable="true" minOccurs="0" type="xsd:double"/>
                         <element name="ProcessInstances" nillable="true" minOccurs="0" type="tns:QueryResult"/>
                         <element name="ProcessSteps" nillable="true" minOccurs="0" type="tns:QueryResult"/>
                         <element name="Product_10__c" nillable="true" minOccurs="0" type="xsd:string"/>
@@ -4465,6 +4479,7 @@ All Rights Reserved
                         <element name="Qty_8__c" nillable="true" minOccurs="0" type="xsd:double"/>
                         <element name="Qty_9__c" nillable="true" minOccurs="0" type="xsd:double"/>
                         <element name="Quotes" nillable="true" minOccurs="0" type="tns:QueryResult"/>
+                        <element name="Raised_Prior_Event__c" nillable="true" minOccurs="0" type="xsd:double"/>
                         <element name="RecordType" nillable="true" minOccurs="0" type="ens:RecordType"/>
                         <element name="RecordTypeId" nillable="true" minOccurs="0" type="tns:ID"/>
                         <element name="Referred_Partner_1__c" nillable="true" minOccurs="0" type="tns:ID"/>
@@ -4483,6 +4498,7 @@ All Rights Reserved
                         <element name="SyncedQuoteId" nillable="true" minOccurs="0" type="tns:ID"/>
                         <element name="SystemModstamp" nillable="true" minOccurs="0" type="xsd:dateTime"/>
                         <element name="Tasks" nillable="true" minOccurs="0" type="tns:QueryResult"/>
+                        <element name="Technology_Provider_Online_Auction__c" nillable="true" minOccurs="0" type="xsd:string"/>
                         <element name="Total_Actual_Costs__c" nillable="true" minOccurs="0" type="xsd:double"/>
                         <element name="Total_Cost_10__c" nillable="true" minOccurs="0" type="xsd:double"/>
                         <element name="Total_Cost_1__c" nillable="true" minOccurs="0" type="xsd:double"/>
@@ -4501,8 +4517,9 @@ All Rights Reserved
                         <element name="Trip_Booking__r" nillable="true" minOccurs="0" type="tns:QueryResult"/>
                         <element name="Type" nillable="true" minOccurs="0" type="xsd:string"/>
                         <element name="UserRecordAccess" nillable="true" minOccurs="0" type="ens:UserRecordAccess"/>
-                        <element name="Using_a_professional_golf_event_company__c" nillable="true" minOccurs="0" type="xsd:string"/>
+                        <element name="Using_Technology_Online_Auction__c" nillable="true" minOccurs="0" type="xsd:string"/>
                         <element name="Using_full_service_event_company__c" nillable="true" minOccurs="0" type="xsd:string"/>
+                        <element name="Using_technology_event_management__c" nillable="true" minOccurs="0" type="xsd:string"/>
                         <element name="Using_wireless_technology__c" nillable="true" minOccurs="0" type="xsd:string"/>
                         <element name="Vendor_billing_10__c" nillable="true" minOccurs="0" type="xsd:string"/>
                         <element name="Vendor_billing_1__c" nillable="true" minOccurs="0" type="xsd:string"/>
@@ -4517,9 +4534,10 @@ All Rights Reserved
                         <element name="WSE_Notes__c" nillable="true" minOccurs="0" type="xsd:string"/>
                         <element name="WSE_Profit_Margin__c" nillable="true" minOccurs="0" type="xsd:double"/>
                         <element name="Website_suitcase_status__c" nillable="true" minOccurs="0" type="xsd:string"/>
-                        <element name="What_company_is_hosting_online_auction__c" nillable="true" minOccurs="0" type="xsd:string"/>
-                        <element name="Wireless_data_recorder_provider__c" nillable="true" minOccurs="0" type="xsd:string"/>
+                        <element name="YOY_Inclusion_Close_Date__c" nillable="true" minOccurs="0" type="xsd:boolean"/>
+                        <element name="YOY_Inclusion__c" nillable="true" minOccurs="0" type="xsd:boolean"/>
                         <element name="consignment_items_supplier__c" nillable="true" minOccurs="0" type="xsd:string"/>
+                        <element name="mobile_bidding_provider__c" nillable="true" minOccurs="0" type="xsd:string"/>
                         <element name="unique_Record_ID__c" nillable="true" minOccurs="0" type="xsd:string"/>
                         </sequence>
                     </extension>
@@ -4949,8 +4967,12 @@ All Rights Reserved
                         <element name="PermissionsConnectOrgToEnvironmentHub" nillable="true" minOccurs="0" type="xsd:boolean"/>
                         <element name="PermissionsContentAdministrator" nillable="true" minOccurs="0" type="xsd:boolean"/>
                         <element name="PermissionsConvertLeads" nillable="true" minOccurs="0" type="xsd:boolean"/>
+                        <element name="PermissionsCreateCustomizeDashboards" nillable="true" minOccurs="0" type="xsd:boolean"/>
                         <element name="PermissionsCreateCustomizeFilters" nillable="true" minOccurs="0" type="xsd:boolean"/>
+                        <element name="PermissionsCreateCustomizeReports" nillable="true" minOccurs="0" type="xsd:boolean"/>
+                        <element name="PermissionsCreateDashboardFolders" nillable="true" minOccurs="0" type="xsd:boolean"/>
                         <element name="PermissionsCreatePackaging" nillable="true" minOccurs="0" type="xsd:boolean"/>
+                        <element name="PermissionsCreateReportFolders" nillable="true" minOccurs="0" type="xsd:boolean"/>
                         <element name="PermissionsCreateTopics" nillable="true" minOccurs="0" type="xsd:boolean"/>
                         <element name="PermissionsCreateWorkspaces" nillable="true" minOccurs="0" type="xsd:boolean"/>
                         <element name="PermissionsCustomMobileAppsAccess" nillable="true" minOccurs="0" type="xsd:boolean"/>
@@ -4960,10 +4982,11 @@ All Rights Reserved
                         <element name="PermissionsDistributeFromPersWksp" nillable="true" minOccurs="0" type="xsd:boolean"/>
                         <element name="PermissionsEditCaseComments" nillable="true" minOccurs="0" type="xsd:boolean"/>
                         <element name="PermissionsEditEvent" nillable="true" minOccurs="0" type="xsd:boolean"/>
+                        <element name="PermissionsEditMyDashboards" nillable="true" minOccurs="0" type="xsd:boolean"/>
+                        <element name="PermissionsEditMyReports" nillable="true" minOccurs="0" type="xsd:boolean"/>
                         <element name="PermissionsEditOppLineItemUnitPrice" nillable="true" minOccurs="0" type="xsd:boolean"/>
                         <element name="PermissionsEditPublicDocuments" nillable="true" minOccurs="0" type="xsd:boolean"/>
                         <element name="PermissionsEditReadonlyFields" nillable="true" minOccurs="0" type="xsd:boolean"/>
-                        <element name="PermissionsEditReports" nillable="true" minOccurs="0" type="xsd:boolean"/>
                         <element name="PermissionsEditTask" nillable="true" minOccurs="0" type="xsd:boolean"/>
                         <element name="PermissionsEditTopics" nillable="true" minOccurs="0" type="xsd:boolean"/>
                         <element name="PermissionsEmailAdministration" nillable="true" minOccurs="0" type="xsd:boolean"/>
@@ -4989,7 +5012,7 @@ All Rights Reserved
                         <element name="PermissionsManageContentTypes" nillable="true" minOccurs="0" type="xsd:boolean"/>
                         <element name="PermissionsManageCssUsers" nillable="true" minOccurs="0" type="xsd:boolean"/>
                         <element name="PermissionsManageCustomReportTypes" nillable="true" minOccurs="0" type="xsd:boolean"/>
-                        <element name="PermissionsManageDashboards" nillable="true" minOccurs="0" type="xsd:boolean"/>
+                        <element name="PermissionsManageDashbdsInPubFolders" nillable="true" minOccurs="0" type="xsd:boolean"/>
                         <element name="PermissionsManageDataCategories" nillable="true" minOccurs="0" type="xsd:boolean"/>
                         <element name="PermissionsManageDataIntegrations" nillable="true" minOccurs="0" type="xsd:boolean"/>
                         <element name="PermissionsManageEmailClientConfig" nillable="true" minOccurs="0" type="xsd:boolean"/>
@@ -4999,6 +5022,7 @@ All Rights Reserved
                         <element name="PermissionsManageNetworks" nillable="true" minOccurs="0" type="xsd:boolean"/>
                         <element name="PermissionsManagePartners" nillable="true" minOccurs="0" type="xsd:boolean"/>
                         <element name="PermissionsManageRemoteAccess" nillable="true" minOccurs="0" type="xsd:boolean"/>
+                        <element name="PermissionsManageReportsInPubFolders" nillable="true" minOccurs="0" type="xsd:boolean"/>
                         <element name="PermissionsManageSelfService" nillable="true" minOccurs="0" type="xsd:boolean"/>
                         <element name="PermissionsManageSolutions" nillable="true" minOccurs="0" type="xsd:boolean"/>
                         <element name="PermissionsManageUsers" nillable="true" minOccurs="0" type="xsd:boolean"/>
@@ -5026,6 +5050,8 @@ All Rights Reserved
                         <element name="PermissionsViewDataCategories" nillable="true" minOccurs="0" type="xsd:boolean"/>
                         <element name="PermissionsViewHelpLink" nillable="true" minOccurs="0" type="xsd:boolean"/>
                         <element name="PermissionsViewMyTeamsDashboards" nillable="true" minOccurs="0" type="xsd:boolean"/>
+                        <element name="PermissionsViewPublicDashboards" nillable="true" minOccurs="0" type="xsd:boolean"/>
+                        <element name="PermissionsViewPublicReports" nillable="true" minOccurs="0" type="xsd:boolean"/>
                         <element name="PermissionsViewSetup" nillable="true" minOccurs="0" type="xsd:boolean"/>
                         <element name="Profile" nillable="true" minOccurs="0" type="ens:Profile"/>
                         <element name="ProfileId" nillable="true" minOccurs="0" type="tns:ID"/>
@@ -5081,8 +5107,12 @@ All Rights Reserved
                         <element name="MaximumPermissionsConnectOrgToEnvironmentHub" nillable="true" minOccurs="0" type="xsd:boolean"/>
                         <element name="MaximumPermissionsContentAdministrator" nillable="true" minOccurs="0" type="xsd:boolean"/>
                         <element name="MaximumPermissionsConvertLeads" nillable="true" minOccurs="0" type="xsd:boolean"/>
+                        <element name="MaximumPermissionsCreateCustomizeDashboards" nillable="true" minOccurs="0" type="xsd:boolean"/>
                         <element name="MaximumPermissionsCreateCustomizeFilters" nillable="true" minOccurs="0" type="xsd:boolean"/>
+                        <element name="MaximumPermissionsCreateCustomizeReports" nillable="true" minOccurs="0" type="xsd:boolean"/>
+                        <element name="MaximumPermissionsCreateDashboardFolders" nillable="true" minOccurs="0" type="xsd:boolean"/>
                         <element name="MaximumPermissionsCreatePackaging" nillable="true" minOccurs="0" type="xsd:boolean"/>
+                        <element name="MaximumPermissionsCreateReportFolders" nillable="true" minOccurs="0" type="xsd:boolean"/>
                         <element name="MaximumPermissionsCreateTopics" nillable="true" minOccurs="0" type="xsd:boolean"/>
                         <element name="MaximumPermissionsCreateWorkspaces" nillable="true" minOccurs="0" type="xsd:boolean"/>
                         <element name="MaximumPermissionsCustomMobileAppsAccess" nillable="true" minOccurs="0" type="xsd:boolean"/>
@@ -5092,10 +5122,11 @@ All Rights Reserved
                         <element name="MaximumPermissionsDistributeFromPersWksp" nillable="true" minOccurs="0" type="xsd:boolean"/>
                         <element name="MaximumPermissionsEditCaseComments" nillable="true" minOccurs="0" type="xsd:boolean"/>
                         <element name="MaximumPermissionsEditEvent" nillable="true" minOccurs="0" type="xsd:boolean"/>
+                        <element name="MaximumPermissionsEditMyDashboards" nillable="true" minOccurs="0" type="xsd:boolean"/>
+                        <element name="MaximumPermissionsEditMyReports" nillable="true" minOccurs="0" type="xsd:boolean"/>
                         <element name="MaximumPermissionsEditOppLineItemUnitPrice" nillable="true" minOccurs="0" type="xsd:boolean"/>
                         <element name="MaximumPermissionsEditPublicDocuments" nillable="true" minOccurs="0" type="xsd:boolean"/>
                         <element name="MaximumPermissionsEditReadonlyFields" nillable="true" minOccurs="0" type="xsd:boolean"/>
-                        <element name="MaximumPermissionsEditReports" nillable="true" minOccurs="0" type="xsd:boolean"/>
                         <element name="MaximumPermissionsEditTask" nillable="true" minOccurs="0" type="xsd:boolean"/>
                         <element name="MaximumPermissionsEditTopics" nillable="true" minOccurs="0" type="xsd:boolean"/>
                         <element name="MaximumPermissionsEmailAdministration" nillable="true" minOccurs="0" type="xsd:boolean"/>
@@ -5121,7 +5152,7 @@ All Rights Reserved
                         <element name="MaximumPermissionsManageContentTypes" nillable="true" minOccurs="0" type="xsd:boolean"/>
                         <element name="MaximumPermissionsManageCssUsers" nillable="true" minOccurs="0" type="xsd:boolean"/>
                         <element name="MaximumPermissionsManageCustomReportTypes" nillable="true" minOccurs="0" type="xsd:boolean"/>
-                        <element name="MaximumPermissionsManageDashboards" nillable="true" minOccurs="0" type="xsd:boolean"/>
+                        <element name="MaximumPermissionsManageDashbdsInPubFolders" nillable="true" minOccurs="0" type="xsd:boolean"/>
                         <element name="MaximumPermissionsManageDataCategories" nillable="true" minOccurs="0" type="xsd:boolean"/>
                         <element name="MaximumPermissionsManageDataIntegrations" nillable="true" minOccurs="0" type="xsd:boolean"/>
                         <element name="MaximumPermissionsManageEmailClientConfig" nillable="true" minOccurs="0" type="xsd:boolean"/>
@@ -5131,6 +5162,7 @@ All Rights Reserved
                         <element name="MaximumPermissionsManageNetworks" nillable="true" minOccurs="0" type="xsd:boolean"/>
                         <element name="MaximumPermissionsManagePartners" nillable="true" minOccurs="0" type="xsd:boolean"/>
                         <element name="MaximumPermissionsManageRemoteAccess" nillable="true" minOccurs="0" type="xsd:boolean"/>
+                        <element name="MaximumPermissionsManageReportsInPubFolders" nillable="true" minOccurs="0" type="xsd:boolean"/>
                         <element name="MaximumPermissionsManageSelfService" nillable="true" minOccurs="0" type="xsd:boolean"/>
                         <element name="MaximumPermissionsManageSolutions" nillable="true" minOccurs="0" type="xsd:boolean"/>
                         <element name="MaximumPermissionsManageUsers" nillable="true" minOccurs="0" type="xsd:boolean"/>
@@ -5158,6 +5190,8 @@ All Rights Reserved
                         <element name="MaximumPermissionsViewDataCategories" nillable="true" minOccurs="0" type="xsd:boolean"/>
                         <element name="MaximumPermissionsViewHelpLink" nillable="true" minOccurs="0" type="xsd:boolean"/>
                         <element name="MaximumPermissionsViewMyTeamsDashboards" nillable="true" minOccurs="0" type="xsd:boolean"/>
+                        <element name="MaximumPermissionsViewPublicDashboards" nillable="true" minOccurs="0" type="xsd:boolean"/>
+                        <element name="MaximumPermissionsViewPublicReports" nillable="true" minOccurs="0" type="xsd:boolean"/>
                         <element name="MaximumPermissionsViewSetup" nillable="true" minOccurs="0" type="xsd:boolean"/>
                         <element name="PermissionSetLicenseAssignments" nillable="true" minOccurs="0" type="tns:QueryResult"/>
                         <element name="PermissionSetLicenseKey" nillable="true" minOccurs="0" type="xsd:string"/>
@@ -5607,8 +5641,12 @@ All Rights Reserved
                         <element name="PermissionsConnectOrgToEnvironmentHub" nillable="true" minOccurs="0" type="xsd:boolean"/>
                         <element name="PermissionsContentAdministrator" nillable="true" minOccurs="0" type="xsd:boolean"/>
                         <element name="PermissionsConvertLeads" nillable="true" minOccurs="0" type="xsd:boolean"/>
+                        <element name="PermissionsCreateCustomizeDashboards" nillable="true" minOccurs="0" type="xsd:boolean"/>
                         <element name="PermissionsCreateCustomizeFilters" nillable="true" minOccurs="0" type="xsd:boolean"/>
+                        <element name="PermissionsCreateCustomizeReports" nillable="true" minOccurs="0" type="xsd:boolean"/>
+                        <element name="PermissionsCreateDashboardFolders" nillable="true" minOccurs="0" type="xsd:boolean"/>
                         <element name="PermissionsCreateMultiforce" nillable="true" minOccurs="0" type="xsd:boolean"/>
+                        <element name="PermissionsCreateReportFolders" nillable="true" minOccurs="0" type="xsd:boolean"/>
                         <element name="PermissionsCreateTopics" nillable="true" minOccurs="0" type="xsd:boolean"/>
                         <element name="PermissionsCreateWorkspaces" nillable="true" minOccurs="0" type="xsd:boolean"/>
                         <element name="PermissionsCustomMobileAppsAccess" nillable="true" minOccurs="0" type="xsd:boolean"/>
@@ -5618,10 +5656,11 @@ All Rights Reserved
                         <element name="PermissionsDistributeFromPersWksp" nillable="true" minOccurs="0" type="xsd:boolean"/>
                         <element name="PermissionsEditCaseComments" nillable="true" minOccurs="0" type="xsd:boolean"/>
                         <element name="PermissionsEditEvent" nillable="true" minOccurs="0" type="xsd:boolean"/>
+                        <element name="PermissionsEditMyDashboards" nillable="true" minOccurs="0" type="xsd:boolean"/>
+                        <element name="PermissionsEditMyReports" nillable="true" minOccurs="0" type="xsd:boolean"/>
                         <element name="PermissionsEditOppLineItemUnitPrice" nillable="true" minOccurs="0" type="xsd:boolean"/>
                         <element name="PermissionsEditPublicDocuments" nillable="true" minOccurs="0" type="xsd:boolean"/>
                         <element name="PermissionsEditReadonlyFields" nillable="true" minOccurs="0" type="xsd:boolean"/>
-                        <element name="PermissionsEditReports" nillable="true" minOccurs="0" type="xsd:boolean"/>
                         <element name="PermissionsEditTask" nillable="true" minOccurs="0" type="xsd:boolean"/>
                         <element name="PermissionsEditTopics" nillable="true" minOccurs="0" type="xsd:boolean"/>
                         <element name="PermissionsEmailAdministration" nillable="true" minOccurs="0" type="xsd:boolean"/>
@@ -5647,7 +5686,7 @@ All Rights Reserved
                         <element name="PermissionsManageContentTypes" nillable="true" minOccurs="0" type="xsd:boolean"/>
                         <element name="PermissionsManageCssUsers" nillable="true" minOccurs="0" type="xsd:boolean"/>
                         <element name="PermissionsManageCustomReportTypes" nillable="true" minOccurs="0" type="xsd:boolean"/>
-                        <element name="PermissionsManageDashboards" nillable="true" minOccurs="0" type="xsd:boolean"/>
+                        <element name="PermissionsManageDashbdsInPubFolders" nillable="true" minOccurs="0" type="xsd:boolean"/>
                         <element name="PermissionsManageDataCategories" nillable="true" minOccurs="0" type="xsd:boolean"/>
                         <element name="PermissionsManageDataIntegrations" nillable="true" minOccurs="0" type="xsd:boolean"/>
                         <element name="PermissionsManageEmailClientConfig" nillable="true" minOccurs="0" type="xsd:boolean"/>
@@ -5657,6 +5696,7 @@ All Rights Reserved
                         <element name="PermissionsManageNetworks" nillable="true" minOccurs="0" type="xsd:boolean"/>
                         <element name="PermissionsManagePartners" nillable="true" minOccurs="0" type="xsd:boolean"/>
                         <element name="PermissionsManageRemoteAccess" nillable="true" minOccurs="0" type="xsd:boolean"/>
+                        <element name="PermissionsManageReportsInPubFolders" nillable="true" minOccurs="0" type="xsd:boolean"/>
                         <element name="PermissionsManageSelfService" nillable="true" minOccurs="0" type="xsd:boolean"/>
                         <element name="PermissionsManageSolutions" nillable="true" minOccurs="0" type="xsd:boolean"/>
                         <element name="PermissionsManageUsers" nillable="true" minOccurs="0" type="xsd:boolean"/>
@@ -5684,6 +5724,8 @@ All Rights Reserved
                         <element name="PermissionsViewDataCategories" nillable="true" minOccurs="0" type="xsd:boolean"/>
                         <element name="PermissionsViewHelpLink" nillable="true" minOccurs="0" type="xsd:boolean"/>
                         <element name="PermissionsViewMyTeamsDashboards" nillable="true" minOccurs="0" type="xsd:boolean"/>
+                        <element name="PermissionsViewPublicDashboards" nillable="true" minOccurs="0" type="xsd:boolean"/>
+                        <element name="PermissionsViewPublicReports" nillable="true" minOccurs="0" type="xsd:boolean"/>
                         <element name="PermissionsViewSetup" nillable="true" minOccurs="0" type="xsd:boolean"/>
                         <element name="SystemModstamp" nillable="true" minOccurs="0" type="xsd:dateTime"/>
                         <element name="UserLicense" nillable="true" minOccurs="0" type="ens:UserLicense"/>
@@ -6695,20 +6737,26 @@ All Rights Reserved
                         <sequence>
                         <element name="Account" nillable="true" minOccurs="0" type="ens:Account"/>
                         <element name="AccountId" nillable="true" minOccurs="0" type="tns:ID"/>
+                        <element name="Activities1__c" nillable="true" minOccurs="0" type="xsd:double"/>
                         <element name="ActivityDate" nillable="true" minOccurs="0" type="xsd:date"/>
                         <element name="AttachedContentDocuments" nillable="true" minOccurs="0" type="tns:QueryResult"/>
                         <element name="Attachments" nillable="true" minOccurs="0" type="tns:QueryResult"/>
+                        <element name="Best_Time_to_Call__c" nillable="true" minOccurs="0" type="xsd:string"/>
                         <element name="CallDisposition" nillable="true" minOccurs="0" type="xsd:string"/>
                         <element name="CallDurationInSeconds" nillable="true" minOccurs="0" type="xsd:int"/>
                         <element name="CallObject" nillable="true" minOccurs="0" type="xsd:string"/>
                         <element name="CallType" nillable="true" minOccurs="0" type="xsd:string"/>
+                        <element name="Call_Outcome__c" nillable="true" minOccurs="0" type="xsd:string"/>
                         <element name="CombinedAttachments" nillable="true" minOccurs="0" type="tns:QueryResult"/>
+                        <element name="Contacted__c" nillable="true" minOccurs="0" type="xsd:string"/>
+                        <element name="Contacted_checkbox__c" nillable="true" minOccurs="0" type="xsd:boolean"/>
                         <element name="CreatedBy" nillable="true" minOccurs="0" type="ens:User"/>
                         <element name="CreatedById" nillable="true" minOccurs="0" type="tns:ID"/>
                         <element name="CreatedDate" nillable="true" minOccurs="0" type="xsd:dateTime"/>
                         <element name="Description" nillable="true" minOccurs="0" type="xsd:string"/>
                         <element name="FeedSubscriptionsForEntity" nillable="true" minOccurs="0" type="tns:QueryResult"/>
                         <element name="Feeds" nillable="true" minOccurs="0" type="tns:QueryResult"/>
+                        <element name="Goal_for_This_Task__c" nillable="true" minOccurs="0" type="xsd:string"/>
                         <element name="HubSpot_Inc__Guid__c" nillable="true" minOccurs="0" type="xsd:string"/>
                         <element name="IsArchived" nillable="true" minOccurs="0" type="xsd:boolean"/>
                         <element name="IsClosed" nillable="true" minOccurs="0" type="xsd:boolean"/>
@@ -6718,6 +6766,7 @@ All Rights Reserved
                         <element name="LastModifiedBy" nillable="true" minOccurs="0" type="ens:User"/>
                         <element name="LastModifiedById" nillable="true" minOccurs="0" type="tns:ID"/>
                         <element name="LastModifiedDate" nillable="true" minOccurs="0" type="xsd:dateTime"/>
+                        <element name="Next_Steps__c" nillable="true" minOccurs="0" type="xsd:string"/>
                         <element name="Owner" nillable="true" minOccurs="0" type="ens:Name"/>
                         <element name="OwnerId" nillable="true" minOccurs="0" type="tns:ID"/>
                         <element name="Priority" nillable="true" minOccurs="0" type="xsd:string"/>
@@ -6734,6 +6783,7 @@ All Rights Reserved
                         <element name="RecurrenceType" nillable="true" minOccurs="0" type="xsd:string"/>
                         <element name="RecurringTasks" nillable="true" minOccurs="0" type="tns:QueryResult"/>
                         <element name="ReminderDateTime" nillable="true" minOccurs="0" type="xsd:dateTime"/>
+                        <element name="See_Comments__c" nillable="true" minOccurs="0" type="xsd:boolean"/>
                         <element name="Status" nillable="true" minOccurs="0" type="xsd:string"/>
                         <element name="Subject" nillable="true" minOccurs="0" type="xsd:string"/>
                         <element name="SystemModstamp" nillable="true" minOccurs="0" type="xsd:dateTime"/>
@@ -6741,16 +6791,6 @@ All Rights Reserved
                         <element name="WhatId" nillable="true" minOccurs="0" type="tns:ID"/>
                         <element name="Who" nillable="true" minOccurs="0" type="ens:Name"/>
                         <element name="WhoId" nillable="true" minOccurs="0" type="tns:ID"/>
-                        <element name="qbdialer__CallRecordingURL__c" nillable="true" minOccurs="0" type="xsd:string"/>
-                        <element name="qbdialer__Call_Date_Time__c" nillable="true" minOccurs="0" type="xsd:dateTime"/>
-                        <element name="qbdialer__Call_Dial_Number__c" nillable="true" minOccurs="0" type="xsd:double"/>
-                        <element name="qbdialer__Call_Hour__c" nillable="true" minOccurs="0" type="xsd:string"/>
-                        <element name="qbdialer__Call_Lead_Status__c" nillable="true" minOccurs="0" type="xsd:string"/>
-                        <element name="qbdialer__Call_Ring_Time__c" nillable="true" minOccurs="0" type="xsd:double"/>
-                        <element name="qbdialer__Call_Time_Zone__c" nillable="true" minOccurs="0" type="xsd:string"/>
-                        <element name="qbdialer__Callback_Date_Time__c" nillable="true" minOccurs="0" type="xsd:dateTime"/>
-                        <element name="qbdialer__ImpressionId__c" nillable="true" minOccurs="0" type="xsd:double"/>
-                        <element name="qbdialer__SMSReminder__c" nillable="true" minOccurs="0" type="xsd:boolean"/>
                         </sequence>
                     </extension>
                 </complexContent>
@@ -6946,6 +6986,7 @@ All Rights Reserved
                         <element name="Event_date__c" nillable="true" minOccurs="0" type="xsd:date"/>
                         <element name="Events" nillable="true" minOccurs="0" type="tns:QueryResult"/>
                         <element name="FeedSubscriptionsForEntity" nillable="true" minOccurs="0" type="tns:QueryResult"/>
+                        <element name="Final_itinerary__c" nillable="true" minOccurs="0" type="xsd:date"/>
                         <element name="Interested_in__c" nillable="true" minOccurs="0" type="xsd:string"/>
                         <element name="IsDeleted" nillable="true" minOccurs="0" type="xsd:boolean"/>
                         <element name="Item_1_Actual_Cost__c" nillable="true" minOccurs="0" type="xsd:double"/>
@@ -7145,6 +7186,7 @@ All Rights Reserved
                         <element name="Address" nillable="true" minOccurs="0" type="tns:address"/>
                         <element name="Alias" nillable="true" minOccurs="0" type="xsd:string"/>
                         <element name="AttachedContentDocuments" nillable="true" minOccurs="0" type="tns:QueryResult"/>
+                        <element name="Average_Sale_Size__c" nillable="true" minOccurs="0" type="xsd:double"/>
                         <element name="CallCenterId" nillable="true" minOccurs="0" type="tns:ID"/>
                         <element name="City" nillable="true" minOccurs="0" type="xsd:string"/>
                         <element name="CombinedAttachments" nillable="true" minOccurs="0" type="tns:QueryResult"/>
@@ -7212,6 +7254,8 @@ All Rights Reserved
                         <element name="ProfileId" nillable="true" minOccurs="0" type="tns:ID"/>
                         <element name="ReceivesAdminInfoEmails" nillable="true" minOccurs="0" type="xsd:boolean"/>
                         <element name="ReceivesInfoEmails" nillable="true" minOccurs="0" type="xsd:boolean"/>
+                        <element name="Reservation_Rate__c" nillable="true" minOccurs="0" type="xsd:double"/>
+                        <element name="Sale_Rate__c" nillable="true" minOccurs="0" type="xsd:double"/>
                         <element name="SenderEmail" nillable="true" minOccurs="0" type="xsd:string"/>
                         <element name="SenderName" nillable="true" minOccurs="0" type="xsd:string"/>
                         <element name="Signature" nillable="true" minOccurs="0" type="xsd:string"/>
@@ -7284,12 +7328,6 @@ All Rights Reserved
                         <element name="UserSites" nillable="true" minOccurs="0" type="tns:QueryResult"/>
                         <element name="UserType" nillable="true" minOccurs="0" type="xsd:string"/>
                         <element name="Username" nillable="true" minOccurs="0" type="xsd:string"/>
-                        <element name="qbdialer__InsideSales_Admin__c" nillable="true" minOccurs="0" type="xsd:boolean"/>
-                        <element name="qbdialer__is_subdomain__c" nillable="true" minOccurs="0" type="xsd:string"/>
-                        <element name="qbdialer__is_token__c" nillable="true" minOccurs="0" type="xsd:string"/>
-                        <element name="qbdialer__password__c" nillable="true" minOccurs="0" type="xsd:string"/>
-                        <element name="qbdialer__permissions__c" nillable="true" minOccurs="0" type="xsd:string"/>
-                        <element name="qbdialer__username__c" nillable="true" minOccurs="0" type="xsd:string"/>
                         <element name="rh2__Describes__r" nillable="true" minOccurs="0" type="tns:QueryResult"/>
                         </sequence>
                     </extension>
@@ -7551,373 +7589,6 @@ All Rights Reserved
                         <element name="SystemModstamp" nillable="true" minOccurs="0" type="xsd:dateTime"/>
                         <element name="Url" nillable="true" minOccurs="0" type="xsd:string"/>
                         <element name="Width" nillable="true" minOccurs="0" type="xsd:int"/>
-                        </sequence>
-                    </extension>
-                </complexContent>
-            </complexType>
-
-            <complexType name="qbdialer__DialerQueryAttendee__c">
-                <complexContent>
-                    <extension base="ens:sObject">
-                        <sequence>
-                        <element name="AttachedContentDocuments" nillable="true" minOccurs="0" type="tns:QueryResult"/>
-                        <element name="Attachments" nillable="true" minOccurs="0" type="tns:QueryResult"/>
-                        <element name="CombinedAttachments" nillable="true" minOccurs="0" type="tns:QueryResult"/>
-                        <element name="CreatedBy" nillable="true" minOccurs="0" type="ens:User"/>
-                        <element name="CreatedById" nillable="true" minOccurs="0" type="tns:ID"/>
-                        <element name="CreatedDate" nillable="true" minOccurs="0" type="xsd:dateTime"/>
-                        <element name="FeedSubscriptionsForEntity" nillable="true" minOccurs="0" type="tns:QueryResult"/>
-                        <element name="IsDeleted" nillable="true" minOccurs="0" type="xsd:boolean"/>
-                        <element name="LastModifiedBy" nillable="true" minOccurs="0" type="ens:User"/>
-                        <element name="LastModifiedById" nillable="true" minOccurs="0" type="tns:ID"/>
-                        <element name="LastModifiedDate" nillable="true" minOccurs="0" type="xsd:dateTime"/>
-                        <element name="Name" nillable="true" minOccurs="0" type="xsd:string"/>
-                        <element name="Notes" nillable="true" minOccurs="0" type="tns:QueryResult"/>
-                        <element name="NotesAndAttachments" nillable="true" minOccurs="0" type="tns:QueryResult"/>
-                        <element name="ProcessInstances" nillable="true" minOccurs="0" type="tns:QueryResult"/>
-                        <element name="ProcessSteps" nillable="true" minOccurs="0" type="tns:QueryResult"/>
-                        <element name="SystemModstamp" nillable="true" minOccurs="0" type="xsd:dateTime"/>
-                        <element name="UserRecordAccess" nillable="true" minOccurs="0" type="ens:UserRecordAccess"/>
-                        <element name="qbdialer__DialerQueryId__c" nillable="true" minOccurs="0" type="tns:ID"/>
-                        <element name="qbdialer__DialerQueryId__r" nillable="true" minOccurs="0" type="ens:qbdialer__DialerQuery__c"/>
-                        </sequence>
-                    </extension>
-                </complexContent>
-            </complexType>
-
-            <complexType name="qbdialer__DialerQueryItem__c">
-                <complexContent>
-                    <extension base="ens:sObject">
-                        <sequence>
-                        <element name="AttachedContentDocuments" nillable="true" minOccurs="0" type="tns:QueryResult"/>
-                        <element name="Attachments" nillable="true" minOccurs="0" type="tns:QueryResult"/>
-                        <element name="CombinedAttachments" nillable="true" minOccurs="0" type="tns:QueryResult"/>
-                        <element name="CreatedBy" nillable="true" minOccurs="0" type="ens:User"/>
-                        <element name="CreatedById" nillable="true" minOccurs="0" type="tns:ID"/>
-                        <element name="CreatedDate" nillable="true" minOccurs="0" type="xsd:dateTime"/>
-                        <element name="FeedSubscriptionsForEntity" nillable="true" minOccurs="0" type="tns:QueryResult"/>
-                        <element name="IsDeleted" nillable="true" minOccurs="0" type="xsd:boolean"/>
-                        <element name="LastModifiedBy" nillable="true" minOccurs="0" type="ens:User"/>
-                        <element name="LastModifiedById" nillable="true" minOccurs="0" type="tns:ID"/>
-                        <element name="LastModifiedDate" nillable="true" minOccurs="0" type="xsd:dateTime"/>
-                        <element name="Name" nillable="true" minOccurs="0" type="xsd:string"/>
-                        <element name="Notes" nillable="true" minOccurs="0" type="tns:QueryResult"/>
-                        <element name="NotesAndAttachments" nillable="true" minOccurs="0" type="tns:QueryResult"/>
-                        <element name="ProcessInstances" nillable="true" minOccurs="0" type="tns:QueryResult"/>
-                        <element name="ProcessSteps" nillable="true" minOccurs="0" type="tns:QueryResult"/>
-                        <element name="SystemModstamp" nillable="true" minOccurs="0" type="xsd:dateTime"/>
-                        <element name="UserRecordAccess" nillable="true" minOccurs="0" type="ens:UserRecordAccess"/>
-                        <element name="qbdialer__AccountId__c" nillable="true" minOccurs="0" type="tns:ID"/>
-                        <element name="qbdialer__AccountId__r" nillable="true" minOccurs="0" type="ens:Account"/>
-                        <element name="qbdialer__ContactId__c" nillable="true" minOccurs="0" type="tns:ID"/>
-                        <element name="qbdialer__ContactId__r" nillable="true" minOccurs="0" type="ens:Contact"/>
-                        <element name="qbdialer__Dialed__c" nillable="true" minOccurs="0" type="xsd:boolean"/>
-                        <element name="qbdialer__DialerQueryId__c" nillable="true" minOccurs="0" type="tns:ID"/>
-                        <element name="qbdialer__DialerQueryId__r" nillable="true" minOccurs="0" type="ens:qbdialer__DialerQuery__c"/>
-                        <element name="qbdialer__LeadId__c" nillable="true" minOccurs="0" type="tns:ID"/>
-                        <element name="qbdialer__LeadId__r" nillable="true" minOccurs="0" type="ens:Lead"/>
-                        <element name="qbdialer__RelatedItemId__c" nillable="true" minOccurs="0" type="xsd:string"/>
-                        </sequence>
-                    </extension>
-                </complexContent>
-            </complexType>
-
-            <complexType name="qbdialer__DialerQuery__c">
-                <complexContent>
-                    <extension base="ens:sObject">
-                        <sequence>
-                        <element name="AttachedContentDocuments" nillable="true" minOccurs="0" type="tns:QueryResult"/>
-                        <element name="Attachments" nillable="true" minOccurs="0" type="tns:QueryResult"/>
-                        <element name="CombinedAttachments" nillable="true" minOccurs="0" type="tns:QueryResult"/>
-                        <element name="CreatedBy" nillable="true" minOccurs="0" type="ens:User"/>
-                        <element name="CreatedById" nillable="true" minOccurs="0" type="tns:ID"/>
-                        <element name="CreatedDate" nillable="true" minOccurs="0" type="xsd:dateTime"/>
-                        <element name="FeedSubscriptionsForEntity" nillable="true" minOccurs="0" type="tns:QueryResult"/>
-                        <element name="IsDeleted" nillable="true" minOccurs="0" type="xsd:boolean"/>
-                        <element name="LastModifiedBy" nillable="true" minOccurs="0" type="ens:User"/>
-                        <element name="LastModifiedById" nillable="true" minOccurs="0" type="tns:ID"/>
-                        <element name="LastModifiedDate" nillable="true" minOccurs="0" type="xsd:dateTime"/>
-                        <element name="Name" nillable="true" minOccurs="0" type="xsd:string"/>
-                        <element name="Notes" nillable="true" minOccurs="0" type="tns:QueryResult"/>
-                        <element name="NotesAndAttachments" nillable="true" minOccurs="0" type="tns:QueryResult"/>
-                        <element name="Owner" nillable="true" minOccurs="0" type="ens:Name"/>
-                        <element name="OwnerId" nillable="true" minOccurs="0" type="tns:ID"/>
-                        <element name="ProcessInstances" nillable="true" minOccurs="0" type="tns:QueryResult"/>
-                        <element name="ProcessSteps" nillable="true" minOccurs="0" type="tns:QueryResult"/>
-                        <element name="SystemModstamp" nillable="true" minOccurs="0" type="xsd:dateTime"/>
-                        <element name="UserRecordAccess" nillable="true" minOccurs="0" type="ens:UserRecordAccess"/>
-                        <element name="qbdialer__AdvancedFilter__c" nillable="true" minOccurs="0" type="xsd:string"/>
-                        <element name="qbdialer__Attendees__c" nillable="true" minOccurs="0" type="xsd:string"/>
-                        <element name="qbdialer__Callback_action__c" nillable="true" minOccurs="0" type="xsd:string"/>
-                        <element name="qbdialer__Callback_grace_period__c" nillable="true" minOccurs="0" type="xsd:double"/>
-                        <element name="qbdialer__Caller_Id__c" nillable="true" minOccurs="0" type="xsd:string"/>
-                        <element name="qbdialer__CampaignId__c" nillable="true" minOccurs="0" type="xsd:string"/>
-                        <element name="qbdialer__CampaignMemberStatus__c" nillable="true" minOccurs="0" type="xsd:string"/>
-                        <element name="qbdialer__DataSource__c" nillable="true" minOccurs="0" type="xsd:string"/>
-                        <element name="qbdialer__DialerInitiativeId__c" nillable="true" minOccurs="0" type="xsd:string"/>
-                        <element name="qbdialer__DialerQueryAttendees__r" nillable="true" minOccurs="0" type="tns:QueryResult"/>
-                        <element name="qbdialer__Dialer_Query_Items__r" nillable="true" minOccurs="0" type="tns:QueryResult"/>
-                        <element name="qbdialer__EightHundred__c" nillable="true" minOccurs="0" type="xsd:boolean"/>
-                        <element name="qbdialer__EmailFolders__c" nillable="true" minOccurs="0" type="xsd:string"/>
-                        <element name="qbdialer__EndTime__c" nillable="true" minOccurs="0" type="xsd:string"/>
-                        <element name="qbdialer__Filter_Data_10__c" nillable="true" minOccurs="0" type="xsd:string"/>
-                        <element name="qbdialer__Filter_Data_1__c" nillable="true" minOccurs="0" type="xsd:string"/>
-                        <element name="qbdialer__Filter_Data_2__c" nillable="true" minOccurs="0" type="xsd:string"/>
-                        <element name="qbdialer__Filter_Data_3__c" nillable="true" minOccurs="0" type="xsd:string"/>
-                        <element name="qbdialer__Filter_Data_4__c" nillable="true" minOccurs="0" type="xsd:string"/>
-                        <element name="qbdialer__Filter_Data_5__c" nillable="true" minOccurs="0" type="xsd:string"/>
-                        <element name="qbdialer__Filter_Data_6__c" nillable="true" minOccurs="0" type="xsd:string"/>
-                        <element name="qbdialer__Filter_Data_7__c" nillable="true" minOccurs="0" type="xsd:string"/>
-                        <element name="qbdialer__Filter_Data_8__c" nillable="true" minOccurs="0" type="xsd:string"/>
-                        <element name="qbdialer__Filter_Data_9__c" nillable="true" minOccurs="0" type="xsd:string"/>
-                        <element name="qbdialer__Filter_Field_10__c" nillable="true" minOccurs="0" type="xsd:string"/>
-                        <element name="qbdialer__Filter_Field_1__c" nillable="true" minOccurs="0" type="xsd:string"/>
-                        <element name="qbdialer__Filter_Field_2__c" nillable="true" minOccurs="0" type="xsd:string"/>
-                        <element name="qbdialer__Filter_Field_3__c" nillable="true" minOccurs="0" type="xsd:string"/>
-                        <element name="qbdialer__Filter_Field_4__c" nillable="true" minOccurs="0" type="xsd:string"/>
-                        <element name="qbdialer__Filter_Field_5__c" nillable="true" minOccurs="0" type="xsd:string"/>
-                        <element name="qbdialer__Filter_Field_6__c" nillable="true" minOccurs="0" type="xsd:string"/>
-                        <element name="qbdialer__Filter_Field_7__c" nillable="true" minOccurs="0" type="xsd:string"/>
-                        <element name="qbdialer__Filter_Field_8__c" nillable="true" minOccurs="0" type="xsd:string"/>
-                        <element name="qbdialer__Filter_Field_9__c" nillable="true" minOccurs="0" type="xsd:string"/>
-                        <element name="qbdialer__Filter_Op_10__c" nillable="true" minOccurs="0" type="xsd:string"/>
-                        <element name="qbdialer__Filter_Op_1__c" nillable="true" minOccurs="0" type="xsd:string"/>
-                        <element name="qbdialer__Filter_Op_2__c" nillable="true" minOccurs="0" type="xsd:string"/>
-                        <element name="qbdialer__Filter_Op_3__c" nillable="true" minOccurs="0" type="xsd:string"/>
-                        <element name="qbdialer__Filter_Op_4__c" nillable="true" minOccurs="0" type="xsd:string"/>
-                        <element name="qbdialer__Filter_Op_5__c" nillable="true" minOccurs="0" type="xsd:string"/>
-                        <element name="qbdialer__Filter_Op_6__c" nillable="true" minOccurs="0" type="xsd:string"/>
-                        <element name="qbdialer__Filter_Op_7__c" nillable="true" minOccurs="0" type="xsd:string"/>
-                        <element name="qbdialer__Filter_Op_8__c" nillable="true" minOccurs="0" type="xsd:string"/>
-                        <element name="qbdialer__Filter_Op_9__c" nillable="true" minOccurs="0" type="xsd:string"/>
-                        <element name="qbdialer__LimitCallingTimes__c" nillable="true" minOccurs="0" type="xsd:boolean"/>
-                        <element name="qbdialer__LimitCallsTo__c" nillable="true" minOccurs="0" type="xsd:string"/>
-                        <element name="qbdialer__LimitEndTime__c" nillable="true" minOccurs="0" type="xsd:string"/>
-                        <element name="qbdialer__LimitStartTime__c" nillable="true" minOccurs="0" type="xsd:string"/>
-                        <element name="qbdialer__Local_Presence_Bucket__c" nillable="true" minOccurs="0" type="xsd:string"/>
-                        <element name="qbdialer__MaxDials__c" nillable="true" minOccurs="0" type="xsd:double"/>
-                        <element name="qbdialer__MinDials__c" nillable="true" minOccurs="0" type="xsd:double"/>
-                        <element name="qbdialer__MinutesBetweenCalls__c" nillable="true" minOccurs="0" type="xsd:double"/>
-                        <element name="qbdialer__ObjectType__c" nillable="true" minOccurs="0" type="xsd:string"/>
-                        <element name="qbdialer__OnlyDialOwn__c" nillable="true" minOccurs="0" type="xsd:boolean"/>
-                        <element name="qbdialer__OpportunityType__c" nillable="true" minOccurs="0" type="xsd:string"/>
-                        <element name="qbdialer__OwnershipFilter__c" nillable="true" minOccurs="0" type="xsd:string"/>
-                        <element name="qbdialer__PercentComplete__c" nillable="true" minOccurs="0" type="xsd:double"/>
-                        <element name="qbdialer__Priority__c" nillable="true" minOccurs="0" type="xsd:double"/>
-                        <element name="qbdialer__QueueOwnership__c" nillable="true" minOccurs="0" type="xsd:string"/>
-                        <element name="qbdialer__ReportFolder__c" nillable="true" minOccurs="0" type="xsd:string"/>
-                        <element name="qbdialer__ReportIdColumn__c" nillable="true" minOccurs="0" type="xsd:string"/>
-                        <element name="qbdialer__ReportId__c" nillable="true" minOccurs="0" type="xsd:string"/>
-                        <element name="qbdialer__ReportName__c" nillable="true" minOccurs="0" type="xsd:string"/>
-                        <element name="qbdialer__RingTimeout__c" nillable="true" minOccurs="0" type="xsd:double"/>
-                        <element name="qbdialer__SeekInitiativeId__c" nillable="true" minOccurs="0" type="tns:ID"/>
-                        <element name="qbdialer__SeekInitiativeId__r" nillable="true" minOccurs="0" type="ens:qbdialer__SeekInitiative__c"/>
-                        <element name="qbdialer__Seek_Initiative_Items__r" nillable="true" minOccurs="0" type="tns:QueryResult"/>
-                        <element name="qbdialer__SmartSort__c" nillable="true" minOccurs="0" type="xsd:string"/>
-                        <element name="qbdialer__Sort_Direction_1__c" nillable="true" minOccurs="0" type="xsd:string"/>
-                        <element name="qbdialer__Sort_Direction_2__c" nillable="true" minOccurs="0" type="xsd:string"/>
-                        <element name="qbdialer__Sort_Direction_3__c" nillable="true" minOccurs="0" type="xsd:string"/>
-                        <element name="qbdialer__Sort_Field_1__c" nillable="true" minOccurs="0" type="xsd:string"/>
-                        <element name="qbdialer__Sort_Field_2__c" nillable="true" minOccurs="0" type="xsd:string"/>
-                        <element name="qbdialer__Sort_Field_3__c" nillable="true" minOccurs="0" type="xsd:string"/>
-                        <element name="qbdialer__StartTime__c" nillable="true" minOccurs="0" type="xsd:string"/>
-                        <element name="qbdialer__Test_Local_Presence__c" nillable="true" minOccurs="0" type="xsd:boolean"/>
-                        <element name="qbdialer__TimeZone__c" nillable="true" minOccurs="0" type="xsd:string"/>
-                        <element name="qbdialer__TimeZones__c" nillable="true" minOccurs="0" type="xsd:string"/>
-                        <element name="qbdialer__TotalItemsDialed__c" nillable="true" minOccurs="0" type="xsd:double"/>
-                        <element name="qbdialer__TotalItems__c" nillable="true" minOccurs="0" type="xsd:double"/>
-                        <element name="qbdialer__UseSalesforceEmailTemplates__c" nillable="true" minOccurs="0" type="xsd:boolean"/>
-                        <element name="qbdialer__Use_Local_Presence__c" nillable="true" minOccurs="0" type="xsd:boolean"/>
-                        <element name="qbdialer__can_edit__c" nillable="true" minOccurs="0" type="xsd:boolean"/>
-                        <element name="qbdialer__datetester__c" nillable="true" minOccurs="0" type="xsd:dateTime"/>
-                        </sequence>
-                    </extension>
-                </complexContent>
-            </complexType>
-
-            <complexType name="qbdialer__SeekInitiativeAttendee__c">
-                <complexContent>
-                    <extension base="ens:sObject">
-                        <sequence>
-                        <element name="AttachedContentDocuments" nillable="true" minOccurs="0" type="tns:QueryResult"/>
-                        <element name="Attachments" nillable="true" minOccurs="0" type="tns:QueryResult"/>
-                        <element name="CombinedAttachments" nillable="true" minOccurs="0" type="tns:QueryResult"/>
-                        <element name="CreatedBy" nillable="true" minOccurs="0" type="ens:User"/>
-                        <element name="CreatedById" nillable="true" minOccurs="0" type="tns:ID"/>
-                        <element name="CreatedDate" nillable="true" minOccurs="0" type="xsd:dateTime"/>
-                        <element name="FeedSubscriptionsForEntity" nillable="true" minOccurs="0" type="tns:QueryResult"/>
-                        <element name="IsDeleted" nillable="true" minOccurs="0" type="xsd:boolean"/>
-                        <element name="LastModifiedBy" nillable="true" minOccurs="0" type="ens:User"/>
-                        <element name="LastModifiedById" nillable="true" minOccurs="0" type="tns:ID"/>
-                        <element name="LastModifiedDate" nillable="true" minOccurs="0" type="xsd:dateTime"/>
-                        <element name="Name" nillable="true" minOccurs="0" type="xsd:string"/>
-                        <element name="Notes" nillable="true" minOccurs="0" type="tns:QueryResult"/>
-                        <element name="NotesAndAttachments" nillable="true" minOccurs="0" type="tns:QueryResult"/>
-                        <element name="ProcessInstances" nillable="true" minOccurs="0" type="tns:QueryResult"/>
-                        <element name="ProcessSteps" nillable="true" minOccurs="0" type="tns:QueryResult"/>
-                        <element name="SystemModstamp" nillable="true" minOccurs="0" type="xsd:dateTime"/>
-                        <element name="UserRecordAccess" nillable="true" minOccurs="0" type="ens:UserRecordAccess"/>
-                        <element name="qbdialer__SeekInitiativeId__c" nillable="true" minOccurs="0" type="tns:ID"/>
-                        <element name="qbdialer__SeekInitiativeId__r" nillable="true" minOccurs="0" type="ens:qbdialer__SeekInitiative__c"/>
-                        </sequence>
-                    </extension>
-                </complexContent>
-            </complexType>
-
-            <complexType name="qbdialer__SeekInitiativeItem__c">
-                <complexContent>
-                    <extension base="ens:sObject">
-                        <sequence>
-                        <element name="AttachedContentDocuments" nillable="true" minOccurs="0" type="tns:QueryResult"/>
-                        <element name="Attachments" nillable="true" minOccurs="0" type="tns:QueryResult"/>
-                        <element name="CombinedAttachments" nillable="true" minOccurs="0" type="tns:QueryResult"/>
-                        <element name="CreatedBy" nillable="true" minOccurs="0" type="ens:User"/>
-                        <element name="CreatedById" nillable="true" minOccurs="0" type="tns:ID"/>
-                        <element name="CreatedDate" nillable="true" minOccurs="0" type="xsd:dateTime"/>
-                        <element name="FeedSubscriptionsForEntity" nillable="true" minOccurs="0" type="tns:QueryResult"/>
-                        <element name="IsDeleted" nillable="true" minOccurs="0" type="xsd:boolean"/>
-                        <element name="LastModifiedBy" nillable="true" minOccurs="0" type="ens:User"/>
-                        <element name="LastModifiedById" nillable="true" minOccurs="0" type="tns:ID"/>
-                        <element name="LastModifiedDate" nillable="true" minOccurs="0" type="xsd:dateTime"/>
-                        <element name="Name" nillable="true" minOccurs="0" type="xsd:string"/>
-                        <element name="Notes" nillable="true" minOccurs="0" type="tns:QueryResult"/>
-                        <element name="NotesAndAttachments" nillable="true" minOccurs="0" type="tns:QueryResult"/>
-                        <element name="ProcessInstances" nillable="true" minOccurs="0" type="tns:QueryResult"/>
-                        <element name="ProcessSteps" nillable="true" minOccurs="0" type="tns:QueryResult"/>
-                        <element name="SystemModstamp" nillable="true" minOccurs="0" type="xsd:dateTime"/>
-                        <element name="UserRecordAccess" nillable="true" minOccurs="0" type="ens:UserRecordAccess"/>
-                        <element name="qbdialer__AccountId__c" nillable="true" minOccurs="0" type="tns:ID"/>
-                        <element name="qbdialer__AccountId__r" nillable="true" minOccurs="0" type="ens:Account"/>
-                        <element name="qbdialer__ContactId__c" nillable="true" minOccurs="0" type="tns:ID"/>
-                        <element name="qbdialer__ContactId__r" nillable="true" minOccurs="0" type="ens:Contact"/>
-                        <element name="qbdialer__DialerQueryId__c" nillable="true" minOccurs="0" type="tns:ID"/>
-                        <element name="qbdialer__DialerQueryId__r" nillable="true" minOccurs="0" type="ens:qbdialer__DialerQuery__c"/>
-                        <element name="qbdialer__LeadId__c" nillable="true" minOccurs="0" type="tns:ID"/>
-                        <element name="qbdialer__LeadId__r" nillable="true" minOccurs="0" type="ens:Lead"/>
-                        <element name="qbdialer__SeekInitiativeId__c" nillable="true" minOccurs="0" type="tns:ID"/>
-                        <element name="qbdialer__SeekInitiativeId__r" nillable="true" minOccurs="0" type="ens:qbdialer__SeekInitiative__c"/>
-                        <element name="qbdialer__Unique__c" nillable="true" minOccurs="0" type="xsd:string"/>
-                        </sequence>
-                    </extension>
-                </complexContent>
-            </complexType>
-
-            <complexType name="qbdialer__SeekInitiative__c">
-                <complexContent>
-                    <extension base="ens:sObject">
-                        <sequence>
-                        <element name="AttachedContentDocuments" nillable="true" minOccurs="0" type="tns:QueryResult"/>
-                        <element name="Attachments" nillable="true" minOccurs="0" type="tns:QueryResult"/>
-                        <element name="CombinedAttachments" nillable="true" minOccurs="0" type="tns:QueryResult"/>
-                        <element name="CreatedBy" nillable="true" minOccurs="0" type="ens:User"/>
-                        <element name="CreatedById" nillable="true" minOccurs="0" type="tns:ID"/>
-                        <element name="CreatedDate" nillable="true" minOccurs="0" type="xsd:dateTime"/>
-                        <element name="FeedSubscriptionsForEntity" nillable="true" minOccurs="0" type="tns:QueryResult"/>
-                        <element name="IsDeleted" nillable="true" minOccurs="0" type="xsd:boolean"/>
-                        <element name="LastModifiedBy" nillable="true" minOccurs="0" type="ens:User"/>
-                        <element name="LastModifiedById" nillable="true" minOccurs="0" type="tns:ID"/>
-                        <element name="LastModifiedDate" nillable="true" minOccurs="0" type="xsd:dateTime"/>
-                        <element name="Name" nillable="true" minOccurs="0" type="xsd:string"/>
-                        <element name="Notes" nillable="true" minOccurs="0" type="tns:QueryResult"/>
-                        <element name="NotesAndAttachments" nillable="true" minOccurs="0" type="tns:QueryResult"/>
-                        <element name="Owner" nillable="true" minOccurs="0" type="ens:Name"/>
-                        <element name="OwnerId" nillable="true" minOccurs="0" type="tns:ID"/>
-                        <element name="ProcessInstances" nillable="true" minOccurs="0" type="tns:QueryResult"/>
-                        <element name="ProcessSteps" nillable="true" minOccurs="0" type="tns:QueryResult"/>
-                        <element name="SystemModstamp" nillable="true" minOccurs="0" type="xsd:dateTime"/>
-                        <element name="UserRecordAccess" nillable="true" minOccurs="0" type="ens:UserRecordAccess"/>
-                        <element name="qbdialer__Attendees__c" nillable="true" minOccurs="0" type="xsd:string"/>
-                        <element name="qbdialer__CallbackGracePeriod__c" nillable="true" minOccurs="0" type="xsd:double"/>
-                        <element name="qbdialer__CallbackPermission__c" nillable="true" minOccurs="0" type="xsd:string"/>
-                        <element name="qbdialer__CallerID__c" nillable="true" minOccurs="0" type="xsd:string"/>
-                        <element name="qbdialer__DialerInitiativeId__c" nillable="true" minOccurs="0" type="xsd:double"/>
-                        <element name="qbdialer__Dialer_Queries__r" nillable="true" minOccurs="0" type="tns:QueryResult"/>
-                        <element name="qbdialer__EmailFolders__c" nillable="true" minOccurs="0" type="xsd:string"/>
-                        <element name="qbdialer__EndTime__c" nillable="true" minOccurs="0" type="xsd:string"/>
-                        <element name="qbdialer__LimitCallingTimes__c" nillable="true" minOccurs="0" type="xsd:boolean"/>
-                        <element name="qbdialer__LimitCallsTo__c" nillable="true" minOccurs="0" type="xsd:string"/>
-                        <element name="qbdialer__Local_Presence_Bucket__c" nillable="true" minOccurs="0" type="xsd:string"/>
-                        <element name="qbdialer__OnlyDialOwn__c" nillable="true" minOccurs="0" type="xsd:boolean"/>
-                        <element name="qbdialer__RingTimeout__c" nillable="true" minOccurs="0" type="xsd:double"/>
-                        <element name="qbdialer__Seek_Initiative_Attendees__r" nillable="true" minOccurs="0" type="tns:QueryResult"/>
-                        <element name="qbdialer__Seek_Initiative_Items__r" nillable="true" minOccurs="0" type="tns:QueryResult"/>
-                        <element name="qbdialer__Show_Query__c" nillable="true" minOccurs="0" type="xsd:boolean"/>
-                        <element name="qbdialer__SmartSort__c" nillable="true" minOccurs="0" type="xsd:string"/>
-                        <element name="qbdialer__StartTime__c" nillable="true" minOccurs="0" type="xsd:string"/>
-                        <element name="qbdialer__Test_Local_Presence__c" nillable="true" minOccurs="0" type="xsd:boolean"/>
-                        <element name="qbdialer__TimeBetweenCalls__c" nillable="true" minOccurs="0" type="xsd:double"/>
-                        <element name="qbdialer__UseSalesforceEmailTemplates__c" nillable="true" minOccurs="0" type="xsd:boolean"/>
-                        <element name="qbdialer__Use_Local_Presence__c" nillable="true" minOccurs="0" type="xsd:boolean"/>
-                        <element name="qbdialer__can_edit__c" nillable="true" minOccurs="0" type="xsd:boolean"/>
-                        </sequence>
-                    </extension>
-                </complexContent>
-            </complexType>
-
-            <complexType name="qbdialer__UserStatusLog__c">
-                <complexContent>
-                    <extension base="ens:sObject">
-                        <sequence>
-                        <element name="ActivityHistories" nillable="true" minOccurs="0" type="tns:QueryResult"/>
-                        <element name="AttachedContentDocuments" nillable="true" minOccurs="0" type="tns:QueryResult"/>
-                        <element name="Attachments" nillable="true" minOccurs="0" type="tns:QueryResult"/>
-                        <element name="CombinedAttachments" nillable="true" minOccurs="0" type="tns:QueryResult"/>
-                        <element name="CreatedBy" nillable="true" minOccurs="0" type="ens:User"/>
-                        <element name="CreatedById" nillable="true" minOccurs="0" type="tns:ID"/>
-                        <element name="CreatedDate" nillable="true" minOccurs="0" type="xsd:dateTime"/>
-                        <element name="Events" nillable="true" minOccurs="0" type="tns:QueryResult"/>
-                        <element name="FeedSubscriptionsForEntity" nillable="true" minOccurs="0" type="tns:QueryResult"/>
-                        <element name="IsDeleted" nillable="true" minOccurs="0" type="xsd:boolean"/>
-                        <element name="LastActivityDate" nillable="true" minOccurs="0" type="xsd:date"/>
-                        <element name="LastModifiedBy" nillable="true" minOccurs="0" type="ens:User"/>
-                        <element name="LastModifiedById" nillable="true" minOccurs="0" type="tns:ID"/>
-                        <element name="LastModifiedDate" nillable="true" minOccurs="0" type="xsd:dateTime"/>
-                        <element name="Name" nillable="true" minOccurs="0" type="xsd:string"/>
-                        <element name="Notes" nillable="true" minOccurs="0" type="tns:QueryResult"/>
-                        <element name="NotesAndAttachments" nillable="true" minOccurs="0" type="tns:QueryResult"/>
-                        <element name="OpenActivities" nillable="true" minOccurs="0" type="tns:QueryResult"/>
-                        <element name="Owner" nillable="true" minOccurs="0" type="ens:Name"/>
-                        <element name="OwnerId" nillable="true" minOccurs="0" type="tns:ID"/>
-                        <element name="ProcessInstances" nillable="true" minOccurs="0" type="tns:QueryResult"/>
-                        <element name="ProcessSteps" nillable="true" minOccurs="0" type="tns:QueryResult"/>
-                        <element name="SystemModstamp" nillable="true" minOccurs="0" type="xsd:dateTime"/>
-                        <element name="Tasks" nillable="true" minOccurs="0" type="tns:QueryResult"/>
-                        <element name="UserRecordAccess" nillable="true" minOccurs="0" type="ens:UserRecordAccess"/>
-                        <element name="qbdialer__AgentStatus__c" nillable="true" minOccurs="0" type="xsd:string"/>
-                        <element name="qbdialer__InsideSalesId__c" nillable="true" minOccurs="0" type="xsd:double"/>
-                        <element name="qbdialer__StatusDate__c" nillable="true" minOccurs="0" type="xsd:date"/>
-                        <element name="qbdialer__StatusDuration__c" nillable="true" minOccurs="0" type="xsd:double"/>
-                        </sequence>
-                    </extension>
-                </complexContent>
-            </complexType>
-
-            <complexType name="qbdialer__isDialerConfig__c">
-                <complexContent>
-                    <extension base="ens:sObject">
-                        <sequence>
-                        <element name="AttachedContentDocuments" nillable="true" minOccurs="0" type="tns:QueryResult"/>
-                        <element name="Attachments" nillable="true" minOccurs="0" type="tns:QueryResult"/>
-                        <element name="CombinedAttachments" nillable="true" minOccurs="0" type="tns:QueryResult"/>
-                        <element name="CreatedBy" nillable="true" minOccurs="0" type="ens:User"/>
-                        <element name="CreatedById" nillable="true" minOccurs="0" type="tns:ID"/>
-                        <element name="CreatedDate" nillable="true" minOccurs="0" type="xsd:dateTime"/>
-                        <element name="FeedSubscriptionsForEntity" nillable="true" minOccurs="0" type="tns:QueryResult"/>
-                        <element name="IsDeleted" nillable="true" minOccurs="0" type="xsd:boolean"/>
-                        <element name="LastModifiedBy" nillable="true" minOccurs="0" type="ens:User"/>
-                        <element name="LastModifiedById" nillable="true" minOccurs="0" type="tns:ID"/>
-                        <element name="LastModifiedDate" nillable="true" minOccurs="0" type="xsd:dateTime"/>
-                        <element name="Name" nillable="true" minOccurs="0" type="xsd:string"/>
-                        <element name="Notes" nillable="true" minOccurs="0" type="tns:QueryResult"/>
-                        <element name="NotesAndAttachments" nillable="true" minOccurs="0" type="tns:QueryResult"/>
-                        <element name="Owner" nillable="true" minOccurs="0" type="ens:Name"/>
-                        <element name="OwnerId" nillable="true" minOccurs="0" type="tns:ID"/>
-                        <element name="ProcessInstances" nillable="true" minOccurs="0" type="tns:QueryResult"/>
-                        <element name="ProcessSteps" nillable="true" minOccurs="0" type="tns:QueryResult"/>
-                        <element name="SystemModstamp" nillable="true" minOccurs="0" type="xsd:dateTime"/>
-                        <element name="UserRecordAccess" nillable="true" minOccurs="0" type="ens:UserRecordAccess"/>
-                        <element name="qbdialer__Config__c" nillable="true" minOccurs="0" type="xsd:string"/>
-                        <element name="qbdialer__InsideSalesHost__c" nillable="true" minOccurs="0" type="xsd:string"/>
                         </sequence>
                     </extension>
                 </complexContent>
