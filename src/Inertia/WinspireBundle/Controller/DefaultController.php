@@ -177,6 +177,8 @@ class DefaultController extends Controller
         if ($request->attributes->get('subdomain')) {
             $session = $request->getSession();
             $session->remove('category');
+            $session->remove('filter');
+            $session->remove('sortOrder');
         }
         
         return $this->redirect($this->generateUrl('whitelabel_home',
@@ -405,6 +407,27 @@ class DefaultController extends Controller
             elseif ($session->has('category')) {
                 $request->query->set('category', $session->get('category'));
             }
+            
+            if ($request->query->has('filter')) {
+                $session->set('filter', $request->query->get('filter'));
+            }
+            elseif ($session->has('filter')) {
+                $request->query->set('filter', $session->get('filter'));
+            }
+            
+            if ($request->query->has('sortOrder')) {
+                $session->set('sortOrder', $request->query->get('sortOrder'));
+            }
+            elseif ($session->has('sortOrder')) {
+                $request->query->set('sortOrder', $session->get('sortOrder'));
+            }
+            
+//            if ($request->query->has('q')) {
+//                $session->set('q', $request->query->get('q'));
+//            }
+//            elseif ($session->has('q')) {
+//                $request->query->set('q', $session->get('q'));
+//            }
         }
         
         $locale = $this->getRequest()->getLocale();

@@ -89,17 +89,17 @@
             <div class="pl-results">
                 <div class="row pl-sort">
                     <ul>
-                        <li><a href="#" class="selected" data-filter="all">All</a></li>
-                        <li><a href="#" data-filter="popular">Most Popular</a></li>
-                        <li><a href="#" data-filter="newest">Newest</a></li>
+                        <li><a href="#" {% if app.session.get('filter') == 'all' or (not app.session.has('filter')) %}class="selected"{% endif %} data-filter="all">All</a></li>
+                        <li><a href="#" {% if app.session.get('filter') == 'popular' %}class="selected"{% endif %} data-filter="popular">Most Popular</a></li>
+                        <li><a href="#" {% if app.session.get('filter') == 'newest' %}class="selected"{% endif %} data-filter="newest">Newest</a></li>
                     </ul>
                     
                     <div class="pl-sort-select">
                         <select id="sortOrder" name="sortOrder">
-                            <option selected="selected" value="alpha-asc">Alphabetical A-Z</option>
-                            <option value="alpha-desc">Alphabetical Z-A</option>
-                            <option value="price-desc">Price High-Low</option>
-                            <option value="price-asc">Price Low-High</option>
+                            <option {% if app.session.get('sortOrder') == 'alpha-asc' or (not app.session.has('sortOrder')) %}selected="selected"{% endif %} value="alpha-asc">Alphabetical A-Z</option>
+                            <option {% if app.session.get('sortOrder') == 'alpha-desc' %}selected="selected"{% endif %} value="alpha-desc">Alphabetical Z-A</option>
+                            <option {% if app.session.get('sortOrder') == 'price-desc' %}selected="selected"{% endif %} value="price-desc">Price High-Low</option>
+                            <option {% if app.session.get('sortOrder') == 'price-asc' %}selected="selected"{% endif %} value="price-asc">Price Low-High</option>
                         </select>
                     </div>
                 </div>
