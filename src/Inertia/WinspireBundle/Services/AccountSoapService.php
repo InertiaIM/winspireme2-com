@@ -254,12 +254,9 @@ class AccountSoapService
                 
                 if (!$partner) {
                     // New partner, not in our database yet
-                    if ((isset($a->White_Label_user__c) && $a->White_Label_user__c == '1')) {
-                        $this->logger->info('New partner (' . $id . ') to be added');
-                        $partner = new Partner();
-                        $partner->setCreated($a->CreatedDate);
-//                        $partner->setActive(true);
-                    }
+                    $partner = new Partner();
+                    $partner->setCreated($a->CreatedDate);
+                    $this->logger->info('New partner (' . $id . ') to be added');
                 } else {
                     // Partner already exists, just update
                     $this->logger->info('Existing partner (' . $id . ') to be updated');
