@@ -230,14 +230,31 @@ class DefaultController extends Controller
     
     public function packageDetailAction($slug)
     {
+        $request = $this->getRequest();
+        $em = $this->getDoctrine()->getManager();
+        
+        if ($request->attributes->get('subdomain')) {
+            // Determine whether this Partner/Whitelabel
+            // has a limited set of Packages
+            $query = $em->createQuery(
+                'SELECT p FROM InertiaWinspireBundle:Package p JOIN p.partners a WHERE p.is_private != 1 AND p.active = 1 AND p.available = 1 AND a.subdomain = :sub'
+            )
+                ->setParameter('sub', $request->attributes->get('subdomain'));
+            
+            $result = $query->getResult();
+            $partnerPackages = array();
+            foreach ($result as $p) {
+                $partnerPackages[] = $p->getId();
+            }
+        }
+        
+        
         $locale = $this->getRequest()->getLocale();
         
         $suitcase = $this->get('winspire.suitcase.manager')->getSuitcase();
         
         $session = $this->getRequest()->getSession();
         $packagePath = $session->get('packagePath');
-        
-        $em = $this->getDoctrine()->getManager();
         
         if($this->get('security.context')->isGranted('ROLE_ADMIN')) {
             $query = $em->createQuery(
@@ -276,6 +293,18 @@ class DefaultController extends Controller
         }
         
         $packages = $query->getResult();
+        
+        
+        // If we're dealing with a whitelabel site with select packages
+        if ($request->attributes->get('subdomain') && isset($partnerPackages) && $partnerPackages) {
+            $temp = array();
+            foreach ($packages as $package) {
+                if (in_array($package->getId(), $partnerPackages)) {
+                    $temp[] = $package;
+                }
+            }
+            $packages = $temp;
+        }
         
         
         $latest = 0;
@@ -394,6 +423,8 @@ class DefaultController extends Controller
     
     public function packageSearchAction(Request $request)
     {
+        $em = $this->getDoctrine()->getManager();
+        
         if ($request->attributes->get('subdomain')) {
             $session = $request->getSession();
             if ($request->query->has('category')) {
@@ -444,6 +475,21 @@ class DefaultController extends Controller
                 $request->query->remove('filter');
                 $request->query->remove('sortOrder');
             }
+            
+            
+            // Determine whether this Partner/Whitelabel
+            // has a limited set of Packages
+            $query = $em->createQuery(
+                'SELECT p FROM InertiaWinspireBundle:Package p JOIN p.partners a WHERE p.is_private != 1 AND p.active = 1 AND p.available = 1 AND a.subdomain = :sub'
+            )
+                ->setParameter('sub', $request->attributes->get('subdomain'))
+            ;
+            
+            $result = $query->getResult();
+            $partnerPackages = array();
+            foreach ($result as $p) {
+                $partnerPackages[] = $p->getId();
+            }
         }
         
         $locale = $this->getRequest()->getLocale();
@@ -454,9 +500,7 @@ class DefaultController extends Controller
             $q = $request->query->get('q');
         }
         
-        $em = $this->getDoctrine()->getManager();
         $qb = $em->createQueryBuilder();
-        
         $qb->select(array('p', 'o'));
         $qb->from('InertiaWinspireBundle:Package', 'p');
         
@@ -548,6 +592,19 @@ class DefaultController extends Controller
         $packages = $qb->getQuery()->getResult();
         
         $suitcase = $this->get('winspire.suitcase.manager')->getSuitcase();
+        
+        
+        // If we're dealing with a whitelabel site with select packages
+        if ($request->attributes->get('subdomain') && isset($partnerPackages) && $partnerPackages) {
+            $temp = array();
+            foreach ($packages as $package) {
+                if (in_array($package->getId(), $partnerPackages)) {
+                    $temp[] = $package;
+                }
+            }
+            $packages = $temp;
+        }
+        
         
         // TODO this is too complex.  Break the Packages and Variants into
         // separate entities to simplify the queries.
