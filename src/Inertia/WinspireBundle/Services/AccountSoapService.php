@@ -4,6 +4,7 @@ namespace Inertia\WinspireBundle\Services;
 use Ddeboer\Salesforce\ClientBundle\Client;
 use Doctrine\ORM\EntityManager;
 use Inertia\WinspireBundle\Entity\Account;
+use Inertia\WinspireBundle\Entity\Partner;
 use Inertia\WinspireBundle\Entity\User;
 use Symfony\Bridge\Monolog\Logger;
 use Symfony\Component\Templating\EngineInterface;
@@ -17,6 +18,7 @@ class AccountSoapService
     protected $mailer;
     
     private $recordTypeId = '01270000000DVD5AAO';
+    private $partnerRecordTypeId = '01270000000DVDFAA4';
     
     public function __construct(Client $salesforce, EntityManager $entityManager, Logger $logger, \Swift_Mailer $mailer, EngineInterface $templating)
     {
@@ -61,12 +63,14 @@ class AccountSoapService
                 'BillingCountry, ' .
                 'Phone, ' .
                 'Referred_by__c,  ' .
+                'White_Label_user__c, ' .
+                'White_Label_domain__c, ' .
                 'RecordTypeId, ' .
                 'SystemModstamp, ' .
                 'CreatedDate ' .
                 'FROM Account ' .
                 'WHERE ' .
-                'RecordTypeId = \'' . $this->recordTypeId . '\'' .
+                'RecordTypeId IN (\'' . $this->recordTypeId . '\', \'' . $this->partnerRecordTypeId . '\')' .
                 'AND Id =\'' . $id . '\''
             );
             
@@ -79,167 +83,213 @@ class AccountSoapService
             
             $a = $accountResult->first();
             
-            // Test whether this package is already in our database
-            $account = $this->em->getRepository('InertiaWinspireBundle:Account')->findOneBySfId($id);
-            
-            if(!$account) {
-                // New account, not in our database yet
-                $this->logger->info('New account (' . $id . ') to be added');
-                $account = new Account();
-                $account->setCreated($a->CreatedDate);
-                $new = true;
-            }
-            else {
-                // Account already exists, just update
-                $this->logger->info('Existing account (' . $id . ') to be updated');
-                $new = false;
-            }
-            
-            if ($new || (($a->SystemModstamp > $account->getSfUpdated())) && !$account->getDirty()) {
-                // ACCOUNT NAME
-                if(isset($a->Name)) {
-                    $account->setName($a->Name);
-                }
-                $account->setNameCanonical($this->slugify($account->getName()));
+            if ($a->RecordTypeId == $this->recordTypeId) {
+                // NON-PROFIT ACCOUNTS ***
+                // Test whether this account is already in our database
+                $account = $this->em->getRepository('InertiaWinspireBundle:Account')->findOneBySfId($id);
                 
-                // ACCOUNT ADDRESS
-                if(isset($a->BillingStreet)) {
-                    $address = explode(chr(10), $a->BillingStreet);
-                    $account->setAddress($address[0]);
-                    if (isset($address[1])) {
-                        $account->setAddress2($address[1]);
+                if (!$account) {
+                    // New account, not in our database yet
+                    $this->logger->info('New account (' . $id . ') to be added');
+                    $account = new Account();
+                    $account->setCreated($a->CreatedDate);
+                    $new = true;
+                } else {
+                    // Account already exists, just update
+                    $this->logger->info('Existing account (' . $id . ') to be updated');
+                    $new = false;
+                }
+
+                if ($new || (($a->SystemModstamp > $account->getSfUpdated())) && !$account->getDirty()) {
+                    // ACCOUNT NAME
+                    if (isset($a->Name)) {
+                        $account->setName($a->Name);
                     }
-                }
-                
-                // ACCOUNT CITY
-                if(isset($a->BillingCity)) {
-                    $account->setCity($a->BillingCity);
-                }
-                
-                // ACCOUNT STATE
-                if(isset($a->BillingState)) {
-                    $account->setState($a->BillingState);
-                }
-                
-                // ACCOUNT COUNTRY
-                if(isset($a->BillingCountry)) {
-                    if (strtoupper($a->BillingCountry) == 'CA' || strtoupper($a->BillingCountry) == 'CANADA') {
-                        $account->setCountry('CA');
-                    }
-                    elseif (strtoupper($a->BillingCountry) == 'US' || strtoupper($a->BillingCountry) == 'UNITED STATES') {
-                        $account->setCountry('US');
-                    }
-                    else {
-//                        $account->setCountry($a->BillingCountry);
-                    }
-                }
-                else {
-                    $account->setCountry('US');
-                }
-                
-                // ACCOUNT ZIP
-                if(isset($a->BillingPostalCode)) {
-                    $account->setZip($a->BillingPostalCode);
-                }
-                
-                // ACCOUNT PHONE
-                if(isset($a->Phone)) {
-                    $account->setPhone($a->Phone);
-                }
-                
-                // ACCOUNT REFERRED
-                if(isset($a->Referred_by__c)) {
-                    $account->setReferred($a->Referred_by__c);
-                }
-                
-                // ACCOUNT OWNER
-                if(isset($a->OwnerId)) {
-                    $query = $this->em->createQuery(
-                        'SELECT u FROM InertiaWinspireBundle:User u WHERE u.sfId = :sfid'
-                    )
-                        ->setParameter('sfid', $a->OwnerId)
-                    ;
-                    
-                    try {
-                        $owner = $query->getSingleResult();
-                        $this->logger->info('    Owner: ' .  $owner->getEmail() . '...');
-                        
-                        $previousOwner = $account->getSalesperson();
-                        $account->setSalesperson($owner);
-                        
-                        if ($owner->getUsername() != 'confirmation@winspireme.com' && $previousOwner && ($previousOwner->getId() != $owner->getId())) {
-                            // Send the users an email introduction to their new EC
-                            foreach ($account->getUsers() as $user) {
-                                $name = $user->getFirstName() . ' ' .
-                                    $user->getLastName();
-                                
-                                $email = $user->getEmail();
-                                
-                                $locale = strtolower($account->getCountry());
-                                
-                                $salesperson = array(
-                                    $user->getCompany()->getSalesperson()->getEmail() =>
-                                    $user->getCompany()->getSalesperson()->getFirstName() . ' ' .
-                                    $user->getCompany()->getSalesperson()->getLastName()
-                                );
-                                
-                                $message = \Swift_Message::newInstance()
-                                    ->setSubject('Introducing your Winspire Event Consultant')
-                                    ->setReplyTo($salesperson)
-                                    ->setSender(array('notice@winspireme.com' => 'Winspire'))
-                                    ->setFrom($salesperson)
-                                    ->setTo(array($email => $name))
-                                    ->setBody(
-                                        $this->templating->render(
-                                            'InertiaWinspireBundle:Email:event-consultant-intro.html.twig',
-                                            array(
-                                                'user' => $user,
-                                                'locale' => $locale,
-                                            )
-                                        ),
-                                        'text/html'
-                                    )
-                                    ->addPart(
-                                        $this->templating->render(
-                                            'InertiaWinspireBundle:Email:event-consultant-intro.txt.twig',
-                                            array(
-                                                'user' => $user,
-                                                'locale' => $locale,
-                                            )
-                                        ),
-                                        'text/plain'
-                                    )
-                                ;
-                                $message->setBcc(array($account->getSalesperson()->getEmail(), 'doug@inertiaim.com'));
-                                $this->mailer->send($message);
-                            }
+                    $account->setNameCanonical($this->slugify($account->getName()));
+
+                    // ACCOUNT ADDRESS
+                    if (isset($a->BillingStreet)) {
+                        $address = explode(chr(10), $a->BillingStreet);
+                        $account->setAddress($address[0]);
+                        if (isset($address[1])) {
+                            $account->setAddress2($address[1]);
                         }
                     }
-                    catch (\Exception $e) {
-                        $this->logger->err('    Owner ID es no bueno: ' . $a->OwnerId);
-                        $query = $this->em->createQuery(
-                            'SELECT u FROM InertiaWinspireBundle:User u WHERE u.id = :id'
-                        )
-                            ->setParameter('id', 1)
-                        ;
-                        $owner = $query->getSingleResult();
-                        $account->setSalesperson($owner);
+
+                    // ACCOUNT CITY
+                    if (isset($a->BillingCity)) {
+                        $account->setCity($a->BillingCity);
                     }
+
+                    // ACCOUNT STATE
+                    if (isset($a->BillingState)) {
+                        $account->setState($a->BillingState);
+                    }
+
+                    // ACCOUNT COUNTRY
+                    if (isset($a->BillingCountry)) {
+                        if (strtoupper($a->BillingCountry) == 'CA' || strtoupper($a->BillingCountry) == 'CANADA') {
+                            $account->setCountry('CA');
+                        } elseif (strtoupper($a->BillingCountry) == 'US' || strtoupper(
+                                $a->BillingCountry
+                            ) == 'UNITED STATES'
+                        ) {
+                            $account->setCountry('US');
+                        } else {
+//                        $account->setCountry($a->BillingCountry);
+                        }
+                    } else {
+                        $account->setCountry('US');
+                    }
+
+                    // ACCOUNT ZIP
+                    if (isset($a->BillingPostalCode)) {
+                        $account->setZip($a->BillingPostalCode);
+                    }
+
+                    // ACCOUNT PHONE
+                    if (isset($a->Phone)) {
+                        $account->setPhone($a->Phone);
+                    }
+
+                    // ACCOUNT REFERRED
+                    if (isset($a->Referred_by__c)) {
+                        $account->setReferred($a->Referred_by__c);
+                    }
+
+                    // ACCOUNT OWNER
+                    if (isset($a->OwnerId)) {
+                        $query = $this->em->createQuery(
+                            'SELECT u FROM InertiaWinspireBundle:User u WHERE u.sfId = :sfid'
+                        )
+                            ->setParameter('sfid', $a->OwnerId);
+
+                        try {
+                            $owner = $query->getSingleResult();
+                            $this->logger->info('    Owner: ' . $owner->getEmail() . '...');
+
+                            $previousOwner = $account->getSalesperson();
+                            $account->setSalesperson($owner);
+
+                            if ($owner->getUsername(
+                                ) != 'confirmation@winspireme.com' && $previousOwner && ($previousOwner->getId(
+                                    ) != $owner->getId())
+                            ) {
+                                // Send the users an email introduction to their new EC
+                                foreach ($account->getUsers() as $user) {
+                                    $name = $user->getFirstName() . ' ' .
+                                        $user->getLastName();
+
+                                    $email = $user->getEmail();
+
+                                    $locale = strtolower($account->getCountry());
+
+                                    $salesperson = array(
+                                        $user->getCompany()->getSalesperson()->getEmail() =>
+                                            $user->getCompany()->getSalesperson()->getFirstName() . ' ' .
+                                            $user->getCompany()->getSalesperson()->getLastName()
+                                    );
+
+                                    $message = \Swift_Message::newInstance()
+                                        ->setSubject('Introducing your Winspire Event Consultant')
+                                        ->setReplyTo($salesperson)
+                                        ->setSender(array('notice@winspireme.com' => 'Winspire'))
+                                        ->setFrom($salesperson)
+                                        ->setTo(array($email => $name))
+                                        ->setBody(
+                                            $this->templating->render(
+                                                'InertiaWinspireBundle:Email:event-consultant-intro.html.twig',
+                                                array(
+                                                    'user' => $user,
+                                                    'locale' => $locale,
+                                                )
+                                            ),
+                                            'text/html'
+                                        )
+                                        ->addPart(
+                                            $this->templating->render(
+                                                'InertiaWinspireBundle:Email:event-consultant-intro.txt.twig',
+                                                array(
+                                                    'user' => $user,
+                                                    'locale' => $locale,
+                                                )
+                                            ),
+                                            'text/plain'
+                                        );
+                                    $message->setBcc(
+                                        array($account->getSalesperson()->getEmail(), 'doug@inertiaim.com')
+                                    );
+                                    $this->mailer->send($message);
+                                }
+                            }
+                        } catch (\Exception $e) {
+                            $this->logger->err('    Owner ID es no bueno: ' . $a->OwnerId);
+                            $query = $this->em->createQuery(
+                                'SELECT u FROM InertiaWinspireBundle:User u WHERE u.id = :id'
+                            )
+                                ->setParameter('id', 1);
+                            $owner = $query->getSingleResult();
+                            $account->setSalesperson($owner);
+                        }
+                    } else {
+                        $this->logger->err('    Missing OwnerId?!?!');
+                    }
+
+                    $account->setSfId($id);
+                    $account->setDirty(false);
+
+                    $account->setSfUpdated($a->SystemModstamp);
+                    $account->setUpdated($a->SystemModstamp);
+
+                    $this->em->persist($account);
+                    $this->em->flush();
+
+                    $this->logger->info('Account saved...');
+                }
+            }
+            else {
+                // PARTNER ACCOUNTS ***
+                // Test whether this partner is already in our database
+                $partner = $this->em->getRepository('InertiaWinspireBundle:Partner')->findOneBySfId($id);
+                
+                if (!$partner) {
+                    // New partner, not in our database yet
+                    if ((isset($a->White_Label_user__c) && $a->White_Label_user__c == '1')) {
+                        $this->logger->info('New partner (' . $id . ') to be added');
+                        $partner = new Partner();
+                        $partner->setCreated($a->CreatedDate);
+//                        $partner->setActive(true);
+                    }
+                } else {
+                    // Partner already exists, just update
+                    $this->logger->info('Existing partner (' . $id . ') to be updated');
+                }
+                
+                // PARTNER NAME
+                if (isset($a->Name)) {
+                    $partner->setName($a->Name);
+                }
+                
+                // PARTNER WHITELABEL DOMAIN
+                if (isset($a->White_Label_domain__c)) {
+                    $partner->setSubdomain(trim($a->White_Label_domain__c));
+                }
+                
+                // PARTNER WHITELABEL ACTIVE
+                if (isset($a->White_Label_user__c) && $a->White_Label_user__c == '1') {
+                    $partner->setActive(true);
                 }
                 else {
-                    $this->logger->err('    Missing OwnerId?!?!');
+                    $partner->setActive(false);
                 }
                 
-                $account->setSfId($id);
-                $account->setDirty(false);
+                $partner->setSfId($id);
+                $partner->setUpdated($a->SystemModstamp);
                 
-                $account->setSfUpdated($a->SystemModstamp);
-                $account->setUpdated($a->SystemModstamp);
-                
-                $this->em->persist($account);
+                $this->em->persist($partner);
                 $this->em->flush();
                 
-                $this->logger->info('Account saved...');
+                $this->logger->info('Partner saved...');
             }
         }
         

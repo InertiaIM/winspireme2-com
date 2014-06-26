@@ -25,9 +25,24 @@ class Partner
     private $subdomain;
     
     /**
+     * @ORM\Column(name="name", type="string", length=256, nullable=true)
+     */
+    private $name;
+    
+    /**
      * @ORM\Column(name="content", type="text", nullable=true)
      */
     private $content;
+    
+    /**
+     * @ORM\Column(name="active", type="boolean", nullable=true)
+     */
+    private $active;
+    
+    /**
+     * @ORM\Column(name="sf_id", type="string", length=128)
+     */
+    private $sfId;
     
     /**
      * @var datetime $created
@@ -191,5 +206,74 @@ class Partner
     public function getContent()
     {
         return $this->content;
+    }
+
+    /**
+     * Set active
+     *
+     * @param boolean $active
+     * @return Partner
+     */
+    public function setActive($active)
+    {
+        $this->active = $active;
+    
+        return $this;
+    }
+
+    /**
+     * Get active
+     *
+     * @return boolean 
+     */
+    public function getActive()
+    {
+        return $this->active;
+    }
+
+    /**
+     * Set sfId
+     *
+     * @param string $sfId
+     * @return Partner
+     */
+    public function setSfId($sfId)
+    {
+        $this->sfId = $sfId;
+    
+        return $this;
+    }
+
+    /**
+     * Get sfId
+     *
+     * @return string 
+     */
+    public function getSfId()
+    {
+        return $this->sfId;
+    }
+
+    /**
+     * Set name
+     *
+     * @param string $name
+     * @return Partner
+     */
+    public function setName($name)
+    {
+        $this->name = $name;
+    
+        return $this;
+    }
+
+    /**
+     * Get name
+     *
+     * @return string 
+     */
+    public function getName()
+    {
+        return $this->name;
     }
 }
