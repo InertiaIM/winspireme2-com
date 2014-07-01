@@ -54,7 +54,7 @@ header .nav li a:hover {
 
 .c-wrap .main-content {        
 	height: 250px;	
-    background: url(/img/whitelabel/biddingowl/experience-catalog-banner-sm.png) no-repeat;
+    background: url(/img/whitelabel/experience-catalog-banner-sm.png) no-repeat;
     background-position:right;
 	padding:20px 15px 30px;
 	margin-bottom:20px;
@@ -70,7 +70,7 @@ header .nav li a:hover {
 	}
 
 .learn-more .c-wrap {
-	background: url(/img/whitelabel/biddingowl/experience-catalog-banner-sm-more.png) no-repeat;
+	background: url(/img/whitelabel/experience-catalog-banner-sm-more.png) no-repeat;
 	background-position:right top;
 	height:200px;
 	padding-top:20px;
