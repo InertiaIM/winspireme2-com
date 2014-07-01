@@ -59,8 +59,12 @@ header .nav li a:hover {
 }
 
 .c-wrap .main-content h1 {   
-	width: 650px;
+	width: 530px;
 	border-bottom: 1px dotted #ccc;
+}
+
+.c-wrap .main-content h1 span {   
+	color:#006bb5;
 }
 
 .c-wrap .main-content p {     
