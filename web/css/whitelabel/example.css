@@ -79,13 +79,23 @@ header .nav li a:hover {
 }
 	
 .learn-more .c-wrap	h1 {
-		border-bottom: 1px dotted #ccc;
-		width: 450px;
-	}
+	border-bottom: 1px dotted #ccc;
+	width: 450px;
+}
 	
 .learn-more .c-wrap	p {
-		width:450px;
-	}
+	width:450px;
+}
+	
+.how-works .c-wrap h1 {
+	border-bottom: 1px dotted #ccc;
+	width: 450px;
+}
+
+	
+.how-works .c-wrap img {
+	margin:0px auto;
+}
 
 /*-----END DEFAULT CONTENT-----*/
 
