@@ -55,6 +55,18 @@ partnerList:
     requirements:
         _scheme:  http
     
+partnerShare:
+    pattern:  /partner/share/{id}
+    defaults: { _controller: InertiaWinspireBundle:Partner:share }
+    requirements:
+        _scheme:  http
+    
+partnerComment:
+    pattern:  /partner/comment/{id}
+    defaults: { _controller: InertiaWinspireBundle:Partner:comment }
+    requirements:
+        _scheme:  http
+    
 suitcaseAdminSf:
     pattern:  /admin/sf
     defaults: { _controller: InertiaWinspireBundle:Suitcase:adminSf }

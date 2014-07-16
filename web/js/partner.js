@@ -66,7 +66,7 @@ $(function() {
     
     $(table).find('tbody tr').on('click', function(e) {
         var id = $(this).attr('data-id');
-        var url = '/partner/' + id;
+        var url = '/partner/share/' + id;
         if (typeof env !== 'undefined') {
             url = env + url;
         }
