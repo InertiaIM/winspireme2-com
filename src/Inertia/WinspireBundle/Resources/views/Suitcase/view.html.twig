@@ -28,16 +28,34 @@
                     </ul>
                 </div>
                 <div class="unpacked"{% if suitcase.status != 'U' %} style="display:none;"{% endif %}>
+{% if is_granted('ROLE_NP') %}
                     <h1><span class="icon icon-suitcase-2"></span> <em>my</em> Suitcase</h1>
+{% endif %}
+{% if is_granted('ROLE_PARTNER') %}
+                    <h1><span class="icon icon-suitcase-2"></span> <em>my</em> Experience List</h1>
+{% endif %}
                     <form data-style="html" data-id="{{ suitcase.id }}" method="get" action="{{ path('suitcaseSwitch') }}" class="suitcase-switcher">
                         <select name="sid">
+{% if is_granted('ROLE_NP') %}
                             <option value="new">Create New Suitcase</option>
 {% for s in suitcaseList %}
                             <option{% if s.id == suitcase.id %} selected="selected"{% endif %} value="{{ s.id }}">{{ s.name | truncate(22) }} ({{ s.date | date('m/d/y') }})</option>
 {% endfor %}
+{% endif %}
+{% if is_granted('ROLE_PARTNER') %}
+                            <option value="new">Create New Experience List</option>
+{% for s in suitcaseList %}
+                            <option{% if s.id == suitcase.id %} selected="selected"{% endif %} value="{{ s.id }}">{{ s.name | truncate(22) }}</option>
+{% endfor %}
+{% endif %}
                         </select>
                     </form>
+{% if is_granted('ROLE_NP') %}
                     <h3>Here you can organize your Experiences, collaborate with your peers and work with your Winspire Event Consultant to decide on the best set of packages for your charity auction. Once you have finalized your selection, simply click the "Reserve Experiences" button to reserve the Experiences for your event.</h3>
+{% endif %}
+{% if is_granted('ROLE_PARTNER') %}
+                    <h3>Welcome to the <strong>{{ suitcase.name }}</strong> list! Make as many of these lists as you like to organize lists of experiences that best fit the needs of your clients.</h3>
+{% endif %}
                 </div>
             </div>
             <div class="help">
@@ -47,7 +65,9 @@
                 {{ suitcase.user.company.salesperson.phone }}<br/>
                 <a href="mailto:{{ suitcase.user.company.salesperson.email }}" target="_blank">{{ suitcase.user.company.salesperson.email }}</a></p>
             </div>
+{% if is_granted('ROLE_NP') %}
 {{ include('InertiaWinspireBundle:Suitcase:owner.html.twig', {'owner': suitcase.user}) }}
+{% endif %}
         </div>
     </div>
     <div id="sc-area" class="suitcase">
@@ -57,18 +77,20 @@
                     <li class="share"><a href="#"><span class="icon icon-bubble"></span> Share</a></li>
                     <li class="comments"><a href="#"><span class="icon icon-comment"></span><span class="comment-count">{{ suitcase.comments | length }}</span> Comments</a></li>
                 </ul>
-{% if suitcase.status == 'U' %}
+{% if suitcase.status == 'U' and is_granted('ROLE_NP') %}
                 <button class="unpacked ready"><span class="icon-suitcase-2"></span>Reserve Experiences (<span class="suitcase-count">{{ suitcase.items | length }}</span>)</button>
 {% endif %}
             </div>
             <div class="content">
                 <div class="holder">
                     <img style="cursor:pointer; display:block; position:absolute; left:71px; top:18px" src="/img/temp-dropdown.png" alt=""/>
+{% if is_granted('ROLE_NP') %}
                     <ul class="key unpacked"{% if suitcase.status != 'U' %} style="display:none;"{% endif %}>
                         <li><span class="definitely">{{ counts['D'] + counts['E'] }}</span> Definitely</li>
                         <li><span class="maybe">{{ counts['M'] }}</span> Maybe</li>
                         <li><span class="recommended">{{ counts['R'] }}</span> {{ suitcase.user.company.salesperson.firstName }} Recommends</li>
                     </ul>
+{% endif %}
                     <ul class="key packed"{% if suitcase.status == 'U' %} style="display:none;"{% endif %}>
                         <li>You have <strong><span class="suitcase-count">{{ suitcase.items | length }} items</span></strong> in your Suitcase.</li>
                     </ul>
@@ -116,7 +138,9 @@
                                         <div class="item-close"><span class="icon-minus"></span></div>
                                     </div>
                                 </div>
+{% if is_granted('ROLE_NP') %}
                                 <a data-id="{{ item.package.id }}" data-status="{{ item.status }}" class="flag{% if is_granted('ROLE_USER') and suitcase.status == 'U' %} active{% endif %} {% if item.status == 'M' %}maybe{% endif %}{% if item.status == 'D' or item.status == 'E' %}definitely{% endif %}{% if item.status == 'R' %}recommended{% endif %}" href="#"></a>
+{% endif %}
                             </li>
 {%     if (total < suitcase.items | length) and (count % 6 == 0) %}
                         </ul>
@@ -160,10 +184,12 @@
                     <h4>Remember to download your presentation materials!</h4>
                     <button class="neutral" id="download" onclick="window.location='{{ path('suitcaseDownload', {'suitcaseId': suitcase.id}) }}';">Download Materials</button>
                 </div>
+{% if is_granted('ROLE_NP') %}
                 <div class="unpacked"{% if suitcase.status != 'U' %} style="display:none;"{% endif %}>
                     <h4>Ready to Go?</h4>
                     <button class="ready"><span class="icon-suitcase-2"></span>Reserve Experiences (<span class="suitcase-count">{{ suitcase.items | length }}</span>)</button>
                 </div>
+{% endif %}
             </div>
         </div>
     </div>

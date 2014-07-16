@@ -1,0 +1,86 @@
+{% extends "InertiaWinspireBundle::layout.html.twig" %}
+
+{% block title %}Winspire | Partner Suitcase List{% endblock %}
+
+{% block js %}{% endblock %}
+
+{% block content %}
+<div id="standard-page" class="admin-page">
+    <div class="page-content">
+        <div class="c-wrap">
+            <h1>Client Suitcases</h1>
+            <p>This is your access to your nonprofit client’s Suitcases.  You can filter your searches by Suitcase Name, Contact Name and Nonprofit.  Once you find the Suitcase you are looking for, click and you can see a view-only version.</p>
+            
+            <div class="tools">
+                <form>
+                    <select id="select-status" autocomplete="off" style="display:none;">
+                        <option selected="selected" value="all">All Suitcase Statuses</option>
+                        <option value="U">Open</option>
+                        <option value="P">Packed</option>
+                        <option value="R">Invoice Requested</option>
+                        <option value="I">Invoiced</option>
+                        <option value="A">Paid</option>
+                        <option value="M">Lost</option>
+                    </select>
+                    
+                    <div id="suitcase-search">
+                        <input type="text" class="search-text" placeholder="Search Suitcases..." value="">
+                        <input type="button" class="search-submit" value="Search">
+                    </div>
+                </form>
+            </div>
+            
+            <table class="suitcases" id="suitcases">
+                <thead>
+                    <tr>
+                        <th data-sort="string" class="cname sort sorting-asc"><a href="#">Organization<span class="icon icon-arrow-up"></span></a></th>
+                        <th data-sort="string" class="name"><a href="#">Suitcase</a></th>
+                        <th data-sort="string" class="email"><a href="#">Email</a></th>
+                        <th data-sort="int" class="date"><a href="#">Date</a></th>
+                        <th data-sort="string" class="phone"><a href="#">Phone</a></th>
+                        <th data-sort="int" class="value"><a href="#">Current Value</a></th>
+                        <th data-sort="string" class="status"><a href="#">Status</a></th>
+                        <th class="status-color">&nbsp;</th>
+                    </tr>
+                    <tr class="spacer">
+                        <th colspan="8">&nbsp;</th>
+                    </tr>
+                </thead>
+                
+{% if suitcases | length > 0 %}
+                <tbody>
+{%     for suitcase in suitcases %}
+                    <tr class="suitcase{% if (loop.index % 2) == 0 %} even{% endif %}" data-name="{{ suitcase.eventName }}" data-id="{{ suitcase.id }}" data-status="{{ suitcase.status }}" data-search="{{ suitcase.eventName | lower }}~{{ suitcase.user.company.name | lower }}~{{ suitcase.user.emailCanonical }}">
+<!-- run the td elements together to prevent IE9 from behaving badly -->
+<td class="cname" data-sort-value="{{ suitcase.user.company.name | lower }}" title="{{ suitcase.user.company.name }}">{{ suitcase.user.company.name }}</td><td class="name" data-sort-value="{{ suitcase.eventName | lower }}" title="{{ suitcase.eventName }}">{{ suitcase.eventName }}</td><td class="email" title="{{ suitcase.user.emailCanonical }}">{{ suitcase.user.emailCanonical }}</td><td class="date" data-sort-value="{{ suitcase.eventDate != '' ? suitcase.eventDate | date('Ymd') : '99999999' }}">{{ suitcase.eventDate != '' ? suitcase.eventDate | date('m/d/y') : 'N/A' }}</td><td class="phone" title="{{ suitcase.user.company.phone }}">{% if suitcase.user.company.phone != '' %}{{ suitcase.user.company.phone }}{% else %}&nbsp;{% endif %}</td><td class="value" data-sort-value="{{ suitcase.totalValue}}">$ {{ suitcase.totalValue | number_format(0)  }}</td><td class="status">{% if suitcase.status == 'U' %}Open{% endif %}{% if suitcase.status == 'P' %}Packed{% endif %}{% if suitcase.status == 'R' %}Inv. Req.{% endif %}{% if suitcase.status == 'I' %}Invoiced{% endif %}{% if suitcase.status == 'A' %}Paid{% endif %}{% if suitcase.status == 'M' %}Lost{% endif %}</td><td class="status-color">
+                            <span {% if suitcase.status == 'U' %} class="green"{% endif %}{% if suitcase.status == 'P' %} class="yellow"{% endif %}{% if suitcase.status == 'R' %} class="red"{% endif %}{% if suitcase.status == 'I' %} class="red"{% endif %}{% if suitcase.status == 'A' %} class="blue"{% endif %}{% if suitcase.status == 'M' %} class="gray"{% endif %}
+                            >&nbsp;</span>
+                        </td>
+                    </tr>
+{%     endfor %}
+                </tbody>
+{% endif %}
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}
+{% block jsBottom %}
+<script src="/js/vendor/jquery-1.8.3.min.js"></script>
+<script src="/js/vendor/modernizr-2.6.1.min.js"></script>
+<script src="/js/vendor/jquery-ui-1.10.2.custom.min.js"></script>
+<script src="/js/vendor/jquery.selectboxit.min.js"></script>
+<script src="/js/vendor/jquery.modal.min.js"></script>
+<script src="/js/vendor/spin.min.js"></script>
+<script src="/js/vendor/stupidtable.min.js"></script>
+
+<script src="/js/vendor/jquery.carousel.js"></script>
+<script src="/js/jquery.homeslideshow.js"></script>
+<script src="/js/vendor/jquery.multiselect.min.js"></script>
+<script src="/js/vendor/jquery.validate.min.js"></script>
+<script src="/js/vendor/jquery.fs.stepper.js"></script>
+<script src="/js/vendor/jquery.tooltipster.min.js"></script>
+
+<script src="/js/main.min.js"></script>
+<script src="/js/partner.js"></script>
+{% endblock %}

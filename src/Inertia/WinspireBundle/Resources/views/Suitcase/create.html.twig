@@ -1,5 +1,10 @@
 <div id="suitcase-modal" data-id="none">
+{% if is_granted('ROLE_NP') %}
     <h4>Create New Suitcase</h4>
+{% endif %}
+{% if is_granted('ROLE_PARTNER') %}
+    <h4>Create New Experience List</h4>
+{% endif %}
     
     <form action="{{ path('suitcaseCreate') }}" method="post" {{ form_enctype(form) }} novalidate="novalidate">
         <ul>
@@ -7,18 +12,30 @@
                 <div>
                     <span style="display:block;">
                         <label for="{{ form.name.vars.id }}" class="required" style="float:left;">{{ form.name.vars.label }}</label>
+{% if is_granted('ROLE_NP') %}
                         <span class="tip tooltip" title="Tip: This will also be the name of your Suitcase.">?</span>
+{% endif %}
+{% if is_granted('ROLE_PARTNER') %}
+                        <span class="tip tooltip" title="Tip: Use this name to identify your lists.">?</span>
+{% endif %}
                     </span>
                     {{ form_widget(form.name, { 'attr': { 'style': 'clear:both; display:block;', 'maxlength': '40' }}) }}
                 </div>
+{% if is_granted('ROLE_NP') %}
                 <div>
                     {{ form_label(form.date) }}
                     {{ form_widget(form.date, { 'attr': { 'class': 'date', 'placeholder': 'MM/DD/YY', 'readonly': 'readonly' }}) }}
                 </div>
+{% endif %}
             </li>
             <li>
                 <div>
+{% if is_granted('ROLE_NP') %}
                     <button type="submit" id="create-suitcase">Create Suitcase</button>
+{% endif %}
+{% if is_granted('ROLE_PARTNER') %}
+                    <button type="submit" id="create-suitcase">Create Experience List</button>
+{% endif %}
                     {{ form_widget(form.package) }}
                 </div>
             </li>

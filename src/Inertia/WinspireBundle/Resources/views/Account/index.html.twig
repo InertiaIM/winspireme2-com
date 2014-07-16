@@ -46,7 +46,12 @@
                 
                 <div class="" style="float:left; width:468px;">
                     <div id="suitcase-info">
+{% if is_granted('ROLE_NP') %}
                         <h2>Your (Active) Suitcases</h2>
+{% endif %}
+{% if is_granted('ROLE_PARTNER') %}
+                        <h2>Your Experience Lists</h2>
+{% endif %}
 {% if activeCount > 0 %}
                         <table>
 {%     for suitcase in user.suitcases %}
@@ -70,6 +75,7 @@
                         <p>None available</p>
 {% endif %}
                     </div>
+{% if is_granted('ROLE_NP') %}
                     <div id="order-history">
                         <h2>Your Order History</h2>
 {% if historyCount > 0 %}
@@ -95,6 +101,10 @@
                         <p>None available</p>
 {% endif %}
                     </div>
+{% endif %}
+{% if is_granted('ROLE_PARTNER') %}
+                    <a href="{{ path('partnerList') }}">Client Suitcases</a>
+{% endif %}
                 </div>
             </div>
         </div>
@@ -258,10 +268,16 @@
 </div>
 
 <div id="edit-suitcase-modal" style="display:none; width:380px;">
+{% if is_granted('ROLE_NP') %}
     <h3><span class="icon icon-pencil"></span>Edit Your Suitcase</h3>
+{% endif %}
+{% if is_granted('ROLE_PARTNER') %}
+    <h3><span class="icon icon-pencil"></span>Edit Your List</h3>
+{% endif %}
     
     <form action="{{ path('suitcaseEdit') }}" method="POST" novalidate="novalidate">
         <ul>
+{% if is_granted('ROLE_NP') %}
             <li>
                 <div>
                     <label for="suitcase_event_name">Name of Event</label>
@@ -274,6 +290,15 @@
                     <input class="date" type="text" name="suitcase[event_date]" id="suitcase_event_date" value=""/>
                 </div>
             </li>
+{% endif %}
+{% if is_granted('ROLE_PARTNER') %}
+            <li>
+                <div>
+                    <label for="suitcase_event_name">Name of List</label>
+                    <input type="text" name="suitcase[event_name]" id="suitcase_event_name" value="" maxlength="40"/>
+                </div>
+            </li>
+{% endif %}
             <li>
                 <div>
                     <input type="hidden" name="suitcase[id]" id="suitcase_id" value=""/>
@@ -286,7 +311,13 @@
 
 <div id="delete-suitcase-modal" style="display:none;">
     <h3>Sure You Want to Delete This?</h3>
+{% if is_granted('ROLE_NP') %}
     <p>Are you certain you want to delete this suitcase? All information associated with this suitcase will be lost and cannot be recovered.</p>
     <button data-id="">Delete Suitcase</button>
+{% endif %}
+{% if is_granted('ROLE_PARTNER') %}
+    <p>Are you certain you want to delete this list? All information associated with this list will be lost and cannot be recovered.</p>
+    <button data-id="">Delete List</button>
+{% endif %}
 </div>
 {% endblock %}

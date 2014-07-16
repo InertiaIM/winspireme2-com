@@ -20,12 +20,21 @@
             <div class="the-panel suitcase-list">
                 <ul class="suitcases">
 {% for suitcase in suitcaseList %}
+{%     if is_granted('ROLE_NP') %}
                     <li{% if sid == suitcase.id %} class="current"{% endif %} data-id="{{ suitcase.id }}">
                         <a href="{{ path('suitcaseSwitch') ~ '?sid=' ~ suitcase.id }}">
                             <span class="name">{{ suitcase.name }}</span>
                             <span class="status {{ suitcase.raw }}">{{ suitcase.status }}</span>
                         </a>
                     </li>
+{%     endif %}
+{%     if is_granted('ROLE_PARTNER') %}
+                    <li{% if sid == suitcase.id %} class="current"{% endif %} data-id="{{ suitcase.id }}">
+                        <a href="{{ path('suitcaseSwitch') ~ '?sid=' ~ suitcase.id }}">
+                            <span class="name">{{ suitcase.name }}</span>
+                        </a>
+                    </li>
+{%     endif %}
 {% endfor %}
                 </ul>
                 <hr/>
@@ -33,9 +42,16 @@
                     <li>
                         <a href="{{ path('fos_user_profile_show') }}"><em>my</em> Account</a>
                     </li>
+{% if is_granted('ROLE_NP') %}
                     <li>
                         <a href="{{ path('fos_user_profile_show') }}"><em>my</em> Order History</a>
                     </li>
+{% endif %}
+{% if is_granted('ROLE_PARTNER') %}
+                    <li>
+                        <a href="{{ path('partnerList') }}">Client Suitcases</a>
+                    </li>
+{% endif %}
                     <li>
                         <a href="{{ path('fos_user_security_logout') }}">Log Out</a>
                     </li>

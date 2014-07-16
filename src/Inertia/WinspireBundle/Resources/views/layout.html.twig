@@ -83,7 +83,9 @@ var env = '/app_dev.php';
 {% if app.user and is_granted('ROLE_ADMIN') %}
                             <li><a href="{{ path('suitcaseAdmin') }}">Admin</a></li>
 {% endif %}
-
+{% if app.user and is_granted('ROLE_PARTNER') %}
+                            <li><a href="{{ path('partnerList') }}">Client Suitcases</a></li>
+{% endif %}
                         </ul>
                     </nav>
 				</div>

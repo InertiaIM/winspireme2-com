@@ -61,6 +61,7 @@ class SuitcaseSoapService
                 'Event_Date__c, ' .
                 'RecordTypeId, ' .
                 'PDS__Paid__c, ' .
+                'Partner_Class__c, ' .
                 'SystemModstamp ' .
                 'FROM Opportunity ' .
                 'WHERE ' .
@@ -74,7 +75,7 @@ class SuitcaseSoapService
             }
             
             
-            // Test whether this package is already in our database
+            // Test whether this suitcase is already in our database
             $suitcase = $this->em->getRepository('InertiaWinspireBundle:Suitcase')->findOneBySfId($id);
             
             if(!$suitcase) {
@@ -95,6 +96,10 @@ class SuitcaseSoapService
                 
                 if(isset($sfOpp->Event_Date__c)) {
                     $suitcase->setEventDate($sfOpp->Event_Date__c);
+                }
+                
+                if (isset($sfOpp->Partner_Class__c)) {
+                    $suitcase->setSfPartner($sfOpp->Partner_Class__c);
                 }
                 
                 // If the Suitcase isn't already marked as "paid" (status = A)
