@@ -2351,14 +2351,14 @@ $(document).ready(function() {
     
     if ($('#fos_user_registration_form_account_country').length > 0 ) {
         if ($('#fos_user_registration_form_account_country').val() == 'US') {
-            $('#fos_user_registration_form_account_state option[value|="CA"]').remove();
+            $('#fos_user_registration_form_account_state option').remove();
             $(stateOptions).appendTo('#fos_user_registration_form_account_state');
         }
         else {
-            $('#fos_user_registration_form_account_state option[value|="US"]').remove();
+            $('#fos_user_registration_form_account_state option').remove();
             $(provinceOptions).appendTo('#fos_user_registration_form_account_state');
         }
-
+        
         stateSelectBox.refresh();
     }
     
