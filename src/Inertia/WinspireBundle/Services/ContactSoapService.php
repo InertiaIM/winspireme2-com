@@ -103,6 +103,7 @@ class ContactSoapService
                     $user->setEmail($sfContact->Email);
                     $user->setPassword($random);
                     $user->setType('P');
+                    $user->setNewsletter(false);
                     $user->setEnabled(true);
                     $user->addRole('ROLE_PARTNER');
                     $user->setCompany($account);
