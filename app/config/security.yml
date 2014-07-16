@@ -7,8 +7,8 @@ security:
         FOS\UserBundle\Model\UserInterface: sha512
 
     role_hierarchy:
-        ROLE_ADMIN:       ROLE_USER
-        ROLE_SUPER_ADMIN: [ ROLE_USER, ROLE_ADMIN, ROLE_ALLOWED_TO_SWITCH ]
+        ROLE_ADMIN:       ROLE_NP
+        ROLE_SUPER_ADMIN: [ ROLE_NP, ROLE_ADMIN, ROLE_ALLOWED_TO_SWITCH ]
 
     providers:
         fos_userbundle:
@@ -35,30 +35,31 @@ security:
                 domain:   '%session_domain%'
 
     access_control:
-        - { path: ^/account$, role: ROLE_USER }
-        - { path: ^/account/edit, role: ROLE_USER }
+        - { path: ^/account$, roles: [ROLE_NP, ROLE_PARTNER] }
+        - { path: ^/account/edit, roles: [ROLE_NP, ROLE_PARTNER] }
         - { path: ^/admin, role: ROLE_ADMIN }
         - { path: ^/admin/sf, role: ROLE_ADMIN }
-        - { path: ^/suitcase, role: ROLE_USER }
-        - { path: ^/suitcase/add, role: ROLE_USER }
-        - { path: ^/suitcase/create, role: ROLE_USER }
-        - { path: ^/suitcase/delete, role: ROLE_USER }
-        - { path: ^/suitcase/flag, role: ROLE_USER }
-        - { path: ^/suitcase/flags, role: ROLE_USER }
-        - { path: ^/suitcase/history, role: ROLE_USER }
-        - { path: ^/suitcase/invoice, role: ROLE_USER }
-        - { path: ^/suitcase/kill, role: ROLE_USER }
-        - { path: ^/suitcase/loa, role: ROLE_USER }
-        - { path: ^/suitcase/pack, role: ROLE_USER }
-        - { path: ^/suitcase/preview, role: ROLE_USER }
-        - { path: ^/suitcase/share, role: ROLE_USER }
-        - { path: ^/suitcase/reshare, role: ROLE_USER }
-        - { path: ^/suitcase/request-invoice, role: ROLE_USER }
-        - { path: ^/suitcase/preview-voucher, role: ROLE_USER }
-        - { path: ^/suitcase/send-voucher, role: ROLE_USER }
-        - { path: ^/suitcase/switch, role: ROLE_USER }
-        - { path: ^/suitcase/update-booking, role: ROLE_USER }
-        - { path: ^/suitcase/update-qty, role: ROLE_USER }
-        - { path: ^/suitcase/update-price, role: ROLE_USER }
+        - { path: ^/partner, role: ROLE_PARTNER }
+        - { path: ^/suitcase, roles: [ROLE_NP, ROLE_PARTNER] }
+        - { path: ^/suitcase/add, roles: [ROLE_NP, ROLE_PARTNER] }
+        - { path: ^/suitcase/create, roles: [ROLE_NP, ROLE_PARTNER] }
+        - { path: ^/suitcase/delete, roles: [ROLE_NP, ROLE_PARTNER] }
+        - { path: ^/suitcase/flag, role: ROLE_NP }
+        - { path: ^/suitcase/flags, role: ROLE_NP }
+        - { path: ^/suitcase/history, role: ROLE_NP }
+        - { path: ^/suitcase/invoice, role: ROLE_NP }
+        - { path: ^/suitcase/kill, roles: [ROLE_NP, ROLE_PARTNER] }
+        - { path: ^/suitcase/loa, role: ROLE_NP }
+        - { path: ^/suitcase/pack, role: ROLE_NP }
+        - { path: ^/suitcase/preview, role: ROLE_NP }
+        - { path: ^/suitcase/share, roles: [ROLE_NP, ROLE_PARTNER] }
+        - { path: ^/suitcase/reshare, roles: [ROLE_NP, ROLE_PARTNER] }
+        - { path: ^/suitcase/request-invoice, role: ROLE_NP }
+        - { path: ^/suitcase/preview-voucher, role: ROLE_NP }
+        - { path: ^/suitcase/send-voucher, role: ROLE_NP }
+        - { path: ^/suitcase/switch, roles: [ROLE_NP, ROLE_PARTNER] }
+        - { path: ^/suitcase/update-booking, role: ROLE_NP }
+        - { path: ^/suitcase/update-qty, role: ROLE_NP }
+        - { path: ^/suitcase/update-price, role: ROLE_NP }
         #- { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY, requires_channel: https }
         #- { path: ^/_internal/secure, roles: IS_AUTHENTICATED_ANONYMOUSLY, ip: 127.0.0.1 }

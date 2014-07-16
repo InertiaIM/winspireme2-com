@@ -143,37 +143,64 @@ class SuitcaseController extends Controller
             $response = new JsonResponse();
         }
         
-        
+        $sc = $this->get('security.context');
         $session = $request->getSession();
         $em = $this->getDoctrine()->getManager();
         $formFactory = $this->get('form.factory');
         
         $form = $formFactory->createNamed('suitcase', 'form', null, array('csrf_protection' => false));
-        $form->add(
-            $formFactory->createNamed('name', 'text', null,
-                array(
-                    'auto_initialize' => false,
-                    'constraints' => array(
-                        new NotBlank()
-                    ),
-                    'label' => 'Event Name',
-                    'mapped' => false
+
+        if ($sc->isGranted('ROLE_NP')) {
+            $form->add(
+                $formFactory->createNamed(
+                    'name',
+                    'text',
+                    null,
+                    array(
+                        'auto_initialize' => false,
+                        'constraints' => array(
+                            new NotBlank()
+                        ),
+                        'label' => 'Event Name',
+                        'mapped' => false
+                    )
                 )
-            )
-        );
+            );
+
+            $form->add(
+                $formFactory->createNamed(
+                    'date',
+                    'text',
+                    null,
+                    array(
+                        'auto_initialize' => false,
+                        'constraints' => array(
+                            new NotBlank()
+                        ),
+                        'label' => 'Event Date',
+                        'mapped' => false
+                    )
+                )
+            );
+        }
         
-        $form->add(
-            $formFactory->createNamed('date', 'text', null,
-                array(
-                    'auto_initialize' => false,
-                    'constraints' => array(
-                        new NotBlank()
-                    ),
-                    'label' => 'Event Date',
-                    'mapped' => false
+        if ($sc->isGranted('ROLE_PARTNER')) {
+            $form->add(
+                $formFactory->createNamed(
+                    'name',
+                    'text',
+                    null,
+                    array(
+                        'auto_initialize' => false,
+                        'constraints' => array(
+                            new NotBlank()
+                        ),
+                        'label' => 'List Name',
+                        'mapped' => false
+                    )
                 )
-            )
-        );
+            );
+        }
         
         $form->add(
             $formFactory->createNamed('package', 'hidden', null,
@@ -191,7 +218,7 @@ class SuitcaseController extends Controller
         if ($request->isMethod('POST')) {
             $form->bind($request);
             if ($form->isValid()) {
-                if($this->get('security.context')->isGranted('ROLE_ADMIN')) {
+                if($sc->isGranted('ROLE_ADMIN')) {
                     $uid = $session->get('uid');
                     
                     if ($uid) {
@@ -216,7 +243,9 @@ class SuitcaseController extends Controller
                 $suitcase->setDirty(true);
                 $suitcase->setName($form->get('name')->getData());
                 $suitcase->setEventName(substr($form->get('name')->getData(), 0, 40));
-                $suitcase->setEventDate(new \DateTime($form->get('date')->getData()));
+                if ($sc->isGranted('ROLE_NP')) {
+                    $suitcase->setEventDate(new \DateTime($form->get('date')->getData()));
+                }
                 $suitcase->setUser($user);
                 
                 if($form->get('package')->getData() != '') {

@@ -49,6 +49,12 @@ packageDetail:
     requirements:
         _scheme:  http
     
+partnerList:
+    pattern:  /partner/list
+    defaults: { _controller: InertiaWinspireBundle:Partner:list }
+    requirements:
+        _scheme:  http
+    
 suitcaseAdminSf:
     pattern:  /admin/sf
     defaults: { _controller: InertiaWinspireBundle:Suitcase:adminSf }

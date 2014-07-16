@@ -220,6 +220,7 @@ class AccountController extends Controller
                 // allowing a new account creation.
                 $user->setType('C');
                 $user->setEnabled(true);
+                $user->addRole('ROLE_NP');
                 $userManager->updateUser($user);
 
                 // TODO configure cascade persist to avoid the extra calls to the EM

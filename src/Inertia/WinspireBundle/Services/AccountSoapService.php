@@ -83,8 +83,7 @@ class AccountSoapService
             
             $a = $accountResult->first();
             
-            if ($a->RecordTypeId == $this->recordTypeId) {
-                // NON-PROFIT ACCOUNTS ***
+//            if ($a->RecordTypeId == $this->recordTypeId || $a->RecordTypeId == $this->partnerRecordTypeId) {
                 // Test whether this account is already in our database
                 $account = $this->em->getRepository('InertiaWinspireBundle:Account')->findOneBySfId($id);
                 
@@ -99,14 +98,22 @@ class AccountSoapService
                     $this->logger->info('Existing account (' . $id . ') to be updated');
                     $new = false;
                 }
-
+                
                 if ($new || (($a->SystemModstamp > $account->getSfUpdated())) && !$account->getDirty()) {
+                    
+                    if ($a->RecordTypeId == $this->partnerRecordTypeId) {
+                        $account->setType('P');
+                    }
+                    else {
+                        $account->setType('C');
+                    }
+                    
                     // ACCOUNT NAME
                     if (isset($a->Name)) {
                         $account->setName($a->Name);
                     }
                     $account->setNameCanonical($this->slugify($account->getName()));
-
+                    
                     // ACCOUNT ADDRESS
                     if (isset($a->BillingStreet)) {
                         $address = explode(chr(10), $a->BillingStreet);
@@ -115,17 +122,17 @@ class AccountSoapService
                             $account->setAddress2($address[1]);
                         }
                     }
-
+                    
                     // ACCOUNT CITY
                     if (isset($a->BillingCity)) {
                         $account->setCity($a->BillingCity);
                     }
-
+                    
                     // ACCOUNT STATE
                     if (isset($a->BillingState)) {
                         $account->setState($a->BillingState);
                     }
-
+                    
                     // ACCOUNT COUNTRY
                     if (isset($a->BillingCountry)) {
                         if (strtoupper($a->BillingCountry) == 'CA' || strtoupper($a->BillingCountry) == 'CANADA') {
@@ -141,55 +148,56 @@ class AccountSoapService
                     } else {
                         $account->setCountry('US');
                     }
-
+                    
                     // ACCOUNT ZIP
                     if (isset($a->BillingPostalCode)) {
                         $account->setZip($a->BillingPostalCode);
                     }
-
+                    
                     // ACCOUNT PHONE
                     if (isset($a->Phone)) {
                         $account->setPhone($a->Phone);
                     }
-
+                    
                     // ACCOUNT REFERRED
                     if (isset($a->Referred_by__c)) {
                         $account->setReferred($a->Referred_by__c);
                     }
-
+                    
                     // ACCOUNT OWNER
                     if (isset($a->OwnerId)) {
                         $query = $this->em->createQuery(
                             'SELECT u FROM InertiaWinspireBundle:User u WHERE u.sfId = :sfid'
                         )
                             ->setParameter('sfid', $a->OwnerId);
-
+                        
                         try {
                             $owner = $query->getSingleResult();
                             $this->logger->info('    Owner: ' . $owner->getEmail() . '...');
-
+                            
                             $previousOwner = $account->getSalesperson();
                             $account->setSalesperson($owner);
-
-                            if ($owner->getUsername(
-                                ) != 'confirmation@winspireme.com' && $previousOwner && ($previousOwner->getId(
-                                    ) != $owner->getId())
+                            
+                            if ($owner->getUsername() != 'confirmation@winspireme.com'
+                                && $previousOwner
+                                && $previousOwner->getId() != $owner->getId()
+                                && $a->RecordTypeId == $this->recordTypeId
                             ) {
                                 // Send the users an email introduction to their new EC
                                 foreach ($account->getUsers() as $user) {
                                     $name = $user->getFirstName() . ' ' .
                                         $user->getLastName();
-
+                                    
                                     $email = $user->getEmail();
-
+                                    
                                     $locale = strtolower($account->getCountry());
-
+                                    
                                     $salesperson = array(
                                         $user->getCompany()->getSalesperson()->getEmail() =>
                                             $user->getCompany()->getSalesperson()->getFirstName() . ' ' .
                                             $user->getCompany()->getSalesperson()->getLastName()
                                     );
-
+                                    
                                     $message = \Swift_Message::newInstance()
                                         ->setSubject('Introducing your Winspire Event Consultant')
                                         ->setReplyTo($salesperson)
@@ -234,21 +242,22 @@ class AccountSoapService
                     } else {
                         $this->logger->err('    Missing OwnerId?!?!');
                     }
-
+                    
                     $account->setSfId($id);
                     $account->setDirty(false);
-
+                    
                     $account->setSfUpdated($a->SystemModstamp);
                     $account->setUpdated($a->SystemModstamp);
-
+                    
                     $this->em->persist($account);
                     $this->em->flush();
-
+                    
                     $this->logger->info('Account saved...');
                 }
-            }
-            else {
-                // PARTNER ACCOUNTS ***
+            //}
+            
+            if ($a->RecordTypeId == $this->partnerRecordTypeId) {
+                // PARTNER ACCOUNTS ONLY ***
                 // Test whether this partner is already in our database
                 $partner = $this->em->getRepository('InertiaWinspireBundle:Partner')->findOneBySfId($id);
                 

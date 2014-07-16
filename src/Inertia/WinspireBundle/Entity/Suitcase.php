@@ -6,7 +6,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @ORM\Table(name="suitcase")
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="Inertia\WinspireBundle\Entity\SuitcaseRepository")
  */
 class Suitcase
 {
@@ -81,6 +81,11 @@ class Suitcase
      * @ORM\Column(name="sf_role_id", type="string", length=128, nullable=true)
      */
     private $sfContactRoleId;
+    
+    /**
+     * @ORM\Column(name="sf_partner_id", type="string", length=128, nullable=true)
+     */
+    private $sfPartnerId;
     
     /**
      * @var datetime $created
@@ -731,5 +736,42 @@ class Suitcase
     public function getUnpackedAt()
     {
         return $this->unpackedAt;
+    }
+    
+    /**
+     * Set sfPartnerId
+     *
+     * @param string $sfPartnerId
+     * @return Suitcase
+     */
+    public function setSfPartnerId($sfPartnerId)
+    {
+        $this->sfPartnerId = $sfPartnerId;
+    
+        return $this;
+    }
+
+    /**
+     * Get sfPartnerId
+     *
+     * @return string 
+     */
+    public function getSfPartnerId()
+    {
+        return $this->sfPartnerId;
+    }
+    
+    public function getTotalValue()
+    {
+        $temp = 0;
+        foreach ($this->items as $item) {
+            if ($item->getStatus() != 'X') {
+                $package = $item->getPackage();
+                $temp += $package->getCost();
+            }
+        }
+        
+        return $temp;
+
     }
 }

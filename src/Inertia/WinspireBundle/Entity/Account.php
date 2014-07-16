@@ -18,6 +18,11 @@ class Account
     private $id;
     
     /**
+     * @ORM\Column(name="type", type="string", length=1, nullable=true)
+     */
+    private $type;
+    
+    /**
      * @ORM\Column(name="name", type="string", length=256, nullable=true)
      */
     private $name;
@@ -563,5 +568,28 @@ class Account
     public function getSource()
     {
         return $this->source;
+    }
+
+    /**
+     * Set type
+     *
+     * @param string $type
+     * @return Account
+     */
+    public function setType($type)
+    {
+        $this->type = $type;
+    
+        return $this;
+    }
+
+    /**
+     * Get type
+     *
+     * @return string 
+     */
+    public function getType()
+    {
+        return $this->type;
     }
 }
