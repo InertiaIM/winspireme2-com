@@ -22,7 +22,7 @@ class ContactSoapService
     
     private $recordTypeId = '01270000000DVD5AAO';
     private $opportunityTypeId = '01270000000DVGnAAO';
-    private $partnerRecordId = '0017000000PKyUfAAL';
+    private $partnerRecordTypeId = '01270000000DVDFAA4';
     
     public function __construct(Client $salesforce, EntityManager $entityManager, Logger $logger, \Swift_Mailer $mailer, EngineInterface $templating, UserManager $userManager)
     {
@@ -95,24 +95,25 @@ class ContactSoapService
                         $this->sendForHelp($sfContact->Email);
                         continue;
                     }
-
+                    
                     $generator = new SecureRandom();
                     $random = $generator->nextBytes(10);
+                    
                     $user = $this->userManager->createUser();
                     $user->setUsername($sfContact->Email);
                     $user->setEmail($sfContact->Email);
-                    $user->setPassword($random);
+                    $user->setPlainPassword($random);
                     $user->setType('P');
                     $user->setNewsletter(false);
                     $user->setEnabled(true);
                     $user->addRole('ROLE_PARTNER');
                     $user->setCompany($account);
+                    $user->setSfId($sfContact->Id);
+                    $user->setDirty(false);
                     
                     $this->userManager->updateUser($user);
+                    $this->userManager->updatePassword($user);
                     $this->userManager->updateCanonicalFields($user);
-                    
-//                    $user = new User();
-//                    $user->setCreated($a->CreatedDate);
                 }
                 else {
                     continue;
@@ -226,6 +227,9 @@ class ContactSoapService
                     $user->setUsernameCanonical($c->canonicalize($sfContact->Email));
                 }
                 
+                $user->setUpdated($sfContact->SystemModstamp);
+                $user->setSfUpdated($sfContact->SystemModstamp);
+                
                 $this->em->persist($user);
             }
             
@@ -280,7 +284,7 @@ class ContactSoapService
             if(count($accountResult) > 0) {
                 $sfAccount = $accountResult->first();
                 
-                if ($sfAccount->RecordTypeId == $this->partnerRecordId) {
+                if ($sfAccount->RecordTypeId == $this->partnerRecordTypeId) {
                     // Create the Account, since it doesn't already exist here
                     $this->logger->info('New account (' . $id . ') to be added');
                     $account = new Account();

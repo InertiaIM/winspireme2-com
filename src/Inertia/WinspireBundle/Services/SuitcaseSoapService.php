@@ -99,7 +99,7 @@ class SuitcaseSoapService
                 }
                 
                 if (isset($sfOpp->Partner_Class__c)) {
-                    $suitcase->setSfPartner($sfOpp->Partner_Class__c);
+                    $suitcase->setSfPartnerId($sfOpp->Partner_Class__c);
                 }
                 
                 // If the Suitcase isn't already marked as "paid" (status = A)
