@@ -114,7 +114,6 @@ class CreateAccountConsumer implements ConsumerInterface
                                 $sfContact->LastName = $user->getLastName();
                                 $sfContact->Title = $user->getTitle();
                                 $sfContact->Phone = $user->getPhone();
-                                $sfContact->LeadSource = 'TBD';
                                 
                                 try {
                                     $this->sf->update(array($sfContact), 'Contact');
@@ -258,7 +257,6 @@ class CreateAccountConsumer implements ConsumerInterface
                                     $sfContact->LastName = $user->getLastName();
                                     $sfContact->Title = $user->getTitle();
                                     $sfContact->Phone = $user->getPhone();
-                                    $sfContact->LeadSource = 'TBD';
                                     
                                     try {
                                         $this->sf->update(array($sfContact), 'Contact');
@@ -340,31 +338,6 @@ class CreateAccountConsumer implements ConsumerInterface
             $this->em->persist($account);
             $this->em->flush();
         }
-        else {
-            $sfAccount = new \stdClass();
-            $sfAccount->Id = $account->getSfId();
-            $sfAccount->Event_Type_Unknown__c = true;
-            if ($suitcase->getEventDate() != '') {
-                $sfAccount->Event_Month_Unknown__c = $suitcase->getEventDate()->format('F');
-            }
-            else {
-                $temp = new \DateTime('+30 days');
-                $sfAccount->Event_Month_Unknown__c = $temp->format('F');
-            }
-            $sfAccount->Item_Use__c = 'Unknown';
-            
-            $saveResult = $this->sf->update(array($sfAccount), 'Account');
-            
-            if($saveResult[0]->success) {
-                $timestamp = new \DateTime();
-                $account->setSfId($saveResult[0]->id);
-                $account->setDirty(false);
-                $account->setSfUpdated($timestamp);
-                $account->setUpdated($timestamp);
-                $this->em->persist($account);
-                $this->em->flush();
-            }
-        }
         
         if ($user->getSfId() == '' && $account->getSfId() != '') {
             $sfContact = new \stdClass();
@@ -402,7 +375,6 @@ class CreateAccountConsumer implements ConsumerInterface
         if ($user->getSfId() != '' && $account->getSfId() != '') {
             $sfContact = new \stdClass();
             $sfContact->Id = $user->getSfId();
-            $sfContact->LeadSource = 'TBD';
             
             $saveResult = $this->sf->update(array($sfContact), 'Contact');
             
