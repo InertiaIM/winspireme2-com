@@ -1,0 +1,381 @@
+{% extends 'InertiaWinspireBundle:Page:display.html.twig' %}
+{% block title %}Nonprofit Fundraising Auction Winners | Winspire{% endblock %}
+{% block description %}Find out more about how to redeem your charity auction travel package through Winspire.{% endblock %}
+{% block style %}
+<style>
+#standard-page .page-content {
+    padding-top:0;
+}
+
+#standard-page .wrapper {
+    padding-top:38px;
+    padding-bottom:88px;
+    margin-top:0;
+    background:#f7f7f7;
+}
+
+.c-wrap {
+    z-index:0;
+}
+
+#standard-page .wrapper h1 {
+    font-size:24px;
+    line-height:24px;
+    color:#28466c;
+    margin:0;
+    padding:0;
+    border-bottom:1px dashed #d3d3d3;
+}
+
+.page-header {
+    position:relative;
+}
+
+#standard-page .page-header p {
+    font-size:12px;
+    font-weight:bold;
+    line-height:100%;
+    color:#777777;
+    text-align:right;
+    position:absolute;
+    bottom:4px;
+    right:0;
+    margin:0;
+    padding:0;
+}
+
+#standard-page .page-header p a {
+    text-decoration:none;
+    font-weight:normal;
+    color:#0578c8;
+}
+
+.banner {
+    position:relative;
+    width:696px;
+    height:113px;
+    border:2px solid #fff;
+    margin:34px 0 0 -52px;
+    padding:23px 270px 0 50px;
+    z-index:2;
+    background: rgb(106,146,196);
+    background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIwJSIgeTI9IjEwMCUiPgogICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iIzZhOTJjNCIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiMwMDVkOWYiIHN0b3Atb3BhY2l0eT0iMSIvPgogIDwvbGluZWFyR3JhZGllbnQ+CiAgPHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjEiIGhlaWdodD0iMSIgZmlsbD0idXJsKCNncmFkLXVjZ2ctZ2VuZXJhdGVkKSIgLz4KPC9zdmc+);
+    background: -moz-linear-gradient(top,  rgba(106,146,196,1) 0%, rgba(0,93,159,1) 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(106,146,196,1)), color-stop(100%,rgba(0,93,159,1)));
+    background: -webkit-linear-gradient(top,  rgba(106,146,196,1) 0%,rgba(0,93,159,1) 100%);
+    background: -o-linear-gradient(top,  rgba(106,146,196,1) 0%,rgba(0,93,159,1) 100%);
+    background: -ms-linear-gradient(top,  rgba(106,146,196,1) 0%,rgba(0,93,159,1) 100%);
+    background: linear-gradient(to bottom,  rgba(106,146,196,1) 0%,rgba(0,93,159,1) 100%);
+    
+    -webkit-box-shadow:  0px 1px 1px 0px rgba(0, 0, 0, 0.5);
+    box-shadow:  0px 1px 1px 0px rgba(0, 0, 0, 0.5);
+}
+
+.banner img {
+    display:block;
+    position:absolute;
+    width:208px;
+    height:297px;
+    bottom:-142px;
+    right:42px;
+}
+
+.banner:before,
+.banner:after {
+    display:block;
+    position:absolute;
+    content:'';
+    bottom:-12px;
+    left:-2px;
+    width:10px;
+    height:10px;
+    background:url(/uploads/pages/winning-bidders/fold.png) no-repeat;
+    background-size:20px 10px;
+}
+
+.banner:after {
+    left:auto;
+    right:-2px;
+    background-position:-10px;
+}
+
+#standard-page .banner h2 {
+    font-size:36px;
+    line-height:100%;
+    color:#ffe988;
+    margin:0 0 9px 0;
+    padding:0;
+    text-shadow: 0px -1px 0px rgba(0, 0, 0, 0.5);
+}
+
+#standard-page .banner p {
+    font-size:18px;
+    color:#fff;
+    line-height:120%;
+    margin:0;
+    padding:0;
+}
+
+.wrap {
+    position:relative;
+    z-index:0;
+}
+
+.wrap:before {
+    content:'';
+    display:block;
+    clear:both;
+    visibility:hidden;
+    height:0;
+    font-size:0;    
+}
+
+.content3 {
+    position:relative;
+    padding:46px 37px 40px 37px;
+    border-left:2px solid #fff;
+    border-right:2px solid #fff;
+    border-bottom:2px solid #fff;
+    background:#f7f7f7;
+    -webkit-box-shadow:  0px 2px 1px 0px rgba(0, 0, 0, 0.4);
+    box-shadow:  0px 2px 1px 0px rgba(0, 0, 0, 0.4);
+}
+
+.content3:after {
+    content:'';
+    position:absolute;
+    z-index:-2;
+    -webkit-box-shadow:0 0 20px rgba(0,0,0,0.4);
+    -moz-box-shadow:0 0 20px rgba(0,0,0,0.4);
+    box-shadow:0 0 20px rgba(0,0,0,0.4);
+    top:0;
+    bottom:50%;
+    left:275px;
+    right:50px;
+    -moz-border-radius:100px / 10px;
+    border-radius:100px / 10px;
+}
+
+#standard-page .content3 h3 {
+    font-size:24px;
+    color:#d18000;
+    line-height:30px;
+    border-bottom:1px dashed #d9d9d9;
+    margin:0 0 19px 0;
+    padding:0;
+}
+
+#standard-page .content3 li h4 {
+    font-family:"ArchitectsDaughter";
+    font-size:18px;
+    line-height:100%;
+    font-weight:normal;
+    font-style:normal;
+    color:#777777;
+    padding:0;
+    margin:24px 0;
+}
+
+#standard-page .content3 ul li.q {
+    cursor:pointer;
+}
+
+#standard-page .content3 ul li.q:before {
+    font-family: 'icomoon';
+    speak: none;
+    font-style: normal;
+    font-weight: normal;
+    font-variant: normal;
+    text-transform: none;
+    line-height: 1;
+    -webkit-font-smoothing: antialiased;
+    font-size:24px;
+    line-height:20px;
+    color:#005695;
+    content: '\e006';
+    display:block;
+    position:absolute;
+    top:0;
+    left:0;
+}
+
+#standard-page .content3 ul li.q.open:before {
+    content: '\e008';
+}
+
+#standard-page .content3 ul li.q p {
+    font-size:16px;
+    line-height:20px;
+    font-weight:bold;
+    color:#005695;
+    margin:0 0 7px 0;
+    padding:0;
+}
+
+#standard-page .content3 ul li.q:hover p,
+#standard-page .content3 ul li.q:hover:before {
+    color:#0075ca;
+}
+
+#standard-page .content3 ul li.a p {
+    font-size:14px;
+    line-height:20px;
+    color:#565656;
+    margin:0 0 7px 0;
+    padding:0;
+}
+
+#standard-page .content3 ul li.a ul li {
+    font-size:14px;
+    line-height:20px;
+    color:#565656;
+    margin:0 0 3px 0;
+    padding:0;
+    list-style-type:circle;
+    list-style-position:inside;
+}
+
+.content3 ul {
+    padding:0 0 26px 0;
+}
+
+.content3 ul li {
+    position:relative;
+    list-style:none;
+    padding:0;
+    margin:0;
+}
+
+.content3 ul li ul {
+    padding:0;
+}
+
+.content3 ul li ul li {
+    padding:0 0 0 30px;
+    margin:0;
+}
+
+.content3 ul li ul li.a {
+    padding-bottom:15px;
+}
+
+.content3 ul li ul li a {
+    text-decoration:none;
+}
+
+#standard-page .page-footer {
+    margin:0 175px;
+    width:572px;
+    height:49px;
+    background:url(/uploads/pages/about-us/logo-small.png) no-repeat;
+    background-size:572px 49px;
+}
+</style>
+{% endblock %}
+{% block inside %}
+<div class="page-content">
+    <div class="c-wrap">
+        <div class="wrapper">
+            <div class="page-header">
+                <h1>Winning Bidders</h1>
+                
+            </div>
+            
+            <div class="banner">
+                <h2>Winning Bidder FAQs</h2>
+                
+                <p>Here are some of the most common questions we hear from our winning bidders. </p>
+                
+                <img src="/uploads/pages/winning-bidders/ribbon.png" width="208" height="297" alt=""/>
+            </div>
+            
+            <div class="wrap">
+				<div class="content3">
+					<h3>Redeeming Winspire Experiences</h3>
+					<ul>
+						<li>
+							<h4 id="cost">Booking Process</h4>
+							<ul>
+								<li id="q1" class="q">
+									<p>I won a trip at a recent fundraising event, how do I book it?</p>
+								</li>
+								<li class="a">
+									<p>You will receive an email voucher from the non-profit you purchased the trip from with a unique trip ID number and link to our redemption site. </p>
+									<p>If you do not yet have an email voucher we recommend you first follow-up with the non-profit.  If you need further assistance feel free to contact our office.  </p>
+								</li>
+								<li id="what-is-mysuitcase" class="q">
+									<p>I have my voucher, how to I begin the booking process?</p>
+								</li>
+								<li class="a">
+									<p>The first step in getting the booking process started is to submit your information and date request on the redemption site.  Please <a href="https://www.winspireme.com/redeem">Click Here</a> to submit your request. </p>
+								</li>
+								<li id="what-is-the-nonprofit-cost" class="q">
+									<p>How does the booking process work once I submit my information?</p>
+								</li>
+								<li class="a">
+									<p style="margin-bottom:15px;">Here is what you can expect once your information is submitted:</p>
+									<ul>
+										<li>One of our booking agents will be assigned your trip and personally contact you within the next 7 days.</li>
+										<li>Availability will be checked and reservations held for your requested dates <em>(turn-around time varies by trip / experience)</em>.</li>
+										<li>You will have the ability to bring up any other requests or questions you have regarding the trip.</li>
+										<li>Our agent will ask for your approval before finalizing any reservations.</li>
+										<li>Have an amazing experience!</li>
+									</ul>
+								</li>								
+							</ul>
+						</li>
+					</ul>
+					<h3>Experience Details</h3>
+					<ul>
+						<li>
+							<h4>Package Availability</h4>
+							<ul>
+								<li id="q4" class="q">
+									<p>Can you check availability for me before I submit my information on the redemption site?</p>
+								</li>
+								<li class="a">
+									<p>We do require you to complete the redemption form before we can check availability.  Because we have special partnerships with many of our travels vendors, the turn-around time to check availability can vary.  </p>
+								</li>
+								<li class="q">
+									<p>Does my trip have an expiration date?</p>
+								</li>
+								<li class="a">
+									<p>Your trip must be redeemed within one year from the non-profit event date when it was purchased.  Travel may take place beyond the one year mark as long as the trip is redeemed within one year. </p>
+								</li>
+								
+								<li class="q">
+									<p>Do I have to provide my credit card information?</p>
+								</li>
+								<li class="a">
+									<p>Yes, your credit card information will only be used to hold your hotel reservations.  Any other charges that you may be responsible for (such as airfare taxes) will not be charged until we have your approval. </p>
+								</li>
+							</ul>
+						</li>
+						<li>
+							<h4>Extras &#38; Add-Ons</h4>
+							<ul>
+								<li class="q">
+									<p>Can I add extra nights to the trip?</p>
+								</li>
+								<li class="a">
+									<p>Yes, our agents can assist with this during the booking process.  Please include specific details for your request in the “comments” section when completing the redemption form.</p>
+								</li>
+								<li class="q">
+									<p>Can I bring additional people on the trip?</p>
+								</li>
+								<li class="a">
+									<p>Yes, with a majority of our trips and experiences additional people can be added.  Our agents can assist with this during the booking process. Please include specific details for your request in the “comments” section when completing the redemption form.</p>
+								</li>
+							</ul>
+						</li>
+					</ul>
+				
+					<div class="page-footer">&nbsp;</div>
+				</div>
+			</div>
+            
+            
+        </div>
+    </div>
+</div>
+{% endblock %}
