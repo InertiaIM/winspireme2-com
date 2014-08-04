@@ -59,7 +59,7 @@ class SuitcaseController extends Controller
         
         if ($id == 'none') {
             $query = $em->createQuery(
-                'SELECT s, u, c, cm, sh FROM InertiaWinspireBundle:Suitcase s LEFT JOIN s.comments cm LEFT JOIN s.shares sh JOIN s.user u JOIN u.company c ORDER BY c.name ASC'
+                'SELECT s, p, u, c, cm, sh FROM InertiaWinspireBundle:Suitcase s LEFT JOIN s.comments cm LEFT JOIN s.shares sh LEFT JOIN s.partner p JOIN s.user u JOIN u.company c ORDER BY c.name ASC'
             );
             $suitcases = $query->getResult();
             

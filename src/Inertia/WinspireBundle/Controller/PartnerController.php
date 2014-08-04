@@ -82,7 +82,7 @@ class PartnerController extends Controller
         $qb->leftJoin('s.items', 'i', 'WITH', 'i.status != \'X\'');
         $qb->leftJoin('i.package', 'p');
         $qb->andWhere('s.sfPartnerId = :partner_id');
-        $qb->setParameter('partner_id', $user->getSfId());
+        $qb->setParameter('partner_id', $user->getCompany()->getSfId());
         
         $suitcases = $qb->getQuery()->getResult();
         

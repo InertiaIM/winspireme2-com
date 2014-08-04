@@ -45,7 +45,7 @@
                         <th data-sort="string" class="email"><a href="#">Email</a></th>
                         <th data-sort="int" class="date"><a href="#">Date</a></th>
                         <th data-sort="string" class="state"><a href="#">S</a></th>
-                        <th data-sort="string" class="phone"><a href="#">Phone</a></th>
+                        <th data-sort="string" class="partner"><a href="#">Partner</a></th>
                         <th data-sort="string" class="sfid"><a href="#">Opportunity ID</a></th>
                         <th data-sort="string" class="status"><a href="#">Status</a></th>
                         <th class="status-color">&nbsp;</th>
@@ -61,7 +61,7 @@
 {%     for suitcase in suitcases %}
                     <tr {% if app.user.id != suitcase.user.company.salesperson.id %}style="display:none;" {% endif %}class="suitcase{% if (loop.index % 2) == 0 %} even{% endif %}" data-name="{{ suitcase.eventName }}" data-id="{{ suitcase.id }}" data-user-id="{{ suitcase.user.company.salesperson.id }}" data-status="{{ suitcase.status }}" data-search="{{ suitcase.eventName | lower }}~{{ suitcase.user.company.name | lower }}~{{ suitcase.user.emailCanonical }}">
 <!-- run the td elements together to prevent IE9 from behaving badly -->
-<td class="cname" data-sort-value="{{ suitcase.user.company.name | lower }}" title="{{ suitcase.user.company.name }}">{{ suitcase.user.company.name }}</td><td class="name" data-sort-value="{{ suitcase.eventName | lower }}" title="{{ suitcase.eventName }}">{{ suitcase.eventName }}</td><td class="email" title="{{ suitcase.user.emailCanonical }}">{{ suitcase.user.emailCanonical }}</td><td class="date" data-sort-value="{{ suitcase.eventDate != '' ? suitcase.eventDate | date('Ymd') : '99999999' }}">{{ suitcase.eventDate != '' ? suitcase.eventDate | date('m/d/y') : 'N/A' }}</td><td class="state" data-sort-value="{{ suitcase.user.company.state | upper }}">{{ suitcase.user.company.state | upper }}</td><td class="phone" title="{{ suitcase.user.company.phone }}">{% if suitcase.user.company.phone != '' %}{{ suitcase.user.company.phone }}{% else %}&nbsp;{% endif %}</td><td class="sfid">
+<td class="cname" data-sort-value="{{ suitcase.user.company.name | lower }}" title="{{ suitcase.user.company.name }}">{{ suitcase.user.company.name }}</td><td class="name" data-sort-value="{{ suitcase.eventName | lower }}" title="{{ suitcase.eventName }}">{{ suitcase.eventName }}</td><td class="email" title="{{ suitcase.user.emailCanonical }}">{{ suitcase.user.emailCanonical }}</td><td class="date" data-sort-value="{{ suitcase.eventDate != '' ? suitcase.eventDate | date('Ymd') : '99999999' }}">{{ suitcase.eventDate != '' ? suitcase.eventDate | date('m/d/y') : 'N/A' }}</td><td class="state" data-sort-value="{{ suitcase.user.company.state | upper }}">{{ suitcase.user.company.state | upper }}</td><td class="partner" data-sort-value="{% if suitcase.partner %}{{ suitcase.partner.name | lower }}{% endif %}" title="{% if suitcase.partner %}{{ suitcase.partner.name }}{% endif %}">{% if suitcase.partner %}{{ suitcase.partner.name }}{% else %}&nbsp;{% endif %}</td><td class="sfid">
                             <span class="value{% if (suitcase.status != 'U') %} disabled{% endif %}">{% if suitcase.sfId %}{{ suitcase.sfId }}{% else %}&nbsp;{% endif %}</span>
 {% if (suitcase.status == 'U') %}
                             <span class="form"><input maxlength="18" size="18" type="text" name="sf_id" id="sf_id_{{ suitcase.id }}" data-id="{{ suitcase.id }}" value="{{ suitcase.sfId }}"/></span>

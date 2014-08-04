@@ -135,6 +135,13 @@ class Suitcase
     protected $comments;
     
     /**
+     * @ORM\ManyToOne(targetEntity="Account", inversedBy="suitcaserefs")
+     * @ORM\JoinColumn(name="sf_partner_id", referencedColumnName="sf_id")
+     */
+    protected $partner;
+    
+    
+    /**
      * Constructor
      */
     public function __construct()
@@ -761,17 +768,63 @@ class Suitcase
         return $this->sfPartnerId;
     }
     
+    public function getTotalQty()
+    {
+        $temp = 0;
+        foreach ($this->items as $item) {
+            if ($item->getStatus() != 'X') {
+                // If the Suitcase is Packed/Unpacked, we don't know the actual qty
+                if ($this->getStatus() == 'U' || $this->getStatus() == 'P') {
+                    $temp++;
+                }
+                else {
+                    $temp += $item->getQuantity();
+                }
+            }
+        }
+        
+        return $temp;
+    }
+    
     public function getTotalValue()
     {
         $temp = 0;
         foreach ($this->items as $item) {
             if ($item->getStatus() != 'X') {
-                $package = $item->getPackage();
-                $temp += $package->getCost();
+                // If the Suitcase is Packed/Unpacked, we don't know the actual cost
+                if ($this->getStatus() == 'U' || $this->getStatus() == 'P') {
+                    $package = $item->getPackage();
+                    $temp += $package->getCost();
+                }
+                else {
+                    $temp += $item->getSubtotal();
+                }
             }
         }
         
         return $temp;
+    }
 
+    /**
+     * Set partner
+     *
+     * @param \Inertia\WinspireBundle\Entity\Account $partner
+     * @return Suitcase
+     */
+    public function setPartner(\Inertia\WinspireBundle\Entity\Account $partner = null)
+    {
+        $this->partner = $partner;
+    
+        return $this;
+    }
+
+    /**
+     * Get partner
+     *
+     * @return \Inertia\WinspireBundle\Entity\Account 
+     */
+    public function getPartner()
+    {
+        return $this->partner;
     }
 }
