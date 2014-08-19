@@ -99,7 +99,7 @@ class PartnerController extends Controller
         $query = $em->createQuery(
             'SELECT s, i FROM InertiaWinspireBundle:Suitcase s LEFT JOIN s.items i WITH i.status != \'X\' WHERE s.sfPartnerId = :partnerId AND s.id = :id'
         )
-            ->setParameter('partnerId', $partner->getSfId())
+            ->setParameter('partnerId', $partner->getCompany()->getSfId())
             ->setParameter('id', $id)
         ;
         
