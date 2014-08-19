@@ -256,7 +256,56 @@ redirect 301 /winspiredtraveler http://you.winspireme.com/winspired-traveler
 redirect 301 /job-opening-corporate-sport-entertainment-event-manager http://blog.winspireme.com
 redirect 301 /job-opening-winspire-sales-consultant http://blog.winspireme.com
 redirect 301 /subscribe http://you.winspireme.com/subscribe-to-winspire-news
-
+redirect 301 /package/private-napa-estate-wine-olive-oil-tasting http://www.winspireme.com/packages/Napa-Valley-Wine-Experience-Ideas-for-Charity-Auctions
+redirect 301 /package/le-cordon-bleu-ottawa-canada http://www.winspireme.com/packages/Canada-Travel-Attractions-Fundraising-Packages
+redirect 301 /package/the-cosmopolitan-las-vegas-vip http://www.winspireme.com/packages/Vegas-Shows-Ticket-Packages-for-Charity-Auctions
+redirect 301 /package/ultimate-hawaiian-eco-adventure http://www.winspireme.com/packages/Domestic-Travel-Non-profit-Fundraising-Packages
+redirect 301 /package/explore-italy http://www.winspireme.com/packages/Europe-Travel-Experience-Fundraising-Ideas-for-Non-Profits
+redirect 301 /package/saint-kitts-island-getaway http://www.winspireme.com/packages/Caribbean-Adventure-Auction-Ideas-for-Charity
+redirect 301 /package/house-of-blues-foundation-room http://www.winspireme.com/packages/Music-Lovers-Adventure-Auction-Ideas-for-Charity
+redirect 301 /package/ultimate-boston-red-sox-vip-experience http://www.winspireme.com/packages/Nonprofit-Fundraiser-Sports-Experience-Packages
+redirect 301 /package/samuel-adams-brewery-private-tour http://www.winspireme.com/packages/Food-Wine-Unique-Auction-Items
+redirect 301 /package/fairmont-scottsdale-princess http://www.winspireme.com/packages/Domestic-Travel-Non-profit-Fundraising-Packages
+redirect 301 /package/girlfriends-sex-and-the-city-new-york-getaway http://www.winspireme.com/packages/Shopping-Fashion-Packages-for-Charity-Auctions
+redirect 301 /package/masters-golf-tournament http://www.winspireme.com/packages/Nonprofit-Fundraiser-Sports-Experience-Packages
+redirect 301 /package/golf-or-spa-napa-valley-getaway http://www.winspireme.com/packages/Nonprofit-Fundraiser-Sports-Experience-Packages
+redirect 301 /package/choose-your-four-seasons-us http://www.winspireme.com/packages/Domestic-Travel-Non-profit-Fundraising-Packages
+redirect 301 /package/the-kentucky-derby http://www.winspireme.com/packages/Nonprofit-Fundraiser-Sports-Experience-Packages
+redirect 301 /package/bloomingdales-new-york-shopping-spree http://www.winspireme.com/packages/Shopping-Fashion-Packages-for-Charity-Auctions
+redirect 301 /package/four-seasons-whistler-vancouver http://www.winspireme.com/packages/Canada-Travel-Attractions-Fundraising-Packages
+redirect 301 /package/australia-coastline-exploration http://www.winspireme.com/packages/Australia-New-Zealand-Travel-Auction-Packages
+redirect 301 /packages/fantasy/01t70000001Mr6DAAS http://www.winspireme.com/packages
+redirect 301 /package/southern-california-lifestyle-vip-experience http://www.winspireme.com/packages/VIP-Tour-Fundraiser-Items-for-Non-Profits
+redirect 301 /package/ritz-carltons-best-of-florida http://www.winspireme.com/packages/Domestic-Travel-Non-profit-Fundraising-Packages
+redirect 301 /package/guys-getaway-off-road-driving-experience http://www.winspireme.com/packages/Nonprofit-Fundraiser-Sports-Experience-Packages
+redirect 301 /packages/domestic_travel/01t70000001MeM9AAK http://www.winspireme.com/packages/Domestic-Travel-Non-profit-Fundraising-Packages
+redirect 301 /package/fairmont-chateau-lake-louise-ski-getaway http://www.winspireme.com/packages/Canada-Travel-Attractions-Fundraising-Packages
+redirect 301 /package/best-of-four-seasons-hawaii http://www.winspireme.com/packages/Domestic-Travel-Non-profit-Fundraising-Packages
+redirect 301 /package/hyatt-regency-miami http://www.winspireme.com/packages/Domestic-Travel-Non-profit-Fundraising-Packages
+redirect 301 /packages/%20 http://www.winspireme.com/packages/Domestic-Travel-Non-profit-Fundraising-Packages
+redirect 301 /packages/search http://www.winspireme.com/packages/Domestic-Travel-Non-profit-Fundraising-Packages
+redirect 301 /packages/package_details/01t70000003jpKXAAY http://www.winspireme.com/packages/Domestic-Travel-Non-profit-Fundraising-Packages
+redirect 301 /package/getaway-in-monterey http://www.winspireme.com/packages/Domestic-Travel-Non-profit-Fundraising-Packages
+redirect 301 /package/discover-fairmont-chicago http://www.winspireme.com/packages/Domestic-Travel-Non-profit-Fundraising-Packages
+redirect 301 /package/ritz-carltons-explore-europe http://www.winspireme.com/packages/Europe-Travel-Experience-Fundraising-Ideas-for-Non-Profits
+redirect 301 /package/choose-your-marriott-vacation-club-villa http://www.winspireme.com/packages/Domestic-Travel-Non-profit-Fundraising-Packages
+redirect 301 /packages/terms http://www.winspireme.com/terms
+redirect 301 /package/hotel-arts-barcelona http://www.winspireme.com/packages/Europe-Travel-Experience-Fundraising-Ideas-for-Non-Profits
+redirect 301 /package/cayman-islands-paradise http://www.winspireme.com/packages/Caribbean-Adventure-Auction-Ideas-for-Charity
+redirect 301 /package/renaissance-new-york-times-square http://www.winspireme.com/packages/Domestic-Travel-Non-profit-Fundraising-Packages
+redirect 301 /packages/no_riskCached http://www.winspireme.com/packages/Domestic-Travel-Non-profit-Fundraising-Packages
+redirect 301 /package_details/01t70000004OBtPAAW http://www.winspireme.com/packages/Domestic-Travel-Non-profit-Fundraising-Packages
+redirect 301 /packages/cart http://www.winspireme.com/packages/Domestic-Travel-Non-profit-Fundraising-Packages
+redirect 301 /packages/package_details/01t70000003jpIvAAI http://www.winspireme.com/packages/Domestic-Travel-Non-profit-Fundraising-Packages
+redirect 301 /packages/package_details/01t70000003jpKsAAI http://www.winspireme.com/packages/Domestic-Travel-Non-profit-Fundraising-Packages
+redirect 301 /packages/domestic_travel/01t70000001m5ATAAY http://www.winspireme.com/packages/Domestic-Travel-Non-profit-Fundraising-Packages
+redirect 301 /packages/privacy http://www.winspireme.com/privacy
+redirect 301 /packages/cruises/01t700000022cSIAAY http://www.winspireme.com/packages/Cruise-Vacations-Fundraising-Ideas
+redirect 301 /package_details/01t70000003jpPZAAY http://www.winspireme.com/packages/Domestic-Travel-Non-profit-Fundraising-Packages
+redirect 301 /packages/luxury_properties/01t700000014a9TAAQ http://www.winspireme.com/packages/Domestic-Travel-Non-profit-Fundraising-Packages
+redirect 301 /packages/family/01t700000012rD6AAI http://www.winspireme.com/packages/Domestic-Travel-Non-profit-Fundraising-Packages
+redirect 301 /package_details/01t70000003jpPmAAI http://www.winspireme.com/packages/Domestic-Travel-Non-profit-Fundraising-Packages
+redirect 301 /package/le-cordon-bleu-ottawa-canada http://www.winspireme.com/packages/Canada-Travel-Attractions-Fundraising-Packages
 
 <IfModule mod_rewrite.c>
     RewriteEngine On
