@@ -176,7 +176,9 @@ class CreateSuitcaseConsumer implements ConsumerInterface
         
         if ($suitcase->getSfId() == '' && $account->getSfId() != '') {
             $sfOpportunity = new \stdClass();
-            $sfOpportunity->CloseDate = new \DateTime($suitcase->getEventDate()->format('Y-m-d') . ' +30 days');
+            if ($suitcase->getEventDate()) {
+                $sfOpportunity->CloseDate = new \DateTime( $suitcase->getEventDate()->format( 'Y-m-d' ) . ' +30 days' );
+            }
             $sfOpportunity->Name = $suitcase->getName();
             $sfOpportunity->StageName = 'Counsel';
             $sfOpportunity->Website_suitcase_status__c = 'Unpacked';
