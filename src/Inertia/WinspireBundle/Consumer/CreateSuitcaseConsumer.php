@@ -179,11 +179,19 @@ class CreateSuitcaseConsumer implements ConsumerInterface
             if ($suitcase->getEventDate()) {
                 $sfOpportunity->CloseDate = new \DateTime( $suitcase->getEventDate()->format( 'Y-m-d' ) . ' +30 days' );
             }
+            else {
+                $sfOpportunity->CloseDate = new \DateTime('last day of December this year');
+            }
             $sfOpportunity->Name = $suitcase->getName();
             $sfOpportunity->StageName = 'Counsel';
             $sfOpportunity->Website_suitcase_status__c = 'Unpacked';
             $sfOpportunity->Event_Name__c = $suitcase->getName();
-            $sfOpportunity->Event_Date__c = $suitcase->getEventDate();
+            if ($suitcase->getEventDate()) {
+                $sfOpportunity->Event_Date__c = $suitcase->getEventDate();
+            }
+            else {
+                $sfOpportunity->Event_Date__c = new \DateTime('last day of December this year');
+            }
             $sfOpportunity->AccountId = $account->getSfId();
             $sfOpportunity->RecordTypeId = $this->opportunityTypeId;
             $sfOpportunity->LeadSource = 'TBD';
