@@ -1,5 +1,7 @@
 header {
     height: 190px;
+    background:#ffffff;
+    box-shadow: 0px 1px 5px rgba(100, 100, 100, 0.3);
 }
 
 header .c-wrap {
@@ -23,7 +25,7 @@ header .test-left {
 
 header .nav {
 	background:#ffffff;
-	padding:7px 0px;
+	padding: 0px;
     font-family: Arial,Helvetica,sans-serif;
     height: 100px;
 }
