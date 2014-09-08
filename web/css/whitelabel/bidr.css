@@ -12,7 +12,9 @@ header .c-wrap {
 }
 
 header .logo{
-    margin:10px 200px 10px 0px;
+    position:absolute;
+    top:0px;
+    left:0px;
 }
 
 header .test-left {
@@ -34,7 +36,7 @@ header .nav li {
     color: #676767;
     padding:0px;
     list-style: none;
-    float: left;
+    float:right;
     margin: 0px;
 }
 
