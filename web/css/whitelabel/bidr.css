@@ -25,7 +25,8 @@ header .nav {
 	background:#ffffff;
 	padding:7px 0px;
     font-family: Arial,Helvetica,sans-serif;
-    height: 27px;
+    height: 100px;
+    box-shadow: 0px 1px 5px rgba(100, 100, 100, 0.3);
 }
 
 header .nav li {
