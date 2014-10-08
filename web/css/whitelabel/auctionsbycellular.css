@@ -118,6 +118,14 @@ header .nav li a:hover {
 #lm-header h1 {
 	color: #fff;
 	padding: 40px;
+	text-align: center;
+	text-shadow: 0 1px 1px #000;
+}
+
+#lm-header p {
+	font-size: 1.8em;
+	line-height: 1.5;
+	font-family: 'Open Sans',"Trebuchet MS", Helvetica,sans-serif;
 }
 
 .learn-more .c-wrap {
