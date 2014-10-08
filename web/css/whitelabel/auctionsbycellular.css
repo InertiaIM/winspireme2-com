@@ -11,7 +11,6 @@ header .c-wrap {
 	-webkit-box-shadow: 0px 2px 2px rgba(50, 50, 50, 0.25);
 	-moz-box-shadow: 0px 2px 2px rgba(50, 50, 50, 0.25);
 	box-shadow: 0px 2px 2px rgba(50, 50, 50, 0.25);
-	margin-bottom: 20px;
     
 }
 
@@ -69,11 +68,10 @@ header .nav li a:hover {
 	background: linear-gradient(to bottom, #1565a4 50%,#0f4b7b 100%);
 }
 
-.c-wrap .main-content {        
-	height: 250px;	
+.c-wrap .main-content {        	
     background: url(/img/whitelabel/experience-catalog-banner-sm.png) no-repeat;
     background-position:right;
-	padding:40px 15px 60px;
+	padding:40px 15px 30px;
 	margin-bottom:20px;
 }
 
