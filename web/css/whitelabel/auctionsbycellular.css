@@ -106,7 +106,7 @@ header .nav li a:hover {
 
 #lm-header {
 	width:100%;
-	background: url('/img/whitelabel/auctionsbycellular/abc-bubble-background.png')
+	background: url('/img/whitelabel/auctionsbycellular/abc-bubble-background.png');
 	height:131px;
 }
 
