@@ -79,10 +79,9 @@ header .nav li a:hover {
 	display:block;
 	height:300px;
 	width:212px;
-	position:absolute;
-	top:10px;
-	right:50px;
-	background: url(/img/whitelabel/abc-travel-package-logo.png) no-repeat;
+	padding-right: 35px;
+	float:right;
+	background: url(/img/whitelabel/auctionsbycellular/abc-travel-package-logo.png) no-repeat;
 }
 
 #con-pl h1 {   
