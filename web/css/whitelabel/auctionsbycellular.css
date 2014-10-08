@@ -118,7 +118,7 @@ header .nav li a:hover {
 }
 
 .learn-more .c-wrap {
-	padding-top:40px;
+	padding:40px 0px 20px;
 }
 	
 .learn-more .c-wrap	h1 {
@@ -127,7 +127,8 @@ header .nav li a:hover {
 }
 	
 .learn-more .c-wrap	p {
-	font-size: 1.8em;
+	font-size: 16px;
+	text-align: center;
 	line-height: 1.5;
 	font-family: 'Open Sans',"Trebuchet MS", Helvetica,sans-serif;
 }
