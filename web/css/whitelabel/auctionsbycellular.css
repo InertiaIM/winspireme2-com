@@ -110,11 +110,6 @@ header .nav li a:hover {
 	height:131px;
 }
 
-#lm-header .lm-wrap {
-	width: 1040px;
-	margin; 0px auto;
-}
-
 #lm-header h1 {
 	color: #fff;
 	padding: 40px;
@@ -122,17 +117,8 @@ header .nav li a:hover {
 	text-shadow: 0 1px 1px #000;
 }
 
-#lm-header p {
-	font-size: 1.8em;
-	line-height: 1.5;
-	font-family: 'Open Sans',"Trebuchet MS", Helvetica,sans-serif;
-}
-
 .learn-more .c-wrap {
-	/*background: url(/img/whitelabel/experience-catalog-banner-sm-more.png) no-repeat;*/
-	background-position:right top;
-	height:200px;
-	padding-top:20px;
+	padding-top:40px;
 }
 	
 .learn-more .c-wrap	h1 {
@@ -141,7 +127,9 @@ header .nav li a:hover {
 }
 	
 .learn-more .c-wrap	p {
-	width:450px;
+	font-size: 1.8em;
+	line-height: 1.5;
+	font-family: 'Open Sans',"Trebuchet MS", Helvetica,sans-serif;
 }
 	
 .how-works .c-wrap h1 {
