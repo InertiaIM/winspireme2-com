@@ -69,7 +69,7 @@ header .nav li a:hover {
 }
 
 .c-wrap .main-content {        	
-    background: url(/img/whitelabel/experience-catalog-banner-sm.png) no-repeat;
+    /*background: url(/img/whitelabel/experience-catalog-banner-sm.png) no-repeat;*/
     background-position:right;
 	padding:40px 15px 30px;
 	margin-bottom:20px;
@@ -105,7 +105,7 @@ header .nav li a:hover {
 }
 
 .learn-more .c-wrap {
-	background: url(/img/whitelabel/experience-catalog-banner-sm-more.png) no-repeat;
+	/*background: url(/img/whitelabel/experience-catalog-banner-sm-more.png) no-repeat;*/
 	background-position:right top;
 	height:200px;
 	padding-top:20px;
@@ -133,11 +133,11 @@ header .nav li a:hover {
 /*-----END DEFAULT CONTENT-----*/
 
 footer {
+	background: #1565a4;
 
 }
 
 footer .c-wrap {
-   background: #ffffff;
     margin-top: 40px;
     padding:15px;
 }
@@ -148,7 +148,7 @@ footer .footerPanel {
 }
 
 footer .footerPanel strong a {
-    color: #676767;
+    color: #ffffff;
     display: block;
     font-size: 18px;
     font-weight: bold;
@@ -160,7 +160,7 @@ footer a,
 footer a:hover,
 footer a:active,
 footer a:visited {
-    color: #676767;
+    color: #4cb8ff;
     text-decoration: none;
 }
 
@@ -168,7 +168,7 @@ footer .btmtrm {
     margin-top: 8px;
     width: 100%;
     float: left;
-    border-top: 1px dotted #cccccc;
+    border-top: solid 1px rgba(0,0,0,.2);
 }
 
 footer .btmtrm li {
@@ -181,5 +181,5 @@ footer .btmtrm li {
     line-height: 25px;
     font-weight: normal;
     color: #676767;
-    border-right: 1px dotted #cccccc;
+    border-right: solid 1px rgba(0,0,0,.2);
 }
