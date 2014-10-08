@@ -100,6 +100,10 @@ header .nav li a:hover {
 	text-decoration: none;
 }
 
+.return-link {
+	padding: 15px 0px 0px;
+}
+
 .learn-more .c-wrap {
 	background: url(/img/whitelabel/experience-catalog-banner-sm-more.png) no-repeat;
 	background-position:right top;
