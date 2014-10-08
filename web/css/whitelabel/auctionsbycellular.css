@@ -25,6 +25,7 @@ header .nav {
 	background:#ffffff;
 	padding: 0px 20px 0px 0px;
     font-family: Arial,Helvetica,sans-serif;
+    margin:0px;
 }
 
 header .nav li {
@@ -46,6 +47,8 @@ header .nav li a {
 	border-bottom: none;
 	font-style: normal;
 	margin-left: 0;
+	text-decoration: none;
+	font-family: 'Open Sans',"Trebuchet MS", Helvetica,sans-serif;
 }
 
 header .nav li a:hover {
