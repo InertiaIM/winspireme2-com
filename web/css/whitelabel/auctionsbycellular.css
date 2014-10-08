@@ -76,15 +76,15 @@ header .nav li a:hover {
 	margin-bottom:20px;
 }
 
-.c-wrap .main-content h1 {   
+#con-pl h1 {   
 	width: 550px;
 	text-shadow: 0 -1px 0 #000;
-	color:#fff;
-	font-family: 'Montserrat', "Arial Black", "Arial Rounded MT Bold","Arial Bold", Gadget, sans-serif;
+	color:#ffffff;
 }
 
-.c-wrap .main-content h1 span {   
+#con-pl h1 span {   
 	color:#55b6f6;
+	display:block;
 }
 
 .c-wrap .main-content p {     
