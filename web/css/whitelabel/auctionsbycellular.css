@@ -58,7 +58,7 @@ header .nav li a:hover {
 
 /*-----DEFAULT CONTENT-----*/
 
-.pl-header {
+#pl-header {
 	background: #1565a4;
 	background: -moz-linear-gradient(top, #1565a4 50%, #0f4b7b 100%);
 	background: -webkit-gradient(linear, left top, left bottom, color-stop(50%,#1565a4), color-stop(100%,#0f4b7b));
