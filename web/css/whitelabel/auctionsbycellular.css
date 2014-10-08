@@ -110,6 +110,16 @@ header .nav li a:hover {
 	height:131px;
 }
 
+#lm-header .lm-wrap {
+	width: 1040px;
+	margin; 0px auto;
+}
+
+#lm-header h1 {
+	color: #fff;
+	padding: 40px;
+}
+
 .learn-more .c-wrap {
 	/*background: url(/img/whitelabel/experience-catalog-banner-sm-more.png) no-repeat;*/
 	background-position:right top;
