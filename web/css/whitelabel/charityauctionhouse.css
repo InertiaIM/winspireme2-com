@@ -49,7 +49,7 @@ header .nav li a:hover {
 /*-----DEFAULT CONTENT-----*/
 
 #pl-header {
-	background-image: url(https://s3.amazonaws.com/Winspire/red-curtain.jpg);
+	background-image: url(/img/whitelabel/charityauctionhouse/red-curtain.jpg);
 	background-size: cover;
 	background-position: center top;
 }
