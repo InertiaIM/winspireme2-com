@@ -52,13 +52,13 @@ header .nav li a:hover {
 /*-----DEFAULT CONTENT-----*/
 
 .curtains {
-	background-image: url('/img/whitelabel/charityauctionhouse/red-curtain.jpg');
+	background-image: url('/img/whitelabel/charityauctionhouse/red-curtain.png');
 	background-size: cover;
 	background-position: center top;
 }
 
 #pl-header {
-	background-image: url('/img/whitelabel/charityauctionhouse/red-curtain.jpg');
+	background-image: url('/img/whitelabel/charityauctionhouse/red-curtain.png');
 	background-size: cover;
 	background-position: center top;
 }
@@ -67,7 +67,6 @@ header .nav li a:hover {
     /*background: url(/img/whitelabel/experience-catalog-banner-sm.png) no-repeat;*/
     background-position:right;
 	padding: 59px 0px 20px 50px;
-	margin-bottom:20px;
 }
 
 .c-wrap .main-content img {
@@ -105,6 +104,11 @@ header .nav li a:hover {
 .c-wrap .main-content a {     
 	color:#55b6f6;
 	text-decoration: none;
+}
+
+#con-pl #pl-container {
+padding-top: 28px;
+border-top: 1px solid #f4f4f4;
 }
 
 .content .return-link {
