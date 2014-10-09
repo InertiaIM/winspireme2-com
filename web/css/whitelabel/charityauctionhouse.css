@@ -1,6 +1,6 @@
 header {    
 	padding: 30px 0 20px;
-	border-bottom: 1px solid #f4f4f4;
+	border-bottom: 1px solid #e8f7ff;
 	background-size: cover;
 	background: #fff;
 }
@@ -62,12 +62,12 @@ header .nav li a:hover {
 	background-image: url('/img/whitelabel/charityauctionhouse/red-curtain.png');
 	background-size: cover;
 	background-position: center top;
-	background-image: url('/img/whitelabel/charityauctionhouse/red-curtain.png'), -webkit-gradient(linear, left top, left bottom, from(#f4f4f4), to(#ffffff)); /* Saf4+, Chrome */
-	background-image: url('/img/whitelabel/charityauctionhouse/red-curtain.png'), -webkit-linear-gradient(top, #f4f4f4, #ffffff); /* Chrome 10+, Saf5.1+ */
-	background-image: url('/img/whitelabel/charityauctionhouse/red-curtain.png'),    -moz-linear-gradient(top, #f4f4f4, #ffffff); /* FF3.6+ */
-	background-image: url('/img/whitelabel/charityauctionhouse/red-curtain.png'),     -ms-linear-gradient(top, #f4f4f4, #ffffff); /* IE10 */
-	background-image: url('/img/whitelabel/charityauctionhouse/red-curtain.png'),      -o-linear-gradient(top, #f4f4f4, #ffffff); /* Opera 11.10+ */
-	background-image: url('/img/whitelabel/charityauctionhouse/red-curtain.png'),         linear-gradient(to bottom, #f4f4f4, #ffffff); /* W3C */
+	background-image: url('/img/whitelabel/charityauctionhouse/red-curtain.png'), -webkit-gradient(linear, left top, left bottom, from(#e8f7ff), to(#ffffff)); /* Saf4+, Chrome */
+	background-image: url('/img/whitelabel/charityauctionhouse/red-curtain.png'), -webkit-linear-gradient(top, #e8f7ff, #ffffff); /* Chrome 10+, Saf5.1+ */
+	background-image: url('/img/whitelabel/charityauctionhouse/red-curtain.png'),    -moz-linear-gradient(top, #e8f7ff, #ffffff); /* FF3.6+ */
+	background-image: url('/img/whitelabel/charityauctionhouse/red-curtain.png'),     -ms-linear-gradient(top, #e8f7ff, #ffffff); /* IE10 */
+	background-image: url('/img/whitelabel/charityauctionhouse/red-curtain.png'),      -o-linear-gradient(top, #e8f7ff, #ffffff); /* Opera 11.10+ */
+	background-image: url('/img/whitelabel/charityauctionhouse/red-curtain.png'),         linear-gradient(to bottom, #e8f7ff, #ffffff); /* W3C */
 }
 
 .c-wrap .main-content {        	
@@ -115,7 +115,7 @@ header .nav li a:hover {
 
 #con-pl #pl-container {
 padding-top: 28px;
-border-top: 1px solid #f4f4f4;
+border-top: 1px solid #e8f7ff;
 }
 
 .content .return-link {
@@ -172,7 +172,8 @@ border-top: 1px solid #f4f4f4;
 /*-----END DEFAULT CONTENT-----*/
 
 footer {
-	background: #e8e8e8;;
+	background: #e8e8e8;
+	padding-bottom: 20px;
 
 }
 
@@ -217,7 +218,6 @@ footer .btmtrm li {
     float: left;
     padding: 0px 10px;
 	margin-top: 10px;
-    font-family: Arial, Helvetica, sans-serif;
     font-size: 13px;
     line-height: 25px;
     font-weight: normal;
