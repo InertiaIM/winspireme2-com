@@ -48,8 +48,8 @@ header .nav li a:hover {
 
 /*-----DEFAULT CONTENT-----*/
 
-.container {
-	background-image: url(http://charityauctionhouse.com/wp-content/uploads/2014/08/Small-red-curtian-Charity-Auction-House.jpeg);
+#con-pl {
+	background-image: url(/img/whitelabel/charityauctionhouse/red-curtains.jpg);
 	background-size: cover;
 	background-position: center top;
 }
