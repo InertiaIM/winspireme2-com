@@ -107,15 +107,17 @@ header .nav li a:hover {
 
 #lm-header {
 	width:100%;
-	background: url('/img/whitelabel/auctionsbycellular/abc-bubble-background.png');
+	background: url('/img/whitelabel/charityauctionhouse/red-curtain.jpg');
 	height:131px;
 }
 
 #lm-header h1 {
-	color: #fff;
+	color: #222222;
 	padding: 40px;
 	text-align: center;
 	text-shadow: 0 1px 1px #000;
+	text-transform: uppercase;
+	font-family: 'Old Standard TT', serif;
 }
 
 .learn-more .c-wrap {
@@ -131,7 +133,7 @@ header .nav li a:hover {
 	font-size: 16px;
 	text-align: center;
 	line-height: 1.5;
-	font-family: 'Open Sans',"Trebuchet MS", Helvetica,sans-serif;
+	font-family: 'Arial',sans-serif;
 }
 	
 .how-works .c-wrap h1 {
