@@ -67,27 +67,31 @@ header .nav li a:hover {
 	width:212px;
 	padding-right: 35px;
 	float:right;
-	background: url(/img/whitelabel/auctionsbycellular/abc-travel-package-logo.png) no-repeat;
+	background: url(/img/whitelabel/charityauctionhouse/charity-auction-house-full.png) no-repeat;
 }
 
 #con-pl h1 {   
 	width: 550px;
 	text-shadow: 0 -1px 0 #000;
-	color:#ffffff;
+	color:#222222;
 	font-size: 40px;
 	margin-bottom:10px;
+	text-transform: uppercase;
+	font-family: 'Old Standard TT', serif;
 }
 
 #con-pl h1 span {   
-	color:#55b6f6;
+	color:#989898;
 	display:block;
 	font-size:55px;
 	line-height:60px;
+	text-transform: uppercase;
+	font-family: 'Old Standard TT', serif;
 }
 
 .c-wrap .main-content p {     
 	width:640px;
-	color:#fff;
+	color:#989898;
 }
 
 .c-wrap .main-content a {     
