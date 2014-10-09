@@ -67,7 +67,7 @@ header .nav li a:hover {
 	background-image: url('/img/whitelabel/charityauctionhouse/red-curtain.png'),    -moz-linear-gradient(top, #f4f4f4, #ffffff); /* FF3.6+ */
 	background-image: url('/img/whitelabel/charityauctionhouse/red-curtain.png'),     -ms-linear-gradient(top, #f4f4f4, #ffffff); /* IE10 */
 	background-image: url('/img/whitelabel/charityauctionhouse/red-curtain.png'),      -o-linear-gradient(top, #f4f4f4, #ffffff); /* Opera 11.10+ */
-	background-image: url('/img/whitelabel/charityauctionhouse/red-curtain.png'),         linear-gradient(to bottom, #6cab26, #ffffff); /* W3C */
+	background-image: url('/img/whitelabel/charityauctionhouse/red-curtain.png'),         linear-gradient(to bottom, #f4f4f4, #ffffff); /* W3C */
 }
 
 .c-wrap .main-content {        	
@@ -156,6 +156,7 @@ border-top: 1px solid #f4f4f4;
 	text-align: center;
 	line-height: 1.5;
 	font-family: 'Arial',sans-serif;
+	color:#color:#989898;
 }
 	
 .how-works .c-wrap h1 {
