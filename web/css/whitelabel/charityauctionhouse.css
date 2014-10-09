@@ -52,7 +52,7 @@ header .nav li a:hover {
 /*-----DEFAULT CONTENT-----*/
 
 #pl-header {
-	background-image: url(/img/whitelabel/charityauctionhouse/red-curtain.jpg);
+	background-image: url('/img/whitelabel/charityauctionhouse/red-curtain.jpg');
 	background-size: cover;
 	background-position: center top;
 }
@@ -105,9 +105,14 @@ header .nav li a:hover {
 	padding: 15px 0px 0px;
 }
 
+.learn-more {
+	background-image: url('/img/whitelabel/charityauctionhouse/red-curtain.jpg');
+	background-size: cover;
+	background-position: center top;
+}
+
 #lm-header {
 	width:100%;
-	background: url('/img/whitelabel/charityauctionhouse/red-curtain.jpg');
 	height:131px;
 }
 
