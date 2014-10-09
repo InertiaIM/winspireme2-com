@@ -49,6 +49,7 @@ var env = '/app_dev.php';
             {% include 'InertiaWinspireBundle:Whitelabel/' ~ app.request.get('subdomain') ~':header.html.twig' ignore missing %}
         </header>
         <div class="content">
+        	<div class="curtains">
 {% if app.request.get('_route') != 'whitelabel_home' %}
             <div class="return-link">
                 <a href="{{ path('whitelabel_home', {subdomain: app.request.get('subdomain')}) }}">
@@ -57,6 +58,7 @@ var env = '/app_dev.php';
             </div>
 {% endif %}
             {% block content %} {% endblock %}
+            </div>
         </div>
         <footer>
             {% include 'InertiaWinspireBundle:Whitelabel/' ~ app.request.get('subdomain') ~ ':footer.html.twig' ignore missing %}
