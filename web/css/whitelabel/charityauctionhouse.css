@@ -60,16 +60,16 @@ header .nav li a:hover {
 .c-wrap .main-content {        	
     /*background: url(/img/whitelabel/experience-catalog-banner-sm.png) no-repeat;*/
     background-position:right;
-	padding:40px 15px 30px;
+	padding: 59px 0px 20px 50px;
 	margin-bottom:20px;
 }
 
 .c-wrap .main-content img {
 	display:block;
-	height:250px;
-	width:276px;
-	padding-right: 35px;
+	height:220px;
+	width:243px;
 	float:right;
+	padding-right:30px;
 }
 
 #con-pl h1 {   
@@ -92,7 +92,7 @@ header .nav li a:hover {
 }
 
 .c-wrap .main-content p {     
-	width:640px;
+	width:600px;
 	color:#989898;
 }
 
