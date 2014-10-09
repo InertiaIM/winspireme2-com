@@ -1,4 +1,8 @@
 header {    
+	padding: 30px 0 20px;
+	border-bottom: 1px solid #f4f4f4;
+	background-size: cover;
+	background: #fff;
 }
 
 header .c-wrap {
@@ -6,7 +10,6 @@ header .c-wrap {
     text-align:center;
 	z-index: 100;
 	background: white;
-	padding: 20px 0px 0px;
     
 }
 
@@ -18,7 +21,7 @@ header .nav {
 	background:#ffffff;
 	padding: 0px 20px 0px 0px;
     font-family: Arial,Helvetica,sans-serif;
-    margin:20px 0px;
+    margin:20px 0px 0px;
 }
 
 header .nav li {
