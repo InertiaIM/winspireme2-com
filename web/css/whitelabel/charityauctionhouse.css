@@ -52,16 +52,9 @@ header .nav li a:hover {
 /*-----DEFAULT CONTENT-----*/
 
 .curtains {
-	background: #fff;
 	background-image: url('/img/whitelabel/charityauctionhouse/red-curtain.png');
 	background-size: cover;
 	background-position: center top;
-	background-image: url('/img/whitelabel/charityauctionhouse/red-curtain.png'), -webkit-gradient(linear, left top, left bottom, from(#e8f7ff), to(#ffffff)); /* Saf4+, Chrome */
-	background-image: url('/img/whitelabel/charityauctionhouse/red-curtain.png'), -webkit-linear-gradient(top, #e8f7ff, #ffffff); /* Chrome 10+, Saf5.1+ */
-	background-image: url('/img/whitelabel/charityauctionhouse/red-curtain.png'),    -moz-linear-gradient(top, #e8f7ff, #ffffff); /* FF3.6+ */
-	background-image: url('/img/whitelabel/charityauctionhouse/red-curtain.png'),     -ms-linear-gradient(top, #e8f7ff, #ffffff); /* IE10 */
-	background-image: url('/img/whitelabel/charityauctionhouse/red-curtain.png'),      -o-linear-gradient(top, #e8f7ff, #ffffff); /* Opera 11.10+ */
-	background-image: url('/img/whitelabel/charityauctionhouse/red-curtain.png'),         linear-gradient(to bottom, #e8f7ff, #ffffff); /* W3C */
 }
 
 #pl-header {
