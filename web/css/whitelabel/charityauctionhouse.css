@@ -61,10 +61,10 @@ header .nav li a:hover {
 	margin-bottom:20px;
 }
 
-.abc-img {
+.c-wrap .main-content img {
 	display:block;
-	height:300px;
-	width:212px;
+	height:250px;
+	width:276px;
 	padding-right: 35px;
 	float:right;
 	background: url(/img/whitelabel/charityauctionhouse/charity-auction-house-full.png) no-repeat;
