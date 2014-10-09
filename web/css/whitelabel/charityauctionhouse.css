@@ -57,11 +57,11 @@ header .nav li a:hover {
 	background-position: center top;
 }
 
-/*#pl-header {
+#pl-header {
 	background-image: url('/img/whitelabel/charityauctionhouse/red-curtain.jpg');
 	background-size: cover;
 	background-position: center top;
-}*/
+}
 
 .c-wrap .main-content {        	
     /*background: url(/img/whitelabel/experience-catalog-banner-sm.png) no-repeat;*/
@@ -111,11 +111,11 @@ header .nav li a:hover {
 	padding: 15px 0px 0px;
 }
 
-.learn-more {
+/*.learn-more {
 	background-image: url('/img/whitelabel/charityauctionhouse/red-curtain.jpg');
 	background-size: cover;
 	background-position: center top;
-}
+}*/
 
 #lm-header {
 	width:100%;
