@@ -48,7 +48,7 @@ header .nav li a:hover {
 
 /*-----DEFAULT CONTENT-----*/
 
-#pl-header {
+.container {
 	background-image: url(http://charityauctionhouse.com/wp-content/uploads/2014/08/Small-red-curtian-Charity-Auction-House.jpeg);
 	background-size: cover;
 	background-position: center top;
