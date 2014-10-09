@@ -51,11 +51,17 @@ header .nav li a:hover {
 
 /*-----DEFAULT CONTENT-----*/
 
-#pl-header {
+.curtains {
 	background-image: url('/img/whitelabel/charityauctionhouse/red-curtain.jpg');
 	background-size: cover;
 	background-position: center top;
 }
+
+/*#pl-header {
+	background-image: url('/img/whitelabel/charityauctionhouse/red-curtain.jpg');
+	background-size: cover;
+	background-position: center top;
+}*/
 
 .c-wrap .main-content {        	
     /*background: url(/img/whitelabel/experience-catalog-banner-sm.png) no-repeat;*/
