@@ -159,14 +159,12 @@ border-top: 1px solid #f4f4f4;
 	color:#color:#989898;
 }
 	
-.how-works .c-wrap h1 {
-	border-bottom: 1px dotted #ccc;
-	width: 450px;
+.thank-you {
+	padding-bottom: 200px;
 }
 
-	
-.how-works .c-wrap img {
-	margin:0px auto;
+.thank-you p {
+	width:600px;
 }
 
 /*-----END DEFAULT CONTENT-----*/
