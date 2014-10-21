@@ -301,6 +301,7 @@ redirect 301 /packages/terms http://www.winspireme.com/terms
 redirect 301 /package/samuel-adams-brewery-private-tour http://www.winspireme.com/package/samuel-adams-brewery-tour-in-boston
 redirect 301 /package/the-kentucky-derby http://www.winspireme.com/package/kentucky-derby
 redirect 301 /package/ultimate-hawaiian-eco-adventure http://www.winspireme.com/package/maui-eco-adventure
+redirect 301 /package/americas-cup-stars-stripes-in-san-diego http://www.winspireme.com/package/americas-cup-yacht-sailing-in-san-diego
 
 
 # ---------- (Dormant 302's)
