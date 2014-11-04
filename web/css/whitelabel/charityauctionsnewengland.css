@@ -18,18 +18,15 @@ header .logo{
 }
 
 header .nav {
-	background:#ffffff;
 	padding:7px 0px;
     font-family: Arial,Helvetica,sans-serif;
     height: 27px;
-    border-top:1px dotted #cccccc;
-    border-bottom:1px dotted #cccccc;
     margin:0px;
 }
 
 header .nav li {
-    color: #676767;
     padding:5px 45px;
+    font-weight:bold;
     list-style: none;
     float: left;
     font-size: 14px;
@@ -37,12 +34,12 @@ header .nav li {
 }
 
 header .nav li a {
-    color: #676767;
+    color: #ffffff;
     text-decoration: none;
 }
 
 header .nav li a:hover {
-    opacity: 1;
+    background: #9fd765;
 }
 
 
