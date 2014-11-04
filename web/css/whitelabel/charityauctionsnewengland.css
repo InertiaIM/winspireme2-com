@@ -40,11 +40,15 @@ header .nav li a:hover {
 
 /*-----DEFAULT CONTENT-----*/
 
+.curtains {
+	padding-top:20px;
+}
+
 .c-wrap .main-content {        
 	height: 250px;	
     background: url(/img/whitelabel/experience-catalog-banner-sm.png) no-repeat;
     background-position:right;
-	padding:50px 15px 30px;
+	padding:30px 15px 30px;
 	margin-bottom:20px;
 }
 
