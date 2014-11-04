@@ -14,7 +14,7 @@ header .c-wrap {
 }
 
 header .logo{
-    margin:10px auto;
+    margin:40px auto 20px;
 }
 
 header .nav {
@@ -25,17 +25,18 @@ header .nav {
 }
 
 header .nav li {
-    padding:5px 45px;
     font-weight:bold;
     list-style: none;
     float: left;
-    font-size: 14px;
+    font-size: 11px;
     margin-right: 2px;
 }
 
 header .nav li a {
     color: #ffffff;
     text-decoration: none;
+    padding: 15px 30px;
+    display:block;
 }
 
 header .nav li a:hover {
