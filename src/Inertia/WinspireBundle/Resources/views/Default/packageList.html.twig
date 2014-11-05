@@ -1,6 +1,7 @@
 {% extends base_template %}
 
-{% block title %}{% if app.request.get('subdomain') %}{{ app.request.get('subdomain') | capitalize }}{% else %}Winspire{% endif %} | Package List{% endblock %}
+{% block title %}{% if app.request.get('subdomain') %}{{ app.request.get('subdomain') | capitalize }} | Package List{% else %}{% if meta_title %}{{ meta_title }}{% else %}Package List | Winspire{% endif %}{% endif %}{% endblock %}
+{% block description %}{% if meta_description %}{{ meta_description }}{% endif %}{% endblock %}
 
 {% block content_header '' %}
 

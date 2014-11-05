@@ -40,6 +40,16 @@ class Category
     private $slug;
     
     /**
+     * @ORM\Column(name="meta_title", type="string", length=256, nullable=true)
+     */
+    private $metaTitle;
+    
+    /**
+     * @ORM\Column(name="meta_description", type="text", nullable=true)
+     */
+    private $metaDescription;
+    
+    /**
      * @ORM\Column(name="col", type="integer")
      */
     private $col;
@@ -440,5 +450,51 @@ class Category
     public function getCol()
     {
         return $this->col;
+    }
+
+    /**
+     * Set metaTitle
+     *
+     * @param string $metaTitle
+     * @return Category
+     */
+    public function setMetaTitle($metaTitle)
+    {
+        $this->metaTitle = $metaTitle;
+    
+        return $this;
+    }
+
+    /**
+     * Get metaTitle
+     *
+     * @return string 
+     */
+    public function getMetaTitle()
+    {
+        return $this->metaTitle;
+    }
+
+    /**
+     * Set metaDescription
+     *
+     * @param string $metaDescription
+     * @return Category
+     */
+    public function setMetaDescription($metaDescription)
+    {
+        $this->metaDescription = $metaDescription;
+    
+        return $this;
+    }
+
+    /**
+     * Get metaDescription
+     *
+     * @return string 
+     */
+    public function getMetaDescription()
+    {
+        return $this->metaDescription;
     }
 }

@@ -223,6 +223,8 @@ class DefaultController extends Controller
                 'rootCat' => $category->getId(),
                 'q' => $q,
                 'base_template' => $this->baseTemplate($request),
+                'meta_title' => $category->getMetaTitle(),
+                'meta_description' => $category->getMetaDescription(),
             )
         );
     }
