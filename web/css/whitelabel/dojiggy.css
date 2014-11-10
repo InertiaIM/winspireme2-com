@@ -2,6 +2,7 @@ header {
 	background: #003354;
 	border-bottom: 3px solid #89b8cf;
 	height: 30px;
+	font: 'Lucida Grande', 'Trebuchet MS', Helvetica, Arial;
 }
 
 header .c-wrap p {
@@ -35,7 +36,7 @@ header .nav li a {
 }
 
 header .nav li a:hover {
-    background: #9fd765;
+    color:#dd6301;
 }
 
 
