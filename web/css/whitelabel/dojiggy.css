@@ -4,9 +4,15 @@ header {
 	height: 30px;
 }
 
+header .c-wrap {
+	background: #002e4b;
+	border-left: 1px solid #1a4865;
+	border-right: 1px solid #1a4865;
+}
+
 header .c-wrap p {
-	font-size: .9em;
-	font-weight: bold;
+	font-size: .7em;
+	font-family: 'Lucida Grande', 'Trebuchet MS', Helvetica, Arial;
 	line-height: 30px;
 	margin: 0;
 	text-transform: uppercase;
@@ -24,9 +30,8 @@ header .nav li {
     font-weight:bold;
     list-style: none;
     float: right;
-    font-size: 11px;
-    margin-left: 1em;
-    
+    font-size: .9em;
+    margin-left: 1em;    
 }
 
 header .nav li a {
@@ -40,6 +45,10 @@ header .nav li a {
 
 header .nav li a:hover {
     color:#dd6301;
+}
+
+header .loginLink {
+	border:none;
 }
 
 
