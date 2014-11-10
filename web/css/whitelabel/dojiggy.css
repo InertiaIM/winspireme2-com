@@ -179,6 +179,10 @@ body {
 	width:580px;
 }
 
+.thank-you {
+	padding-bottom: 300px;
+}
+
 .thank-you .c-wrap h1 {
 	border: 1px solid #ddd;
 	border-left: none;
