@@ -66,15 +66,19 @@ body {
 	margin: 23px 5px 0 10px;
 }
 
+#secondary-menu {
+	height:100px;
+}
+
 #secondary-menu ul.nav {
 	float:right;
 	width:550px;
-	margin: 35px 10px 0 0;
+	margin: 35px 0 0 0;
 }
 
 #secondary-menu ul.nav li {
 	display: block;
-	float: left;
+	float: right;
 	list-style: none;
 	list-style-image: none;
 	margin: 0 0 0 1.7em;
@@ -89,7 +93,7 @@ body {
 	font-family: 'Lucida Grande', 'Trebuchet MS', Helvetica, Arial;
 }
 
-#secondary-menu ul.nav li a.hover {
+#secondary-menu ul.nav li a:hover {
 	color:#f26101;
 }
 
@@ -110,7 +114,7 @@ body {
 	margin-bottom:20px;
 }
 
-.c-wrap .main-content h1 {   
+#con-pl h1 {   
 	border: 1px solid #ddd;
 	border-left: none;
 	border-right: none;
