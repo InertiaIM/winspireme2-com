@@ -146,49 +146,55 @@ body {
 	padding-top:20px;
 }
 
-
+.learn-more {
+	padding-bottom: 30px;
+}
 
 .learn-more .c-wrap {
 	background: url(/img/whitelabel/experience-catalog-banner-sm-more.png) no-repeat;
-	background-position:right top;
+	background-position:right bottom;
 	height:200px;
 	padding-top:20px;
 }
 	
 .learn-more .c-wrap	h1 {
-	border-bottom: 1px dotted #ccc;
-	width: 450px;
+	border: 1px solid #ddd;
+	border-left: none;
+	border-right: none;
+	clear: none;
+	font-size: 1.8em;
+	font-style: italic;
+	font-weight: 300;
+	line-height: 50px;
+	padding: 10px 0;
+	font-family: 'Ubuntu', 'Lucida Grande', Helvetica, sans-serif;
+	color: #555;
 }
 	
 .learn-more .c-wrap	p {
-	width:450px;
+	font-family: 'Lucida Grande', 'Trebuchet MS', Helvetica, Arial;
+	font-size:13px;
 }
 	
-.how-works .c-wrap h1 {
-	border-bottom: 1px dotted #ccc;
-	width: 450px;
-}
-
-	
-.how-works .c-wrap img {
-	margin:0px auto;
-}
 
 /*-----END DEFAULT CONTENT-----*/
 
 footer {
-
+	background: #003354;
+	border-top: 3px solid #89b8cf;
 }
 
 footer .c-wrap {
-   background: #ffffff;
-    margin-top: 40px;
-    padding:15px;
+	background: #002e4b;
+	border-left: 1px solid #1a4865;
+	border-right: 1px solid #1a4865;
+	margin:0px;
+	padding:0px
 }
 
 footer .footerPanel {
     width: 100%;
-    height: 70px;
+    text-align:center;
 }
 
 footer .footerPanel strong a {
