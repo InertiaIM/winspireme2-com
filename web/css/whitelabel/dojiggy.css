@@ -152,8 +152,9 @@ body {
 
 .learn-more .c-wrap {
 	background: url(/img/whitelabel/experience-catalog-banner-sm-more.png) no-repeat;
-	background-position:right bottom;
+	background-position:right;
 	height:200px;
+	width:850px;
 	padding-top:20px;
 }
 	
@@ -169,11 +170,13 @@ body {
 	padding: 10px 0;
 	font-family: 'Ubuntu', 'Lucida Grande', Helvetica, sans-serif;
 	color: #555;
+	width:580px;
 }
 	
 .learn-more .c-wrap	p {
 	font-family: 'Lucida Grande', 'Trebuchet MS', Helvetica, Arial;
 	font-size:13px;
+	width:580px;
 }
 	
 
@@ -188,8 +191,7 @@ footer .c-wrap {
 	background: #002e4b;
 	border-left: 1px solid #1a4865;
 	border-right: 1px solid #1a4865;
-	margin:0px;
-	padding:0px
+	margin:0 auto;
 }
 
 footer .footerPanel {
