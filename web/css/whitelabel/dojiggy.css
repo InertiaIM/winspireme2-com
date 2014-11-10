@@ -57,6 +57,35 @@ body {
 	background: #eaeaea;
 }
 
+#logo {
+	width:375px;
+	float:left;
+}
+
+#logo img {
+	margin: 23px 5px 0 10px;
+}
+
+#secondary-menu ul.nav {
+	float:right;
+	width:550px;
+	margin: 50px 20px 0 0;
+}
+
+#secondary-menu ul.nav li {
+	display: block;
+	float: left;
+	list-style: none;
+	list-style-image: none;
+	margin: 0 0 0 1.7em;
+	position: relative;
+}
+
+#secondary-menu ul.nav li a {
+	text-decoration: none;
+	color: #055e98;
+}
+
 .content {
 	background: #ffffff;
 	width: 1000px;
