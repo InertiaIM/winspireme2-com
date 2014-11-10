@@ -27,10 +27,9 @@ header .nav {
 }
 
 header .nav li {
-    font-weight:bold;
     list-style: none;
     float: right;
-    font-size: .9em;
+    font-size: .8em;
     margin-left: 1em;    
 }
 
@@ -47,7 +46,7 @@ header .nav li a:hover {
     color:#dd6301;
 }
 
-header .loginLink {
+header .nav li a.loginLink {
 	border:none;
 }
 
