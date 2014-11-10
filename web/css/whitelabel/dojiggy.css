@@ -73,7 +73,7 @@ body {
 #secondary-menu ul.nav {
 	float:right;
 	width:550px;
-	margin: 35px 0 0 0;
+	margin: 35px 10px 0 0;
 }
 
 #secondary-menu ul.nav li {
@@ -108,10 +108,9 @@ body {
 
 .c-wrap .main-content {        
 	height: 250px;	
-    /*background: url(/img/whitelabel/experience-catalog-banner-sm.png) no-repeat;*/
+    background: url(/img/whitelabel/experience-catalog-banner-sm.png) no-repeat;
     background-position:right;
 	padding:30px 15px 30px;
-	margin-bottom:20px;
 }
 
 #con-pl h1 {   
@@ -119,14 +118,14 @@ body {
 	border-left: none;
 	border-right: none;
 	clear: none;
-	font-size: 2.5em;
+	font-size: 1.8em;
 	font-style: italic;
 	font-weight: 300;
 	line-height: 50px;
-	margin: 0 0 .5em;
 	padding: 10px 0;
 	font-family: 'Ubuntu', 'Lucida Grande', Helvetica, sans-serif;
 	color: #555;
+	width: 650px;
 }
 }
 
