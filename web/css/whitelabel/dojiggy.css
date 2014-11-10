@@ -69,7 +69,7 @@ body {
 #secondary-menu ul.nav {
 	float:right;
 	width:550px;
-	margin: 50px 20px 0 0;
+	margin: 35px 10px 0 0;
 }
 
 #secondary-menu ul.nav li {
@@ -84,6 +84,13 @@ body {
 #secondary-menu ul.nav li a {
 	text-decoration: none;
 	color: #055e98;
+	font-size: .7em;
+	text-transform: uppercase;
+	font-family: 'Lucida Grande', 'Trebuchet MS', Helvetica, Arial;
+}
+
+#secondary-menu ul.nav li a.hover {
+	color:#f26101;
 }
 
 .content {
@@ -97,15 +104,26 @@ body {
 
 .c-wrap .main-content {        
 	height: 250px;	
-    background: url(/img/whitelabel/experience-catalog-banner-sm.png) no-repeat;
+    /*background: url(/img/whitelabel/experience-catalog-banner-sm.png) no-repeat;*/
     background-position:right;
 	padding:30px 15px 30px;
 	margin-bottom:20px;
 }
 
 .c-wrap .main-content h1 {   
-	width: 550px;
-	border-bottom: 1px dotted #ccc;
+	border: 1px solid #ddd;
+	border-left: none;
+	border-right: none;
+	clear: none;
+	font-size: 2.5em;
+	font-style: italic;
+	font-weight: 300;
+	line-height: 50px;
+	margin: 0 0 .5em;
+	padding: 10px 0;
+	font-family: 'Ubuntu', 'Lucida Grande', Helvetica, sans-serif;
+	color: #555;
+}
 }
 
 .c-wrap .main-content h1 span {   
