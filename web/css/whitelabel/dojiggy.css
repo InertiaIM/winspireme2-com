@@ -2,7 +2,6 @@ header {
 	background: #003354;
 	border-bottom: 3px solid #89b8cf;
 	height: 30px;
-	line-height: 30px;
 }
 
 header .c-wrap p {
@@ -15,31 +14,21 @@ header .c-wrap p {
 	color: #6899b1;
 }
 
-header a {
-	color: #6899b1;
-}
-
-header .logo{
-    margin:40px auto 20px;
-}
-
 header .nav {
 	padding:7px 0px;
     font-family: Arial,Helvetica,sans-serif;
-    height: 27px;
-    margin: 10px 0px;
 }
 
 header .nav li {
     font-weight:bold;
     list-style: none;
-    float: left;
+    float: right;
     font-size: 11px;
     margin-right: 2px;
 }
 
 header .nav li a {
-    color: #ffffff;
+    color: #6899b1;
     text-decoration: none;
     padding: 15px 30px;
     display:block;
