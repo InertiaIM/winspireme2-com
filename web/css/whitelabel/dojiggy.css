@@ -124,16 +124,29 @@ body {
 	padding: 10px 0;
 	font-family: 'Ubuntu', 'Lucida Grande', Helvetica, sans-serif;
 	color: #555;
-	width: 650px;
 }
 
 .c-wrap .main-content p {     
-	width:640px;
+	width:620px;
+	font-family: 'Lucida Grande', 'Trebuchet MS', Helvetica, Arial;
+	font-size:13px;
 }
 
 #con-pl #pl-container {
 	padding-top: 30px;
 }
+
+
+/*---fix padding issue on package page--*/
+#con-pd .c-wrap {
+	padding:0px;
+}
+
+.content .return-link {
+	padding-top:20px;
+}
+
+
 
 .learn-more .c-wrap {
 	background: url(/img/whitelabel/experience-catalog-banner-sm-more.png) no-repeat;
