@@ -52,7 +52,7 @@ header .c-wrap {
 
 .content {
 	width: 1000px;
-	margin: 0px auto;
+	margin: 0px auto 20px;
 	padding: 0px 20px;
 	border: 1px solid #ccc;
 }
