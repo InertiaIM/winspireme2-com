@@ -1,69 +1,19 @@
-header {
-	background: #003354;
-	border-bottom: 3px solid #89b8cf;
-	height: 30px;
-}
-
 header .c-wrap {
-	background: #002e4b;
-	border-left: 1px solid #1a4865;
-	border-right: 1px solid #1a4865;
+	height: 105px;
+	background: url(/img/whitelabel/alpertenterprises/alpertenterprises.com-logo.png) no-repeat;
 }
 
-header .c-wrap p {
-	font-size: .7em;
-	font-family: 'Lucida Grande', 'Trebuchet MS', Helvetica, Arial;
-	line-height: 30px;
-	margin: 0;
-	text-transform: uppercase;
-	z-index: 10;
-	color: #6899b1;
-}
-
-header .nav {
-	padding:7px 0px;
-    width:300px;
-    float:right;
-}
-
-header .nav li {
-    list-style: none;
-    float: right;
-    font-size: .8em;
-    margin-left: 1em;    
-}
-
-header .nav li a {
-    color: #6899b1;
-    text-decoration: none;
-    display:block;
-    font-family: 'Lucida Grande', 'Trebuchet MS', Helvetica, Arial;
-    border-right: 1px dotted #6899b1;
-	padding-right: 1em;
-}
-
-header .nav li a:hover {
-    color:#dd6301;
-}
-
-header .nav li a.loginLink {
-	border:none;
+header .c-wrap img {
+	position:relative;
+	top:0;
+	right:0;
 }
 
 
 /*-----DEFAULT CONTENT-----*/
 
 body {
-	background: #eaeaea;
-}
-
-#logo {
-	width:375px;
-	float:left;
-}
-
-#logo img {
-	margin: 23px 5px 0 10px;
+	background: #f1f1f1;
 }
 
 #secondary-menu {
@@ -100,6 +50,7 @@ body {
 }
 
 .content {
+	
 	width: 1000px;
 	margin: 0px auto;
 	padding: 0px 20px;
