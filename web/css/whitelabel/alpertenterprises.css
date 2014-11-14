@@ -1,0 +1,262 @@
+header {
+	background: #003354;
+	border-bottom: 3px solid #89b8cf;
+	height: 30px;
+}
+
+header .c-wrap {
+	background: #002e4b;
+	border-left: 1px solid #1a4865;
+	border-right: 1px solid #1a4865;
+}
+
+header .c-wrap p {
+	font-size: .7em;
+	font-family: 'Lucida Grande', 'Trebuchet MS', Helvetica, Arial;
+	line-height: 30px;
+	margin: 0;
+	text-transform: uppercase;
+	z-index: 10;
+	color: #6899b1;
+}
+
+header .nav {
+	padding:7px 0px;
+    width:300px;
+    float:right;
+}
+
+header .nav li {
+    list-style: none;
+    float: right;
+    font-size: .8em;
+    margin-left: 1em;    
+}
+
+header .nav li a {
+    color: #6899b1;
+    text-decoration: none;
+    display:block;
+    font-family: 'Lucida Grande', 'Trebuchet MS', Helvetica, Arial;
+    border-right: 1px dotted #6899b1;
+	padding-right: 1em;
+}
+
+header .nav li a:hover {
+    color:#dd6301;
+}
+
+header .nav li a.loginLink {
+	border:none;
+}
+
+
+/*-----DEFAULT CONTENT-----*/
+
+body {
+	background: #eaeaea;
+}
+
+#logo {
+	width:375px;
+	float:left;
+}
+
+#logo img {
+	margin: 23px 5px 0 10px;
+}
+
+#secondary-menu {
+	height:100px;
+}
+
+#secondary-menu ul.nav {
+	float:right;
+	width:550px;
+	margin: 35px 10px 0 0;
+}
+
+#secondary-menu ul.nav li {
+	display: block;
+	float: right;
+	list-style: none;
+	list-style-image: none;
+	margin: 0 0 0 1.7em;
+	position: relative;
+}
+
+#secondary-menu ul.nav li a {
+	text-decoration: none;
+	color: #055e98;
+	font-size: .7em;
+	text-transform: uppercase;
+	font-family: 'Lucida Grande', 'Trebuchet MS', Helvetica, Arial;
+}
+
+#secondary-menu ul.nav li a:hover {
+	color:#f26101;
+}
+
+.content {
+	background: #ffffff;
+	width: 1000px;
+	margin: 0px auto;
+	padding: 0px 20px;
+	border-right: 1px solid #d9d9d9;
+	border-left: 1px solid #d9d9d9;
+}
+
+.c-wrap .main-content {     
+    background: url(/img/whitelabel/experience-catalog-banner-sm.png) no-repeat;
+    background-position: right bottom;
+	padding:30px 15px 0px;
+}
+
+#con-pl h1 {   
+	border: 1px solid #ddd;
+	border-left: none;
+	border-right: none;
+	clear: none;
+	font-size: 1.8em;
+	font-style: italic;
+	font-weight: 300;
+	line-height: 50px;
+	padding: 10px 0;
+	font-family: 'Ubuntu', 'Lucida Grande', Helvetica, sans-serif;
+	color: #555;
+}
+
+.c-wrap .main-content p {     
+	width:620px;
+	font-family: 'Lucida Grande', 'Trebuchet MS', Helvetica, Arial;
+	font-size:13px;
+}
+
+#con-pl #pl-container {
+	padding-top: 30px;
+}
+
+
+/*---fix padding issue on package page--*/
+#con-pd .c-wrap {
+	padding:0px;
+}
+
+.content .return-link {
+	padding-top:20px;
+}
+
+.learn-more {
+	padding-bottom: 50px;
+}
+
+.learn-more .c-wrap {
+	background: url(/img/whitelabel/experience-catalog-banner-sm-more.png) no-repeat;
+	background-position:right;
+	height:200px;
+	width:850px;
+	padding-top:20px;
+}
+	
+.learn-more .c-wrap	h1 {
+	border: 1px solid #ddd;
+	border-left: none;
+	border-right: none;
+	clear: none;
+	font-size: 1.8em;
+	font-style: italic;
+	font-weight: 300;
+	line-height: 50px;
+	padding: 10px 0;
+	font-family: 'Ubuntu', 'Lucida Grande', Helvetica, sans-serif;
+	color: #555;
+	width:580px;
+}
+	
+.learn-more .c-wrap	p {
+	font-family: 'Lucida Grande', 'Trebuchet MS', Helvetica, Arial;
+	font-size:13px;
+	width:580px;
+}
+
+.thank-you {
+	padding-bottom: 300px;
+}
+
+.thank-you .c-wrap h1 {
+	border: 1px solid #ddd;
+	border-left: none;
+	border-right: none;
+	clear: none;
+	font-size: 1.8em;
+	font-style: italic;
+	font-weight: 300;
+	line-height: 50px;
+	padding: 10px 0;
+	font-family: 'Ubuntu', 'Lucida Grande', Helvetica, sans-serif;
+	color: #555;
+	width:580px;
+}
+
+.thank-you .c-wrap	p {
+	font-family: 'Lucida Grande', 'Trebuchet MS', Helvetica, Arial;
+	font-size:13px;
+	width:580px;
+}
+	
+
+/*-----END DEFAULT CONTENT-----*/
+
+footer {
+	background: #003354;
+	border-top: 3px solid #89b8cf;
+}
+
+footer .c-wrap {
+	background: #002e4b;
+	border-left: 1px solid #1a4865;
+	border-right: 1px solid #1a4865;
+	margin:0 auto;
+}
+
+footer .footerPanel {
+    width: 100%;
+    text-align:center;
+}
+
+footer .footerPanel strong a {
+    color: #676767;
+    display: block;
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 15px;
+    text-align:right;
+}
+
+footer a,
+footer a:hover,
+footer a:active,
+footer a:visited {
+    color: #676767;
+    text-decoration: none;
+}
+
+footer .btmtrm {
+    margin-top: 8px;
+    width: 100%;
+    float: left;
+    border-top: 1px dotted #cccccc;
+}
+
+footer .btmtrm li {
+    list-style: none;
+    float: left;
+    padding: 0px 10px;
+	margin-top: 10px;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 13px;
+    line-height: 25px;
+    font-weight: normal;
+    color: #676767;
+    border-right: 1px dotted #cccccc;
+}
