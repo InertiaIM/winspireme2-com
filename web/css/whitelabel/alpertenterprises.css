@@ -141,29 +141,20 @@ header .c-wrap {
 /*-----END DEFAULT CONTENT-----*/
 
 footer {
-	background: #003354;
-	border-top: 3px solid #89b8cf;
+	background: url(/img/whitelabel/alpertenterprises/footer-bg.png) repeat-x;
+	height:188px;
+	padding:0px;
+	margin:0px;
 }
 
 footer .c-wrap {
-	background: #002e4b;
-	border-left: 1px solid #1a4865;
-	border-right: 1px solid #1a4865;
 	margin:0 auto;
+	padding:0px;
 }
 
 footer .footerPanel {
     width: 100%;
     text-align:center;
-}
-
-footer .footerPanel strong a {
-    color: #676767;
-    display: block;
-    font-size: 18px;
-    font-weight: bold;
-    margin-bottom: 15px;
-    text-align:right;
 }
 
 footer a,
