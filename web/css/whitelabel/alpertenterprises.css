@@ -1,29 +1,21 @@
-header .c-wrap {
-	height: 105px;
-	background: url(/img/whitelabel/alpertenterprises/alpertenterprises.com-logo.png) no-repeat;
-}
-
-header .c-wrap img {
-	position:relative;
-	top:0;
-	right:0;
-}
-
-
-/*-----DEFAULT CONTENT-----*/
-
 body {
 	background: #f1f1f1;
 }
 
+header .c-wrap {
+	height: 105px;
+	background: url(/img/whitelabel/alpertenterprises/alpertenterprises.com-logo.png) no-repeat;
+	text-align:right;
+}
+
 #secondary-menu {
-	height:100px;
+	height:20px;
 }
 
 #secondary-menu ul.nav {
 	float:right;
-	width:550px;
-	margin: 35px 10px 0 0;
+	width:650px;
+	margin: 0px;
 }
 
 #secondary-menu ul.nav li {
@@ -31,8 +23,8 @@ body {
 	float: right;
 	list-style: none;
 	list-style-image: none;
-	margin: 0 0 0 1.7em;
 	position: relative;
+	margin:0px
 }
 
 #secondary-menu ul.nav li a {
@@ -46,11 +38,14 @@ body {
 }
 
 #secondary-menu ul.nav li a:hover {
-	color:#f26101;
+	color:#971b1d;
+	border-bottom:2px solid #971b1d;
 }
 
+
+/*-----DEFAULT CONTENT-----*/
+
 .content {
-	
 	width: 1000px;
 	margin: 0px auto;
 	padding: 0px 20px;
