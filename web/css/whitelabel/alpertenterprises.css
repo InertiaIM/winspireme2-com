@@ -2,6 +2,16 @@ body {
 	background: #f1f1f1;
 }
 
+h1 {   
+	font-size: 32px;
+	padding: 10px 0;
+	color: #971b1d;
+	font-family: "Palatino Linotype", "Book Antiqua", Palatino, serif;
+	text-transform: uppercase;
+	letter-spacing:0px;
+	margin-bottom:10px;
+}
+
 header .c-wrap {
 	height: 140px;
 	background: url(/img/whitelabel/alpertenterprises/alpertenterprises.com-logo.png) no-repeat;
@@ -63,15 +73,6 @@ header .c-wrap {
 	padding:30px 15px 0px;
 }
 
-#con-pl h1 {   
-	clear: none;
-	font-size: 28px;
-	padding: 10px 0;
-	color: #971b1d;
-	font-family: "Palatino Linotype", "Book Antiqua", Palatino, serif;
-	text-transform: uppercase;
-	letter-spacing:0px;
-}
 
 #con-pl h1 span {
 	display:block;
@@ -111,21 +112,6 @@ header .c-wrap {
 	padding-top:20px;
 }
 	
-.learn-more .c-wrap	h1 {
-	border: 1px solid #ddd;
-	border-left: none;
-	border-right: none;
-	clear: none;
-	font-size: 1.8em;
-	font-style: italic;
-	font-weight: 300;
-	line-height: 50px;
-	padding: 10px 0;
-	font-family: 'Ubuntu', 'Lucida Grande', Helvetica, sans-serif;
-	color: #555;
-	width:580px;
-}
-	
 .learn-more .c-wrap	p {
 	font-family: 'Lucida Grande', 'Trebuchet MS', Helvetica, Arial;
 	font-size:13px;
@@ -134,21 +120,6 @@ header .c-wrap {
 
 .thank-you {
 	padding-bottom: 300px;
-}
-
-.thank-you .c-wrap h1 {
-	border: 1px solid #ddd;
-	border-left: none;
-	border-right: none;
-	clear: none;
-	font-size: 1.8em;
-	font-style: italic;
-	font-weight: 300;
-	line-height: 50px;
-	padding: 10px 0;
-	font-family: 'Ubuntu', 'Lucida Grande', Helvetica, sans-serif;
-	color: #555;
-	width:580px;
 }
 
 .thank-you .c-wrap	p {
