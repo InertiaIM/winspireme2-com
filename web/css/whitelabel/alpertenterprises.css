@@ -87,10 +87,12 @@ body {
 
 #secondary-menu ul.nav li a {
 	text-decoration: none;
-	color: #055e98;
-	font-size: .7em;
 	text-transform: uppercase;
-	font-family: 'Lucida Grande', 'Trebuchet MS', Helvetica, Arial;
+	color: #525252;
+	font-size: 14px;
+	font-family: "Palatino Linotype", "Book Antiqua", Palatino, serif;
+	padding: 0 5px;
+	margin: 0 14px;
 }
 
 #secondary-menu ul.nav li a:hover {
@@ -98,12 +100,9 @@ body {
 }
 
 .content {
-	background: #ffffff;
 	width: 1000px;
 	margin: 0px auto;
 	padding: 0px 20px;
-	border-right: 1px solid #d9d9d9;
-	border-left: 1px solid #d9d9d9;
 }
 
 .c-wrap .main-content {     
