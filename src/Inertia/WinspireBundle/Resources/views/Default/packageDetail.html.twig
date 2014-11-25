@@ -30,7 +30,7 @@
                 <div class="pd-action">
                     <div class="pd-a-srv"><span class="srv-value">{% autoescape false %}{% if match %}{{ match.suggestedRetailValue | replace({'Up to': '<span class="up-to">Up to</span>'}) }}{% else %}{{ package.suggestedRetailValue | replace({'Up to': '<span class="up-to">Up to</span>'}) }}{% endif %}{% endautoescape %}</span> <span class="srv-label">Suggested Retail Value</span></div>
 {% if not package.seasonal and package.active %}
-                    <span class="pd-a-npcost"><span class="npc-value">${% if match %}{{ match.cost | number_format(0) }}{% else %}{{ package.cost | number_format(0) }}{% endif %}</span> Nonprofit Cost (US&#36; <span class="flag us"></span>)</span>
+                    <span class="pd-a-npcost"><span class="npc-value">${% if match %}{{ match.cost | number_format(0) }}{% else %}{{ package.cost | number_format(0) }}{% endif %}</span> Nonprofit Cost <em>(US&#36;)</em></span>
 {%     if not app.request.get('subdomain') %}
                     <a href="#" class="pd-a-add{% if match %} disabled{% endif %}" data-id="{% if match %}{{ match.id }}{% else %}{{ package.id }}{% endif %}"><span aria-hidden="true" class="icon-suitcase icon"></span><em>Add to</em> Suitcase</a>
 {%     else %}
