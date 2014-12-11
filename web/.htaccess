@@ -313,7 +313,6 @@ redirect 302 /hotel-arts-barcelona http://www.winspireme.com/packages/Europe-Tra
 redirect 302 /package/private-napa-estate-wine-olive-oil-tasting http://www.winspireme.com/packages/Napa-Valley-Wine-Experience-Ideas-for-Charity-Auctions
 redirect 302 /package/saint-kitts-island-getaway http://www.winspireme.com/packages/Caribbean-Adventure-Auction-Ideas-for-Charity
 redirect 302 /package/the-cosmopolitan-las-vegas-vip http://www.winspireme.com/packages/VIP-Tour-Fundraiser-Items-for-Non-Profits
-redirect 302 /package/ultimate-boston-red-sox-vip-experience http://www.winspireme.com/packages/VIP-Tour-Fundraiser-Items-for-Non-Profits
 
 
 <IfModule mod_rewrite.c>
