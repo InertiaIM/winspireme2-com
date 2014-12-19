@@ -4,17 +4,15 @@ header {
 	width: 1040px;
 	margin: 0px auto;
 	padding: 0px;
-	border-right: 1px solid #d9d9d9;
-	border-left: 1px solid #d9d9d9;
+	border-left: 1px solid #68733E;
+	border-right: 1px solid #68733E;
 }
 
-header .c-wrap {
+header .c-wrap, footer .c-wrap {
 	width: 1040px;
 	margin: 0px;
 	padding:0px;
 	text-align:center;
-	border-left: 1px solid #68733E;
-	border-right: 1px solid #68733E;
 }
 
 header .logo {
@@ -60,7 +58,7 @@ body {
 	background: #ffffff;
 	width: 1000px;
 	margin: 0px auto;
-	padding: 0px 20px;
+	padding: 20px 20px;
 	border-left: 1px solid #68733E;
 	border-right: 1px solid #68733E;
 }
@@ -116,53 +114,18 @@ body {
 /*-----END DEFAULT CONTENT-----*/
 
 footer {
-
+	margin: 0 auto;
+	border-left: 1px solid #68733E;
+	border-right: 1px solid #68733E;
+	border-bottom: 1px solid #999999;
 }
 
 footer .c-wrap {
-   background: #ffffff;
-    margin-top: 40px;
-    padding:15px;
+   	padding: 0 10px;
+	background: #9E9D7A;
+	color: white;
+	text-align: center;
+	font-size: 9pt;
 }
 
-footer .footerPanel {
-    width: 100%;
-    height: 70px;
-}
 
-footer .footerPanel strong a {
-    color: #676767;
-    display: block;
-    font-size: 18px;
-    font-weight: bold;
-    margin-bottom: 15px;
-    text-align:right;
-}
-
-footer a,
-footer a:hover,
-footer a:active,
-footer a:visited {
-    color: #676767;
-    text-decoration: none;
-}
-
-footer .btmtrm {
-    margin-top: 8px;
-    width: 100%;
-    float: left;
-    border-top: 1px dotted #cccccc;
-}
-
-footer .btmtrm li {
-    list-style: none;
-    float: left;
-    padding: 0px 10px;
-	margin-top: 10px;
-    font-family: Arial, Helvetica, sans-serif;
-    font-size: 13px;
-    line-height: 25px;
-    font-weight: normal;
-    color: #676767;
-    border-right: 1px dotted #cccccc;
-}
