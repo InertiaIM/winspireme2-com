@@ -17,7 +17,7 @@ header .logo {
 }
 
 header .nav {
-	background:(/img/whitelabel/barcodedauctions/bg_menu.jpg) repeat-x;
+	background: url(/img/whitelabel/barcodedauctions/bg_menu.jpg) repeat-x;
 	padding:7px 0px;
     font-family: Arial,Helvetica,sans-serif;
     height: 46px;
