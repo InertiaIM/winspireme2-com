@@ -50,6 +50,20 @@ header .nav li a:hover {
 
 /*-----DEFAULT CONTENT-----*/
 
+body {
+	background: #eaeaea;
+}
+
+.content {
+	background: #ffffff;
+	width: 1000px;
+	margin: 0px auto;
+	padding: 0px 20px;
+	border-right: 1px solid #d9d9d9;
+	border-left: 1px solid #d9d9d9;
+}
+
+
 .c-wrap .main-content {        
 	height: 250px;	
     background: url(/img/whitelabel/experience-catalog-banner-sm.png) no-repeat;
