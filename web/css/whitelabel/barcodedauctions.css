@@ -45,7 +45,7 @@ header .nav li a {
 }
 
 header .nav li a:hover {
-    opacity: 1;
+    background: #9E9D7A;
 }
 
 /*-----DEFAULT CONTENT-----*/
