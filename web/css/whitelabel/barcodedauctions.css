@@ -1,3 +1,4 @@
+
 header {
     background: #eaeae1;
 	width: 1040px;
@@ -7,9 +8,13 @@ header {
 	border-left: 1px solid #d9d9d9;
 }
 
-header .c-wrap {
+header .c-wrap, footer .c-wrap {
+	width: 1040px;
 	margin: 0px;
 	padding:0px;
+	text-align:center;
+	border-left: 1px solid #68733E;
+	border-right: 1px solid #68733E;
 }
 
 header .logo {
@@ -28,7 +33,7 @@ header .nav {
 
 header .nav li {
     color: #ffffff;
-    padding: 11px 45px;
+    padding: 11px 34px;
     list-style: none;
     float: left;
     font-family: Arial, Helvetica, sans-serif;
