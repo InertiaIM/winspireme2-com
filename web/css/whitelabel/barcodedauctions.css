@@ -1,24 +1,19 @@
 header {
-    height: 190px;
+    background: #eaeae1;
+	width: 1040px;
+	margin: 0px auto;
+	padding: 0px;
+	border-right: 1px solid #d9d9d9;
+	border-left: 1px solid #d9d9d9;
 }
 
 header .c-wrap {
-    background-position: -110px top;
-    height: 159px;
-    position: relative;
-    z-index: 2;
+	margin: 0px;
+	padding:0px;
 }
 
-header .logo{
-    margin:10px 20px;
-}
-
-header .test-left {
-    position: absolute;
-    top: 66px;
-    width: 50%;
-    height: 46px;
-    z-index: 1;
+header .logo {
+    margin:3px auto 7px;
 }
 
 header .nav {
@@ -28,6 +23,7 @@ header .nav {
     height: 27px;
     border-top:1px dotted #cccccc;
     border-bottom:1px dotted #cccccc;
+    width: 1040px;
 }
 
 header .nav li {
