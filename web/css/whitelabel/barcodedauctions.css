@@ -114,18 +114,18 @@ body {
 /*-----END DEFAULT CONTENT-----*/
 
 footer {
-	margin: 0 auto;
-	border-left: 1px solid #68733E;
-	border-right: 1px solid #68733E;
-	border-bottom: 1px solid #999999;
 }
 
 footer .c-wrap {
-   	padding: 0 10px;
+   	margin: 0 auto;
+	padding: 10px 0;
 	background: #9E9D7A;
 	color: white;
 	text-align: center;
 	font-size: 9pt;
+	border-left: 1px solid #68733E;
+	border-right: 1px solid #68733E;
+	border-bottom: 1px solid #999999;
 }
 
 
