@@ -260,7 +260,7 @@ class InvoiceRequestConsumer implements ConsumerInterface
             ->setSubject($subject)
             ->setSender(array('info@winspireme.com' => 'Winspire'))
             ->setTo(array($email => $name))
-            ->setBcc(array($account->getSalesperson()->getEmail(), 'doug@inertiaim.com'))
+            ->setBcc(array($account->getSalesperson()->getEmail()))
         ;
 
         if ($suitcase->getUser()->getCompany()->getSalesperson()->getId() != 1) {

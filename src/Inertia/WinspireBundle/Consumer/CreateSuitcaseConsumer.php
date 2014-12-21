@@ -246,7 +246,7 @@ class CreateSuitcaseConsumer implements ConsumerInterface
             ->setSender(array('info@winspireme.com' => 'Winspire'))
             ->setSubject('Your New Suitcase is Ready!')
             ->setTo(array($email => $name))
-            ->setBcc(array($suitcase->getUser()->getCompany()->getSalesperson()->getEmail(), 'doug@inertiaim.com'))
+            ->setBcc(array($suitcase->getUser()->getCompany()->getSalesperson()->getEmail()))
         ;
         
         if ($suitcase->getUser()->getCompany()->getSalesperson()->getId() != 1) {

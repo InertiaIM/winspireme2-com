@@ -452,7 +452,7 @@ class CreateAccountConsumer implements ConsumerInterface
             ->setSubject('Welcome to Winspire!')
             ->setFrom(array('info@winspireme.com' => 'Winspire'))
             ->setTo(array($email => $name))
-            ->setBcc(array($suitcase->getUser()->getCompany()->getSalesperson()->getEmail(), 'doug@inertiaim.com'))
+            ->setBcc(array($suitcase->getUser()->getCompany()->getSalesperson()->getEmail()))
             ->setBody(
                 $this->templating->render(
                     'InertiaWinspireBundle:Email:create-suitcase-welcome.html.twig',
@@ -492,7 +492,7 @@ class CreateAccountConsumer implements ConsumerInterface
                 ->setSender(array('info@winspireme.com' => 'Winspire'))
                 ->setFrom($salesperson)
                 ->setTo(array($email => $name))
-                ->setBcc(array($suitcase->getUser()->getCompany()->getSalesperson()->getEmail(), 'doug@inertiaim.com'))
+                ->setBcc(array($suitcase->getUser()->getCompany()->getSalesperson()->getEmail()))
                 ->setBody(
                     $this->templating->render(
                         'InertiaWinspireBundle:Email:event-consultant-intro.html.twig',

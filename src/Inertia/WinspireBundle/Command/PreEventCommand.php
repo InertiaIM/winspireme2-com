@@ -49,7 +49,7 @@ $output->writeln('<info>    * ' . $suitcase->getUser()->getCompany()->getName() 
                 ->setSubject('Good Luck at your Event!')
                 ->setSender(array('info@winspireme.com' => 'Winspire'))
                 ->setTo(array($email => $name))
-                ->setBcc(array($suitcase->getUser()->getCompany()->getSalesperson()->getEmail(), 'doug@inertiaim.com'))
+                ->setBcc(array($suitcase->getUser()->getCompany()->getSalesperson()->getEmail()))
             ;
 
             if ($suitcase->getUser()->getCompany()->getSalesperson()->getId() != 1) {
@@ -116,7 +116,7 @@ $output->writeln('<info>    * ' . $suitcase->getUser()->getCompany()->getName() 
                 ->setSubject('Remember to Pack your Suitcase!')
                 ->setSender(array('info@winspireme.com' => 'Winspire'))
                 ->setTo(array($email => $name))
-                ->setBcc(array($suitcase->getUser()->getCompany()->getSalesperson()->getEmail(), 'doug@inertiaim.com'))
+                ->setBcc(array($suitcase->getUser()->getCompany()->getSalesperson()->getEmail()))
             ;
 
             if ($suitcase->getUser()->getCompany()->getSalesperson()->getId() != 1) {
@@ -183,7 +183,6 @@ $output->writeln('<info>    * ' . $suitcase->getUser()->getCompany()->getName() 
                 ->setSubject('Please confirm changes to your Suitcase')
                 ->setSender(array('info@winspireme.com' => 'Winspire'))
                 ->setTo(array($email => $name))
-                ->setBcc(array('doug@inertiaim.com'))
             ;
 
             if ($suitcase->getUser()->getCompany()->getSalesperson()->getId() != 1) {

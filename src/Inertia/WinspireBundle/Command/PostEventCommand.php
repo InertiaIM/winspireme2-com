@@ -48,7 +48,7 @@ $output->writeln('<info>    * ' . $suitcase->getUser()->getCompany()->getName() 
                 ->setSubject('Congratulations on a Successful Event')
                 ->setSender(array('info@winspireme.com' => 'Winspire'))
                 ->setTo(array($email => $name))
-                ->setBcc(array($suitcase->getUser()->getCompany()->getSalesperson()->getEmail(), 'doug@inertiaim.com'))
+                ->setBcc(array($suitcase->getUser()->getCompany()->getSalesperson()->getEmail()))
             ;
 
             if ($suitcase->getUser()->getCompany()->getSalesperson()->getId() != 1) {

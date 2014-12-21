@@ -253,7 +253,7 @@ class PackSuitcaseConsumer implements ConsumerInterface
             ->setSubject('Winspire Reservation Confirmation')
             ->setSender(array('info@winspireme.com' => 'Winspire'))
             ->setTo(array($email => $name))
-            ->setBcc(array($account->getSalesperson()->getEmail(), 'doug@inertiaim.com'))
+            ->setBcc(array($account->getSalesperson()->getEmail()))
         ;
 
         if ($suitcase->getUser()->getCompany()->getSalesperson()->getId() != 1) {

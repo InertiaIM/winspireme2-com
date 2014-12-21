@@ -179,7 +179,7 @@ $this->logger->info('Why aren\'t we retrieving this invoice?');
             ->setSubject('Winspire Invoice')
             ->setSender(array('info@winspireme.com' => 'Winspire'))
             ->setTo(array($email => $name))
-            ->setBcc(array($suitcase->getUser()->getCompany()->getSalesperson()->getEmail(), 'doug@inertiaim.com'))
+            ->setBcc(array($suitcase->getUser()->getCompany()->getSalesperson()->getEmail()))
         ;
 
         if ($suitcase->getUser()->getCompany()->getSalesperson()->getId() != 1) {
