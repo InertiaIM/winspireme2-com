@@ -159,7 +159,7 @@ class SuitcaseSoapService
                                 ->setSender(array('info@winspireme.com' => 'Winspire'))
                                 ->setFrom($salesperson)
                                 ->setTo(array($email => $name))
-                                ->setBcc(array($user->getCompany()->getSalesperson()->getEmail(), 'doug@inertiaim.com'))
+                                ->setBcc(array($user->getCompany()->getSalesperson()->getEmail()))
                                 ->setBody(
                                     $this->templating->render(
                                         'InertiaWinspireBundle:Email:event-consultant-intro.html.twig',
@@ -239,7 +239,7 @@ class SuitcaseSoapService
             ->setSubject('Your Booking Vouchers are ready to deliver!')
             ->setSender(array('info@winspireme.com' => 'Winspire'))
             ->setTo(array($email => $name))
-            ->setBcc(array($account->getSalesperson()->getEmail(), 'doug@inertiaim.com'))
+            ->setBcc(array($account->getSalesperson()->getEmail()))
         ;
 
         if ($suitcase->getUser()->getCompany()->getSalesperson()->getId() != 1) {
