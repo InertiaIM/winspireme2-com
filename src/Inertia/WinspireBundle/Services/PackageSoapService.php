@@ -541,7 +541,7 @@ fwrite($dump, print_r($notifications, true));
                     $msg = array('id' => $suitcase->getId(), 'type' => 'suitcase-items');
                     $this->producer->publish(serialize($msg), 'update-sf');
 // Temporary removal of Package Removed email to NPs
-$sendMessage = false;
+//$sendMessage = false;
                     if ($sendMessage) {
                         $name = $suitcase->getUser()->getFirstName() . ' ' .
                             $suitcase->getUser()->getLastName();
