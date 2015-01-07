@@ -1,3 +1,12 @@
+body {
+	height: 100%;
+}
+
+.containter {
+	height: 100%;
+	position: relative;
+}
+
 header {    
 }
 
@@ -162,8 +171,8 @@ header .nav li a:hover {
 
 .thank-you .c-wrap ul li {
 	font-family: Arial,Helvetica,sans-serif;
-	color: #444;
-	font-size: 16px;
+	color: #555;
+	font-size: 14px;
 	line-height: 160%;
 	margin-left: 50px;
 }
@@ -172,11 +181,15 @@ header .nav li a:hover {
 
 footer {
 	background: #1670ae;
+	position: absolute;
+	left: 0;
+	bottom: 0;
+	height: 360px;
+	width: 100%;
 
 }
 
 footer .c-wrap {
-    margin-top: 40px;
     padding:15px;
 }
 
