@@ -1,3 +1,12 @@
+html {
+	position: relative;
+    min-height: 100%;
+}
+
+body {
+	margin: 0 0 300px;
+}
+
 header {
 	background: #003354;
 	border-bottom: 3px solid #89b8cf;
@@ -210,6 +219,11 @@ body {
 footer {
 	background: #003354;
 	border-top: 3px solid #89b8cf;
+	position: absolute;
+	left: 0;
+	bottom: 0;
+	height: 236px;
+	width: 100%;
 }
 
 footer .c-wrap {
@@ -222,41 +236,4 @@ footer .c-wrap {
 footer .footerPanel {
     width: 100%;
     text-align:center;
-}
-
-footer .footerPanel strong a {
-    color: #676767;
-    display: block;
-    font-size: 18px;
-    font-weight: bold;
-    margin-bottom: 15px;
-    text-align:right;
-}
-
-footer a,
-footer a:hover,
-footer a:active,
-footer a:visited {
-    color: #676767;
-    text-decoration: none;
-}
-
-footer .btmtrm {
-    margin-top: 8px;
-    width: 100%;
-    float: left;
-    border-top: 1px dotted #cccccc;
-}
-
-footer .btmtrm li {
-    list-style: none;
-    float: left;
-    padding: 0px 10px;
-	margin-top: 10px;
-    font-family: Arial, Helvetica, sans-serif;
-    font-size: 13px;
-    line-height: 25px;
-    font-weight: normal;
-    color: #676767;
-    border-right: 1px dotted #cccccc;
 }
