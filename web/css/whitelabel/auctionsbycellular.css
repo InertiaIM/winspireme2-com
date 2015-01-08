@@ -1,3 +1,12 @@
+html {
+	position: relative;
+    min-height: 100%;
+}
+
+body {
+	margin: 0 0 420px;
+}
+
 header {    
 }
 
@@ -152,56 +161,39 @@ header .nav li a:hover {
 	margin:0px auto;
 }
 
+.thank-you .c-wrap {
+	margin-bottom:100px;
+}
+
+.thank-you .c-wrap h1 {
+	padding-top:30px;
+}
+
+.thank-you .c-wrap ul li {
+	font-family: Arial,Helvetica,sans-serif;
+	color: #555;
+	font-size: 14px;
+	line-height: 160%;
+	margin-left: 50px;
+}
+
 /*-----END DEFAULT CONTENT-----*/
 
 footer {
-	background: #1565a4;
+	background: #1670ae;
+	position: absolute;
+	left: 0;
+	bottom: 0;
+	height: 360px;
+	width: 100%;
 
 }
 
 footer .c-wrap {
-    margin-top: 40px;
     padding:15px;
 }
 
 footer .footerPanel {
     width: 100%;
-    height: 70px;
-}
-
-footer .footerPanel strong a {
-    color: #ffffff;
-    display: block;
-    font-size: 18px;
-    font-weight: bold;
-    margin-bottom: 15px;
-    text-align:right;
-}
-
-footer a,
-footer a:hover,
-footer a:active,
-footer a:visited {
-    color: #4cb8ff;
-    text-decoration: none;
-}
-
-footer .btmtrm {
-    margin-top: 8px;
-    width: 100%;
-    float: left;
-    border-top: solid 1px rgba(0,0,0,.2);
-}
-
-footer .btmtrm li {
-    list-style: none;
-    float: left;
-    padding: 0px 10px;
-	margin-top: 10px;
-    font-family: Arial, Helvetica, sans-serif;
-    font-size: 13px;
-    line-height: 25px;
-    font-weight: normal;
-    color: #676767;
-    border-right: solid 1px rgba(0,0,0,.2);
+    height: 330px;
 }
