@@ -19,6 +19,7 @@ class CreateAccountConsumer implements ConsumerInterface
     private $recordTypeId = '01270000000DVD5AAO';
     private $opportunityTypeId = '01270000000DVGnAAO';
     private $partnerRecordId = '0017000000PKyUfAAL';
+    private $contactRecordId = '01270000000MzR9AAK';
     
     public function __construct(
         EntityManager $entityManager,
@@ -350,6 +351,7 @@ class CreateAccountConsumer implements ConsumerInterface
             $sfContact->Default_contact__c = 1;
             $sfContact->OwnerId = $account->getSalesperson()->getSfId();
             $sfContact->LeadSource = 'TBD';
+            $sfContact->RecordType = $this->contactRecordId;
             
             try {
                 $saveResult = $this->sf->create(array($sfContact), 'Contact');

@@ -15,6 +15,7 @@ class SalesforceManager
     protected $mailer;
     protected $sf;
     protected $winnieId = '005700000013DkmAAE';
+    private $contactRecordId = '01270000000MzR9AAK';
     
     
     public function __construct(EntityManager $em, Client $sf, Logger $logger, \Swift_Mailer $mailer)
@@ -220,6 +221,7 @@ $this->logger->info('The Contact record is different (old: ' . $user->getSfId() 
             $sfContact->Email = $user->getEmailCanonical();
             $sfContact->AccountId = $account->getSfId();
             $sfContact->Default_contact__c = 1;
+            $sfContact->RecordType = $this->contactRecordId;
             
 $this->logger->info('The Contact needs to be created in the Account');
             
