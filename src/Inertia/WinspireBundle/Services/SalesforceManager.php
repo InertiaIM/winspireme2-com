@@ -221,7 +221,7 @@ $this->logger->info('The Contact record is different (old: ' . $user->getSfId() 
             $sfContact->Email = $user->getEmailCanonical();
             $sfContact->AccountId = $account->getSfId();
             $sfContact->Default_contact__c = 1;
-            $sfContact->RecordType = $this->contactRecordId;
+            $sfContact->RecordTypeId = $this->contactRecordId;
             
 $this->logger->info('The Contact needs to be created in the Account');
             

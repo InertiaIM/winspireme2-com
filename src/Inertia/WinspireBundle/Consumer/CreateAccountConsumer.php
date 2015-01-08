@@ -351,7 +351,7 @@ class CreateAccountConsumer implements ConsumerInterface
             $sfContact->Default_contact__c = 1;
             $sfContact->OwnerId = $account->getSalesperson()->getSfId();
             $sfContact->LeadSource = 'TBD';
-            $sfContact->RecordType = $this->contactRecordId;
+            $sfContact->RecordTypeId = $this->contactRecordId;
             
             try {
                 $saveResult = $this->sf->create(array($sfContact), 'Contact');
