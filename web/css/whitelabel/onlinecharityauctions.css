@@ -1,0 +1,226 @@
+html {
+	position: relative;
+    min-height: 100%;
+}
+
+body {
+	margin: 0 0 236px;
+}
+
+header {
+	height: 30px;
+}
+
+header .c-wrap {
+	background-color: #D46E34;
+	text-align: center;
+	border-top: 1px solid #833E1D;
+	color: #FFFFFF;
+	padding-top: 1px;
+	padding-bottom: 2px;
+}
+
+header .nav {
+	padding:7px 0px;
+    width:100%;
+}
+
+header .nav li {
+    list-style: none;
+    float: left;
+    font-size: .7em;
+    margin-left: 5px;    
+}
+
+header .nav li a {
+    color: #6899b1;
+    text-decoration: none;
+    display:block;
+    font-family: Arial, Helvetica, Geneva;
+    border-right: 1px solid #ffffff;
+	padding-right: 5px;
+}
+
+header .c-wrap img {
+	display:block;
+	width:100%;
+}
+
+
+/*-----DEFAULT CONTENT-----*/
+
+body {
+	background: #eaeaea;
+}
+
+#logo {
+	width:375px;
+	float:left;
+}
+
+#logo img {
+	margin: 23px 5px 0 10px;
+}
+
+#secondary-menu {
+	height:100px;
+}
+
+#secondary-menu ul.nav {
+	float:right;
+	width:550px;
+	margin: 35px 10px 0 0;
+}
+
+#secondary-menu ul.nav li {
+	display: block;
+	float: right;
+	list-style: none;
+	list-style-image: none;
+	margin: 0 0 0 1.7em;
+	position: relative;
+}
+
+#secondary-menu ul.nav li a {
+	text-decoration: none;
+	color: #055e98;
+	font-size: .7em;
+	text-transform: uppercase;
+	font-family: 'Lucida Grande', 'Trebuchet MS', Helvetica, Arial;
+}
+
+#secondary-menu ul.nav li a:hover {
+	color:#f26101;
+}
+
+.content {
+	background: #ffffff;
+	width: 1000px;
+	margin: 0px auto;
+	padding: 0px 20px;
+	border-right: 1px solid #d9d9d9;
+	border-left: 1px solid #d9d9d9;
+}
+
+.c-wrap .main-content {     
+    background: url(/img/whitelabel/experience-catalog-banner-sm.png) no-repeat;
+    background-position: right bottom;
+	padding:30px 15px 0px;
+}
+
+#con-pl h1 {   
+	border: 1px solid #ddd;
+	border-left: none;
+	border-right: none;
+	clear: none;
+	font-size: 1.8em;
+	font-style: italic;
+	font-weight: 300;
+	line-height: 50px;
+	padding: 10px 0;
+	font-family: 'Ubuntu', 'Lucida Grande', Helvetica, sans-serif;
+	color: #555;
+}
+
+.c-wrap .main-content p {     
+	width:620px;
+	font-family: 'Lucida Grande', 'Trebuchet MS', Helvetica, Arial;
+	font-size:13px;
+}
+
+#con-pl #pl-container {
+	padding-top: 30px;
+}
+
+
+/*---fix padding issue on package page--*/
+#con-pd .c-wrap {
+	padding:0px;
+}
+
+.content .return-link {
+	padding-top:20px;
+}
+
+.learn-more {
+	padding-bottom: 50px;
+}
+
+.learn-more .c-wrap {
+	background: url(/img/whitelabel/experience-catalog-banner-sm-more.png) no-repeat;
+	background-position:right;
+	height:200px;
+	width:850px;
+	padding-top:20px;
+}
+	
+.learn-more .c-wrap	h1 {
+	border: 1px solid #ddd;
+	border-left: none;
+	border-right: none;
+	clear: none;
+	font-size: 1.8em;
+	font-style: italic;
+	font-weight: 300;
+	line-height: 50px;
+	padding: 10px 0;
+	font-family: 'Ubuntu', 'Lucida Grande', Helvetica, sans-serif;
+	color: #555;
+	width:580px;
+}
+	
+.learn-more .c-wrap	p {
+	font-family: 'Lucida Grande', 'Trebuchet MS', Helvetica, Arial;
+	font-size:13px;
+	width:580px;
+}
+
+.thank-you {
+	padding-bottom: 300px;
+}
+
+.thank-you .c-wrap h1 {
+	border: 1px solid #ddd;
+	border-left: none;
+	border-right: none;
+	clear: none;
+	font-size: 1.8em;
+	font-style: italic;
+	font-weight: 300;
+	line-height: 50px;
+	padding: 10px 0;
+	font-family: 'Ubuntu', 'Lucida Grande', Helvetica, sans-serif;
+	color: #555;
+	width:580px;
+}
+
+.thank-you .c-wrap	p {
+	font-family: 'Lucida Grande', 'Trebuchet MS', Helvetica, Arial;
+	font-size:13px;
+	width:580px;
+}
+	
+
+/*-----END DEFAULT CONTENT-----*/
+
+footer {
+	background: #003354;
+	border-top: 3px solid #89b8cf;
+	position: absolute;
+	left: 0;
+	bottom: 0;
+	height: 236px;
+	width: 100%;
+}
+
+footer .c-wrap {
+	background: #002e4b;
+	border-left: 1px solid #1a4865;
+	border-right: 1px solid #1a4865;
+	margin:0 auto;
+}
+
+footer .footerPanel {
+    width: 100%;
+    text-align:center;
+}
