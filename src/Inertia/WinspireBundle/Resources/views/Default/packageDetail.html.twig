@@ -149,6 +149,9 @@
                     <a class="d-i-mi" {% if not package.moreDetails %}style="display:none;"{% endif %}><span class="d-i-ml">More</span> Info +</a>
                 </div>
 {% if not app.request.get('subdomain') %}
+				<!-- START: Pin It Button -->
+				<script type="text/javascript" async defer  data-pin-color="white" data-pin-height="28" data-pin-hover="true" src="//assets.pinterest.com/js/pinit.js"></script>
+				<!-- END: Pin It Button -->
                 <!-- START: Livefyre Embed -->
                 <div id="livefyre-comments"></div>
                 <script type="text/javascript" src="http://zor.livefyre.com/wjs/v3.0/javascripts/livefyre.js"></script>
