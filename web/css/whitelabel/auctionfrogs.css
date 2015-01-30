@@ -1,11 +1,15 @@
+body {
+	background: #074507;
+}
 
 header {
-    background: #eaeae1;
+    background: #fff;
 	width: 1040px;
 	margin: 0px auto;
 	padding: 0px;
 	border-left: 1px solid #68733E;
 	border-right: 1px solid #68733E;
+	box-shadow: 0px 0px 8px #bbbbbb;
 }
 
 header .c-wrap, footer .c-wrap {
@@ -20,23 +24,23 @@ header .logo {
 }
 
 header .nav {
-	background: url(/img/whitelabel/barcodedauctions/bg_menu.jpg) repeat-x;
+	background: url(http://www.auctionfrogs.org/wp-content/themes/modernize/images/gradient-top-gray-40px.png) repeat-x;
+	background-color: #bab8b8 !important;
     font-family: Arial,Helvetica,sans-serif;
     height: 40px;
-    border-top: 4px solid #68733E;
-	border-bottom: 1px solid black;
     width: 1040px;
     margin:0px;
 }
 
 header .nav li {
     color: #ffffff;
-    padding: 11px 34px;
     list-style: none;
-    float: left;
-    font-family: Arial, Helvetica, sans-serif;
-	font-size: 12pt;
-    border-right: solid 1px #68733E;
+	float: left;
+	font-family: Arial Narrow, Arial, Helvetica, sans-serif;
+	font-size: 14px;
+	text-transform: uppercase;
+	padding: 8px 0px 9px 0px;
+	letter-spacing: 1px;
 }
 
 header .nav li a {
@@ -50,9 +54,7 @@ header .nav li a:hover {
 
 /*-----DEFAULT CONTENT-----*/
 
-body {
-	background: #eaeaea;
-}
+
 
 .content {
 	background: #ffffff;
@@ -61,6 +63,7 @@ body {
 	padding: 20px 20px 80px;
 	border-left: 1px solid #68733E;
 	border-right: 1px solid #68733E;
+	box-shadow: 0px 0px 8px #bbbbbb;
 }
 
 
