@@ -10,11 +10,11 @@ header {
 	box-shadow: 0px 0px 8px #bbbbbb;
 }
 
-header .c-wrap, footer .c-wrap {
+header .c-wrap {
 	width: 1040px;
 	margin: 0px;
 	padding:0px;
-	text-align:center;
+	text-align: left;
 }
 
 header .logo {
@@ -124,6 +124,7 @@ footer {
 }
 
 footer .c-wrap {
+   	width: 1040px;
    	margin: 0 auto;
    	padding: 15px 0;
 	padding: 10px 0;
