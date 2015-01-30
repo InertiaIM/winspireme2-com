@@ -54,6 +54,10 @@ body {
 	background: #eaeaea;
 }
 
+#con-pd .c-wrap {
+	padding: 0px;
+}
+
 .content {
 	background: #ffffff;
 	width: 1000px;

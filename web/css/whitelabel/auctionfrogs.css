@@ -60,7 +60,9 @@ header .nav li a:hover {
 
 /*-----DEFAULT CONTENT-----*/
 
-
+#con-pd .c-wrap {
+	padding: 0px;
+}
 
 .content {
 	background: #ffffff;
