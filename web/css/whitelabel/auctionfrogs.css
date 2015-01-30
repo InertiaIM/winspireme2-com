@@ -1,0 +1,131 @@
+
+header {
+    background: #eaeae1;
+	width: 1040px;
+	margin: 0px auto;
+	padding: 0px;
+	border-left: 1px solid #68733E;
+	border-right: 1px solid #68733E;
+}
+
+header .c-wrap, footer .c-wrap {
+	width: 1040px;
+	margin: 0px;
+	padding:0px;
+	text-align:center;
+}
+
+header .logo {
+    margin:3px auto 7px;
+}
+
+header .nav {
+	background: url(/img/whitelabel/barcodedauctions/bg_menu.jpg) repeat-x;
+    font-family: Arial,Helvetica,sans-serif;
+    height: 40px;
+    border-top: 4px solid #68733E;
+	border-bottom: 1px solid black;
+    width: 1040px;
+    margin:0px;
+}
+
+header .nav li {
+    color: #ffffff;
+    padding: 11px 34px;
+    list-style: none;
+    float: left;
+    font-family: Arial, Helvetica, sans-serif;
+	font-size: 12pt;
+    border-right: solid 1px #68733E;
+}
+
+header .nav li a {
+    color: white;
+    text-decoration: none;
+}
+
+header .nav li a:hover {
+    background: #9E9D7A;
+}
+
+/*-----DEFAULT CONTENT-----*/
+
+body {
+	background: #eaeaea;
+}
+
+.content {
+	background: #ffffff;
+	width: 1000px;
+	margin: 0px auto;
+	padding: 20px 20px 80px;
+	border-left: 1px solid #68733E;
+	border-right: 1px solid #68733E;
+}
+
+
+.c-wrap .main-content {        
+	height: 250px;	
+    background: url(/img/whitelabel/experience-catalog-banner-sm.png) no-repeat;
+    background-position:right;
+	padding:20px 15px 30px;
+	margin-bottom:20px;
+}
+
+.c-wrap .main-content h1 {   
+	width: 550px;
+	border-bottom: 1px dotted #ccc;
+}
+
+.c-wrap .main-content h1 span {   
+	color:#006bb5;
+}
+
+.c-wrap .main-content p {     
+	width:640px;
+	}
+
+.learn-more .c-wrap {
+	background: url(/img/whitelabel/experience-catalog-banner-sm-more.png) no-repeat;
+	background-position:right top;
+	height:200px;
+	padding-top:20px;
+}
+	
+.learn-more .c-wrap	h1 {
+	border-bottom: 1px dotted #ccc;
+	width: 450px;
+}
+	
+.learn-more .c-wrap	p {
+	width:450px;
+}
+	
+.how-works .c-wrap h1 {
+	border-bottom: 1px dotted #ccc;
+	width: 450px;
+}
+
+	
+.how-works .c-wrap img {
+	margin:0px auto;
+}
+
+/*-----END DEFAULT CONTENT-----*/
+
+footer {
+}
+
+footer .c-wrap {
+   	margin: 0 auto;
+	padding: 10px 0;
+	background: #9E9D7A;
+	color: white;
+	text-align: center;
+	font-size: 9pt;
+	border-left: 1px solid #68733E;
+	border-right: 1px solid #68733E;
+	border-bottom: 1px solid #999999;
+}
+
+
