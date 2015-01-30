@@ -55,7 +55,7 @@ header .nav li a {
 }
 
 header .nav li a:hover {
-    background: #9E9D7A;
+   color:#429111;
 }
 
 /*-----DEFAULT CONTENT-----*/
@@ -125,14 +125,20 @@ footer {
 
 footer .c-wrap {
    	margin: 0 auto;
+   	padding: 15px 0;
 	padding: 10px 0;
-	background: #9E9D7A;
-	color: white;
-	text-align: center;
-	font-size: 9pt;
-	border-left: 1px solid #68733E;
-	border-right: 1px solid #68733E;
+	background-color: #202020 !important;
 	border-bottom: 1px solid #999999;
+	box-shadow: inset 0px 3px 6px -3px #111111;
+	box-shadow: 0px 0px 8px #bbbbbb;
+}
+
+footer .footerPanel {
+	color: #808080 !important;
+	text-align: left;
+	margin-left: 20px;
+	font-size: 10px;
+	letter-spacing: 1px;
 }
 
 
