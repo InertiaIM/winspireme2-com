@@ -58,10 +58,14 @@ class SuitcaseController extends Controller
         $session = $this->getRequest()->getSession();
         
         if ($id == 'none') {
+            $cutoff = new \DateTime('15 months ago');
+            
             $query = $em->createQuery(
-                'SELECT s, p, u, c, cm, sh FROM InertiaWinspireBundle:Suitcase s LEFT JOIN s.comments cm LEFT JOIN s.shares sh LEFT JOIN s.partner p JOIN s.user u JOIN u.company c ORDER BY c.name ASC'
-            );
-            $suitcases = $query->getResult();
+                'SELECT partial s.{id, status, eventName, eventDate, sfId}, partial p.{id, name}, partial u.{id, emailCanonical}, partial c.{id, name, state}, partial sp.{id, email} FROM InertiaWinspireBundle:Suitcase s LEFT JOIN s.partner p LEFT JOIN s.user u LEFT JOIN u.company c LEFT JOIN c.salesperson sp WHERE s.eventDate > :edate ORDER BY c.name ASC'
+            )
+                ->setParameter('edate', $cutoff)
+            ;
+            $suitcases = $query->getResult(\Doctrine\ORM\Query::HYDRATE_ARRAY);
             
             $query = $em->createQuery(
                 'SELECT u FROM InertiaWinspireBundle:User u WHERE u.type = :type ORDER BY u.firstName'

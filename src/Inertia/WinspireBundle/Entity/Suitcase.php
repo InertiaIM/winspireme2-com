@@ -5,7 +5,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
- * @ORM\Table(name="suitcase")
+ * @ORM\Table(name="suitcase",indexes={@ORM\Index(name="event_date_idx", columns={"event_date"})})
  * @ORM\Entity(repositoryClass="Inertia\WinspireBundle\Entity\SuitcaseRepository")
  */
 class Suitcase
