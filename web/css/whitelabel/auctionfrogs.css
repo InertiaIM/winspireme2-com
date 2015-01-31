@@ -1,57 +1,67 @@
+body {
+	background: #074507;
+}
 
 header {
-    background: #eaeae1;
+    background: #fff;
 	width: 1040px;
 	margin: 0px auto;
 	padding: 0px;
-	border-left: 1px solid #68733E;
-	border-right: 1px solid #68733E;
+	box-shadow: 0px 0px 8px #bbbbbb;
 }
 
-header .c-wrap, footer .c-wrap {
+header .c-wrap {
 	width: 1040px;
 	margin: 0px;
 	padding:0px;
-	text-align:center;
+	text-align: left;
 }
 
 header .logo {
-    margin:3px auto 7px;
+    margin: 3px 0px 7px 10px;
 }
 
 header .nav {
-	background: url(/img/whitelabel/barcodedauctions/bg_menu.jpg) repeat-x;
+	background: url(http://www.auctionfrogs.org/wp-content/themes/modernize/images/gradient-top-gray-40px.png) repeat-x;
+	background-color: #bab8b8 !important;
     font-family: Arial,Helvetica,sans-serif;
     height: 40px;
-    border-top: 4px solid #68733E;
-	border-bottom: 1px solid black;
     width: 1040px;
     margin:0px;
 }
 
 header .nav li {
     color: #ffffff;
-    padding: 11px 34px;
     list-style: none;
-    float: left;
-    font-family: Arial, Helvetica, sans-serif;
-	font-size: 12pt;
-    border-right: solid 1px #68733E;
+	float: left;
+	font-family: Arial Narrow, Arial, Helvetica, sans-serif;
+	font-size: 14px;
+	text-transform: uppercase;
+	padding: 8px 0px 9px 0px;
+	letter-spacing: 1px;
 }
 
 header .nav li a {
-    color: white;
+    padding: 0px 18px 0px 18px;
+	line-height: 24px;
+	text-decoration: none;
+	color: #3d3d3d;
+	border-right: 1px solid #e7e7e7 !important;
+	border-left: 1px solid #ffffff !important;
+	letter-spacing: 2px;
+	display: block;
+	font-size: 13px;
     text-decoration: none;
 }
 
 header .nav li a:hover {
-    background: #9E9D7A;
+   color:#429111;
 }
 
 /*-----DEFAULT CONTENT-----*/
 
-body {
-	background: #eaeaea;
+#con-pd .c-wrap {
+	padding: 0px;
 }
 
 .content {
@@ -59,8 +69,7 @@ body {
 	width: 1000px;
 	margin: 0px auto;
 	padding: 20px 20px 80px;
-	border-left: 1px solid #68733E;
-	border-right: 1px solid #68733E;
+	box-shadow: 0px 0px 8px #bbbbbb;
 }
 
 
@@ -117,15 +126,22 @@ footer {
 }
 
 footer .c-wrap {
+   	width: 1040px;
    	margin: 0 auto;
+   	padding: 15px 0;
 	padding: 10px 0;
-	background: #9E9D7A;
-	color: white;
-	text-align: center;
-	font-size: 9pt;
-	border-left: 1px solid #68733E;
-	border-right: 1px solid #68733E;
+	background-color: #202020 !important;
 	border-bottom: 1px solid #999999;
+	box-shadow: inset 0px 3px 6px -3px #111111;
+	box-shadow: 0px 0px 8px #bbbbbb;
+}
+
+footer .footerPanel {
+	color: #808080 !important;
+	text-align: left;
+	margin-left: 20px;
+	font-size: 10px;
+	letter-spacing: 1px;
 }
 
 
