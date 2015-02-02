@@ -1,7 +1,7 @@
 header {
-    background: url(/img/whitelabel/bidr/header-shadow.png) repeat-x;
     height: 150px;
-    
+    border-bottom: 1px solid #dadada;
+	padding: 18px 0;
 }
 
 header .c-wrap {
@@ -17,12 +17,18 @@ header .logo{
     left:0px;
 }
 
-header .test-left {
-    position: absolute;
-    top: 66px;
-    width: 50%;
-    height: 46px;
-    z-index: 1;
+header .btn-blue {
+	background: #3498db;
+	color: #fff;
+	line-height: 20px;
+	text-align: center;
+	vertical-align: middle;
+	cursor: pointer;
+	display: inline-block;
+	border-radius: 4px;
+	font-size: 17px;
+	padding: 6px 17px;
+	border:none;
 }
 
 header .nav {
@@ -38,19 +44,20 @@ header .nav li {
     list-style: none;
     float:right;
     margin: 0px;
+    line-height: 20px;
 }
 
 header .nav li a {
-    font-size: 18px;
-	font-style: italic;
-	letter-spacing: 1px;
-	color: #292929;
-	padding: 0 22px 0;
-	display: block;
-	float: left;
-	text-transform: none;
-	line-height: 100px;
-    text-decoration: none;
+    font-size: 14px;
+	font-weight: 400;
+	color: #212121;
+	display: inline-block;
+	float: none;
+	padding: 10px 15px 10px;
+	text-decoration: none;
+	text-shadow: 0 1px 0 #fff;
+	font-family: "Source Sans Pro",sans-serif;
+	border-right:1ps solid black;
 }
 
 header .nav li a:hover {
