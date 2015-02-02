@@ -11,27 +11,12 @@ header .c-wrap {
 
 header .logo{
     position:absolute;
-    top:10px;
+    top:5px;
     left:0px;
 }
 
-header a.btn-blue {
-	background: #3498db;
-	color: #fff;
-	line-height: 20px;
-	text-align: center;
-	vertical-align: middle;
-	cursor: pointer;
-	display: inline-block;
-	border-radius: 4px;
-	font-size: 17px;
-	padding: 6px 17px;
-	border:none;
-	
-}
-
 header .nav {
-	padding: 15px 0px 0px;
+	padding: 20px 0px 0px;
 	height: 77px;
 }
 
@@ -50,15 +35,31 @@ header .nav li a {
 	color: #212121;
 	display: inline-block;
 	float: none;
-	padding: 15px 15px 10px;
+	padding: 10px 15px 10px;
 	text-decoration: none;
 	text-shadow: 0 1px 0 #fff;
 	font-family: "Source Sans Pro",sans-serif;
-	border-right:1ps solid black;
+}
+
+header a.btn-blue {
+	background: #3498db;
+	color: #fff;
+	line-height: 20px;
+	text-align: center;
+	vertical-align: middle;
+	cursor: pointer;
+	display: inline-block;
+	border-radius: 4px;
+	font-size: 17px;
+	padding: 6px 17px;
+	border:none;
+	font-weight:bold;
+	margin-left: 15px;
+	
 }
 
 header .nav li a:hover {
-    opacity: 1;
+    text-decoration:underline;
 }
 
 /*-----DEFAULT CONTENT-----*/
