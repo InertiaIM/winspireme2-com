@@ -493,8 +493,8 @@ class CreateAccountConsumer implements ConsumerInterface
                 ->setReplyTo($salesperson)
                 ->setSender(array('info@winspireme.com' => 'Winspire'))
                 ->setFrom($salesperson)
-                ->setTo(array($email => $name))
-                ->setBcc(array($suitcase->getUser()->getCompany()->getSalesperson()->getEmail()))
+//                ->setTo(array($email => $name))
+                ->setTo(array($suitcase->getUser()->getCompany()->getSalesperson()->getEmail()))
                 ->setBody(
                     $this->templating->render(
                         'InertiaWinspireBundle:Email:event-consultant-intro.html.twig',
