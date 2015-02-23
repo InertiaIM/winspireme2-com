@@ -137,8 +137,6 @@ body {
 /*-----END DEFAULT CONTENT-----*/
 
 footer {
-	background: #003354;
-	border-top: 3px solid #89b8cf;
 	position: absolute;
 	left: 0;
 	bottom: 0;
@@ -147,10 +145,8 @@ footer {
 }
 
 footer .c-wrap {
-	background: #002e4b;
-	border-left: 1px solid #1a4865;
-	border-right: 1px solid #1a4865;
 	margin:0 auto;
+	padding:0px;
 }
 
 footer .footerPanel {
