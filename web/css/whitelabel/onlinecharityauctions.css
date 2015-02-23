@@ -4,7 +4,7 @@ html {
 }
 
 body {
-	margin: 0 0 236px;
+	background: #e6e7e2;
 }
 
 header .c-wrap {
@@ -137,16 +137,13 @@ body {
 /*-----END DEFAULT CONTENT-----*/
 
 footer {
-	position: absolute;
-	left: 0;
-	bottom: 0;
-	height: 236px;
-	width: 100%;
+
 }
 
 footer .c-wrap {
 	margin:0 auto;
 	padding:0px;
+	width:1040px;
 }
 
 footer .footerPanel {
