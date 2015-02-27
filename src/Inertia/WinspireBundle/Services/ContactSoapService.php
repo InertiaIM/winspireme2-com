@@ -411,7 +411,7 @@ class ContactSoapService
         $message = \Swift_Message::newInstance()
             ->setSubject('Winspire::NP email already in system')
             ->setFrom(array('notice@winspireme.com' => 'Winspire'))
-            ->setTo(array('doug@inertiaim.com' => 'Douglas Choma'))
+            ->setTo(array('iim@inertiaim.com' => 'Inertia-IM'))
             ->setBody('Email: ' . $email . "\n",
                 'text/plain'
             )

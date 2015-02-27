@@ -201,7 +201,7 @@ class CreateSuitcaseConsumer implements ConsumerInterface
             $sfOpportunity->Partner_Class__c = $this->partnerRecordId;
             $sfOpportunity->Item_Use__c = 'Unknown';
             $sfOpportunity->Event_Type__c = 'Unknown';
-            
+            $sfOpportunity->OwnerId = $account->getSalesperson()->getSfId();
             try {
                 $saveResult = $this->sf->create(array($sfOpportunity), 'Opportunity');
                 
@@ -297,7 +297,7 @@ class CreateSuitcaseConsumer implements ConsumerInterface
         $message = \Swift_Message::newInstance()
             ->setSubject('Winspire::Debug for Create Suitcase')
             ->setFrom(array('notice@winspireme.com' => 'Winspire'))
-            ->setTo(array('doug@inertiaim.com' => 'Douglas Choma'))
+            ->setTo(array('iim@inertiaim.com' => 'Inertia-IM'))
             ->setBody(
                 $text,
                 'text/plain'

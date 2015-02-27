@@ -333,7 +333,7 @@ class PackSuitcaseConsumer implements ConsumerInterface
         $message = \Swift_Message::newInstance()
         ->setSubject('Winspire::Problem during Suitcase Pack')
         ->setFrom(array('notice@winspireme.com' => 'Winspire'))
-        ->setTo(array('doug@inertiaim.com' => 'Douglas Choma'))
+        ->setTo(array('iim@inertiaim.com' => 'Inertia-IM'))
         ->setBody('Suitcase ID: ' . $suitcase->getId() . "\n" .
             'SF ID: ' . $suitcase->getSfId() . "\n" .
             'Exception: ' . $e->getMessage(),
@@ -354,7 +354,7 @@ class PackSuitcaseConsumer implements ConsumerInterface
         $message = \Swift_Message::newInstance()
         ->setSubject('Winspire::Problem with Account during Suitcase Pack')
         ->setFrom(array('notice@winspireme.com' => 'Winspire'))
-        ->setTo(array('doug@inertiaim.com' => 'Douglas Choma'))
+        ->setTo(array('iim@inertiaim.com' => 'Inertia-IM'))
         ->setBody('Account ID: ' . $account->getId() . "\n" .
             'SF ID: ' . $account->getSfId() . "\n" .
             'Exception: ' . $e->getMessage(),

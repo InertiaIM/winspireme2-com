@@ -314,7 +314,7 @@ $this->logger->info('The Old Opp was deleted (' . $oldSfId . ')');
         $message = \Swift_Message::newInstance()
             ->setSubject('Winspire::Problem during Suitcase SF Reassignment')
             ->setFrom(array('notice@winspireme.com' => 'Winspire'))
-            ->setTo(array('doug@inertiaim.com' => 'Douglas Choma'))
+            ->setTo(array('iim@inertiaim.com' => 'Inertia-IM'))
             ->setBody($text,
                 'text/plain'
             )

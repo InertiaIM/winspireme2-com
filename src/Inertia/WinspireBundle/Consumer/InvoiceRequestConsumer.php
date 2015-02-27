@@ -334,7 +334,7 @@ class InvoiceRequestConsumer implements ConsumerInterface
         $message = \Swift_Message::newInstance()
             ->setSubject('Winspire::Problem during Invoice Request')
             ->setFrom(array('notice@winspireme.com' => 'Winspire'))
-            ->setTo(array('doug@inertiaim.com' => 'Douglas Choma'))
+            ->setTo(array('iim@inertiaim.com' => 'Inertia-IM'))
             ->setBody('Suitcase ID: ' . $suitcase->getId() . "\n" .
                 'SF ID: ' . $suitcase->getSfId() . "\n" .
                 'Exception: ' . $e->getMessage(),

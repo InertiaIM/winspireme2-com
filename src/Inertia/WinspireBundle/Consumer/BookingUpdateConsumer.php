@@ -137,7 +137,7 @@ class BookingUpdateConsumer implements ConsumerInterface
                 $message = \Swift_Message::newInstance()
                     ->setSubject('Problem sending booking data to SF')
                     ->setFrom(array('info@winspireme.com' => 'Winspire'))
-                    ->setTo(array('doug@inertiaim.com' => 'Douglas Choma'))
+                    ->setTo(array('iim@inertiaim.com' => 'Inertia-IM'))
                     ->setBody('Problem Booking ID: ' . $booking->getId(), 'text/plain')
                 ;
                 

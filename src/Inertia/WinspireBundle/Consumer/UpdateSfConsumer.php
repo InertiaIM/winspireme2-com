@@ -245,7 +245,7 @@ class UpdateSfConsumer implements ConsumerInterface
         $message = \Swift_Message::newInstance()
             ->setSubject('Winspire::Problem during Sync of Suitcase Items')
             ->setFrom(array('notice@winspireme.com' => 'Winspire'))
-            ->setTo(array('doug@inertiaim.com' => 'Douglas Choma'))
+            ->setTo(array('iim@inertiaim.com' => 'Inertia-IM'))
             ->setBody('Suitcase ID: ' . $suitcase->getId() . "\n" .
                 'SF ID: ' . $suitcase->getSfId() . "\n" .
                 'Exception: ' . $e->getMessage(),
@@ -266,7 +266,7 @@ class UpdateSfConsumer implements ConsumerInterface
         $message = \Swift_Message::newInstance()
             ->setSubject('Winspire::Problem during Update of Opportunity to LOST')
             ->setFrom(array('notice@winspireme.com' => 'Winspire'))
-            ->setTo(array('doug@inertiaim.com' => 'Douglas Choma'))
+            ->setTo(array('iim@inertiaim.com' => 'Inertia-IM'))
             ->setBody(
                 'SF ID: ' . $id . "\n" .
                 'Extra Text: ' . $text,
@@ -287,7 +287,7 @@ class UpdateSfConsumer implements ConsumerInterface
         $message = \Swift_Message::newInstance()
             ->setSubject('Winspire::Problem during Sync to SF')
             ->setFrom(array('notice@winspireme.com' => 'Winspire'))
-            ->setTo(array('doug@inertiaim.com' => 'Douglas Choma'))
+            ->setTo(array('iim@inertiaim.com' => 'Inertia-IM'))
             ->setBody($text,
                 'text/plain'
             )

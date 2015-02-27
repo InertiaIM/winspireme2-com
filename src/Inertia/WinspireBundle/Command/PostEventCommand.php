@@ -148,7 +148,7 @@ $output->writeln('<info>    * ' . $suitcase->getUser()->getCompany()->getName() 
         $message = \Swift_Message::newInstance()
             ->setSubject($subject)
             ->setFrom(array('info@winspireme.com' => 'Winspire'))
-            ->setTo('doug@inertiaim.com')
+            ->setTo('iim@inertiaim.com')
             ->setBody($text, 'text/plain')
         ;
         

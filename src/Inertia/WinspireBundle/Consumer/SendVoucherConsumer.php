@@ -178,7 +178,7 @@ class SendVoucherConsumer implements ConsumerInterface
         $message = \Swift_Message::newInstance()
             ->setSubject('Winspire::Problem during Voucher send')
             ->setFrom(array('notice@winspireme.com' => 'Winspire'))
-            ->setTo(array('doug@inertiaim.com' => 'Douglas Choma'))
+            ->setTo(array('iim@inertiaim.com' => 'Inertia-IM'))
             ->setBody('Booking ID: ' . $booking->getId() . "\n" .
                 'SF ID: ' . $booking->getSfId() . "\n" .
                 'Exception: ' . $e->getMessage(),
