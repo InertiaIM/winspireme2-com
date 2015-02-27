@@ -25,12 +25,14 @@ class SalesforceCommand extends ContainerAwareCommand
     {
         $this->setName('sf:sync')
             ->setDescription('Salesforce manual sync')
-            ->addArgument('entity', InputArgument::REQUIRED, 'Entity to sync?');
+            ->addArgument('entity', InputArgument::REQUIRED, 'Entity to sync?')
+            ->addArgument('identifier', InputArgument::OPTIONAL, 'Entity-ID to sync?');
     }
     
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $entity = $input->getArgument('entity');
+        $inputIdentifier = $input->getArgument('identifier');
         $em = $this->getContainer()->get('doctrine')->getManager();
         $client = $this->getContainer()->get('ddeboer_salesforce_client');
         
@@ -1044,75 +1046,78 @@ if(($sfAccount->SystemModstamp > $account->getSfUpdated()) && !$account->getDirt
                 $suitcases = $query->getResult();
                 
                 foreach ($suitcases as $suitcase) {
-                    $sfOpportunity = new \stdClass();
-                    
-                    if ($suitcase->getSfId() == '') {
-                        $sfOpportunity->StageName = 'Counsel';
-                        $new = true;
+                      $sfOpportunity = new \stdClass();
+
+                      if ($suitcase->getSfId() == '') {
+                          $sfOpportunity->StageName = 'Counsel';
+                          $new = true;
+                      }
+                      else {
+                          $new = false;
+                      }
+
+                      if ($suitcase->getStatus() != 'U') {
+                          $sfOpportunity->Website_suitcase_status__c = 'Packed';
+                      }
+                      else {
+                          $sfOpportunity->Website_suitcase_status__c = 'Unpacked';
+                      }
+
+                      $sfOpportunity->Name = $suitcase->getName();
+
+  //                    if ($suitcase->getEventName() != '' && $suitcase->getEventName() != 'false') {
+  //                        $sfOpportunity->Event_Name__c = substr($suitcase->getEventName(), 0, 40);
+  //                    }
+  //                    else {
+  //                        $sfOpportunity->Event_Name__c = '';
+  //                    }
+                      if ($suitcase->getEventDate() != '') {
+                          $sfOpportunity->Event_Date__c = $suitcase->getEventDate();
+                      }
+                      else {
+                          $sfOpportunity->Event_Date__c = new \DateTime('+30 days');
+                      }
+
+                      if ($suitcase->getInvoiceRequestedAt() != '' && $suitcase->getStatus() != 'U' && $suitcase->getStatus() != 'P') {
+                          $sfOpportunity->CloseDate = $suitcase->getInvoiceRequestedAt();
+                      }
+                      else {
+                          // TODO what to user here?
+  //                        $sfOpportunity->CloseDate = new \DateTime('+60 days');
+                      }
+
+                      $sfOpportunity->AccountId = $suitcase->getUser()->getCompany()->getSfId();
+                      $sfOpportunity->OwnerId = $suitcase->getUser()->getCompany()->getSalesperson()->getSfId();
+
+                      if ($new) {
+                          $output->writeln('<info>Gonna create: ' . $suitcase->getId() . '</info>');
+                          $sfOpportunity->Type = 'Web Suitcase';
+                          $sfOpportunity->RecordTypeId = $this->opportunityTypeId;
+                          $sfOpportunity->LeadSource = 'TBD';
+                          $sfOpportunity->Partner_Class__c = $this->partnerRecordId;
+                          $sfOpportunity->Item_Use__c = 'Unknown';
+                          $sfOpportunity->Event_Type__c = 'Unknown';
+                          //SM added 02/21/2015 - when trying to run sync - CloseDate is required on CREATE
+                          $sfOpportunity->CloseDate = new \DateTime('+60 days');
+                          //$output->writeln('<info>create ownerId: ' . $sfOpportunity->OwnerId . '</info>');
+                          $saveResult = $client->create(array($sfOpportunity), 'Opportunity');
+                      }
+                      else {
+                          $sfOpportunity->Id = $suitcase->getSfId();
+                          $output->writeln('<info>Gonna update: ' . $suitcase->getSfId() . '</info>');
+                          $saveResult = $client->update(array($sfOpportunity), 'Opportunity');
+                      }
+
+                      if($saveResult[0]->success) {
+                          $suitcase->setSfId($saveResult[0]->id);
+  //                        $timestamp = new \DateTime();
+                          $suitcase->setDirty(false);
+  //                        $suitcase->setSfUpdated($timestamp);
+  //                        $suitcase->setUpdated($timestamp);
+                          $em->persist($suitcase);
+                          $em->flush();
+                      }
                     }
-                    else {
-                        $new = false;
-                    }
-                    
-                    if ($suitcase->getStatus() != 'U') {
-                        $sfOpportunity->Website_suitcase_status__c = 'Packed';
-                    }
-                    else {
-                        $sfOpportunity->Website_suitcase_status__c = 'Unpacked';
-                    }
-                    
-                    $sfOpportunity->Name = $suitcase->getName();
-                    
-//                    if ($suitcase->getEventName() != '' && $suitcase->getEventName() != 'false') {
-//                        $sfOpportunity->Event_Name__c = substr($suitcase->getEventName(), 0, 40);
-//                    }
-//                    else {
-//                        $sfOpportunity->Event_Name__c = '';
-//                    }
-                    if ($suitcase->getEventDate() != '') {
-                        $sfOpportunity->Event_Date__c = $suitcase->getEventDate();
-                    }
-                    else {
-                        $sfOpportunity->Event_Date__c = new \DateTime('+30 days');
-                    }
-                    
-                    if ($suitcase->getInvoiceRequestedAt() != '' && $suitcase->getStatus() != 'U' && $suitcase->getStatus() != 'P') {
-                        $sfOpportunity->CloseDate = $suitcase->getInvoiceRequestedAt();
-                    }
-                    else {
-                        // TODO what to user here?
-//                        $sfOpportunity->CloseDate = new \DateTime('+60 days');
-                    }
-                    
-                    $sfOpportunity->AccountId = $suitcase->getUser()->getCompany()->getSfId();
-                    $sfOpportunity->OwnerId = $suitcase->getUser()->getCompany()->getSalesperson()->getSfId();
-                    
-                    if ($new) {
-                        $output->writeln('<info>Gonna create: ' . $suitcase->getId() . '</info>');
-                        $sfOpportunity->Type = 'Web Suitcase';
-                        $sfOpportunity->RecordTypeId = $this->opportunityTypeId;
-                        $sfOpportunity->LeadSource = 'TBD';
-                        $sfOpportunity->Partner_Class__c = $this->partnerRecordId;
-                        $sfOpportunity->Item_Use__c = 'Unknown';
-                        $sfOpportunity->Event_Type__c = 'Unknown';
-                        $saveResult = $client->create(array($sfOpportunity), 'Opportunity');
-                    }
-                    else {
-                        $sfOpportunity->Id = $suitcase->getSfId();
-                        $output->writeln('<info>Gonna update: ' . $suitcase->getSfId() . '</info>');
-                        $saveResult = $client->update(array($sfOpportunity), 'Opportunity');
-                    }
-                    
-                    if($saveResult[0]->success) {
-                        $suitcase->setSfId($saveResult[0]->id);
-//                        $timestamp = new \DateTime();
-                        $suitcase->setDirty(false);
-//                        $suitcase->setSfUpdated($timestamp);
-//                        $suitcase->setUpdated($timestamp);
-                        $em->persist($suitcase);
-                        $em->flush();
-                    }
-                }
                 
                 
 /*                
@@ -1312,6 +1317,32 @@ if(($sfAccount->SystemModstamp > $account->getSfUpdated()) && !$account->getDirt
                 }
                 
                 break;
+                
+            case 'suitcase-item-single':
+                $output->writeln('<info>Sync suitcase-item-single: Id:' . $inputIdentifier . '</info>');
+                $query = $em->createQuery(
+                    'SELECT i FROM InertiaWinspireBundle:SuitcaseItem i WHERE i.id = :id'
+                );
+                $query->setParameter('id',$inputIdentifier);                
+                try {
+                    $suitcassItemSingle = $query->getSingleResult();
+                    $output->writeln('<info>Looked up: ' . $inputIdentifier . '</info>');
+                    $package = $suitcassItemSingle->getPackage();
+                    //$output->writeln('<info>Package Name: ' . $package->getName() . '</info>');
+                    
+                    $output->writeln('<info>Suitcase-Item SfId: ' . $suitcassItemSingle->getSfId() . '</info>');
+                    
+                    $output->writeln('<info>Package ParentHeader: ' . $package->getParentHeader() . '</info>');
+                    $output->writeln('<info>Package Name: ' . $package->getName() . '\r\n' . $package->getParentHeader() . '</info>');
+                    $output->writeln('<info>Package SfId: ' . $package->getSfId() . '</info>');
+                    
+                    
+                }
+                catch (\Doctrine\Orm\NoResultException $e) {
+                    $output->writeln('<error>Sync suitcase-item-single: (' . $e->getMessage() . ')</error>');
+                }
+                
+              break;
         }
     }
     
