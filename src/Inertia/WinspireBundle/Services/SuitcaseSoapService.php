@@ -158,8 +158,8 @@ class SuitcaseSoapService
                                 ->setReplyTo($salesperson)
                                 ->setSender(array('info@winspireme.com' => 'Winspire'))
                                 ->setFrom($salesperson)
-//                                ->setTo(array($email => $name))
-                                ->setTo(array($user->getCompany()->getSalesperson()->getEmail()))
+                                ->setTo(array($email => $name))
+                                ->setBcc(array($user->getCompany()->getSalesperson()->getEmail()))
                                 ->setBody(
                                     $this->templating->render(
                                         'InertiaWinspireBundle:Email:event-consultant-intro.html.twig',

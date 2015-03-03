@@ -163,7 +163,7 @@ class ContactSoapService
                             ->setReplyTo($salesperson)
                             ->setSender(array('notice@winspireme.com' => 'Winspire'))
                             ->setFrom($salesperson)
-//                            ->setTo(array($email => $name))
+                            ->setTo(array($email => $name))
                             ->setBody(
                                 $this->templating->render(
                                     'InertiaWinspireBundle:Email:event-consultant-intro.html.twig',
@@ -185,7 +185,7 @@ class ContactSoapService
                                 'text/plain'
                             )
                         ;
-                        $message->setTo(array($user->getCompany()->getSalesperson()->getEmail()));
+                        $message->setBcc(array($user->getCompany()->getSalesperson()->getEmail()));
                         $this->mailer->send($message);
                     }
                 }
