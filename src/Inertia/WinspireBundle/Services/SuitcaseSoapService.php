@@ -109,6 +109,7 @@ class SuitcaseSoapService
                     $suitcase->setStatus('A');
                     $newWebStatus = 'Paid';
                     $suitcase->setInvoicePaidAt($timestamp);
+                    $this->em->persist($suitcase);
                     $this->sendEmail($suitcase);
                 }
                 
