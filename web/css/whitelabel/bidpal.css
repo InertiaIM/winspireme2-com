@@ -106,7 +106,6 @@ header .nav li a:hover {
 
 #con-pl h1 {   
 	width: 600px;
-	text-shadow: 0 -1px 0 #000;
 	color:#999;
 	font-size: 40px;
 	margin-bottom:10px;
@@ -135,7 +134,7 @@ header .nav li a:hover {
 
 #lm-header {
 	width:100%;
-	background: url('/img/whitelabel/bidpal/bidpal-bubble-background.png');
+	background: #f0f0f0;
 	height:131px;
 }
 
@@ -143,7 +142,6 @@ header .nav li a:hover {
 	color: #777;
 	padding: 40px;
 	text-align: center;
-	text-shadow: 0 1px 1px #000;
 }
 
 .learn-more {
