@@ -16,11 +16,7 @@ header .c-wrap {
 	z-index: 100;
 	background: white;
 	padding: 0;
-	border-bottom: 1px solid rgba(0,0,0,0.3);
-	-webkit-box-shadow: 0px 2px 2px rgba(50, 50, 50, 0.25);
-	-moz-box-shadow: 0px 2px 2px rgba(50, 50, 50, 0.25);
-	box-shadow: 0px 2px 2px rgba(50, 50, 50, 0.25);
-    
+    border-bottom: 1px solid #e4e4e4;
 }
 
 header .logo {
@@ -89,13 +85,7 @@ header .nav li a:hover {
 /*-----DEFAULT CONTENT-----*/
 
 #pl-header {
-	background: #1565a4;
-	background: -moz-linear-gradient(top, #1565a4 50%, #0f4b7b 100%);
-	background: -webkit-gradient(linear, left top, left bottom, color-stop(50%,#1565a4), color-stop(100%,#0f4b7b));
-	background: -webkit-linear-gradient(top, #1565a4 50%,#0f4b7b 100%);
-	background: -o-linear-gradient(top, #1565a4 50%,#0f4b7b 100%);
-	background: -ms-linear-gradient(top, #1565a4 50%,#0f4b7b 100%);
-	background: linear-gradient(to bottom, #1565a4 50%,#0f4b7b 100%);
+	background: #f0f0f0;
 }
 
 .c-wrap .main-content {        	
@@ -117,13 +107,13 @@ header .nav li a:hover {
 #con-pl h1 {   
 	width: 600px;
 	text-shadow: 0 -1px 0 #000;
-	color:#ffffff;
+	color:#999;
 	font-size: 40px;
 	margin-bottom:10px;
 }
 
 #con-pl h1 span {   
-	color:#55b6f6;
+	color:#0685c1;
 	display:block;
 	font-size:55px;
 	line-height:60px;
@@ -131,7 +121,7 @@ header .nav li a:hover {
 
 .c-wrap .main-content p {     
 	width:640px;
-	color:#fff;
+	color:#777;
 }
 
 .c-wrap .main-content a {     
@@ -145,15 +135,19 @@ header .nav li a:hover {
 
 #lm-header {
 	width:100%;
-	background: url('/img/whitelabel/auctionsbycellular/abc-bubble-background.png');
+	background: url('/img/whitelabel/bidpal/bidpal-bubble-background.png');
 	height:131px;
 }
 
 #lm-header h1 {
-	color: #fff;
+	color: #777;
 	padding: 40px;
 	text-align: center;
 	text-shadow: 0 1px 1px #000;
+}
+
+.learn-more {
+  height: 1100px;
 }
 
 .learn-more .c-wrap {
