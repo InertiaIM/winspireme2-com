@@ -12,7 +12,7 @@ header {
 
 header .c-wrap {
     width: 100%;
-    height: 61px;
+    height: 56px;
 	z-index: 100;
 	background: white;
 	padding: 0;
@@ -25,9 +25,8 @@ header .c-wrap {
 
 header .logo {
     position:absolute;
-    top:10px;
-    left:10px;
-    width: 288px;
+    top:15px;
+    left:20px;
 }
 
 header .nav {
@@ -38,11 +37,13 @@ header .nav {
 }
 
 header .nav li {
-    color: #676767;
+    color: #444444;
     padding:0px;
     list-style: none;
     float:right;
     margin: 0px;
+    text-transform: uppercase;
+  	letter-spacing: 1px;
 }
 
 header .nav li a {
@@ -61,7 +62,7 @@ header .nav li a {
 }
 
 header .nav li a:hover {
-    opacity: 1;
+    color:#00a4a9;
 }
 
 
