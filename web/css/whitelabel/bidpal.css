@@ -173,6 +173,10 @@ header .nav li a:hover {
 	margin:0px auto;
 }
 
+.thank-you {
+  height: 500px;
+}
+
 .thank-you .c-wrap {
 	margin-bottom:100px;
 }
