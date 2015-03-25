@@ -90,8 +90,9 @@ class SendVoucherConsumer implements ConsumerInterface
             ->setSubject('Use this Booking Voucher to redeem your Experience!')
             //->setReplyTo(array($user->getEmail() => $user->getFirstName() . ' ' . $user->getLastName()))
             ->setReplyTo(array('booking@winspireme.com' => 'Winspire'))
-            ->setSender(array('info@winspireme.com' => 'Winspire'))
-            ->setFrom(array($user->getEmail() => $user->getCompany()->getName()))
+            //->setSender(array('info@winspireme.com' => 'Winspire'))
+            //->setFrom(array($user->getEmail() => $user->getCompany()->getName()))
+            ->setFrom(array('booking@winspireme.com' => 'Winspire'))
             ->setTo(array($email => $name))
             ->setBody(
                 $this->templating->render(
