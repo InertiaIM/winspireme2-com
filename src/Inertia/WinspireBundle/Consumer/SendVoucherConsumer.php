@@ -88,7 +88,8 @@ class SendVoucherConsumer implements ConsumerInterface
         
         $message = \Swift_Message::newInstance()
             ->setSubject('Use this Booking Voucher to redeem your Experience!')
-            ->setReplyTo(array($user->getEmail() => $user->getFirstName() . ' ' . $user->getLastName()))
+            //->setReplyTo(array($user->getEmail() => $user->getFirstName() . ' ' . $user->getLastName()))
+            ->setReplyTo(array('booking@winspireme.com' => 'Winspire'))
             ->setSender(array('info@winspireme.com' => 'Winspire'))
             ->setFrom(array($user->getEmail() => $user->getCompany()->getName()))
             ->setTo(array($email => $name))
