@@ -47,18 +47,20 @@ class ShareSuitcaseConsumer implements ConsumerInterface
                 $share->getSuitcase()->getUser()->getFirstName() . ' ' .
                 $share->getSuitcase()->getUser()->getLastName()
             ))
-            ->setFrom(array(
-                $share->getSuitcase()->getUser()->getEmail() =>
-                $share->getSuitcase()->getUser()->getFirstName() . ' ' .
-                $share->getSuitcase()->getUser()->getLastName()
-            ))
+            // ->setFrom(array(
+            //    $share->getSuitcase()->getUser()->getEmail() =>
+            //    $share->getSuitcase()->getUser()->getFirstName() . ' ' .
+            //    $share->getSuitcase()->getUser()->getLastName()
+            //))
+            ->setFrom(array('noreply@winspireme.com' => 'Winspire'))
             ->setTo(array($share->getEmail() => $share->getName()))
             ->setBody(
                 $this->templating->render(
                     'InertiaWinspireBundle:Email:guest-invitation.html.twig',
                     array(
                         'share' => $share,
-                        'from' => $share->getSuitcase()->getUser()->getEmail(),
+                        //'from' => $share->getSuitcase()->getUser()->getEmail(),
+                        'from' => 'noreply@winspireme.com',
                         'locale' => $locale,
                     )
                 ),
@@ -69,7 +71,8 @@ class ShareSuitcaseConsumer implements ConsumerInterface
                     'InertiaWinspireBundle:Email:guest-invitation.txt.twig',
                     array(
                         'share' => $share,
-                        'from' => $share->getSuitcase()->getUser()->getEmail(),
+                        //'from' => $share->getSuitcase()->getUser()->getEmail(),
+                        'from' => 'noreply@winspireme.com',
                         'locale' => $locale,
                     )
                 ),
