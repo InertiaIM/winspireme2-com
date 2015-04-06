@@ -26,8 +26,7 @@ header .logo {
 }
 
 header .nav {
-	padding: 30px 20px 0px 0px;
-    font-family: Arial,Helvetica,sans-serif;
+	padding: 40px 5px 0px 0px;
     margin:0px;
 }
 
@@ -47,9 +46,10 @@ header .nav li a {
   	text-transform: uppercase;
   	text-decoration: none;
   	letter-spacing: 2px;
-  	font-weight: 500;
+  	font-weight: 100;
   	font-style: normal;
   	line-height: 1em;
+  	  padding: .75em 1em;
 }
 
 header .nav li a:hover {
@@ -60,7 +60,10 @@ header .nav li a:hover {
 /*-----DEFAULT CONTENT-----*/
 
 #pl-header {
-	background: #f0f0f0;
+	background: url(/img/whitelabel/experience-charity-background.jpg) no-repeat;
+    background-size:100%;
+    background-position: bottom; 
+    background-color:#000;
 }
 
 .c-wrap .main-content {        	
