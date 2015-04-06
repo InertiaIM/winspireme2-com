@@ -60,10 +60,10 @@ header .nav li a:hover {
 /*-----DEFAULT CONTENT-----*/
 
 #pl-header {
-	background: url(/img/whitelabel/experience-charity-background.jpg) no-repeat;
+	background: url(/img/whitelabel/experience-charity-clouds.jpg) no-repeat;
     background-size:100%;
-    background-position: bottom; 
-    background-color:#000;
+    background-position: top;
+    border-bottom: 1px solid #e4e4e4;
 }
 
 .c-wrap .main-content {        	
@@ -79,7 +79,7 @@ header .nav li a:hover {
 	width:212px;
 	padding-right: 35px;
 	float:right;
-	background: url(/img/whitelabel/auctionsbycellular/abc-travel-package-logo.png) no-repeat;
+	background: url(/img/whitelabel/travel-package-logo.png) no-repeat;
 }
 
 #con-pl h1 {   
@@ -90,10 +90,10 @@ header .nav li a:hover {
 }
 
 #con-pl h1 span {   
-	color:#0685c1;
+	color:#43a3dd;
 	display:block;
-	font-size:55px;
-	line-height:60px;
+	font-size:75px;
+	line-height:75px;
 }
 
 .c-wrap .main-content p {     
@@ -112,7 +112,9 @@ header .nav li a:hover {
 
 #lm-header {
 	width:100%;
-	background: #f0f0f0;
+	background: url(/img/whitelabel/experience-charity-clouds.jpg) no-repeat;
+    background-size:100%;
+    background-position: top;
 	height:131px;
 }
 
