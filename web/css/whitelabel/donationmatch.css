@@ -101,6 +101,17 @@ header .nav li a:hover {
 	color:#777;
 }
 
+.c-wrap .main-content p.powered {
+	font-size:12px;
+	color:#999;
+	font-style: italic;
+}   
+
+.c-wrap .main-content p.powered img {
+	vertical-align: middle;
+	max-width: 120px;
+}
+
 .c-wrap .main-content a {     
 	color:#55b6f6;
 	text-decoration: none;
