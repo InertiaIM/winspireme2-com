@@ -126,7 +126,7 @@ header .nav li a:hover {
 
 #lm-header {
 	width:100%;
-	background: url(/img/whitelabel/experience-charity-clouds.jpg) no-repeat;
+	background: url(/img/whitelabel/experience-charity-clouds2.jpg) no-repeat;
     background-size:100%;
     background-position: top;
 	height:131px;
@@ -194,7 +194,6 @@ footer {
 	position: absolute;
 	left: 0;
 	bottom: 0;
-	height: 300px;
 	width: 100%;
 
 }
@@ -203,5 +202,17 @@ footer .c-wrap {
     padding:0px;
 }
 
-footer .footerPanel {
+footer .terms {
+    width:100%;
+	background: #005695;
+	text-align:center;
+}
+
+footer .terms ul li {
+	padding:0px;
+    list-style: none;
+    float:left;
+    margin: 0px;
+    font-size:10px;
+	color: #f7f7f7;
 }
