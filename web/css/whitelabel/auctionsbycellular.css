@@ -118,6 +118,10 @@ header .nav li a:hover {
 	text-decoration: none;
 }
 
+.content {
+	padding-bottom: 100px;
+}
+
 .content .return-link {
 	padding: 15px 0px 0px;
 }
@@ -184,7 +188,6 @@ footer {
 	position: absolute;
 	left: 0;
 	bottom: 0;
-	height: 360px;
 	width: 100%;
 
 }
