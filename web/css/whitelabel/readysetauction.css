@@ -84,16 +84,15 @@ header .nav li a:hover {
   padding-top: 40px;
 }
 
+#con-pl h1 {
+	font-size:50px;
+}
+
 .c-wrap .main-content {    
     /*background: url(/img/whitelabel/readysetauction/jumpstart-page-image.png) no-repeat;*/
     background-position:right;
 	padding:20px 0px 30px;
 	margin-bottom:20px;
-}
-
-.c-wrap .main-content h1 {   
-	width: 550px;
-	font-size:50px;
 }
 
 .c-wrap .main-content .subhead {   
@@ -113,9 +112,8 @@ header .nav li a:hover {
 
 #lm-header {
 	width:100%;
-	background: url(/img/whitelabel/readysetauction/hero-mini.jpg) no-repeat;
+	background: url(/img/whitelabel/readysetauction/jumpstart-bg.png) no-repeat;
     background-position: right;
-    background-size: contain;
   	border-bottom: 1px solid #dadada;
 }
 
