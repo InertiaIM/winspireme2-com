@@ -74,12 +74,11 @@ header .nav li a:hover {
 /*-----DEFAULT CONTENT-----*/
 
 .container {
-	margin-bottom: 100px;
+
 }
 
-.c-wrap .main-content {        
-	height: 250px;	
-    background: url(/img/whitelabel/experience-catalog-banner-sm.png) no-repeat;
+.c-wrap .main-content {    
+    background: url(/img/whitelabel/readysetauction/jumpstart-page-image.png) no-repeat;
     background-position:right;
 	padding:20px 15px 30px;
 	margin-bottom:20px;
@@ -99,7 +98,7 @@ header .nav li a:hover {
 	}
 
 .learn-more .c-wrap {
-	background: url(/img/whitelabel/experience-catalog-banner-sm-more.png) no-repeat;
+	background: url(/img/whitelabel/readysetauction/jumpstart-page-image.png) no-repeat;
 	background-position:right top;
 	height:200px;
 	padding-top:20px;
