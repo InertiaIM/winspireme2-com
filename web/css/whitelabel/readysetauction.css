@@ -5,7 +5,6 @@
 header {
     height: 77px;
     border-bottom: 1px solid #dadada;
-	margin-bottom: 40px;
 	background: #fafafa;
 }
 
@@ -73,12 +72,16 @@ header .nav li a:hover {
 
 /*-----DEFAULT CONTENT-----*/
 
-.container {
-
+#pl-header {
+  background: url(/img/whitelabel/readysetauction/hero.jpg) no-repeat;
+  background-position: right;
+  border-bottom: 1px solid #dadada;
+  background-size: contain;
+  padding-top: 40px;
 }
 
 .c-wrap .main-content {    
-    background: url(/img/whitelabel/readysetauction/jumpstart-page-image.png) no-repeat;
+    /*background: url(/img/whitelabel/readysetauction/jumpstart-page-image.png) no-repeat;*/
     background-position:right;
 	padding:20px 15px 30px;
 	margin-bottom:20px;
@@ -86,27 +89,31 @@ header .nav li a:hover {
 
 .c-wrap .main-content h1 {   
 	width: 550px;
-	border-bottom: 1px dotted #ccc;
+	font-size:50px;
 }
 
-.c-wrap .main-content h1 span {   
-	color:#006bb5;
+.c-wrap .main-content h2 {   
+	font-size:28px;
+	color:#999;
 }
 
 .c-wrap .main-content p {     
 	width:640px;
-	}
+	font-size: 16px;
+ 	line-height: 160%;
+}
 
 #lm-header {
 	width:100%;
 	background: url(/img/whitelabel/readysetauction/hero-mini.jpg) no-repeat;
     background-position: right;
-	height:156px;
+	border-bottom: 1px solid #dadada;
+  	border-top: 1px solid #dadada;
 }
 
 #lm-header h1 {
-	color: #777;
-	padding: 40px;
+	color: #000;
+	padding: 55px;
 	text-align: left;
   	width: 1000px;
   	margin: 0px auto;
@@ -122,16 +129,6 @@ header .nav li a:hover {
 	line-height: 1.5;
 }
 
-	
-.how-works .c-wrap h1 {
-	border-bottom: 1px dotted #ccc;
-	width: 450px;
-}
-
-	
-.how-works .c-wrap img {
-	margin:0px auto;
-}
 
 /*-----END DEFAULT CONTENT-----*/
 
@@ -145,7 +142,6 @@ footer .c-wrap {
     padding:15px;
 }
 
-footer .footerPanel {
-    width: 100%;
-    text-align:center;
+footer .footerPanel img.line {
+    margin:margin: 30px 0px 60px;
 }
