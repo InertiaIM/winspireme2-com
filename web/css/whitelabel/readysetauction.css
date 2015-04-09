@@ -77,7 +77,7 @@ header .nav li a:hover {
 /*-----DEFAULT CONTENT-----*/
 
 #pl-header {
-  background: url(/img/whitelabel/readysetauction/hero.jpg) no-repeat;
+  background: url(/img/whitelabel/readysetauction/jumpstart-bg.png) no-repeat;
   background-position: right;
   border-bottom: 1px solid #dadada;
   background-size: contain;
@@ -87,7 +87,7 @@ header .nav li a:hover {
 .c-wrap .main-content {    
     /*background: url(/img/whitelabel/readysetauction/jumpstart-page-image.png) no-repeat;*/
     background-position:right;
-	padding:20px 15px 30px;
+	padding:20px 0px 30px;
 	margin-bottom:20px;
 }
 
@@ -137,9 +137,8 @@ header .nav li a:hover {
 	line-height: 1.5;
 }
 
-.thank-you {
-  width: 1000px;
-  margin: 0 auto;
+.thank-you .c-wrap {
+	padding-top: 40px;
 }
 
 .thank-you .c-wrap	p {
@@ -157,11 +156,8 @@ footer {
 }
 
 footer .c-wrap {
-   background: #fafafa;
-    margin-top: 40px;
+   	background: #fafafa;
+	margin-top: 40px;
     padding:15px;
-}
-
-footer .c-wrap img {
-	margin: 30px 0px 60px;
+    text-align: center;
 }
