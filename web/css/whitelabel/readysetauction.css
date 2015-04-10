@@ -30,9 +30,8 @@ header .nav {
 
 header .nav .active-mark {
 	position: absolute;
-  	bottom: -7px;
-  	left: 50%;
-  	margin-left: -6.5px;
+  	bottom: -10px;
+  	left: 43%;
 }
 
 header .nav li {
@@ -42,6 +41,7 @@ header .nav li {
     float:right;
     margin: 0px;
     line-height: 20px;
+    position:relative;
 }
 
 header .nav li a {
