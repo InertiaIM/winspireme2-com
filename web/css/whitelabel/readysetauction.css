@@ -24,15 +24,15 @@ header .logo{
 }
 
 header .nav {
+	padding: 20px 0px 0px;
+	height: 77px;
+}
+
+header .nav .active-mark {
 	position: absolute;
   	bottom: -7px;
   	left: 50%;
   	margin-left: -6.5px;
-}
-
-header .nav .active-mark {
-	padding: 20px 0px 0px;
-	height: 77px;
 }
 
 header .nav li {
