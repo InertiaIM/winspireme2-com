@@ -79,6 +79,8 @@ header .nav li a:hover {
 
 .content .return-link {
 	margin: 20px auto;
+	position: relative;
+  	top: 10em;
 }
 
 /*-----DEFAULT CONTENT-----*/
@@ -118,6 +120,10 @@ header .nav li a:hover {
 	padding-top: 40px;
 }
 
+.content .learn-more {
+	 margin-top: -60px;
+}
+
 #lm-header {
 	width:100%;
 	background: url(/img/whitelabel/readysetauction/jumpstart-bg.png) no-repeat;
@@ -134,7 +140,7 @@ header .nav li a:hover {
 }
 
 .learn-more .c-wrap {
-	padding:40px 0px 20px;
+	padding:80px 0px 20px;
 }
 	
 .learn-more .c-wrap	p {
@@ -143,8 +149,12 @@ header .nav li a:hover {
 	line-height: 1.5;
 }
 
+.content .thank-you {
+	margin-top: -60px;
+}
+
 .thank-you .c-wrap {
-	padding-top: 40px;
+	padding-top: 80px;
 }
 
 .thank-you .c-wrap	p {
