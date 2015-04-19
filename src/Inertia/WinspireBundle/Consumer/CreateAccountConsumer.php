@@ -7,6 +7,7 @@ use OldSound\RabbitMqBundle\RabbitMq\ConsumerInterface;
 use OldSound\RabbitMqBundle\RabbitMq\Producer;
 use PhpAmqpLib\Message\AMQPMessage;
 use Symfony\Component\Templating\EngineInterface;
+use Symfony\Component\HttpKernel\Log\LoggerInterface;
 
 class CreateAccountConsumer implements ConsumerInterface
 {
@@ -26,7 +27,8 @@ class CreateAccountConsumer implements ConsumerInterface
         \Swift_Mailer $mailer,
         EngineInterface $templating,
         Client $salesforce,
-        Producer $producer
+        Producer $producer,
+        LoggerInterface $logger
     )
     {
         $this->em = $entityManager;
@@ -34,6 +36,7 @@ class CreateAccountConsumer implements ConsumerInterface
         $this->templating = $templating;
         $this->sf = $salesforce;
         $this->producer = $producer;
+        $this->logger = $logger;
         
         $this->mailer->getTransport()->stop();
 
@@ -49,6 +52,8 @@ class CreateAccountConsumer implements ConsumerInterface
     {
         $body = unserialize($msg->body);
         $suitcaseId = $body['suitcase_id'];
+        
+        $this->logger->info('CreateAccountConsumer:SuitCase' . $suitcaseId);
         
         $query = $this->em->createQuery(
             'SELECT s, i FROM InertiaWinspireBundle:Suitcase s LEFT JOIN s.items i WITH i.status != \'X\' WHERE s.id = :id ORDER BY i.updated DESC'
@@ -71,6 +76,8 @@ class CreateAccountConsumer implements ConsumerInterface
         if ($account->getSfId() == '') {
             $createNew = true;
 //echo $this->slugify($account->getName()) . "\n";
+            $this->logger->info('CreateAccountConsumer' . $this->slugify($account->getName()));
+            
             $account->setNameCanonical($this->slugify($account->getName()));
             
             // Attempt a match with an existing SF account/contact pair
@@ -86,7 +93,7 @@ class CreateAccountConsumer implements ConsumerInterface
                 );
             }
             catch (\Exception $e) {
-                $this->sendForHelp('(5): ' . $e->getMessage());
+                $this->sendForHelp('CreateAccountConsumer(5): Error when Querying Contact on SF:' . $e->getMessage());
                 $this->sf->logout();
                 
                 return false;
@@ -95,16 +102,25 @@ class CreateAccountConsumer implements ConsumerInterface
             // If a contact record is found, check with the existing Account records
             if (count($contactResult) > 0) {
 //echo 'We\'re matched on email' . "\n";
+                $this->logger->info('CreateAccountConsumer - matched on email');
+                
                 foreach ($contactResult as $sfContact) {
                     // Check our Account table for an existing match
                     $existingAccount = $this->em->getRepository('InertiaWinspireBundle:Account')->findOneBySfId($sfContact->AccountId);
                     if ($existingAccount) {
 //echo 'We\'ve found an existing account, let\'s see if the names match...' . "\n";
+                        $this->logger->info('CreateAccountConsumer - found an existing account');
+                        
                         if ($account->getNameCanonical() == $existingAccount->getNameCanonical()) {
 //echo 'We\'re matched on email + account' . "\n";
+                            $this->logger->info('CreateAccountConsumer - matched on email, account name');
+                            
                             if (strtoupper($account->getState()) == $existingAccount->getState()) {
 //echo 'We\'re matched on email + account + state' . "\n";
 //echo 'Reassigning to existing Account' . "\n";
+                                
+                                $this->logger->info('CreateAccountConsumer - matched on email, account name, state');
+                                
                                 $user->setCompany($existingAccount);
                                 $user->setSfId($sfContact->Id);
                                 $user->setDirty(false);
@@ -120,7 +136,7 @@ class CreateAccountConsumer implements ConsumerInterface
                                     $this->sf->update(array($sfContact), 'Contact');
                                 }
                                 catch (\Exception $e) {
-                                    $this->sendForHelp('(4): ' . $e->getMessage());
+                                    $this->sendForHelp('CreateAccountConsumer(4): Error when updating contact on SF:' . $e->getMessage());
                                     $this->sf->logout();
                                     
                                     return false;
@@ -171,7 +187,7 @@ class CreateAccountConsumer implements ConsumerInterface
                             );
                         }
                         catch (\Exception $e) {
-                            $this->sendForHelp('(3): ' . $e->getMessage());
+                            $this->sendForHelp('CreateAccountConsumer(3): Error when querying for existing Account on SF:' . $e->getMessage());
                             $this->sf->logout();
                             
                             return false;
@@ -179,10 +195,14 @@ class CreateAccountConsumer implements ConsumerInterface
                         
                         if (count($accountResult) > 0) {
 //echo 'An account was found in SF that\'s not already in our Account table' . "\n";
+                            $this->logger->info('CreateAccountConsumer - An account was found in SF thas not already in our Account table');
+                            
                             $sfAccount = $accountResult->first();
                             if ($this->slugify($sfAccount->Name) == $account->getNameCanonical()) {
                                 if (strtoupper($sfAccount->BillingState) == $account->getState()) {
 //echo 'We\'ve found a matched Account that\'s not already in our Account table' . "\n";
+                                    $this->logger->info('CreateAccountConsumer - We have found a matched Account thats not already in our Account table');
+                                    
                                     $account->setSfId($sfAccount->Id);
                                     $account->setCreated($sfAccount->CreatedDate);
                                     
@@ -282,6 +302,7 @@ class CreateAccountConsumer implements ConsumerInterface
                         }
                         else {
 //echo 'Bad place to be... we have a Contact in SF with a bogus Account Id? OR a match to a PARTNER account' . "\n";
+                          $this->logger->info('CreateAccountConsumer - Bad place to be... we have a Contact in SF with a bogus Account Id? OR a match to a PARTNER account');
                         }
                     }
                 }
@@ -289,6 +310,8 @@ class CreateAccountConsumer implements ConsumerInterface
             
             if ($createNew) {
 //echo 'No matching Account found, so we\'re creating a new one...' . "\n";
+                $this->logger->info('CreateAccountConsumer - No matching Account found, so we are creating a new one...');
+                
                 $address = $account->getAddress();
                 if ($account->getAddress2() != '') {
                     $address .= chr(10) . $account->getAddress2();
@@ -320,7 +343,7 @@ class CreateAccountConsumer implements ConsumerInterface
                     $saveResult = $this->sf->create(array($sfAccount), 'Account');
                 }
                 catch (\Exception $e) {
-                    $this->sendForHelp('(1): ' . $e->getMessage());
+                    $this->sendForHelp('CreateAccountConsumer (1): Error creating new SF Account:' . $e->getMessage());
                     $this->sf->logout();
                     
                     return false;
@@ -357,7 +380,7 @@ class CreateAccountConsumer implements ConsumerInterface
                 $saveResult = $this->sf->create(array($sfContact), 'Contact');
             }
             catch (\Exception $e) {
-                $this->sendForHelp('(0): ' . $e->getMessage());
+                $this->sendForHelp('CreateAccountConsumer(0): Error creating new contact on SF:' . $e->getMessage());
                 $this->sf->logout();
                 
                 return false;
@@ -422,7 +445,7 @@ class CreateAccountConsumer implements ConsumerInterface
                 $saveResult = $this->sf->create(array($sfOpportunity), 'Opportunity');
             }
             catch (\Exception $e) {
-                $this->sendForHelp('(-1): ' . $e->getMessage());
+                $this->sendForHelp('CreateAccountConsumer(-1): Error creating new Opp on SF:' . $e->getMessage());
                 $this->sf->logout();
                 
                 return false;
@@ -536,7 +559,7 @@ class CreateAccountConsumer implements ConsumerInterface
             $this->sf->logout();
         }
         catch (\Exception $e) {
-            $this->sendForHelp('(-2): ' . $e->getCode());
+            $this->sendForHelp('CreateAccountConsumer(-2): Error on SF Logout:' . $e->getCode());
         }
         
         return true;

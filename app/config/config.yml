@@ -176,7 +176,9 @@ services:
         
     create_account_service:
         class: Inertia\WinspireBundle\Consumer\CreateAccountConsumer
-        arguments: [@doctrine.orm.entity_manager, @mailer, @templating, @ddeboer_salesforce_client, @old_sound_rabbit_mq.winspire_producer]
+        arguments: [@doctrine.orm.entity_manager, @mailer, @templating, @ddeboer_salesforce_client, @old_sound_rabbit_mq.winspire_producer, @logger]
+        tags:
+            - { name: monolog.logger, channel: mqconsumer }
         
     create_suitcase_service:
         class: Inertia\WinspireBundle\Consumer\CreateSuitcaseConsumer
