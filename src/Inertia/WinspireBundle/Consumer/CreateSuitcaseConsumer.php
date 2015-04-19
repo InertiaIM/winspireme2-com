@@ -61,6 +61,20 @@ class CreateSuitcaseConsumer implements ConsumerInterface
         // Salesforce Updates
         $account = $user->getCompany();
         if ($account->getSfId() == '') {
+            $this->logger->info('CreateSuitcaseConsumer - Account SFID is empty:' . $suitcaseId);
+            
+            $this->sendForHelp('CreateSuitcaseConsumer - Account SFID was empty. Message removed from queue. Need to fix account link and requeue new suitcase request:'. $suitcaseId);
+            
+            try {
+              $this->sf->logout();
+            }
+            catch (\Exception $e) {
+                $this->sendForHelp('CreateSuitcaseConsumer(-2): Error on SF Logout:' . $e->getCode());
+            }
+            
+            return true;
+            
+            /*
             $address = $account->getAddress();
             if ($account->getAddress2() != '') {
                 $address .= chr(10) . $account->getAddress2();
@@ -105,6 +119,7 @@ class CreateSuitcaseConsumer implements ConsumerInterface
                 
                 return true;
             }
+            */
         }
         else {
             $sfAccount = new \stdClass();
@@ -128,6 +143,45 @@ class CreateSuitcaseConsumer implements ConsumerInterface
                 $this->em->persist($account);
                 $this->em->flush();
             }
+        }
+        
+        //Try to locate existing contact bsaed on email.
+        if ($user->getSfId == '') {          
+          try {
+                $contactResult = $this->sf->query('SELECT ' .
+                    'Id, ' .
+                    'Email, ' .
+                    'SystemModstamp, ' .
+                    'AccountId ' .
+                    'FROM Contact ' .
+                    'WHERE Email = \'' . $user->getEmailCanonical() . '\' ' .
+                    'ORDER BY CreatedDate ASC'
+                );
+          }
+          catch (\Exception $e) {
+              $this->sendForHelp('CreateSuitcaseConsumer(5): Error when Querying Contact on SF:' . $e->getMessage());
+              $this->sf->logout();
+
+              return false;
+          }
+
+          // If a single contact record is found - use it
+          if (count($contactResult) > 1) {
+            $this->sendForHelp('CreateSuitcaseConsumer - User SfId was empty. Search on contacts yielded multiple results:'. $user->getEmailCanonical());            
+          }
+          
+          if (count($accountResult) > 0) {
+            foreach ($contactResult as $sfContact) {
+              //use the first one, if there are multiple?
+              $user->setSfId($sfContact->Id);
+              $user->setDirty(false);
+              $timestamp = new \DateTime();
+              $user->setUpdated($timestamp);
+              $this->em->persist($user);
+              $this->em->flush();
+              break;
+            }
+          }
         }
         
         if ($user->getSfId() == '' && $account->getSfId() != '') {
