@@ -17,6 +17,11 @@ monolog:
             type:  stream
             path:  "%kernel.logs_dir%/%kernel.environment%.log"
             level: debug
+        mqconsumer:
+            type: stream
+            path: %kernel.logs_dir%/%kernel.environment%.mqconsumer.watch.log
+            level: debug
+            channels: [mqconsumer]
             
 # Assetic Configuration
 assetic:

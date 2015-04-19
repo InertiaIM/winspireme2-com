@@ -7,6 +7,7 @@ use OldSound\RabbitMqBundle\RabbitMq\ConsumerInterface;
 use OldSound\RabbitMqBundle\RabbitMq\Producer;
 use PhpAmqpLib\Message\AMQPMessage;
 use Symfony\Component\Templating\EngineInterface;
+use Symfony\Component\HttpKernel\Log\LoggerInterface;
 
 class CreateSuitcaseConsumer implements ConsumerInterface
 {
@@ -21,13 +22,14 @@ class CreateSuitcaseConsumer implements ConsumerInterface
     private $partnerRecordId = '0017000000PKyUfAAL';
     private $contactRecordId = '01270000000MzR9AAK';
     
-    public function __construct(EntityManager $entityManager, \Swift_Mailer $mailer, EngineInterface $templating, Client $salesforce, Producer $producer)
+    public function __construct(EntityManager $entityManager, \Swift_Mailer $mailer, EngineInterface $templating, Client $salesforce, Producer $producer, LoggerInterface $logger)
     {
         $this->em = $entityManager;
         $this->mailer = $mailer;
         $this->producer = $producer;
         $this->templating = $templating;
         $this->sf = $salesforce;
+        $this->logger = $logger;
         
         $this->mailer->getTransport()->stop();
         $this->sf->logout();
@@ -38,6 +40,8 @@ class CreateSuitcaseConsumer implements ConsumerInterface
         $body = unserialize($msg->body);
         $suitcaseId = $body['suitcase_id'];
         
+        $this->logger->info('CreateSuitcaseConsumer:' . $suitcaseId);
+
         $query = $this->em->createQuery(
             'SELECT s, i FROM InertiaWinspireBundle:Suitcase s LEFT JOIN s.items i WITH i.status != \'X\' WHERE s.id = :id ORDER BY i.updated DESC'
         )->setParameter('id', $suitcaseId);
