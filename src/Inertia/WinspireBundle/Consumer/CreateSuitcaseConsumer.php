@@ -63,7 +63,7 @@ class CreateSuitcaseConsumer implements ConsumerInterface
         if ($account->getSfId() == '') {
             $this->logger->info('CreateSuitcaseConsumer - Account SFID is empty:' . $suitcaseId);
             
-            $this->sendForHelp('CreateSuitcaseConsumer - Account SFID was empty. Message removed from queue. Need to fix account link and requeue new suitcase request:'. $suitcaseId);
+            //$this->sendForHelp('CreateSuitcaseConsumer - Account SFID was empty. Message removed from queue. Need to fix account link and requeue new suitcase request:'. $suitcaseId);
             
             try {
               $this->sf->logout();
