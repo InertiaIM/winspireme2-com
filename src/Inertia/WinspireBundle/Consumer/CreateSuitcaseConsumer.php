@@ -167,10 +167,10 @@ class CreateSuitcaseConsumer implements ConsumerInterface
 
           // If a single contact record is found - use it
           if (count($contactResult) > 1) {
-            $this->sendForHelp('CreateSuitcaseConsumer - User SfId was empty. Search on contacts yielded multiple results:'. $user->getEmailCanonical());            
+            $this->logger->info('CreateSuitcaseConsumer - User SfId was empty. Search on contacts yielded multiple results:'. $user->getEmailCanonical());            
           }
           
-          if (count($accountResult) > 0) {
+          if (count($accountResult) == 1) {
             foreach ($contactResult as $sfContact) {
               //use the first one, if there are multiple?
               $user->setSfId($sfContact->Id);
